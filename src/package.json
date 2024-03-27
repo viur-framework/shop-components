@@ -5,11 +5,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viur-framework/shop-components.git"
+  },
   "author": "Kadir Balku",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/viur-framework/shop-components/issues"
-  },
+  }, 
+  "homepage": "https://github.com/viur-framework/shop-components#readme",
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.9.0",
     "@vitejs/plugin-vue": "^5.0.4",
