@@ -3,18 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "description": "Frontent Vue components for the shop module of ViUR",
-  "main": "./dist/ShopComponents.umd.js",
-  "module": "./dist/ShopComponents.js",
-  "exports": {
-    ".": {
-      "import": "./dist/ShopComponents.esm.js",
-      "require": "./dist/ShopComponents.js"
-    }
-  },
-  "files": [
-    "dist",
-    "src"
-  ],
+  "main": "./src/index.js",
   "scripts": {
     "build": "vite build",
     "dev": "vite",
