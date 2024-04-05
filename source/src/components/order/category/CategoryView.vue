@@ -119,11 +119,11 @@ export default {
     }
 
     onMounted(() => {
-      // categoryList = ListRequest("variante", { params: { type: "dk" } });
+       categoryList = ListRequest("variante", { params: { type: "dk" } });
 
-      // categoryList.fetch(true).then(async (resp) => {
-      //   console.log("hier", await resp.json());
-      // });
+       categoryList.fetch(true).then(async (resp) => {
+         console.log("hier", await resp.json());
+       });
       listItems();
       cartStore.listCarts();
     });
