@@ -1,16 +1,18 @@
 <template>
   <div class="item-list">
-    <router-link
-      :to="{ name: 'itemView', params: { item: item.key } }"
-      v-for="item in state.skellist"
-      :key="item.shop_name"
-    >
-      <ItemCard>
-        <img slot="image" :src="getImage(item)" alt="A kitten." />
+    <ItemCard class="card" v-for="item in state.skellist" :key="item.shop_name">
+      <router-link :to="{ name: 'itemView', params: { item: item.key } }">
+        <img
+          slot="image"
+          :src="getImage(item)"
+          :alt="item.shop_name"
+          class="card-image"
+        />
         <strong> {{ item.shop_name }}</strong>
         <br />
-        <div slot="footer">
-          <!-- <sl-button-group label="Amount">
+      </router-link>
+      <div slot="footer">
+        <!-- <sl-button-group label="Amount">
             <sl-tooltip content="Remove">
               <sl-icon-button
                 variant="primary"
@@ -42,10 +44,18 @@
               </sl-icon-button>
             </sl-tooltip>
           </sl-button-group> -->
-          {{ item.shop_price_retail }}
-        </div>
-      </ItemCard>
-    </router-link>
+
+        {{ item.shop_price_retail }}
+        <sl-icon-button
+          variant="primary"
+          name="cart-check"
+          label="Add to cart"
+          style="font-size: 2em"
+          @click="cartStore.addToCart(item.key, cartStore.state.currentCart)"
+        >
+        </sl-icon-button>
+      </div>
+    </ItemCard>
   </div>
 
   <sl-button
@@ -137,7 +147,32 @@ onMounted(async () => {
   await categoryList.fetch(true);
   state.skellist = categoryList.state.skellist;
   state.loading = false;
-  // listItems();
-  // cartStore.listCarts();
+  console.log(cartStore.state.currentCart)
+  cartStore.getBasketArticle(cartStore.state.currentCart);
 });
 </script>
+
+<style scoped>
+.item-list {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+.card {
+  max-width: 300px;
+}
+
+.card small {
+  color: var(--sl-color-primary-500);
+}
+
+.card-image {
+  aspect-ratio: 1;
+}
+
+.card [slot="footer"] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>

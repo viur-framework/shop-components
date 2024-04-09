@@ -19,9 +19,17 @@
 </template>
 
 <script setup>
+import { onBeforeMount } from "vue";
 import ItemCard from "../item/ItemCard.vue";
+import { useCartStore } from "../../../stores/cart";
 
+const cartStore = useCartStore();
 const props = defineProps({
   list: { type: Array, required: true },
+});
+
+onBeforeMount(async () => {
+  cartStore.listCarts();
+
 });
 </script>

@@ -1,11 +1,13 @@
 import { reactive } from "vue";
 import { Request } from "@viur/vue-utils";
 import { defineStore } from "pinia";
+import { ViURShopClient } from "@viur/viur-shop-client";
 
 export const useCartStore = defineStore("cartstore", () => {
   const state = reactive({
     currentCart: "",
     allCarts: [],
+    basketArticle: [],
   });
 
   function listCarts() {
@@ -15,6 +17,9 @@ export const useCartStore = defineStore("cartstore", () => {
       state.allCarts = data;
       getCurrentCart(data);
     });
+    // const sc = new ViURShopClient();
+
+    // sc.cart_list().then(async (resp) => console.log("test", await resp.json));
   }
 
   function getCurrentCart(skellist) {
@@ -22,6 +27,16 @@ export const useCartStore = defineStore("cartstore", () => {
       if ((cart.cart_type = "basket")) {
         state.currentCart = cart.key;
       }
+    });
+  }
+
+  function getBasketArticle(cartKey) {
+    Request.get(`/shop/api/cart_list`, {
+      dataObj: { cart_key: cartKey },
+    }).then(async (resp) => {
+      let data = await resp.json();
+      console.log("cartStore basket article", data);
+      state.basketArticle = data;
     });
   }
 
@@ -41,9 +56,8 @@ export const useCartStore = defineStore("cartstore", () => {
         // skey: skey,
       },
     }).then(async (resp) => {
-      console.log("article add", resp);
-
       let data = await resp.json();
+      console.log("article add", data);
     });
   }
 
@@ -51,5 +65,6 @@ export const useCartStore = defineStore("cartstore", () => {
     state,
     listCarts,
     addToCart,
+    getBasketArticle,
   };
 });
