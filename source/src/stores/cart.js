@@ -61,10 +61,22 @@ export const useCartStore = defineStore("cartstore", () => {
     });
   }
 
+  function test() {
+    console.log("AHHHH YEAAAAH")
+    const shopClient = new ViURShopClient("http://localhost:8080"
+    )
+    shopClient.cart_list().then(async (resp) => {
+      let data = await resp.json()
+      console.log("data test", data)
+    })
+
+  }
+
   return {
     state,
     listCarts,
     addToCart,
     getBasketArticle,
+    test,
   };
 });

@@ -1,4 +1,5 @@
 <template>
+  HALLO
   <div class="item-list">
     <ItemCard class="card" v-for="item in state.skellist" :key="item.shop_name">
       <router-link :to="{ name: 'itemView', params: { item: item.key } }">
@@ -147,8 +148,9 @@ onMounted(async () => {
   await categoryList.fetch(true);
   state.skellist = categoryList.state.skellist;
   state.loading = false;
-  console.log(cartStore.state.currentCart)
+
   cartStore.getBasketArticle(cartStore.state.currentCart);
+  cartStore.test();
 });
 </script>
 
