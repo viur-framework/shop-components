@@ -1,5 +1,4 @@
 <template>
-  HALLO
   <div class="item-list">
     <ItemCard class="card" v-for="item in state.skellist" :key="item.shop_name">
       <router-link :to="{ name: 'itemView', params: { item: item.key } }">
