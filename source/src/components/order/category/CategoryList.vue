@@ -30,7 +30,7 @@ const props = defineProps({
 
 onBeforeMount(async () => {
   cartStore.listCarts();
-
+  cartStore.test();
 });
 </script>
 

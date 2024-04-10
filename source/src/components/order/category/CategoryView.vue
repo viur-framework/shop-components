@@ -89,8 +89,9 @@ onMounted(async () => {
   await categoryList.fetch(true);
   state.skellist = categoryList.state.skellist;
   state.loading = false;
-  console.log(cartStore.state.currentCart)
+
   cartStore.getBasketArticle(cartStore.state.currentCart);
+  cartStore.test();
 });
 </script>
 
