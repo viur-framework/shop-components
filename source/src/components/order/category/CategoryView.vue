@@ -1,62 +1,14 @@
 <template>
   <div class="item-list">
-    <ItemCard class="card" v-for="item in state.skellist" :key="item.shop_name">
-      <router-link :to="{ name: 'itemView', params: { item: item.key } }">
-        <img
-          slot="image"
-          :src="getImage(item)"
-          :alt="item.shop_name"
-          class="card-image"
-        />
-        <strong> {{ item.shop_name }}</strong>
-        <br />
-      </router-link>
-      <div slot="footer">
-        <!-- <sl-button-group label="Amount">
-            <sl-tooltip content="Remove">
-              <sl-icon-button
-                variant="primary"
-                name="cart-dash"
-                label="Remove Amount"
-                style="font-size: 2em"
-              >
-              </sl-icon-button>
-            </sl-tooltip>
-            <sl-tooltip content="Plus">
-              <sl-icon-button
-                variant="primary"
-                name="cart-plus"
-                label="Add Amount"
-                style="font-size: 2em"
-              >
-              </sl-icon-button>
-            </sl-tooltip>
-            <sl-tooltip content="Add to cart">
-              <sl-icon-button
-                variant="primary"
-                name="cart-check"
-                label="Add to cart"
-                style="font-size: 2em"
-                @click="
-                  cartStore.addToCart(item.key, cartStore.state.currentCart)
-                "
-              >
-              </sl-icon-button>
-            </sl-tooltip>
-          </sl-button-group> -->
-
-        {{ item.shop_price_retail }}
-        <sl-icon-button
-          variant="primary"
-          name="cart-check"
-          label="Add to cart"
-          style="font-size: 2em"
-          @click="cartStore.addToCart(item.key, cartStore.state.currentCart)"
-        >
-        </sl-icon-button>
-      </div>
-    </ItemCard>
+    <router-link  v-for="item in state.skellist"
+                  :key="item.shop_name"
+                  :to="{ name: 'itemView', params: { item: item.key } }">
+      <ItemCard :item="item">
+      </ItemCard>
+    </router-link>
   </div>
+
+
 
   <sl-button
     @click="loadMore"
@@ -133,16 +85,6 @@ async function loadMore() {
   }
 }
 
-function getImage(item) {
-  let imageUrl =
-    "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-  if (item.dk_artikel.dest.image) {
-    return Request.downloadUrlFor(item.dk_artikel.dest.image);
-  }
-
-  return imageUrl;
-}
-
 onMounted(async () => {
   await categoryList.fetch(true);
   state.skellist = categoryList.state.skellist;
@@ -155,24 +97,9 @@ onMounted(async () => {
 <style scoped>
 .item-list {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  width: 100%;
+  grid-gap: var(--sl-spacing-medium);
+  grid-template-columns: repeat(4, 1fr);
 }
 
-.card {
-  max-width: 300px;
-}
-
-.card small {
-  color: var(--sl-color-primary-500);
-}
-
-.card-image {
-  aspect-ratio: 1;
-}
-
-.card [slot="footer"] {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 </style>
