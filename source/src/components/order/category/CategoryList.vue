@@ -29,7 +29,7 @@ const props = defineProps({
 });
 
 onBeforeMount(async () => {
-  cartStore.init();
+  // cartStore.init();
 });
 </script>
 

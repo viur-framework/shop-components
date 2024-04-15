@@ -89,7 +89,7 @@ onMounted(async () => {
   state.skellist = categoryList.state.skellist;
   state.loading = false;
 
-  await cartStore.init();
+  // await cartStore.init();
 });
 </script>
 
