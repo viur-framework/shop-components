@@ -13,6 +13,16 @@ const default_routes = [
     name: "CategoryView",
     component: () => import("../components/order/category/CategoryView.vue"),
   },
+  {
+    path: "/shop/item/:item",
+    name: "itemView",
+    component: () => import("../components/order/item/ItemView.vue"),
+  },
+  {
+    path: "/shop/basket/",
+    name: "BasketView",
+    component: () => import("../components/cart/BasketView.vue"),
+  },
 ];
 
 function createRouterInstance(routes, replace = false) {

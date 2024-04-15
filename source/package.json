@@ -40,6 +40,7 @@
   "dependencies": {
     "@viur/ignite": "^5.0.2",
     "@viur/viur-shoelace": "^2.4.0-viur-0.5.17",
+    "@viur/viur-shop-client": "^0.1.0-dev.4",
     "@viur/vue-utils": "^1.4.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
