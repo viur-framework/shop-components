@@ -1,14 +1,13 @@
 <template>
   <div class="item-list">
-    <router-link  v-for="item in state.skellist"
-                  :key="item.shop_name"
-                  :to="{ name: 'itemView', params: { item: item.key } }">
-      <ItemCard :item="item">
-      </ItemCard>
+    <router-link
+      v-for="item in state.skellist"
+      :key="item.shop_name"
+      :to="{ name: 'itemView', params: { item: item.key } }"
+    >
+      <ItemCard :item="item"> </ItemCard>
     </router-link>
   </div>
-
-
 
   <sl-button
     @click="loadMore"
@@ -90,8 +89,7 @@ onMounted(async () => {
   state.skellist = categoryList.state.skellist;
   state.loading = false;
 
-  cartStore.getBasketArticle(cartStore.state.currentCart);
-  cartStore.test();
+  await cartStore.init();
 });
 </script>
 
@@ -102,5 +100,4 @@ onMounted(async () => {
   grid-gap: var(--sl-spacing-medium);
   grid-template-columns: repeat(4, 1fr);
 }
-
 </style>

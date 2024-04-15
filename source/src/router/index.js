@@ -18,6 +18,11 @@ const default_routes = [
     name: "itemView",
     component: () => import("../components/order/item/ItemView.vue"),
   },
+  {
+    path: "/shop/cart/:cartKey?",
+    name: "CartView",
+    component: () => import("../components/cart/CartView.vue"),
+  },
 ];
 
 function createRouterInstance(routes, replace = false) {

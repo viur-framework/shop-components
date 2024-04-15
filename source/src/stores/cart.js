@@ -6,23 +6,30 @@ import { ViURShopClient } from "@viur/viur-shop-client";
 export const useCartStore = defineStore("cartstore", () => {
   const state = reactive({
     currentCart: "",
-    allCarts: [],
+    allCarts: {},
     basketArticle: [],
   });
 
-  function listCarts() {
-    Request.get("/shop/api/cart_list").then(async (resp) => {
+  async function init() {
+    await listCarts();
+    console.log("hier", state.currentCart)
+    await getBasketItems(state.currentCart);
+  }
+
+  async function listCarts() {
+    await Request.get("/shop/api/cart_list").then(async (resp) => {
       let data = await resp.json();
-      console.log("cartStore listCarts", data);
-      state.allCarts = data;
-      getCurrentCart(data);
+      await getBasket(data);
+      data.forEach((cart)=>{
+        state.allCarts[cart.key] = cart
+      })
     });
     // const sc = new ViURShopClient();
 
     // sc.cart_list().then(async (resp) => console.log("test", await resp.json));
   }
 
-  function getCurrentCart(skellist) {
+  async function getBasket(skellist) {
     skellist.forEach((cart) => {
       if ((cart.cart_type = "basket")) {
         state.currentCart = cart.key;
@@ -30,7 +37,7 @@ export const useCartStore = defineStore("cartstore", () => {
     });
   }
 
-  function getBasketArticle(cartKey) {
+  async function getBasketItems(cartKey) {
     Request.get(`/shop/api/cart_list`, {
       dataObj: { cart_key: cartKey },
     }).then(async (resp) => {
@@ -61,22 +68,11 @@ export const useCartStore = defineStore("cartstore", () => {
     });
   }
 
-  function test() {
-    console.log("AHHHH YEAAAAH")
-    const shopClient = new ViURShopClient("http://localhost:8080"
-    )
-    shopClient.cart_list().then(async (resp) => {
-      let data = await resp.json()
-      console.log("data test", data)
-    })
-
-  }
-
   return {
     state,
     listCarts,
     addToCart,
-    getBasketArticle,
-    test,
+    getBasketItems,
+    init
   };
 });
