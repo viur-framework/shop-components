@@ -1,7 +1,6 @@
 <template>
   <Loader v-if="!state.cartStore"></Loader>
 <template v-else>
-
   <div class="bind">
     <sl-tab-group class="cart-tab" noScrollControls>
       <sl-tab slot="nav" panel="general">
@@ -40,7 +39,7 @@
     </sl-tab-group>
     <div class="controlbar">
       <div class="button-list left">
-        <!-- <sl-input
+        <sl-input
           ref="cartNameField"
           name="cart-name"
           placeholder="Warenkorbname"
@@ -50,8 +49,7 @@
           class="cart-headline"
         >
           <sl-icon library="hsk" name="pen" slot="suffix"></sl-icon>
-        </sl-input> -->
-        {{ state.cartStore.allCarts[route.params.cartKey].name }}
+        </sl-input>
       </div>
       <sl-dropdown distance="10">
         <sl-icon
