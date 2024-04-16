@@ -1,0 +1,48 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: Node.js Package
+
+on:
+  push:
+     tags:
+      - v*
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'src'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - name: Publish npm package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_API_TOKEN}}
+
+
+  gh-release:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: debug
+        run: |
+          echo "${{ contains(github.ref_name, 'dev') }}"
+      - name: Copy README.md to src
+        run: |
+          cp README.md src/
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        # if: "!startsWith(github.ref_name, 'v-test-')"
+        with:
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, 'dev') }}
