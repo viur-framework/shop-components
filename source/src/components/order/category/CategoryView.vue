@@ -1,11 +1,15 @@
 <template>
+  <div class="page-header">
+    <h1>{{ pageHeader }}</h1>
+  </div>
+  <slot name="filter" v-if="filter"> text-transform text-transform TEST </slot>
   <div class="item-list">
     <router-link
       v-for="item in state.skellist"
       :key="item.shop_name"
       :to="{ name: 'itemView', params: { item: item.key } }"
     >
-      <ItemCard :item="item"> </ItemCard>
+      <ItemCard :item="item" @click="cartStore.getArticleView(item.key, cartStore.state.basket)"> </ItemCard>
     </router-link>
   </div>
 
@@ -27,6 +31,12 @@ import { Request, ListRequest } from "@viur/vue-utils";
 
 // component imports
 import ItemCard from "../item/ItemCard.vue";
+
+const props = defineProps({
+  skellist: { type: Array },
+  filter: { type: Boolean, default: true },
+  pageHeader: {type: String, default: "Artikel Liste"}
+});
 
 const route = useRoute();
 
@@ -85,6 +95,7 @@ async function loadMore() {
 }
 
 onMounted(async () => {
+  await cartStore.init()
   await categoryList.fetch(true);
   state.skellist = categoryList.state.skellist;
   state.loading = false;
