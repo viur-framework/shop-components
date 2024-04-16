@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: 'src'
+        working-directory: 'source'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
+      - name: Copy README.md to source
+        run: |
+          cp README.md source/
       - run: npm ci
       - name: Publish npm package
         run: npm publish
@@ -37,9 +40,6 @@ jobs:
       - name: debug
         run: |
           echo "${{ contains(github.ref_name, 'dev') }}"
-      - name: Copy README.md to src
-        run: |
-          cp README.md source/
       - name: Release
         uses: softprops/action-gh-release@v1
         # if: "!startsWith(github.ref_name, 'v-test-')"
