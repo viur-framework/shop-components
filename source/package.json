@@ -1,7 +1,7 @@
 {
   "name": "@viur/shop-components",
   "private": true,
-  "version": "0.0.1-dev.1",
+  "version": "0.0.1-dev.2",
   "description": "Frontend Vue components for the shop module of ViUR",
   "main": "./src/index.js",
   "scripts": {
