@@ -39,7 +39,7 @@ jobs:
           echo "${{ contains(github.ref_name, 'dev') }}"
       - name: Copy README.md to src
         run: |
-          cp README.md src/
+          cp README.md source/
       - name: Release
         uses: softprops/action-gh-release@v1
         # if: "!startsWith(github.ref_name, 'v-test-')"
