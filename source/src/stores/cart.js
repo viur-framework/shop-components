@@ -62,9 +62,10 @@ export const useCartStore = defineStore("cartstore", () => {
       article_key: articleKey,
       parent_cart_key: cartKey,
       quantity: quantity,
+      quantity_mode: "replace",
     });
 
-    console.log("update Resp", resp)
+    console.log("update Resp", resp);
   }
 
   return {
