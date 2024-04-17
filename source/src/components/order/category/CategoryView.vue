@@ -1,21 +1,31 @@
 <template>
-  <div class="item-list">
-    <router-link
-      v-for="item in state.skellist"
-      :key="item.shop_name"
-      :to="{ name: 'itemView', params: { item: item.key } }"
-    >
-      <ItemCard :item="item"> </ItemCard>
-    </router-link>
+
+  <div class="loading-wrap"
+       v-if="state.loading"
+  >
+    <sl-spinner></sl-spinner>
   </div>
 
-  <sl-button
-    @click="loadMore"
-    :loading="state.loading"
-    :disabled="state.isLastItem"
-  >
-    Mehr anzeigen
-  </sl-button>
+  <div class="bind" v-else>
+    <div class="item-list">
+      <router-link
+        v-for="item in state.skellist"
+        :key="item.shop_name"
+        :to="{ name: 'itemView', params: { item: item.key } }"
+      >
+        <ItemCard :item="item"> </ItemCard>
+      </router-link>
+    </div>
+
+    <sl-button
+      @click="loadMore"
+      :loading="state.loading"
+      :disabled="state.isLastItem"
+    >
+      Mehr anzeigen
+    </sl-button>
+  </div>
+
 </template>
 
 <script setup>
@@ -99,5 +109,21 @@ onMounted(async () => {
   width: 100%;
   grid-gap: var(--sl-spacing-medium);
   grid-template-columns: repeat(4, 1fr);
+}
+
+.loading-wrap{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  sl-spinner{
+    font-size: 3.5em;
+    --track-width: 4px;
+  }
 }
 </style>
