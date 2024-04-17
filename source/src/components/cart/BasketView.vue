@@ -1,7 +1,8 @@
 <template>
   <Loader v-if="!state.basketItems"></Loader>
   <template v-else>
-    <div class="bind">
+    <div class="bind bind-wrap">
+      <div class="list">
       <sl-tab-group class="cart-tab" noScrollControls>
         <sl-tab slot="nav" panel="general">
           <div class="cart-step">
@@ -167,7 +168,9 @@
         <strong>Die Suche ergab keine Treffer!</strong><br/>
       </sl-alert> -->
       <!--		<code v-for="item in state.products">{{ item }}</code>-->
-      <sl-card horizontal v-for="item in state.basketItems">
+      <sl-card horizontal
+               class="cart-card"
+               v-for="item in state.basketItems">
         <img
           class="card-img"
           slot="image"
@@ -177,25 +180,96 @@
         <div class="header" slot="header">
           <h4 class="headline">{{ item.article.dest.shop_name }} | 425018</h4>
         </div>
-        <div class="price-wrap" slot="footer">
-          <div class="price">
-            {{ item.article.dest.shop_price_recommended }} €
-          </div>
-          <div class="small-print">Brutto / Stk.</div>
-          <div class="amount">Anzahl: 1</div>
-        </div>
         <div class="card-body-row">
-          Version: 900x900x2000 <br />
-          Farbe: Chromoptik <br />
-          Glasart: Klar hell mit Edelglasbeschichtung<br />
-          Anschlag: Beidseitig variabel<br />
-          Griff: Stangengriff Exklusiv (56)
+          <div class="card-body-info">
+            <div class="card-descr">
+              Version: 900x900x2000 <br />
+              Farbe: Chromoptik <br />
+              Glasart: Klar hell mit Edelglasbeschichtung<br />
+              Anschlag: Beidseitig variabel<br />
+              Griff: Stangengriff Exklusiv (56)
+            </div>
+            <div class="cart-body-footer">
+              <sl-button
+                size="small"
+                outline
+                class="add-to-favourites-btn"
+                variant="primary"
+                title="Add to favourites"
+              >
+                <sl-icon name="heart"
+                         slot="prefix"
+                         ></sl-icon>
+              </sl-button>
+              <sl-button
+                size="small"
+                outline
+                class="delete-btn"
+                variant="primary"
+                title="Add to favourites"
+              >
+                <sl-icon name="trash"
+                         slot="prefix"
+                         ></sl-icon>
+              </sl-button>
+            </div>
+          </div>
+          <div class="card-body-amount">
+              <sl-input class="amount-input"
+                        type="number"
+                        label="Anzahl"
+                        placeholder="Number">
+
+              </sl-input>
+          </div>
+          <div class="price-wrap" slot="footer">
+            <div class="price-label">Preis</div>
+            <div class="price">
+              {{ item.article.dest.shop_price_recommended }} €
+            </div>
+            <div class="small-print">Brutto / Stk.</div>
+          </div>
+
         </div>
       </sl-card>
+      </div>
+      <div class="sidebar">
+        <h2 class="headline">Zusammenfassung</h2>
+        <br>
 
-      <div class="order-footer">
-        <div>Gesamt: {{ state.basket.total }}</div>
-        <sl-button variant="info" size="small"> Jetzt Bestellen </sl-button>
+        <sl-input label="Rabattcode eingeben"></sl-input>
+        <br>
+
+        <div class="info-line">
+          <span>Zwischensumme</span>
+          {{ state.basket.total }} €
+        </div>
+        <div class="info-line">
+          <span>Rabatt</span>
+          0 €
+        </div>
+        <div class="info-line">
+          <span>Versandkosten</span>
+          0 €
+        </div>
+        <div class="info-line total">
+          <span>Gesamt:</span>
+          {{ state.basket.total }} €
+        </div>
+        <div class="sidebar-btn-wrap">
+          <sl-button variant="info"
+                     size="small">
+            Jetzt Bestellen
+          </sl-button>
+          <sl-button size="small"
+                     variant="primary"
+          >
+            <sl-icon name="paypal"
+                     slot="prefix"
+            ></sl-icon>
+            Paypal
+          </sl-button>
+        </div>
       </div>
     </div>
   </template>
@@ -262,6 +336,32 @@ onBeforeMount(() => {
 </script>
 
 <style scoped>
+
+.bind-wrap{
+  flex-direction: row;
+  gap: var(--sl-spacing-x-large);
+  align-items: flex-start;
+}
+
+.sidebar{
+  display: flex;
+  flex-direction: column;
+  min-width: 350px;
+  padding: var(--sl-spacing-medium);
+  position: sticky;
+  top: var(--sl-spacing-large);
+}
+
+.sidebar-btn-wrap{
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--sl-spacing-large);
+
+  sl-button{
+    margin-bottom: var(--sl-spacing-x-small);
+  }
+}
+
 sl-alert {
   margin-top: var(--sl-spacing-medium);
   margin-bottom: var(--sl-spacing-medium);
@@ -560,10 +660,100 @@ sl-menu-item {
   padding: 0.4em;
 }
 
-.order-footer {
-  width: 100%;
+.info-line.total{
+  font-weight: 600;
+  border-top: 1px solid var(--sl-color-neutral-300);
+  border-bottom: 1px solid var(--sl-color-neutral-300);
+  padding: var(--sl-spacing-x-small) 0;
+  margin: var(--sl-spacing-small) 0;
+}
+
+.info-line{
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin: var(--sl-spacing-2x-small) 0;
+
+  span{
+    margin-right: auto;
+  }
+}
+
+.cart-card{
+  margin-bottom: var(--sl-spacing-x-large);
+
+  &::part(header){
+    border-bottom: none;
+    padding-top: 0;
+    padding-right: 0;
+   }
+
+  &::part(image){
+    flex-basis: 25%;
+    max-width: 250px;
+   }
+
+   &::part(body){
+    display: flex;
+    flex: 1;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+   }
+
+  &::part(group){
+      padding: var(--sl-spacing-small) 0;
+   }
+}
+
+.card-body-row{
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: var(--sl-spacing-large);
+  flex: 1;
+}
+
+.card-body-info{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-descr{
+  margin-bottom: auto;
+}
+
+.cart-body-footer{
+  display: flex;
+  flex-direction: row;
+  gap: var(--sl-spacing-2x-small);
+  margin-top: var(--sl-spacing-large);
+}
+
+.amount-input{
+  width: 5em;
+}
+
+.price-wrap{
+  display: flex;
+  flex-direction: column;
+
+  .small-print{
+    font-size: .75em;
+    margin-left: auto;
+  }
+}
+
+.price{
+  font-size: 1.3em;
+
+}
+
+.price-label{
+  color: var(--ignt-color-primary);
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 1em;
+  margin-left: auto;
 }
 </style>
