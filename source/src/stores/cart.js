@@ -48,10 +48,31 @@ export const useCartStore = defineStore("cartstore", () => {
     console.log("getArticleView", article);
   }
 
+  async function removeItem(articleKey, cartKey) {
+    let resp = await shopClient.article_remove({
+      article_key: articleKey,
+      parent_cart_key: cartKey,
+    });
+
+    console.log("remove Resp", resp);
+  }
+
+  async function updateItem(articleKey, cartKey, quantity) {
+    let resp = await shopClient.article_update({
+      article_key: articleKey,
+      parent_cart_key: cartKey,
+      quantity: quantity,
+    });
+
+    console.log("update Resp", resp)
+  }
+
   return {
     state,
     addToCart,
     getArticleView,
+    removeItem,
+    updateItem,
     init,
   };
 });

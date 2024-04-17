@@ -19,9 +19,9 @@ const default_routes = [
     component: () => import("../components/order/item/ItemView.vue"),
   },
   {
-    path: "/shop/basket/",
-    name: "BasketView",
-    component: () => import("../components/cart/BasketView.vue"),
+    path: "/shop/cart/view",
+    name: "CartView",
+    component: () => import("../components/cart/CartView.vue"),
   },
 ];
 
