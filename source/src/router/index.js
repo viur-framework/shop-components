@@ -24,11 +24,16 @@ const default_routes = [
     component: () => import("../components/cart/CartView.vue"),
   },
   {
-    path: "/shop/basket/confirm",
+    path: "/shop/order/",
+    name: "OrderView",
+    component: () => import("../components/order/process/ExampleUsage.vue"),
+  },
+  {
+    path: "/shop/order/confirm",
     name: "ConfirmView",
     component: () => import("../components/cart/ConfirmView.vue"),
   },
-];
+];4
 
 function createRouterInstance(routes, replace = false) {
   let newRoutes = [];

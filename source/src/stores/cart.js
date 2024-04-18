@@ -4,7 +4,11 @@ import { defineStore } from "pinia";
 import { ViURShopClient } from "@viur/viur-shop-client";
 
 export const useCartStore = defineStore("cartstore", () => {
-  const shopClient = new ViURShopClient({ host_url: "http://localhost:8080" });
+  const shopClient = new ViURShopClient({
+    host_url: import.meta.env.VITE_API_URL
+      ? import.meta.env.VITE_API_URL
+      : window.location.origin,
+  });
 
   const state = reactive({
     basket: "",
@@ -38,7 +42,7 @@ export const useCartStore = defineStore("cartstore", () => {
       parent_cart_key: cartKey,
     });
 
-    console.log("addToCart", resp);
+    console.log("addToCart", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
   async function getArticleView(articleKey, cartKey) {
@@ -47,7 +51,7 @@ export const useCartStore = defineStore("cartstore", () => {
       parent_cart_key: cartKey,
     });
 
-    console.log("getArticleView", article);
+    console.log("getArticleView", article); // ? Talk about necessarity
   }
 
   async function removeItem(articleKey, cartKey) {
@@ -56,7 +60,7 @@ export const useCartStore = defineStore("cartstore", () => {
       parent_cart_key: cartKey,
     });
 
-    console.log("remove Resp", resp);
+    console.log("remove Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
   async function updateItem(articleKey, cartKey, quantity) {
@@ -67,7 +71,7 @@ export const useCartStore = defineStore("cartstore", () => {
       quantity_mode: "replace",
     });
 
-    console.log("update Resp", resp);
+    console.log("update Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
   return {

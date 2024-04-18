@@ -2,8 +2,8 @@
   <Loader v-if="!state.cartIsInit"></Loader>
   <template v-else>
     <div class="bind bind-wrap">
-      <sl-dialog ref="confirm" @sl-hide="state.currentItem = {}">
-        <p>Möchten Sie sich wirklich ausloggen?</p>
+      <sl-dialog ref="confirm" @sl-hide="onDialogHide">
+        <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
         <div class="footer-wrap" slot="footer">
           <sl-button variant="danger" @click="confirm.hide()" size="medium">
             Abbrechen
@@ -14,42 +14,7 @@
         </div>
       </sl-dialog>
       <div class="list">
-        <sl-tab-group class="cart-tab" noScrollControls>
-          <sl-tab slot="nav" panel="general">
-            <div class="cart-step">
-              <sl-icon name="cart" library="hsk"></sl-icon>
-              <div class="cart-status-text">1. Warenkorb</div>
-            </div>
-            <sl-icon name="chevron-right" class="cart-tab-check"></sl-icon>
-          </sl-tab>
-          <sl-tab slot="nav" panel="custom">
-            <div class="cart-step">
-              <sl-icon name="order" library="hsk"></sl-icon>
-              <div class="cart-status-text">2. Ihr individuelles Angebot</div>
-            </div>
-            <sl-icon name="chevron-right" class="cart-tab-check"></sl-icon>
-          </sl-tab>
-          <sl-tab slot="nav" panel="advanced">
-            <div class="cart-step">
-              <sl-icon name="order-check" library="hsk"></sl-icon>
-              <div class="cart-status-text">3. Bestellung prüfen</div>
-            </div>
-            <sl-icon name="chevron-right" class="cart-tab-check"></sl-icon>
-          </sl-tab>
-          <sl-tab slot="nav" panel="disabled">
-            <div class="cart-step">
-              <sl-icon name="order-confirmed" library="hsk"></sl-icon>
-              <div class="cart-status-text">
-                4. Bestellung erfolgreich abgeschlossen.
-              </div>
-            </div>
-          </sl-tab>
-          <sl-tab-panel name="general"></sl-tab-panel>
-          <sl-tab-panel name="custom"></sl-tab-panel>
-          <sl-tab-panel name="advanced"></sl-tab-panel>
-          <sl-tab-panel name="disabled"></sl-tab-panel>
-        </sl-tab-group>
-        <div class="controlbar">
+        <div class="controlbar" v-if="mode !== 'basket'">
           <div class="button-list left">
             <sl-input
               ref="cartNameField"
@@ -111,6 +76,7 @@
           </sl-dropdown>
         </div>
         <sl-input
+          v-if="mode !== 'basket'"
           name="cart-internalCartNo"
           placeholder="Freifeld (Kommission)"
           v-model="
@@ -196,6 +162,7 @@
                   type="number"
                   label="Anzahl"
                   placeholder="Number"
+                  min="0"
                   v-model="item.quantity"
                   @input="
                     updateItem(
@@ -220,7 +187,7 @@
           </sl-card>
         </template>
       </div>
-      <div class="sidebar">
+      <div class="sidebar" v-if="sidebar">
         <h2 class="headline">Zusammenfassung</h2>
         <br />
 
@@ -262,6 +229,12 @@ import Loader from "@viur/vue-utils/generic/Loader.vue";
 import { useCartStore } from "../../stores/cart.js";
 import { Request } from "@viur/vue-utils";
 
+const props = defineProps({
+  mode: { type: String, default: "basket" },
+  cartKey: { type: String, default: "" },
+  sidebar: { type: Boolean, default: true },
+});
+
 const cartStore = useCartStore();
 
 const confirm = ref(null);
@@ -275,6 +248,9 @@ const state = reactive({
   }),
   images: {},
   currentItem: {},
+  currentCartKey: computed(() =>
+    props.mode === "basket" ? cartStore.state.basket : props.cartKey,
+  ),
 });
 
 function getImage(item) {
@@ -294,7 +270,11 @@ function getImage(item) {
 }
 
 async function onConfirm() {
-  await cartStore.updateItem(state.currentItem.article.dest.key, cartStore.state.basket, 0);
+  await cartStore.updateItem(
+    state.currentItem.article.dest.key,
+    cartStore.state.basket,
+    0,
+  );
   confirm.value.hide();
 }
 
@@ -305,6 +285,15 @@ function updateItem(item, articleKey, cartKey, quantity) {
   } else {
     cartStore.updateItem(articleKey, cartKey, quantity);
   }
+}
+
+function onDialogHide() {
+  cartStore.state.carts[cartStore.state.basket].items.forEach((item) => {
+    if (item.key === state.currentItem.key) {
+      item.quantity = 1;
+    }
+  });
+  state.currentItem = {};
 }
 
 onBeforeMount(async () => {
@@ -452,38 +441,6 @@ sl-tooltip {
   white-space: initial;
 }
 
-.cart-step {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-
-  @media (--ignt-mq-max-break-small) {
-    justify-content: center;
-  }
-
-  sl-icon {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-
-    @media (--ignt-mq-max-break-small) {
-      display: none;
-    }
-  }
-}
-
-.cart-tab-check {
-  position: absolute;
-  right: -0.5em;
-
-  @media (--ignt-mq-max-break-small) {
-    font-size: 0.7em;
-    right: -0.35em;
-    top: calc(50% - 0.35em);
-  }
-}
 
 .search-box {
   display: flex;
