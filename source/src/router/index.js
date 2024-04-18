@@ -23,6 +23,11 @@ const default_routes = [
     name: "CartView",
     component: () => import("../components/cart/CartView.vue"),
   },
+  {
+    path: "/shop/basket/confirm",
+    name: "ConfirmView",
+    component: () => import("../components/cart/ConfirmView.vue"),
+  },
 ];
 
 function createRouterInstance(routes, replace = false) {
