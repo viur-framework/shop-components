@@ -1,18 +1,16 @@
 <template>
   <sl-card class="card">
     <img
-            slot="image"
-            :src="getImage(item)"
-            :alt="item.shop_name"
-            class="card-image"
-          />
-          <h3 class="card-headline"> {{ item.shop_name }}</h3>
-          <h4 class="card-subline">B 21 x H 6,5 x T 19 cm</h4>
-          <div class="price">
-            {{ item.shop_price_retail }} €
-          </div>
-        <div class="card-footer" slot="footer">
-          <!-- <sl-button-group label="Amount">
+      slot="image"
+      :src="getImage(item)"
+      :alt="item.shop_name"
+      class="card-image"
+    />
+    <h3 class="card-headline">{{ item.shop_name }}</h3>
+    <h4 class="card-subline">B 21 x H 6,5 x T 19 cm</h4>
+    <div class="price">{{ item.shop_price_retail }} €</div>
+    <div class="card-footer" slot="footer">
+      <!-- <sl-button-group label="Amount">
               <sl-tooltip content="Remove">
                 <sl-icon-button
                   variant="primary"
@@ -44,64 +42,52 @@
                 </sl-icon-button>
               </sl-tooltip>
             </sl-button-group> -->
-          <sl-button
-            size="small"
-            class="add-to-cart-btn"
-            variant="primary"
-            title="Add to cart"
-            @click.stop="cartStore.addToCart(item.key, cartStore.state.currentCart)"
-          >
-            <sl-icon name="bag-plus"
-                     slot="prefix"
-                     ></sl-icon>
+      <sl-button
+        size="small"
+        class="add-to-cart-btn"
+        variant="primary"
+        title="Add to cart"
+        @click.stop="cartStore.addToCart(item.key, cartStore.state.currentCart)"
+      >
+        <sl-icon name="bag-plus" slot="prefix"></sl-icon>
 
-            In den Warenkorb
-          </sl-button>
+        In den Warenkorb
+      </sl-button>
 
-          <sl-button
-            size="small"
-            outline
-            class="add-to-favourites-btn"
-            variant="primary"
-            title="Add to favourites"
-          >
-            <sl-icon name="heart"
-                     slot="prefix"
-                     ></sl-icon>
-          </sl-button>
-
-
-        </div>
+      <sl-button
+        size="small"
+        outline
+        class="add-to-favourites-btn"
+        variant="primary"
+        title="Add to favourites"
+      >
+        <sl-icon name="heart" slot="prefix"></sl-icon>
+      </sl-button>
+    </div>
   </sl-card>
 </template>
 
-<script>
-import {Request} from "@viur/vue-utils";
+<script setup>
+import { Request } from "@viur/vue-utils";
+import { useCartStore } from "../../../stores/cart";
 
-export default {
-  props: {
-    item: {
-      type: Object,
-      required: true
-    }
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
   },
-  setup(props, context) {
+});
 
-  function getImage(item) {
-    let imageUrl =
+const cartStore = useCartStore();
+
+function getImage(item) {
+  let imageUrl =
     "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-    if (item.dk_artikel.dest.image) {
-     return Request.downloadUrlFor(item.dk_artikel.dest.image);
-    }
-
-    return imageUrl;
+  if (item.dk_artikel.dest.image) {
+    return Request.downloadUrlFor(item.dk_artikel.dest.image);
   }
 
-	return {
-      props,
-    getImage
-	}
-  }
+  return imageUrl;
 }
 </script>
 
@@ -109,71 +95,70 @@ export default {
 .card {
   width: 100%;
 
-  &::part(header){
+  &::part(header) {
     padding: var(--sl-spacing-medium) 0;
-   }
+  }
 
-  &::part(body){
+  &::part(body) {
     padding: var(--sl-spacing-medium) 0;
-   }
+  }
 
-  &::part(footer){
+  &::part(footer) {
     padding: var(--sl-spacing-medium) 0;
-   }
+  }
 
-  &:hover{
-    .add-to-cart-btn{
+  &:hover {
+    .add-to-cart-btn {
       opacity: 1;
     }
 
-    .card-headline{
-      color: var(--sl-color-primary-500)
+    .card-headline {
+      color: var(--sl-color-primary-500);
     }
 
-    .card-image{
+    .card-image {
       transform: scale(1.02);
     }
   }
 }
 
-.card-footer{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
+.card-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
 }
 
-.add-to-cart-btn{
-  transition: all ease .3s;
+.add-to-cart-btn {
+  transition: all ease 0.3s;
   margin-right: var(--sl-spacing-medium);
   opacity: 0;
 }
 
-.add-to-favourites-btn{
+.add-to-favourites-btn {
   margin-left: auto;
 }
-
 
 .card-image {
   aspect-ratio: 1;
   object-fit: cover;
-  transition: all ease .3s;
+  transition: all ease 0.3s;
 }
 
-.card-headline{
+.card-headline {
   font-size: 1.1em;
   font-weight: bold;
   color: var(--ignt-basic-color-text);
   margin-bottom: var(--sl-spacing-2x-small);
-  transition: all ease .3s;
+  transition: all ease 0.3s;
 }
 
-.card-subline{
+.card-subline {
   color: var(--ignt-basic-color-text);
   margin-bottom: var(--sl-spacing-2x-small);
 }
 
-.price{
+.price {
   font-size: 1.1em;
   font-weight: bold;
   color: var(--ignt-basic-color-text);

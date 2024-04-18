@@ -37,6 +37,8 @@ export const useCartStore = defineStore("cartstore", () => {
       article_key: articleKey,
       parent_cart_key: cartKey,
     });
+
+    console.log("addToCart", resp);
   }
 
   async function getArticleView(articleKey, cartKey) {

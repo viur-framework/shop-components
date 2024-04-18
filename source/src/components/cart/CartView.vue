@@ -2,6 +2,17 @@
   <Loader v-if="!state.cartIsInit"></Loader>
   <template v-else>
     <div class="bind bind-wrap">
+      <sl-dialog ref="confirm" @sl-hide="state.currentItem = {}">
+        <p>Möchten Sie sich wirklich ausloggen?</p>
+        <div class="footer-wrap" slot="footer">
+          <sl-button variant="danger" @click="confirm.hide()" size="medium">
+            Abbrechen
+          </sl-button>
+          <sl-button variant="success" @click="onConfirm" size="medium">
+            Aus Warenkorb entfernen
+          </sl-button>
+        </div>
+      </sl-dialog>
       <div class="list">
         <sl-tab-group class="cart-tab" noScrollControls>
           <sl-tab slot="nav" panel="general">
@@ -169,7 +180,10 @@
                     variant="primary"
                     title="Remove from cart"
                     @click="
-                      cartStore.removeItem(item.article.dest.key, cartStore.state.basket)
+                      cartStore.removeItem(
+                        item.article.dest.key,
+                        cartStore.state.basket,
+                      )
                     "
                   >
                     <sl-icon name="trash" slot="prefix"></sl-icon>
@@ -184,7 +198,8 @@
                   placeholder="Number"
                   v-model="item.quantity"
                   @input="
-                    cartStore.updateItem(
+                    updateItem(
+                      item,
                       item.article.dest.key,
                       cartStore.state.basket,
                       item.quantity,
@@ -242,12 +257,14 @@
 </template>
 
 <script setup>
-import { reactive, computed, onBeforeMount } from "vue";
+import { reactive, computed, onBeforeMount, ref } from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
 import { useCartStore } from "../../stores/cart.js";
 import { Request } from "@viur/vue-utils";
 
 const cartStore = useCartStore();
+
+const confirm = ref(null);
 
 const state = reactive({
   cartIsInit: computed(() => {
@@ -257,6 +274,7 @@ const state = reactive({
     return cartStore.state.carts[cartStore.state.basket].items ? true : false;
   }),
   images: {},
+  currentItem: {},
 });
 
 function getImage(item) {
@@ -273,6 +291,20 @@ function getImage(item) {
   });
 
   return state.images[item];
+}
+
+async function onConfirm() {
+  await cartStore.updateItem(state.currentItem.article.dest.key, cartStore.state.basket, 0);
+  confirm.value.hide();
+}
+
+function updateItem(item, articleKey, cartKey, quantity) {
+  if (quantity === 0) {
+    confirm.value.show();
+    state.currentItem = item;
+  } else {
+    cartStore.updateItem(articleKey, cartKey, quantity);
+  }
 }
 
 onBeforeMount(async () => {
