@@ -34,6 +34,7 @@
               v-bind="{ multiAdress: true }"
               v-for="a in state.shippingAdressAmount"
               :key="a"
+              @adressInput="log"
             ></component>
             <sl-icon-button
               type="button"
@@ -51,7 +52,12 @@
               style="font-size: 2.5rem; color: red"
               @click="decreaseAdress"
             ></sl-icon-button>
-            <sl-alert variant="warning" duration="2000" ref="shippingWarning" closable>
+            <sl-alert
+              variant="warning"
+              duration="2000"
+              ref="shippingWarning"
+              closable
+            >
               <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
               <strong>Zu Wenig Lieferadressen</strong><br />
               Mindestens eine Lieferadresse muss angegeben werden
@@ -161,6 +167,11 @@ function decreaseAdress() {
     return;
   }
   state.shippingAdressAmount -= 1;
+}
+
+function log(e) {
+  console.log("emit hier", e);
+  Object.assign(state.formValues, e)
 }
 
 watch(state.formValues, (newValues) => {
