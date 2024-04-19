@@ -1,4 +1,4 @@
-// import "@viur/shoelace/dist/themes/viur.css"
+import "@viur/shoelace/dist/themes/viur.css"
 import "@viur/shoelace/dist/components/button/button.js";
 import "@viur/shoelace/dist/components/button-group/button-group.js";
 import "@viur/shoelace/dist/components/icon/icon.js";

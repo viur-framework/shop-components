@@ -50,6 +50,7 @@ const props = defineProps({
   skellist: { type: Array },
   filter: { type: Boolean, default: true },
   pageHeader: { type: String, default: "Artikel Liste" },
+  listHandler: { type: Object, required: true },
 });
 
 const route = useRoute();
@@ -65,10 +66,7 @@ const state = reactive({
   itemType: computed(() => route.params.identifier),
 });
 
-const categoryList = ListRequest("categorystore", {
-  module: "variante",
-  params: { type: state.itemType, limit: state.itemCount },
-});
+const categoryList = props.listHandler;
 
 function listItems() {
   let params = {

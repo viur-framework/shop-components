@@ -3,19 +3,21 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, shallowRef } from "vue";
+import { ListRequest } from "@viur/vue-utils";
 
 import CartView from "../../cart/CartView.vue";
 import ConfirmView from "../../cart/ConfirmView.vue";
 import OrderView from "./OrderView.vue";
 import CategoryView from "../category/CategoryView.vue";
 import OrderComplete from "./OrderComplete.vue";
+import UserInformation from "../information/UserInformation.vue";
 
 const state = reactive({
   tabs: {
     cart: {
-      component: CartView,
-      props: { sidebar: false, mode: "basket" },
+      component: shallowRef(CartView),
+      props: { sidebar: true, mode: "basket" },
       displayName: "Warenkorb",
       icon: { name: "cart", library: "hsk" },
       position: 2,
@@ -24,31 +26,46 @@ const state = reactive({
       atHide: null,
     },
     confirm: {
-      component: ConfirmView,
+      component: shallowRef(ConfirmView),
       props: {},
       displayName: "Bestellung prüfen",
       icon: { name: "order-check", library: "hsk" },
-      position: 3,
+      position: 4,
       disabled: false,
       atShow: null,
       atHide: null,
     },
-    order: {
-      component: CategoryView,
-      props: {},
-      displayName: "Artikel Bestellen",
-      icon: { name: "cart-add", library: "hsk" },
-      position: 1,
-      disabled: false,
-      atShow: null,
-      atHide: null,
-    },
+    // order: {
+    //   component: shallowRef(CategoryView),
+    //   props: {
+    //     listHandler: ListRequest("categorystore", {
+    //       module: "variante",
+    //       params: { type: "dk", limit: 99 },
+    //     }),
+    //   },
+    //   displayName: "Artikel Bestellen",
+    //   icon: { name: "cart-add", library: "hsk" },
+    //   position: 1,
+    //   disabled: false,
+    //   atShow: null,
+    //   atHide: null,
+    // },
     orderComplete: {
-      component: OrderComplete,
+      component: shallowRef(OrderComplete),
       props: {},
       displayName: "Bestellung Abgeschlossen",
       icon: { name: "order-confirmed", library: "hsk" },
-      position: 4,
+      position: 5,
+      disabled: true,
+      atShow: null,
+      atHide: null,
+    },
+    userInfo: {
+      component: shallowRef(UserInformation),
+      props: {},
+      displayName: "Daten Eingeben",
+      icon: { name: "user", library: "hsk" },
+      position: 3,
       disabled: false,
       atShow: null,
       atHide: null,
@@ -57,7 +74,6 @@ const state = reactive({
 });
 
 function handleTabs(e) {
-  console.log("handleTabs", e);
   if (e?.detail.name === "confirm") {
     state.tabs.orderComplete.disabled = false;
   }

@@ -1,103 +1,92 @@
 <template>
-  <Loader v-if="!state.basketItems"></Loader>
+  <Loader v-if="!state.cartIsInit"></Loader>
+
   <template v-else>
     <div class="bind bind-wrap">
       <div class="list">
+        <h2 class="headline">Bestellung prüfen</h2>
+        <br />
 
-      <h2 class="headline">
-        Bestellung prüfen
-      </h2>
-      <br />
-
-      <div class="address-wrap">
-        <div class="address">
-          <div class="address-headline">
-            Versandadresse
-            <sl-button outline
-                       size="small"
-            >
-              <sl-icon name="pencil"
-                       slot="prefix"></sl-icon>
-            </sl-button>
+        <div class="address-wrap">
+          <div class="address">
+            <div class="address-headline">
+              Versandadresse
+              <sl-button outline size="small">
+                <sl-icon name="pencil" slot="prefix"></sl-icon>
+              </sl-button>
+            </div>
+            Roland Brose<br />
+            Speicherstraße 33<br />
+            44147 Dortmund, DE<br />
+            <br />
+            rb@mausbrand.de<br />
+            0231 21 34 68 90
           </div>
-          Roland Brose<br>
-          Speicherstraße 33<br>
-          44147 Dortmund, DE<br>
-          <br>
-          rb@mausbrand.de<br>
-          0231 21 34 68 90
-        </div>
-        <div class="address">
-          <div class="address-headline">
-            Rechnungsadresse
-            <sl-button outline
-                       size="small"
-            >
-              <sl-icon name="pencil"
-                       slot="prefix"></sl-icon>
-            </sl-button>
+          <div class="address">
+            <div class="address-headline">
+              Rechnungsadresse
+              <sl-button outline size="small">
+                <sl-icon name="pencil" slot="prefix"></sl-icon>
+              </sl-button>
+            </div>
+            Roland Brose<br />
+            Speicherstraße 33<br />
+            44147 Dortmund, DE<br />
+            <br />
+            rb@mausbrand.de<br />
+            0231 21 34 68 90
           </div>
-          Roland Brose<br>
-          Speicherstraße 33<br>
-          44147 Dortmund, DE<br>
-          <br>
-          rb@mausbrand.de<br>
-          0231 21 34 68 90
         </div>
-      </div>
 
-       <div class="payment">
-         <div class="payment-method">
-           <span>Zahlungsmethode:</span>
-           Paypal
-         </div>
-         <sl-button outline
-                       size="small"
-            >
-              <sl-icon name="pencil"
-                       slot="prefix"></sl-icon>
-            </sl-button>
-       </div>
-
-       <h2 class="headline">
-        Warenkorb
-      </h2>
-        <br>
-
-      <sl-card horizontal
-               class="cart-card"
-               v-for="item in state.basketItems">
-        <img
-          class="card-img"
-          slot="image"
-          :src="getImage(state.itemsFullInfo[item.article.dest.key])"
-        />
-
-        <div class="header" slot="header">
-          <h4 class="headline">{{ item.article.dest.shop_name }} | 425018</h4>
+        <div class="payment">
+          <div class="payment-method">
+            <span>Zahlungsmethode:</span>
+            Paypal
+          </div>
+          <sl-button outline size="small">
+            <sl-icon name="pencil" slot="prefix"></sl-icon>
+          </sl-button>
         </div>
-        <div class="card-body-row">
-          <div class="card-body-info">
-            <div class="card-info-wrap">
-              <div class="card-info">
-                <span>Anzahl: </span>
-                1
-              </div>
-              <div class="card-info">
-                <span>Preis: </span>
-                {{ item.article.dest.shop_price_recommended }} €
+
+        <h2 class="headline">Warenkorb</h2>
+        <br />
+
+        <sl-card
+          horizontal
+          class="cart-card"
+          v-for="item in cartStore.state.carts[cartStore.state.basket].items"
+        >
+          <img
+            class="card-img"
+            slot="image"
+            :src="getImage(item.article.dest.key)"
+          />
+
+          <div class="header" slot="header">
+            <h4 class="headline">{{ item.article.dest.shop_name }} | 425018</h4>
+          </div>
+          <div class="card-body-row">
+            <div class="card-body-info">
+              <div class="card-info-wrap">
+                <div class="card-info">
+                  <span>Anzahl: </span>
+                  1
+                </div>
+                <div class="card-info">
+                  <span>Preis: </span>
+                  {{ item.article.dest.shop_price_recommended }} €
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </sl-card>
+        </sl-card>
       </div>
       <div class="sidebar">
         <h2 class="headline">Jetzt Bestellen</h2>
-        <br>
+        <br />
         <div class="info-line">
           <span>Zwischensumme</span>
-          {{ state.basket.total }} €
+          {{ cartStore.state.carts[cartStore.state.basket].info.total }} €
         </div>
         <div class="info-line">
           <span>Rabatt</span>
@@ -109,16 +98,19 @@
         </div>
         <div class="info-line total">
           <span>Gesamt:</span>
-          {{ state.basket.total }} €
+          {{ cartStore.state.carts[cartStore.state.basket].info.total }} €
         </div>
 
-        <sl-checkbox>
+        <sl-checkbox @sl-change="onTosAccept">
           Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen
         </sl-checkbox>
 
         <div class="sidebar-btn-wrap">
-          <sl-button variant="info"
-                     size="small">
+          <sl-button
+            :variant="state.showOrderButton ? 'info' : 'disabled'"
+            size="small"
+            :disabled="!state.showOrderButton"
+          >
             Zahlungspflichtig bestellen
           </sl-button>
         </div>
@@ -128,7 +120,7 @@
 </template>
 
 <script setup>
-import { inject, onMounted, reactive, computed, ref, onBeforeMount } from "vue";
+import { reactive, onBeforeMount, computed } from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
 import { useCartStore } from "../../stores/cart.js";
 import { Request } from "@viur/vue-utils";
@@ -136,66 +128,51 @@ import { Request } from "@viur/vue-utils";
 const cartStore = useCartStore();
 
 // const searchWarning = ref()
-const state = reactive({ basket: {}, basketItems: {}, itemsFullInfo: {} });
-
-function getArticleView(key) {
-  return Request.get(`/json/variante/view/${key}`);
-}
+const state = reactive({
+  cartIsInit: computed(() => {
+    return cartStore.state.basket.length ? true : false;
+  }),
+  itemsIsInit: computed(() => {
+    return cartStore.state.carts[cartStore.state.basket].items ? true : false;
+  }),
+  images: {},
+  showOrderButton: false,
+});
 
 function getImage(item) {
-  let imageUrl =
-    "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-
-  if (item.dk_artikel.dest.image) {
-    return Request.downloadUrlFor(item.dk_artikel.dest.image);
-  }
-
-  return imageUrl;
-}
-
-function getBasketItems(basketKey) {
-  return Request.get("/shop/api/cart_list", {
-    dataObj: { cart_key: basketKey },
-  });
-}
-
-function getBasket() {
-  return Request.get("/shop/api/cart_list");
-}
-
-onBeforeMount(() => {
-  getBasket().then(async (resp) => {
+  Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
     let data = await resp.json();
-    data.forEach((cart) => {
-      if (cart.cart_type === "basket") {
-        state.basket = cart;
 
-        getBasketItems(cart.key).then(async (resp) => {
-          let data = await resp.json();
-          state.basketItems = data;
+    data = data.values;
 
-          data.forEach((item) => {
-            getArticleView(item.article.dest.key).then(async (resp) => {
-              let data = await resp.json();
-              state.itemsFullInfo[data.values.key] = data.values;
-            });
-          });
-        });
-      }
-    });
+    let imageUrl = data.dk_artikel.dest.image
+      ? Request.downloadUrlFor(data.dk_artikel.dest.image)
+      : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
+
+    state.images[item] = imageUrl;
   });
+
+  return state.images[item];
+}
+
+function onTosAccept(e) {
+  if (e.target.checked) state.showOrderButton = true;
+  if (!e.target.checked) state.showOrderButton = false;
+}
+
+onBeforeMount(async () => {
+  await cartStore.init();
 });
 </script>
 
 <style scoped>
-
-.bind-wrap{
+.bind-wrap {
   flex-direction: row;
   gap: var(--sl-spacing-x-large);
   align-items: flex-start;
 }
 
-.sidebar{
+.sidebar {
   display: flex;
   flex-direction: column;
   background-color: var(--sl-color-neutral-100);
@@ -205,12 +182,12 @@ onBeforeMount(() => {
   top: 0;
 }
 
-.sidebar-btn-wrap{
+.sidebar-btn-wrap {
   display: flex;
   flex-direction: column;
   margin-top: var(--sl-spacing-large);
 
-  sl-button{
+  sl-button {
     margin-bottom: var(--sl-spacing-x-small);
   }
 }
@@ -311,7 +288,7 @@ sl-menu-item {
   }
 }
 
-.info-line.total{
+.info-line.total {
   font-weight: 600;
   border-top: 1px solid var(--sl-color-neutral-300);
   border-bottom: 1px solid var(--sl-color-neutral-300);
@@ -319,86 +296,86 @@ sl-menu-item {
   margin: var(--sl-spacing-small) 0;
 }
 
-.info-line{
+.info-line {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   margin: var(--sl-spacing-2x-small) 0;
 
-  span{
+  span {
     margin-right: auto;
   }
 }
 
-.cart-card{
+.cart-card {
   margin-bottom: var(--sl-spacing-x-large);
 
-  &::part(header){
+  &::part(header) {
     border-bottom: none;
     padding-top: 0;
     padding-right: 0;
-   }
+  }
 
-  &::part(image){
+  &::part(image) {
     flex-basis: 25%;
     max-width: 90px;
-   }
+  }
 
-   &::part(body){
+  &::part(body) {
     display: flex;
     flex: 1;
     padding-top: 0;
     padding-bottom: 0;
     padding-right: 0;
-   }
+  }
 
-  &::part(group){
-      padding: var(--sl-spacing-small) 0;
-   }
+  &::part(group) {
+    padding: var(--sl-spacing-small) 0;
+  }
 }
 
-.card-body-row{
+.card-body-row {
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: var(--sl-spacing-large);
   flex: 1;
 }
 
-.card-body-info{
+.card-body-info {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.card-descr{
+.card-descr {
   margin-bottom: auto;
 }
 
-.card-info-wrap{
+.card-info-wrap {
   display: flex;
   flex-wrap: nowrap;
-  gap: var(--sl-spacing-medium)
+  gap: var(--sl-spacing-medium);
 }
 
-.card-info{
+.card-info {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
 
-  span{
+  span {
     margin-right: var(--sl-spacing-x-small);
     font-weight: 600;
   }
 }
 
-.address-wrap{
+.address-wrap {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--sl-spacing-x-large);
   margin-bottom: var(--sl-spacing-x-large);
 }
 
-.address-headline{
+.address-headline {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -407,7 +384,7 @@ sl-menu-item {
   font-weight: 600;
 }
 
-.payment{
+.payment {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -415,9 +392,8 @@ sl-menu-item {
   justify-content: space-between;
   margin-bottom: var(--sl-spacing-x-large);
 
-  span{
+  span {
     font-weight: 600;
   }
 }
-
 </style>

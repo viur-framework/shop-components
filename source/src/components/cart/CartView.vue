@@ -248,9 +248,10 @@ const state = reactive({
   }),
   images: {},
   currentItem: {},
-  currentCartKey: computed(() =>
-    props.mode === "basket" ? cartStore.state.basket : props.cartKey,
-  ),
+});
+
+const currentCartKey = computed(() => {
+  return props.mode === "basket" ? cartStore.state.basket : props.cartKey;
 });
 
 function getImage(item) {
@@ -440,7 +441,6 @@ sl-tooltip {
   margin-top: 0.6em;
   white-space: initial;
 }
-
 
 .search-box {
   display: flex;
