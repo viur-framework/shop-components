@@ -12,6 +12,7 @@ import OrderView from "./OrderView.vue";
 import CategoryView from "../category/CategoryView.vue";
 import OrderComplete from "./OrderComplete.vue";
 import UserInformation from "../information/UserInformation.vue";
+import UserInfoMulti from "../information/UserInfoMulti.vue";
 
 const state = reactive({
   tabs: {
@@ -30,7 +31,7 @@ const state = reactive({
       props: {},
       displayName: "Bestellung prüfen",
       icon: { name: "order-check", library: "hsk" },
-      position: 4,
+      position: 5,
       disabled: false,
       atShow: null,
       atHide: null,
@@ -55,7 +56,7 @@ const state = reactive({
       props: {},
       displayName: "Bestellung Abgeschlossen",
       icon: { name: "order-confirmed", library: "hsk" },
-      position: 5,
+      position: 6,
       disabled: true,
       atShow: null,
       atHide: null,
@@ -66,6 +67,16 @@ const state = reactive({
       displayName: "Daten Eingeben",
       icon: { name: "user", library: "hsk" },
       position: 3,
+      disabled: false,
+      atShow: null,
+      atHide: null,
+    },
+    userInfoMulti: {
+      component: shallowRef(UserInfoMulti),
+      props: {},
+      displayName: "Daten Eingeben (Multi)",
+      icon: { name: "user", library: "hsk" },
+      position: 4,
       disabled: false,
       atShow: null,
       atHide: null,
