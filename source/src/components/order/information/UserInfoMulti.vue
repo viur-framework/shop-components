@@ -1,5 +1,4 @@
 <template>
-  <div style="max-width: 75%; margin: auto">
     <slot name="form" v-if="mode === 'form'">
       <form @submit.prevent="sendData">
         <div class="user">
@@ -144,7 +143,6 @@
         </div>
       </form>
     </slot>
-  </div>
 </template>
 
 <script setup>
