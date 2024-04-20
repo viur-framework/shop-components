@@ -187,7 +187,7 @@
           </sl-card>
         </template>
       </div>
-      <div class="sidebar" v-if="sidebar">
+      <teleport to="#order_sidebar" v-if="sidebar">
         <h2 class="headline">Zusammenfassung</h2>
         <br />
 
@@ -218,7 +218,7 @@
             Paypal
           </sl-button>
         </div>
-      </div>
+      </teleport>
     </div>
   </template>
 </template>

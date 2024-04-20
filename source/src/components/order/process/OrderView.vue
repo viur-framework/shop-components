@@ -1,4 +1,6 @@
 <template>
+
+  <div class="bind bind-wrap">
   <sl-tab-group class="order-tab" noScrollControls @sl-tab-show="onTabChange">
     <sl-tab
       slot="nav"
@@ -29,6 +31,10 @@
       </component>
     </sl-tab-panel>
   </sl-tab-group>
+
+  <div class="sidebar" id="order_sidebar">
+  </div>
+  </div>
 </template>
 
 <script setup>
@@ -78,6 +84,22 @@ function onTabChange(e) {
 </script>
 
 <style scoped>
+.bind-wrap {
+  flex-direction: row;
+  gap: var(--sl-spacing-x-large);
+  align-items: flex-start;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--sl-color-neutral-100);
+  min-width: 300px;
+  padding: var(--sl-spacing-medium);
+  position: sticky;
+  top: 0;
+}
+
 .order-tab {
   sl-tab {
     width: 25%;

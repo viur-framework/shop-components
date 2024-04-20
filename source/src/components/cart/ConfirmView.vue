@@ -2,7 +2,6 @@
   <Loader v-if="!state.cartIsInit"></Loader>
 
   <template v-else>
-    <div class="bind bind-wrap">
       <div class="list">
         <h2 class="headline">Bestellung prüfen</h2>
         <br />
@@ -80,8 +79,7 @@
             </div>
           </div>
         </sl-card>
-      </div>
-      <div class="sidebar">
+      <teleport to="#order_sidebar">
         <h2 class="headline">Jetzt Bestellen</h2>
         <br />
         <div class="info-line">
@@ -114,7 +112,7 @@
             Zahlungspflichtig bestellen
           </sl-button>
         </div>
-      </div>
+      </teleport>
     </div>
   </template>
 </template>
@@ -166,21 +164,6 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-.bind-wrap {
-  flex-direction: row;
-  gap: var(--sl-spacing-x-large);
-  align-items: flex-start;
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--sl-color-neutral-100);
-  min-width: 350px;
-  padding: var(--sl-spacing-medium);
-  position: sticky;
-  top: 0;
-}
 
 .sidebar-btn-wrap {
   display: flex;

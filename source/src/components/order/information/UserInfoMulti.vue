@@ -3,32 +3,37 @@
     <slot name="form" v-if="mode === 'form'">
       <form @submit.prevent="sendData">
         <div class="user">
-          <h1 style="font-size: 1.5rem">Nutzterdaten</h1>
-          <sl-input
-            name="email"
-            v-model="state.formValues['email']"
-            placeholder="E-Mail"
-          >
-            <label slot="label">E-Mail*</label>
-          </sl-input>
-          <sl-input
-            name="name"
-            v-model="state.formValues['lastname']"
-            placeholder="Name"
-          >
-            <label slot="label">Name*</label>
-          </sl-input>
-          <sl-input
-            name="firstname"
-            v-model="state.formValues['firstname']"
-            placeholder="Vorname"
-          >
-            <label slot="label">Vorname*</label>
-          </sl-input>
+          <h2 class="headline">Nutzterdaten</h2>
+          <div class="form-wrap">
+            <sl-input
+              name="email"
+              v-model="state.formValues['email']"
+              placeholder="E-Mail"
+              class="grid-w-4"
+            >
+              <label slot="label">E-Mail*</label>
+            </sl-input>
+            <sl-input
+              name="name"
+              v-model="state.formValues['lastname']"
+              placeholder="Name"
+              class="grid-w-2"
+            >
+              <label slot="label">Name*</label>
+            </sl-input>
+            <sl-input
+              name="firstname"
+              v-model="state.formValues['firstname']"
+              placeholder="Vorname"
+              class="grid-w-2"
+            >
+              <label slot="label">Vorname*</label>
+            </sl-input>
+          </div>
         </div>
         <div class="adress-wrapper">
           <div class="adress-column">
-            <h1 style="font-size: 1.5rem">Lieferadresse</h1>
+            <h2 class="headline">Lieferadresse</h2>
             <component
               :is="ShippingAdress"
               v-bind="{ multiAdress: true }"
@@ -36,22 +41,29 @@
               :key="a"
               @adressInput="log"
             ></component>
-            <sl-icon-button
-              type="button"
-              name="plus"
-              size="20"
-              label="Adresse hinzufügen"
-              style="font-size: 2.5rem; color: green"
-              @click="increaseAdress"
-            ></sl-icon-button>
-            <sl-icon-button
-              type="button"
-              name="dash"
-              size="20"
-              label="Adresse hinzufügen"
-              style="font-size: 2.5rem; color: red"
-              @click="decreaseAdress"
-            ></sl-icon-button>
+
+            <div class="btn-wrap">
+
+              <sl-button
+                size="medium"
+                @click="decreaseAdress"
+                title="Lieferadresse entfernen"
+              >
+                <sl-icon name="x-lg"
+                         slot="prefix"></sl-icon>
+              </sl-button>
+              <sl-button
+                size="medium"
+                variant="primary"
+                @click="increaseAdress"
+              >
+                <sl-icon name="plus-lg"
+                         slot="prefix"></sl-icon>
+                Lieferadresse hinzufügen
+              </sl-button>
+
+            </div>
+
             <sl-alert
               variant="warning"
               duration="2000"
@@ -64,42 +76,71 @@
             </sl-alert>
           </div>
 
+
+          <sl-checkbox @sl-change="onCustomAdressChange" checked>
+            Rechnungsadresse wie Lieferadresse
+          </sl-checkbox>
+
           <div class="adress-column" v-show="state.isCustomAdress">
-            <h1 style="font-size: 1.5rem">Rechnungsadresse</h1>
-            <sl-input
-              name="street"
-              v-model="state.formValues['billing.street']"
-              placeholder="Straße"
-            >
-              <label slot="label">Strasse / Haus Nr.*</label>
-            </sl-input>
-            <sl-input
-              name="province"
-              v-model="state.formValues['billing.province']"
-              placeholder="Bundesland"
-            >
-              <label slot="label">Bundesland</label>
-            </sl-input>
-            <sl-input
-              name="city"
-              v-model="state.formValues['billing.city']"
-              placeholder="Stadt"
-            >
-              <label slot="label">Stadt*</label>
-            </sl-input>
+            <h2 class="headline">Rechnungsadresse</h2>
+            <div class="form-wrap">
+              <sl-input
+                name="street"
+                v-model="state.formValues['billing.street']"
+                placeholder="Straße"
+                class="grid-w-3"
+              >
+                <label slot="label">Strasse *</label>
+              </sl-input>
+              <sl-input
+                name="street"
+                v-model="state.formValues['billing.streetnumber']"
+                placeholder="Hausnummer"
+                type="number"
+              >
+                <label slot="label">Hausnummer *</label>
+              </sl-input>
+              <sl-input
+                name="street"
+                v-model="state.formValues['billing.areacode']"
+                placeholder="Postleitzahl"
+                type="number"
+                class="grid-w-2"
+              >
+                <label slot="label">Postleitzahl *</label>
+              </sl-input>
+              <sl-input
+                name="city"
+                v-model="state.formValues['billing.city']"
+                placeholder="Stadt"
+                class="grid-w-2"
+              >
+                <label slot="label">Stadt*</label>
+              </sl-input>
+              <sl-input
+                name="province"
+                v-model="state.formValues['billing.province']"
+                placeholder="Bundesland"
+                class="grid-w-2"
+              >
+                <label slot="label">Bundesland</label>
+              </sl-input>
+            </div>
           </div>
         </div>
         <div class="form-footer">
           <sl-button
-            :variant="state.requiredFieldsFilled ? 'primary' : 'disabled'"
-            :disabled="!state.requiredFieldsFilled"
             type="submit"
           >
-            Senden
+            Zurück
           </sl-button>
-          <sl-checkbox @sl-change="onCustomAdressChange" checked>
-            Rechnungsadresse wie Lieferadresse
-          </sl-checkbox>
+          <sl-button
+            :disabled="!state.requiredFieldsFilled"
+            type="submit"
+            variant="primary"
+          >
+            Weiter
+          </sl-button>
         </div>
       </form>
     </slot>
@@ -187,10 +228,12 @@ watch(state.formValues, (newValues) => {
 .form-footer {
   display: flex;
   justify-content: space-between;
+  margin-top: var(--sl-spacing-large);
 }
 
 .adress-wrapper {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
   width: 100%;
   justify-content: space-around;
@@ -200,5 +243,34 @@ watch(state.formValues, (newValues) => {
 .adress-column {
   align-self: flex-start;
   flex-grow: 1;
+}
+
+.form-wrap{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0 , 1fr));
+  gap: 0 var(--sl-spacing-medium);
+  margin: var(--sl-spacing-large) 0;
+}
+
+.grid-w-2{
+  grid-column: span 2;
+}
+
+.grid-w-3{
+  grid-column: span 3;
+}
+
+.grid-w-4{
+  grid-column: span 4;
+}
+
+.btn-wrap{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 100%;
+
+  margin-top: var(--sl-spacing-x-large);
 }
 </style>
