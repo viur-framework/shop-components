@@ -1,6 +1,7 @@
 <template>
     <slot name="form" v-if="mode === 'form'">
-      <form @submit.prevent="sendData">
+      <sl-spinner v-if="!state.isInit"></sl-spinner>
+      <form @submit.prevent="sendData" v-else>
         <div class="user">
           <h2 class="headline">Nutzterdaten</h2>
           <div class="form-wrap">
@@ -35,10 +36,14 @@
             <h2 class="headline">Lieferadresse</h2>
             <component
               :is="ShippingAdress"
-              v-bind="{ multiAdress: true }"
+              v-bind="{
+                multiAdress: true,
+                items: cartStore.state.carts[cartStore.state.basket].items,
+              }"
               v-for="a in state.shippingAdressAmount"
               :key="a"
               @adressInput="log"
+              @itemSelection="log"
             ></component>
 
             <div class="btn-wrap">
@@ -70,8 +75,8 @@
               closable
             >
               <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
-              <strong>Zu Wenig Lieferadressen</strong><br />
-              Mindestens eine Lieferadresse muss angegeben werden
+              <strong>{{ state.amountAlert.title }} </strong><br />
+              {{ state.amountAlert.msg }}
             </sl-alert>
           </div>
 
@@ -146,16 +151,20 @@
 </template>
 
 <script setup>
-import { reactive, computed, watch, ref } from "vue";
+import { reactive, computed, watch, ref, onBeforeMount } from "vue";
 import ShippingAdress from "./adress/ShippingAdress.vue";
+import { useCartStore } from "../../../stores/cart";
 
 const props = defineProps({
   mode: { type: String, default: "form" },
 });
 
+const cartStore = useCartStore();
+
 const state = reactive({
   formValues: {},
   requiredFieldsFilled: computed(() => {
+    // TODO: automatisierte logik anhand der required felder aus struktur der bones
     if (state.isCustomAdress) {
       return (
         Object.keys(state.formValues).includes("city") &&
@@ -178,7 +187,19 @@ const state = reactive({
     }
   }),
   isCustomAdress: false,
-  shippingAdressAmount: 2,
+  shippingAdressAmount: 1,
+  maxShippingAdress: computed(
+    () => cartStore.state.carts[cartStore.state.basket].items.length,
+  ),
+  amountAlert: { title: "", msg: "" },
+  items: null,
+  isInit: computed(() => {
+    if (cartStore.state.carts[cartStore.state.basket]) {
+      return true;
+    } else {
+      return false;
+    }
+  }),
 });
 
 const shippingWarning = ref(null);
@@ -197,11 +218,20 @@ function onCustomAdressChange(e) {
 }
 
 function increaseAdress() {
+  // if (state.shippingAdressAmount === state.maxShippingAdress) {
+  //   state.amountAlert.title = "Zu viele Lieferadressen";
+  //   state.amountAlert.msg = `Sie können nur maximal: "${state.maxShippingAdress}" Lieferadressen verwenden.`;
+  //   shippingWarning.value.show();
+  //   return;
+  // }
   state.shippingAdressAmount += 1;
 }
 
 function decreaseAdress() {
   if (state.shippingAdressAmount === 1) {
+    state.amountAlert.title = "Zu wenig Lieferadressen";
+    state.amountAlert.msg =
+      "Mindestens eine Lieferadresse muss angegeben werden.";
     shippingWarning.value.show();
     return;
   }
@@ -210,7 +240,7 @@ function decreaseAdress() {
 
 function log(e) {
   console.log("emit hier", e);
-  Object.assign(state.formValues, e)
+  Object.assign(state.formValues, e);
 }
 
 watch(state.formValues, (newValues) => {

@@ -52,34 +52,95 @@
         <label slot="label">Bundesland</label>
       </sl-input>
     </div>
+    <h1 v-if="multiAdress">Lieferadresse für: {{ state.selectedItem }}</h1>
+    <sl-select
+      v-if="multiAdress"
+      multiple
+      clearable
+      ref="itemSelection"
+      @sl-change="onItemSelect"
+      @sl-clear="onItemReset"
+    >
+      <sl-option
+        v-for="item in items"
+        :value="item.key"
+      >
+        {{ item.shop_name }}
+      </sl-option>
+    </sl-select>
+    <sl-input
+      name="street"
+      @sl-change="onInput"
+      placeholder="Straße"
+      :disabled="!state.isItemSelected"
+    >
+      <label slot="label">Strasse / Haus Nr.*</label>
+    </sl-input>
+    <sl-input
+      name="province"
+      @sl-change="onInput"
+      placeholder="Bundesland"
+      :disabled="!state.isItemSelected"
+    >
+      <label slot="label">Bundesland</label>
+    </sl-input>
+    <sl-input
+      name="city"
+      @sl-change="onInput"
+      placeholder="Stadt"
+      :disabled="!state.isItemSelected"
+    >
+      <label slot="label">Stadt*</label>
+    </sl-input>
   </template>
 </template>
 
 <script setup>
-import { watchEffect, reactive, ref } from "vue";
+import { onBeforeMount, reactive, ref } from "vue";
 import { useCartStore } from "../../../../stores/cart";
 
 const props = defineProps({
   multiAdress: { type: Boolean, default: false },
+  items: { type: Array },
 });
 
-const emit = defineEmits(["adressInput"]);
+const emit = defineEmits(["adressInput", "itemSelection"]);
 
 const state = reactive({
   selectedItem: null,
+  isItemSelected: false,
+  items: {},
 });
 
+const itemSelection = ref(null);
 const cartStore = useCartStore();
 
 function onInput(e) {
   let key = `${[state.selectedItem]}.${[e.target.name]}`;
-  emit("adressInput", { [`${[state.selectedItem]}.${[e.target.name]}`]: e.target.value });
+  emit("adressInput", {
+    [`${[state.selectedItem]}.${[e.target.name]}`]: e.target.value,
+  });
 }
 
 function onItemSelect(e) {
   console.log(e.target.value);
+  if (!e.target.value.length) {
+    onItemReset();
+    return;
+  }
   state.selectedItem = e.target.value;
+  state.isItemSelected = true;
 }
+
+function onItemReset() {
+  console.log("clearing...");
+  state.selectedItem = null;
+  state.isItemSelected = false;
+}
+
+onBeforeMount(()=>{
+  console.log(props.items)
+})
 </script>
 
 <style scoped>
