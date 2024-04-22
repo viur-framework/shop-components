@@ -4,94 +4,70 @@
   ></sl-splinner>
   <template v-else>
     <div class="form-wrap">
-      <sl-select v-if="multiAdress"
-                 @sl-change="onItemSelect"
-                 :label="'Lieferadresse für: ' + state.selectedItem"
-                 class="grid-w-4"
+      <sl-select
+        v-if="multiAdress"
+        multiple
+        clearable
+        ref="itemSelection"
+        @sl-change="onItemSelect"
+        @sl-clear="onItemReset"
+        :label="'Lieferadresse für: ' + state.selectedItem"
+        class="grid-w-4"
       >
         <sl-option
           v-for="item in cartStore.state.carts[cartStore.state.basket]?.items"
           :value="item.key"
         >
-          {{ item.key }}</sl-option
+          {{ item.shop_name }}</sl-option
         >
       </sl-select>
-      <sl-input name="street"
-                @sl-change="onInput"
-                placeholder="Straße"
-                class="grid-w-3"
+      <sl-input
+        name="street"
+        @sl-change="onInput"
+        placeholder="Straße"
+        class="grid-w-3"
+        :disabled="!state.isItemSelected"
       >
         <label slot="label">Strasse *</label>
       </sl-input>
-      <sl-input name="street"
-                @sl-change="onInput"
-                placeholder="Hausnummer"
-                type="number">
+      <sl-input
+        name="street"
+        @sl-change="onInput"
+        placeholder="Hausnummer"
+        type="number"
+        :disabled="!state.isItemSelected"
+      >
         <label slot="label">Hausnummer *</label>
       </sl-input>
-      <sl-input name="street"
-                @sl-change="onInput"
-                placeholder="Postleitzahl"
-                type="number"
-                class="grid-w-2"
+      <sl-input
+        name="street"
+        @sl-change="onInput"
+        placeholder="Postleitzahl"
+        type="number"
+        class="grid-w-2"
+        :disabled="!state.isItemSelected"
       >
         <label slot="label">Postleitzahl *</label>
       </sl-input>
-      <sl-input name="city"
-                @sl-change="onInput"
-                placeholder="Stadt"
-                class="grid-w-2"
+      <sl-input
+        name="city"
+        @sl-change="onInput"
+        placeholder="Stadt"
+        class="grid-w-2"
+        :disabled="!state.isItemSelected"
       >
         <label slot="label">Stadt*</label>
       </sl-input>
-      <sl-input name="province"
-                @sl-change="onInput"
-                placeholder="Bundesland"
-                class="grid-w-2"
+      <sl-input
+        name="province"
+        @sl-change="onInput"
+        placeholder="Bundesland"
+        class="grid-w-2"
+        :disabled="!state.isItemSelected"
       >
         <label slot="label">Bundesland</label>
       </sl-input>
     </div>
-    <h1 v-if="multiAdress">Lieferadresse für: {{ state.selectedItem }}</h1>
-    <sl-select
-      v-if="multiAdress"
-      multiple
-      clearable
-      ref="itemSelection"
-      @sl-change="onItemSelect"
-      @sl-clear="onItemReset"
-    >
-      <sl-option
-        v-for="item in items"
-        :value="item.key"
-      >
-        {{ item.shop_name }}
-      </sl-option>
-    </sl-select>
-    <sl-input
-      name="street"
-      @sl-change="onInput"
-      placeholder="Straße"
-      :disabled="!state.isItemSelected"
-    >
-      <label slot="label">Strasse / Haus Nr.*</label>
-    </sl-input>
-    <sl-input
-      name="province"
-      @sl-change="onInput"
-      placeholder="Bundesland"
-      :disabled="!state.isItemSelected"
-    >
-      <label slot="label">Bundesland</label>
-    </sl-input>
-    <sl-input
-      name="city"
-      @sl-change="onInput"
-      placeholder="Stadt"
-      :disabled="!state.isItemSelected"
-    >
-      <label slot="label">Stadt*</label>
-    </sl-input>
   </template>
 </template>
 
@@ -138,30 +114,30 @@ function onItemReset() {
   state.isItemSelected = false;
 }
 
-onBeforeMount(()=>{
-  console.log(props.items)
-})
+onBeforeMount(() => {
+  console.log(props.items);
+});
 </script>
 
 <style scoped>
-.form-wrap{
+.form-wrap {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0 , 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0 var(--sl-spacing-medium);
   margin: var(--sl-spacing-large) 0 var(--sl-spacing-x-large) 0;
   padding-bottom: var(--sl-spacing-medium);
-  border-bottom: 1px solid var(--sl-color-neutral-400)
+  border-bottom: 1px solid var(--sl-color-neutral-400);
 }
 
-.grid-w-2{
+.grid-w-2 {
   grid-column: span 2;
 }
 
-.grid-w-3{
+.grid-w-3 {
   grid-column: span 3;
 }
 
-.grid-w-4{
+.grid-w-4 {
   grid-column: span 4;
 }
 </style>
