@@ -2,17 +2,17 @@
     <RouterLink :to="{ name: 'CategoryView', params: { identifier: 'dk' } }"
                 v-for="item in list"
                 :key="item"
-                class="item-link"
+                class="viur-shop-category-list-item-link"
     >
-      <sl-card class="item">
+      <sl-card class="viur-shop-category-list-item">
         <img
           slot="image"
           src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
           alt="A kitten."
-          class="item-img"
+          class="viur-shop-category-list-item-img"
         />
-        <h2 class="item-headline"> {{ item }}</h2>
-        <div class="fake-link">Alle anzeigen &raquo;</div>
+        <h2 class="viur-shop-category-list-item-headline"> {{ item }}</h2>
+        <div class="viur-shop-category-list-fake-link">Alle anzeigen &raquo;</div>
 
       </sl-card>
     </RouterLink>
@@ -35,23 +35,23 @@ onBeforeMount(async () => {
 
 <style scoped>
 
-.item-link{
+.viur-shop-category-list-item-link{
   display: flex;
   flex-direction: column;
   width: 100%;
 
   &:hover{
-    .fake-link{
+    .viur-shop-category-list-fake-link{
       text-decoration: underline;
     }
 
-    .item-img{
+    .viur-shop-category-list-item-img{
       transform: scale(1.02);
     }
  }
 }
 
-.item{
+.viur-shop-category-list-item{
   width: 100%;
 
   &::part(header){
@@ -67,13 +67,13 @@ onBeforeMount(async () => {
    }
 }
 
-.item-headline{
+.viur-shop-category-list-item-headline{
   font-size: 1.4em;
   margin-bottom: var(--sl-spacing-medium);
   color: var(--ignt-basic-color-text);
 }
 
-.item-img{
+.viur-shop-category-list-item-img{
   aspect-ratio: 1;
   object-fit: cover;
   transition: all ease .3s;

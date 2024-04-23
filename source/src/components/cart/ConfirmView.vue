@@ -3,12 +3,12 @@
 
   <template v-else>
       <div class="list">
-        <h2 class="headline">Bestellung prüfen</h2>
+        <h2 class="viur-shop-cart-headline headline">Bestellung prüfen</h2>
         <br />
 
-        <div class="address-wrap">
-          <div class="address">
-            <div class="address-headline">
+        <div class="viur-shop-cart-address-wrap">
+          <div class="viur-shop-cart-address">
+            <div class="viur-shop-cart-address-headline">
               Versandadresse
               <sl-button outline size="small">
                 <sl-icon name="pencil" slot="prefix"></sl-icon>
@@ -21,8 +21,8 @@
             rb@mausbrand.de<br />
             0231 21 34 68 90
           </div>
-          <div class="address">
-            <div class="address-headline">
+          <div class="viur-shop-cart-address">
+            <div class="viur-shop-cart-address-headline">
               Rechnungsadresse
               <sl-button outline size="small">
                 <sl-icon name="pencil" slot="prefix"></sl-icon>
@@ -37,8 +37,8 @@
           </div>
         </div>
 
-        <div class="payment">
-          <div class="payment-method">
+        <div class="viur-shop-cart-payment">
+          <div class="viur-shop-cart-payment-method">
             <span>Zahlungsmethode:</span>
             Paypal
           </div>
@@ -47,31 +47,31 @@
           </sl-button>
         </div>
 
-        <h2 class="headline">Warenkorb</h2>
+        <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
         <br />
 
         <sl-card
           horizontal
-          class="cart-card"
+          class="viur-shop-cart-mini-card"
           v-for="item in cartStore.state.carts[cartStore.state.basket].items"
         >
           <img
-            class="card-img"
+            class="viur-shop-cart-mini-card-img"
             slot="image"
             :src="getImage(item.article.dest.key)"
           />
 
-          <div class="header" slot="header">
-            <h4 class="headline">{{ item.article.dest.shop_name }} | 425018</h4>
+          <div class="viur-shop-cart-mini-cart-header" slot="header">
+            <h4 class="viur-shop-cart-mini-headline headline">{{ item.article.dest.shop_name }} | 425018</h4>
           </div>
-          <div class="card-body-row">
-            <div class="card-body-info">
-              <div class="card-info-wrap">
-                <div class="card-info">
+          <div class="viur-shop-cart-mini-card-body-row">
+            <div class="viur-shop-cart-mini-card-body-info">
+              <div class="viur-shop-cart-mini-card-info-wrap">
+                <div class="viur-shop-cart-mini-card-info">
                   <span>Anzahl: </span>
                   1
                 </div>
-                <div class="card-info">
+                <div class="viur-shop-cart-mini-card-info">
                   <span>Preis: </span>
                   {{ item.article.dest.shop_price_recommended }} €
                 </div>
@@ -79,22 +79,23 @@
             </div>
           </div>
         </sl-card>
+
       <teleport to="#order_sidebar">
-        <h2 class="headline">Jetzt Bestellen</h2>
+        <h2 class="viur-shop-cart-sidebar-headline headline">Jetzt Bestellen</h2>
         <br />
-        <div class="info-line">
+        <div class="viur-shop-cart-sidebar-info-line">
           <span>Zwischensumme</span>
           {{ cartStore.state.carts[cartStore.state.basket].info.total }} €
         </div>
-        <div class="info-line">
+        <div class="viur-shop-cart-sidebar-info-line">
           <span>Rabatt</span>
           0 €
         </div>
-        <div class="info-line">
+        <div class="viur-shop-cart-sidebar-info-line">
           <span>Versandkosten</span>
           0 €
         </div>
-        <div class="info-line total">
+        <div class="viur-shop-cart-sidebar-info-line total">
           <span>Gesamt:</span>
           {{ cartStore.state.carts[cartStore.state.basket].info.total }} €
         </div>
@@ -103,7 +104,7 @@
           Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen
         </sl-checkbox>
 
-        <div class="sidebar-btn-wrap">
+        <div class="viur-shop-cart-sidebar-btn-wrap">
           <sl-button
             :variant="state.showOrderButton ? 'info' : 'disabled'"
             size="small"
@@ -165,7 +166,7 @@ onBeforeMount(async () => {
 
 <style scoped>
 
-.sidebar-btn-wrap {
+.viur-shop-cart-sidebar-btn-wrap {
   display: flex;
   flex-direction: column;
   margin-top: var(--sl-spacing-large);
@@ -180,76 +181,11 @@ sl-alert {
   margin-bottom: var(--sl-spacing-medium);
 }
 
-.card-img {
-  aspect-ratio: 1;
-}
-
 sl-tooltip {
   &::part(body) {
     line-height: 1.2;
     font-weight: 400;
     padding: 10px;
-  }
-}
-
-.cart-tab {
-  sl-tab {
-    width: 25%;
-
-    &::part(base) {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      color: var(--sl-color-neutral-400);
-    }
-
-    &[aria-selected="true"]::part(base) {
-      color: var(--ignt-color-primary) !important;
-    }
-  }
-}
-
-.cart-status-text {
-  font-size: 0.8em;
-  color: inherit;
-  text-align: center;
-  margin-top: 0.6em;
-  white-space: initial;
-}
-
-.cart-step {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-
-  @media (--ignt-mq-max-break-small) {
-    justify-content: center;
-  }
-
-  sl-icon {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-
-    @media (--ignt-mq-max-break-small) {
-      display: none;
-    }
-  }
-}
-
-.cart-tab-check {
-  position: absolute;
-  right: -0.5em;
-
-  @media (--ignt-mq-max-break-small) {
-    font-size: 0.7em;
-    right: -0.35em;
-    top: calc(50% - 0.35em);
   }
 }
 
@@ -271,15 +207,7 @@ sl-menu-item {
   }
 }
 
-.info-line.total {
-  font-weight: 600;
-  border-top: 1px solid var(--sl-color-neutral-300);
-  border-bottom: 1px solid var(--sl-color-neutral-300);
-  padding: var(--sl-spacing-x-small) 0;
-  margin: var(--sl-spacing-small) 0;
-}
-
-.info-line {
+.viur-shop-cart-sidebar-info-line {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -288,9 +216,17 @@ sl-menu-item {
   span {
     margin-right: auto;
   }
+
+  &.total {
+    font-weight: 600;
+    border-top: 1px solid var(--sl-color-neutral-300);
+    border-bottom: 1px solid var(--sl-color-neutral-300);
+    padding: var(--sl-spacing-x-small) 0;
+    margin: var(--sl-spacing-small) 0;
+  }
 }
 
-.cart-card {
+.viur-shop-cart-mini-card {
   margin-bottom: var(--sl-spacing-x-large);
 
   &::part(header) {
@@ -317,30 +253,26 @@ sl-menu-item {
   }
 }
 
-.card-body-row {
+.viur-shop-cart-mini-card-body-row {
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: var(--sl-spacing-large);
   flex: 1;
 }
 
-.card-body-info {
+.viur-shop-cart-mini-card-body-info {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.card-descr {
-  margin-bottom: auto;
-}
-
-.card-info-wrap {
+.viur-shop-cart-mini-card-info-wrap {
   display: flex;
   flex-wrap: nowrap;
   gap: var(--sl-spacing-medium);
 }
 
-.card-info {
+.viur-shop-cart-mini-card-info {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -351,14 +283,14 @@ sl-menu-item {
   }
 }
 
-.address-wrap {
+.viur-shop-cart-address-wrap {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--sl-spacing-x-large);
   margin-bottom: var(--sl-spacing-x-large);
 }
 
-.address-headline {
+.viur-shop-cart-address-headline {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -367,7 +299,7 @@ sl-menu-item {
   font-weight: 600;
 }
 
-.payment {
+.viur-shop-cart-payment {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;

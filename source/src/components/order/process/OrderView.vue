@@ -1,7 +1,7 @@
 <template>
 
-  <div class="bind bind-wrap">
-  <sl-tab-group class="order-tab" noScrollControls @sl-tab-show="onTabChange">
+  <div class="bind viur-shop-wrap">
+  <sl-tab-group class="viur-shop-order-tab" noScrollControls @sl-tab-show="onTabChange">
     <sl-tab
       slot="nav"
       :panel="tab"
@@ -9,16 +9,16 @@
       :key="tab"
       :disabled="tabs[tab].disabled"
     >
-      <div class="order-step">
+      <div class="viur-shop-order-step">
         <sl-icon :name="tabs[tab].icon.name" :library="tabs[tab].icon.library">
         </sl-icon>
-        <div class="order-status-text">
+        <div class="viur-shop-order-status-text">
           {{ index + 1 }}. {{ tabs[tab].displayName }}
         </div>
       </div>
       <sl-icon
         name="chevron-right"
-        class="order-tab-check"
+        class="viur-shop-order-tab-check"
         v-if="index < state.tabNames.length - 1"
       ></sl-icon>
     </sl-tab>
@@ -32,7 +32,7 @@
     </sl-tab-panel>
   </sl-tab-group>
 
-  <div class="sidebar" id="order_sidebar">
+  <div class="viur-shop-sidebar" id="order_sidebar">
   </div>
   </div>
 </template>
@@ -84,13 +84,13 @@ function onTabChange(e) {
 </script>
 
 <style scoped>
-.bind-wrap {
+.viur-shop-wrap {
   flex-direction: row;
   gap: var(--sl-spacing-x-large);
   align-items: flex-start;
 }
 
-.sidebar {
+.viur-shop-sidebar {
   display: flex;
   flex-direction: column;
   background-color: var(--sl-color-neutral-100);
@@ -100,7 +100,7 @@ function onTabChange(e) {
   top: 0;
 }
 
-.order-tab {
+.viur-shop-order-tab {
   sl-tab {
     width: 25%;
 
@@ -120,7 +120,7 @@ function onTabChange(e) {
   }
 }
 
-.order-step {
+.viur-shop-order-step {
   width: 100%;
   height: 100%;
   display: flex;
@@ -142,7 +142,7 @@ function onTabChange(e) {
   }
 }
 
-.order-tab-check {
+.viur-shop-order-tab-check {
   position: absolute;
   right: -0.5em;
 
@@ -153,7 +153,7 @@ function onTabChange(e) {
   }
 }
 
-.order-status-text {
+.viur-shop-order-status-text {
   font-size: 0.8em;
   color: inherit;
   text-align: center;

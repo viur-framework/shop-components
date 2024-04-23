@@ -1,7 +1,8 @@
 <template>
   <Loader v-if="!state.cartIsInit"></Loader>
   <template v-else>
-    <div class="bind bind-wrap">
+    <div class="bind viur-shop-cart-wrap">
+
       <sl-dialog ref="confirm" @sl-hide="onDialogHide">
         <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
         <div class="footer-wrap" slot="footer">
@@ -13,9 +14,10 @@
           </sl-button>
         </div>
       </sl-dialog>
-      <div class="list">
-        <div class="controlbar" v-if="mode !== 'basket'">
-          <div class="button-list left">
+
+      <div class="viur-shop-cart-list">
+        <div class="viur-shop-cart-controlbar" v-if="mode !== 'basket'">
+          <div class="viur-shop-cart-button-list left">
             <sl-input
               ref="cartNameField"
               name="cart-name"
@@ -23,7 +25,7 @@
               v-model="cartStore.state.carts[cartStore.state.basket].info.name"
               required="true"
               inputmode="text"
-              class="cart-headline"
+              class="viur-shop-cart-headline"
             >
               <sl-icon library="hsk" name="pen" slot="suffix"></sl-icon>
             </sl-input>
@@ -83,7 +85,7 @@
             cartStore.state.carts[cartStore.state.basket].info.customer_comment
           "
           inputmode="text"
-          class="cart-descr"
+          class="viur-shop-cart-descr"
         >
           <sl-icon library="hsk" name="pen" slot="suffix"></sl-icon>
         </sl-input>
@@ -107,33 +109,33 @@
         <template v-else>
           <sl-card
             horizontal
-            class="cart-card"
+            class="viur-shop-cart-card"
             v-for="item in cartStore.state.carts[cartStore.state.basket].items"
           >
             <img
-              class="card-img"
+              class="viur-shop-cart-card-img"
               slot="image"
               :src="getImage(item.article.dest.key)"
             />
-            <div class="header" slot="header">
-              <h4 class="headline">
+            <div class="viur-shop-cart-card-header" slot="header">
+              <h4 class="viur-shop-cart-card-headline headline">
                 {{ item.article.dest.shop_name }} | 425018
               </h4>
             </div>
-            <div class="card-body-row">
-              <div class="card-body-info">
-                <div class="card-descr">
+            <div class="viur-shop-cart-card-body-row">
+              <div class="viur-shop-cart-card-body-info">
+                <div class="viur-shop-cart-card-descr">
                   Version: 900x900x2000 <br />
                   Farbe: Chromoptik <br />
                   Glasart: Klar hell mit Edelglasbeschichtung<br />
                   Anschlag: Beidseitig variabel<br />
                   Griff: Stangengriff Exklusiv (56)
                 </div>
-                <div class="cart-body-footer">
+                <div class="viur-shop-cart-card-body-footer">
                   <sl-button
                     size="small"
                     outline
-                    class="add-to-favourites-btn"
+                    class="viur-shop-cart-card-add-to-favourites-btn"
                     variant="primary"
                     title="Add to favourites"
                   >
@@ -142,7 +144,7 @@
                   <sl-button
                     size="small"
                     outline
-                    class="delete-btn"
+                    class="viur-shop-cart-card-delete-btn"
                     variant="primary"
                     title="Remove from cart"
                     @click="
@@ -156,7 +158,7 @@
                   </sl-button>
                 </div>
               </div>
-              <div class="card-body-amount">
+              <div class="viur-shop-cart-card-body-amount">
                 <sl-input
                   class="amount-input"
                   type="number"
@@ -175,43 +177,44 @@
                 >
                 </sl-input>
               </div>
-              <div class="price-wrap" slot="footer">
-                <div class="price-label">Preis</div>
-                <div class="price">
+              <div class="viur-shop-cart-card-price-wrap" slot="footer">
+                <div class="viur-shop-cart-card-price-label">Preis</div>
+                <div class="viur-shop-cart-card-price">
                   {{ item.price.retail }}
                   €
                 </div>
-                <div class="small-print">Brutto / Stk.</div>
+                <div class="viur-shop-cart-card-small-print">Brutto / Stk.</div>
               </div>
             </div>
           </sl-card>
         </template>
       </div>
+
       <teleport to="#order_sidebar" v-if="sidebar">
-        <h2 class="headline">Zusammenfassung</h2>
+        <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
         <br />
 
         <sl-input label="Rabattcode eingeben"></sl-input>
         <br />
 
-        <div class="info-line">
+        <div class="viur-shop-cart-sidebar-info-line">
           <span>Zwischensumme</span>
           <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
           {{ cartStore.state.carts[cartStore.state.basket].info.total }} €
         </div>
-        <div class="info-line">
+        <div class="viur-shop-cart-sidebar-info-line">
           <span>Rabatt</span>
           0 €
         </div>
-        <div class="info-line">
+        <div class="viur-shop-cart-sidebar-info-line">
           <span>Versandkosten</span>
           0 €
         </div>
-        <div class="info-line total">
+        <div class="viur-shop-cart-sidebar-info-line total">
           <span>Gesamt:</span>
           {{ cartStore.state.carts[cartStore.state.basket].info.total }} €
         </div>
-        <div class="sidebar-btn-wrap">
+        <div class="viur-shop-cart-sidebar-btn-wrap">
           <sl-button variant="info" size="small"> Jetzt Bestellen </sl-button>
           <sl-button size="small" variant="primary">
             <sl-icon name="paypal" slot="prefix"></sl-icon>
@@ -303,22 +306,13 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-.bind-wrap {
+.viur-shop-cart-wrap {
   flex-direction: row;
   gap: var(--sl-spacing-x-large);
   align-items: flex-start;
 }
 
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  min-width: 350px;
-  padding: var(--sl-spacing-medium);
-  position: sticky;
-  top: var(--sl-spacing-large);
-}
-
-.sidebar-btn-wrap {
+.viur-shop-cart-sidebar-btn-wrap {
   display: flex;
   flex-direction: column;
   margin-top: var(--sl-spacing-large);
@@ -333,7 +327,7 @@ sl-alert {
   margin-bottom: var(--sl-spacing-medium);
 }
 
-.controlbar {
+.viur-shop-cart-controlbar {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -348,7 +342,7 @@ sl-alert {
   }
 }
 
-.button-list {
+.viur-shop-cart-button-list {
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -369,11 +363,11 @@ sl-alert {
   width: 75ch;
 }
 
-.card-img {
+.viur-shop-cart-card-img {
   aspect-ratio: 1;
 }
 
-.cart-selection {
+.viur-shop-cart-selection {
   flex: 1;
 }
 
@@ -494,7 +488,7 @@ sl-tooltip {
   }
 }
 
-.cart-headline {
+.viur-shop-cart-headline {
   &::part(base) {
     background-color: transparent;
     transition: all ease 0.3s;
@@ -529,7 +523,7 @@ sl-tooltip {
   }
 }
 
-.cart-descr {
+.viur-shop-cart-descr {
   margin-top: 10px;
 
   &::part(base) {
@@ -593,26 +587,26 @@ sl-menu-item {
   padding: 0.4em;
 }
 
-.info-line.total {
-  font-weight: 600;
-  border-top: 1px solid var(--sl-color-neutral-300);
-  border-bottom: 1px solid var(--sl-color-neutral-300);
-  padding: var(--sl-spacing-x-small) 0;
-  margin: var(--sl-spacing-small) 0;
-}
-
-.info-line {
+.viur-shop-cart-sidebar-info-line {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   margin: var(--sl-spacing-2x-small) 0;
+
+  &.total {
+    font-weight: 600;
+    border-top: 1px solid var(--sl-color-neutral-300);
+    border-bottom: 1px solid var(--sl-color-neutral-300);
+    padding: var(--sl-spacing-x-small) 0;
+    margin: var(--sl-spacing-small) 0;
+  }
 
   span {
     margin-right: auto;
   }
 }
 
-.cart-card {
+.viur-shop-cart-card {
   margin-bottom: var(--sl-spacing-x-large);
 
   &::part(header) {
@@ -639,24 +633,24 @@ sl-menu-item {
   }
 }
 
-.card-body-row {
+.viur-shop-cart-card-body-row {
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: var(--sl-spacing-large);
   flex: 1;
 }
 
-.card-body-info {
+.viur-shop-cart-card-body-info {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.card-descr {
+.viur-shop-cart-card-descr {
   margin-bottom: auto;
 }
 
-.cart-body-footer {
+.viur-shop-cart-card-body-footer {
   display: flex;
   flex-direction: row;
   gap: var(--sl-spacing-2x-small);
@@ -667,21 +661,21 @@ sl-menu-item {
   width: 5em;
 }
 
-.price-wrap {
+.viur-shop-cart-card-price-wrap {
   display: flex;
   flex-direction: column;
 
-  .small-print {
+  .viur-shop-cart-card-small-print {
     font-size: 0.75em;
     margin-left: auto;
   }
 }
 
-.price {
+.viur-shop-cart-card-price {
   font-size: 1.3em;
 }
 
-.price-label {
+.viur-shop-cart-card-price-label {
   color: var(--ignt-color-primary);
   font-weight: 600;
   margin-bottom: 10px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="loading-wrap" v-if="state.loading">
+  <div class="viur-shop-loading-wrap" v-if="state.loading">
     <sl-spinner></sl-spinner>
   </div>
 
@@ -10,7 +10,7 @@
     <slot name="filter" v-if="filter">
       text-transform text-transform TEST
     </slot>
-    <div class="item-list">
+    <div class="viur-shop-category-view-list">
       <!-- <router-link
         v-for="item in state.skellist"
         :key="item.shop_name"
@@ -30,6 +30,7 @@
       @click="loadMore"
       :loading="state.loading"
       :disabled="state.isLastItem"
+      class="viur-shop-category-view-more-button"
     >
       Mehr anzeigen
     </sl-button>
@@ -117,14 +118,14 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.item-list {
+.viur-shop-category-view-list {
   display: grid;
   width: 100%;
   grid-gap: var(--sl-spacing-medium);
   grid-template-columns: repeat(4, 1fr);
 }
 
-.loading-wrap {
+.viur-shop-loading-wrap {
   position: absolute;
   top: 0;
   bottom: 0;

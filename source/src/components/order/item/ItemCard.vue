@@ -1,15 +1,15 @@
 <template>
-  <sl-card class="card">
+  <sl-card class="viur-shop-item-card-card">
     <img
       slot="image"
       :src="getImage(item)"
       :alt="item.shop_name"
-      class="card-image"
+      class="viur-shop-item-card-image"
     />
-    <h3 class="card-headline">{{ item.shop_name }}</h3>
-    <h4 class="card-subline">B 21 x H 6,5 x T 19 cm</h4>
-    <div class="price">{{ item.shop_price_retail }} €</div>
-    <div class="card-footer" slot="footer">
+    <h3 class="viur-shop-item-card-headline">{{ item.shop_name }}</h3>
+    <h4 class="viur-shop-item-card-subline">B 21 x H 6,5 x T 19 cm</h4>
+    <div class="viur-shop-item-card-price">{{ item.shop_price_retail }} €</div>
+    <div class="viur-shop-item-card-footer" slot="footer">
       <!-- <sl-button-group label="Amount">
               <sl-tooltip content="Remove">
                 <sl-icon-button
@@ -44,7 +44,7 @@
             </sl-button-group> -->
       <sl-button
         size="small"
-        class="add-to-cart-btn"
+        class="viur-shop-item-card-add-to-cart-btn"
         variant="primary"
         title="Add to cart"
         @click.stop="cartStore.addToCart(item.key, cartStore.state.currentCart)"
@@ -57,7 +57,7 @@
       <sl-button
         size="small"
         outline
-        class="add-to-favourites-btn"
+        class="viur-shop-item-card-add-to-favourites-btn"
         variant="primary"
         title="Add to favourites"
       >
@@ -92,7 +92,7 @@ function getImage(item) {
 </script>
 
 <style scoped>
-.card {
+.viur-shop-item-card-card {
   width: 100%;
 
   &::part(header) {
@@ -108,44 +108,44 @@ function getImage(item) {
   }
 
   &:hover {
-    .add-to-cart-btn {
+    .viur-shop-item-card-add-to-cart-btn {
       opacity: 1;
     }
 
-    .card-headline {
+    .viur-shop-item-card-headline {
       color: var(--sl-color-primary-500);
     }
 
-    .card-image {
+    .viur-shop-item-card-image {
       transform: scale(1.02);
     }
   }
 }
 
-.card-footer {
+.viur-shop-item-card-footer {
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 100%;
 }
 
-.add-to-cart-btn {
+.viur-shop-item-card-add-to-cart-btn {
   transition: all ease 0.3s;
   margin-right: var(--sl-spacing-medium);
   opacity: 0;
 }
 
-.add-to-favourites-btn {
+.viur-shop-item-card-add-to-favourites-btn {
   margin-left: auto;
 }
 
-.card-image {
+.viur-shop-item-card-image {
   aspect-ratio: 1;
   object-fit: cover;
   transition: all ease 0.3s;
 }
 
-.card-headline {
+.viur-shop-item-card-headline {
   font-size: 1.1em;
   font-weight: bold;
   color: var(--ignt-basic-color-text);
@@ -153,12 +153,12 @@ function getImage(item) {
   transition: all ease 0.3s;
 }
 
-.card-subline {
+.viur-shop-item-card-subline {
   color: var(--ignt-basic-color-text);
   margin-bottom: var(--sl-spacing-2x-small);
 }
 
-.price {
+.viur-shop-item-card-price {
   font-size: 1.1em;
   font-weight: bold;
   color: var(--ignt-basic-color-text);

@@ -1,44 +1,42 @@
 <template>
     <slot name="form" v-if="mode === 'form'">
       <form @submit.prevent="sendData">
-        <div class="user">
-          <h2 class="headline">Nutzterdaten</h2>
-          <div class="form-wrap">
-            <sl-input
-              name="email"
-              v-model="state.formValues['email']"
-              placeholder="E-Mail"
-              class="grid-w-4"
-            >
-              <label slot="label">E-Mail*</label>
-            </sl-input>
-            <sl-input
-              name="name"
-              v-model="state.formValues['lastname']"
-              placeholder="Name"
-              class="grid-w-2"
-            >
-              <label slot="label">Name*</label>
-            </sl-input>
-            <sl-input
-              name="firstname"
-              v-model="state.formValues['firstname']"
-              placeholder="Vorname"
-              class="grid-w-2"
-            >
-              <label slot="label">Vorname*</label>
-            </sl-input>
-          </div>
+        <h2 class="viur-shop-form-headline headline">Nutzterdaten</h2>
+        <div class="viur-shop-form-wrap">
+          <sl-input
+            name="email"
+            v-model="state.formValues['email']"
+            placeholder="E-Mail"
+            class="viur-shop-form-grid-w-4"
+          >
+            <label slot="label">E-Mail*</label>
+          </sl-input>
+          <sl-input
+            name="name"
+            v-model="state.formValues['lastname']"
+            placeholder="Name"
+            class="viur-shop-form-grid-w-2"
+          >
+            <label slot="label">Name*</label>
+          </sl-input>
+          <sl-input
+            name="firstname"
+            v-model="state.formValues['firstname']"
+            placeholder="Vorname"
+            class="viur-shop-form-grid-w-2"
+          >
+            <label slot="label">Vorname*</label>
+          </sl-input>
         </div>
-        <div class="adress-wrapper">
-          <div class="adress-column">
-            <h2 class="headline">Lieferadresse</h2>
-            <div class="form-wrap">
+        <div class="viur-shop-form-adress-wrapper">
+          <div class="viur-shop-form-adress-column">
+            <h2 class="viur-shop-form-headline headline">Lieferadresse</h2>
+            <div class="viur-shop-form-wrap">
               <sl-input
                 name="street"
                 v-model="state.formValues['street']"
                 placeholder="Straße"
-                class="grid-w-3"
+                class="viur-shop-form-grid-w-3"
               >
                 <label slot="label">Strasse *</label>
               </sl-input>
@@ -54,7 +52,7 @@
                 name="street"
                 v-model="state.formValues['areacode']"
                 placeholder="Postleitzahl"
-                class="grid-w-2"
+                class="viur-shop-form-grid-w-2"
                 type="number"
               >
                 <label slot="label">Postleitzahl *</label>
@@ -63,7 +61,7 @@
                 name="city"
                 v-model="state.formValues['city']"
                 placeholder="Stadt"
-                class="grid-w-2"
+                class="viur-shop-form-grid-w-2"
               >
                 <label slot="label">Stadt*</label>
               </sl-input>
@@ -71,7 +69,7 @@
                 name="province"
                 v-model="state.formValues['province']"
                 placeholder="Bundesland"
-                class="grid-w-2"
+                class="viur-shop-form-grid-w-2"
               >
                 <label slot="label">Bundesland</label>
               </sl-input>
@@ -82,14 +80,14 @@
             Rechnungsadresse wie Lieferadresse
           </sl-checkbox>
 
-          <div class="adress-column" v-show="state.isCustomAdress">
-            <h2 class="headline">Rechnungsadresse</h2>
-            <div class="form-wrap">
+          <div class="viur-shop-form-adress-column" v-show="state.isCustomAdress">
+            <h2 class="viur-shop-form-headline headline">Rechnungsadresse</h2>
+            <div class="viur-shop-form-wrap">
               <sl-input
                 name="street"
                 v-model="state.formValues['billing.street']"
                 placeholder="Straße"
-                class="grid-w-3"
+                class="viur-shop-form-grid-w-3"
               >
                 <label slot="label">Strasse *</label>
               </sl-input>
@@ -106,7 +104,7 @@
                 v-model="state.formValues['billing.areacode']"
                 placeholder="Postleitzahl"
                 type="number"
-                class="grid-w-2"
+                class="viur-shop-form-grid-w-2"
               >
                 <label slot="label">Postleitzahl *</label>
               </sl-input>
@@ -114,7 +112,7 @@
                 name="city"
                 v-model="state.formValues['billing.city']"
                 placeholder="Stadt"
-                class="grid-w-2"
+                class="viur-shop-form-grid-w-2"
               >
                 <label slot="label">Stadt*</label>
               </sl-input>
@@ -122,14 +120,14 @@
                 name="province"
                 v-model="state.formValues['billing.province']"
                 placeholder="Bundesland"
-                class="grid-w-2"
+                class="viur-shop-form-grid-w-2"
               >
                 <label slot="label">Bundesland</label>
               </sl-input>
             </div>
           </div>
         </div>
-        <div class="form-footer">
+        <div class="viur-shop-form-footer">
           <sl-button
 
             type="submit"
@@ -205,13 +203,13 @@ watch(state.formValues, (newValues) => {
 </script>
 
 <style scoped>
-.form-footer {
+.viur-shop-form-footer {
   display: flex;
   justify-content: space-between;
   margin-top: var(--sl-spacing-large);
 }
 
-.adress-wrapper {
+.viur-shop-form-adress-wrapper {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -220,27 +218,27 @@ watch(state.formValues, (newValues) => {
   align-items: flex-start;
 }
 
-.adress-column {
+.viur-shop-form-adress-column {
   align-self: flex-start;
   flex-grow: 1;
 }
 
-.form-wrap{
+.viur-shop-form-wrap{
   display: grid;
   grid-template-columns: repeat(4, minmax(0 , 1fr));
   gap: 0 var(--sl-spacing-medium);
   margin: var(--sl-spacing-large) 0;
 }
 
-.grid-w-2{
+.viur-shop-form-grid-w-2{
   grid-column: span 2;
 }
 
-.grid-w-3{
+.viur-shop-form-grid-w-3{
   grid-column: span 3;
 }
 
-.grid-w-4{
+.viur-shop-form-grid-w-4{
   grid-column: span 4;
 }
 </style>
