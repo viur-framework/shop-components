@@ -13,6 +13,7 @@ export const useCartStore = defineStore("cartstore", () => {
   const state = reactive({
     basket: "",
     carts: {},
+    structure: { address: {}, cart: {} },
   });
 
   async function init() {
@@ -42,6 +43,7 @@ export const useCartStore = defineStore("cartstore", () => {
       parent_cart_key: cartKey,
     });
 
+    await updateCart(cartKey);
     console.log("addToCart", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
@@ -60,6 +62,8 @@ export const useCartStore = defineStore("cartstore", () => {
       parent_cart_key: cartKey,
     });
 
+    await updateCart(cartKey);
+
     console.log("remove Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
@@ -71,7 +75,25 @@ export const useCartStore = defineStore("cartstore", () => {
       quantity_mode: "replace",
     });
 
+    if (quantity === 0) {
+      await updateCart(cartKey);
+    }
     console.log("update Resp", resp); //TODO: Errorhandling as soon as shop module works again
+  }
+
+  async function updateCart(cartKey) {
+    await getCartItems(cartKey);
+  }
+
+  async function getAdressStructure() {
+    Request.getStructure("shop.address").then(async (resp) => {
+      let data = await resp.json();
+      data.editSkel.forEach((bone, index) => {
+        state.structure.address[index + " " + bone[0]] = bone[1];
+      });
+
+      console.log("adress add", state.structure.address);
+    });
   }
 
   return {
@@ -81,5 +103,6 @@ export const useCartStore = defineStore("cartstore", () => {
     removeItem,
     updateItem,
     init,
+    getAdressStructure,
   };
 });

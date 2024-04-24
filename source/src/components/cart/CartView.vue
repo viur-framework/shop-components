@@ -148,7 +148,8 @@
                     variant="primary"
                     title="Remove from cart"
                     @click="
-                      cartStore.removeItem(
+                      removeItem(
+                        item,
                         item.article.dest.key,
                         cartStore.state.basket,
                       )
@@ -289,6 +290,11 @@ function updateItem(item, articleKey, cartKey, quantity) {
   } else {
     cartStore.updateItem(articleKey, cartKey, quantity);
   }
+}
+
+function removeItem(item, articleKey, cartKey) {
+  confirm.value.show();
+  state.currentItem = item;
 }
 
 function onDialogHide() {

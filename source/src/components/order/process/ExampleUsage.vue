@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { reactive, shallowRef } from "vue";
+import { onBeforeMount, reactive, shallowRef } from "vue";
 import { ListRequest } from "@viur/vue-utils";
 
 import CartView from "../../cart/CartView.vue";
@@ -13,6 +13,9 @@ import CategoryView from "../category/CategoryView.vue";
 import OrderComplete from "./OrderComplete.vue";
 import UserInformation from "../information/UserInformation.vue";
 import UserInfoMulti from "../information/UserInfoMulti.vue";
+import { useCartStore } from "../../../stores/cart";
+
+const cartStore = useCartStore();
 
 const state = reactive({
   tabs: {
@@ -89,4 +92,8 @@ function handleTabs(e) {
     state.tabs.orderComplete.disabled = false;
   }
 }
+
+onBeforeMount(async () => {
+  await cartStore.getAdressStructure();
+});
 </script>

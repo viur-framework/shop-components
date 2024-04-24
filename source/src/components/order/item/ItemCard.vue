@@ -4,6 +4,7 @@
       slot="image"
       :src="getImage(item)"
       :alt="item.shop_name"
+      loading="lazy"
       class="viur-shop-item-card-image"
     />
     <h3 class="viur-shop-item-card-headline">{{ item.shop_name }}</h3>
@@ -47,7 +48,7 @@
         class="viur-shop-item-card-add-to-cart-btn"
         variant="primary"
         title="Add to cart"
-        @click.stop="cartStore.addToCart(item.key, cartStore.state.currentCart)"
+        @click.stop="cartStore.addToCart(item.key, cartStore.state.basket)"
       >
         <sl-icon name="bag-plus" slot="prefix"></sl-icon>
 
