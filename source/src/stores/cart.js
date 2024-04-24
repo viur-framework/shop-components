@@ -88,9 +88,7 @@ export const useCartStore = defineStore("cartstore", () => {
   async function getAdressStructure() {
     Request.getStructure("shop.address").then(async (resp) => {
       let data = await resp.json();
-      data.editSkel.forEach((bone, index) => {
-        state.structure.address[index + " " + bone[0]] = bone[1];
-      });
+      state.structure.address = data.addSkel;
 
       console.log("adress add", state.structure.address);
     });
