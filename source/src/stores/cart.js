@@ -86,12 +86,17 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getAdressStructure() {
-    Request.getStructure("shop.address").then(async (resp) => {
-      let data = await resp.json();
-      state.structure.address = data.addSkel;
+    let addSkel = await shopClient.address_structure()
+    state.structure.address = addSkel.addSkel
 
-      console.log("adress add", state.structure.address);
-    });
+    console.log("adress add", state.structure.address);
+
+    // Request.getStructure("shop.address").then(async (resp) => {
+    //   let data = await resp.json();
+    //   state.structure.address = data.addSkel;
+
+    //   console.log("adress add", state.structure.address);
+    // });
   }
 
   return {

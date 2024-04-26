@@ -1,5 +1,5 @@
 <template>
-  <slot name="form" v-if="mode === 'form'">
+  <!-- <slot name="form" v-if="mode === 'form'">
     <form @submit.prevent="sendData">
       <h2 class="viur-shop-form-headline headline">Nutzterdaten</h2>
       <div class="viur-shop-form-wrap">
@@ -138,10 +138,46 @@
         </sl-button>
       </div>
     </form>
-  </slot>
+  </slot> -->
+  <!-- <div class="viur-shop-form-wrap"> -->
+
+  <h2 class="viur-shop-form-headline headline">Nutzterdaten</h2>
+  <div>
+    <template v-for="item in state.addSkel" :key="item[0]">
+      <bone
+        :is="getBoneWidget(item[1].type)"
+        v-if="item[1].visible && item[1].params.group === 'Customer Info'"
+        :name="item[0]"
+        :structure="structToDict(state.addSkel)"
+        :errors="state.errors[item[0]] ? state.errors[item[0]] : []"
+        :skel="state.formValues"
+        @change="changeEvent(item[0], $event)"
+        class="viur-shop-form-grid-w-2"
+      >
+      </bone>
+    </template>
+  </div>
+  <h2 class="viur-shop-form-headline headline">Lieferadresse</h2>
+  <div>
+    <template v-for="item in state.addSkel" :key="item[0]">
+      <bone
+        :is="getBoneWidget(item[1].type)"
+        v-if="item[1].visible && item[1].params.group !== 'Customer Info'"
+        :name="item[0]"
+        :structure="structToDict(state.addSkel)"
+        :errors="state.errors[item[0]] ? state.errors[item[0]] : []"
+        :skel="state.formValues"
+        @change="changeEvent(item[0], $event)"
+      >
+      </bone>
+    </template>
+  </div>
+  <!-- </div> -->
 </template>
 
 <script setup>
+import { getBoneWidget } from "@viur/vue-utils/bones/edit/index";
+
 import { reactive, computed, watch, onBeforeMount } from "vue";
 import { useCartStore } from "../../../stores/cart";
 
@@ -150,6 +186,7 @@ const props = defineProps({
 });
 
 const cartStore = useCartStore();
+// const getBoneWidget = inject("getBoneWidget");
 
 const state = reactive({
   formValues: {},
@@ -177,6 +214,7 @@ const state = reactive({
   }),
   isCustomAdress: false,
   addSkel: null,
+  errors: {},
 });
 
 // function updateFormValues(e){
@@ -190,6 +228,37 @@ function sendData(e) {
 function onCustomAdressChange(e) {
   if (e.target.checked) state.isCustomAdress = false;
   if (!e.target.checked) state.isCustomAdress = true;
+}
+
+function changeEvent(boneName, ev) {
+  for (const [key, value] of Object.entries(ev.value[0])) {
+    state.formValues[key] = value;
+  }
+}
+
+function structToDict(structure) {
+  let output = {};
+
+  structure.forEach((bone) => {
+    let boneName = bone[0];
+    let boneValues = bone[1];
+
+    output[boneName] = boneValues;
+  });
+
+  return output;
+}
+
+function initBoneNames(structure) {
+  let output = [];
+
+  structure.forEach((bone) => {
+    let boneName = bone[0];
+
+    output.push(boneName);
+  });
+
+  return output;
 }
 
 watch(state.formValues, (newValues) => {
