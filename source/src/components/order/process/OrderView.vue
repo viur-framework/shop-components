@@ -1,46 +1,67 @@
 <template>
-
   <div class="bind viur-shop-wrap">
-  <sl-tab-group class="viur-shop-order-tab" noScrollControls @sl-tab-show="onTabChange">
-    <sl-tab
-      slot="nav"
-      :panel="tab"
-      v-for="(tab, index) in state.tabNames"
-      :key="tab"
-      :disabled="tabs[tab].disabled"
+    <sl-tab-group
+      class="viur-shop-order-tab"
+      noScrollControls
+      @sl-tab-show="onTabChange"
+      ref="tabGroup"
     >
-      <div class="viur-shop-order-step">
-        <sl-icon :name="tabs[tab].icon.name" :library="tabs[tab].icon.library">
-        </sl-icon>
-        <div class="viur-shop-order-status-text">
-          {{ index + 1 }}. {{ tabs[tab].displayName }}
-        </div>
-      </div>
-      <sl-icon
-        name="chevron-right"
-        class="viur-shop-order-tab-check"
-        v-if="index < state.tabNames.length - 1"
-      ></sl-icon>
-    </sl-tab>
-
-    <sl-tab-panel :name="tab" v-for="tab in state.tabNames" :key="tab">
-      <component
-        :is="tabs[tab].component"
-        v-bind="tabs[tab].props ? tabs[tab].props : ''"
+      <sl-tab
+        slot="nav"
+        :panel="tab"
+        v-for="(tab, index) in state.tabNames"
+        :key="tab"
+        :disabled="tabs[tab].disabled"
       >
-      </component>
-    </sl-tab-panel>
-  </sl-tab-group>
+        <div class="viur-shop-order-step">
+          <sl-icon
+            :name="tabs[tab].icon.name"
+            :library="tabs[tab].icon.library"
+          >
+          </sl-icon>
+          <div class="viur-shop-order-status-text">
+            {{ index + 1 }}. {{ tabs[tab].displayName }}
+          </div>
+        </div>
+        <sl-icon
+          name="chevron-right"
+          class="viur-shop-order-tab-check"
+          v-if="index < state.tabNames.length - 1"
+        ></sl-icon>
+      </sl-tab>
 
-  <div class="viur-shop-sidebar" id="order_sidebar">
-  </div>
+      <sl-tab-panel
+        :name="tab"
+        v-for="(tab, index) in state.tabNames"
+        :key="tab"
+      >
+        <component
+          :is="tabs[tab].component"
+          v-bind="tabs[tab].props ? tabs[tab].props : ''"
+        >
+        </component>
+        <div
+          class="viur-shop-form-footer"
+          :class="{ 'flex-end': state.isFirstTab(index) }"
+          v-if="index !== state.tabNames.length - 1"
+        >
+          <sl-button type="submit" v-show="index !== 0" @click="prevTab(state.tabNames[index-1])">
+            Zurück
+          </sl-button>
+          <!-- :disabled="!state.requiredFieldsFilled" -->
+          <sl-button type="submit" variant="primary" @click="nextTab(state.tabNames[index+1])">
+            Weiter
+          </sl-button>
+        </div>
+      </sl-tab-panel>
+    </sl-tab-group>
+
+    <div class="viur-shop-sidebar" id="order_sidebar"></div>
   </div>
 </template>
 
 <script setup>
-import { reactive, computed } from "vue";
-// import CartView from "../../cart/CartView.vue";
-// import ConfirmView from "../../cart/ConfirmView.vue";
+import { reactive, computed, ref } from "vue";
 
 const props = defineProps({
   tabs: {
@@ -53,7 +74,15 @@ const emit = defineEmits(["tabChange"]);
 
 const state = reactive({
   tabNames: computed(() => sortTabs(props.tabs)),
+  isFirstTab: (index) => {
+    if (index === 0) {
+      return true;
+    }
+    return false;
+  },
 });
+
+const tabGroup = ref(null);
 
 function sortTabs(tabs) {
   let sortedArray = [];
@@ -80,6 +109,15 @@ function sortTabs(tabs) {
 
 function onTabChange(e) {
   emit("tabChange", e);
+}
+
+
+function prevTab(tabName) {
+  tabGroup.value.show(tabName);
+}
+
+function nextTab(tabName) {
+  tabGroup.value.show(tabName);
 }
 </script>
 
@@ -159,5 +197,14 @@ function onTabChange(e) {
   text-align: center;
   margin-top: 0.6em;
   white-space: initial;
+}
+
+.viur-shop-form-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--sl-spacing-large);
+}
+.flex-end {
+  justify-content: flex-end;
 }
 </style>

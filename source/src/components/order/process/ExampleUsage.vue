@@ -88,6 +88,7 @@ const state = reactive({
 });
 
 function handleTabs(e) {
+  // console.dir("hier", e.target)
   if (e?.detail.name === "confirm") {
     state.tabs.orderComplete.disabled = false;
   }

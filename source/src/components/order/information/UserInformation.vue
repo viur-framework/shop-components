@@ -141,8 +141,8 @@
   </slot> -->
   <!-- <div class="viur-shop-form-wrap"> -->
 
-  <h2 class="viur-shop-form-headline headline">Nutzterdaten</h2>
   <div>
+    <h2 class="viur-shop-form-headline headline">Nutzterdaten</h2>
     <template v-for="item in state.addSkel" :key="item[0]">
       <bone
         :is="getBoneWidget(item[1].type)"
@@ -157,12 +157,12 @@
       </bone>
     </template>
   </div>
-  <h2 class="viur-shop-form-headline headline">Lieferadresse</h2>
   <div>
+    <h2 class="viur-shop-form-headline headline">Lieferadresse</h2>
     <template v-for="item in state.addSkel" :key="item[0]">
       <bone
         :is="getBoneWidget(item[1].type)"
-        v-if="item[1].visible && item[1].params.group !== 'Customer Info'"
+        v-if="item[1].visible && item[1].params.group === 'Customer Address'"
         :name="item[0]"
         :structure="structToDict(state.addSkel)"
         :errors="state.errors[item[0]] ? state.errors[item[0]] : []"
@@ -172,6 +172,26 @@
       </bone>
     </template>
   </div>
+  <div v-if="state.isCustomAdress">
+    <h2 class="viur-shop-form-headline headline">Rechnungsadresse</h2>
+    <template v-for="item in state.addSkel" :key="item[0]">
+      <bone
+        :is="getBoneWidget(item[1].type)"
+        v-if="item[1].visible && item[1].params.group === 'Customer Address'"
+        :name="item[0]"
+        :structure="structToDict(state.addSkel)"
+        :errors="state.errors[item[0]] ? state.errors[item[0]] : []"
+        :skel="state.formValues"
+        @change="changeEvent(item[0], $event)"
+      >
+      </bone>
+    </template>
+  </div>
+
+  <sl-checkbox @sl-change="onCustomAdressChange" checked>
+    Rechnungsadresse wie Lieferadresse
+  </sl-checkbox>
+
   <!-- </div> -->
 </template>
 
@@ -183,10 +203,10 @@ import { useCartStore } from "../../../stores/cart";
 
 const props = defineProps({
   mode: { type: String, default: "form" },
+  conditions: { type: Function },
 });
 
 const cartStore = useCartStore();
-// const getBoneWidget = inject("getBoneWidget");
 
 const state = reactive({
   formValues: {},
@@ -276,11 +296,6 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-.viur-shop-form-footer {
-  display: flex;
-  justify-content: space-between;
-  margin-top: var(--sl-spacing-large);
-}
 
 .viur-shop-form-adress-wrapper {
   display: flex;
