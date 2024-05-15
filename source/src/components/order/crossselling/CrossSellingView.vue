@@ -1,5 +1,4 @@
 <template>
-
   <sl-card>
     <img
       slot="image"
@@ -13,7 +12,6 @@
     <div class="viur-shop-item-card-price">{{ item.shop_price_retail }} €</div>
 
     <sl-button
-      ref="addtoCartBtnRef"
       size="small"
       class="viur-shop-item-card-add-to-cart-btn"
       variant="primary"
@@ -26,18 +24,20 @@
       In den Warenkorb
     </sl-button>
     <sl-button
-        size="small"
-        outline
-        class="viur-shop-item-card-add-to-favourites-btn"
-        variant="primary"
-        title="Add to favourites"
-      >
-        <sl-icon name="heart" slot="prefix"></sl-icon>
-      </sl-button>
+      size="small"
+      outline
+      class="viur-shop-item-card-add-to-favourites-btn"
+      variant="primary"
+      title="Add to favourites"
+    >
+      <sl-icon name="heart" slot="prefix"></sl-icon>
+    </sl-button>
 
-  <sl-dialog :open="state.addedToCart" @sl-hide="state.addedToCart=false">
-  <div>Der Artikel {{item.shop_name}} wurde zum Warencorb hinzugefügt</div>
-  </sl-dialog>
+    <sl-dialog :open="state.addedToCart" @sl-hide="state.addedToCart = false">
+      <div>
+        Der Artikel {{ item.shop_name }} wurde zum Warencorb hinzugefügt
+      </div>
+    </sl-dialog>
   </sl-card>
 </template>
 
@@ -58,35 +58,11 @@ const cartStore = useCartStore();
 // Define emits
 const emit = defineEmits(["cancel"]);
 
-const addtoCartBtnRef = ref(null)
-
-const buttonRefs = ref({});
-
-  // Funktion zum Deaktivieren des Buttons
-  const disableButton = (key) => {
-    console.log(key)
-
-
-    console.log(addtoCartBtnRef)
-    addtoCartBtnRef.disabled = true;
-
-  };
-
-
 const state = reactive({
   images: {},
   currentItem: {},
   crossselling: false,
-  upsellingItems: [],
   disabledAddToCart: false,
-});
-
-const currentCartKey = computed(() => {
-  return props.mode === "basket" ? cartStore.state.basket : props.cartKey;
-});
-
-const crossSellingItems = computed(() => {
-  return props.crossSellingItems;
 });
 
 const item = computed(() => {
@@ -103,23 +79,18 @@ function getImage(item) {
   return imageUrl;
 }
 
-
 const cancel = () => {
   // Emit an event to notify parent component to close the dialog
   emit("cancel");
-  state.disabledAddToCart = false
+  state.disabledAddToCart = false;
 };
 
 function addToCart(item, basket) {
-  console.log("item", item)
+  console.log("item", item);
   cartStore.addToCart(item.key, basket);
-  state.addedToCart=true
-  state.disabledAddToCart=true
+  state.addedToCart = true;
+  state.disabledAddToCart = true;
 }
-
-
-
-
 </script>
 
 <style scoped>
@@ -199,8 +170,6 @@ sl-alert {
   grid-template-columns: 120px 1fr;
   align-items: center;
 }
-
-
 
 sl-tooltip {
   &::part(body) {
@@ -485,4 +454,3 @@ sl-menu-item {
   margin-left: auto;
 }
 </style>
-

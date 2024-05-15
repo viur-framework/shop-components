@@ -389,22 +389,7 @@ sl-alert {
   align-items: center;
 }
 
-.soma-label {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 
-  sl-icon {
-    margin-left: 5px;
-    background-color: @highlightColor;
-    color: #fff;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    padding: 0.3em;
-    font-size: 0.6em;
-    cursor: pointer;
-  }
-}
 
 sl-tooltip {
   &::part(body) {

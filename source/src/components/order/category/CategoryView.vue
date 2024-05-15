@@ -21,8 +21,6 @@
         v-for="item in state.skellist"
         :key="item.shop_name"
         :item="item"
-        :hasUpselling="state.hasUpselling"
-        :upsellingFunction="getUpsellingFunction(item)"
         :hasCrossSelling="state.hasCrossSelling"
         :crossSellingFunction="
           getCrossSellingFunction(item)
@@ -121,14 +119,6 @@ async function loadMore() {
   }
 }
 
-function upselling(item) {
-  let url = "/json/variante/type=hk";
-  const keys = [];
-  console.log(url, keys);
-}
-function getUpsellingFunction(item) {
-  return () => upselling(item);
-}
 
 const crossSelling = (item) => {
   let url = "/json/variante";

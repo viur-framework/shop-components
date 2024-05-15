@@ -90,11 +90,6 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  hasUpselling: { type: Boolean, required: true, default: false },
-  upsellingFunction: {
-    type: Function,
-    default: () => {},
-  },
   hasCrossSelling: { type: Boolean, required: true, default: false },
   crossSellingFunction: {
     type: Function,

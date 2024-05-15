@@ -59,12 +59,9 @@ const state = reactive({
   images: {},
   currentItem: {},
   crossselling: false,
-  upsellingItems: [],
 });
 
-const currentCartKey = computed(() => {
-  return props.mode === "basket" ? cartStore.state.basket : props.cartKey;
-});
+
 
 const crossSellingItems = computed(() => {
   return props.crossSellingItems;
