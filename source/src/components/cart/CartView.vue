@@ -1,6 +1,7 @@
 <template>
   <Loader v-if="!state.cartIsInit"></Loader>
-  <template v-else>
+  <pre v-else> {{ cartStore.state.carts[cartStore.state.basket] }}</pre>
+  <!-- <template v-else>
     <div class="bind viur-shop-cart-wrap">
       <sl-dialog ref="confirm" @sl-hide="onDialogHide">
         <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
@@ -200,9 +201,9 @@
         <br />
 
         <div class="viur-shop-cart-sidebar-info-line">
-          <span>Zwischensumme</span>
-          <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
-          {{ cartStore.state.carts[cartStore.state.basket].info.total }} €
+          <span>Zwischensumme</span> -->
+  <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
+  <!-- {{ cartStore.state.carts[cartStore.state.basket].info.total }} €
         </div>
         <div class="viur-shop-cart-sidebar-info-line">
           <span>Rabatt</span>
@@ -225,7 +226,7 @@
         </div>
       </teleport>
     </div>
-  </template>
+  </template> -->
 </template>
 
 <script setup>
