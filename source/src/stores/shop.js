@@ -1,18 +1,95 @@
 import { reactive } from "vue";
 import { Request, ListRequest } from "@viur/vue-utils";
 import { defineStore } from "pinia";
-import { ViURShopClient } from "@viur/viur-shop-client";
 
-export const useCartStore = defineStore("cartstore", () => {
-  const shopClient = new ViURShopClient({
-    host_url: 'http://localhost:8080',
-  });
+export const useShopStore = defineStore("shopstore", () => {
+
 
   const state = reactive({
-    basket: "",
-    carts: {},
-    structure: { address: {}, cart: {} },
+    module: "hk",
+    hasUpselling: true,
+    upsellingBone: "matching_items",
+    upsellingVariants: [],
+    hasCrossselling: false,
+    crosssellingBone: "",
+    crossSellingItems: [],
+    name: "",
+    price: "",
+    image: "",
   });
+
+  async function getCrossSellingItems(url, keys) {
+    console.log(url, keys)
+    console.log("TTTT")
+    state.crossSellingItems=[]
+    let isCrossSelling=false
+
+
+    for (let key of keys) {
+
+
+
+      Request.get(`http://localhost:8080${url}?key=${key}`).then(async (resp) => {
+        let data = await resp.json();
+
+
+        console.log(data)
+
+
+
+
+        state.crossSellingItems.push(data.skellist[0])
+
+        console.log(state)
+        isCrossSelling = true
+      })
+
+
+    };
+    console.log(state.crossSellingItems)
+    return isCrossSelling
+    //Request.get(crossellingURL)
+
+  }
+
+  function getImage(item, image) {
+    console.log("item"+image)
+    let imageUrl =
+      "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
+    if (item[image]) {
+      return Request.downloadUrlFor("item"+image);
+    }
+
+    return imageUrl;
+  }
+
+  async function getUpsellingItems(url, keys) {
+    console.log(url, keys)
+    console.log("TTTT")
+    state.upsellingVariants=[]
+    console.log(item.matching_items)
+    let isUpselling=false
+
+
+    for (let key of keys) {
+
+
+      Request.get(`http://localhost:8080${url}?key=${key}`).then(async (resp) => {
+        let data = await resp.json();
+
+
+        console.log(data)
+        state.upsellingVariants.push(data.skellist[0])
+        isUpselling = true
+      })
+
+
+    };
+    console.log(state.upSellingItems)
+    return isUpselling
+    //Request.get(crossellingURL)
+
+  }
 
   async function init() {
     console.dir(shopClient)
@@ -100,11 +177,8 @@ export const useCartStore = defineStore("cartstore", () => {
 
   return {
     state,
-    addToCart,
-    getArticleView,
-    removeItem,
-    updateItem,
-    init,
-    getAdressStructure,
+    getCrossSellingItems,
+    getUpsellingItems,
+
   };
 });

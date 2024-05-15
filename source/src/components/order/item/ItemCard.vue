@@ -7,6 +7,7 @@
       loading="lazy"
       class="viur-shop-item-card-image"
     />
+    {{ item.key }}
     <h3 class="viur-shop-item-card-headline">{{ item.shop_name }}</h3>
     <h4 class="viur-shop-item-card-subline">B 21 x H 6,5 x T 19 cm</h4>
     <div class="viur-shop-item-card-price">{{ item.shop_price_retail }} €</div>
@@ -48,7 +49,7 @@
         class="viur-shop-item-card-add-to-cart-btn"
         variant="primary"
         title="Add to cart"
-        @click.stop="cartStore.addToCart(item.key, cartStore.state.basket)"
+        @click.stop="addToCart(item, cartStore.state.basket)"
       >
         <sl-icon name="bag-plus" slot="prefix"></sl-icon>
 
@@ -65,31 +66,78 @@
         <sl-icon name="heart" slot="prefix"></sl-icon>
       </sl-button>
     </div>
+
   </sl-card>
+
+  <sl-dialog :open="state.crossSelling" @sl-hide="handleHideCrossSelling">
+    <crossSellingList
+      :item="item"
+      :crossSellingItems="shopStore.state.crossSellingItems"
+      @cancel="closeDialog"
+    ></crossSellingList>
+  </sl-dialog>
 </template>
 
 <script setup>
 import { Request } from "@viur/vue-utils";
 import { useCartStore } from "../../../stores/cart";
+import { useShopStore } from "../../../stores/shop";
+import { reactive, onMounted, ref } from "vue";
+import CrossSellingList from "../crossselling/CrossSellingList.vue";
 
 const props = defineProps({
   item: {
     type: Object,
     required: true,
   },
+  hasUpselling: { type: Boolean, required: true, default: false },
+  upsellingFunction: {
+    type: Function,
+    default: () => {},
+  },
+  hasCrossSelling: { type: Boolean, required: true, default: false },
+  crossSellingFunction: {
+    type: Function,
+    default: () => {},
+  },
 });
 
 const cartStore = useCartStore();
+const shopStore = useShopStore();
+
+const state = reactive({
+  upselling: false,
+  crossSelling: false,
+  params: {},
+});
 
 function getImage(item) {
   let imageUrl =
     "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-  if (item.dk_artikel.dest.image) {
-    return Request.downloadUrlFor(item.dk_artikel.dest.image);
+  if (item.hk_artikel.dest.image) {
+    return Request.downloadUrlFor(item.hk_artikel.dest.image);
   }
 
   return imageUrl;
 }
+
+function addToCart(item, basket) {
+  cartStore.addToCart(item.key, basket);
+  if (props.hasCrossSelling) {
+    state.params = props.crossSellingFunction(props.item);
+
+    shopStore.getCrossSellingItems(state.params.url, state.params.keys);
+    state.crossSelling = true;
+  }
+}
+
+const handleHideCrossSelling = () => {
+  state.crossSelling = false;
+};
+
+const closeDialog = () => {
+  state.crossSelling = false;
+};
 </script>
 
 <style scoped>

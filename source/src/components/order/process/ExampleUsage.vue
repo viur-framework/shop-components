@@ -39,21 +39,21 @@ const state = reactive({
       atShow: null,
       atHide: null,
     },
-    // order: {
-    //   component: shallowRef(CategoryView),
-    //   props: {
-    //     listHandler: ListRequest("categorystore", {
-    //       module: "variante",
-    //       params: { type: "dk", limit: 99 },
-    //     }),
-    //   },
-    //   displayName: "Artikel Bestellen",
-    //   icon: { name: "cart-add", library: "hsk" },
-    //   position: 1,
-    //   disabled: false,
-    //   atShow: null,
-    //   atHide: null,
-    // },
+    order: {
+      component: shallowRef(CategoryView),
+      props: {
+        listHandler: ListRequest("categorystore", {
+          module: "variante",
+          params: { type: "hk", limit: 10 },
+        }),
+      },
+      displayName: "Artikel Bestellen",
+      icon: { name: "cart-add", library: "hsk" },
+      position: 1,
+      disabled: false,
+      atShow: null,
+      atHide: null,
+    },
     orderComplete: {
       component: shallowRef(OrderComplete),
       props: {},

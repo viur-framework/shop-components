@@ -94,11 +94,11 @@ const state = reactive({
 });
 
 function getImage(item) {
-  console.log("hier", item.dk_artikel);
+  console.log("hier", item.hk_artikel);
   let imageUrl =
     "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-  if (item?.dk_artikel.dest.image) {
-    return Request.downloadUrlFor(item.dk_artikel.dest.image);
+  if (item?.hk_artikel.dest.image) {
+    return Request.downloadUrlFor(item.hk_artikel.dest.image);
   }
 
   return imageUrl;

@@ -1,5 +1,5 @@
 <template>
-    <RouterLink :to="{ name: 'CategoryView', params: { identifier: 'dk' } }"
+    <RouterLink :to="{ name: 'CategoryView', params: { identifier: 'hk' } }"
                 v-for="item in list"
                 :key="item"
                 class="viur-shop-category-list-item-link"

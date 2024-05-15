@@ -21,6 +21,26 @@
         v-for="item in state.skellist"
         :key="item.shop_name"
         :item="item"
+        :hasUpselling="state.hasUpselling"
+        :upsellingFunction="getUpsellingFunction(item)"
+        :hasCrossSelling="state.hasCrossSelling"
+        :crossSellingFunction="
+          (item) => {
+            let url = '/json/variante';
+            const keys = [];
+            for (crossSelling of item.matching_items) {
+              console.log(crossSelling);
+              keys.push(crossSelling.dest.key);
+            }
+            console.log(url, keys);
+            console.log('crossSelling');
+            const params = {
+              url: url,
+              keys: keys,
+            };
+            return params;
+          }
+        "
       >
       </ItemCard>
       <!-- </router-link> -->
@@ -40,6 +60,7 @@
 <script setup>
 import { onMounted, reactive, computed } from "vue";
 import { useCartStore } from "../../../stores/cart";
+import { useShopStore } from "../../../stores/shop";
 import { useRoute } from "vue-router";
 import { Request, ListRequest } from "@viur/vue-utils";
 // import { ViURShopClient } from "@viur/viur-shop-client";
@@ -57,6 +78,7 @@ const props = defineProps({
 const route = useRoute();
 
 const cartStore = useCartStore();
+const shopStore = useShopStore();
 
 const state = reactive({
   skellist: [],
@@ -65,8 +87,14 @@ const state = reactive({
   isLastItem: false,
   itemCount: 99,
   itemType: computed(() => route.params.identifier),
+  hasUpselling: false,
+  hasCrossSelling: true,
 });
 
+// const categoryList = ListRequest("categorystore", {
+//           module: "variante",
+//           params: { type: "dk", limit: 10 },
+//         })
 const categoryList = props.listHandler;
 
 function listItems() {
@@ -107,11 +135,53 @@ async function loadMore() {
   }
 }
 
+function upselling(item) {
+  let url = "/json/variante/type=hk";
+  const keys = [];
+  console.log(url, keys);
+}
+function getUpsellingFunction(item) {
+  return () => upselling(item);
+}
+
+function crossSelling(item) {
+  let url = "/json/variante";
+  const keys = [];
+  for (crossSelling of item.matching_items) {
+    console.log(crossSelling);
+    keys.push(crossSelling.dest.key);
+  }
+  console.log(url, keys);
+  console.log("crossSelling");
+  const params = {
+    url: url,
+    keys: keys,
+  };
+  return params;
+}
+
+function getCrossSellingFunction(item) {
+  return () => crossSelling(item);
+}
+
 onMounted(async () => {
   await cartStore.init();
   await categoryList.fetch(true);
   state.skellist = categoryList.state.skellist;
   state.loading = false;
+  if (state.hasCrossSelling) {
+    console.log();
+    console.log(shopStore);
+    // state.upselling = false;
+    // console.log(shopStore, articleKey);
+    // let url="/json/variante?type=hk"
+
+    // const keys = []
+    // keys.push("ag1oc2stdml1cjMtZGV2chULEgh2YXJpYW50ZRiAgMDZjrGACAw")
+    // keys.push("ag1oc2stdml1cjMtZGV2chULEgh2YXJpYW50ZRiAgMDZjrGACAw")
+
+    // state.upselling = shopStore.getUpsellingItems(url, keys)
+  }
 
   // await cartStore.init();
 });
