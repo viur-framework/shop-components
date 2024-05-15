@@ -25,21 +25,7 @@
         :upsellingFunction="getUpsellingFunction(item)"
         :hasCrossSelling="state.hasCrossSelling"
         :crossSellingFunction="
-          (item) => {
-            let url = '/json/variante';
-            const keys = [];
-            for (crossSelling of item.matching_items) {
-              console.log(crossSelling);
-              keys.push(crossSelling.dest.key);
-            }
-            console.log(url, keys);
-            console.log('crossSelling');
-            const params = {
-              url: url,
-              keys: keys,
-            };
-            return params;
-          }
+          getCrossSellingFunction(item)
         "
       >
       </ItemCard>
@@ -144,10 +130,10 @@ function getUpsellingFunction(item) {
   return () => upselling(item);
 }
 
-function crossSelling(item) {
+const crossSelling = (item) => {
   let url = "/json/variante";
   const keys = [];
-  for (crossSelling of item.matching_items) {
+  for (let crossSelling of item.matching_items) {
     console.log(crossSelling);
     keys.push(crossSelling.dest.key);
   }
@@ -158,7 +144,7 @@ function crossSelling(item) {
     keys: keys,
   };
   return params;
-}
+};
 
 function getCrossSellingFunction(item) {
   return () => crossSelling(item);
@@ -172,6 +158,7 @@ onMounted(async () => {
   if (state.hasCrossSelling) {
     console.log();
     console.log(shopStore);
+
     // state.upselling = false;
     // console.log(shopStore, articleKey);
     // let url="/json/variante?type=hk"

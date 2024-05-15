@@ -3334,7 +3334,7 @@ const jc = (c) => (dt("data-v-f1e86d46"), c = c(), ut(), c), UT = ["src", "alt"]
       ], 40, kI)
     ], 64));
   }
-}, t0 = /* @__PURE__ */ Ae(wI, [["__scopeId", "data-v-b3fa6204"]]), vI = (c) => (dt("data-v-9bf200b1"), c = c(), ut(), c), _I = {
+}, t0 = /* @__PURE__ */ Ae(wI, [["__scopeId", "data-v-b3fa6204"]]), vI = (c) => (dt("data-v-0ad29216"), c = c(), ut(), c), _I = {
   key: 0,
   class: "viur-shop-loading-wrap"
 }, AI = /* @__PURE__ */ vI(() => /* @__PURE__ */ P("sl-spinner", null, null, -1)), CI = [
@@ -3364,48 +3364,42 @@ const jc = (c) => (dt("data-v-f1e86d46"), c = c(), ut(), c), UT = ["src", "alt"]
     async function y() {
       E.loading = !0, await v.next(), E.skellist.length < v.state.skellist.length ? (E.skellist = v.state.skellist, E.loading = !1) : (E.loading = !1, E.isLastItem = !0);
     }
-    function p(C) {
+    function p(k) {
       console.log("/json/variante/type=hk", []);
     }
-    function D(C) {
+    function D(k) {
       return () => p();
     }
-    function A(C) {
-      let k = "/json/variante";
-      const S = [];
-      for (A of C.matching_items)
-        console.log(A), S.push(A.dest.key);
-      return console.log(k, S), console.log("crossSelling"), {
-        url: k,
-        keys: S
+    const A = (k) => {
+      let S = "/json/variante";
+      const I = [];
+      for (let z of k.matching_items)
+        console.log(z), I.push(z.dest.key);
+      return console.log(S, I), console.log("crossSelling"), {
+        url: S,
+        keys: I
       };
+    };
+    function C(k) {
+      return () => A(k);
     }
     return lt(async () => {
       await w.init(), await v.fetch(!0), E.skellist = v.state.skellist, E.loading = !1, E.hasCrossSelling && (console.log(), console.log(b));
-    }), (C, k) => E.loading ? (U(), G("div", _I, CI)) : (U(), G("div", yI, [
+    }), (k, S) => E.loading ? (U(), G("div", _I, CI)) : (U(), G("div", yI, [
       P("div", EI, [
         P("h1", null, fe(c.pageHeader), 1)
       ]),
-      c.filter ? Ow(C.$slots, "filter", { key: 0 }, () => [
+      c.filter ? Ow(k.$slots, "filter", { key: 0 }, () => [
         se(" text-transform text-transform TEST ")
       ], !0) : Ee("", !0),
       P("div", xI, [
-        (U(!0), G(je, null, vt(E.skellist, (S) => (U(), wt(t0, {
-          key: S.shop_name,
-          item: S,
+        (U(!0), G(je, null, vt(E.skellist, (I) => (U(), wt(t0, {
+          key: I.shop_name,
+          item: I,
           hasUpselling: E.hasUpselling,
           upsellingFunction: D(),
           hasCrossSelling: E.hasCrossSelling,
-          crossSellingFunction: (I) => {
-            let M = "/json/variante";
-            const z = [];
-            for (A of I.matching_items)
-              console.log(A), z.push(A.dest.key);
-            return console.log(M, z), console.log("crossSelling"), {
-              url: M,
-              keys: z
-            };
-          }
+          crossSellingFunction: C(I)
         }, null, 8, ["item", "hasUpselling", "upsellingFunction", "hasCrossSelling", "crossSellingFunction"]))), 128))
       ]),
       P("sl-button", {
@@ -3416,7 +3410,7 @@ const jc = (c) => (dt("data-v-f1e86d46"), c = c(), ut(), c), UT = ["src", "alt"]
       }, " Mehr anzeigen ", 8, SI)
     ]));
   }
-}, n0 = /* @__PURE__ */ Ae(DI, [["__scopeId", "data-v-9bf200b1"]]), BI = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, n0 = /* @__PURE__ */ Ae(DI, [["__scopeId", "data-v-0ad29216"]]), BI = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: n0
 }, Symbol.toStringTag, { value: "Module" })), Pt = (c) => (dt("data-v-412209b2"), c = c(), ut(), c), TI = {
