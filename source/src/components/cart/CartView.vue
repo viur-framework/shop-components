@@ -2,7 +2,6 @@
   <Loader v-if="!state.cartIsInit"></Loader>
   <template v-else>
     <div class="bind viur-shop-cart-wrap">
-
       <sl-dialog ref="confirm" @sl-hide="onDialogHide">
         <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
         <div class="footer-wrap" slot="footer">
@@ -115,7 +114,7 @@
             <img
               class="viur-shop-cart-card-img"
               slot="image"
-              :src="getImage(item.article.dest.key)"
+              src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
             />
             <div class="viur-shop-cart-card-header" slot="header">
               <h4 class="viur-shop-cart-card-headline headline">
@@ -192,7 +191,9 @@
       </div>
 
       <teleport to="#order_sidebar" v-if="sidebar">
-        <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
+        <h2 class="viur-shop-cart-sidebar-headline headline">
+          Zusammenfassung
+        </h2>
         <br />
 
         <sl-input label="Rabattcode eingeben"></sl-input>
@@ -258,21 +259,21 @@ const currentCartKey = computed(() => {
   return props.mode === "basket" ? cartStore.state.basket : props.cartKey;
 });
 
-function getImage(item) {
-  Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
-    let data = await resp.json();
+// function getImage(item) {
+//   Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
+//     let data = await resp.json();
 
-    data = data.values;
+//     data = data.values;
 
-    let imageUrl = data.dk_artikel.dest.image
-      ? Request.downloadUrlFor(data.dk_artikel.dest.image)
-      : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
+//     let imageUrl = data.dk_artikel.dest.image
+//       ? Request.downloadUrlFor(data.dk_artikel.dest.image)
+//       : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
 
-    state.images[item] = imageUrl;
-  });
+//     state.images[item] = imageUrl;
+//   });
 
-  return state.images[item];
-}
+//   return state.images[item];
+// }
 
 async function onConfirm() {
   await cartStore.updateItem(
