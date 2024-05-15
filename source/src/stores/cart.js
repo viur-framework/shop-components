@@ -5,8 +5,8 @@ import { ViURShopClient } from "@viur/viur-shop-client";
 
 export const useCartStore = defineStore("cartstore", () => {
   const shopClient = new ViURShopClient({
-    host_url: import.meta.env.VITE_API_URL
-      ? import.meta.env.VITE_API_URL
+    host_url: window.location.origin === "http://localhost:8081"
+      ? "http://localhost:8080"
       : window.location.origin,
   });
 

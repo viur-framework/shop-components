@@ -1,20 +1,7 @@
 {
   "name": "@viur/shop-components",
-  "type": "module",
   "version": "0.0.1-dev.2",
   "description": "Frontend Vue components for the shop module of ViUR",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/shop-components.umd.cjs",
-  "module": "./dist/shop-components.js",
-  "exports": {
-    ".": {
-      "import": "./dist/shop-components.js",
-      "require": "./dist/shop-components.umd.cjs"
-    },
-    "./dist/style.css": "./dist/style.css"
-  },
   "scripts": {
     "build": "vite build",
     "dev": "vite",
@@ -36,27 +23,23 @@
   },
   "homepage": "https://github.com/viur-framework/shop-components#readme",
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.4",
-    "postcss-custom-media": "^10.0.4",
-    "postcss-nesting": "^12.1.2",
+    "@vitejs/plugin-vue": "^5.0.3",
+    "postcss-custom-media": "^10.0.0",
+    "postcss-nesting": "^12.0.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-visualizer": "^5.9.2",
+    "typescript": "^5.1.6",
+    "vite": "^5.2.8",
     "prettier": "^3.2.5",
-    "rollup-plugin-copy": "^3.5.0",
-    "rollup-plugin-visualizer": "^5.12.0",
-    "vite": "^5.2.10",
-    "vue-router": "^4.3.2",
-    "vue-tsc": "^2.0.14"
+    "vue-tsc": "^2.0.17"
   },
   "dependencies": {
-    "@viur/shoelace": "^1.0.6-v2.15.0",
-    "@viur/vue-utils": "^1.4.4",
-    "vue-i18n": "^9.13.1",
-    "pinia": "^2.1.7",
     "@viur/ignite": "^5.0.2",
-    "@viur/viur-shop-client": "^0.1.0-dev.8",
-    "ckeditor5-vue": "^0.0.7",
-    "vue": "^3.4.00"
-  },
-  "peerDependencies": {
-    "vue": "^3.4.00"
+    "@viur/shoelace": "^1.0.6-v2.15.0",
+    "@viur/vue-utils": "^1.4.5",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.27",
+    "vue-i18n": "^9.13.1",
+    "vue-router": "^4.3.2"
   }
 }
