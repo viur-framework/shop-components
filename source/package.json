@@ -1,6 +1,6 @@
 {
   "name": "@viur/shop-components",
-  "version": "0.0.1-dev.6",
+  "version": "0.0.1-dev.7",
   "description": "Frontend Vue components for the shop module of ViUR",
   "scripts": {
     "build": "vite build",
