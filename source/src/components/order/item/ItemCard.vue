@@ -69,7 +69,7 @@
 
   </sl-card>
 
-  <sl-dialog :open="state.crossSelling" @sl-hide="handleHideCrossSelling">
+  <sl-dialog class="crossselling-dialog" :open="state.crossSelling" @sl-hide="handleHideCrossSelling">
     <crossSellingList
       :item="item"
       :crossSellingItems="shopStore.state.crossSellingItems"
@@ -207,5 +207,9 @@ const closeDialog = () => {
   font-weight: bold;
   color: var(--ignt-basic-color-text);
   margin-left: auto;
+}
+
+.crossselling-dialog{
+  --width: 1200px;
 }
 </style>

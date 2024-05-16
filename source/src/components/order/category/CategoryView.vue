@@ -93,6 +93,8 @@ function listItems() {
   Request.get("/json/variante/list", { dataObj: params }).then(async (resp) => {
     let data = await resp.json();
 
+    console.log("!!!!!!!!!!!!!!!!!", data)
+
     if (data.cursor !== state.currentCursor && !state.isLastItem) {
       state.currentCursor = data.cursor;
       state.skellist.push(...data.skellist);
