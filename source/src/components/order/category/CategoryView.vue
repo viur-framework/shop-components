@@ -17,17 +17,25 @@
         :to="{ name: 'itemView', params: { item: item.key } }"
       > -->
 
-      <ItemCard
-        v-for="item in state.skellist"
-        :key="item.shop_name"
-        :item="item"
-        :hasCrossSelling="state.hasCrossSelling"
-        :crossSellingFunction="
-          getCrossSellingFunction(item)
-        "
-      >
-      </ItemCard>
-      <!-- </router-link> -->
+      <div v-for="item in state.skellist" :key="item.shop_name">
+        <sl-button @click="openItemView(item.key)">ItemView</sl-button>
+        <ItemCard
+          :item="item"
+          :hasCrossSelling="true"
+          :crossSellingFunction="getCrossSellingFunction(item)"
+        >
+        </ItemCard>
+        <sl-dialog :open="isOpen(item.key)" @sl-hide="isClosed(item.key)">
+          <ItemView
+            :item="item"
+            :hasCrossSelling="shopStore.state.hasCrossselling"
+            :crossSellingFunction="getCrossSellingFunction(item)"
+            :hasUpSelling="shopStore.state.hasUpSelling"
+            :upSellingFunction="getCrossSellingFunction(item)"
+          ></ItemView>
+        </sl-dialog>
+        <!-- </router-link> -->
+      </div>
     </div>
 
     <sl-button
@@ -51,6 +59,7 @@ import { Request, ListRequest } from "@viur/vue-utils";
 
 // component imports
 import ItemCard from "../item/ItemCard.vue";
+import ItemView from "../item/ItemView.vue";
 
 const props = defineProps({
   skellist: { type: Array },
@@ -71,8 +80,9 @@ const state = reactive({
   isLastItem: false,
   itemCount: 99,
   itemType: computed(() => route.params.identifier),
-  hasUpselling: false,
-  hasCrossSelling: true,
+  hasUpSelling: computed(() => shopStore.state.hasUpSelling),
+  hasCrossSelling: computed(() => shopStore.state.hasCrossSelling),
+  openItemView: {},
 });
 
 // const categoryList = ListRequest("categorystore", {
@@ -80,6 +90,24 @@ const state = reactive({
 //           params: { type: "dk", limit: 10 },
 //         })
 const categoryList = props.listHandler;
+
+const isOpen = (item) => {
+  if (state.openItemView.key === item) {
+    return true;
+  }
+  return false;
+};
+
+const openItemView = (item) => {
+  console.log("geht das?");
+  state.openItemView = {};
+  if (item) {
+    state.openItemView = {
+      key: item,
+      open: true,
+    };
+  }
+};
 
 function listItems() {
   let params = {
@@ -121,8 +149,7 @@ async function loadMore() {
   }
 }
 
-
-const crossSelling = (item) => {
+shopStore.state.crossSellingFunction = (item) => {
   let url = "/json/variante";
   const keys = [];
   for (let crossSelling of item.matching_items) {
@@ -139,7 +166,27 @@ const crossSelling = (item) => {
 };
 
 function getCrossSellingFunction(item) {
-  return () => crossSelling(item);
+  return () => shopStore.state.crossSellingFunction(item);
+}
+
+shopStore.state.upSellingFunction = (item) => {
+  let url = "/json/variante";
+  const keys = ["ag1oc2stdml1cjMtZGV2chULEgh2YXJpYW50ZRiAgKDSnIHGCww", "ag1oc2stdml1cjMtZGV2chULEgh2YXJpYW50ZRiAgIDg_9StCgw"];
+  // for (let crossSelling of item.matching_items) {
+  //   console.log(crossSelling);
+  //   keys.push(crossSelling.dest.key);
+  // }
+  // console.log(url, keys);
+  // console.log("crossSelling");
+  const params = {
+    url: url,
+    keys: keys,
+  };
+  return params;
+};
+
+function getUpSellingFunction(item) {
+  return () => shopStore.state.upSellingFunction(item);
 }
 
 onMounted(async () => {
@@ -148,8 +195,7 @@ onMounted(async () => {
   state.skellist = categoryList.state.skellist;
   state.loading = false;
   if (state.hasCrossSelling) {
-    console.log();
-    console.log(shopStore);
+    console.log("!!!!", shopStore.state);
 
     // state.upselling = false;
     // console.log(shopStore, articleKey);

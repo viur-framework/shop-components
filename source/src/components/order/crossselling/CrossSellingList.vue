@@ -1,9 +1,8 @@
 <template>
-  <div class="viur-shop-crossselling-header" slot="header">
-  </div>
+  <div class="viur-shop-crossselling-header" slot="header"></div>
   <div class="viur-shop-crossselling-cart-item">
     <h2 class="headline">Folgender Artikel wurde in den Warenkorb gelegt</h2>
-    <br>
+    <br />
     <sl-card class="viur-shop-cart-card" horizontal>
       <img
         slot="image"
@@ -13,22 +12,28 @@
         class="viur-shop-cart-card-img"
       />
       <div class="viur-shop-cart-card-body-info">
-        <h3 class="viur-shop-cart-card-headline headline">{{ item.shop_name }}</h3>
+        <h3 class="viur-shop-cart-card-headline headline">
+          {{ item.shop_name }}
+        </h3>
         <div class="viur-shop-cart-card-descr">
-          {{ item.key }}<br>
+          {{ item.key }}<br />
           B 21 x H 6,5 x T 19 cm
         </div>
-        <div class="viur-shop-cart-card-price">{{ item.shop_price_retail }} €</div>
+        <div class="viur-shop-cart-card-price">
+          {{ item.shop_price_retail }} €
+        </div>
       </div>
     </sl-card>
   </div>
-  <br>
+  <br />
 
   <sl-carousel navigation slides-per-page="4">
-    <sl-carousel-item  v-for="item in shopStore.state.crossSellingItems" >
-      <CrossSellingView  :cartkey="cartStore.state.basket"
+    <sl-carousel-item v-for="item in shopStore.state.crossSellingItems">
+      <CrossSellingView
+        :cartkey="cartStore.state.basket"
         :item="item"
-        @cancel="closeDialog">
+        @cancel="closeDialog"
+      >
       </CrossSellingView>
     </sl-carousel-item>
   </sl-carousel>
@@ -77,13 +82,11 @@ function getImage(item) {
 const cancel = () => {
   // Emit an event to notify parent component to close the dialog
   emit("cancel");
-  state.disabledAddToCart = false
+  state.disabledAddToCart = false;
 };
-
 </script>
 
 <style scoped>
-
 sl-alert {
   margin-top: var(--sl-spacing-medium);
   margin-bottom: var(--sl-spacing-medium);
@@ -128,7 +131,6 @@ sl-tooltip {
   }
 }
 
-
 .viur-shop-cart-card-body-info {
   display: flex;
   flex-direction: column;
@@ -143,10 +145,8 @@ sl-tooltip {
   font-size: 1.3em;
 }
 
-sl-carousel{
+sl-carousel {
   --aspect-ratio: auto;
   --slide-gap: var(--sl-spacing-x-large);
 }
-
 </style>
-

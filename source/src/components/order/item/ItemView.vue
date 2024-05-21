@@ -24,7 +24,7 @@
       <h2 class="viur-shop-item-view-subline">B 21 x H 6,5 x T 19 cm</h2>
 
       <div class="viur-shop-item-view-price">
-        {{ state.item.shop_price_retail }} €
+        {{ state.item.shop_price.retail }} €
       </div>
 
       <div class="viur-shop-item-view-paragraph">
@@ -39,12 +39,13 @@
       </div>
 
       <div class="viur-shop-item-view-btn-wrap">
+      {{ state.crossSelling }}
         <sl-button
             size="small"
             class="viur-shop-item-view-add-to-cart-btn"
             variant="primary"
             title="Add to cart"
-            @click.stop="cartStore.addToCart(item.key, cartStore.state.currentCart)"
+            @click.stop="addToCart(item, cartStore.state.basket)"
           >
             <sl-icon name="bag-plus"
                      slot="prefix"
@@ -71,11 +72,23 @@
   </div>
   <br>
   <h1 class="viur-shop-item-view-headline">Ähnliche Artikel</h1>
-  <div class="viur-shop-item-view-item-grid">
-      <ItemCard :item="state.item">
+  <div class="viur-shop-item-view-item-grid" v-for="upselling of shopStore.state.upSellingItems">
+      <ItemCard :item="upselling"
+          :hasCrossSelling="shopStore.state.hasUpSelling"
+          :crossSellingFunction="getUpSellingFunction(item)"
+        >
+      >
+
       </ItemCard>
 
   </div>
+  <sl-dialog :open="state.crossSelling" @sl-hide="handleHideCrossSelling">
+    <crossSellingList
+      :item="item"
+      :crossSellingItems="shopStore.state.crossSellingItems"
+      @cancel="closeDialog"
+    ></crossSellingList>
+  </sl-dialog>
 
 </template>
 
@@ -85,31 +98,78 @@ import { Request } from "@viur/vue-utils";
 import { useRoute } from "vue-router";
 // component imports
 import ItemCard from "../item/ItemCard.vue";
+import CrossSellingList from "../crossselling/CrossSellingList.vue";
 import '@viur/shoelace/dist/components/carousel/carousel.js';
-
-const route = useRoute();
+import {useCartStore} from "../../../stores/cart.js"
+import {useShopStore} from "../../../stores/shop.js"
+//const route = useRoute();
 
 const state = reactive({
   item: {},
+  crossSelling: false,
 });
 
+const cartStore = useCartStore()
+const shopStore = useShopStore()
+
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
+  },
+    hasCrossSelling: {
+    type: Boolean,
+    required: true,
+  },
+  crossSellingFunction: {
+    type: Function,
+    default: () => {},
+  },
+  hasUpSelling: {
+    type: Boolean,
+    required: true,
+  },
+  upSellingFunction: {
+    type: Function,
+    default: () => {},
+  },
+});
+
+
 function getImage(item) {
-  console.log("hier", item.hk_artikel);
+  console.log("hier", item);
   let imageUrl =
     "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-  if (item?.hk_artikel.dest.image) {
+    if (item.shop_image) {
+      return Request.downloadUrlFor(item.shop_image)
+    }
+    if (item?.hk_artikel?.dest.image) {
     return Request.downloadUrlFor(item.hk_artikel.dest.image);
   }
 
   return imageUrl;
 }
 
-onBeforeMount(async () => {
-  Request.get(`/json/variante/view/${route.params.item}`).then(async (resp) => {
-    let data = await resp.json();
+function addToCart(item, basket) {
+  cartStore.addToCart(item.key, basket);
+  // if (props.hasCrossSelling) {
+    console.log("bin ich da", props.crossSellingFunction)
+    state.params = props.crossSellingFunction(props.item);
+    console.log(state.params)
 
-    state.item = data.values;
-  });
+    shopStore.getCrossSellingItems(state.params.url, state.params.keys);
+    state.crossSelling = true;
+  // }
+}
+
+onBeforeMount(async () => {
+  console.log("itemView, komme ich hier an?", props.item)
+  // Request.get(`/json/variante/view/${props.item.key}`).then(async (resp) => {
+  //   let data = await resp.json();
+  //   console.log(data)
+
+    state.item = props.item;
+  // });
 });
 </script>
 
