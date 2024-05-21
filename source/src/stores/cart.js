@@ -5,9 +5,10 @@ import { ViURShopClient } from "@viur/viur-shop-client";
 
 export const useCartStore = defineStore("cartstore", () => {
   const shopClient = new ViURShopClient({
-    host_url: window.location.origin === "http://localhost:8081"
-      ? "http://localhost:8080"
-      : window.location.origin,
+    host_url:
+      window.location.origin === "http://localhost:8081"
+        ? "http://localhost:8080"
+        : window.location.origin,
   });
 
   const state = reactive({
@@ -23,10 +24,10 @@ export const useCartStore = defineStore("cartstore", () => {
   async function getCarts() {
     let carts = await shopClient.cart_list();
 
-    console.log("cartStore.init() carts", carts)
+    console.log("cartStore.init() carts", carts);
 
     carts.forEach(async (cart) => {
-      console.log("cartStore.init().forEach cart", cart)
+      console.log("cartStore.init().forEach cart", cart);
 
       state.carts[cart.key] = {};
       state.carts[cart.key].info = cart;
@@ -38,10 +39,10 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getCartItems(cartKey) {
-    let cartItems = await shopClient.cart_list({ cart_key: cartKey });
-    console.log("cartStore.init() cartItems", cartItems)
-
-    state.carts[cartKey].items = cartItems;
+    shopClient.cart_list({ cart_key: cartKey }).then((resp) => {
+      console.log("cartStore.init() cartItems", resp);
+      state.carts[cartKey].items = resp;
+    });
   }
 
   async function addToCart(articleKey, cartKey) {
@@ -93,8 +94,8 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getAdressStructure() {
-    let addSkel = await shopClient.address_structure()
-    state.structure.address = addSkel.addSkel
+    let addSkel = await shopClient.address_structure();
+    state.structure.address = addSkel.addSkel;
 
     console.log("adress add", state.structure.address);
 
