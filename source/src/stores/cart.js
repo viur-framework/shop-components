@@ -22,7 +22,12 @@ export const useCartStore = defineStore("cartstore", () => {
 
   async function getCarts() {
     let carts = await shopClient.cart_list();
+
+    console.log("cartStore.init() carts", carts)
+
     carts.forEach(async (cart) => {
+      console.log("cartStore.init().forEach cart", cart)
+
       state.carts[cart.key] = {};
       state.carts[cart.key].info = cart;
       if (cart.cart_type === "basket") {
@@ -34,6 +39,8 @@ export const useCartStore = defineStore("cartstore", () => {
 
   async function getCartItems(cartKey) {
     let cartItems = await shopClient.cart_list({ cart_key: cartKey });
+    console.log("cartStore.init() cartItems", cartItems)
+
     state.carts[cartKey].items = cartItems;
   }
 
