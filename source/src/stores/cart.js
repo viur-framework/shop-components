@@ -12,36 +12,45 @@ export const useCartStore = defineStore("cartstore", () => {
   });
 
   const state = reactive({
-    basket: "",
-    carts: {},
+    basketRootNode: {},
+    whishlistRootNodes: [],
+    children: {},
     structure: { address: {}, cart: {} },
   });
 
   async function init() {
-    await getCarts();
+    // ! initializes only children for cart of type basket
+    // ! for whishlists this has to be done in the component
+    await getRootNodes();
+    await getChildren(state.basketRootNode.key);
   }
 
-  async function getCarts() {
-    let carts = await shopClient.cart_list();
+  async function getChildren(parentKey) {
+    let resp = await shopClient.cart_list({ cart_key: parentKey });
 
-    console.log("cartStore.init() carts", carts);
-
-    carts.forEach(async (cart) => {
-      console.log("cartStore.init().forEach cart", cart);
-
-      state.carts[cart.key] = {};
-      state.carts[cart.key].info = cart;
-      if (cart.cart_type === "basket") {
-        state.basket = cart.key;
+    resp.forEach(async (child) => {
+      if (child.skel_type === "node") {
+        await getChildren(child.key);
+      } else {
+        if (!Object.keys(state.children).includes(child.key)) {
+          children[parentKey] = [];
+        }
+        children[parentKey].push(child);
       }
-      await getCartItems(cart.key);
     });
   }
 
-  async function getCartItems(cartKey) {
-    shopClient.cart_list({ cart_key: cartKey }).then((resp) => {
-      console.log("cartStore.init() cartItems", resp);
-      state.carts[cartKey].items = resp;
+  async function getRootNodes() {
+    let resp = await shopClient.cart_list();
+
+    resp.forEach((rootNode) => {
+      if (rootNode.is_root_node) {
+        if (rootNode.cart_type === "basket") {
+          state.basketRootNode = rootNode;
+        } else {
+          whishlistRootNodes.push(rootNode);
+        }
+      }
     });
   }
 
@@ -70,8 +79,6 @@ export const useCartStore = defineStore("cartstore", () => {
       parent_cart_key: cartKey,
     });
 
-    await updateCart(cartKey);
-
     console.log("remove Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
@@ -90,7 +97,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function updateCart(cartKey) {
-    await getCartItems(cartKey);
+    await getChildren(cartKey);
   }
 
   async function getAdressStructure() {

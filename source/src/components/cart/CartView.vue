@@ -1,6 +1,6 @@
 <template>
   <Loader v-if="!state.cartIsInit"></Loader>
-  <pre v-else> {{ cartStore.state.carts[cartStore.state.basket] }}</pre>
+  <pre v-else> {{ cartStore.state }}</pre>
   <!-- <template v-else>
     <div class="bind viur-shop-cart-wrap">
       <sl-dialog ref="confirm" @sl-hide="onDialogHide">
@@ -247,10 +247,10 @@ const confirm = ref(null);
 
 const state = reactive({
   cartIsInit: computed(() => {
-    return cartStore.state.basket.length ? true : false;
+    return cartStore.state.basketRootNode ? true : false;
   }),
   itemsIsInit: computed(() => {
-    return cartStore.state.carts[cartStore.state.basket].items ? true : false;
+    return true;
   }),
   images: {},
   currentItem: {},
