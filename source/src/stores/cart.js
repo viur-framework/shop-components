@@ -22,22 +22,12 @@ export const useCartStore = defineStore("cartstore", () => {
     // ! initializes only children for cart of type basket
     // ! for whishlists this has to be done in the component
     await getRootNodes();
-    await getChildren(state.basketRootNode.key);
   }
 
   async function getChildren(parentKey) {
     let resp = await shopClient.cart_list({ cart_key: parentKey });
 
-    resp.forEach(async (child) => {
-      if (child.skel_type === "node") {
-        await getChildren(child.key);
-      } else {
-        if (!Object.keys(state.children).includes(child.key)) {
-          state.children[parentKey] = [];
-        }
-        state.children[parentKey].push(child);
-      }
-    });
+    return resp
   }
 
   async function getRootNodes() {
