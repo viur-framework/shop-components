@@ -30,6 +30,51 @@
         </CartLeaf>
       </template>
     </div>
+
+    <!-- <teleport to="#order_sidebar" v-if="sidebar"> -->
+    <div v-if="sidebar">
+      <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
+      <br />
+
+      <sl-input label="Rabattcode eingeben"></sl-input>
+      <br />
+
+      <div class="viur-shop-cart-sidebar-info-line">
+        <span>Zwischensumme</span> -->
+        <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
+        {{
+          mode === "basket"
+            ? cartStore.state.basketRootNode.total
+            : cartStore.state.whishlistRootNodes[cartKey].total
+        }}
+        €
+      </div>
+      <div class="viur-shop-cart-sidebar-info-line">
+        <span>Rabatt</span>
+        0 €
+      </div>
+      <div class="viur-shop-cart-sidebar-info-line">
+        <span>Versandkosten</span>
+        0 €
+      </div>
+      <div class="viur-shop-cart-sidebar-info-line total">
+        <span>Gesamt:</span>
+        {{
+          mode === "basket"
+            ? cartStore.state.basketRootNode.total
+            : cartStore.state.whishlistRootNodes[cartKey].total
+        }}
+        €
+      </div>
+      <div class="viur-shop-cart-sidebar-btn-wrap">
+        <sl-button variant="info" size="small"> Jetzt Bestellen </sl-button>
+        <sl-button size="small" variant="primary">
+          <sl-icon name="paypal" slot="prefix"></sl-icon>
+          Paypal
+        </sl-button>
+      </div>
+      <!-- </teleport> -->
+    </div>
     <!-- <pre> {{ state.leaves }}</pre> -->
   </template>
 
@@ -141,40 +186,7 @@
 
       </div>
 
-      <teleport to="#order_sidebar" v-if="sidebar">
-        <h2 class="viur-shop-cart-sidebar-headline headline">
-          Zusammenfassung
-        </h2>
-        <br />
 
-        <sl-input label="Rabattcode eingeben"></sl-input>
-        <br />
-
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Zwischensumme</span> -->
-  <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
-  <!-- {{ cartStore.state.carts[cartStore.state.basket].info.total }} €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Rabatt</span>
-          0 €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Versandkosten</span>
-          0 €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line total">
-          <span>Gesamt:</span>
-          {{ cartStore.state.carts[cartStore.state.basket].info.total }} €
-        </div>
-        <div class="viur-shop-cart-sidebar-btn-wrap">
-          <sl-button variant="info" size="small"> Jetzt Bestellen </sl-button>
-          <sl-button size="small" variant="primary">
-            <sl-icon name="paypal" slot="prefix"></sl-icon>
-            Paypal
-          </sl-button>
-        </div>
-      </teleport>
     </div>
   </template> -->
 </template>
