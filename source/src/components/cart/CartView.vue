@@ -1,6 +1,10 @@
 <template>
-  <pre> {{ state.nodes }}</pre>
-  <pre> {{ state.leaves }}</pre>
+  <Loader v-if="!cartKey.length"></Loader>
+  <template v-else>
+    <pre> {{ state.nodes }}</pre>
+    <pre> {{ state.leaves }}</pre>
+  </template>
+
   <!-- <CartNode></CartNode>
   <CartLeaf></CartLeaf> -->
   <!-- <template v-else>
@@ -314,9 +318,9 @@ function onDialogHide() {
 }
 
 async function getChildren(parentKey = props.key) {
-  console.log("debug getChildren parentKey from comp: ", parentKey)
+  console.log("debug getChildren parentKey from comp: ", parentKey);
   const children = await cartStore.getChildren(parentKey);
-  console.log("getChildren children: ", children)
+  console.log("getChildren children: ", children);
 
   children.forEach(async (child) => {
     if (child.skel_type === "node") {
