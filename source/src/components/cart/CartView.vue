@@ -259,9 +259,9 @@ async function updateItem(e) {
     state.currentItem = e.item;
     state.currentNode = e.node;
   } else {
-    cartStore.updateItem(e.articleKey, e.node.key, e.quantity);
+    await cartStore.updateItem(e.articleKey, e.node.key, e.quantity);
 
-    await updateCart();
+    await cartStore.init();
   }
 }
 
