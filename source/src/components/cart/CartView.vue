@@ -15,7 +15,7 @@
         </CartLeaf>
       </template>
     </div>
-    <pre> {{ state.leaves }}</pre>
+    <!-- <pre> {{ state.leaves }}</pre> -->
   </template>
 
   <!-- <CartNode></CartNode>

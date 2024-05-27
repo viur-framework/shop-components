@@ -1,5 +1,5 @@
 <template>
-  <pre>{{ leaf }}</pre>
+  <pre>{{ leaf.name }}</pre>
 </template>
 
 <script setup>

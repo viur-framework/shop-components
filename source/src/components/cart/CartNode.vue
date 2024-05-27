@@ -1,5 +1,5 @@
 <template>
-  <pre>{{ state.headline }}</pre>
+  <pre>{{ node.name }}</pre>
 </template>
 
 <script setup>
@@ -9,9 +9,5 @@ const props = defineProps({
   node: { type: Object, required: true },
 });
 
-const state = reactive({
-  headline: computed(() => {
-    props.node;
-  }),
-});
+const state = reactive({});
 </script>
