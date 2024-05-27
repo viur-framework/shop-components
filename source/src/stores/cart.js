@@ -48,7 +48,7 @@ export const useCartStore = defineStore("cartstore", () => {
       parent_cart_key: cartKey,
     });
 
-    await updateCart(cartKey);
+    // await updateCart(cartKey);
     console.log("addToCart", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
@@ -78,15 +78,12 @@ export const useCartStore = defineStore("cartstore", () => {
       quantity_mode: "replace",
     });
 
-    if (quantity === 0) {
-      await updateCart(cartKey);
-    }
     console.log("update Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
-  async function updateCart(cartKey) {
-    await getChildren(cartKey);
-  }
+  // async function updateCart(cartKey) {
+  //   await getChildren(cartKey);
+  // }
 
   async function getAdressStructure() {
     let addSkel = await shopClient.address_structure();

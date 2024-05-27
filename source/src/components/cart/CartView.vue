@@ -259,12 +259,14 @@ function removeItem(e) {
   state.currentNode = e.node;
 }
 
-function onDialogHide() {
+async function onDialogHide() {
   state.leaves[state.currentNode.key].forEach((item) => {
     if (item.key === state.currentItem.key) {
       item.quantity = 1;
     }
   });
+  // TODO: await updateCart(state.currentNode.key);
+
   state.currentItem = {};
   state.currentNode = {};
 }
