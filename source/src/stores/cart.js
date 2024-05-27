@@ -25,9 +25,8 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getChildren(parentKey) {
-    console.log("debug getChildren parentKey: ", parentKey)
     let resp = await shopClient.cart_list({ cart_key: parentKey });
-    console.log("debug getChildren: ", resp)
+
     return resp
   }
 
