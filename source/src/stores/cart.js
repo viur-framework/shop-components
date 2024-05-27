@@ -33,9 +33,9 @@ export const useCartStore = defineStore("cartstore", () => {
         await getChildren(child.key);
       } else {
         if (!Object.keys(state.children).includes(child.key)) {
-          children[parentKey] = [];
+          state.children[parentKey] = [];
         }
-        children[parentKey].push(child);
+        state.children[parentKey].push(child);
       }
     });
   }
@@ -48,7 +48,7 @@ export const useCartStore = defineStore("cartstore", () => {
         if (rootNode.cart_type === "basket") {
           state.basketRootNode = rootNode;
         } else {
-          whishlistRootNodes.push(rootNode);
+          state.whishlistRootNodes.push(rootNode);
         }
       }
     });
