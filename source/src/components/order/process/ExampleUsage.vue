@@ -21,7 +21,11 @@ const state = reactive({
   tabs: {
     cart: {
       component: shallowRef(CartView),
-      props: { sidebar: true, mode: "basket" },
+      props: {
+        sidebar: true,
+        mode: "basket",
+        cartKey: cartStore.state.basketRootNode.key,
+      }, // cartKey (on initial call has to be a root node) is a required prop, make sure that cartStore.init() is called before cart is mounted
       displayName: "Warenkorb",
       icon: { name: "cart", library: "hsk" },
       position: 2,
@@ -95,6 +99,7 @@ function handleTabs(e) {
 }
 
 onBeforeMount(async () => {
+  await cartStore.init();
   await cartStore.getAdressStructure();
 });
 </script>

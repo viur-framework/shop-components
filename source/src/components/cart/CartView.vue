@@ -1,6 +1,8 @@
 <template>
-  <Loader v-if="!state.cartIsInit"></Loader>
-  <pre v-else> {{ cartStore.state }}</pre>
+  <pre> {{ state.nodes }}</pre>
+  <pre> {{ state.leaves }}</pre>
+  <!-- <CartNode></CartNode>
+  <CartLeaf></CartLeaf> -->
   <!-- <template v-else>
     <div class="bind viur-shop-cart-wrap">
       <sl-dialog ref="confirm" @sl-hide="onDialogHide">
@@ -233,11 +235,12 @@
 import { reactive, computed, onBeforeMount, ref } from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
 import { useCartStore } from "../../stores/cart.js";
-import { Request } from "@viur/vue-utils";
+import CartNode from "./CartNode.vue";
+import CartLeaf from "./CartLeaf.vue";
 
 const props = defineProps({
   mode: { type: String, default: "basket" },
-  cartKey: { type: String, default: "" },
+  cartKey: { type: String, required: true },
   sidebar: { type: Boolean, default: true },
 });
 
@@ -254,6 +257,8 @@ const state = reactive({
   }),
   images: {},
   currentItem: {},
+  nodes: [],
+  leaves: {},
 });
 
 const currentCartKey = computed(() => {
@@ -308,8 +313,29 @@ function onDialogHide() {
   state.currentItem = {};
 }
 
+async function getChildren(parentKey = props.key) {
+  const children = await cartStore.getChildren(parentKey);
+
+  children.forEach(async (child) => {
+    if (child.skel_type === "node") {
+      state.nodes.push(child);
+      await getChildren(child.key);
+    } else {
+      if (!Object.keys(state.leaves).includes(parentKey)) {
+        state.leaves[parentKey] = [];
+      }
+      state.leaves[parentKey].push(child);
+    }
+  });
+}
+
 onBeforeMount(async () => {
   await cartStore.init();
+  await getChildren();
+
+  console.log("state.nodes", state.nodes);
+
+  console.log("state.leaves", state.leaves);
 });
 </script>
 
