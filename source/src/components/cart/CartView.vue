@@ -1,6 +1,18 @@
 <template>
   <Loader v-if="!cartKey.length"></Loader>
   <template v-else>
+    <sl-dialog ref="confirm" @sl-hide="onDialogHide">
+      <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
+      <div class="footer-wrap" slot="footer">
+        <sl-button variant="danger" @click="confirm.hide()" size="medium">
+          Abbrechen
+        </sl-button>
+        <sl-button variant="success" @click="onConfirm" size="medium">
+          Aus Warenkorb entfernen
+        </sl-button>
+      </div>
+    </sl-dialog>
+
     <div v-for="node in state.nodes">
       <template
         v-if="Object.keys(state.leaves).includes(node.key)"
@@ -11,6 +23,9 @@
           v-for="leaf in state.leaves[node.key]"
           :key="leaf.key"
           :leaf="leaf"
+          :node="node"
+          @removeItem="removeItem"
+          @updateItem="updateItem"
         >
         </CartLeaf>
       </template>
@@ -123,91 +138,7 @@
           <strong>Warenkorb nicht gespeichert!</strong><br />
         </sl-alert>
 
-        <sl-spinner v-if="!state.itemsIsInit"></sl-spinner>
 
-        <template v-else>
-          <sl-card
-            horizontal
-            class="viur-shop-cart-card"
-            v-for="item in cartStore.state.carts[cartStore.state.basket].items"
-          >
-            <img
-              class="viur-shop-cart-card-img"
-              slot="image"
-              src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
-            />
-            <div class="viur-shop-cart-card-header" slot="header">
-              <h4 class="viur-shop-cart-card-headline headline">
-                {{ item.article.dest.shop_name }} | 425018
-              </h4>
-            </div>
-            <div class="viur-shop-cart-card-body-row">
-              <div class="viur-shop-cart-card-body-info">
-                <div class="viur-shop-cart-card-descr">
-                  Version: 900x900x2000 <br />
-                  Farbe: Chromoptik <br />
-                  Glasart: Klar hell mit Edelglasbeschichtung<br />
-                  Anschlag: Beidseitig variabel<br />
-                  Griff: Stangengriff Exklusiv (56)
-                </div>
-                <div class="viur-shop-cart-card-body-footer">
-                  <sl-button
-                    size="small"
-                    outline
-                    class="viur-shop-cart-card-add-to-favourites-btn"
-                    variant="primary"
-                    title="Add to favourites"
-                  >
-                    <sl-icon name="heart" slot="prefix"></sl-icon>
-                  </sl-button>
-                  <sl-button
-                    size="small"
-                    outline
-                    class="viur-shop-cart-card-delete-btn"
-                    variant="primary"
-                    title="Remove from cart"
-                    @click="
-                      removeItem(
-                        item,
-                        item.article.dest.key,
-                        cartStore.state.basket,
-                      )
-                    "
-                  >
-                    <sl-icon name="trash" slot="prefix"></sl-icon>
-                  </sl-button>
-                </div>
-              </div>
-              <div class="viur-shop-cart-card-body-amount">
-                <sl-input
-                  class="amount-input"
-                  type="number"
-                  label="Anzahl"
-                  placeholder="Number"
-                  min="0"
-                  v-model="item.quantity"
-                  @input="
-                    updateItem(
-                      item,
-                      item.article.dest.key,
-                      cartStore.state.basket,
-                      item.quantity,
-                    )
-                  "
-                >
-                </sl-input>
-              </div>
-              <div class="viur-shop-cart-card-price-wrap" slot="footer">
-                <div class="viur-shop-cart-card-price-label">Preis</div>
-                <div class="viur-shop-cart-card-price">
-                  {{ item.price.retail }}
-                  €
-                </div>
-                <div class="viur-shop-cart-card-small-print">Brutto / Stk.</div>
-              </div>
-            </div>
-          </sl-card>
-        </template>
       </div>
 
       <teleport to="#order_sidebar" v-if="sidebar">
@@ -274,6 +205,7 @@ const state = reactive({
   }),
   images: {},
   currentItem: {},
+  currentNode: {},
   nodes: [],
   leaves: {},
 });
@@ -301,33 +233,40 @@ const currentCartKey = computed(() => {
 async function onConfirm() {
   await cartStore.updateItem(
     state.currentItem.article.dest.key,
-    cartStore.state.basket,
+    state.currentNode.key,
     0,
   );
   confirm.value.hide();
 }
 
-function updateItem(item, articleKey, cartKey, quantity) {
-  if (quantity === 0) {
+function updateItem(e) {
+  console.log("updateItem :", e);
+
+  if (e.quantity === 0) {
     confirm.value.show();
-    state.currentItem = item;
+    state.currentItem = e.item;
+    state.currentNode = e.node;
   } else {
-    cartStore.updateItem(articleKey, cartKey, quantity);
+    cartStore.updateItem(e.articleKey, e.node.key, e.quantity);
   }
 }
 
-function removeItem(item, articleKey, cartKey) {
+function removeItem(e) {
+  console.log("removeItem :", e);
+
   confirm.value.show();
-  state.currentItem = item;
+  state.currentItem = e.item;
+  state.currentNode = e.node;
 }
 
 function onDialogHide() {
-  cartStore.state.carts[cartStore.state.basket].items.forEach((item) => {
+  state.leaves[state.currentNode.key].forEach((item) => {
     if (item.key === state.currentItem.key) {
       item.quantity = 1;
     }
   });
   state.currentItem = {};
+  state.currentNode = {};
 }
 
 async function getChildren(parentKey = props.cartKey) {

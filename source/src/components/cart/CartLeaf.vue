@@ -1,13 +1,188 @@
 <template>
-  <pre>{{ leaf.name }}</pre>
+  <sl-card horizontal class="viur-shop-cart-card">
+    <img
+      class="viur-shop-cart-card-img"
+      slot="image"
+      :src="getImage(state.leaf.shop_image)"
+    />
+    <div class="viur-shop-cart-card-header" slot="header">
+      <h4 class="viur-shop-cart-card-headline headline">
+        {{ state.leaf.shop_name }} | {{ leaf.shop_art_no_or_gtin }}
+      </h4>
+    </div>
+    <div class="viur-shop-cart-card-body-row">
+      <div class="viur-shop-cart-card-body-info">
+        <div class="viur-shop-cart-card-descr">
+          Version: 900x900x2000 <br />
+          Farbe: Chromoptik <br />
+          Glasart: Klar hell mit Edelglasbeschichtung<br />
+          Anschlag: Beidseitig variabel<br />
+          Griff: Stangengriff Exklusiv (56)
+        </div>
+        <div class="viur-shop-cart-card-body-footer">
+          <sl-button
+            size="small"
+            outline
+            class="viur-shop-cart-card-add-to-favourites-btn"
+            variant="primary"
+            title="Add to favourites"
+          >
+            <sl-icon name="heart" slot="prefix"></sl-icon>
+          </sl-button>
+          <sl-button
+            size="small"
+            outline
+            class="viur-shop-cart-card-delete-btn"
+            variant="primary"
+            title="Remove from cart"
+            @click="removeItem(state.leaf, state.leaf.article.dest.key, node)"
+          >
+            <sl-icon name="trash" slot="prefix"></sl-icon>
+          </sl-button>
+        </div>
+      </div>
+      <div class="viur-shop-cart-card-body-amount">
+        <sl-input
+          class="amount-input"
+          type="number"
+          label="Anzahl"
+          placeholder="Number"
+          min="0"
+          v-model="state.leaf.quantity"
+          @input="
+            updateItem(
+              state.leaf,
+              state.leaf.article.dest.key,
+              node,
+              state.leaf.quantity,
+            )
+          "
+        >
+        </sl-input>
+      </div>
+      <div class="viur-shop-cart-card-price-wrap" slot="footer">
+        <div class="viur-shop-cart-card-price-label">Preis</div>
+        <div class="viur-shop-cart-card-price">
+          {{ state.leaf.price.retail }}
+          €
+        </div>
+        <div class="viur-shop-cart-card-small-print">Brutto / Stk.</div>
+      </div>
+    </div>
+  </sl-card>
 </template>
 
 <script setup>
-import { computed, reactive } from "vue";
+import { computed, onBeforeMount, reactive } from "vue";
 
 const props = defineProps({
   leaf: { type: Object, required: true },
+  node: { type: Object, required: true },
 });
 
-const state = reactive({});
+const emit = defineEmits(["updateItem", "removeItem"]);
+
+const state = reactive({
+  leaf: {},
+});
+
+function updateItem(item, articleKey, node, quantity) {
+  emit("updateItem", {
+    item: item,
+    articleKey: articleKey,
+    node: node,
+    quantity: quantity,
+  });
+}
+
+function removeItem(item, articleKey, node) {
+  emit("removeItem", { item: item, articleKey: articleKey, node: node });
+}
+
+onBeforeMount(() => {
+  state.leaf = props.leaf;
+});
 </script>
+
+<style scoped>
+.viur-shop-cart-card-img {
+  aspect-ratio: 1;
+}
+
+.viur-shop-cart-card {
+  margin-bottom: var(--sl-spacing-x-large);
+
+  &::part(header) {
+    border-bottom: none;
+    padding-top: 0;
+    padding-right: 0;
+  }
+
+  &::part(image) {
+    flex-basis: 25%;
+    max-width: 250px;
+  }
+
+  &::part(body) {
+    display: flex;
+    flex: 1;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+  }
+
+  &::part(group) {
+    padding: var(--sl-spacing-small) 0;
+  }
+}
+
+.viur-shop-cart-card-body-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: var(--sl-spacing-large);
+  flex: 1;
+}
+
+.viur-shop-cart-card-body-info {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.viur-shop-cart-card-descr {
+  margin-bottom: auto;
+}
+
+.viur-shop-cart-card-body-footer {
+  display: flex;
+  flex-direction: row;
+  gap: var(--sl-spacing-2x-small);
+  margin-top: var(--sl-spacing-large);
+}
+
+.amount-input {
+  width: 5em;
+}
+
+.viur-shop-cart-card-price-wrap {
+  display: flex;
+  flex-direction: column;
+
+  .viur-shop-cart-card-small-print {
+    font-size: 0.75em;
+    margin-left: auto;
+  }
+}
+
+.viur-shop-cart-card-price {
+  font-size: 1.3em;
+}
+
+.viur-shop-cart-card-price-label {
+  color: var(--ignt-color-primary);
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 1em;
+  margin-left: auto;
+}
+</style>
