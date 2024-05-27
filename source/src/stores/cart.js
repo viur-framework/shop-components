@@ -19,8 +19,6 @@ export const useCartStore = defineStore("cartstore", () => {
   });
 
   async function init() {
-    // ! initializes only children for cart of type basket
-    // ! for whishlists this has to be done in the component
     await getRootNodes();
   }
 

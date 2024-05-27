@@ -1,7 +1,20 @@
 <template>
   <Loader v-if="!cartKey.length"></Loader>
   <template v-else>
-    <pre> {{ state.nodes }}</pre>
+    <div v-for="node in state.nodes">
+      <template
+        v-if="Object.keys(state.leaves).includes(node.key)"
+        :key="node.key"
+      >
+        <CartNode :node="node"> </CartNode>
+        <CartLeaf
+          v-for="leaf in state.leaves[node.key]"
+          :key="leaf.key"
+          :leaf="leaf"
+        >
+        </CartLeaf>
+      </template>
+    </div>
     <pre> {{ state.leaves }}</pre>
   </template>
 

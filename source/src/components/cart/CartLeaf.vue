@@ -1,7 +1,13 @@
 <template>
-  <div>test</div>
+  <pre>{{ leaf }}</pre>
 </template>
 
-<script setup></script>
+<script setup>
+import { computed, reactive } from "vue";
 
-<style scoped></style>
+const props = defineProps({
+  leaf: { type: Object, required: true },
+});
+
+const state = reactive({});
+</script>

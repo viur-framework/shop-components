@@ -1,17 +1,17 @@
 <template>
-  <h1>{{ state.headline }}</h1>
+  <pre>{{ state.headline }}</pre>
 </template>
 
 <script setup>
 import { computed, reactive } from "vue";
 
 const props = defineProps({
-  headline: { type: String, default: "TEST" },
+  node: { type: Object, required: true },
 });
 
 const state = reactive({
   headline: computed(() => {
-    props.headline;
+    props.node;
   }),
 });
 </script>
