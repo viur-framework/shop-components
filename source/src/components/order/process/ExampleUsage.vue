@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, reactive, shallowRef } from "vue";
+import { onBeforeMount, reactive, shallowRef, ref } from "vue";
 import { ListRequest } from "@viur/vue-utils";
 
 import CartView from "../../cart/CartView.vue";
@@ -17,6 +17,7 @@ import { useCartStore } from "../../../stores/cart";
 
 const cartStore = useCartStore();
 
+const rootNode = ref(null);
 const state = reactive({
   rootNode: {},
   tabs: {
@@ -25,7 +26,7 @@ const state = reactive({
       props: {
         sidebar: true,
         mode: "basket",
-        cartKey: state.rootNode.key,
+        cartKey: rootNode.value.key,
       }, // cartKey (on initial call has to be a root node) is a required prop, make sure that cartStore.init() is called before cart is mounted
       displayName: "Warenkorb",
       icon: { name: "cart", library: "hsk" },
@@ -101,7 +102,10 @@ function handleTabs(e) {
 
 onBeforeMount(async () => {
   await cartStore.init();
-  state.rootNode = cartStore.state.basketRootNode.key
   await cartStore.getAdressStructure();
+
+  console.log("debug init exampleusage :", cartStore.state.basketRootNode);
+
+  rootNode.value = cartStore.state.basketRootNode.key;
 });
 </script>
