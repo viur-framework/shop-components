@@ -290,6 +290,7 @@ async function updateCart() {
   state.nodes = [];
   state.leaves = {};
 
+  await cartStore.init();
   await getChildren();
 }
 
