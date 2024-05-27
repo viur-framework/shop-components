@@ -249,6 +249,7 @@ async function onConfirm() {
     0,
   );
   confirm.value.hide();
+  await updateCart();
 }
 
 async function updateItem(e) {
@@ -282,8 +283,6 @@ async function onDialogHide() {
 
   state.currentItem = {};
   state.currentNode = {};
-
-  await updateCart();
 }
 
 async function updateCart() {
