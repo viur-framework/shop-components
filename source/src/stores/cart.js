@@ -112,5 +112,6 @@ export const useCartStore = defineStore("cartstore", () => {
     updateItem,
     init,
     getAdressStructure,
+    getChildren,
   };
 });
