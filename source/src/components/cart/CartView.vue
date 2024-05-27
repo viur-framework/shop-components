@@ -251,7 +251,7 @@ async function onConfirm() {
   confirm.value.hide();
 }
 
-function updateItem(e) {
+async function updateItem(e) {
   console.log("updateItem :", e);
 
   if (e.quantity === 0) {
@@ -260,6 +260,8 @@ function updateItem(e) {
     state.currentNode = e.node;
   } else {
     cartStore.updateItem(e.articleKey, e.node.key, e.quantity);
+
+    await updateCart();
   }
 }
 
@@ -277,10 +279,18 @@ async function onDialogHide() {
       item.quantity = 1;
     }
   });
-  // TODO: await updateCart(state.currentNode.key);
 
   state.currentItem = {};
   state.currentNode = {};
+
+  await updateCart();
+}
+
+async function updateCart() {
+  state.nodes = [];
+  state.leaves = {};
+
+  await getChildren();
 }
 
 async function getChildren(parentKey = props.cartKey) {
