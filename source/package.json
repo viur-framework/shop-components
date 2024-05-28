@@ -1,6 +1,6 @@
 {
   "name": "@viur/shop-components",
-  "version": "0.0.1-dev.30",
+  "version": "0.0.1-dev.31",
   "description": "Frontend Vue components for the shop module of ViUR",
   "repository": {
     "type": "git",
