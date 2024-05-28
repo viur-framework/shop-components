@@ -220,11 +220,13 @@
 </template>
 
 <script setup>
-import { getBoneWidget } from "@viur/vue-utils/bones/edit/index";
 
 import { reactive, computed, watch, ref, onBeforeMount } from "vue";
 // import ShippingAdress from "./adress/ShippingAdress.vue";
 import { useCartStore } from "../../../stores/cart";
+import Wrapper_nested from "@viur/vue-utils/bones/edit/wrapper_nested.vue";
+import bone from "@viur/vue-utils/bones/edit/bone.vue";
+import { getBoneWidget } from "@viur/vue-utils/bones/edit/index";
 
 const props = defineProps({
   mode: { type: String, default: "form" },

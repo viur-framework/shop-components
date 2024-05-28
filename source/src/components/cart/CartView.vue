@@ -1,5 +1,5 @@
 <template>
-  <Loader v-if="!cartKey.length"></Loader>
+  <sl-spinner v-if="!cartKey.length"></sl-spinner>
   <template v-else>
     <sl-dialog ref="confirm" @sl-hide="onDialogHide">
       <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
@@ -248,8 +248,8 @@ async function onConfirm() {
     state.currentNode.key,
     0,
   );
-  confirm.value.hide();
   await updateCart();
+  confirm.value.hide();
 }
 
 async function updateItem(e) {
@@ -275,6 +275,7 @@ function removeItem(e) {
 }
 
 async function onDialogHide() {
+  // TODO: console error when removing items
   state.leaves[state.currentNode.key].forEach((item) => {
     if (item.key === state.currentItem.key) {
       item.quantity = 1;
