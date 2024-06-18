@@ -25,6 +25,7 @@
   "dependencies": {
     "@viur/ignite": "^5.0.2",
     "@viur/shoelace": "^1.0.6-v2.15.0",
+    "@viur/viur-shop-client": "^0.1.0-dev.9",
     "@viur/vue-utils": "^1.4.5",
     "pinia": "^2.1.7",
     "vue": "^3.4.27",

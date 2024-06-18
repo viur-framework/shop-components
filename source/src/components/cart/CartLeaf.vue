@@ -1,4 +1,5 @@
 <template>
+  cartleafe
   <sl-card horizontal class="viur-shop-cart-card">
     <img
       class="viur-shop-cart-card-img"

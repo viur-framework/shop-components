@@ -316,6 +316,10 @@ onBeforeMount(async () => {
   await cartStore.init();
   await getChildren();
 
+  if (props.mode === "basket") {
+    state.nodes.push(cartStore.state.basketRootNode);
+  }
+
   console.log("state.nodes", state.nodes);
 
   console.log("state.leaves", state.leaves);

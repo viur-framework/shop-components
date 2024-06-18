@@ -11,8 +11,8 @@ import ConfirmView from "../../cart/ConfirmView.vue";
 import OrderView from "./OrderView.vue";
 import CategoryView from "../category/CategoryView.vue";
 import OrderComplete from "./OrderComplete.vue";
-import UserInformation from "../information/UserInformation.vue";
-import UserInfoMulti from "../information/UserInfoMulti.vue";
+// import UserInformation from "../information/UserInformation.vue";
+// import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";
 
 const cartStore = useCartStore();
@@ -72,16 +72,16 @@ const state = reactive({
     //   atShow: null,
     //   atHide: null,
     // },
-    userInfo: {
-      component: shallowRef(UserInformation),
-      props: {},
-      displayName: "Daten Eingeben",
-      icon: { name: "user", library: "hsk" },
-      position: 3,
-      disabled: false,
-      atShow: null,
-      atHide: null,
-    },
+    // userInfo: {
+    //   component: shallowRef(UserInformation),
+    //   props: {},
+    //   displayName: "Daten Eingeben",
+    //   icon: { name: "user", library: "hsk" },
+    //   position: 3,
+    //   disabled: false,
+    //   atShow: null,
+    //   atHide: null,
+    // },
     // userInfoMulti: {
     //   component: shallowRef(UserInfoMulti),
     //   props: {},
