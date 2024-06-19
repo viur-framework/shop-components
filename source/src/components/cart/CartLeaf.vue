@@ -22,7 +22,7 @@
         </div>
         <div class="viur-shop-cart-card-body-footer">
           <sl-button
-            size="small"
+            size="medium"
             outline
             class="viur-shop-cart-card-add-to-favourites-btn"
             variant="primary"
@@ -31,7 +31,7 @@
             <sl-icon name="heart" slot="prefix"></sl-icon>
           </sl-button>
           <sl-button
-            size="small"
+            size="medium"
             outline
             class="viur-shop-cart-card-delete-btn"
             variant="primary"
