@@ -44,7 +44,7 @@
       </div>
       <div class="viur-shop-cart-card-body-amount">
         <sl-input
-          class="amount-input"
+          class="viur-shop-cart-card-body-amount-input"
           type="number"
           label="Anzahl"
           placeholder="Number"
@@ -142,6 +142,7 @@ onBeforeMount(() => {
   &::part(group) {
     padding: var(--sl-spacing-small) 0;
   }
+
 }
 
 .viur-shop-cart-card-body-row {
@@ -149,26 +150,48 @@ onBeforeMount(() => {
   grid-template-columns: 1fr auto auto;
   gap: var(--sl-spacing-large);
   flex: 1;
+
+  @media (--ignt-mq-max-break-x-small) {
+      grid-template-columns: 1fr auto;
+    }
 }
 
 .viur-shop-cart-card-body-info {
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  @media (--ignt-mq-max-break-x-small) {
+      grid-column: span 2;
+      order: 99;
+    }
+}
+
+.viur-shop-cart-card-body-amount{
+  @media (--ignt-mq-max-break-x-small) {
+      display: flex;
+    }
 }
 
 .viur-shop-cart-card-descr {
   margin-bottom: auto;
+
+  @media (--ignt-mq-max-break-x-small) {
+      display: none;
+    }
 }
 
 .viur-shop-cart-card-body-footer {
   display: flex;
   flex-direction: row;
   gap: var(--sl-spacing-2x-small);
-  margin-top: var(--sl-spacing-large);
+
+  @media (--ignt-mq-min-break-x-small) {
+      margin-top: var(--sl-spacing-large);
+    }
 }
 
-.amount-input {
+.viur-shop-cart-card-body-amount-input {
   width: 5em;
 }
 
@@ -192,5 +215,9 @@ onBeforeMount(() => {
   margin-bottom: 10px;
   font-size: 1em;
   margin-left: auto;
+
+  @media (--ignt-mq-max-break-x-small) {
+      display: none;
+    }
 }
 </style>

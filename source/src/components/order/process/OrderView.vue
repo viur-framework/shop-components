@@ -58,6 +58,7 @@
 
     <div class="viur-shop-sidebar" id="order_sidebar"></div>
   </div>
+
 </template>
 
 <script setup>
@@ -123,19 +124,31 @@ function nextTab(tabName) {
 
 <style scoped>
 .viur-shop-wrap {
+  display: flex;
   flex-direction: row;
   gap: var(--sl-spacing-x-large);
   align-items: flex-start;
+
+  @media (--ignt-mq-max-break-small) {
+      flex-direction: column;
+    }
 }
 
 .viur-shop-sidebar {
   display: flex;
   flex-direction: column;
   background-color: var(--sl-color-neutral-100);
-  min-width: 300px;
+  width: 100%;
   padding: var(--sl-spacing-medium);
   position: sticky;
   top: 0;
+  margin-bottom: var(--sl-spacing-2x-large);
+
+
+  @media (--ignt-mq-min-break-small) {
+      min-width: 300px;
+      width: 300px;
+    }
 }
 
 .viur-shop-order-tab {
