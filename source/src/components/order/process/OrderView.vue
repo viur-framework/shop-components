@@ -14,7 +14,7 @@
         :disabled="tabs[tab].disabled"
       >
         <div class="viur-shop-order-step">
-          <sl-icon
+          <sl-icon class="viur-shop-order-step-icon"
             :name="tabs[tab].icon.name"
             :library="tabs[tab].icon.library"
           >

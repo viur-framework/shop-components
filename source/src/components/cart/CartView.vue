@@ -13,7 +13,7 @@
       </div>
     </sl-dialog>
 
-    <div v-for="node in state.nodes">
+    <div class="viur-shop-cart-node" v-for="node in state.nodes">
       <template
         v-if="Object.keys(state.leaves).includes(node.key)"
         :key="node.key"

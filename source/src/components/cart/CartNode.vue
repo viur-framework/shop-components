@@ -1,5 +1,4 @@
 <template>
-  cartnode
   <pre>{{ node.name }}</pre>
 </template>
 

@@ -1,56 +1,52 @@
 <template>
-  cartleafe
-  <sl-card horizontal class="viur-shop-cart-card">
+  <sl-card horizontal class="viur-shop-cart-leaf">
     <img
-      class="viur-shop-cart-card-img"
+      class="viur-shop-cart-leaf-img"
       slot="image"
       :src="getImage(state.leaf.shop_image ? state.leaf.shop_image : undefined)"
     />
-    <div class="viur-shop-cart-card-header" slot="header">
-      <h4 class="viur-shop-cart-card-headline headline">
-        {{ state.leaf.shop_name }} | {{ leaf.shop_art_no_or_gtin }}
-      </h4>
+    <h4 class="viur-shop-cart-leaf-headline headline">
+      {{ state.leaf.shop_name }}
+    </h4>
+    <h5 class="viur-shop-cart-leaf-artno">
+      {{ state.leaf.shop_art_no_or_gtin }}
+    </h5>
+    <div class="viur-shop-cart-leaf-descr">
+      Version: 900x900x2000 <br />
+      Farbe: Chromoptik <br />
+      Glasart: Klar hell mit Edelglasbeschichtung<br />
+      Anschlag: Beidseitig variabel<br />
+      Griff: Stangengriff Exklusiv (56)
     </div>
-    <div class="viur-shop-cart-card-body-row">
-      <div class="viur-shop-cart-card-body-info">
-        <div class="viur-shop-cart-card-descr">
-          Version: 900x900x2000 <br />
-          Farbe: Chromoptik <br />
-          Glasart: Klar hell mit Edelglasbeschichtung<br />
-          Anschlag: Beidseitig variabel<br />
-          Griff: Stangengriff Exklusiv (56)
-        </div>
-        <div class="viur-shop-cart-card-body-footer">
-          <sl-button
-            size="medium"
-            outline
-            class="viur-shop-cart-card-add-to-favourites-btn"
-            variant="primary"
-            title="Add to favourites"
-          >
-            <sl-icon name="heart" slot="prefix"></sl-icon>
-          </sl-button>
-          <sl-button
-            size="medium"
-            outline
-            class="viur-shop-cart-card-delete-btn"
-            variant="primary"
-            title="Remove from cart"
-            @click="removeItem(state.leaf, state.leaf.article.dest.key, node)"
-          >
-            <sl-icon name="trash" slot="prefix"></sl-icon>
-          </sl-button>
-        </div>
-      </div>
-      <div class="viur-shop-cart-card-body-amount">
-        <sl-input
-          class="viur-shop-cart-card-body-amount-input"
-          type="number"
-          label="Anzahl"
-          placeholder="Number"
-          min="0"
-          v-model="state.leaf.quantity"
-          @input="
+    <div class="viur-shop-cart-leaf-actions">
+      <sl-button
+        size="medium"
+        outline
+        class="viur-shop-cart-leaf-add-to-favourites-btn"
+        variant="primary"
+        title="Add to favourites"
+      >
+        <sl-icon name="heart" slot="prefix"></sl-icon>
+      </sl-button>
+      <sl-button
+        size="medium"
+        outline
+        class="viur-shop-cart-leaf-delete-btn"
+        variant="primary"
+        title="Remove from cart"
+        @click="removeItem(state.leaf, state.leaf.article.dest.key, node)"
+      >
+        <sl-icon name="trash" slot="prefix"></sl-icon>
+      </sl-button>
+    </div>
+    <sl-input
+      class="viur-shop-cart-leaf-body-amount-input"
+      type="number"
+      label="Anzahl"
+      placeholder="Number"
+      min="0"
+      v-model="state.leaf.quantity"
+      @input="
             updateItem(
               state.leaf,
               state.leaf.article.dest.key,
@@ -58,17 +54,21 @@
               state.leaf.quantity,
             )
           "
-        >
-        </sl-input>
-      </div>
-      <div class="viur-shop-cart-card-price-wrap" slot="footer">
-        <div class="viur-shop-cart-card-price-label">Preis</div>
-        <div class="viur-shop-cart-card-price">
-          {{ state.leaf.price.retail }}
-          €
-        </div>
-        <div class="viur-shop-cart-card-small-print">Brutto / Stk.</div>
-      </div>
+    >
+    </sl-input>
+    <div class="viur-shop-cart-leaf-unitprice">
+      <div class="viur-shop-cart-leaf-label">Stückpreis</div>
+      {{ state.leaf.price.retail }} €
+    </div>
+
+    <div class="viur-shop-cart-leaf-availability">
+      <div class="viur-shop-cart-leaf-label">Verfügbarkeit</div>
+
+    </div>
+
+    <div class="viur-shop-cart-leaf-price">
+      <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
+      {{ state.leaf.price.retail * state.leaf.quantity }} €
     </div>
   </sl-card>
 </template>
@@ -113,11 +113,11 @@ onBeforeMount(() => {
 </script>
 
 <style scoped>
-.viur-shop-cart-card-img {
+.viur-shop-cart-leaf-img {
   aspect-ratio: 1;
 }
 
-.viur-shop-cart-card {
+.viur-shop-cart-leaf {
   margin-bottom: var(--sl-spacing-x-large);
 
   &::part(header) {
@@ -145,7 +145,7 @@ onBeforeMount(() => {
 
 }
 
-.viur-shop-cart-card-body-row {
+.viur-shop-cart-leaf-body-row {
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: var(--sl-spacing-large);
@@ -156,7 +156,7 @@ onBeforeMount(() => {
     }
 }
 
-.viur-shop-cart-card-body-info {
+.viur-shop-cart-leaf-body-info {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -167,13 +167,13 @@ onBeforeMount(() => {
     }
 }
 
-.viur-shop-cart-card-body-amount{
+.viur-shop-cart-leaf-body-amount{
   @media (--ignt-mq-max-break-x-small) {
       display: flex;
     }
 }
 
-.viur-shop-cart-card-descr {
+.viur-shop-cart-leaf-descr {
   margin-bottom: auto;
 
   @media (--ignt-mq-max-break-x-small) {
@@ -181,35 +181,27 @@ onBeforeMount(() => {
     }
 }
 
-.viur-shop-cart-card-body-footer {
-  display: flex;
-  flex-direction: row;
-  gap: var(--sl-spacing-2x-small);
 
-  @media (--ignt-mq-min-break-x-small) {
-      margin-top: var(--sl-spacing-large);
-    }
-}
 
-.viur-shop-cart-card-body-amount-input {
+.viur-shop-cart-leaf-body-amount-input {
   width: 5em;
 }
 
-.viur-shop-cart-card-price-wrap {
+.viur-shop-cart-leaf-price-wrap {
   display: flex;
   flex-direction: column;
 
-  .viur-shop-cart-card-small-print {
+  .viur-shop-cart-leaf-small-print {
     font-size: 0.75em;
     margin-left: auto;
   }
 }
 
-.viur-shop-cart-card-price {
+.viur-shop-cart-leaf-price {
   font-size: 1.3em;
 }
 
-.viur-shop-cart-card-price-label {
+.viur-shop-cart-leaf-price-label {
   color: var(--ignt-color-primary);
   font-weight: 600;
   margin-bottom: 10px;
