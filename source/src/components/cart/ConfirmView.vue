@@ -83,7 +83,7 @@
       <teleport to="#order_sidebar">
         <h2 class="viur-shop-cart-sidebar-headline headline">Jetzt Bestellen</h2>
         <br />
-        <div class="viur-shop-cart-sidebar-info-line">
+        <!-- <div class="viur-shop-cart-sidebar-info-line">
           <span>Zwischensumme</span>
           {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00,00" }} €
         </div>
@@ -98,7 +98,7 @@
         <div class="viur-shop-cart-sidebar-info-line total">
           <span>Gesamt:</span>
           {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00" }} €
-        </div>
+        </div> -->
 
         <sl-checkbox @sl-change="onTosAccept">
           Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen
@@ -129,7 +129,7 @@ const cartStore = useCartStore();
 // const searchWarning = ref()
 const state = reactive({
   cartIsInit: computed(() => {
-    return cartStore.state?.basket.length ? true : false;
+    return true
   }),
   itemsIsInit: computed(() => {
     return cartStore.state?.carts[cartStore.state.basket].items ? true : false;
