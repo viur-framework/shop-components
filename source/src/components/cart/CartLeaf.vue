@@ -1,7 +1,7 @@
 <template>
   <sl-card horizontal class="viur-shop-cart-leaf">
     <img
-      class="viur-shop-cart-leaf-img"
+      class="viur-shop-cart-leaf-image"
       slot="image"
       :src="getImage(state.leaf.shop_image ? state.leaf.shop_image : undefined)"
     />
@@ -39,9 +39,9 @@
         <sl-icon name="trash" slot="prefix"></sl-icon>
       </sl-button>
     </div>
-    <div class="viur-shop-cart-leaf-amount">
+    <div class="viur-shop-cart-leaf-quantity">
       <sl-input
-        class="amount-input"
+        class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
         type="number"
         label="Anzahl"
         placeholder="Number"
@@ -60,11 +60,19 @@
     </div>
      <div class="viur-shop-cart-leaf-unitprice">
       <div class="viur-shop-cart-leaf-label">Stückpreis</div>
-      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.leaf.price.retail" class="viur-shop-cart-leaf-value"></sl-format-number>
+      <sl-format-number class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice"
+                        lang="de"
+                        type="currency"
+                        currency="EUR"
+                        :value="state.leaf.price.retail"></sl-format-number>
     </div>
     <div class="viur-shop-cart-leaf-price">
       <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
-      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.leaf.price.retail * state.leaf.quantity" class="viur-shop-cart-leaf-value"></sl-format-number>
+      <sl-format-number class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price"
+                        lang="de"
+                        type="currency"
+                        currency="EUR"
+                        :value="state.leaf.price.retail * state.leaf.quantity"></sl-format-number>
     </div>
   </sl-card>
 </template>
@@ -149,7 +157,7 @@ onBeforeMount(() => {
   }
 }
 
-.viur-shop-cart-leaf-img {
+.viur-shop-cart-leaf-image {
   aspect-ratio: 1;
 }
 
@@ -169,10 +177,6 @@ onBeforeMount(() => {
   margin-bottom: var(--ignt-spacing-small);
 }
 
-.amount-input {
-  width: 5em;
-}
-
 .viur-shop-cart-leaf-price {
   grid-column: span 2 / 8;
   text-align: right;
@@ -180,7 +184,7 @@ onBeforeMount(() => {
 }
 
 .viur-shop-cart-leaf-label,
-.amount-input::part(form-control-label) {
+.viur-shop-cart-leaf-value--quantity::part(form-control-label) {
   color: var(--shop-leaf-label-color);
   font-weight: var(--shop-leaf-label-font-weight);
   font-size: var(--shop-leaf-label-font-size);
