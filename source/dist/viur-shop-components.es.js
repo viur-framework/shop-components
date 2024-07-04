@@ -1,17 +1,14 @@
-import { reactive, computed, useCssVars, resolveComponent, openBlock, createBlock, Transition, withCtx, createElementBlock, createVNode, createElementVNode, createCommentVNode, Fragment, createTextVNode, toDisplayString, onBeforeMount, pushScopeId, popScopeId, ref, renderList, unref, Teleport, resolveDynamicComponent, mergeProps, normalizeClass, withDirectives, vShow, shallowRef } from "vue";
-import { Request } from "@viur/vue-utils";
-import { defineStore } from "pinia";
-import { ViURShopClient } from "@viur/viur-shop-client";
+import { reactive as R, computed as C, useCssVars as L, resolveComponent as v, openBlock as c, createBlock as N, Transition as M, withCtx as f, createElementBlock as k, createVNode as l, createElementVNode as e, createCommentVNode as B, Fragment as x, createTextVNode as i, toDisplayString as S, onBeforeMount as E, pushScopeId as T, popScopeId as j, ref as P, renderList as q, unref as z, Teleport as Q, resolveDynamicComponent as X, mergeProps as Y, normalizeClass as ee, withDirectives as te, vShow as se, shallowRef as ae } from "vue";
+import { Request as U } from "@viur/vue-utils";
+import { defineStore as oe } from "pinia";
+import { ViURShopClient as ne } from "@viur/viur-shop-client";
 import "vue-router";
-var Loader_vue_vue_type_style_index_0_scoped_true_lang = "";
-var _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) {
-    target[key] = val;
-  }
-  return target;
-};
-const __default__ = {
+const O = (t, n) => {
+  const o = t.__vccOpts || t;
+  for (const [p, s] of n)
+    o[p] = s;
+  return o;
+}, K = {
   props: {
     size: {
       type: String,
@@ -19,7 +16,7 @@ const __default__ = {
     },
     active: {
       type: Boolean,
-      default: true
+      default: !0
     },
     logo: {
       default: "logo-cube.svg",
@@ -30,265 +27,209 @@ const __default__ = {
       type: String
     }
   },
-  setup(props, context) {
-    const state = reactive({
-      trackWidth: computed(() => {
-        return `${props.size / 30}rem`;
-      }),
-      outerSize: computed(() => {
-        return `calc(${props.size}rem + ${state.trackWidth})`;
-      }),
-      spinnerSize: computed(() => {
-        return `${props.size}rem`;
-      }),
-      logoSize: computed(() => {
-        return `calc(${props.size}rem - ${state.trackWidth} * 10)`;
-      }),
-      shadow: computed(() => {
-        return `0px 0px ${props.size / 6}rem 0 color-mix(in hsl, var(--sl-color-neutral-1000), 80% transparent)`;
-      })
+  setup(t, n) {
+    const o = R({
+      trackWidth: C(() => `${t.size / 30}rem`),
+      outerSize: C(() => `calc(${t.size}rem + ${o.trackWidth})`),
+      spinnerSize: C(() => `${t.size}rem`),
+      logoSize: C(() => `calc(${t.size}rem - ${o.trackWidth} * 10)`),
+      shadow: C(() => `0px 0px ${t.size / 6}rem 0 color-mix(in hsl, var(--sl-color-neutral-1000), 80% transparent)`)
     });
-    return { state };
+    return { state: o };
   }
-};
-const __injectCSSVars__ = () => {
-  useCssVars((_ctx) => ({
-    "4d516391": _ctx.state.outerSize,
-    "9cfd9e6a": _ctx.state.shadow,
-    "08327592": _ctx.state.logoSize,
-    "602facef": _ctx.state.spinnerSize,
-    "0a642916": _ctx.color,
-    "3a404d66": _ctx.state.trackWidth
+}, Z = () => {
+  L((t) => ({
+    "93747d92": t.state.outerSize,
+    "284424e5": t.state.shadow,
+    "6485ca5e": t.state.logoSize,
+    "5d833915": t.state.spinnerSize,
+    d5b3feca: t.color,
+    "2050b700": t.state.trackWidth
   }));
-};
-const __setup__ = __default__.setup;
-__default__.setup = __setup__ ? (props, ctx) => {
-  __injectCSSVars__();
-  return __setup__(props, ctx);
-} : __injectCSSVars__;
-const _sfc_main$6 = __default__;
-const _hoisted_1$4 = {
+}, H = K.setup;
+K.setup = H ? (t, n) => (Z(), H(t, n)) : Z;
+const re = {
   key: 0,
   class: "loading"
-};
-const _hoisted_2$4 = { class: "logo" };
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_sl_spinner = resolveComponent("sl-spinner");
-  const _component_sl_icon = resolveComponent("sl-icon");
-  return openBlock(), createBlock(Transition, null, {
-    default: withCtx(() => [
-      $props.active ? (openBlock(), createElementBlock("div", _hoisted_1$4, [
-        createVNode(_component_sl_spinner, { class: "loader" }),
-        createElementVNode("div", _hoisted_2$4, [
-          createVNode(_component_sl_icon, { src: $props.logo }, null, 8, ["src"])
+}, ie = { class: "logo" };
+function le(t, n, o, p, s, d) {
+  const $ = v("sl-spinner"), b = v("sl-icon");
+  return c(), N(M, null, {
+    default: f(() => [
+      o.active ? (c(), k("div", re, [
+        l($, { class: "loader" }),
+        e("div", ie, [
+          l(b, { src: o.logo }, null, 8, ["src"])
         ])
-      ])) : createCommentVNode("", true)
+      ])) : B("", !0)
     ]),
     _: 1
   });
 }
-var Loader = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render], ["__scopeId", "data-v-356919e0"]]);
-const useCartStore = defineStore("cartstore", () => {
-  const shopClient = new ViURShopClient({
+const ce = /* @__PURE__ */ O(K, [["render", le], ["__scopeId", "data-v-46c45785"]]), G = oe("cartstore", () => {
+  const t = new ne({
     host_url: window.location.origin === "http://localhost:8081" ? "http://localhost:8080" : window.location.origin
-  });
-  const state = reactive({
+  }), n = R({
     basketRootNode: {},
     whishlistRootNodes: [],
     children: {},
     structure: { address: {}, cart: {} }
   });
-  async function init() {
-    await getRootNodes();
+  async function o() {
+    await s();
   }
-  async function getChildren(parentKey) {
-    let resp = await shopClient.cart_list({ cart_key: parentKey });
-    return resp;
+  async function p(r) {
+    return await t.cart_list({ cart_key: r });
   }
-  async function getRootNodes() {
-    let resp = await shopClient.cart_list();
-    resp.forEach((rootNode) => {
-      if (rootNode.is_root_node) {
-        if (rootNode.cart_type === "basket") {
-          state.basketRootNode = rootNode;
-        } else {
-          state.whishlistRootNodes.push(rootNode);
-        }
-      }
+  async function s() {
+    (await t.cart_list()).forEach((a) => {
+      a.is_root_node && (a.cart_type === "basket" ? n.basketRootNode = a : n.whishlistRootNodes.push(a));
     });
   }
-  async function addToCart(articleKey, cartKey) {
-    let resp = await shopClient.article_add({
-      article_key: articleKey,
-      parent_cart_key: cartKey
+  async function d(r, a) {
+    let _ = await t.article_add({
+      article_key: r,
+      parent_cart_key: a
     });
-    console.log("addToCart", resp);
+    console.log("addToCart", _);
   }
-  async function getArticleView(articleKey, cartKey) {
-    let article = await shopClient.article_view({
-      article_key: articleKey,
-      parent_cart_key: cartKey
+  async function $(r, a) {
+    let _ = await t.article_view({
+      article_key: r,
+      parent_cart_key: a
     });
-    console.log("getArticleView", article);
+    console.log("getArticleView", _);
   }
-  async function removeItem(articleKey, cartKey) {
-    let resp = await shopClient.article_remove({
-      article_key: articleKey,
-      parent_cart_key: cartKey
+  async function b(r, a) {
+    let _ = await t.article_remove({
+      article_key: r,
+      parent_cart_key: a
     });
-    console.log("remove Resp", resp);
+    console.log("remove Resp", _);
   }
-  async function updateItem(articleKey, cartKey, quantity) {
-    let resp = await shopClient.article_update({
-      article_key: articleKey,
-      parent_cart_key: cartKey,
-      quantity,
+  async function m(r, a, _) {
+    let h = await t.article_update({
+      article_key: r,
+      parent_cart_key: a,
+      quantity: _,
       quantity_mode: "replace"
     });
-    console.log("update Resp", resp);
+    console.log("update Resp", h);
   }
-  async function getAdressStructure() {
-    let addSkel = await shopClient.address_structure();
-    state.structure.address = addSkel.addSkel;
-    console.log("adress add", state.structure.address);
+  async function y() {
+    let r = await t.address_structure();
+    n.structure.address = r.addSkel, console.log("adress add", n.structure.address);
   }
   return {
-    state,
-    addToCart,
-    getArticleView,
-    removeItem,
-    updateItem,
-    init,
-    getAdressStructure,
-    getChildren
+    state: n,
+    addToCart: d,
+    getArticleView: $,
+    removeItem: b,
+    updateItem: m,
+    init: o,
+    getAdressStructure: y,
+    getChildren: p
   };
-});
-const _sfc_main$5 = {
+}), de = {
   __name: "CartNode",
   props: {
-    node: { type: Object, required: true }
+    node: { type: Object, required: !0 }
   },
-  setup(__props) {
-    reactive({});
-    return (_ctx, _cache) => {
-      return openBlock(), createElementBlock(Fragment, null, [
-        createTextVNode(" cartnode "),
-        createElementVNode("pre", null, toDisplayString(__props.node.name), 1)
-      ], 64);
-    };
+  setup(t) {
+    return R({}), (n, o) => (c(), k(x, null, [
+      i(" cartnode "),
+      e("pre", null, S(t.node.name), 1)
+    ], 64));
   }
-};
-var CartLeaf_vue_vue_type_style_index_0_scoped_true_lang = "";
-const _withScopeId$3 = (n) => (pushScopeId("data-v-3f1dae7a"), n = n(), popScopeId(), n);
-const _hoisted_1$3 = ["src"];
-const _hoisted_2$3 = {
+}, F = (t) => (T("data-v-0e24135f"), t = t(), j(), t), ue = ["src"], _e = {
   class: "viur-shop-cart-card-header",
   slot: "header"
-};
-const _hoisted_3$3 = { class: "viur-shop-cart-card-headline headline" };
-const _hoisted_4$3 = { class: "viur-shop-cart-card-body-row" };
-const _hoisted_5$2 = { class: "viur-shop-cart-card-body-info" };
-const _hoisted_6$2 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createElementVNode("div", { class: "viur-shop-cart-card-descr" }, [
-  /* @__PURE__ */ createTextVNode(" Version: 900x900x2000 "),
-  /* @__PURE__ */ createElementVNode("br"),
-  /* @__PURE__ */ createTextVNode(" Farbe: Chromoptik "),
-  /* @__PURE__ */ createElementVNode("br"),
-  /* @__PURE__ */ createTextVNode(" Glasart: Klar hell mit Edelglasbeschichtung"),
-  /* @__PURE__ */ createElementVNode("br"),
-  /* @__PURE__ */ createTextVNode(" Anschlag: Beidseitig variabel"),
-  /* @__PURE__ */ createElementVNode("br"),
-  /* @__PURE__ */ createTextVNode(" Griff: Stangengriff Exklusiv (56) ")
-], -1));
-const _hoisted_7$2 = { class: "viur-shop-cart-card-body-footer" };
-const _hoisted_8$2 = { class: "viur-shop-cart-card-body-amount" };
-const _hoisted_9$2 = {
+}, he = { class: "viur-shop-cart-card-headline headline" }, pe = { class: "viur-shop-cart-card-body-row" }, me = { class: "viur-shop-cart-card-body-info" }, fe = /* @__PURE__ */ F(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-card-descr" }, [
+  /* @__PURE__ */ i(" Version: 900x900x2000 "),
+  /* @__PURE__ */ e("br"),
+  /* @__PURE__ */ i(" Farbe: Chromoptik "),
+  /* @__PURE__ */ e("br"),
+  /* @__PURE__ */ i(" Glasart: Klar hell mit Edelglasbeschichtung"),
+  /* @__PURE__ */ e("br"),
+  /* @__PURE__ */ i(" Anschlag: Beidseitig variabel"),
+  /* @__PURE__ */ e("br"),
+  /* @__PURE__ */ i(" Griff: Stangengriff Exklusiv (56) ")
+], -1)), ve = { class: "viur-shop-cart-card-body-footer" }, be = { class: "viur-shop-cart-card-body-amount" }, ye = {
   class: "viur-shop-cart-card-price-wrap",
   slot: "footer"
-};
-const _hoisted_10$2 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createElementVNode("div", { class: "viur-shop-cart-card-price-label" }, "Preis", -1));
-const _hoisted_11$2 = { class: "viur-shop-cart-card-price" };
-const _hoisted_12$2 = /* @__PURE__ */ _withScopeId$3(() => /* @__PURE__ */ createElementVNode("div", { class: "viur-shop-cart-card-small-print" }, "Brutto / Stk.", -1));
-const _sfc_main$4 = {
+}, ke = /* @__PURE__ */ F(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-card-price-label" }, "Preis", -1)), ge = { class: "viur-shop-cart-card-price" }, we = /* @__PURE__ */ F(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-card-small-print" }, "Brutto / Stk.", -1)), $e = {
   __name: "CartLeaf",
   props: {
-    leaf: { type: Object, required: true },
-    node: { type: Object, required: true }
+    leaf: { type: Object, required: !0 },
+    node: { type: Object, required: !0 }
   },
   emits: ["updateItem", "removeItem"],
-  setup(__props, { emit: __emit }) {
-    const props = __props;
-    const emit = __emit;
-    const state = reactive({
+  setup(t, { emit: n }) {
+    const o = t, p = n, s = R({
       leaf: {}
     });
-    function getImage(image) {
-      if (image !== void 0)
-        return Request.downloadUrlFor(image);
-      return "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
+    function d(m) {
+      return m !== void 0 ? U.downloadUrlFor(m) : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
     }
-    function updateItem(item, articleKey, node, quantity) {
-      emit("updateItem", {
-        item,
-        articleKey,
-        node,
-        quantity
+    function $(m, y, r, a) {
+      p("updateItem", {
+        item: m,
+        articleKey: y,
+        node: r,
+        quantity: a
       });
     }
-    function removeItem(item, articleKey, node) {
-      emit("removeItem", { item, articleKey, node });
+    function b(m, y, r) {
+      p("removeItem", { item: m, articleKey: y, node: r });
     }
-    onBeforeMount(() => {
-      state.leaf = props.leaf;
-    });
-    return (_ctx, _cache) => {
-      const _component_sl_icon = resolveComponent("sl-icon");
-      const _component_sl_button = resolveComponent("sl-button");
-      const _component_sl_input = resolveComponent("sl-input");
-      const _component_sl_card = resolveComponent("sl-card");
-      return openBlock(), createElementBlock(Fragment, null, [
-        createTextVNode(" cartleafe "),
-        createVNode(_component_sl_card, {
+    return E(() => {
+      s.leaf = o.leaf;
+    }), (m, y) => {
+      const r = v("sl-icon"), a = v("sl-button"), _ = v("sl-input"), h = v("sl-card");
+      return c(), k(x, null, [
+        i(" cartleafe "),
+        l(h, {
           horizontal: "",
           class: "viur-shop-cart-card"
         }, {
-          default: withCtx(() => [
-            createElementVNode("img", {
+          default: f(() => [
+            e("img", {
               class: "viur-shop-cart-card-img",
               slot: "image",
-              src: getImage(state.leaf.shop_image ? state.leaf.shop_image : void 0)
-            }, null, 8, _hoisted_1$3),
-            createElementVNode("div", _hoisted_2$3, [
-              createElementVNode("h4", _hoisted_3$3, toDisplayString(state.leaf.shop_name) + " | " + toDisplayString(__props.leaf.shop_art_no_or_gtin), 1)
+              src: d(s.leaf.shop_image ? s.leaf.shop_image : void 0)
+            }, null, 8, ue),
+            e("div", _e, [
+              e("h4", he, S(s.leaf.shop_name) + " | " + S(t.leaf.shop_art_no_or_gtin), 1)
             ]),
-            createElementVNode("div", _hoisted_4$3, [
-              createElementVNode("div", _hoisted_5$2, [
-                _hoisted_6$2,
-                createElementVNode("div", _hoisted_7$2, [
-                  createVNode(_component_sl_button, {
+            e("div", pe, [
+              e("div", me, [
+                fe,
+                e("div", ve, [
+                  l(a, {
                     size: "small",
                     outline: "",
                     class: "viur-shop-cart-card-add-to-favourites-btn",
                     variant: "primary",
                     title: "Add to favourites"
                   }, {
-                    default: withCtx(() => [
-                      createVNode(_component_sl_icon, {
+                    default: f(() => [
+                      l(r, {
                         name: "heart",
                         slot: "prefix"
                       })
                     ]),
                     _: 1
                   }),
-                  createVNode(_component_sl_button, {
+                  l(a, {
                     size: "small",
                     outline: "",
                     class: "viur-shop-cart-card-delete-btn",
                     variant: "primary",
                     title: "Remove from cart",
-                    onClick: _cache[0] || (_cache[0] = ($event) => removeItem(state.leaf, state.leaf.article.dest.key, __props.node))
+                    onClick: y[0] || (y[0] = (I) => b(s.leaf, s.leaf.article.dest.key, t.node))
                   }, {
-                    default: withCtx(() => [
-                      createVNode(_component_sl_icon, {
+                    default: f(() => [
+                      l(r, {
                         name: "trash",
                         slot: "prefix"
                       })
@@ -297,27 +238,27 @@ const _sfc_main$4 = {
                   })
                 ])
               ]),
-              createElementVNode("div", _hoisted_8$2, [
-                createVNode(_component_sl_input, {
+              e("div", be, [
+                l(_, {
                   class: "amount-input",
                   type: "number",
                   label: "Anzahl",
                   placeholder: "Number",
                   min: "0",
-                  modelValue: state.leaf.quantity,
-                  "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => state.leaf.quantity = $event),
-                  onInput: _cache[2] || (_cache[2] = ($event) => updateItem(
-                    state.leaf,
-                    state.leaf.article.dest.key,
-                    __props.node,
-                    state.leaf.quantity
+                  modelValue: s.leaf.quantity,
+                  "onUpdate:modelValue": y[1] || (y[1] = (I) => s.leaf.quantity = I),
+                  onInput: y[2] || (y[2] = (I) => $(
+                    s.leaf,
+                    s.leaf.article.dest.key,
+                    t.node,
+                    s.leaf.quantity
                   ))
                 }, null, 8, ["modelValue"])
               ]),
-              createElementVNode("div", _hoisted_9$2, [
-                _hoisted_10$2,
-                createElementVNode("div", _hoisted_11$2, toDisplayString(state.leaf.price.retail) + " \u20AC ", 1),
-                _hoisted_12$2
+              e("div", ye, [
+                ke,
+                e("div", ge, S(s.leaf.price.retail) + " € ", 1),
+                we
               ])
             ])
           ]),
@@ -326,157 +267,91 @@ const _sfc_main$4 = {
       ], 64);
     };
   }
-};
-var CartLeaf = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-3f1dae7a"]]);
-var CartView_vue_vue_type_style_index_0_scoped_true_lang = "";
-const _withScopeId$2 = (n) => (pushScopeId("data-v-6c25a013"), n = n(), popScopeId(), n);
-const _hoisted_1$2 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createElementVNode("p", null, "M\xF6chten Sie den Artikel wirklich aus dem Warenkorb entfernen?", -1));
-const _hoisted_2$2 = {
+}, Ie = /* @__PURE__ */ O($e, [["__scopeId", "data-v-0e24135f"]]), V = (t) => (T("data-v-7aae4815"), t = t(), j(), t), Ce = /* @__PURE__ */ V(() => /* @__PURE__ */ e("p", null, "Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?", -1)), Se = {
   class: "footer-wrap",
   slot: "footer"
-};
-const _hoisted_3$2 = { key: 0 };
-const _hoisted_4$2 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createElementVNode("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Zusammenfassung", -1));
-const _hoisted_5$1 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_6$1 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_7$1 = { class: "viur-shop-cart-sidebar-info-line" };
-const _hoisted_8$1 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createElementVNode("span", null, "Zwischensumme", -1));
-const _hoisted_9$1 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createElementVNode("div", { class: "viur-shop-cart-sidebar-info-line" }, [
-  /* @__PURE__ */ createElementVNode("span", null, "Rabatt"),
-  /* @__PURE__ */ createTextVNode(" 0 \u20AC ")
-], -1));
-const _hoisted_10$1 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createElementVNode("div", { class: "viur-shop-cart-sidebar-info-line" }, [
-  /* @__PURE__ */ createElementVNode("span", null, "Versandkosten"),
-  /* @__PURE__ */ createTextVNode(" 0 \u20AC ")
-], -1));
-const _hoisted_11$1 = { class: "viur-shop-cart-sidebar-info-line total" };
-const _hoisted_12$1 = /* @__PURE__ */ _withScopeId$2(() => /* @__PURE__ */ createElementVNode("span", null, "Gesamt:", -1));
-const _hoisted_13$1 = { class: "viur-shop-cart-sidebar-btn-wrap" };
-const _sfc_main$3 = {
+}, Ne = { key: 0 }, ze = /* @__PURE__ */ V(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Zusammenfassung", -1)), xe = /* @__PURE__ */ V(() => /* @__PURE__ */ e("br", null, null, -1)), Re = /* @__PURE__ */ V(() => /* @__PURE__ */ e("br", null, null, -1)), Ve = { class: "viur-shop-cart-sidebar-info-line" }, Be = /* @__PURE__ */ V(() => /* @__PURE__ */ e("span", null, "Zwischensumme", -1)), qe = /* @__PURE__ */ V(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
+  /* @__PURE__ */ e("span", null, "Rabatt"),
+  /* @__PURE__ */ i(" 0 € ")
+], -1)), Oe = /* @__PURE__ */ V(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
+  /* @__PURE__ */ e("span", null, "Versandkosten"),
+  /* @__PURE__ */ i(" 0 € ")
+], -1)), Ae = { class: "viur-shop-cart-sidebar-info-line total" }, Ee = /* @__PURE__ */ V(() => /* @__PURE__ */ e("span", null, "Gesamt:", -1)), Te = { class: "viur-shop-cart-sidebar-btn-wrap" }, je = {
   __name: "CartView",
   props: {
     mode: { type: String, default: "basket" },
-    cartKey: { type: String, required: true },
-    sidebar: { type: Boolean, default: true }
+    cartKey: { type: String, required: !0 },
+    sidebar: { type: Boolean, default: !0 }
   },
-  setup(__props) {
-    const props = __props;
-    const cartStore = useCartStore();
-    const confirm = ref(null);
-    const state = reactive({
-      cartIsInit: computed(() => {
-        return cartStore.state.basketRootNode ? true : false;
-      }),
-      itemsIsInit: computed(() => {
-        return true;
-      }),
+  setup(t) {
+    const n = t, o = G(), p = P(null), s = R({
+      cartIsInit: C(() => !!o.state.basketRootNode),
+      itemsIsInit: C(() => !0),
       images: {},
       currentItem: {},
       currentNode: {},
       nodes: [],
       leaves: {}
     });
-    computed(() => {
-      return props.mode === "basket" ? cartStore.state.basket : props.cartKey;
-    });
-    async function onConfirm() {
-      await cartStore.updateItem(
-        state.currentItem.article.dest.key,
-        state.currentNode.key,
+    C(() => n.mode === "basket" ? o.state.basket : n.cartKey);
+    async function d() {
+      await o.updateItem(
+        s.currentItem.article.dest.key,
+        s.currentNode.key,
         0
-      );
-      await updateCart();
-      confirm.value.hide();
+      ), await y(), p.value.hide();
     }
-    async function updateItem(e) {
-      console.log("updateItem :", e);
-      if (e.quantity === 0) {
-        confirm.value.show();
-        state.currentItem = e.item;
-        state.currentNode = e.node;
-      } else {
-        await cartStore.updateItem(e.articleKey, e.node.key, e.quantity);
-        await cartStore.init();
-      }
+    async function $(a) {
+      console.log("updateItem :", a), a.quantity === 0 ? (p.value.show(), s.currentItem = a.item, s.currentNode = a.node) : (await o.updateItem(a.articleKey, a.node.key, a.quantity), await o.init());
     }
-    function removeItem(e) {
-      console.log("removeItem :", e);
-      confirm.value.show();
-      state.currentItem = e.item;
-      state.currentNode = e.node;
+    function b(a) {
+      console.log("removeItem :", a), p.value.show(), s.currentItem = a.item, s.currentNode = a.node;
     }
-    async function onDialogHide() {
-      state.leaves[state.currentNode.key].forEach((item) => {
-        if (item.key === state.currentItem.key) {
-          item.quantity = 1;
-        }
-      });
-      state.currentItem = {};
-      state.currentNode = {};
+    async function m() {
+      s.leaves[s.currentNode.key].forEach((a) => {
+        a.key === s.currentItem.key && (a.quantity = 1);
+      }), s.currentItem = {}, s.currentNode = {};
     }
-    async function updateCart() {
-      state.nodes = [];
-      state.leaves = {};
-      await cartStore.init();
-      await getChildren();
+    async function y() {
+      s.nodes = [], s.leaves = {}, await o.init(), await r();
     }
-    async function getChildren(parentKey = props.cartKey) {
-      console.log("debug getChildren parentKey from comp: ", parentKey);
-      const children = await cartStore.getChildren(parentKey);
-      console.log("getChildren children: ", children);
-      children.forEach(async (child) => {
-        if (child.skel_type === "node") {
-          state.nodes.push(child);
-          await getChildren(child.key);
-        } else {
-          if (!Object.keys(state.leaves).includes(parentKey)) {
-            state.leaves[parentKey] = [];
-          }
-          state.leaves[parentKey].push(child);
-        }
+    async function r(a = n.cartKey) {
+      console.log("debug getChildren parentKey from comp: ", a);
+      const _ = await o.getChildren(a);
+      console.log("getChildren children: ", _), _.forEach(async (h) => {
+        h.skel_type === "node" ? (s.nodes.push(h), await r(h.key)) : (Object.keys(s.leaves).includes(a) || (s.leaves[a] = []), s.leaves[a].push(h));
       });
     }
-    onBeforeMount(async () => {
-      await cartStore.init();
-      await getChildren();
-      if (props.mode === "basket") {
-        state.nodes.push(cartStore.state.basketRootNode);
-      }
-      console.log("state.nodes test", state.nodes);
-      console.log("state.leaves", state.leaves);
-    });
-    return (_ctx, _cache) => {
-      const _component_sl_spinner = resolveComponent("sl-spinner");
-      const _component_sl_button = resolveComponent("sl-button");
-      const _component_sl_dialog = resolveComponent("sl-dialog");
-      const _component_sl_input = resolveComponent("sl-input");
-      const _component_sl_icon = resolveComponent("sl-icon");
-      return !__props.cartKey.length ? (openBlock(), createBlock(_component_sl_spinner, { key: 0 })) : (openBlock(), createElementBlock(Fragment, { key: 1 }, [
-        createVNode(_component_sl_dialog, {
+    return E(async () => {
+      await o.init(), await r(), n.mode === "basket" && s.nodes.push(o.state.basketRootNode), console.log("state.nodes test", s.nodes), console.log("state.leaves", s.leaves);
+    }), (a, _) => {
+      const h = v("sl-spinner"), I = v("sl-button"), D = v("sl-dialog"), W = v("sl-input"), g = v("sl-icon");
+      return t.cartKey.length ? (c(), k(x, { key: 1 }, [
+        l(D, {
           ref_key: "confirm",
-          ref: confirm,
-          onSlHide: onDialogHide
+          ref: p,
+          onSlHide: m
         }, {
-          default: withCtx(() => [
-            _hoisted_1$2,
-            createElementVNode("div", _hoisted_2$2, [
-              createVNode(_component_sl_button, {
+          default: f(() => [
+            Ce,
+            e("div", Se, [
+              l(I, {
                 variant: "danger",
-                onClick: _cache[0] || (_cache[0] = ($event) => confirm.value.hide()),
+                onClick: _[0] || (_[0] = (w) => p.value.hide()),
                 size: "medium"
               }, {
-                default: withCtx(() => [
-                  createTextVNode(" Abbrechen ")
+                default: f(() => [
+                  i(" Abbrechen ")
                 ]),
                 _: 1
               }),
-              createVNode(_component_sl_button, {
+              l(I, {
                 variant: "success",
-                onClick: onConfirm,
+                onClick: d,
                 size: "medium"
               }, {
-                default: withCtx(() => [
-                  createTextVNode(" Aus Warenkorb entfernen ")
+                default: f(() => [
+                  i(" Aus Warenkorb entfernen ")
                 ]),
                 _: 1
               })
@@ -484,177 +359,116 @@ const _sfc_main$3 = {
           ]),
           _: 1
         }, 512),
-        (openBlock(true), createElementBlock(Fragment, null, renderList(state.nodes, (node) => {
-          return openBlock(), createElementBlock("div", null, [
-            Object.keys(state.leaves).includes(node.key) ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-              createVNode(_sfc_main$5, { node }, null, 8, ["node"]),
-              (openBlock(true), createElementBlock(Fragment, null, renderList(state.leaves[node.key], (leaf) => {
-                return openBlock(), createBlock(CartLeaf, {
-                  key: leaf.key,
-                  leaf,
-                  node,
-                  onRemoveItem: removeItem,
-                  onUpdateItem: updateItem
-                }, null, 8, ["leaf", "node"]);
-              }), 128))
-            ], 64)) : createCommentVNode("", true)
-          ]);
-        }), 256)),
-        __props.sidebar ? (openBlock(), createElementBlock("div", _hoisted_3$2, [
-          _hoisted_4$2,
-          _hoisted_5$1,
-          createVNode(_component_sl_input, { label: "Rabattcode eingeben" }),
-          _hoisted_6$1,
-          createElementVNode("div", _hoisted_7$1, [
-            _hoisted_8$1,
-            createTextVNode(" --> " + toDisplayString(__props.mode === "basket" ? unref(cartStore).state.basketRootNode.total : unref(cartStore).state.whishlistRootNodes[__props.cartKey].total) + " \u20AC ", 1)
+        (c(!0), k(x, null, q(s.nodes, (w) => (c(), k("div", null, [
+          Object.keys(s.leaves).includes(w.key) ? (c(), k(x, { key: 0 }, [
+            l(de, { node: w }, null, 8, ["node"]),
+            (c(!0), k(x, null, q(s.leaves[w.key], (A) => (c(), N(Ie, {
+              key: A.key,
+              leaf: A,
+              node: w,
+              onRemoveItem: b,
+              onUpdateItem: $
+            }, null, 8, ["leaf", "node"]))), 128))
+          ], 64)) : B("", !0)
+        ]))), 256)),
+        t.sidebar ? (c(), k("div", Ne, [
+          ze,
+          xe,
+          l(W, { label: "Rabattcode eingeben" }),
+          Re,
+          e("div", Ve, [
+            Be,
+            i(" --> " + S(t.mode === "basket" ? z(o).state.basketRootNode.total : z(o).state.whishlistRootNodes[t.cartKey].total) + " € ", 1)
           ]),
-          _hoisted_9$1,
-          _hoisted_10$1,
-          createElementVNode("div", _hoisted_11$1, [
-            _hoisted_12$1,
-            createTextVNode(" " + toDisplayString(__props.mode === "basket" ? unref(cartStore).state.basketRootNode.total : unref(cartStore).state.whishlistRootNodes[__props.cartKey].total) + " \u20AC ", 1)
+          qe,
+          Oe,
+          e("div", Ae, [
+            Ee,
+            i(" " + S(t.mode === "basket" ? z(o).state.basketRootNode.total : z(o).state.whishlistRootNodes[t.cartKey].total) + " € ", 1)
           ]),
-          createElementVNode("div", _hoisted_13$1, [
-            createVNode(_component_sl_button, {
+          e("div", Te, [
+            l(I, {
               variant: "info",
               size: "small"
             }, {
-              default: withCtx(() => [
-                createTextVNode(" Jetzt Bestellen ")
+              default: f(() => [
+                i(" Jetzt Bestellen ")
               ]),
               _: 1
             }),
-            createVNode(_component_sl_button, {
+            l(I, {
               size: "small",
               variant: "primary"
             }, {
-              default: withCtx(() => [
-                createVNode(_component_sl_icon, {
+              default: f(() => [
+                l(g, {
                   name: "paypal",
                   slot: "prefix"
                 }),
-                createTextVNode(" Paypal ")
+                i(" Paypal ")
               ]),
               _: 1
             })
           ])
-        ])) : createCommentVNode("", true)
-      ], 64));
+        ])) : B("", !0)
+      ], 64)) : (c(), N(h, { key: 0 }));
     };
   }
-};
-var CartView = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-6c25a013"]]);
-var ConfirmView_vue_vue_type_style_index_0_scoped_true_lang = "";
-const _withScopeId$1 = (n) => (pushScopeId("data-v-65081a13"), n = n(), popScopeId(), n);
-const _hoisted_1$1 = {
+}, J = /* @__PURE__ */ O(je, [["__scopeId", "data-v-7aae4815"]]), u = (t) => (T("data-v-75e70e9a"), t = t(), j(), t), De = {
   key: 1,
   class: "list"
-};
-const _hoisted_2$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("h2", { class: "viur-shop-cart-headline headline" }, "Bestellung pr\xFCfen", -1));
-const _hoisted_3$1 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_4$1 = { class: "viur-shop-cart-address-wrap" };
-const _hoisted_5 = { class: "viur-shop-cart-address" };
-const _hoisted_6 = { class: "viur-shop-cart-address-headline" };
-const _hoisted_7 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_8 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_9 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_10 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_11 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_12 = { class: "viur-shop-cart-address" };
-const _hoisted_13 = { class: "viur-shop-cart-address-headline" };
-const _hoisted_14 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_15 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_16 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_17 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_18 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_19 = { class: "viur-shop-cart-payment" };
-const _hoisted_20 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("div", { class: "viur-shop-cart-payment-method" }, [
-  /* @__PURE__ */ createElementVNode("span", null, "Zahlungsmethode:"),
-  /* @__PURE__ */ createTextVNode(" Paypal ")
-], -1));
-const _hoisted_21 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("h2", { class: "viur-shop-cart-headline headline" }, "Warenkorb", -1));
-const _hoisted_22 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_23 = ["src"];
-const _hoisted_24 = {
+}, We = /* @__PURE__ */ u(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-headline headline" }, "Bestellung prüfen", -1)), Ue = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Ke = { class: "viur-shop-cart-address-wrap" }, Ge = { class: "viur-shop-cart-address" }, Fe = { class: "viur-shop-cart-address-headline" }, Ze = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), He = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Pe = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Je = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Le = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Me = { class: "viur-shop-cart-address" }, Qe = { class: "viur-shop-cart-address-headline" }, Xe = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Ye = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), et = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), tt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), st = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), at = { class: "viur-shop-cart-payment" }, ot = /* @__PURE__ */ u(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-payment-method" }, [
+  /* @__PURE__ */ e("span", null, "Zahlungsmethode:"),
+  /* @__PURE__ */ i(" Paypal ")
+], -1)), nt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-headline headline" }, "Warenkorb", -1)), rt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), it = ["src"], lt = {
   class: "viur-shop-cart-mini-cart-header",
   slot: "header"
-};
-const _hoisted_25 = { class: "viur-shop-cart-mini-headline headline" };
-const _hoisted_26 = { class: "viur-shop-cart-mini-card-body-row" };
-const _hoisted_27 = { class: "viur-shop-cart-mini-card-body-info" };
-const _hoisted_28 = { class: "viur-shop-cart-mini-card-info-wrap" };
-const _hoisted_29 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("div", { class: "viur-shop-cart-mini-card-info" }, [
-  /* @__PURE__ */ createElementVNode("span", null, "Anzahl: "),
-  /* @__PURE__ */ createTextVNode(" 1 ")
-], -1));
-const _hoisted_30 = { class: "viur-shop-cart-mini-card-info" };
-const _hoisted_31 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("span", null, "Preis: ", -1));
-const _hoisted_32 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Jetzt Bestellen", -1));
-const _hoisted_33 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("br", null, null, -1));
-const _hoisted_34 = { class: "viur-shop-cart-sidebar-info-line" };
-const _hoisted_35 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("span", null, "Zwischensumme", -1));
-const _hoisted_36 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("div", { class: "viur-shop-cart-sidebar-info-line" }, [
-  /* @__PURE__ */ createElementVNode("span", null, "Rabatt"),
-  /* @__PURE__ */ createTextVNode(" 0 \u20AC ")
-], -1));
-const _hoisted_37 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("div", { class: "viur-shop-cart-sidebar-info-line" }, [
-  /* @__PURE__ */ createElementVNode("span", null, "Versandkosten"),
-  /* @__PURE__ */ createTextVNode(" 0 \u20AC ")
-], -1));
-const _hoisted_38 = { class: "viur-shop-cart-sidebar-info-line total" };
-const _hoisted_39 = /* @__PURE__ */ _withScopeId$1(() => /* @__PURE__ */ createElementVNode("span", null, "Gesamt:", -1));
-const _hoisted_40 = { class: "viur-shop-cart-sidebar-btn-wrap" };
-const _sfc_main$2 = {
+}, ct = { class: "viur-shop-cart-mini-headline headline" }, dt = { class: "viur-shop-cart-mini-card-body-row" }, ut = { class: "viur-shop-cart-mini-card-body-info" }, _t = { class: "viur-shop-cart-mini-card-info-wrap" }, ht = /* @__PURE__ */ u(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-mini-card-info" }, [
+  /* @__PURE__ */ e("span", null, "Anzahl: "),
+  /* @__PURE__ */ i(" 1 ")
+], -1)), pt = { class: "viur-shop-cart-mini-card-info" }, mt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("span", null, "Preis: ", -1)), ft = /* @__PURE__ */ u(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Jetzt Bestellen", -1)), vt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), bt = { class: "viur-shop-cart-sidebar-info-line" }, yt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("span", null, "Zwischensumme", -1)), kt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
+  /* @__PURE__ */ e("span", null, "Rabatt"),
+  /* @__PURE__ */ i(" 0 € ")
+], -1)), gt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
+  /* @__PURE__ */ e("span", null, "Versandkosten"),
+  /* @__PURE__ */ i(" 0 € ")
+], -1)), wt = { class: "viur-shop-cart-sidebar-info-line total" }, $t = /* @__PURE__ */ u(() => /* @__PURE__ */ e("span", null, "Gesamt:", -1)), It = { class: "viur-shop-cart-sidebar-btn-wrap" }, Ct = {
   __name: "ConfirmView",
-  setup(__props) {
-    const cartStore = useCartStore();
-    const state = reactive({
-      cartIsInit: computed(() => {
-        return cartStore.state.basket.length ? true : false;
-      }),
-      itemsIsInit: computed(() => {
-        return cartStore.state.carts[cartStore.state.basket].items ? true : false;
-      }),
+  setup(t) {
+    const n = G(), o = R({
+      cartIsInit: C(() => !!n.state.basket.length),
+      itemsIsInit: C(() => !!n.state.carts[n.state.basket].items),
       images: {},
-      showOrderButton: false
+      showOrderButton: !1
     });
-    function getImage(item) {
-      Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
-        let data = await resp.json();
-        data = data.values;
-        let imageUrl = data.dk_artikel.dest.image ? Request.downloadUrlFor(data.dk_artikel.dest.image) : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-        state.images[item] = imageUrl;
-      });
-      return state.images[item];
+    function p(d) {
+      return U.get(`/json/dk_variante/view/${d}`).then(async ($) => {
+        let b = await $.json();
+        b = b.values;
+        let m = b.dk_artikel.dest.image ? U.downloadUrlFor(b.dk_artikel.dest.image) : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
+        o.images[d] = m;
+      }), o.images[d];
     }
-    function onTosAccept(e) {
-      if (e.target.checked)
-        state.showOrderButton = true;
-      if (!e.target.checked)
-        state.showOrderButton = false;
+    function s(d) {
+      d.target.checked && (o.showOrderButton = !0), d.target.checked || (o.showOrderButton = !1);
     }
-    onBeforeMount(async () => {
-      await cartStore.init();
-    });
-    return (_ctx, _cache) => {
-      const _component_sl_icon = resolveComponent("sl-icon");
-      const _component_sl_button = resolveComponent("sl-button");
-      const _component_sl_card = resolveComponent("sl-card");
-      const _component_sl_checkbox = resolveComponent("sl-checkbox");
-      return !state.cartIsInit ? (openBlock(), createBlock(Loader, { key: 0 })) : (openBlock(), createElementBlock("div", _hoisted_1$1, [
-        _hoisted_2$1,
-        _hoisted_3$1,
-        createElementVNode("div", _hoisted_4$1, [
-          createElementVNode("div", _hoisted_5, [
-            createElementVNode("div", _hoisted_6, [
-              createTextVNode(" Versandadresse "),
-              createVNode(_component_sl_button, {
+    return E(async () => {
+      await n.init();
+    }), (d, $) => {
+      const b = v("sl-icon"), m = v("sl-button"), y = v("sl-card"), r = v("sl-checkbox");
+      return o.cartIsInit ? (c(), k("div", De, [
+        We,
+        Ue,
+        e("div", Ke, [
+          e("div", Ge, [
+            e("div", Fe, [
+              i(" Versandadresse "),
+              l(m, {
                 outline: "",
                 size: "small"
               }, {
-                default: withCtx(() => [
-                  createVNode(_component_sl_icon, {
+                default: f(() => [
+                  l(b, {
                     name: "pencil",
                     slot: "prefix"
                   })
@@ -662,26 +476,26 @@ const _sfc_main$2 = {
                 _: 1
               })
             ]),
-            createTextVNode(" Roland Brose"),
-            _hoisted_7,
-            createTextVNode(" Speicherstra\xDFe 33"),
-            _hoisted_8,
-            createTextVNode(" 44147 Dortmund, DE"),
-            _hoisted_9,
-            _hoisted_10,
-            createTextVNode(" rb@mausbrand.de"),
-            _hoisted_11,
-            createTextVNode(" 0231 21 34 68 90 ")
+            i(" Roland Brose"),
+            Ze,
+            i(" Speicherstraße 33"),
+            He,
+            i(" 44147 Dortmund, DE"),
+            Pe,
+            Je,
+            i(" rb@mausbrand.de"),
+            Le,
+            i(" 0231 21 34 68 90 ")
           ]),
-          createElementVNode("div", _hoisted_12, [
-            createElementVNode("div", _hoisted_13, [
-              createTextVNode(" Rechnungsadresse "),
-              createVNode(_component_sl_button, {
+          e("div", Me, [
+            e("div", Qe, [
+              i(" Rechnungsadresse "),
+              l(m, {
                 outline: "",
                 size: "small"
               }, {
-                default: withCtx(() => [
-                  createVNode(_component_sl_icon, {
+                default: f(() => [
+                  l(b, {
                     name: "pencil",
                     slot: "prefix"
                   })
@@ -689,26 +503,26 @@ const _sfc_main$2 = {
                 _: 1
               })
             ]),
-            createTextVNode(" Roland Brose"),
-            _hoisted_14,
-            createTextVNode(" Speicherstra\xDFe 33"),
-            _hoisted_15,
-            createTextVNode(" 44147 Dortmund, DE"),
-            _hoisted_16,
-            _hoisted_17,
-            createTextVNode(" rb@mausbrand.de"),
-            _hoisted_18,
-            createTextVNode(" 0231 21 34 68 90 ")
+            i(" Roland Brose"),
+            Xe,
+            i(" Speicherstraße 33"),
+            Ye,
+            i(" 44147 Dortmund, DE"),
+            et,
+            tt,
+            i(" rb@mausbrand.de"),
+            st,
+            i(" 0231 21 34 68 90 ")
           ])
         ]),
-        createElementVNode("div", _hoisted_19, [
-          _hoisted_20,
-          createVNode(_component_sl_button, {
+        e("div", at, [
+          ot,
+          l(m, {
             outline: "",
             size: "small"
           }, {
-            default: withCtx(() => [
-              createVNode(_component_sl_icon, {
+            default: f(() => [
+              l(b, {
                 name: "pencil",
                 slot: "prefix"
               })
@@ -716,269 +530,278 @@ const _sfc_main$2 = {
             _: 1
           })
         ]),
-        _hoisted_21,
-        _hoisted_22,
-        (openBlock(true), createElementBlock(Fragment, null, renderList(unref(cartStore).state.carts[unref(cartStore).state.basket].items, (item) => {
-          return openBlock(), createBlock(_component_sl_card, {
-            horizontal: "",
-            class: "viur-shop-cart-mini-card"
-          }, {
-            default: withCtx(() => [
-              createElementVNode("img", {
-                class: "viur-shop-cart-mini-card-img",
-                slot: "image",
-                src: getImage(item.article.dest.key)
-              }, null, 8, _hoisted_23),
-              createElementVNode("div", _hoisted_24, [
-                createElementVNode("h4", _hoisted_25, toDisplayString(item.article.dest.shop_name) + " | 425018", 1)
-              ]),
-              createElementVNode("div", _hoisted_26, [
-                createElementVNode("div", _hoisted_27, [
-                  createElementVNode("div", _hoisted_28, [
-                    _hoisted_29,
-                    createElementVNode("div", _hoisted_30, [
-                      _hoisted_31,
-                      createTextVNode(" " + toDisplayString(item.article.dest.shop_price_recommended) + " \u20AC ", 1)
-                    ])
+        nt,
+        rt,
+        (c(!0), k(x, null, q(z(n).state.carts[z(n).state.basket].items, (a) => (c(), N(y, {
+          horizontal: "",
+          class: "viur-shop-cart-mini-card"
+        }, {
+          default: f(() => [
+            e("img", {
+              class: "viur-shop-cart-mini-card-img",
+              slot: "image",
+              src: p(a.article.dest.key)
+            }, null, 8, it),
+            e("div", lt, [
+              e("h4", ct, S(a.article.dest.shop_name) + " | 425018", 1)
+            ]),
+            e("div", dt, [
+              e("div", ut, [
+                e("div", _t, [
+                  ht,
+                  e("div", pt, [
+                    mt,
+                    i(" " + S(a.article.dest.shop_price_recommended) + " € ", 1)
                   ])
                 ])
               ])
-            ]),
-            _: 2
-          }, 1024);
-        }), 256)),
-        (openBlock(), createBlock(Teleport, { to: "#order_sidebar" }, [
-          _hoisted_32,
-          _hoisted_33,
-          createElementVNode("div", _hoisted_34, [
-            _hoisted_35,
-            createTextVNode(" " + toDisplayString(unref(cartStore).state.carts[unref(cartStore).state.basket].info.total) + " \u20AC ", 1)
+            ])
           ]),
-          _hoisted_36,
-          _hoisted_37,
-          createElementVNode("div", _hoisted_38, [
-            _hoisted_39,
-            createTextVNode(" " + toDisplayString(unref(cartStore).state.carts[unref(cartStore).state.basket].info.total) + " \u20AC ", 1)
+          _: 2
+        }, 1024))), 256)),
+        (c(), N(Q, { to: "#order_sidebar" }, [
+          ft,
+          vt,
+          e("div", bt, [
+            yt,
+            i(" " + S(z(n).state.carts[z(n).state.basket].info.total) + " € ", 1)
           ]),
-          createVNode(_component_sl_checkbox, { onSlChange: onTosAccept }, {
-            default: withCtx(() => [
-              createTextVNode(" Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen ")
+          kt,
+          gt,
+          e("div", wt, [
+            $t,
+            i(" " + S(z(n).state.carts[z(n).state.basket].info.total) + " € ", 1)
+          ]),
+          l(r, { onSlChange: s }, {
+            default: f(() => [
+              i(" Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen ")
             ]),
             _: 1
           }),
-          createElementVNode("div", _hoisted_40, [
-            createVNode(_component_sl_button, {
-              variant: state.showOrderButton ? "info" : "disabled",
+          e("div", It, [
+            l(m, {
+              variant: o.showOrderButton ? "info" : "disabled",
               size: "small",
-              disabled: !state.showOrderButton
+              disabled: !o.showOrderButton
             }, {
-              default: withCtx(() => [
-                createTextVNode(" Zahlungspflichtig bestellen ")
+              default: f(() => [
+                i(" Zahlungspflichtig bestellen ")
               ]),
               _: 1
             }, 8, ["variant", "disabled"])
           ])
         ]))
-      ]));
+      ])) : (c(), N(ce, { key: 0 }));
     };
   }
-};
-var ConfirmView = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-65081a13"]]);
-var OrderView_vue_vue_type_style_index_0_scoped_true_lang = "";
-const _withScopeId = (n) => (pushScopeId("data-v-f09670ea"), n = n(), popScopeId(), n);
-const _hoisted_1 = { class: "bind viur-shop-wrap" };
-const _hoisted_2 = { class: "viur-shop-order-step" };
-const _hoisted_3 = { class: "viur-shop-order-status-text" };
-const _hoisted_4 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ createElementVNode("div", {
+}, St = /* @__PURE__ */ O(Ct, [["__scopeId", "data-v-75e70e9a"]]), Nt = (t) => (T("data-v-61488015"), t = t(), j(), t), zt = { class: "bind viur-shop-wrap" }, xt = { class: "viur-shop-order-step" }, Rt = { class: "viur-shop-order-status-text" }, Vt = /* @__PURE__ */ Nt(() => /* @__PURE__ */ e("div", {
   class: "viur-shop-sidebar",
   id: "order_sidebar"
-}, null, -1));
-const _sfc_main$1 = {
+}, null, -1)), Bt = {
   __name: "OrderView",
   props: {
     tabs: {
       type: Object,
-      required: true
+      required: !0
     }
   },
   emits: ["tabChange"],
-  setup(__props, { emit: __emit }) {
-    const props = __props;
-    const emit = __emit;
-    const state = reactive({
-      tabNames: computed(() => sortTabs(props.tabs)),
-      isFirstTab: (index) => {
-        if (index === 0) {
-          return true;
-        }
-        return false;
-      }
-    });
-    const tabGroup = ref(null);
-    function sortTabs(tabs) {
-      let sortedArray = [];
-      let outputArray = [];
-      for (const tab in tabs) {
-        if (tabs[tab].position) {
-          sortedArray.push([tab, tabs[tab].position]);
-        } else {
-          sortedArray.push([tab, 0]);
-        }
-      }
-      sortedArray.sort((a, b) => {
-        return a[1] - b[1];
-      });
-      sortedArray.forEach((tab) => {
-        outputArray.push(tab[0]);
-      });
-      return outputArray;
+  setup(t, { emit: n }) {
+    const o = t, p = n, s = R({
+      tabNames: C(() => $(o.tabs)),
+      isFirstTab: (r) => r === 0
+    }), d = P(null);
+    function $(r) {
+      let a = [], _ = [];
+      for (const h in r)
+        r[h].position ? a.push([h, r[h].position]) : a.push([h, 0]);
+      return a.sort((h, I) => h[1] - I[1]), a.forEach((h) => {
+        _.push(h[0]);
+      }), _;
     }
-    function onTabChange(e) {
-      emit("tabChange", e);
+    function b(r) {
+      p("tabChange", r);
     }
-    function prevTab(tabName) {
-      tabGroup.value.show(tabName);
+    function m(r) {
+      d.value.show(r);
     }
-    function nextTab(tabName) {
-      tabGroup.value.show(tabName);
+    function y(r) {
+      d.value.show(r);
     }
-    return (_ctx, _cache) => {
-      const _component_sl_icon = resolveComponent("sl-icon");
-      const _component_sl_tab = resolveComponent("sl-tab");
-      const _component_sl_button = resolveComponent("sl-button");
-      const _component_sl_tab_panel = resolveComponent("sl-tab-panel");
-      const _component_sl_tab_group = resolveComponent("sl-tab-group");
-      return openBlock(), createElementBlock("div", _hoisted_1, [
-        createVNode(_component_sl_tab_group, {
+    return (r, a) => {
+      const _ = v("sl-icon"), h = v("sl-tab"), I = v("sl-button"), D = v("sl-tab-panel"), W = v("sl-tab-group");
+      return c(), k("div", zt, [
+        l(W, {
           class: "viur-shop-order-tab",
           noScrollControls: "",
-          onSlTabShow: onTabChange,
+          onSlTabShow: b,
           ref_key: "tabGroup",
-          ref: tabGroup
+          ref: d
         }, {
-          default: withCtx(() => [
-            (openBlock(true), createElementBlock(Fragment, null, renderList(state.tabNames, (tab, index) => {
-              return openBlock(), createBlock(_component_sl_tab, {
-                slot: "nav",
-                panel: tab,
-                key: tab,
-                disabled: __props.tabs[tab].disabled
-              }, {
-                default: withCtx(() => [
-                  createElementVNode("div", _hoisted_2, [
-                    createVNode(_component_sl_icon, {
-                      name: __props.tabs[tab].icon.name,
-                      library: __props.tabs[tab].icon.library
-                    }, null, 8, ["name", "library"]),
-                    createElementVNode("div", _hoisted_3, toDisplayString(index + 1) + ". " + toDisplayString(__props.tabs[tab].displayName), 1)
-                  ]),
-                  index < state.tabNames.length - 1 ? (openBlock(), createBlock(_component_sl_icon, {
-                    key: 0,
-                    name: "chevron-right",
-                    class: "viur-shop-order-tab-check"
-                  })) : createCommentVNode("", true)
+          default: f(() => [
+            (c(!0), k(x, null, q(s.tabNames, (g, w) => (c(), N(h, {
+              slot: "nav",
+              panel: g,
+              key: g,
+              disabled: t.tabs[g].disabled
+            }, {
+              default: f(() => [
+                e("div", xt, [
+                  l(_, {
+                    name: t.tabs[g].icon.name,
+                    library: t.tabs[g].icon.library
+                  }, null, 8, ["name", "library"]),
+                  e("div", Rt, S(w + 1) + ". " + S(t.tabs[g].displayName), 1)
                 ]),
-                _: 2
-              }, 1032, ["panel", "disabled"]);
-            }), 128)),
-            (openBlock(true), createElementBlock(Fragment, null, renderList(state.tabNames, (tab, index) => {
-              return openBlock(), createBlock(_component_sl_tab_panel, {
-                name: tab,
-                key: tab
-              }, {
-                default: withCtx(() => [
-                  (openBlock(), createBlock(resolveDynamicComponent(__props.tabs[tab].component), mergeProps({ ref_for: true }, __props.tabs[tab].props ? __props.tabs[tab].props : ""), null, 16)),
-                  index !== state.tabNames.length - 1 ? (openBlock(), createElementBlock("div", {
-                    key: 0,
-                    class: normalizeClass(["viur-shop-form-footer", { "flex-end": state.isFirstTab(index) }])
-                  }, [
-                    withDirectives(createVNode(_component_sl_button, {
-                      type: "submit",
-                      onClick: ($event) => prevTab(state.tabNames[index - 1])
-                    }, {
-                      default: withCtx(() => [
-                        createTextVNode(" Zur\xFCck ")
-                      ]),
-                      _: 2
-                    }, 1032, ["onClick"]), [
-                      [vShow, index !== 0]
+                w < s.tabNames.length - 1 ? (c(), N(_, {
+                  key: 0,
+                  name: "chevron-right",
+                  class: "viur-shop-order-tab-check"
+                })) : B("", !0)
+              ]),
+              _: 2
+            }, 1032, ["panel", "disabled"]))), 128)),
+            (c(!0), k(x, null, q(s.tabNames, (g, w) => (c(), N(D, {
+              name: g,
+              key: g
+            }, {
+              default: f(() => [
+                (c(), N(X(t.tabs[g].component), Y({ ref_for: !0 }, t.tabs[g].props ? t.tabs[g].props : ""), null, 16)),
+                w !== s.tabNames.length - 1 ? (c(), k("div", {
+                  key: 0,
+                  class: ee(["viur-shop-form-footer", { "flex-end": s.isFirstTab(w) }])
+                }, [
+                  te(l(I, {
+                    type: "submit",
+                    onClick: (A) => m(s.tabNames[w - 1])
+                  }, {
+                    default: f(() => [
+                      i(" Zurück ")
                     ]),
-                    createVNode(_component_sl_button, {
-                      type: "submit",
-                      variant: "primary",
-                      onClick: ($event) => nextTab(state.tabNames[index + 1])
-                    }, {
-                      default: withCtx(() => [
-                        createTextVNode(" Weiter ")
-                      ]),
-                      _: 2
-                    }, 1032, ["onClick"])
-                  ], 2)) : createCommentVNode("", true)
-                ]),
-                _: 2
-              }, 1032, ["name"]);
-            }), 128))
+                    _: 2
+                  }, 1032, ["onClick"]), [
+                    [se, w !== 0]
+                  ]),
+                  l(I, {
+                    type: "submit",
+                    variant: "primary",
+                    onClick: (A) => y(s.tabNames[w + 1])
+                  }, {
+                    default: f(() => [
+                      i(" Weiter ")
+                    ]),
+                    _: 2
+                  }, 1032, ["onClick"])
+                ], 2)) : B("", !0)
+              ]),
+              _: 2
+            }, 1032, ["name"]))), 128))
           ]),
           _: 1
         }, 512),
-        _hoisted_4
+        Vt
       ]);
     };
   }
-};
-var OrderView = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-f09670ea"]]);
-var ItemCard_vue_vue_type_style_index_0_scoped_true_lang = "";
-var CategoryView_vue_vue_type_style_index_0_scoped_true_lang = "";
-var OrderComplete_vue_vue_type_style_index_0_scoped_true_lang = "";
-const _sfc_main = {
+}, qt = /* @__PURE__ */ O(Bt, [["__scopeId", "data-v-61488015"]]), Ot = {
   __name: "ExampleUsage",
-  setup(__props) {
-    const cartStore = useCartStore();
-    const rootNode = computed(
-      () => cartStore.state.basketRootNode.key ? cartStore.state.basketRootNode.key : ""
-    );
-    const state = reactive({
+  setup(t) {
+    const n = G(), o = C(
+      () => n.state.basketRootNode.key ? n.state.basketRootNode.key : ""
+    ), p = R({
       rootNode: {},
       tabs: {
         cart: {
-          component: shallowRef(CartView),
+          component: ae(J),
           props: {
-            sidebar: true,
+            sidebar: !0,
             mode: "basket",
-            cartKey: rootNode
+            cartKey: o
           },
+          // cartKey (on initial call has to be a root node) is a required prop, make sure that cartStore.init() is called before cart is mounted
           displayName: "Warenkorb",
           icon: { name: "cart", library: "hsk" },
           position: 2,
-          disabled: false,
+          disabled: !1,
           atShow: null,
           atHide: null
         }
+        // confirm: {
+        //   component: shallowRef(ConfirmView),
+        //   props: {},
+        //   displayName: "Bestellung prüfen",
+        //   icon: { name: "order-check", library: "hsk" },
+        //   position: 5,
+        //   disabled: false,
+        //   atShow: null,
+        //   atHide: null,
+        // },
+        // order: {
+        //   component: shallowRef(CategoryView),
+        //   props: {
+        //     listHandler: ListRequest("categorystore", {
+        //       module: "variante",
+        //       params: { type: "dk", limit: 99 },
+        //     }),
+        //   },
+        //   displayName: "Artikel Bestellen",
+        //   icon: { name: "cart-add", library: "hsk" },
+        //   position: 1,
+        //   disabled: false,
+        //   atShow: null,
+        //   atHide: null,
+        // },
+        // orderComplete: {
+        //   component: shallowRef(OrderComplete),
+        //   props: {},
+        //   displayName: "Bestellung Abgeschlossen",
+        //   icon: { name: "order-confirmed", library: "hsk" },
+        //   position: 6,
+        //   disabled: true,
+        //   atShow: null,
+        //   atHide: null,
+        // },
+        // userInfo: {
+        //   component: shallowRef(UserInformation),
+        //   props: {},
+        //   displayName: "Daten Eingeben",
+        //   icon: { name: "user", library: "hsk" },
+        //   position: 3,
+        //   disabled: false,
+        //   atShow: null,
+        //   atHide: null,
+        // },
+        // userInfoMulti: {
+        //   component: shallowRef(UserInfoMulti),
+        //   props: {},
+        //   displayName: "Daten Eingeben (Multi)",
+        //   icon: { name: "user", library: "hsk" },
+        //   position: 4,
+        //   disabled: false,
+        //   atShow: null,
+        //   atHide: null,
+        // },
       }
     });
-    function handleTabs(e) {
-      if ((e == null ? void 0 : e.detail.name) === "confirm") {
-        state.tabs.orderComplete.disabled = false;
-      }
+    function s(d) {
+      (d == null ? void 0 : d.detail.name) === "confirm" && (p.tabs.orderComplete.disabled = !1);
     }
-    onBeforeMount(async () => {
-      await cartStore.init();
-      await cartStore.getAdressStructure();
-      console.log("debug init exampleusage :", cartStore.state.basketRootNode);
-    });
-    return (_ctx, _cache) => {
-      return openBlock(), createBlock(OrderView, {
-        tabs: state.tabs,
-        onTabChange: handleTabs
-      }, null, 8, ["tabs"]);
-    };
+    return E(async () => {
+      await n.init(), await n.getAdressStructure(), console.log("debug init exampleusage :", n.state.basketRootNode);
+    }), (d, $) => (c(), N(qt, {
+      tabs: p.tabs,
+      onTabChange: s
+    }, null, 8, ["tabs"]));
+  }
+}, Wt = {
+  install(t) {
+    t.component("CartView", J), t.component("ExampleUsage", Ot), t.component("ConfirmView", St);
   }
 };
-const ViurShopComponents = {
-  install(app) {
-    app.component("CartView", CartView);
-    app.component("ExampleUsage", _sfc_main);
-    app.component("ConfirmView", ConfirmView);
-  }
+export {
+  J as CartView,
+  St as ConfirmView,
+  Ot as ExampleUsage,
+  Wt as default,
+  G as useCartStore
 };
-export { CartView, ConfirmView, _sfc_main as ExampleUsage, ViurShopComponents as default, useCartStore };

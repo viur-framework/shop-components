@@ -1,6 +1,6 @@
 {
   "name": "@viur/shop-components",
-  "version": "0.0.1-dev.31",
+  "version": "0.0.1-dev.32",
   "description": "Frontend Vue components for the shop module of ViUR",
   "repository": {
     "type": "git",
@@ -28,19 +28,19 @@
     "watch": "vite build --watch"
   },
   "dependencies": {
-    "@viur/ignite": "^5.0.2",
-    "@viur/shoelace": "^1.0.6-v2.15.0",
+    "@viur/ignite": "^5.1.2",
+    "@viur/shoelace": "^1.0.6-v2.15.1",
     "@viur/viur-shop-client": "^0.1.0-dev.9",
-    "@viur/vue-utils": "^1.4.5",
+    "@viur/vue-utils": "^1.4.10",
     "pinia": "^2.1.7",
-    "vue": "^3.4.27",
-    "vue-router": "^4.3.2"
+    "vue": "^3.4.31",
+    "vue-router": "^4.4.0"
   },
   "devDependencies": {
-    "postcss-custom-media": "^10.0.0",
-    "postcss-nesting": "^12.0.0",
-    "prettier": "^3.2.5",
-    "vite": "^2.0.0",
-    "@vitejs/plugin-vue": "^1.0.0"
+    "postcss-custom-media": "^10.0.7",
+    "postcss-nesting": "^12.1.5",
+    "prettier": "^3.3.2",
+    "vite": "^5.3.3",
+    "@vitejs/plugin-vue": "^5.0.5"
   }
 }
