@@ -26,6 +26,8 @@ export default defineConfig({
         "@viur/ignite",
         "@viur/viur-shop-client",
         "vue-router",
+        "@ckeditor/ckeditor5-vue",
+        "@ckeditor/ckeditor5-build-classic",
       ],
       output: {
         globals: {
@@ -36,6 +38,8 @@ export default defineConfig({
           "@viur/ignite": "ViurIgnite",
           "@viur/viur-shop-client": "ViurShopClient",
           "vue-router": "VueRouter",
+          "@ckeditor/ckeditor5-vue": "CKEditor5Vue",
+          "@ckeditor/ckeditor5-build-classic": "ClassicEditor",
         },
       },
     },
