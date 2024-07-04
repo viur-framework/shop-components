@@ -11,8 +11,8 @@ import ConfirmView from "../../cart/ConfirmView.vue";
 import OrderView from "./OrderView.vue";
 import CategoryView from "../category/CategoryView.vue";
 import OrderComplete from "./OrderComplete.vue";
-// import UserInformation from "../information/UserInformation.vue";
-// import UserInfoMulti from "../information/UserInfoMulti.vue";
+import UserInformation from "../information/UserInformation.vue";
+import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";
 
 const cartStore = useCartStore();
