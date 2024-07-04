@@ -168,7 +168,7 @@
         {{ v.info.name }}</sl-option
       >
     </sl-select>
-    <template v-for="item in state.addSkel" :key="key">
+    <template v-for="(value, key) in state.addSkel" :key="key">
       <bone
         :is="getBoneWidget(value.type)"
         v-if="value.visible && value.params.group === 'Customer Address'"
@@ -184,7 +184,7 @@
 
   <div v-if="state.isCustomAdress">
     <h2 class="viur-shop-form-headline headline">Rechnungsadresse</h2>
-    <template v-for="item in state.addSkel" :key="key">
+    <template v-for="(value, key) in state.addSkel" :key="key">
       <bone
         :is="getBoneWidget(value.type)"
         v-if="value.visible && value.params.group === 'Customer Address'"
