@@ -173,8 +173,9 @@ function nextTab(tabName) {
   position: relative;
   &::part(base) {
     color: var(--shop-tab-color);
+    display: flex;
   }
-  & [aria-selected="true"] {
+  &[aria-selected="true"] {
     --shop-tab-color: var(--shop-tab-color--active)
   }
 }

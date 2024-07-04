@@ -172,7 +172,7 @@ onBeforeMount(() => {
 }
 
 .viur-shop-cart-leaf-price {
-  grid-column: auto / 8;
+  grid-column: span 2 / 8;
   text-align: right;
   font-size: 1.3em;
 }
