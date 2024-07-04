@@ -1,15 +1,15 @@
 var W2 = Object.defineProperty;
-var K2 = (h, y, _) => y in h ? W2(h, y, { enumerable: !0, configurable: !0, writable: !0, value: _ }) : h[y] = _;
-var eb = (h, y, _) => K2(h, typeof y != "symbol" ? y + "" : y, _);
+var K2 = (h, C, _) => C in h ? W2(h, C, { enumerable: !0, configurable: !0, writable: !0, value: _ }) : h[C] = _;
+var eb = (h, C, _) => K2(h, typeof C != "symbol" ? C + "" : C, _);
 import { reactive as he, computed as ie, useCssVars as G2, openBlock as L, createBlock as Ue, Transition as Z2, withCtx as Cr, createElementBlock as $, createElementVNode as F, createCommentVNode as oe, pushScopeId as rt, popScopeId as st, Fragment as re, createTextVNode as ue, toDisplayString as Ae, onBeforeMount as jn, withDirectives as hn, vModelText as ri, ref as Dt, renderList as Je, createVNode as yr, unref as wt, Teleport as J2, resolveDynamicComponent as Nn, mergeProps as Y2, normalizeClass as yo, vShow as dl, defineComponent as Ve, inject as Se, onMounted as Qe, readonly as Q2, getCurrentScope as X2, onScopeDispose as ex, watchEffect as Sr, watch as Eo, getCurrentInstance as tx, resolveComponent as Ln, withModifiers as Er, shallowRef as Xt, renderSlot as Ab, provide as Ar, withKeys as al } from "vue";
 import { Request as nx } from "@viur/vue-utils";
 import { defineStore as hl } from "pinia";
 import { ViURShopClient as ox } from "@viur/viur-shop-client";
 import "vue-router";
-const ke = (h, y) => {
+const ke = (h, C) => {
   const _ = h.__vccOpts || h;
-  for (const [O, S] of y)
-    _[O] = S;
+  for (const [O, D] of C)
+    _[O] = D;
   return _;
 }, gl = {
   props: {
@@ -30,7 +30,7 @@ const ke = (h, y) => {
       type: String
     }
   },
-  setup(h, y) {
+  setup(h, C) {
     const _ = he({
       trackWidth: ie(() => `${h.size / 30}rem`),
       outerSize: ie(() => `calc(${h.size}rem + ${_.trackWidth})`),
@@ -50,12 +50,12 @@ const ke = (h, y) => {
     "2050b700": h.state.trackWidth
   }));
 }, nb = gl.setup;
-gl.setup = nb ? (h, y) => (tb(), nb(h, y)) : tb;
+gl.setup = nb ? (h, C) => (tb(), nb(h, C)) : tb;
 const ix = (h) => (rt("data-v-46c45785"), h = h(), st(), h), rx = {
   key: 0,
   class: "loading"
 }, sx = /* @__PURE__ */ ix(() => /* @__PURE__ */ F("sl-spinner", { class: "loader" }, null, -1)), ax = { class: "logo" }, lx = ["src"];
-function cx(h, y, _, O, S, M) {
+function cx(h, C, _, O, D, M) {
   return L(), Ue(Z2, null, {
     default: Cr(() => [
       _.active ? (L(), $("div", rx, [
@@ -71,65 +71,65 @@ function cx(h, y, _, O, S, M) {
 const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c45785"]]), ai = hl("cartstore", () => {
   const h = new ox({
     host_url: window.location.origin === "http://localhost:8081" ? "http://localhost:8080" : window.location.origin
-  }), y = he({
+  }), C = he({
     basketRootNode: {},
     whishlistRootNodes: [],
     children: {},
     structure: { address: {}, cart: {} }
   });
   async function _() {
-    await S();
+    await D();
   }
-  async function O(D) {
-    return await h.cart_list({ cart_key: D });
+  async function O(x) {
+    return await h.cart_list({ cart_key: x });
   }
-  async function S() {
+  async function D() {
     (await h.cart_list()).forEach((v) => {
-      v.is_root_node && (v.cart_type === "basket" ? y.basketRootNode = v : y.whishlistRootNodes.push(v));
+      v.is_root_node && (v.cart_type === "basket" ? C.basketRootNode = v : C.whishlistRootNodes.push(v));
     });
   }
-  async function M(D, v) {
+  async function M(x, v) {
     let f = await h.article_add({
-      article_key: D,
+      article_key: x,
       parent_cart_key: v
     });
     console.log("addToCart", f);
   }
-  async function k(D, v) {
+  async function k(x, v) {
     let f = await h.article_view({
-      article_key: D,
+      article_key: x,
       parent_cart_key: v
     });
     console.log("getArticleView", f);
   }
-  async function x(D, v) {
+  async function S(x, v) {
     let f = await h.article_remove({
-      article_key: D,
+      article_key: x,
       parent_cart_key: v
     });
     console.log("remove Resp", f);
   }
-  async function m(D, v, f) {
+  async function m(x, v, f) {
     let A = await h.article_update({
-      article_key: D,
+      article_key: x,
       parent_cart_key: v,
       quantity: f,
       quantity_mode: "replace"
     });
     console.log("update Resp", A);
   }
-  async function C() {
-    let D = await h.address_structure();
-    y.structure.address = D.addSkel, console.log("adress add", y.structure.address);
+  async function E() {
+    let x = await h.address_structure();
+    C.structure.address = x.addSkel, console.log("adress add", C.structure.address);
   }
   return {
-    state: y,
+    state: C,
     addToCart: M,
     getArticleView: k,
-    removeItem: x,
+    removeItem: S,
     updateItem: m,
     init: _,
-    getAdressStructure: C,
+    getAdressStructure: E,
     getChildren: O
   };
 }), ux = {
@@ -138,7 +138,7 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
     node: { type: Object, required: !0 }
   },
   setup(h) {
-    return he({}), (y, _) => (L(), $(re, null, [
+    return he({}), (C, _) => (L(), $(re, null, [
       ue(" cartnode "),
       F("pre", null, Ae(h.node.name), 1)
     ], 64));
@@ -185,36 +185,36 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
     node: { type: Object, required: !0 }
   },
   emits: ["updateItem", "removeItem"],
-  setup(h, { emit: y }) {
-    const _ = h, O = y, S = he({
+  setup(h, { emit: C }) {
+    const _ = h, O = C, D = he({
       leaf: {}
     });
     function M(m) {
       return m !== void 0 ? nx.downloadUrlFor(m) : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
     }
-    function k(m, C, D, v) {
+    function k(m, E, x, v) {
       O("updateItem", {
         item: m,
-        articleKey: C,
-        node: D,
+        articleKey: E,
+        node: x,
         quantity: v
       });
     }
-    function x(m, C, D) {
-      O("removeItem", { item: m, articleKey: C, node: D });
+    function S(m, E, x) {
+      O("removeItem", { item: m, articleKey: E, node: x });
     }
     return jn(() => {
-      S.leaf = _.leaf;
-    }), (m, C) => (L(), $(re, null, [
+      D.leaf = _.leaf;
+    }), (m, E) => (L(), $(re, null, [
       ue(" cartleafe "),
       F("sl-card", hx, [
         F("img", {
           class: "viur-shop-cart-card-img",
           slot: "image",
-          src: M(S.leaf.shop_image ? S.leaf.shop_image : void 0)
+          src: M(D.leaf.shop_image ? D.leaf.shop_image : void 0)
         }, null, 8, gx),
         F("div", mx, [
-          F("h4", px, Ae(S.leaf.shop_name) + " | " + Ae(h.leaf.shop_art_no_or_gtin), 1)
+          F("h4", px, Ae(D.leaf.shop_name) + " | " + Ae(h.leaf.shop_art_no_or_gtin), 1)
         ]),
         F("div", fx, [
           F("div", bx, [
@@ -227,7 +227,7 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
                 class: "viur-shop-cart-card-delete-btn",
                 variant: "primary",
                 title: "Remove from cart",
-                onClick: C[0] || (C[0] = (D) => x(S.leaf, S.leaf.article.dest.key, h.node))
+                onClick: E[0] || (E[0] = (x) => S(D.leaf, D.leaf.article.dest.key, h.node))
               }, vx)
             ])
           ]),
@@ -238,20 +238,20 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
               label: "Anzahl",
               placeholder: "Number",
               min: "0",
-              "onUpdate:modelValue": C[1] || (C[1] = (D) => S.leaf.quantity = D),
-              onInput: C[2] || (C[2] = (D) => k(
-                S.leaf,
-                S.leaf.article.dest.key,
+              "onUpdate:modelValue": E[1] || (E[1] = (x) => D.leaf.quantity = x),
+              onInput: E[2] || (E[2] = (x) => k(
+                D.leaf,
+                D.leaf.article.dest.key,
                 h.node,
-                S.leaf.quantity
+                D.leaf.quantity
               ))
             }, null, 544), [
-              [ri, S.leaf.quantity]
+              [ri, D.leaf.quantity]
             ])
           ]),
           F("div", yx, [
             Ex,
-            F("div", xx, Ae(S.leaf.price.retail) + " € ", 1),
+            F("div", xx, Ae(D.leaf.price.retail) + " € ", 1),
             Sx
           ])
         ])
@@ -290,7 +290,7 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
     sidebar: { type: Boolean, default: !0 }
   },
   setup(h) {
-    const y = h, _ = ai(), O = Dt(null), S = he({
+    const C = h, _ = ai(), O = Dt(null), D = he({
       itemsIsInit: ie(() => !0),
       images: {},
       currentItem: {},
@@ -298,37 +298,37 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
       nodes: [],
       leaves: {}
     });
-    ie(() => y.mode === "basket" ? _.state.basket : y.cartKey);
+    ie(() => C.mode === "basket" ? _.state.basket : C.cartKey);
     async function M() {
       await _.updateItem(
-        S.currentItem.article.dest.key,
-        S.currentNode.key,
+        D.currentItem.article.dest.key,
+        D.currentNode.key,
         0
-      ), await C(), O.value.hide();
+      ), await E(), O.value.hide();
     }
     async function k(v) {
-      console.log("updateItem :", v), v.quantity === 0 ? (O.value.show(), S.currentItem = v.item, S.currentNode = v.node) : (await _.updateItem(v.articleKey, v.node.key, v.quantity), await _.init());
+      console.log("updateItem :", v), v.quantity === 0 ? (O.value.show(), D.currentItem = v.item, D.currentNode = v.node) : (await _.updateItem(v.articleKey, v.node.key, v.quantity), await _.init());
     }
-    function x(v) {
-      console.log("removeItem :", v), O.value.show(), S.currentItem = v.item, S.currentNode = v.node;
+    function S(v) {
+      console.log("removeItem :", v), O.value.show(), D.currentItem = v.item, D.currentNode = v.node;
     }
     async function m() {
-      S.leaves[S.currentNode.key].forEach((v) => {
-        v.key === S.currentItem.key && (v.quantity = 1);
-      }), S.currentItem = {}, S.currentNode = {};
+      D.leaves[D.currentNode.key].forEach((v) => {
+        v.key === D.currentItem.key && (v.quantity = 1);
+      }), D.currentItem = {}, D.currentNode = {};
     }
-    async function C() {
-      S.nodes = [], S.leaves = {}, await _.init(), await D();
+    async function E() {
+      D.nodes = [], D.leaves = {}, await _.init(), await x();
     }
-    async function D(v = y.cartKey) {
+    async function x(v = C.cartKey) {
       console.log("debug getChildren parentKey from comp: ", v);
       const f = await _.getChildren(v);
       console.log("getChildren children: ", f), f.forEach(async (A) => {
-        A.skel_type === "node" ? (S.nodes.push(A), await D(A.key)) : (Object.keys(S.leaves).includes(v) || (S.leaves[v] = []), S.leaves[v].push(A));
+        A.skel_type === "node" ? (D.nodes.push(A), await x(A.key)) : (Object.keys(D.leaves).includes(v) || (D.leaves[v] = []), D.leaves[v].push(A));
       });
     }
     return jn(async () => {
-      await _.init(), await D(), y.mode === "basket" && S.nodes.push(_.state.basketRootNode), console.log("state.nodes test", S.nodes), console.log("state.leaves", S.leaves);
+      await _.init(), await x(), C.mode === "basket" && D.nodes.push(_.state.basketRootNode), console.log("state.nodes test", D.nodes), console.log("state.leaves", D.leaves);
     }), (v, f) => h.cartKey.length ? (L(), $(re, { key: 1 }, [
       F("sl-dialog", {
         ref_key: "confirm",
@@ -349,14 +349,14 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
           }, " Aus Warenkorb entfernen ")
         ])
       ], 544),
-      (L(!0), $(re, null, Je(S.nodes, (A) => (L(), $("div", null, [
-        Object.keys(S.leaves).includes(A.key) ? (L(), $(re, { key: 0 }, [
+      (L(!0), $(re, null, Je(D.nodes, (A) => (L(), $("div", null, [
+        Object.keys(D.leaves).includes(A.key) ? (L(), $(re, { key: 0 }, [
           yr(ux, { node: A }, null, 8, ["node"]),
-          (L(!0), $(re, null, Je(S.leaves[A.key], (P) => (L(), Ue(Bx, {
+          (L(!0), $(re, null, Je(D.leaves[A.key], (P) => (L(), Ue(Bx, {
             key: P.key,
             leaf: P,
             node: A,
-            onRemoveItem: x,
+            onRemoveItem: S,
             onUpdateItem: k
           }, null, 8, ["leaf", "node"]))), 128))
         ], 64)) : oe("", !0)
@@ -449,21 +449,21 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
 ], -1)), Yx = /* @__PURE__ */ gn(() => /* @__PURE__ */ F("h2", { class: "viur-shop-cart-headline headline" }, "Warenkorb", -1)), Qx = /* @__PURE__ */ gn(() => /* @__PURE__ */ F("br", null, null, -1)), Xx = /* @__PURE__ */ gn(() => /* @__PURE__ */ F("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Jetzt Bestellen", -1)), e5 = /* @__PURE__ */ gn(() => /* @__PURE__ */ F("br", null, null, -1)), t5 = { class: "viur-shop-cart-sidebar-btn-wrap" }, n5 = ["variant", "disabled"], o5 = {
   __name: "ConfirmView",
   setup(h) {
-    const y = ai(), _ = he({
+    const C = ai(), _ = he({
       cartIsInit: ie(() => !0),
       itemsIsInit: ie(() => {
-        var S;
-        return !!((S = y.state) != null && S.carts[y.state.basket].items);
+        var D;
+        return !!((D = C.state) != null && D.carts[C.state.basket].items);
       }),
       images: {},
       showOrderButton: !1
     });
-    function O(S) {
-      S.target.checked && (_.showOrderButton = !0), S.target.checked || (_.showOrderButton = !1);
+    function O(D) {
+      D.target.checked && (_.showOrderButton = !0), D.target.checked || (_.showOrderButton = !1);
     }
     return jn(async () => {
-      await y.init();
-    }), (S, M) => _.cartIsInit ? (L(), $("div", Wx, [
+      await C.init();
+    }), (D, M) => _.cartIsInit ? (L(), $("div", Wx, [
       Kx,
       Gx,
       Zx,
@@ -500,37 +500,37 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
     }
   },
   emits: ["tabChange"],
-  setup(h, { emit: y }) {
-    const _ = h, O = y, S = he({
+  setup(h, { emit: C }) {
+    const _ = h, O = C, D = he({
       tabNames: ie(() => k(_.tabs)),
-      isFirstTab: (D) => D === 0
+      isFirstTab: (x) => x === 0
     }), M = Dt(null);
-    function k(D) {
+    function k(x) {
       let v = [], f = [];
-      for (const A in D)
-        D[A].position ? v.push([A, D[A].position]) : v.push([A, 0]);
+      for (const A in x)
+        x[A].position ? v.push([A, x[A].position]) : v.push([A, 0]);
       return v.sort((A, P) => A[1] - P[1]), v.forEach((A) => {
         f.push(A[0]);
       }), f;
     }
-    function x(D) {
-      O("tabChange", D);
+    function S(x) {
+      O("tabChange", x);
     }
-    function m(D) {
-      M.value.show(D);
+    function m(x) {
+      M.value.show(x);
     }
-    function C(D) {
-      M.value.show(D);
+    function E(x) {
+      M.value.show(x);
     }
-    return (D, v) => (L(), $("div", r5, [
+    return (x, v) => (L(), $("div", r5, [
       F("sl-tab-group", {
         class: "viur-shop-order-tab",
         noScrollControls: "",
-        onSlTabShow: x,
+        onSlTabShow: S,
         ref_key: "tabGroup",
         ref: M
       }, [
-        (L(!0), $(re, null, Je(S.tabNames, (f, A) => (L(), $("sl-tab", {
+        (L(!0), $(re, null, Je(D.tabNames, (f, A) => (L(), $("sl-tab", {
           slot: "nav",
           panel: f,
           key: f,
@@ -543,27 +543,27 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
             }, null, 8, l5),
             F("div", c5, Ae(A + 1) + ". " + Ae(h.tabs[f].displayName), 1)
           ]),
-          A < S.tabNames.length - 1 ? (L(), $("sl-icon", d5)) : oe("", !0)
+          A < D.tabNames.length - 1 ? (L(), $("sl-icon", d5)) : oe("", !0)
         ], 8, s5))), 128)),
-        (L(!0), $(re, null, Je(S.tabNames, (f, A) => (L(), $("sl-tab-panel", {
+        (L(!0), $(re, null, Je(D.tabNames, (f, A) => (L(), $("sl-tab-panel", {
           name: f,
           key: f
         }, [
           (L(), Ue(Nn(h.tabs[f].component), Y2({ ref_for: !0 }, h.tabs[f].props ? h.tabs[f].props : ""), null, 16)),
-          A !== S.tabNames.length - 1 ? (L(), $("div", {
+          A !== D.tabNames.length - 1 ? (L(), $("div", {
             key: 0,
-            class: yo(["viur-shop-form-footer", { "flex-end": S.isFirstTab(A) }])
+            class: yo(["viur-shop-form-footer", { "flex-end": D.isFirstTab(A) }])
           }, [
             hn(F("sl-button", {
               type: "submit",
-              onClick: (P) => m(S.tabNames[A - 1])
+              onClick: (P) => m(D.tabNames[A - 1])
             }, " Zurück ", 8, h5), [
               [dl, A !== 0]
             ]),
             F("sl-button", {
               type: "submit",
               variant: "primary",
-              onClick: (P) => C(S.tabNames[A + 1])
+              onClick: (P) => E(D.tabNames[A + 1])
             }, " Weiter ", 8, g5)
           ], 2)) : oe("", !0)
         ], 8, u5))), 128))
@@ -591,7 +591,7 @@ const dx = /* @__PURE__ */ ke(gl, [["render", cx], ["__scopeId", "data-v-46c4578
   _5,
   v5
 ];
-function y5(h, y) {
+function y5(h, C) {
   return L(), $("div", k5, C5);
 }
 const E5 = /* @__PURE__ */ ke(b5, [["render", y5], ["__scopeId", "data-v-36ccc280"]]), x5 = Ve({
@@ -604,32 +604,32 @@ const E5 = /* @__PURE__ */ ke(b5, [["render", y5], ["__scopeId", "data-v-36ccc28
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({});
-    function S(M) {
-      y.emit("change", h.name, M.target.value, h.lang, h.index);
+    function D(M) {
+      C.emit("change", h.name, M.target.value, h.lang, h.index);
     }
     return Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     }), {
       state: O,
       boneState: _,
-      changeEvent: S
+      changeEvent: D
     };
   }
 }), S5 = ["disabled", "value"], D5 = ["disabled", "value"];
-function B5(h, y, _, O, S, M) {
-  var k, x;
+function B5(h, C, _, O, D, M) {
+  var k, S;
   return h.boneState.bonestructure.type === "raw.json" ? (L(), $("sl-textarea", {
     key: 0,
     disabled: (k = h.boneState) == null ? void 0 : k.readonly,
     value: JSON.stringify(h.value),
-    onInput: y[0] || (y[0] = (...m) => h.changeEvent && h.changeEvent(...m))
+    onInput: C[0] || (C[0] = (...m) => h.changeEvent && h.changeEvent(...m))
   }, null, 40, S5)) : (L(), $("sl-textarea", {
     key: 1,
-    disabled: (x = h.boneState) == null ? void 0 : x.readonly,
+    disabled: (S = h.boneState) == null ? void 0 : S.readonly,
     value: h.value,
-    onInput: y[1] || (y[1] = (...m) => h.changeEvent && h.changeEvent(...m))
+    onInput: C[1] || (C[1] = (...m) => h.changeEvent && h.changeEvent(...m))
   }, null, 40, D5));
 }
 const ul = /* @__PURE__ */ ke(x5, [["render", B5], ["__scopeId", "data-v-0ebe5f0b"]]), T5 = Ve({
@@ -644,24 +644,24 @@ const ul = /* @__PURE__ */ ke(x5, [["render", B5], ["__scopeId", "data-v-0ebe5f0
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = he({});
-    function O(S) {
-      y.emit("change", h.name, S.target.value, h.lang, h.index);
+    function O(D) {
+      C.emit("change", h.name, D.target.value, h.lang, h.index);
     }
     return Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     }), {
       state: _,
       changeEvent: O
     };
   }
 }), I5 = ["value"];
-function P5(h, y, _, O, S, M) {
+function P5(h, C, _, O, D, M) {
   return L(), $("sl-input", {
     disabled: "",
     value: h.value,
-    onSlChange: y[0] || (y[0] = (...k) => h.changeEvent && h.changeEvent(...k))
+    onSlChange: C[0] || (C[0] = (...k) => h.changeEvent && h.changeEvent(...k))
   }, null, 40, I5);
 }
 const ob = /* @__PURE__ */ ke(T5, [["render", P5], ["__scopeId", "data-v-b45a1311"]]);
@@ -673,65 +673,65 @@ function O5(h) {
 }
 const z5 = typeof window < "u" && typeof document < "u";
 typeof WorkerGlobalScope < "u" && globalThis instanceof WorkerGlobalScope;
-function Br(h, y, _ = {}) {
+function Br(h, C, _ = {}) {
   const {
     immediate: O = !0
-  } = _, S = Dt(!1);
+  } = _, D = Dt(!1);
   let M = null;
   function k() {
     M && (clearTimeout(M), M = null);
   }
-  function x() {
-    S.value = !1, k();
+  function S() {
+    D.value = !1, k();
   }
-  function m(...C) {
-    k(), S.value = !0, M = setTimeout(() => {
-      S.value = !1, M = null, h(...C);
-    }, O5(y));
+  function m(...E) {
+    k(), D.value = !0, M = setTimeout(() => {
+      D.value = !1, M = null, h(...E);
+    }, O5(C));
   }
-  return O && (S.value = !0, z5 && m()), R5(x), {
-    isPending: Q2(S),
+  return O && (D.value = !0, z5 && m()), R5(S), {
+    isPending: Q2(D),
     start: m,
-    stop: x
+    stop: S
   };
 }
 class M5 {
-  static objectEmpty(y) {
-    return Object.keys(y).length === 0 && y.constructor === Object;
+  static objectEmpty(C) {
+    return Object.keys(C).length === 0 && C.constructor === Object;
   }
-  static getDescr(y, _) {
+  static getDescr(C, _) {
     try {
-      return y.values.filter((O) => O[0] === _)[0][1];
+      return C.values.filter((O) => O[0] === _)[0][1];
     } catch {
       return "-";
     }
   }
-  static unescape(y) {
-    return y || (y = ""), String(y).replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#40;/g, "(").replace(/&#41;/g, ")").replace(/&#61;/g, "=").replace(/&#039;/g, "'").replace(/&#040;/g, "(").replace(/&#041;/g, ")").replace(/&#061;/g, "=");
+  static unescape(C) {
+    return C || (C = ""), String(C).replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#40;/g, "(").replace(/&#41;/g, ")").replace(/&#61;/g, "=").replace(/&#039;/g, "'").replace(/&#040;/g, "(").replace(/&#041;/g, ")").replace(/&#061;/g, "=");
   }
-  static formatString(y, _) {
+  static formatString(C, _) {
     function O(k) {
-      let x = [], m = [], C = /\$\((.*?)\)/g;
+      let S = [], m = [], E = /\$\((.*?)\)/g;
       for (; m; ) {
-        if (m = C.exec(k), !m) {
+        if (m = E.exec(k), !m) {
           m = !1;
           continue;
         }
-        x.push(m[1]);
+        S.push(m[1]);
       }
-      return x;
+      return S;
     }
-    let S = O(y), M = [];
+    let D = O(C), M = [];
     Array.isArray(_) || (_ = [_]);
     for (let k of _) {
-      let x = y;
-      for (let m of S) {
-        let C = m.split("."), D = k;
-        for (let v of C)
-          D && D !== "-" && v in D && D[v] ? D = D[v] : D = "-";
-        D = this.unescape(D), x = x.replace("$(" + m + ")", D);
+      let S = C;
+      for (let m of D) {
+        let E = m.split("."), x = k;
+        for (let v of E)
+          x && x !== "-" && v in x && x[v] ? x = x[v] : x = "-";
+        x = this.unescape(x), S = S.replace("$(" + m + ")", x);
       }
-      M.push(x);
+      M.push(S);
     }
     return M.join(", ");
   }
@@ -747,39 +747,39 @@ const F5 = Ve({
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       value: ie(() => h.value)
-    }), S = Dt(null);
+    }), D = Dt(null);
     function M(k) {
-      y.emit("change", h.name, k.target.value, h.lang, h.index);
+      C.emit("change", h.name, k.target.value, h.lang, h.index);
     }
     return Sr(() => {
-      if (h.autofocus && S.value && S.value !== null && S !== null) {
+      if (h.autofocus && D.value && D.value !== null && D !== null) {
         const { start: k } = Br(() => {
-          S.value.focus();
+          D.value.focus();
         }, 600);
         k();
       }
     }), Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     }), {
       state: O,
       Utils: M5,
       boneState: _,
       changeEvent: M,
-      stringBone: S
+      stringBone: D
     };
   }
 }), N5 = ["disabled", "value", "required"];
-function V5(h, y, _, O, S, M) {
+function V5(h, C, _, O, D, M) {
   return L(), $("sl-input", {
     ref: "stringBone",
     disabled: h.boneState.readonly,
     value: h.Utils.unescape(h.value),
     required: h.boneState.bonestructure.required,
-    onSlChange: y[0] || (y[0] = (...k) => h.changeEvent && h.changeEvent(...k)),
-    onKeyup: y[1] || (y[1] = (...k) => h.changeEvent && h.changeEvent(...k))
+    onSlChange: C[0] || (C[0] = (...k) => h.changeEvent && h.changeEvent(...k)),
+    onKeyup: C[1] || (C[1] = (...k) => h.changeEvent && h.changeEvent(...k))
   }, null, 40, N5);
 }
 const ib = /* @__PURE__ */ ke(F5, [["render", V5], ["__scopeId", "data-v-1ccbacc0"]]), L5 = Ve({
@@ -793,35 +793,35 @@ const ib = /* @__PURE__ */ ke(F5, [["render", V5], ["__scopeId", "data-v-1ccbacc
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
-    const _ = Se("boneState"), O = he({}), S = Dt(null);
+  setup(h, C) {
+    const _ = Se("boneState"), O = he({}), D = Dt(null);
     function M(k) {
-      y.emit("change", h.name, k.target.value, h.lang, h.index);
+      C.emit("change", h.name, k.target.value, h.lang, h.index);
     }
     return Sr(() => {
-      if (h.autofocus && S.value && S.value !== null && S !== null) {
+      if (h.autofocus && D.value && D.value !== null && D !== null) {
         const { start: k } = Br(() => {
-          S.value.focus();
+          D.value.focus();
         }, 600);
         k();
       }
     }), Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     }), {
       state: O,
       boneState: _,
       changeEvent: M,
-      emailBone: S
+      emailBone: D
     };
   }
 }), j5 = ["disabled", "value"];
-function $5(h, y, _, O, S, M) {
+function $5(h, C, _, O, D, M) {
   return L(), $("sl-input", {
     ref: "emailBone",
     disabled: h.boneState.readonly,
     type: "email",
     value: h.value,
-    onSlChange: y[0] || (y[0] = (...k) => h.changeEvent && h.changeEvent(...k))
+    onSlChange: C[0] || (C[0] = (...k) => h.changeEvent && h.changeEvent(...k))
   }, null, 40, j5);
 }
 const rb = /* @__PURE__ */ ke(L5, [["render", $5], ["__scopeId", "data-v-4328e024"]]), H5 = Ve({
@@ -834,7 +834,7 @@ const rb = /* @__PURE__ */ ke(L5, [["render", $5], ["__scopeId", "data-v-4328e02
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       value: ie(() => {
         var k;
@@ -846,24 +846,24 @@ const rb = /* @__PURE__ */ ke(L5, [["render", $5], ["__scopeId", "data-v-4328e02
         return _.bonestructure.time || (M = "date"), M;
       })
     });
-    function S(M) {
-      y.emit("change", h.name, M.target.value, h.lang, h.index);
+    function D(M) {
+      C.emit("change", h.name, M.target.value, h.lang, h.index);
     }
     return Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     }), {
       state: O,
       boneState: _,
-      changeEvent: S
+      changeEvent: D
     };
   }
 }), q5 = ["disabled", "type", "value"];
-function U5(h, y, _, O, S, M) {
+function U5(h, C, _, O, D, M) {
   return L(), $("sl-input", {
     disabled: h.boneState.readonly,
     type: h.state.typeString,
     value: h.state.value,
-    onSlChange: y[0] || (y[0] = (...k) => h.changeEvent && h.changeEvent(...k))
+    onSlChange: C[0] || (C[0] = (...k) => h.changeEvent && h.changeEvent(...k))
   }, null, 40, q5);
 }
 const sb = /* @__PURE__ */ ke(H5, [["render", U5], ["__scopeId", "data-v-f1b8af8c"]]), W5 = Ve({
@@ -876,39 +876,39 @@ const sb = /* @__PURE__ */ ke(H5, [["render", U5], ["__scopeId", "data-v-f1b8af8
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       value: ie(() => {
         let k = h.value;
-        return Array.isArray(h.value) ? (_.bonestructure.values instanceof Array ? k = k.filter((x) => _.bonestructure.values.map((m) => m[0].toString()).includes(x)) : k = k.filter(
-          (x) => Object.keys(_.bonestructure.values).map((m) => m.toString()).includes(x)
-        ), k.map((x) => x.toString())) : h.value ? h.value.toString() : "";
+        return Array.isArray(h.value) ? (_.bonestructure.values instanceof Array ? k = k.filter((S) => _.bonestructure.values.map((m) => m[0].toString()).includes(S)) : k = k.filter(
+          (S) => Object.keys(_.bonestructure.values).map((m) => m.toString()).includes(S)
+        ), k.map((S) => S.toString())) : h.value ? h.value.toString() : "";
       })
     });
-    function S() {
+    function D() {
       if (Array.isArray(_.bonestructure.values))
         return _.bonestructure.values;
       {
         let k = [];
-        for (const [x, m] of Object.entries(_.bonestructure.values))
-          k.push([x, m]);
+        for (const [S, m] of Object.entries(_.bonestructure.values))
+          k.push([S, m]);
         return k;
       }
     }
     function M(k) {
-      y.emit("change", h.name, k.target.value, h.lang, h.index), W;
+      C.emit("change", h.name, k.target.value, h.lang, h.index), W;
     }
     return Qe(() => {
-      y.emit("change", h.name, O.value, h.lang, h.index);
+      C.emit("change", h.name, O.value, h.lang, h.index);
     }), {
       state: O,
       boneState: _,
       changeEvent: M,
-      convertObjToList: S
+      convertObjToList: D
     };
   }
 }), K5 = ["disabled", "value", "multiple"], G5 = ["value"];
-function Z5(h, y, _, O, S, M) {
+function Z5(h, C, _, O, D, M) {
   return L(), $("sl-select", {
     disabled: h.boneState.readonly,
     value: h.state.value,
@@ -916,7 +916,7 @@ function Z5(h, y, _, O, S, M) {
     multiple: h.boneState.bonestructure.multiple,
     "max-options-visible": "0",
     clearable: "",
-    onSlChange: y[0] || (y[0] = (...k) => h.changeEvent && h.changeEvent(...k))
+    onSlChange: C[0] || (C[0] = (...k) => h.changeEvent && h.changeEvent(...k))
   }, [
     (L(!0), $(re, null, Je(h.convertObjToList(), (k) => (L(), $("sl-option", {
       key: k[0],
@@ -934,28 +934,28 @@ const ab = /* @__PURE__ */ ke(W5, [["render", Z5], ["__scopeId", "data-v-5a38b97
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       value: ie(() => ![!1, null, void 0, ""].includes(h.value))
     });
-    function S(M) {
-      y.emit("change", h.name, M.target.checked, h.lang, h.index);
+    function D(M) {
+      C.emit("change", h.name, M.target.checked, h.lang, h.index);
     }
     return Qe(() => {
       let M = h.value;
-      M || (M = !1), y.emit("change", h.name, M, h.lang, h.index);
+      M || (M = !1), C.emit("change", h.name, M, h.lang, h.index);
     }), {
       state: O,
       boneState: _,
-      changeEvent: S
+      changeEvent: D
     };
   }
 }), Y5 = ["disabled", "checked"];
-function Q5(h, y, _, O, S, M) {
+function Q5(h, C, _, O, D, M) {
   return L(), $("sl-switch", {
     disabled: h.boneState.readonly,
     checked: h.state.value,
-    onSlChange: y[0] || (y[0] = (...k) => h.changeEvent && h.changeEvent(...k))
+    onSlChange: C[0] || (C[0] = (...k) => h.changeEvent && h.changeEvent(...k))
   }, null, 40, Y5);
 }
 const lb = /* @__PURE__ */ ke(J5, [["render", Q5], ["__scopeId", "data-v-363598c8"]]), X5 = Ve({
@@ -969,59 +969,59 @@ const lb = /* @__PURE__ */ ke(J5, [["render", Q5], ["__scopeId", "data-v-363598c
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       value1: "",
       value2: null,
       equal: !1,
       passwordInfo: [],
       requiredPasswordInfo: []
-    }), S = Dt(null);
-    function M(x) {
-      O.value1 === O.value2 ? O.equal = !0 : O.equal = !1, k(O.value1), O.requiredPasswordInfo.length === 0 && O.passwordInfo.length - O.requiredPasswordInfo.length <= _.bonestructure.test_threshold ? y.emit("change", h.name, O.value1, h.lang, h.index, !0) : y.emit("change", h.name, O.value1, h.lang, h.index, !1);
+    }), D = Dt(null);
+    function M(S) {
+      O.value1 === O.value2 ? O.equal = !0 : O.equal = !1, k(O.value1), O.requiredPasswordInfo.length === 0 && O.passwordInfo.length - O.requiredPasswordInfo.length <= _.bonestructure.test_threshold ? C.emit("change", h.name, O.value1, h.lang, h.index, !0) : C.emit("change", h.name, O.value1, h.lang, h.index, !1);
     }
     Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     });
-    function k(x) {
+    function k(S) {
       O.passwordInfo = [], O.requiredPasswordInfo = [];
       for (const m of _.bonestructure.tests)
-        new RegExp(m[0]).test(x) || (m[2] ? O.requiredPasswordInfo.push(m[1]) : O.passwordInfo.push(m[1]));
+        new RegExp(m[0]).test(S) || (m[2] ? O.requiredPasswordInfo.push(m[1]) : O.passwordInfo.push(m[1]));
       O.equal || O.requiredPasswordInfo.push("Die eingegebenen Passwörter stimmen nicht überein."), O.value1 || O.requiredPasswordInfo.push("Das eingegebene Passwort ist leer.");
     }
     return Sr(() => {
-      if (h.autofocus && S.value && S.value !== null && S !== null) {
-        const { start: x } = Br(() => {
-          S.value.focus();
+      if (h.autofocus && D.value && D.value !== null && D !== null) {
+        const { start: S } = Br(() => {
+          D.value.focus();
         }, 600);
-        x();
+        S();
       }
     }), Eo(
       () => h.value,
-      (x, m) => {
-        O.value1 = x;
+      (S, m) => {
+        O.value1 = S;
       }
     ), {
       state: O,
       boneState: _,
       changeEvent: M,
-      passwordBone: S
+      passwordBone: D
     };
   }
 }), eS = ["disabled"], tS = ["name"], nS = ["name"], oS = { class: "errors" };
-function iS(h, y, _, O, S, M) {
+function iS(h, C, _, O, D, M) {
   return L(), $(re, null, [
     hn(F("sl-input", {
       ref: "passwordBone",
-      "onUpdate:modelValue": y[0] || (y[0] = (k) => h.state.value1 = k),
+      "onUpdate:modelValue": C[0] || (C[0] = (k) => h.state.value1 = k),
       disabled: h.boneState.readonly,
       class: yo({ "has-check": !h.boneState.readonly }),
       type: "password",
       clearable: "",
       "password-toggle": "true",
-      onSlChange: y[1] || (y[1] = (...k) => h.changeEvent && h.changeEvent(...k)),
-      onSlClear: y[2] || (y[2] = (k) => h.state.value1 = ""),
-      onKeyup: y[3] || (y[3] = (...k) => h.changeEvent && h.changeEvent(...k))
+      onSlChange: C[1] || (C[1] = (...k) => h.changeEvent && h.changeEvent(...k)),
+      onSlClear: C[2] || (C[2] = (k) => h.state.value1 = ""),
+      onKeyup: C[3] || (C[3] = (...k) => h.changeEvent && h.changeEvent(...k))
     }, [
       F("sl-icon", {
         slot: "suffix",
@@ -1032,14 +1032,14 @@ function iS(h, y, _, O, S, M) {
     ]),
     h.boneState.readonly ? oe("", !0) : hn((L(), $("sl-input", {
       key: 0,
-      "onUpdate:modelValue": y[4] || (y[4] = (k) => h.state.value2 = k),
+      "onUpdate:modelValue": C[4] || (C[4] = (k) => h.state.value2 = k),
       class: "password-check",
       type: "password",
       clearable: "",
       "password-toggle": "true",
-      onSlChange: y[5] || (y[5] = (...k) => h.changeEvent && h.changeEvent(...k)),
-      onSlClear: y[6] || (y[6] = (k) => h.state.value2 = ""),
-      onKeyup: y[7] || (y[7] = (...k) => h.changeEvent && h.changeEvent(...k))
+      onSlChange: C[5] || (C[5] = (...k) => h.changeEvent && h.changeEvent(...k)),
+      onSlClear: C[6] || (C[6] = (k) => h.state.value2 = ""),
+      onKeyup: C[7] || (C[7] = (...k) => h.changeEvent && h.changeEvent(...k))
     }, [
       F("sl-icon", {
         slot: "suffix",
@@ -1049,9 +1049,9 @@ function iS(h, y, _, O, S, M) {
       [ri, h.state.value2]
     ]),
     F("ul", oS, [
-      (L(!0), $(re, null, Je(h.state.passwordInfo, (k, x) => (L(), $("li", { key: x }, Ae(k), 1))), 128)),
-      (L(!0), $(re, null, Je(h.state.requiredPasswordInfo, (k, x) => (L(), $("li", {
-        key: x,
+      (L(!0), $(re, null, Je(h.state.passwordInfo, (k, S) => (L(), $("li", { key: S }, Ae(k), 1))), 128)),
+      (L(!0), $(re, null, Je(h.state.requiredPasswordInfo, (k, S) => (L(), $("li", {
+        key: S,
         class: "requiredInfo"
       }, Ae(k), 1))), 128))
     ])
@@ -1067,21 +1067,21 @@ const cb = /* @__PURE__ */ ke(X5, [["render", iS], ["__scopeId", "data-v-0ccf18c
     params: Object
   },
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       value: ie(() => h.value),
       structure: ie(() => k(_.bonestructure.using)),
       globalRegistration: !1,
       formGroups: ie(() => {
-        var C, D;
-        let x = { default: { name: "Allgemein", bones: [], groupVisible: !1, groupOpen: !0 } };
+        var E, x;
+        let S = { default: { name: "Allgemein", bones: [], groupVisible: !1, groupOpen: !0 } };
         for (const [v, f] of Object.entries(O.structure)) {
-          let A = "default", P = O.structure[v], B = (C = O.value) == null ? void 0 : C[v];
-          (D = f == null ? void 0 : f.params) != null && D.category && (A = f.params.category.toLowerCase()), Object.keys(x).includes(A) ? x[A].bones.push({
+          let A = "default", P = O.structure[v], B = (E = O.value) == null ? void 0 : E[v];
+          (x = f == null ? void 0 : f.params) != null && x.category && (A = f.params.category.toLowerCase()), Object.keys(S).includes(A) ? S[A].bones.push({
             boneName: v,
             boneStructure: P,
             boneValue: B
-          }) : x[A] = {
+          }) : S[A] = {
             name: f.params.category,
             bones: [
               {
@@ -1090,38 +1090,38 @@ const cb = /* @__PURE__ */ ke(X5, [["render", iS], ["__scopeId", "data-v-0ccf18c
                 boneValue: B
               }
             ]
-          }, P.visible === !0 && (x[A].groupVisible = !0);
+          }, P.visible === !0 && (S[A].groupVisible = !0);
         }
         let m = {};
-        return Object.keys(x).sort().forEach(function(v) {
-          m[v] = x[v];
+        return Object.keys(S).sort().forEach(function(v) {
+          m[v] = S[v];
         }), m;
       })
     });
-    function S(x) {
-      y.emit("change", x);
+    function D(S) {
+      C.emit("change", S);
     }
     Qe(() => {
-      tx().appContext.components.Bone ? O.globalRegistration = !0 : O.globalRegistration = !1, y.emit("change", h.name, h.value, h.lang, h.index);
+      tx().appContext.components.Bone ? O.globalRegistration = !0 : O.globalRegistration = !1, C.emit("change", h.name, h.value, h.lang, h.index);
     });
-    function M(x) {
-      console.log(x);
+    function M(S) {
+      console.log(S);
     }
-    function k(x) {
-      if (Array.isArray(x)) {
+    function k(S) {
+      if (Array.isArray(S)) {
         let m = {};
-        for (const C in x)
-          m[x[C][0]] = x[C][1];
+        for (const E in S)
+          m[S[E][0]] = S[E][1];
         return m;
       } else
-        return x;
+        return S;
     }
     return {
       state: O,
       boneState: _,
       getBoneWidget: Vn,
       structureToDict: k,
-      changeEvent: S,
+      changeEvent: D,
       updateValue: M
     };
   }
@@ -1133,28 +1133,28 @@ const cb = /* @__PURE__ */ ke(X5, [["render", iS], ["__scopeId", "data-v-0ccf18c
   key: 1,
   class: "form"
 }, lS = ["summary", "open"];
-function cS(h, y, _, O, S, M) {
+function cS(h, C, _, O, D, M) {
   const k = Ln("bone");
   return h.state.globalRegistration ? (L(), $("div", aS, [
-    (L(!0), $(re, null, Je(h.state.formGroups, (x, m) => hn((L(), $("sl-details", {
+    (L(!0), $(re, null, Je(h.state.formGroups, (S, m) => hn((L(), $("sl-details", {
       key: m,
-      summary: x.name,
-      open: x.groupOpen
+      summary: S.name,
+      open: S.groupOpen
     }, [
-      (L(!0), $(re, null, Je(x.bones, (C) => hn((L(), Ue(k, {
-        key: C.name,
-        is: h.getBoneWidget(h.state.structure[C.boneName].type),
-        name: C.boneName,
+      (L(!0), $(re, null, Je(S.bones, (E) => hn((L(), Ue(k, {
+        key: E.name,
+        is: h.getBoneWidget(h.state.structure[E.boneName].type),
+        name: E.boneName,
         structure: h.state.structure,
         skel: h.state.value,
         errors: h.boneState.errors,
         readonly: h.boneState.bonestructure.readonly ? !0 : void 0,
         onChangeInternal: h.changeEvent
       }, null, 8, ["is", "name", "structure", "skel", "errors", "readonly", "onChangeInternal"])), [
-        [dl, h.state.structure[C.boneName].visible]
+        [dl, h.state.structure[E.boneName].visible]
       ])), 128))
     ], 8, lS)), [
-      [dl, x.groupVisible]
+      [dl, S.groupVisible]
     ])), 128))
   ])) : (L(), $("sl-alert", sS, " In Order to use this Bone register the bone component globally in your main file "));
 }
@@ -1168,28 +1168,28 @@ const Cb = /* @__PURE__ */ ke(rS, [["render", cS], ["__scopeId", "data-v-e6fcfbc
   },
   components: { Wrapper_nested: Cb },
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       value: {},
       index: ie(() => h.index),
       lang: ie(() => h.lang)
     });
-    function S(M) {
-      var x;
-      (x = O.value) != null && x[M.name] || (O.value ? O.value[M.name] = null : O.value = { [M.name]: null });
+    function D(M) {
+      var S;
+      (S = O.value) != null && S[M.name] || (O.value ? O.value[M.name] = null : O.value = { [M.name]: null });
       let k = O.value[M.name];
-      M.lang ? (k === null && (k = {}), Object.keys(k).includes(M.lang) && M.index !== null ? k[M.lang][M.index] = M.value : k[M.lang] = M.value) : M.index !== null ? (k === null && (k = []), k[M.index] = M.value) : k = M.value, O.value[M.name] = k, y.emit("change", h.name, O.value, h.lang, h.index, !0);
+      M.lang ? (k === null && (k = {}), Object.keys(k).includes(M.lang) && M.index !== null ? k[M.lang][M.index] = M.value : k[M.lang] = M.value) : M.index !== null ? (k === null && (k = []), k[M.index] = M.value) : k = M.value, O.value[M.name] = k, C.emit("change", h.name, O.value, h.lang, h.index, !0);
     }
     return Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     }), {
       state: O,
       boneState: _,
-      changeEvent: S
+      changeEvent: D
     };
   }
 });
-function uS(h, y, _, O, S, M) {
+function uS(h, C, _, O, D, M) {
   const k = Ln("Wrapper_nested");
   return L(), Ue(k, {
     value: h.value,
@@ -1209,25 +1209,25 @@ const db = /* @__PURE__ */ ke(dS, [["render", uS], ["__scopeId", "data-v-84a761c
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({});
-    function S(M) {
-      y.emit("change", h.name, M.target.value, h.lang, h.index);
+    function D(M) {
+      C.emit("change", h.name, M.target.value, h.lang, h.index);
     }
     return Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     }), {
       state: O,
       boneState: _,
-      changeEvent: S
+      changeEvent: D
     };
   }
 }), gS = ["disabled", "value"];
-function mS(h, y, _, O, S, M) {
+function mS(h, C, _, O, D, M) {
   return L(), $("sl-color-picker", {
     disabled: h.boneState.readonly,
     value: h.value,
-    onSlChange: y[0] || (y[0] = (...k) => h.changeEvent && h.changeEvent(...k))
+    onSlChange: C[0] || (C[0] = (...k) => h.changeEvent && h.changeEvent(...k))
   }, null, 40, gS);
 }
 const ub = /* @__PURE__ */ ke(hS, [["render", mS], ["__scopeId", "data-v-534b9149"]]), pS = Ve({
@@ -1241,7 +1241,7 @@ const ub = /* @__PURE__ */ ke(hS, [["render", mS], ["__scopeId", "data-v-534b914
     autofocus: Boolean
   },
   components: {},
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       minAmount: ie(() => _.bonestructure.minAmount),
       maxAmount: ie(() => _.bonestructure.maxAmount),
@@ -1249,28 +1249,28 @@ const ub = /* @__PURE__ */ ke(hS, [["render", mS], ["__scopeId", "data-v-534b914
         if (_.bonestructure.precision > 1)
           return parseFloat(`0.${"0".repeat(_.bonestructure.precision - 1)}1`);
       })
-    }), S = Dt(null);
+    }), D = Dt(null);
     function M(k) {
-      y.emit("change", h.name, k.target.value, h.lang, h.index);
+      C.emit("change", h.name, k.target.value, h.lang, h.index);
     }
     return Sr(() => {
-      if (h.autofocus && S.value && S.value !== null && S !== null) {
+      if (h.autofocus && D.value && D.value !== null && D !== null) {
         const { start: k } = Br(() => {
-          S.value.focus();
+          D.value.focus();
         }, 600);
         k();
       }
     }), Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     }), {
       state: O,
       boneState: _,
       changeEvent: M,
-      numericBone: S
+      numericBone: D
     };
   }
 }), fS = ["disabled", "value", "min", "max", "step"], bS = { class: "info" }, kS = { key: 0 }, wS = { key: 1 }, AS = { key: 2 };
-function _S(h, y, _, O, S, M) {
+function _S(h, C, _, O, D, M) {
   return L(), $(re, null, [
     F("sl-input", {
       ref: "numericBone",
@@ -1280,8 +1280,8 @@ function _S(h, y, _, O, S, M) {
       min: h.state.minAmount,
       max: h.state.maxAmount,
       step: h.state.precision,
-      onSlChange: y[0] || (y[0] = (...k) => h.changeEvent && h.changeEvent(...k)),
-      onKeyup: y[1] || (y[1] = (...k) => h.changeEvent && h.changeEvent(...k))
+      onSlChange: C[0] || (C[0] = (...k) => h.changeEvent && h.changeEvent(...k)),
+      onKeyup: C[1] || (C[1] = (...k) => h.changeEvent && h.changeEvent(...k))
     }, null, 40, fS),
     F("ul", bS, [
       h.state.minAmount !== -9223372036854776e3 && h.state.minAmount ? (L(), $("li", kS, Ae(h.$t("bones.numeric.min", { val: h.state.minAmount })), 1)) : oe("", !0),
@@ -1293,20 +1293,20 @@ function _S(h, y, _, O, S, M) {
 const hb = /* @__PURE__ */ ke(pS, [["render", _S], ["__scopeId", "data-v-03d5b399"]]);
 var Ye = { VITE_API_URL: "", BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
 class _r extends Error {
-  constructor(y, _, O, S) {
-    super(O || _), arguments.length >= 4 && S && Object.assign(this, S), this.statusText = _, this.statusCode = y, this.response = S;
+  constructor(C, _, O, D) {
+    super(O || _), arguments.length >= 4 && D && Object.assign(this, D), this.statusText = _, this.statusCode = C, this.response = D;
   }
 }
 let ll = null;
 function Fn() {
   return ll || (ll = hl("requestStore", () => {
     const h = he({ sKeys: /* @__PURE__ */ new Set() });
-    function y() {
+    function C() {
       h.sKeys = /* @__PURE__ */ new Set();
     }
     return {
       state: h,
-      $reset: y
+      $reset: C
     };
   })), ll();
 }
@@ -1314,202 +1314,202 @@ class Be {
   static resetState() {
     Fn().$reset(), Fn().$dispose();
   }
-  static buildUrl(y) {
-    return y && !(y.startsWith("http://") || y.startsWith("https://") || y.startsWith("//")) && (y = window.location.origin + y), y;
+  static buildUrl(C) {
+    return C && !(C.startsWith("http://") || C.startsWith("https://") || C.startsWith("//")) && (C = window.location.origin + C), C;
   }
-  static post(y, { dataObj: _ = null, callback: O = null, failedCallback: S = null, abortController: M = null, headers: k = null, mode: x = null } = {}) {
+  static post(C, { dataObj: _ = null, callback: O = null, failedCallback: D = null, abortController: M = null, headers: k = null, mode: S = null } = {}) {
     function m() {
       if (_ instanceof FormData)
         return _;
-      const D = new FormData();
+      const x = new FormData();
       for (const v in _)
         if (Array.isArray(_[v]))
           for (let f of _[v])
-            D.append(v, f);
+            x.append(v, f);
         else
-          D.append(v, _[v]);
-      return D;
+          x.append(v, _[v]);
+      return x;
     }
-    let C = si.post(Be.buildUrl(y), m(), null, k, M, x);
-    return C.then(function(D) {
-      O && O(D.data);
-    }).catch(function(D) {
-      S && S(D);
-    }), C;
+    let E = si.post(Be.buildUrl(C), m(), null, k, M, S);
+    return E.then(function(x) {
+      O && O(x.data);
+    }).catch(function(x) {
+      D && D(x);
+    }), E;
   }
-  static async getBatchSkeys(y = 30, _ = Ye.VITE_DEFAULT_RENDERER || "json") {
+  static async getBatchSkeys(C = 30, _ = Ye.VITE_DEFAULT_RENDERER || "json") {
     await Be.get(`/${_}/skey`, {
-      dataObj: { amount: y }
+      dataObj: { amount: C }
     }).then(async (O) => {
-      let S = await O.json();
-      Array.isArray(S) || (S = [S]), Fn().state.sKeys = new Set(S);
+      let D = await O.json();
+      Array.isArray(D) || (D = [D]), Fn().state.sKeys = new Set(D);
     });
   }
-  static async securePost(y, {
+  static async securePost(C, {
     dataObj: _ = null,
     callback: O = null,
-    failedCallback: S = null,
+    failedCallback: D = null,
     abortController: M = null,
     renderer: k = Ye.VITE_DEFAULT_RENDERER || "json",
-    headers: x = null,
+    headers: S = null,
     mode: m = null,
-    amount: C = 30
+    amount: E = 30
   } = {}) {
-    let D = null;
-    Fn().state.sKeys.size === 0 && await Be.getBatchSkeys(C);
+    let x = null;
+    Fn().state.sKeys.size === 0 && await Be.getBatchSkeys(E);
     const v = [...Fn().state.sKeys][0];
-    return _ instanceof FormData ? (_.append("skey", v), Fn().state.sKeys.delete(v)) : (_ || (_ = {}), _.skey = v, Fn().state.sKeys.delete(v)), D = Be.post(y, {
+    return _ instanceof FormData ? (_.append("skey", v), Fn().state.sKeys.delete(v)) : (_ || (_ = {}), _.skey = v, Fn().state.sKeys.delete(v)), x = Be.post(C, {
       dataObj: _,
       callback: O,
       abortController: M,
-      headers: x,
+      headers: S,
       mode: m
-    }), D;
+    }), x;
   }
-  static get(y, {
+  static get(C, {
     dataObj: _ = null,
     callback: O = null,
-    failedCallback: S = null,
+    failedCallback: D = null,
     cached: M = !1,
     clearCache: k = !1,
-    abortController: x = null,
+    abortController: S = null,
     headers: m = null,
-    mode: C = null,
+    mode: E = null,
     //          milli  sec  min  Std  Tage
-    cacheTime: D = 1e3 * 60 * 60 * 24 * 1
+    cacheTime: x = 1e3 * 60 * 60 * 24 * 1
   } = {}) {
-    let v = si.get(Be.buildUrl(y), _, k, m, x, C);
+    let v = si.get(Be.buildUrl(C), _, k, m, S, E);
     return v.then(function(f) {
       O && O(f.data);
     }).catch(function(f) {
-      S && S(f);
+      D && D(f);
     }), v;
   }
-  static list(y, {
+  static list(C, {
     dataObj: _ = null,
     callback: O = null,
-    failedCallback: S = null,
+    failedCallback: D = null,
     group: M = null,
     abortController: k = null,
-    renderer: x = (Ye == null ? void 0 : Ye.VITE_DEFAULT_RENDERER) || "json"
+    renderer: S = (Ye == null ? void 0 : Ye.VITE_DEFAULT_RENDERER) || "json"
   } = {}) {
-    let m = `/${x}/${y}/list`;
+    let m = `/${S}/${C}/list`;
     return M && (m += `/${M}`), Be.get(m, {
       dataObj: _,
       callback: O,
-      failedCallback: S,
+      failedCallback: D,
       abortController: k
     });
   }
-  static getStructure(y, {
+  static getStructure(C, {
     dataObj: _ = null,
     callback: O = null,
-    failedCallback: S = null,
+    failedCallback: D = null,
     group: M = null,
     abortController: k = null,
-    renderer: x = (Ye == null ? void 0 : Ye.VITE_DEFAULT_RENDERER) || "json"
+    renderer: S = (Ye == null ? void 0 : Ye.VITE_DEFAULT_RENDERER) || "json"
   } = {}) {
-    y = y.replace(/\//g, ".");
-    let m = `/${x}/getStructure/${y}`;
+    C = C.replace(/\//g, ".");
+    let m = `/${S}/getStructure/${C}`;
     return M && (m += `/${M}`), Be.get(m, {
       dataObj: _,
       callback: O,
-      failedCallback: S,
+      failedCallback: D,
       abortController: k
     });
   }
-  static view(y, _, {
+  static view(C, _, {
     dataObj: O = null,
-    callback: S = null,
+    callback: D = null,
     failedCallback: M = null,
     group: k = null,
-    abortController: x = null,
+    abortController: S = null,
     renderer: m = (Ye == null ? void 0 : Ye.VITE_DEFAULT_RENDERER) || "json"
   } = {}) {
-    let C = `/${m}/${y}/view/${_}`;
-    return k && (C = `/${m}/${y}/view/${k}/${_}`), Be.get(C, {
+    let E = `/${m}/${C}/view/${_}`;
+    return k && (E = `/${m}/${C}/view/${k}/${_}`), Be.get(E, {
       dataObj: O,
-      callback: S,
+      callback: D,
       failedCallback: M,
-      abortController: x
+      abortController: S
     });
   }
-  static add(y, {
+  static add(C, {
     dataObj: _ = null,
     callback: O = null,
-    failedCallback: S = null,
+    failedCallback: D = null,
     group: M = null,
     abortController: k = null,
-    renderer: x = (Ye == null ? void 0 : Ye.VITE_DEFAULT_RENDERER) || "json"
+    renderer: S = (Ye == null ? void 0 : Ye.VITE_DEFAULT_RENDERER) || "json"
   } = {}) {
-    let m = `/${x}/${y}/add`;
-    return M && (m = `/${x}/${y}/add/${M}`), Be.securePost(m, {
+    let m = `/${S}/${C}/add`;
+    return M && (m = `/${S}/${C}/add/${M}`), Be.securePost(m, {
       dataObj: _,
       callback: O,
-      failedCallback: S,
+      failedCallback: D,
       abortController: k
     });
   }
-  static edit(y, _, {
+  static edit(C, _, {
     dataObj: O = null,
-    callback: S = null,
+    callback: D = null,
     failedCallback: M = null,
     group: k = null,
-    abortController: x = null,
+    abortController: S = null,
     renderer: m = (Ye == null ? void 0 : Ye.VITE_DEFAULT_RENDERER) || "json"
   } = {}) {
-    let C = `/${m}/${y}/edit/${_}`;
-    return k && (C = `/${m}/${y}/edit/${k}/${_}`), Be.securePost(C, {
+    let E = `/${m}/${C}/edit/${_}`;
+    return k && (E = `/${m}/${C}/edit/${k}/${_}`), Be.securePost(E, {
       dataObj: O,
-      callback: S,
+      callback: D,
       failedCallback: M,
-      abortController: x
+      abortController: S
     });
   }
-  static delete(y, _, {
+  static delete(C, _, {
     dataObj: O = null,
-    callback: S = null,
+    callback: D = null,
     failedCallback: M = null,
     group: k = null,
-    abortController: x = null,
+    abortController: S = null,
     renderer: m = (Ye == null ? void 0 : Ye.VITE_DEFAULT_RENDERER) || "json"
   } = {}) {
-    let C = `/${m}/${y}/delete/${_}`;
-    return k && (C = `/${m}/${y}/delete/${k}/${_}`), Be.securePost(C, {
+    let E = `/${m}/${C}/delete/${_}`;
+    return k && (E = `/${m}/${C}/delete/${k}/${_}`), Be.securePost(E, {
       dataObj: O,
-      callback: S,
+      callback: D,
       failedCallback: M,
-      abortController: x,
+      abortController: S,
       amount: 1
     });
   }
-  static downloadUrlFor(y, _ = !1) {
-    return y && "dest" in y ? _ && "thumbnail" in y.dest ? Be.buildUrl(y.dest.thumbnail) : "downloadUrl" in y.dest ? Be.buildUrl(y.dest.downloadUrl) : Be.buildUrl(null) : Be.buildUrl(y);
+  static downloadUrlFor(C, _ = !1) {
+    return C && "dest" in C ? _ && "thumbnail" in C.dest ? Be.buildUrl(C.dest.thumbnail) : "downloadUrl" in C.dest ? Be.buildUrl(C.dest.downloadUrl) : Be.buildUrl(null) : Be.buildUrl(C);
   }
-  static uploadFile(y, _ = void 0) {
+  static uploadFile(C, _ = void 0) {
     const O = {
-      fileName: y.name,
-      mimeType: y.type || "application/octet-stream",
-      size: y.size.toString(),
+      fileName: C.name,
+      mimeType: C.type || "application/octet-stream",
+      size: C.size.toString(),
       node: _
     };
-    return new Promise((S, M) => {
+    return new Promise((D, M) => {
       Be.securePost("/vi/file/getUploadURL", { dataObj: O }).then(async (k) => {
-        let x = await k.json();
-        fetch(x.values.uploadUrl, {
-          body: y,
+        let S = await k.json();
+        fetch(S.values.uploadUrl, {
+          body: C,
           method: "POST",
           mode: "no-cors"
         }).then(async (m) => {
-          const C = {
-            key: x.values.uploadKey,
+          const E = {
+            key: S.values.uploadKey,
             skelType: "leaf"
           };
-          Be.securePost("/vi/file/add", { dataObj: C }).then(async (D) => {
-            let v = await D.json();
-            v.action === "addSuccess" ? S(v.values) : M(v);
-          }).catch((D) => {
-            M(D);
+          Be.securePost("/vi/file/add", { dataObj: E }).then(async (x) => {
+            let v = await x.json();
+            v.action === "addSuccess" ? D(v.values) : M(v);
+          }).catch((x) => {
+            M(x);
           });
         }).catch((m) => {
           M(m);
@@ -1524,49 +1524,49 @@ class si {
   constructor() {
     eb(this, "withCredentials", !0);
   }
-  static buildOptions(y, _ = null, O = null, S = null, M = null) {
-    let k = { method: y };
+  static buildOptions(C, _ = null, O = null, D = null, M = null) {
+    let k = { method: C };
     return k.credentials = "include", k.headers = {
       Accept: "application/json, text/plain, */*"
-    }, O && (k.headers = { ...k.headers, ...O }), _ && (k.body = _), S && (k.signal = S.signal), M && (k.mode = M), k;
+    }, O && (k.headers = { ...k.headers, ...O }), _ && (k.body = _), D && (k.signal = D.signal), M && (k.mode = M), k;
   }
-  static get(y, _ = null, O = null, S = null, M = null, k = null) {
-    function x(m, C) {
-      let D = new URL(m);
-      if (C && Object.keys(C).length > 0) {
+  static get(C, _ = null, O = null, D = null, M = null, k = null) {
+    function S(m, E) {
+      let x = new URL(m);
+      if (E && Object.keys(E).length > 0) {
         const v = new URLSearchParams();
-        for (const [f, A] of Object.entries(C))
+        for (const [f, A] of Object.entries(E))
           if (Array.isArray(A))
             for (const P of A)
               v.append(f, P);
           else
             v.append(f, A);
-        D.search = v.toString();
+        x.search = v.toString();
       }
-      return D.toString();
+      return x.toString();
     }
-    return fetch(x(y, _), si.buildOptions("GET", null, S, M, k)).then(async (m) => {
+    return fetch(S(C, _), si.buildOptions("GET", null, D, M, k)).then(async (m) => {
       if (m.ok)
         return m;
       {
-        const C = `${m.status} ${m.statusText}: ${m.headers ? m.headers.get("x-error-descr") : ""}`;
-        return Promise.reject(new _r(m.status, m.statusText, C, m));
+        const E = `${m.status} ${m.statusText}: ${m.headers ? m.headers.get("x-error-descr") : ""}`;
+        return Promise.reject(new _r(m.status, m.statusText, E, m));
       }
     }).catch((m) => {
       if (m instanceof TypeError) {
-        const D = `503 ${m.message}: ${m.headers ? m.headers.get("x-error-descr") : ""}`;
-        return Promise.reject(new _r(503, m.message, D, m));
+        const x = `503 ${m.message}: ${m.headers ? m.headers.get("x-error-descr") : ""}`;
+        return Promise.reject(new _r(503, m.message, x, m));
       }
       if (m instanceof DOMException && m.name == "AbortError") {
-        const D = `${m.code} ${m.name}: ${m.headers ? m.headers.get("x-error-descr") : ""}`;
-        return Promise.reject(new _r(m.code, m.name, D, { url: y }));
+        const x = `${m.code} ${m.name}: ${m.headers ? m.headers.get("x-error-descr") : ""}`;
+        return Promise.reject(new _r(m.code, m.name, x, { url: C }));
       }
-      const C = `${m.statusCode} ${m.statusText}: ${m.headers ? m.headers.get("x-error-descr") : ""}`;
-      return Promise.reject(new _r(m.statusCode, m.statusText, C, m.response));
+      const E = `${m.statusCode} ${m.statusText}: ${m.headers ? m.headers.get("x-error-descr") : ""}`;
+      return Promise.reject(new _r(m.statusCode, m.statusText, E, m.response));
     });
   }
-  static post(y, _ = null, O = null, S = null, M = null, k = null) {
-    return fetch(y, si.buildOptions("POST", _, S, M, k));
+  static post(C, _ = null, O = null, D = null, M = null, k = null) {
+    return fetch(C, si.buildOptions("POST", _, D, M, k));
   }
 }
 var vS = { VITE_API_URL: "", BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
@@ -1580,42 +1580,42 @@ const CS = Ve({
   },
   components: { Wrapper_nested: Cb },
   emits: ["change"],
-  setup(h, y) {
-    const _ = Se("boneState"), O = Se("formatString"), S = he({
+  setup(h, C) {
+    const _ = Se("boneState"), O = Se("formatString"), D = he({
       format: ie(() => _ == null ? void 0 : _.bonestructure.format),
       skellistdata: null,
       selection: null
     });
     function M(m) {
-      let C = "";
-      return _.bonestructure.type === "relational.tree.leaf.file" ? C = "skelType=leaf&" : _.bonestructure.type === "relational.tree.node.file" && (C = "skelType=node&"), Be.get(
-        `/${vS.VITE_DEFAULT_RENDERER || "vi"}/${_.bonestructure.module}/list?${C}limit=99`
-      ).then(async (D) => {
+      let E = "";
+      return _.bonestructure.type === "relational.tree.leaf.file" ? E = "skelType=leaf&" : _.bonestructure.type === "relational.tree.node.file" && (E = "skelType=node&"), Be.get(
+        `/${vS.VITE_DEFAULT_RENDERER || "vi"}/${_.bonestructure.module}/list?${E}limit=99`
+      ).then(async (x) => {
         var f;
-        const v = await D.json();
-        S.skellistdata = {};
+        const v = await x.json();
+        D.skellistdata = {};
         for (let A of v.skellist)
-          S.skellistdata[A.key] = A;
+          D.skellistdata[A.key] = A;
         return (f = v.skellist) == null ? void 0 : f.map((A) => ({ text: O(_.bonestructure.format, { dest: A }), value: A.key, data: A }));
       });
     }
     function k(m) {
-      S.selection = { dest: S.skellistdata[m.detail.item.value] }, y.emit("change", h.name, S.selection, h.lang, h.index);
+      D.selection = { dest: D.skellistdata[m.detail.item.value] }, C.emit("change", h.name, D.selection, h.lang, h.index);
     }
-    function x(m) {
-      var D;
-      S.selection || (S.selection = {}), (D = S.selection.rel) != null && D[m.name] || (S.selection.rel ? S.selection.rel[m.name] = null : S.selection.rel = { [m.name]: null });
-      let C = S.selection.rel[m.name];
-      m.lang ? (C === null && (C = {}), Object.keys(C).includes(m.lang) && m.index !== null ? C[m.lang][m.index] = m.value : C[m.lang] = m.value) : m.index !== null ? (C === null && (C = []), C[m.index] = m.value) : C = m.value, Object.keys(S.selection).includes("rel") && S.selection.rel ? S.selection.rel[m.name] = C : S.selection.rel = { [m.name]: C }, Object.keys(S.selection).includes("dest") && y.emit("change", h.name, S.selection, h.lang, h.index);
+    function S(m) {
+      var x;
+      D.selection || (D.selection = {}), (x = D.selection.rel) != null && x[m.name] || (D.selection.rel ? D.selection.rel[m.name] = null : D.selection.rel = { [m.name]: null });
+      let E = D.selection.rel[m.name];
+      m.lang ? (E === null && (E = {}), Object.keys(E).includes(m.lang) && m.index !== null ? E[m.lang][m.index] = m.value : E[m.lang] = m.value) : m.index !== null ? (E === null && (E = []), E[m.index] = m.value) : E = m.value, Object.keys(D.selection).includes("rel") && D.selection.rel ? D.selection.rel[m.name] = E : D.selection.rel = { [m.name]: E }, Object.keys(D.selection).includes("dest") && C.emit("change", h.name, D.selection, h.lang, h.index);
     }
     return Qe(() => {
-      S.selection = h.value, y.emit("change", h.name, h.value, h.lang, h.index);
+      D.selection = h.value, C.emit("change", h.name, h.value, h.lang, h.index);
     }), {
-      state: S,
+      state: D,
       boneState: _,
       formatString: O,
       changeEvent: k,
-      changeEventNested: x,
+      changeEventNested: S,
       getList: M
     };
   }
@@ -1625,8 +1625,8 @@ const CS = Ve({
 }, null, -1)), IS = [
   TS
 ];
-function PS(h, y, _, O, S, M) {
-  var x, m;
+function PS(h, C, _, O, D, M) {
+  var S, m;
   const k = Ln("Wrapper_nested");
   return L(), $("div", ES, [
     F("div", xS, [
@@ -1639,7 +1639,7 @@ function PS(h, y, _, O, S, M) {
         disabled: h.boneState.readonly,
         source: h.getList,
         hoist: "",
-        onSlItemSelect: y[0] || (y[0] = (...C) => h.changeEvent && h.changeEvent(...C))
+        onSlItemSelect: C[0] || (C[0] = (...E) => h.changeEvent && h.changeEvent(...E))
       }, null, 40, DS)),
       !h.boneState.multiple && !h.boneState.isEmpty ? (L(), $("sl-button", {
         key: 2,
@@ -1647,12 +1647,12 @@ function PS(h, y, _, O, S, M) {
         outline: "",
         title: h.$t("bone.del"),
         class: "delete-btn square-btn",
-        onClick: y[1] || (y[1] = () => {
+        onClick: C[1] || (C[1] = () => {
           h.$emit("change", h.name, "", h.lang, h.index), h.state.selection = null;
         })
       }, IS, 8, BS)) : oe("", !0)
     ]),
-    (x = h.boneState) != null && x.bonestructure.using ? (L(), Ue(k, {
+    (S = h.boneState) != null && S.bonestructure.using ? (L(), Ue(k, {
       key: 0,
       value: (m = h.value) == null ? void 0 : m.rel,
       name: h.name,
@@ -1674,21 +1674,21 @@ const gb = /* @__PURE__ */ ke(CS, [["render", PS], ["__scopeId", "data-v-61dd72e
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({});
-    function S(M, k) {
-      y.emit("change", h.name, M, h.lang, h.index);
+    function D(M, k) {
+      C.emit("change", h.name, M, h.lang, h.index);
     }
     return Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     }), {
       state: O,
       boneState: _,
-      changeEvent: S
+      changeEvent: D
     };
   }
 }), OS = { class: "box" };
-function zS(h, y, _, O, S, M) {
+function zS(h, C, _, O, D, M) {
   return L(), $("div", OS, Ae(h.value), 1);
 }
 const MS = /* @__PURE__ */ ke(RS, [["render", zS], ["__scopeId", "data-v-343aca69"]]);
@@ -1703,14 +1703,14 @@ const FS = Ve({
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
-    const _ = Se("boneState"), O = Dt(), S = he({
+  setup(h, C) {
+    const _ = Se("boneState"), O = Dt(), D = he({
       loading: !1,
       droparea: !1,
       previewopen: !1
     });
     Qe(() => {
-      y.emit("change", h.name, h.value, h.lang, h.index);
+      C.emit("change", h.name, h.value, h.lang, h.index);
     });
     function M() {
       console.log(Be.downloadUrlFor(h.value)), window.open(Be.downloadUrlFor(h.value));
@@ -1718,17 +1718,17 @@ const FS = Ve({
     function k() {
       return Be.downloadUrlFor(h.value, !1);
     }
-    function x(D) {
+    function S(x) {
       const v = {
-        fileName: D.name,
-        mimeType: D.type || "application/octet-stream",
-        size: D.size.toString()
+        fileName: x.name,
+        mimeType: x.type || "application/octet-stream",
+        size: x.size.toString()
       };
       return new Promise((f, A) => {
         Be.securePost(`/${mb.VITE_DEFAULT_RENDERER || "vi"}/file/getUploadURL`, { dataObj: v }).then(async (P) => {
           let B = await P.json();
           fetch(B.values.uploadUrl, {
-            body: D,
+            body: x,
             method: "POST",
             mode: "no-cors"
           }).then(async (R) => {
@@ -1751,31 +1751,31 @@ const FS = Ve({
         });
       });
     }
-    async function m(D) {
-      S.loading = !0;
-      for (let v of D.target.files) {
-        let f = await x(v);
-        O.value.value = null, y.emit("change", h.name, { dest: f, rel: null }, h.lang, h.index);
+    async function m(x) {
+      D.loading = !0;
+      for (let v of x.target.files) {
+        let f = await S(v);
+        O.value.value = null, C.emit("change", h.name, { dest: f, rel: null }, h.lang, h.index);
       }
-      S.loading = !1;
+      D.loading = !1;
     }
-    async function C(D) {
-      S.loading = !0, S.droparea = !1;
-      for (let v of D.dataTransfer.files) {
-        let f = await x(v);
-        O.value.value = null, y.emit("change", h.name, { dest: f, rel: null }, h.lang, h.index);
+    async function E(x) {
+      D.loading = !0, D.droparea = !1;
+      for (let v of x.dataTransfer.files) {
+        let f = await S(v);
+        O.value.value = null, C.emit("change", h.name, { dest: f, rel: null }, h.lang, h.index);
         break;
       }
-      S.loading = !1;
+      D.loading = !1;
     }
     return {
-      state: S,
+      state: D,
       boneState: _,
       downloadFile: M,
       createBackgroundImage: k,
       handleUpload: m,
       uploadinput: O,
-      handleDrop: C
+      handleDrop: E
     };
   }
 }), Tr = (h) => (rt("data-v-91086308"), h = h(), st(), h), NS = {
@@ -1802,13 +1802,13 @@ const FS = Ve({
 }, tD = { key: 2 }, nD = ["title"], oD = /* @__PURE__ */ Tr(() => /* @__PURE__ */ F("sl-icon", { name: "x-lg" }, null, -1)), iD = [
   oD
 ];
-function rD(h, y, _, O, S, M) {
-  var k, x, m, C, D, v, f, A, P, B;
+function rD(h, C, _, O, D, M) {
+  var k, S, m, E, x, v, f, A, P, B;
   return L(), $("div", {
     class: "file-wrapper",
-    onDragover: y[5] || (y[5] = Er((R) => h.state.droparea = !0, ["prevent"])),
-    onDragleave: y[6] || (y[6] = (R) => h.state.droparea = !1),
-    onDrop: y[7] || (y[7] = Er((...R) => h.handleDrop && h.handleDrop(...R), ["prevent"]))
+    onDragover: C[5] || (C[5] = Er((R) => h.state.droparea = !0, ["prevent"])),
+    onDragleave: C[6] || (C[6] = (R) => h.state.droparea = !1),
+    onDrop: C[7] || (C[7] = Er((...R) => h.handleDrop && h.handleDrop(...R), ["prevent"]))
   }, [
     h.state.loading ? (L(), $("div", NS, LS)) : oe("", !0),
     h.state.droparea ? (L(), $("div", jS, " Dateien hier hinziehen ")) : oe("", !0),
@@ -1817,25 +1817,25 @@ function rD(h, y, _, O, S, M) {
       title: h.$t("bone.upload"),
       outline: "",
       class: "upload-btn",
-      onClick: y[0] || (y[0] = (R) => h.uploadinput.click())
+      onClick: C[0] || (C[0] = (R) => h.uploadinput.click())
     }, qS, 8, $S)) : oe("", !0),
     F("input", {
       ref: "uploadinput",
       hidden: "",
       type: "file",
       multiple: h.boneState.multiple,
-      onChange: y[1] || (y[1] = (...R) => h.handleUpload && h.handleUpload(...R))
+      onChange: C[1] || (C[1] = (...R) => h.handleUpload && h.handleUpload(...R))
     }, null, 40, US),
     h.value ? (L(), $("sl-button", {
       key: 3,
       title: h.$t("bone.download"),
-      onClick: y[2] || (y[2] = (...R) => h.downloadFile && h.downloadFile(...R))
+      onClick: C[2] || (C[2] = (...R) => h.downloadFile && h.downloadFile(...R))
     }, GS, 8, WS)) : oe("", !0),
     F("div", ZS, [
-      (x = (k = h.value) == null ? void 0 : k.dest) != null && x.mimetype.includes("image") ? (L(), $("div", {
+      (S = (k = h.value) == null ? void 0 : k.dest) != null && S.mimetype.includes("image") ? (L(), $("div", {
         key: 0,
         class: "preview has-preview",
-        onClick: y[3] || (y[3] = (R) => h.state.previewopen = !h.state.previewopen)
+        onClick: C[3] || (C[3] = (R) => h.state.previewopen = !h.state.previewopen)
       }, [
         F("img", {
           class: "preview-img",
@@ -1843,7 +1843,7 @@ function rD(h, y, _, O, S, M) {
           alt: ""
         }, null, 8, JS),
         F("sl-dialog", {
-          label: decodeURIComponent((C = (m = h.value) == null ? void 0 : m.dest) == null ? void 0 : C.name),
+          label: decodeURIComponent((E = (m = h.value) == null ? void 0 : m.dest) == null ? void 0 : E.name),
           class: "preview-overlay",
           open: h.state.previewopen
         }, [
@@ -1853,7 +1853,7 @@ function rD(h, y, _, O, S, M) {
           }, null, 8, QS)
         ], 8, YS)
       ])) : (L(), $("div", XS, [
-        (v = (D = h.value) == null ? void 0 : D.dest) != null && v.name ? (L(), $("sl-icon", eD)) : oe("", !0)
+        (v = (x = h.value) == null ? void 0 : x.dest) != null && v.name ? (L(), $("sl-icon", eD)) : oe("", !0)
       ])),
       (A = (f = h.value) == null ? void 0 : f.dest) != null && A.name ? (L(), $("div", tD, Ae(decodeURIComponent((B = (P = h.value) == null ? void 0 : P.dest) == null ? void 0 : B.name)), 1)) : oe("", !0)
     ]),
@@ -1863,7 +1863,7 @@ function rD(h, y, _, O, S, M) {
       outline: "",
       title: h.$t("bone.del"),
       class: "delete-btn",
-      onClick: y[4] || (y[4] = (R) => h.$emit("change", h.name, "", h.lang, h.index))
+      onClick: C[4] || (C[4] = (R) => h.$emit("change", h.name, "", h.lang, h.index))
     }, iD, 8, nD))
   ], 32);
 }
@@ -1874,11 +1874,11 @@ function sD(h) {
 }
 var xr = { exports: {} };
 xr.exports;
-(function(h, y) {
+(function(h, C) {
   (function(_) {
     const O = _.de = _.de || {};
-    O.dictionary = Object.assign(O.dictionary || {}, { "%0 of %1": "%0 von %1", "Align cell text to the bottom": "Zellentext unten ausrichten", "Align cell text to the center": "Zellentext zentriert ausrichten", "Align cell text to the left": "Zellentext linksbündig ausrichten", "Align cell text to the middle": "Zellentext mittig ausrichten", "Align cell text to the right": "Zellentext rechtsbündig ausrichten", "Align cell text to the top": "Zellentext oben ausrichten", "Align center": "Zentriert", "Align left": "Linksbündig", "Align right": "Rechtsbündig", "Align table to the left": "Tabelle links ausrichten", "Align table to the right": "Tabelle rechts ausrichten", Alignment: "Ausrichtung", Aquamarine: "Aquamarinblau", Background: "Hintergrund", Black: "Schwarz", "Block quote": "Blockzitat", Blue: "Blau", Bold: "Fett", Border: "Rahmen", "Break text": "Bild teilt Text", "Bulleted List": "Aufzählungsliste", "Bulleted list styles toolbar": "Darstellung der ungeordneten Liste", Cancel: "Abbrechen", "Cannot upload file:": "Die Datei kann nicht hochgeladen werden:", "Caption for image: %0": "Bildunterschrift: %0", "Caption for the image": "Bildunterschrift", "Cell properties": "Zelleneigenschaften", "Center table": "Tabelle zentrieren", "Centered image": "Zentriertes Bild", "Change image text alternative": "Alternativtext ändern", "Choose heading": "Überschrift auswählen", Circle: "Leerer Kreis", Code: "Code", Color: "Farbe", "Color picker": "Farbwähler", Column: "Spalte", Dashed: "Gestrichelt", Decimal: "Dezimalzahlen", "Decimal with leading zero": "Dezimalzahlen mit vorangestellten Nullen", "Decrease indent": "Einzug verkleinern", "Delete column": "Spalte löschen", "Delete row": "Zeile löschen", "Dim grey": "Dunkelgrau", Dimensions: "Größe", Disc: "Gefüllter Kreis", Dotted: "Gepunktet", Double: "Doppelt", Downloadable: "Herunterladbar", "Dropdown toolbar": "Dropdown-Liste Werkzeugleiste", "Edit block": "Absatz bearbeiten", "Edit link": "Link bearbeiten", "Editor block content toolbar": "Editor Blockinhalt-Toolbar", "Editor contextual toolbar": "Editor kontextuelle Toolbar", "Editor editing area: %0": "Bearbeitungsbereich des Editors: %0", "Editor toolbar": "Editor Werkzeugleiste", "Enter image caption": "Bildunterschrift eingeben", "Enter table caption": "Tabellenüberschrift eingeben", "Full size image": "Bild in voller Größe", Green: "Grün", Grey: "Grau", Groove: "Eingeritzt", "Header column": "Kopfspalte", "Header row": "Kopfzeile", Heading: "Überschrift", "Heading 1": "Überschrift 1", "Heading 2": "Überschrift 2", "Heading 3": "Überschrift 3", "Heading 4": "Überschrift 4", "Heading 5": "Überschrift 5", "Heading 6": "Überschrift 6", Height: "Höhe", HEX: "", "Horizontal text alignment toolbar": "Werkzeugleiste für die horizontale Zellentext-Ausrichtung", "HTML object": "HTML-Objekt", "Image resize list": "Bildgrößen-Liste", "Image toolbar": "Bild Werkzeugleiste", "image widget": "Bild-Steuerelement", "In line": "Text in Zeile", "Increase indent": "Einzug vergrößern", Insert: "Einfügen", "Insert column left": "Spalte links einfügen", "Insert column right": "Spalte rechts einfügen", "Insert image": "Bild einfügen", "Insert image via URL": "Bild von URL einfügen", "Insert paragraph after block": "Absatz nach Block einfügen", "Insert paragraph before block": "Absatz vor Block einfügen", "Insert row above": "Zeile oben einfügen", "Insert row below": "Zeile unten einfügen", "Insert table": "Tabelle einfügen", Inset: "Eingelassen", Italic: "Kursiv", Justify: "Blocksatz", "Justify cell text": "Zellentext als Blocksatz ausrichten", "Left aligned image": "Linksbündiges Bild", "Light blue": "Hellblau", "Light green": "Hellgrün", "Light grey": "Hellgrau", Link: "Link", "Link image": "Bild verlinken", "Link URL": "Link Adresse", "List properties": "Listeneigenschaften", "Lower-latin": "Kleingeschriebene lateinische Buchstaben", "Lower–roman": "Kleingeschriebene römische Zahlen", "Merge cell down": "Zelle unten verbinden", "Merge cell left": "Zelle links verbinden", "Merge cell right": "Zelle rechts verbinden", "Merge cell up": "Zelle verbinden", "Merge cells": "Zellen verbinden", Next: "Nächste", None: "Kein Rahmen", "Numbered List": "Nummerierte Liste", "Numbered list styles toolbar": "Darstellung der geordneten Liste", "Open in a new tab": "In neuem Tab öffnen", "Open link in new tab": "Link im neuen Tab öffnen", Orange: "Orange", Original: "Original", Outset: "Geprägt", Padding: "Innenabstand", Paragraph: "Absatz", "Press Enter to type after or press Shift + Enter to type before the widget": "Drücken Sie die Eingabetaste, um nach dem Widget zu tippen oder Shift + Eingabetaste, um vor dem Widget zu tippen.", Previous: "vorherige", Purple: "Violett", Red: "Rot", Redo: "Wiederherstellen", "Remove color": "Farbe entfernen", "Remove Format": "Formatierung entfernen", "Resize image": "Bildgröße ändern", "Resize image to %0": "Bildgröße ändern in %0", "Resize image to the original size": "Bild in Originalgröße ändern", "Restore default": "Standard wiederherstellen", "Reversed order": "Umgekehrte Reihenfolge", "Rich Text Editor": "Rich Text Editor", Ridge: "Hervorgehoben", "Right aligned image": "Rechtsbündiges Bild", Row: "Zeile", Save: "Speichern", "Select all": "Alles auswählen", "Select column": "Spalte auswählen", "Select row": "Zeile auswählen", "Show more items": "Mehr anzeigen", "Side image": "Seitenbild", Solid: "Durchgezogen", "Split cell horizontally": "Zelle horizontal teilen", "Split cell vertically": "Zelle vertikal teilen", Square: "Quadrat", "Start at": "Beginnen mit", "Start index must be greater than 0.": "Der Startwert muss größer als 0 sein.", Strikethrough: "Durchgestrichen", Style: "Rahmenart", Subscript: "Tiefgestellt", Superscript: "Hochgestellt", "Table alignment toolbar": "Werkzeugleiste für die Tabellen-Ausrichtung", "Table cell text alignment": "Ausrichtung des Zellentextes", "Table properties": "Tabelleneigenschaften", "Table toolbar": "Tabelle Werkzeugleiste", "Text alignment": "Textausrichtung", "Text alignment toolbar": "Text-Ausrichtung Toolbar", "Text alternative": "Alternativtext", 'The color is invalid. Try "#FF0000" or "rgb(255,0,0)" or "red".': "Die Farbe ist ungültig. Probieren Sie „#FF0000“ oder „rgb(255,0,0)“ oder „red“.", 'The value is invalid. Try "10px" or "2em" or simply "2".': "Der Wert ist ungültig. Probieren Sie „10px“ oder „2em“ oder „2“.", "This link has no URL": "Dieser Link hat keine Adresse", "To-do List": "Aufgabenliste", "Toggle caption off": "Tabellenüberschrift deaktivieren", "Toggle caption on": "Tabellenüberschrift aktivieren", "Toggle the circle list style": "Leeren Kreis einstellen", "Toggle the decimal list style": "Dezimalzahlen einstellen", "Toggle the decimal with leading zero list style": "Dezimalzahlen mit vorangestellten Nullen einstellen", "Toggle the disc list style": "Gefüllten Kreis einstellen", "Toggle the lower–latin list style": "Kleingeschriebene lateinische Buchstaben einstellen", "Toggle the lower–roman list style": "Kleingeschriebene römische Zahlen einstellen", "Toggle the square list style": "Quadrat einstellen", "Toggle the upper–latin list style": "Großgeschriebene lateinische Buchstaben einstellen", "Toggle the upper–roman list style": "Großgeschriebene römische Zahlen einstellen", Turquoise: "Türkis", "Type or paste your content here.": "Hier Inhalt einfügen.", "Type your title": "Titel eingeben", Underline: "Unterstrichen", Undo: "Rückgängig", Unlink: "Link entfernen", Update: "Aktualisieren", "Update image URL": "Bild-URL aktualisieren", "Upload failed": "Hochladen fehlgeschlagen", "Upload in progress": "Upload läuft", "Upper-latin": "Großgeschriebene lateinische Buchstaben", "Upper-roman": "Großgeschriebene römische Zahlen", "Vertical text alignment toolbar": "Werkzeugleiste für die vertikale Zellentext-Ausrichtung", White: "Weiß", "Widget toolbar": "Widget Werkzeugleiste", Width: "Breite", "Wrap text": "Text umfließt Bild", Yellow: "Gelb" }), O.getPluralForm = function(S) {
-      return S != 1;
+    O.dictionary = Object.assign(O.dictionary || {}, { "%0 of %1": "%0 von %1", "Align cell text to the bottom": "Zellentext unten ausrichten", "Align cell text to the center": "Zellentext zentriert ausrichten", "Align cell text to the left": "Zellentext linksbündig ausrichten", "Align cell text to the middle": "Zellentext mittig ausrichten", "Align cell text to the right": "Zellentext rechtsbündig ausrichten", "Align cell text to the top": "Zellentext oben ausrichten", "Align center": "Zentriert", "Align left": "Linksbündig", "Align right": "Rechtsbündig", "Align table to the left": "Tabelle links ausrichten", "Align table to the right": "Tabelle rechts ausrichten", Alignment: "Ausrichtung", Aquamarine: "Aquamarinblau", Background: "Hintergrund", Black: "Schwarz", "Block quote": "Blockzitat", Blue: "Blau", Bold: "Fett", Border: "Rahmen", "Break text": "Bild teilt Text", "Bulleted List": "Aufzählungsliste", "Bulleted list styles toolbar": "Darstellung der ungeordneten Liste", Cancel: "Abbrechen", "Cannot upload file:": "Die Datei kann nicht hochgeladen werden:", "Caption for image: %0": "Bildunterschrift: %0", "Caption for the image": "Bildunterschrift", "Cell properties": "Zelleneigenschaften", "Center table": "Tabelle zentrieren", "Centered image": "Zentriertes Bild", "Change image text alternative": "Alternativtext ändern", "Choose heading": "Überschrift auswählen", Circle: "Leerer Kreis", Code: "Code", Color: "Farbe", "Color picker": "Farbwähler", Column: "Spalte", Dashed: "Gestrichelt", Decimal: "Dezimalzahlen", "Decimal with leading zero": "Dezimalzahlen mit vorangestellten Nullen", "Decrease indent": "Einzug verkleinern", "Delete column": "Spalte löschen", "Delete row": "Zeile löschen", "Dim grey": "Dunkelgrau", Dimensions: "Größe", Disc: "Gefüllter Kreis", Dotted: "Gepunktet", Double: "Doppelt", Downloadable: "Herunterladbar", "Dropdown toolbar": "Dropdown-Liste Werkzeugleiste", "Edit block": "Absatz bearbeiten", "Edit link": "Link bearbeiten", "Editor block content toolbar": "Editor Blockinhalt-Toolbar", "Editor contextual toolbar": "Editor kontextuelle Toolbar", "Editor editing area: %0": "Bearbeitungsbereich des Editors: %0", "Editor toolbar": "Editor Werkzeugleiste", "Enter image caption": "Bildunterschrift eingeben", "Enter table caption": "Tabellenüberschrift eingeben", "Full size image": "Bild in voller Größe", Green: "Grün", Grey: "Grau", Groove: "Eingeritzt", "Header column": "Kopfspalte", "Header row": "Kopfzeile", Heading: "Überschrift", "Heading 1": "Überschrift 1", "Heading 2": "Überschrift 2", "Heading 3": "Überschrift 3", "Heading 4": "Überschrift 4", "Heading 5": "Überschrift 5", "Heading 6": "Überschrift 6", Height: "Höhe", HEX: "", "Horizontal text alignment toolbar": "Werkzeugleiste für die horizontale Zellentext-Ausrichtung", "HTML object": "HTML-Objekt", "Image resize list": "Bildgrößen-Liste", "Image toolbar": "Bild Werkzeugleiste", "image widget": "Bild-Steuerelement", "In line": "Text in Zeile", "Increase indent": "Einzug vergrößern", Insert: "Einfügen", "Insert column left": "Spalte links einfügen", "Insert column right": "Spalte rechts einfügen", "Insert image": "Bild einfügen", "Insert image via URL": "Bild von URL einfügen", "Insert paragraph after block": "Absatz nach Block einfügen", "Insert paragraph before block": "Absatz vor Block einfügen", "Insert row above": "Zeile oben einfügen", "Insert row below": "Zeile unten einfügen", "Insert table": "Tabelle einfügen", Inset: "Eingelassen", Italic: "Kursiv", Justify: "Blocksatz", "Justify cell text": "Zellentext als Blocksatz ausrichten", "Left aligned image": "Linksbündiges Bild", "Light blue": "Hellblau", "Light green": "Hellgrün", "Light grey": "Hellgrau", Link: "Link", "Link image": "Bild verlinken", "Link URL": "Link Adresse", "List properties": "Listeneigenschaften", "Lower-latin": "Kleingeschriebene lateinische Buchstaben", "Lower–roman": "Kleingeschriebene römische Zahlen", "Merge cell down": "Zelle unten verbinden", "Merge cell left": "Zelle links verbinden", "Merge cell right": "Zelle rechts verbinden", "Merge cell up": "Zelle verbinden", "Merge cells": "Zellen verbinden", Next: "Nächste", None: "Kein Rahmen", "Numbered List": "Nummerierte Liste", "Numbered list styles toolbar": "Darstellung der geordneten Liste", "Open in a new tab": "In neuem Tab öffnen", "Open link in new tab": "Link im neuen Tab öffnen", Orange: "Orange", Original: "Original", Outset: "Geprägt", Padding: "Innenabstand", Paragraph: "Absatz", "Press Enter to type after or press Shift + Enter to type before the widget": "Drücken Sie die Eingabetaste, um nach dem Widget zu tippen oder Shift + Eingabetaste, um vor dem Widget zu tippen.", Previous: "vorherige", Purple: "Violett", Red: "Rot", Redo: "Wiederherstellen", "Remove color": "Farbe entfernen", "Remove Format": "Formatierung entfernen", "Resize image": "Bildgröße ändern", "Resize image to %0": "Bildgröße ändern in %0", "Resize image to the original size": "Bild in Originalgröße ändern", "Restore default": "Standard wiederherstellen", "Reversed order": "Umgekehrte Reihenfolge", "Rich Text Editor": "Rich Text Editor", Ridge: "Hervorgehoben", "Right aligned image": "Rechtsbündiges Bild", Row: "Zeile", Save: "Speichern", "Select all": "Alles auswählen", "Select column": "Spalte auswählen", "Select row": "Zeile auswählen", "Show more items": "Mehr anzeigen", "Side image": "Seitenbild", Solid: "Durchgezogen", "Split cell horizontally": "Zelle horizontal teilen", "Split cell vertically": "Zelle vertikal teilen", Square: "Quadrat", "Start at": "Beginnen mit", "Start index must be greater than 0.": "Der Startwert muss größer als 0 sein.", Strikethrough: "Durchgestrichen", Style: "Rahmenart", Subscript: "Tiefgestellt", Superscript: "Hochgestellt", "Table alignment toolbar": "Werkzeugleiste für die Tabellen-Ausrichtung", "Table cell text alignment": "Ausrichtung des Zellentextes", "Table properties": "Tabelleneigenschaften", "Table toolbar": "Tabelle Werkzeugleiste", "Text alignment": "Textausrichtung", "Text alignment toolbar": "Text-Ausrichtung Toolbar", "Text alternative": "Alternativtext", 'The color is invalid. Try "#FF0000" or "rgb(255,0,0)" or "red".': "Die Farbe ist ungültig. Probieren Sie „#FF0000“ oder „rgb(255,0,0)“ oder „red“.", 'The value is invalid. Try "10px" or "2em" or simply "2".': "Der Wert ist ungültig. Probieren Sie „10px“ oder „2em“ oder „2“.", "This link has no URL": "Dieser Link hat keine Adresse", "To-do List": "Aufgabenliste", "Toggle caption off": "Tabellenüberschrift deaktivieren", "Toggle caption on": "Tabellenüberschrift aktivieren", "Toggle the circle list style": "Leeren Kreis einstellen", "Toggle the decimal list style": "Dezimalzahlen einstellen", "Toggle the decimal with leading zero list style": "Dezimalzahlen mit vorangestellten Nullen einstellen", "Toggle the disc list style": "Gefüllten Kreis einstellen", "Toggle the lower–latin list style": "Kleingeschriebene lateinische Buchstaben einstellen", "Toggle the lower–roman list style": "Kleingeschriebene römische Zahlen einstellen", "Toggle the square list style": "Quadrat einstellen", "Toggle the upper–latin list style": "Großgeschriebene lateinische Buchstaben einstellen", "Toggle the upper–roman list style": "Großgeschriebene römische Zahlen einstellen", Turquoise: "Türkis", "Type or paste your content here.": "Hier Inhalt einfügen.", "Type your title": "Titel eingeben", Underline: "Unterstrichen", Undo: "Rückgängig", Unlink: "Link entfernen", Update: "Aktualisieren", "Update image URL": "Bild-URL aktualisieren", "Upload failed": "Hochladen fehlgeschlagen", "Upload in progress": "Upload läuft", "Upper-latin": "Großgeschriebene lateinische Buchstaben", "Upper-roman": "Großgeschriebene römische Zahlen", "Vertical text alignment toolbar": "Werkzeugleiste für die vertikale Zellentext-Ausrichtung", White: "Weiß", "Widget toolbar": "Widget Werkzeugleiste", Width: "Breite", "Wrap text": "Text umfließt Bild", Yellow: "Gelb" }), O.getPluralForm = function(D) {
+      return D != 1;
     };
   })(window.CKEDITOR_TRANSLATIONS || (window.CKEDITOR_TRANSLATIONS = {})), /*!
    * @license Copyright (c) 2003-2024, CKSource Holding sp. z o.o. All rights reserved.
@@ -1887,9 +1887,9 @@ xr.exports;
   function(_, O) {
     h.exports = O();
   }(self, () => (() => {
-    var _ = { 4959: (k, x, m) => {
-      const C = m(1103), D = {};
-      for (const f of Object.keys(C)) D[C[f]] = f;
+    var _ = { 4959: (k, S, m) => {
+      const E = m(1103), x = {};
+      for (const f of Object.keys(E)) x[E[f]] = f;
       const v = { rgb: { channels: 3, labels: "rgb" }, hsl: { channels: 3, labels: "hsl" }, hsv: { channels: 3, labels: "hsv" }, hwb: { channels: 3, labels: "hwb" }, cmyk: { channels: 4, labels: "cmyk" }, xyz: { channels: 3, labels: "xyz" }, lab: { channels: 3, labels: "lab" }, lch: { channels: 3, labels: "lch" }, hex: { channels: 1, labels: ["hex"] }, keyword: { channels: 1, labels: ["keyword"] }, ansi16: { channels: 1, labels: ["ansi16"] }, ansi256: { channels: 1, labels: ["ansi256"] }, hcg: { channels: 3, labels: ["h", "c", "g"] }, apple: { channels: 3, labels: ["r16", "g16", "b16"] }, gray: { channels: 1, labels: ["gray"] } };
       k.exports = v;
       for (const f of Object.keys(v)) {
@@ -1920,17 +1920,17 @@ xr.exports;
         const A = f[0] / 255, P = f[1] / 255, B = f[2] / 255, R = Math.min(1 - A, 1 - P, 1 - B);
         return [100 * ((1 - A - R) / (1 - R) || 0), 100 * ((1 - P - R) / (1 - R) || 0), 100 * ((1 - B - R) / (1 - R) || 0), 100 * R];
       }, v.rgb.keyword = function(f) {
-        const A = D[f];
+        const A = x[f];
         if (A) return A;
         let P, B = 1 / 0;
-        for (const j of Object.keys(C)) {
-          const q = C[j], Z = (N = q, ((R = f)[0] - N[0]) ** 2 + (R[1] - N[1]) ** 2 + (R[2] - N[2]) ** 2);
+        for (const j of Object.keys(E)) {
+          const q = E[j], Z = (N = q, ((R = f)[0] - N[0]) ** 2 + (R[1] - N[1]) ** 2 + (R[2] - N[2]) ** 2);
           Z < B && (B = Z, P = j);
         }
         var R, N;
         return P;
       }, v.keyword.rgb = function(f) {
-        return C[f];
+        return E[f];
       }, v.rgb.xyz = function(f) {
         let A = f[0] / 255, P = f[1] / 255, B = f[2] / 255;
         return A = A > 0.04045 ? ((A + 0.055) / 1.055) ** 2.4 : A / 12.92, P = P > 0.04045 ? ((P + 0.055) / 1.055) ** 2.4 : P / 12.92, B = B > 0.04045 ? ((B + 0.055) / 1.055) ** 2.4 : B / 12.92, [100 * (0.4124 * A + 0.3576 * P + 0.1805 * B), 100 * (0.2126 * A + 0.7152 * P + 0.0722 * B), 100 * (0.0193 * A + 0.1192 * P + 0.9505 * B)];
@@ -2134,11 +2134,11 @@ xr.exports;
       }, v.rgb.gray = function(f) {
         return [(f[0] + f[1] + f[2]) / 3 / 255 * 100];
       };
-    }, 841: (k, x, m) => {
-      const C = m(4959), D = m(9325), v = {};
-      Object.keys(C).forEach((f) => {
-        v[f] = {}, Object.defineProperty(v[f], "channels", { value: C[f].channels }), Object.defineProperty(v[f], "labels", { value: C[f].labels });
-        const A = D(f);
+    }, 841: (k, S, m) => {
+      const E = m(4959), x = m(9325), v = {};
+      Object.keys(E).forEach((f) => {
+        v[f] = {}, Object.defineProperty(v[f], "channels", { value: E[f].channels }), Object.defineProperty(v[f], "labels", { value: E[f].labels });
+        const A = x(f);
         Object.keys(A).forEach((P) => {
           const B = A[P];
           v[f][P] = function(R) {
@@ -2160,16 +2160,16 @@ xr.exports;
           }(B);
         });
       }), k.exports = v;
-    }, 9325: (k, x, m) => {
-      const C = m(4959);
-      function D(A) {
+    }, 9325: (k, S, m) => {
+      const E = m(4959);
+      function x(A) {
         const P = function() {
-          const R = {}, N = Object.keys(C);
+          const R = {}, N = Object.keys(E);
           for (let j = N.length, q = 0; q < j; q++) R[N[q]] = { distance: -1, parent: null };
           return R;
         }(), B = [A];
         for (P[A].distance = 0; B.length; ) {
-          const R = B.pop(), N = Object.keys(C[R]);
+          const R = B.pop(), N = Object.keys(E[R]);
           for (let j = N.length, q = 0; q < j; q++) {
             const Z = N[q], Q = P[Z];
             Q.distance === -1 && (Q.distance = P[R].distance + 1, Q.parent = R, B.unshift(Z));
@@ -2184,12 +2184,12 @@ xr.exports;
       }
       function f(A, P) {
         const B = [P[A].parent, A];
-        let R = C[P[A].parent][A], N = P[A].parent;
-        for (; P[N].parent; ) B.unshift(P[N].parent), R = v(C[P[N].parent][N], R), N = P[N].parent;
+        let R = E[P[A].parent][A], N = P[A].parent;
+        for (; P[N].parent; ) B.unshift(P[N].parent), R = v(E[P[N].parent][N], R), N = P[N].parent;
         return R.conversion = B, R;
       }
       k.exports = function(A) {
-        const P = D(A), B = {}, R = Object.keys(P);
+        const P = x(A), B = {}, R = Object.keys(P);
         for (let N = R.length, j = 0; j < N; j++) {
           const q = R[j];
           P[q].parent !== null && (B[q] = f(q, P));
@@ -2198,9 +2198,9 @@ xr.exports;
       };
     }, 1103: (k) => {
       k.exports = { aliceblue: [240, 248, 255], antiquewhite: [250, 235, 215], aqua: [0, 255, 255], aquamarine: [127, 255, 212], azure: [240, 255, 255], beige: [245, 245, 220], bisque: [255, 228, 196], black: [0, 0, 0], blanchedalmond: [255, 235, 205], blue: [0, 0, 255], blueviolet: [138, 43, 226], brown: [165, 42, 42], burlywood: [222, 184, 135], cadetblue: [95, 158, 160], chartreuse: [127, 255, 0], chocolate: [210, 105, 30], coral: [255, 127, 80], cornflowerblue: [100, 149, 237], cornsilk: [255, 248, 220], crimson: [220, 20, 60], cyan: [0, 255, 255], darkblue: [0, 0, 139], darkcyan: [0, 139, 139], darkgoldenrod: [184, 134, 11], darkgray: [169, 169, 169], darkgreen: [0, 100, 0], darkgrey: [169, 169, 169], darkkhaki: [189, 183, 107], darkmagenta: [139, 0, 139], darkolivegreen: [85, 107, 47], darkorange: [255, 140, 0], darkorchid: [153, 50, 204], darkred: [139, 0, 0], darksalmon: [233, 150, 122], darkseagreen: [143, 188, 143], darkslateblue: [72, 61, 139], darkslategray: [47, 79, 79], darkslategrey: [47, 79, 79], darkturquoise: [0, 206, 209], darkviolet: [148, 0, 211], deeppink: [255, 20, 147], deepskyblue: [0, 191, 255], dimgray: [105, 105, 105], dimgrey: [105, 105, 105], dodgerblue: [30, 144, 255], firebrick: [178, 34, 34], floralwhite: [255, 250, 240], forestgreen: [34, 139, 34], fuchsia: [255, 0, 255], gainsboro: [220, 220, 220], ghostwhite: [248, 248, 255], gold: [255, 215, 0], goldenrod: [218, 165, 32], gray: [128, 128, 128], green: [0, 128, 0], greenyellow: [173, 255, 47], grey: [128, 128, 128], honeydew: [240, 255, 240], hotpink: [255, 105, 180], indianred: [205, 92, 92], indigo: [75, 0, 130], ivory: [255, 255, 240], khaki: [240, 230, 140], lavender: [230, 230, 250], lavenderblush: [255, 240, 245], lawngreen: [124, 252, 0], lemonchiffon: [255, 250, 205], lightblue: [173, 216, 230], lightcoral: [240, 128, 128], lightcyan: [224, 255, 255], lightgoldenrodyellow: [250, 250, 210], lightgray: [211, 211, 211], lightgreen: [144, 238, 144], lightgrey: [211, 211, 211], lightpink: [255, 182, 193], lightsalmon: [255, 160, 122], lightseagreen: [32, 178, 170], lightskyblue: [135, 206, 250], lightslategray: [119, 136, 153], lightslategrey: [119, 136, 153], lightsteelblue: [176, 196, 222], lightyellow: [255, 255, 224], lime: [0, 255, 0], limegreen: [50, 205, 50], linen: [250, 240, 230], magenta: [255, 0, 255], maroon: [128, 0, 0], mediumaquamarine: [102, 205, 170], mediumblue: [0, 0, 205], mediumorchid: [186, 85, 211], mediumpurple: [147, 112, 219], mediumseagreen: [60, 179, 113], mediumslateblue: [123, 104, 238], mediumspringgreen: [0, 250, 154], mediumturquoise: [72, 209, 204], mediumvioletred: [199, 21, 133], midnightblue: [25, 25, 112], mintcream: [245, 255, 250], mistyrose: [255, 228, 225], moccasin: [255, 228, 181], navajowhite: [255, 222, 173], navy: [0, 0, 128], oldlace: [253, 245, 230], olive: [128, 128, 0], olivedrab: [107, 142, 35], orange: [255, 165, 0], orangered: [255, 69, 0], orchid: [218, 112, 214], palegoldenrod: [238, 232, 170], palegreen: [152, 251, 152], paleturquoise: [175, 238, 238], palevioletred: [219, 112, 147], papayawhip: [255, 239, 213], peachpuff: [255, 218, 185], peru: [205, 133, 63], pink: [255, 192, 203], plum: [221, 160, 221], powderblue: [176, 224, 230], purple: [128, 0, 128], rebeccapurple: [102, 51, 153], red: [255, 0, 0], rosybrown: [188, 143, 143], royalblue: [65, 105, 225], saddlebrown: [139, 69, 19], salmon: [250, 128, 114], sandybrown: [244, 164, 96], seagreen: [46, 139, 87], seashell: [255, 245, 238], sienna: [160, 82, 45], silver: [192, 192, 192], skyblue: [135, 206, 235], slateblue: [106, 90, 205], slategray: [112, 128, 144], slategrey: [112, 128, 144], snow: [255, 250, 250], springgreen: [0, 255, 127], steelblue: [70, 130, 180], tan: [210, 180, 140], teal: [0, 128, 128], thistle: [216, 191, 216], tomato: [255, 99, 71], turquoise: [64, 224, 208], violet: [238, 130, 238], wheat: [245, 222, 179], white: [255, 255, 255], whitesmoke: [245, 245, 245], yellow: [255, 255, 0], yellowgreen: [154, 205, 50] };
-    }, 8603: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 8603: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck-content code{background-color:hsla(0,0%,78%,.3);border-radius:2px;padding:.15em}.ck.ck-editor__editable .ck-code_selected{background-color:hsla(0,0%,78%,.5)}", "", { version: 3, sources: ["webpack://./../ckeditor5-basic-styles/theme/code.css"], names: [], mappings: "AAKA,iBACC,kCAAuC,CAEvC,iBAAkB,CADlB,aAED,CAEA,0CACC,kCACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2217,9 +2217,9 @@ xr.exports;
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3062: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3062: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck-content blockquote{border-left:5px solid #ccc;font-style:italic;margin-left:0;margin-right:0;overflow:hidden;padding-left:1.5em;padding-right:1.5em}.ck-content[dir=rtl] blockquote{border-left:0;border-right:5px solid #ccc}", "", { version: 3, sources: ["webpack://./../ckeditor5-block-quote/theme/blockquote.css"], names: [], mappings: "AAKA,uBAWC,0BAAsC,CADtC,iBAAkB,CAFlB,aAAc,CACd,cAAe,CAPf,eAAgB,CAIhB,kBAAmB,CADnB,mBAOD,CAEA,gCACC,aAAc,CACd,2BACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2245,9 +2245,9 @@ xr.exports;
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 903: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 903: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, '.ck.ck-editor__editable .ck.ck-clipboard-drop-target-position{display:inline;pointer-events:none;position:relative}.ck.ck-editor__editable .ck.ck-clipboard-drop-target-position span{position:absolute;width:0}.ck.ck-editor__editable .ck-widget:-webkit-drag>.ck-widget__selection-handle,.ck.ck-editor__editable .ck-widget:-webkit-drag>.ck-widget__type-around{display:none}.ck.ck-clipboard-drop-target-line{pointer-events:none;position:absolute}:root{--ck-clipboard-drop-target-dot-width:12px;--ck-clipboard-drop-target-dot-height:8px;--ck-clipboard-drop-target-color:var(--ck-color-focus-border)}.ck.ck-editor__editable .ck.ck-clipboard-drop-target-position span{background:var(--ck-clipboard-drop-target-color);border:1px solid var(--ck-clipboard-drop-target-color);bottom:calc(var(--ck-clipboard-drop-target-dot-height)*-.5);margin-left:-1px;top:calc(var(--ck-clipboard-drop-target-dot-height)*-.5)}.ck.ck-editor__editable .ck.ck-clipboard-drop-target-position span:after{border-color:var(--ck-clipboard-drop-target-color) transparent transparent transparent;border-style:solid;border-width:calc(var(--ck-clipboard-drop-target-dot-height)) calc(var(--ck-clipboard-drop-target-dot-width)*.5) 0 calc(var(--ck-clipboard-drop-target-dot-width)*.5);content:"";display:block;height:0;left:50%;position:absolute;top:calc(var(--ck-clipboard-drop-target-dot-height)*-.5);transform:translateX(-50%);width:0}.ck.ck-editor__editable .ck-widget.ck-clipboard-drop-target-range{outline:var(--ck-widget-outline-thickness) solid var(--ck-clipboard-drop-target-color)!important}.ck.ck-editor__editable .ck-widget:-webkit-drag{zoom:.6;outline:none!important}.ck.ck-clipboard-drop-target-line{background:var(--ck-clipboard-drop-target-color);border:1px solid var(--ck-clipboard-drop-target-color);height:0;margin-top:-1px}', "", { version: 3, sources: ["webpack://./../ckeditor5-clipboard/theme/clipboard.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-clipboard/clipboard.css"], names: [], mappings: "AASC,8DACC,cAAe,CAEf,mBAAoB,CADpB,iBAOD,CAJC,mEACC,iBAAkB,CAClB,OACD,CAWA,qJACC,YACD,CAIF,kCAEC,mBAAoB,CADpB,iBAED,CChCA,MACC,yCAA0C,CAC1C,yCAA0C,CAC1C,6DACD,CAOE,mEAIC,gDAAiD,CADjD,sDAAuD,CAFvD,2DAA8D,CAI9D,gBAAiB,CAHjB,wDAqBD,CAfC,yEAWC,sFAAuF,CAEvF,kBAAmB,CADnB,qKAA0K,CAX1K,UAAW,CAIX,aAAc,CAFd,QAAS,CAIT,QAAS,CADT,iBAAkB,CAElB,wDAA2D,CAE3D,0BAA2B,CAR3B,OAYD,CAOF,kEACC,gGACD,CAKA,gDACC,OAAS,CACT,sBACD,CAGD,kCAGC,gDAAiD,CADjD,sDAAuD,CADvD,QAAS,CAGT,eACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2352,9 +2352,9 @@ xr.exports;
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3143: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3143: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-editor{position:relative}.ck.ck-editor .ck-editor__top .ck-sticky-panel .ck-toolbar{z-index:var(--ck-z-modal)}.ck.ck-editor__top .ck-sticky-panel .ck-toolbar{border-radius:0}.ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,.ck.ck-editor__top .ck-sticky-panel .ck-toolbar.ck-rounded-corners{border-radius:var(--ck-border-radius);border-bottom-left-radius:0;border-bottom-right-radius:0}.ck.ck-editor__top .ck-sticky-panel .ck-toolbar{border-bottom-width:0}.ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content_sticky .ck-toolbar{border-bottom-width:1px;border-radius:0}.ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content_sticky .ck-toolbar,.ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content_sticky .ck-toolbar.ck-rounded-corners{border-radius:var(--ck-border-radius);border-radius:0}.ck.ck-editor__main>.ck-editor__editable{background:var(--ck-color-base-background);border-radius:0}.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,.ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners{border-radius:var(--ck-border-radius);border-top-left-radius:0;border-top-right-radius:0}.ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){border-color:var(--ck-color-base-border)}", "", { version: 3, sources: ["webpack://./../ckeditor5-editor-classic/theme/classiceditor.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-editor-classic/classiceditor.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css"], names: [], mappings: "AAKA,cAIC,iBAMD,CAJC,2DAEC,yBACD,CCLC,gDCED,eDKC,CAPA,uICMA,qCAAsC,CDJpC,2BAA4B,CAC5B,4BAIF,CAPA,gDAMC,qBACD,CAEA,iFACC,uBAAwB,CCR1B,eDaC,CANA,yMCHA,qCAAsC,CDOpC,eAEF,CAKF,yCAEC,0CAA2C,CCpB3C,eD8BD,CAZA,yHCdE,qCAAsC,CDmBtC,wBAAyB,CACzB,yBAMF,CAHC,0DACC,wCACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2434,9 +2434,9 @@ xr.exports;
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4717: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4717: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck .ck-placeholder,.ck.ck-placeholder{position:relative}.ck .ck-placeholder:before,.ck.ck-placeholder:before{content:attr(data-placeholder);left:0;pointer-events:none;position:absolute;right:0}.ck.ck-read-only .ck-placeholder:before{display:none}.ck.ck-reset_all .ck-placeholder{position:relative}.ck .ck-placeholder:before,.ck.ck-placeholder:before{color:var(--ck-color-engine-placeholder-text);cursor:text}", "", { version: 3, sources: ["webpack://./../ckeditor5-engine/theme/placeholder.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-engine/placeholder.css"], names: [], mappings: "AAMA,uCAEC,iBAWD,CATC,qDAIC,8BAA+B,CAF/B,MAAO,CAKP,mBAAoB,CANpB,iBAAkB,CAElB,OAKD,CAKA,wCACC,YACD,CAQD,iCACC,iBACD,CC5BC,qDAEC,6CAA8C,CAD9C,WAED", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2487,9 +2487,9 @@ xr.exports;
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 9315: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 9315: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-editor__editable span[data-ck-unsafe-element]{display:none}", "", { version: 3, sources: ["webpack://./../ckeditor5-engine/theme/renderer.css"], names: [], mappings: "AAMA,qDACC,YACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2501,9 +2501,9 @@ xr.exports;
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 8733: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 8733: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-heading_heading1{font-size:20px}.ck.ck-heading_heading2{font-size:17px}.ck.ck-heading_heading3{font-size:14px}.ck[class*=ck-heading_heading]{font-weight:700}.ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label{width:8em}.ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__panel .ck-list__item{min-width:18em}", "", { version: 3, sources: ["webpack://./../ckeditor5-heading/theme/heading.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-heading/heading.css"], names: [], mappings: "AAKA,wBACC,cACD,CAEA,wBACC,cACD,CAEA,wBACC,cACD,CAEA,+BACC,eACD,CCZC,2EACC,SACD,CAEA,uEACC,cACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2541,9 +2541,9 @@ xr.exports;
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 5049: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 5049: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-html-object-embed-unfocused-outline-width:1px}.ck-widget.html-object-embed{background-color:var(--ck-color-base-foreground);font-size:var(--ck-font-size-base);min-width:calc(76px + var(--ck-spacing-standard));padding:var(--ck-spacing-small);padding-top:calc(var(--ck-font-size-tiny) + var(--ck-spacing-large))}.ck-widget.html-object-embed:not(.ck-widget_selected):not(:hover){outline:var(--ck-html-object-embed-unfocused-outline-width) dashed var(--ck-color-widget-blurred-border)}.ck-widget.html-object-embed:before{background:#999;border-radius:0 0 var(--ck-border-radius) var(--ck-border-radius);color:var(--ck-color-base-background);content:attr(data-html-object-embed-label);font-family:var(--ck-font-face);font-size:var(--ck-font-size-tiny);font-style:normal;font-weight:400;left:var(--ck-spacing-standard);padding:calc(var(--ck-spacing-tiny) + var(--ck-html-object-embed-unfocused-outline-width)) var(--ck-spacing-small) var(--ck-spacing-tiny);position:absolute;top:0;transition:background var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve)}.ck-widget.html-object-embed .ck-widget__type-around .ck-widget__type-around__button.ck-widget__type-around__button_before{margin-left:50px}.ck-widget.html-object-embed .html-object-embed__content{pointer-events:none}div.ck-widget.html-object-embed{margin:1em auto}span.ck-widget.html-object-embed{display:inline-block}", "", { version: 3, sources: ["webpack://./../ckeditor5-html-support/theme/datafilter.css"], names: [], mappings: "AAKA,MACC,kDACD,CAEA,6BAEC,gDAAiD,CADjD,kCAAmC,CAKnC,iDAAkD,CAHlD,+BAAgC,CAEhC,oEAgCD,CA7BC,kEACC,wGACD,CAEA,oCAOC,eAA4B,CAG5B,iEAAkE,CAClE,qCAAsC,CAPtC,0CAA2C,CAS3C,+BAAgC,CADhC,kCAAmC,CAVnC,iBAAkB,CADlB,eAAmB,CAKnB,+BAAgC,CAGhC,yIAA0I,CAN1I,iBAAkB,CAElB,KAAM,CAGN,0GAMD,CAGA,2HACC,gBACD,CAEA,yDAEC,mBACD,CAGD,gCACC,eACD,CAEA,iCACC,oBACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2602,9 +2602,9 @@ span.ck-widget.html-object-embed {
 
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3508: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3508: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck-content .image{clear:both;display:table;margin:.9em auto;min-width:50px;text-align:center}.ck-content .image img{display:block;margin:0 auto;max-width:100%;min-width:100%}.ck-content .image-inline{align-items:flex-start;display:inline-flex;max-width:100%}.ck-content .image-inline picture{display:flex}.ck-content .image-inline img,.ck-content .image-inline picture{flex-grow:1;flex-shrink:1;max-width:100%}.ck.ck-editor__editable .image>figcaption.ck-placeholder:before{overflow:hidden;padding-left:inherit;padding-right:inherit;text-overflow:ellipsis;white-space:nowrap}.ck.ck-editor__editable .image-inline.ck-widget_selected,.ck.ck-editor__editable .image.ck-widget_selected{z-index:1}.ck.ck-editor__editable .image-inline.ck-widget_selected ::selection{display:none}.ck.ck-editor__editable td .image-inline img,.ck.ck-editor__editable th .image-inline img{max-width:none}", "", { version: 3, sources: ["webpack://./../ckeditor5-image/theme/image.css"], names: [], mappings: "AAMC,mBAEC,UAAW,CADX,aAAc,CAOd,gBAAkB,CAGlB,cAAe,CARf,iBAuBD,CAbC,uBAEC,aAAc,CAGd,aAAc,CAGd,cAAe,CAGf,cACD,CAGD,0BAYC,sBAAuB,CANvB,mBAAoB,CAGpB,cAoBD,CAdC,kCACC,YACD,CAGA,gEAGC,WAAY,CACZ,aAAc,CAGd,cACD,CAUD,gEASC,eAAgB,CARhB,oBAAqB,CACrB,qBAAsB,CAQtB,sBAAuB,CAFvB,kBAGD,CAWA,2GACC,SAUD,CAHC,qEACC,YACD,CAOA,0FACC,cACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2723,9 +2723,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 2640: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 2640: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-color-image-caption-background:#f7f7f7;--ck-color-image-caption-text:#333;--ck-color-image-caption-highligted-background:#fd0}.ck-content .image>figcaption{background-color:var(--ck-color-image-caption-background);caption-side:bottom;color:var(--ck-color-image-caption-text);display:table-caption;font-size:.75em;outline-offset:-1px;padding:.6em;word-break:break-word}.ck.ck-editor__editable .image>figcaption.image__caption_highlighted{animation:ck-image-caption-highlight .6s ease-out}@keyframes ck-image-caption-highlight{0%{background-color:var(--ck-color-image-caption-highligted-background)}to{background-color:var(--ck-color-image-caption-background)}}", "", { version: 3, sources: ["webpack://./../ckeditor5-image/theme/imagecaption.css"], names: [], mappings: "AAKA,MACC,2CAAoD,CACpD,kCAA8C,CAC9C,mDACD,CAGA,8BAKC,yDAA0D,CAH1D,mBAAoB,CAEpB,wCAAyC,CAHzC,qBAAsB,CAMtB,eAAgB,CAChB,mBAAoB,CAFpB,YAAa,CAHb,qBAMD,CAGA,qEACC,iDACD,CAEA,sCACC,GACC,oEACD,CAEA,GACC,yDACD,CACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2765,9 +2765,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3535: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3535: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-image-insert__panel{padding:var(--ck-spacing-large)}.ck.ck-image-insert__ck-finder-button{border:1px solid #ccc;border-radius:var(--ck-border-radius);display:block;margin:var(--ck-spacing-standard) auto;width:100%}.ck.ck-splitbutton>.ck-file-dialog-button.ck-button{border:none;margin:0;padding:0}", "", { version: 3, sources: ["webpack://./../ckeditor5-image/theme/imageinsert.css"], names: [], mappings: "AAKA,2BACC,+BACD,CAEA,sCAIC,qBAAiC,CACjC,qCAAsC,CAJtC,aAAc,CAEd,sCAAuC,CADvC,UAID,CAGA,oDAGC,WAAY,CADZ,QAAS,CADT,SAGD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2793,9 +2793,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 1568: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 1568: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-image-insert-form:focus{outline:none}.ck.ck-form__row{display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:space-between}.ck.ck-form__row>:not(.ck-label){flex-grow:1}.ck.ck-form__row.ck-image-insert-form__action-row{margin-top:var(--ck-spacing-standard)}.ck.ck-form__row.ck-image-insert-form__action-row .ck-button-cancel,.ck.ck-form__row.ck-image-insert-form__action-row .ck-button-save{justify-content:center}.ck.ck-form__row.ck-image-insert-form__action-row .ck-button .ck-button__label{color:var(--ck-color-text)}", "", { version: 3, sources: ["webpack://./../ckeditor5-image/theme/imageinsertformrowview.css"], names: [], mappings: "AAMC,+BAEC,YACD,CAGD,iBACC,YAAa,CACb,kBAAmB,CACnB,gBAAiB,CACjB,6BAmBD,CAhBC,iCACC,WACD,CAEA,kDACC,qCAUD,CARC,sIAEC,sBACD,CAEA,+EACC,0BACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2834,9 +2834,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 6270: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 6270: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck-content .image.image_resized{box-sizing:border-box;display:block;max-width:100%}.ck-content .image.image_resized img{width:100%}.ck-content .image.image_resized>figcaption{display:block}.ck.ck-editor__editable td .image-inline.image_resized img,.ck.ck-editor__editable th .image-inline.image_resized img{max-width:100%}[dir=ltr] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon{margin-right:var(--ck-spacing-standard)}[dir=rtl] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon{margin-left:var(--ck-spacing-standard)}.ck.ck-dropdown .ck-button.ck-resize-image-button .ck-button__label{width:4em}", "", { version: 3, sources: ["webpack://./../ckeditor5-image/theme/imageresize.css"], names: [], mappings: "AAKA,iCAQC,qBAAsB,CADtB,aAAc,CANd,cAkBD,CATC,qCAEC,UACD,CAEA,4CAEC,aACD,CAQC,sHACC,cACD,CAIF,oFACC,uCACD,CAEA,oFACC,sCACD,CAEA,oEACC,SACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2887,9 +2887,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 5083: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 5083: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-image-style-spacing:1.5em;--ck-inline-image-style-spacing:calc(var(--ck-image-style-spacing)/2)}.ck-content .image-style-block-align-left,.ck-content .image-style-block-align-right{max-width:calc(100% - var(--ck-image-style-spacing))}.ck-content .image-style-align-left,.ck-content .image-style-align-right{clear:none}.ck-content .image-style-side{float:right;margin-left:var(--ck-image-style-spacing);max-width:50%}.ck-content .image-style-align-left{float:left;margin-right:var(--ck-image-style-spacing)}.ck-content .image-style-align-center{margin-left:auto;margin-right:auto}.ck-content .image-style-align-right{float:right;margin-left:var(--ck-image-style-spacing)}.ck-content .image-style-block-align-right{margin-left:auto;margin-right:0}.ck-content .image-style-block-align-left{margin-left:0;margin-right:auto}.ck-content p+.image-style-align-left,.ck-content p+.image-style-align-right,.ck-content p+.image-style-side{margin-top:0}.ck-content .image-inline.image-style-align-left,.ck-content .image-inline.image-style-align-right{margin-bottom:var(--ck-inline-image-style-spacing);margin-top:var(--ck-inline-image-style-spacing)}.ck-content .image-inline.image-style-align-left{margin-right:var(--ck-inline-image-style-spacing)}.ck-content .image-inline.image-style-align-right{margin-left:var(--ck-inline-image-style-spacing)}.ck.ck-splitbutton.ck-splitbutton_flatten.ck-splitbutton_open>.ck-splitbutton__action:not(.ck-disabled),.ck.ck-splitbutton.ck-splitbutton_flatten.ck-splitbutton_open>.ck-splitbutton__arrow:not(.ck-disabled),.ck.ck-splitbutton.ck-splitbutton_flatten.ck-splitbutton_open>.ck-splitbutton__arrow:not(.ck-disabled):not(:hover),.ck.ck-splitbutton.ck-splitbutton_flatten:hover>.ck-splitbutton__action:not(.ck-disabled),.ck.ck-splitbutton.ck-splitbutton_flatten:hover>.ck-splitbutton__arrow:not(.ck-disabled),.ck.ck-splitbutton.ck-splitbutton_flatten:hover>.ck-splitbutton__arrow:not(.ck-disabled):not(:hover){background-color:var(--ck-color-button-on-background)}.ck.ck-splitbutton.ck-splitbutton_flatten.ck-splitbutton_open>.ck-splitbutton__action:not(.ck-disabled):after,.ck.ck-splitbutton.ck-splitbutton_flatten.ck-splitbutton_open>.ck-splitbutton__arrow:not(.ck-disabled):after,.ck.ck-splitbutton.ck-splitbutton_flatten.ck-splitbutton_open>.ck-splitbutton__arrow:not(.ck-disabled):not(:hover):after,.ck.ck-splitbutton.ck-splitbutton_flatten:hover>.ck-splitbutton__action:not(.ck-disabled):after,.ck.ck-splitbutton.ck-splitbutton_flatten:hover>.ck-splitbutton__arrow:not(.ck-disabled):after,.ck.ck-splitbutton.ck-splitbutton_flatten:hover>.ck-splitbutton__arrow:not(.ck-disabled):not(:hover):after{display:none}.ck.ck-splitbutton.ck-splitbutton_flatten.ck-splitbutton_open:hover>.ck-splitbutton__action:not(.ck-disabled),.ck.ck-splitbutton.ck-splitbutton_flatten.ck-splitbutton_open:hover>.ck-splitbutton__arrow:not(.ck-disabled),.ck.ck-splitbutton.ck-splitbutton_flatten.ck-splitbutton_open:hover>.ck-splitbutton__arrow:not(.ck-disabled):not(:hover){background-color:var(--ck-color-button-on-hover-background)}", "", { version: 3, sources: ["webpack://./../ckeditor5-image/theme/imagestyle.css"], names: [], mappings: "AAKA,MACC,8BAA+B,CAC/B,qEACD,CAMC,qFAEC,oDACD,CAIA,yEAEC,UACD,CAEA,8BACC,WAAY,CACZ,yCAA0C,CAC1C,aACD,CAEA,oCACC,UAAW,CACX,0CACD,CAEA,sCACC,gBAAiB,CACjB,iBACD,CAEA,qCACC,WAAY,CACZ,yCACD,CAEA,2CAEC,gBAAiB,CADjB,cAED,CAEA,0CACC,aAAc,CACd,iBACD,CAGA,6GAGC,YACD,CAGC,mGAGC,kDAAmD,CADnD,+CAED,CAEA,iDACC,iDACD,CAEA,kDACC,gDACD,CAUC,0lBAGC,qDAKD,CAHC,8nBACC,YACD,CAKD,oVAGC,2DACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -2999,9 +2999,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4036: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4036: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, '.ck-image-upload-complete-icon{border-radius:50%;display:block;position:absolute;right:min(var(--ck-spacing-medium),6%);top:min(var(--ck-spacing-medium),6%);z-index:1}.ck-image-upload-complete-icon:after{content:"";position:absolute}:root{--ck-color-image-upload-icon:#fff;--ck-color-image-upload-icon-background:#008a00;--ck-image-upload-icon-size:20;--ck-image-upload-icon-width:2px;--ck-image-upload-icon-is-visible:clamp(0px,100% - 50px,1px)}.ck-image-upload-complete-icon{animation-delay:0ms,3s;animation-duration:.5s,.5s;animation-fill-mode:forwards,forwards;animation-name:ck-upload-complete-icon-show,ck-upload-complete-icon-hide;background:var(--ck-color-image-upload-icon-background);font-size:calc(1px*var(--ck-image-upload-icon-size));height:calc(var(--ck-image-upload-icon-is-visible)*var(--ck-image-upload-icon-size));opacity:0;overflow:hidden;width:calc(var(--ck-image-upload-icon-is-visible)*var(--ck-image-upload-icon-size))}.ck-image-upload-complete-icon:after{animation-delay:.5s;animation-duration:.5s;animation-fill-mode:forwards;animation-name:ck-upload-complete-icon-check;border-right:var(--ck-image-upload-icon-width) solid var(--ck-color-image-upload-icon);border-top:var(--ck-image-upload-icon-width) solid var(--ck-color-image-upload-icon);box-sizing:border-box;height:0;left:25%;opacity:0;top:50%;transform:scaleX(-1) rotate(135deg);transform-origin:left top;width:0}@keyframes ck-upload-complete-icon-show{0%{opacity:0}to{opacity:1}}@keyframes ck-upload-complete-icon-hide{0%{opacity:1}to{opacity:0}}@keyframes ck-upload-complete-icon-check{0%{height:0;opacity:1;width:0}33%{height:0;width:.3em}to{height:.45em;opacity:1;width:.3em}}', "", { version: 3, sources: ["webpack://./../ckeditor5-image/theme/imageuploadicon.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-image/imageuploadicon.css"], names: [], mappings: "AAKA,+BAUC,iBAAkB,CATlB,aAAc,CACd,iBAAkB,CAOlB,sCAAwC,CADxC,oCAAsC,CAGtC,SAMD,CAJC,qCACC,UAAW,CACX,iBACD,CChBD,MACC,iCAA8C,CAC9C,+CAA4D,CAG5D,8BAA+B,CAC/B,gCAAiC,CACjC,4DACD,CAEA,+BAWC,sBAA4B,CAN5B,0BAAgC,CADhC,qCAAuC,CADvC,wEAA0E,CAD1E,uDAAwD,CAMxD,oDAAuD,CAWvD,oFAAuF,CAlBvF,SAAU,CAgBV,eAAgB,CAChB,mFA0BD,CAtBC,qCAgBC,mBAAsB,CADtB,sBAAyB,CAEzB,4BAA6B,CAH7B,4CAA6C,CAF7C,sFAAuF,CADvF,oFAAqF,CASrF,qBAAsB,CAdtB,QAAS,CAJT,QAAS,CAGT,SAAU,CADV,OAAQ,CAKR,mCAAoC,CACpC,yBAA0B,CAH1B,OAcD,CAGD,wCACC,GACC,SACD,CAEA,GACC,SACD,CACD,CAEA,wCACC,GACC,SACD,CAEA,GACC,SACD,CACD,CAEA,yCACC,GAGC,QAAS,CAFT,SAAU,CACV,OAED,CACA,IAEC,QAAS,CADT,UAED,CACA,GAGC,YAAc,CAFd,SAAU,CACV,UAED,CACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3124,9 +3124,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3773: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3773: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, '.ck .ck-upload-placeholder-loader{align-items:center;display:flex;justify-content:center;left:0;position:absolute;top:0}.ck .ck-upload-placeholder-loader:before{content:"";position:relative}:root{--ck-color-upload-placeholder-loader:#b3b3b3;--ck-upload-placeholder-loader-size:32px;--ck-upload-placeholder-image-aspect-ratio:2.8}.ck .ck-image-upload-placeholder{margin:0;width:100%}.ck .ck-image-upload-placeholder.image-inline{width:calc(var(--ck-upload-placeholder-loader-size)*2*var(--ck-upload-placeholder-image-aspect-ratio))}.ck .ck-image-upload-placeholder img{aspect-ratio:var(--ck-upload-placeholder-image-aspect-ratio)}.ck .ck-upload-placeholder-loader{height:100%;width:100%}.ck .ck-upload-placeholder-loader:before{animation:ck-upload-placeholder-loader 1s linear infinite;border-radius:50%;border-right:2px solid transparent;border-top:3px solid var(--ck-color-upload-placeholder-loader);height:var(--ck-upload-placeholder-loader-size);width:var(--ck-upload-placeholder-loader-size)}@keyframes ck-upload-placeholder-loader{to{transform:rotate(1turn)}}', "", { version: 3, sources: ["webpack://./../ckeditor5-image/theme/imageuploadloader.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-image/imageuploadloader.css"], names: [], mappings: "AAKA,kCAGC,kBAAmB,CADnB,YAAa,CAEb,sBAAuB,CAEvB,MAAO,CALP,iBAAkB,CAIlB,KAOD,CAJC,yCACC,UAAW,CACX,iBACD,CCXD,MACC,4CAAqD,CACrD,wCAAyC,CACzC,8CACD,CAEA,iCAGC,QAAS,CADT,UAgBD,CAbC,8CACC,sGACD,CAEA,qCAOC,4DACD,CAGD,kCAEC,WAAY,CADZ,UAWD,CARC,yCAMC,yDAA0D,CAH1D,iBAAkB,CAElB,kCAAmC,CADnC,8DAA+D,CAF/D,+CAAgD,CADhD,8CAMD,CAGD,wCACC,GACC,uBACD,CACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3197,9 +3197,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3689: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3689: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-editor__editable .image,.ck.ck-editor__editable .image-inline{position:relative}.ck.ck-editor__editable .image .ck-progress-bar,.ck.ck-editor__editable .image-inline .ck-progress-bar{left:0;position:absolute;top:0}.ck.ck-editor__editable .image-inline.ck-appear,.ck.ck-editor__editable .image.ck-appear{animation:fadeIn .7s}.ck.ck-editor__editable .image .ck-progress-bar,.ck.ck-editor__editable .image-inline .ck-progress-bar{background:var(--ck-color-upload-bar-background);height:2px;transition:width .1s;width:0}@keyframes fadeIn{0%{opacity:0}to{opacity:1}}", "", { version: 3, sources: ["webpack://./../ckeditor5-image/theme/imageuploadprogress.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-image/imageuploadprogress.css"], names: [], mappings: "AAMC,qEAEC,iBACD,CAGA,uGAIC,MAAO,CAFP,iBAAkB,CAClB,KAED,CCRC,yFACC,oBACD,CAID,uGAIC,gDAAiD,CAFjD,UAAW,CAGX,oBAAuB,CAFvB,OAGD,CAGD,kBACC,GAAO,SAAY,CACnB,GAAO,SAAY,CACpB", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3249,9 +3249,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 1905: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 1905: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-text-alternative-form{display:flex;flex-direction:row;flex-wrap:nowrap}.ck.ck-text-alternative-form .ck-labeled-field-view{display:inline-block}.ck.ck-text-alternative-form .ck-label{display:none}@media screen and (max-width:600px){.ck.ck-text-alternative-form{flex-wrap:wrap}.ck.ck-text-alternative-form .ck-labeled-field-view{flex-basis:100%}.ck.ck-text-alternative-form .ck-button{flex-basis:50%}}", "", { version: 3, sources: ["webpack://./../ckeditor5-image/theme/textalternativeform.css", "webpack://./../ckeditor5-ui/theme/mixins/_rwd.css"], names: [], mappings: "AAOA,6BACC,YAAa,CACb,kBAAmB,CACnB,gBAqBD,CAnBC,oDACC,oBACD,CAEA,uCACC,YACD,CCZA,oCDCD,6BAcE,cAUF,CARE,oDACC,eACD,CAEA,wCACC,cACD,CCrBD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3296,9 +3296,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 9773: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 9773: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck .ck-link_selected{background:var(--ck-color-link-selected-background)}.ck .ck-link_selected span.image-inline{outline:var(--ck-widget-outline-thickness) solid var(--ck-color-link-selected-background)}.ck .ck-fake-link-selection{background:var(--ck-color-link-fake-selection)}.ck .ck-fake-link-selection_collapsed{border-right:1px solid var(--ck-color-base-text);height:100%;margin-right:-1px;outline:1px solid hsla(0,0%,100%,.5)}", "", { version: 3, sources: ["webpack://./../ckeditor5-theme-lark/theme/ckeditor5-link/link.css"], names: [], mappings: "AAMA,sBACC,mDAMD,CAHC,wCACC,yFACD,CAOD,4BACC,8CACD,CAGA,sCAEC,gDAAiD,CADjD,WAAY,CAEZ,iBAAkB,CAClB,oCACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3331,9 +3331,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 2347: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 2347: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-link-actions{display:flex;flex-direction:row;flex-wrap:nowrap}.ck.ck-link-actions .ck-link-actions__preview{display:inline-block}.ck.ck-link-actions .ck-link-actions__preview .ck-button__label{overflow:hidden}@media screen and (max-width:600px){.ck.ck-link-actions{flex-wrap:wrap}.ck.ck-link-actions .ck-link-actions__preview{flex-basis:100%}.ck.ck-link-actions .ck-button:not(.ck-link-actions__preview){flex-basis:50%}}.ck.ck-link-actions .ck-button.ck-link-actions__preview{padding-left:0;padding-right:0}.ck.ck-link-actions .ck-button.ck-link-actions__preview .ck-button__label{color:var(--ck-color-link-default);cursor:pointer;max-width:var(--ck-input-width);min-width:3em;padding:0 var(--ck-spacing-medium);text-align:center;text-overflow:ellipsis}.ck.ck-link-actions .ck-button.ck-link-actions__preview .ck-button__label:hover{text-decoration:underline}.ck.ck-link-actions .ck-button.ck-link-actions__preview,.ck.ck-link-actions .ck-button.ck-link-actions__preview:active,.ck.ck-link-actions .ck-button.ck-link-actions__preview:focus,.ck.ck-link-actions .ck-button.ck-link-actions__preview:hover{background:none}.ck.ck-link-actions .ck-button.ck-link-actions__preview:active{box-shadow:none}.ck.ck-link-actions .ck-button.ck-link-actions__preview:focus .ck-button__label{text-decoration:underline}[dir=ltr] .ck.ck-link-actions .ck-button:not(:first-child),[dir=rtl] .ck.ck-link-actions .ck-button:not(:last-child){margin-left:var(--ck-spacing-standard)}@media screen and (max-width:600px){.ck.ck-link-actions .ck-button.ck-link-actions__preview{margin:var(--ck-spacing-standard) var(--ck-spacing-standard) 0}.ck.ck-link-actions .ck-button.ck-link-actions__preview .ck-button__label{max-width:100%;min-width:0}[dir=ltr] .ck.ck-link-actions .ck-button:not(.ck-link-actions__preview),[dir=rtl] .ck.ck-link-actions .ck-button:not(.ck-link-actions__preview){margin-left:0}}", "", { version: 3, sources: ["webpack://./../ckeditor5-link/theme/linkactions.css", "webpack://./../ckeditor5-ui/theme/mixins/_rwd.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-link/linkactions.css"], names: [], mappings: "AAOA,oBACC,YAAa,CACb,kBAAmB,CACnB,gBAqBD,CAnBC,8CACC,oBAKD,CAHC,gEACC,eACD,CCXD,oCDCD,oBAcE,cAUF,CARE,8CACC,eACD,CAEA,8DACC,cACD,CCrBD,CCIA,wDACC,cAAe,CACf,eAmCD,CAjCC,0EAEC,kCAAmC,CAEnC,cAAe,CAIf,+BAAgC,CAChC,aAAc,CARd,kCAAmC,CASnC,iBAAkB,CAPlB,sBAYD,CAHC,gFACC,yBACD,CAGD,mPAIC,eACD,CAEA,+DACC,eACD,CAGC,gFACC,yBACD,CAWD,qHACC,sCACD,CDtDD,oCC0DC,wDACC,8DAMD,CAJC,0EAEC,cAAe,CADf,WAED,CAGD,gJAME,aAEF,CDzED", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3462,9 +3462,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 7754: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 7754: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-link-form{display:flex}.ck.ck-link-form .ck-label{display:none}@media screen and (max-width:600px){.ck.ck-link-form{flex-wrap:wrap}.ck.ck-link-form .ck-labeled-field-view{flex-basis:100%}.ck.ck-link-form .ck-button{flex-basis:50%}}.ck.ck-link-form_layout-vertical{display:block}.ck.ck-link-form_layout-vertical .ck-button.ck-button-cancel,.ck.ck-link-form_layout-vertical .ck-button.ck-button-save{margin-top:var(--ck-spacing-medium)}.ck.ck-link-form_layout-vertical{min-width:var(--ck-input-width);padding:0}.ck.ck-link-form_layout-vertical .ck-labeled-field-view{margin:var(--ck-spacing-large) var(--ck-spacing-large) var(--ck-spacing-small)}.ck.ck-link-form_layout-vertical .ck-labeled-field-view .ck-input-text{min-width:0;width:100%}.ck.ck-link-form_layout-vertical>.ck-button{border-radius:0;margin:0;padding:var(--ck-spacing-standard);width:50%}.ck.ck-link-form_layout-vertical>.ck-button:not(:focus){border-top:1px solid var(--ck-color-base-border)}[dir=ltr] .ck.ck-link-form_layout-vertical>.ck-button,[dir=rtl] .ck.ck-link-form_layout-vertical>.ck-button{margin-left:0}[dir=rtl] .ck.ck-link-form_layout-vertical>.ck-button:last-of-type{border-right:1px solid var(--ck-color-base-border)}.ck.ck-link-form_layout-vertical .ck.ck-list{margin:var(--ck-spacing-standard) var(--ck-spacing-large)}.ck.ck-link-form_layout-vertical .ck.ck-list .ck-button.ck-switchbutton{padding:0;width:100%}.ck.ck-link-form_layout-vertical .ck.ck-list .ck-button.ck-switchbutton:hover{background:none}", "", { version: 3, sources: ["webpack://./../ckeditor5-link/theme/linkform.css", "webpack://./../ckeditor5-ui/theme/mixins/_rwd.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-link/linkform.css"], names: [], mappings: "AAOA,iBACC,YAiBD,CAfC,2BACC,YACD,CCNA,oCDCD,iBAQE,cAUF,CARE,wCACC,eACD,CAEA,4BACC,cACD,CCfD,CDuBD,iCACC,aAYD,CALE,wHAEC,mCACD,CE/BF,iCAEC,+BAAgC,CADhC,SAgDD,CA7CC,wDACC,8EAMD,CAJC,uEACC,WAAY,CACZ,UACD,CAGD,4CAIC,eAAgB,CAFhB,QAAS,CADT,kCAAmC,CAEnC,SAkBD,CAfC,wDACC,gDACD,CARD,4GAeE,aAMF,CAJE,mEACC,kDACD,CAKF,6CACC,yDAUD,CARC,wEACC,SAAU,CACV,UAKD,CAHC,8EACC,eACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3583,9 +3583,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 111: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 111: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, '.ck.ck-editor__editable a span.image-inline:after,.ck.ck-editor__editable figure.image>a:after{display:block;position:absolute}:root{--ck-link-image-indicator-icon-size:20;--ck-link-image-indicator-icon-is-visible:clamp(0px,100% - 50px,1px)}.ck.ck-editor__editable a span.image-inline:after,.ck.ck-editor__editable figure.image>a:after{background-color:rgba(0,0,0,.4);background-image:url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAgMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0iI2ZmZiIgZD0ibTExLjA3NyAxNSAuOTkxLTEuNDE2YS43NS43NSAwIDEgMSAxLjIyOS44NmwtMS4xNDggMS42NGEuNzQ4Ljc0OCAwIDAgMS0uMjE3LjIwNiA1LjI1MSA1LjI1MSAwIDAgMS04LjUwMy01Ljk1NS43NDEuNzQxIDAgMCAxIC4xMi0uMjc0bDEuMTQ3LTEuNjM5YS43NS43NSAwIDEgMSAxLjIyOC44Nkw0LjkzMyAxMC43bC4wMDYuMDAzYTMuNzUgMy43NSAwIDAgMCA2LjEzMiA0LjI5NGwuMDA2LjAwNHptNS40OTQtNS4zMzVhLjc0OC43NDggMCAwIDEtLjEyLjI3NGwtMS4xNDcgMS42MzlhLjc1Ljc1IDAgMSAxLTEuMjI4LS44NmwuODYtMS4yM2EzLjc1IDMuNzUgMCAwIDAtNi4xNDQtNC4zMDFsLS44NiAxLjIyOWEuNzUuNzUgMCAwIDEtMS4yMjktLjg2bDEuMTQ4LTEuNjRhLjc0OC43NDggMCAwIDEgLjIxNy0uMjA2IDUuMjUxIDUuMjUxIDAgMCAxIDguNTAzIDUuOTU1em0tNC41NjMtMi41MzJhLjc1Ljc1IDAgMCAxIC4xODQgMS4wNDVsLTMuMTU1IDQuNTA1YS43NS43NSAwIDEgMS0xLjIyOS0uODZsMy4xNTUtNC41MDZhLjc1Ljc1IDAgMCAxIDEuMDQ1LS4xODR6Ii8+PC9zdmc+");background-position:50%;background-repeat:no-repeat;background-size:14px;border-radius:100%;content:"";height:calc(var(--ck-link-image-indicator-icon-is-visible)*var(--ck-link-image-indicator-icon-size));overflow:hidden;right:min(var(--ck-spacing-medium),6%);top:min(var(--ck-spacing-medium),6%);width:calc(var(--ck-link-image-indicator-icon-is-visible)*var(--ck-link-image-indicator-icon-size))}', "", { version: 3, sources: ["webpack://./../ckeditor5-link/theme/linkimage.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-link/linkimage.css"], names: [], mappings: "AASE,+FACC,aAAc,CACd,iBACD,CCPF,MAEC,sCAAuC,CACvC,oEACD,CAME,+FAUC,+BAAqC,CACrC,83BAA+3B,CAG/3B,uBAA2B,CAD3B,2BAA4B,CAD5B,oBAAqB,CAGrB,kBAAmB,CAdnB,UAAW,CAsBX,oGAAuG,CAFvG,eAAgB,CAbhB,sCAAwC,CADxC,oCAAsC,CAetC,mGAED", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3647,9 +3647,9 @@ span.ck-widget.html-object-embed {
 
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4721: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4721: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-collapsible.ck-collapsible_collapsed>.ck-collapsible__children{display:none}:root{--ck-collapsible-arrow-size:calc(var(--ck-icon-size)*0.5)}.ck.ck-collapsible>.ck.ck-button{border-radius:0;color:inherit;font-weight:700;padding:var(--ck-spacing-medium) var(--ck-spacing-large);width:100%}.ck.ck-collapsible>.ck.ck-button:focus{background:transparent}.ck.ck-collapsible>.ck.ck-button:active,.ck.ck-collapsible>.ck.ck-button:hover:not(:focus),.ck.ck-collapsible>.ck.ck-button:not(:focus){background:transparent;border-color:transparent;box-shadow:none}.ck.ck-collapsible>.ck.ck-button>.ck-icon{margin-right:var(--ck-spacing-medium);width:var(--ck-collapsible-arrow-size)}.ck.ck-collapsible>.ck-collapsible__children{padding:0 var(--ck-spacing-large) var(--ck-spacing-large)}.ck.ck-collapsible.ck-collapsible_collapsed>.ck.ck-button .ck-icon{transform:rotate(-90deg)}", "", { version: 3, sources: ["webpack://./../ckeditor5-list/theme/collapsible.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-list/collapsible.css"], names: [], mappings: "AAMC,sEACC,YACD,CCHD,MACC,yDACD,CAGC,iCAIC,eAAgB,CAChB,aAAc,CAHd,eAAiB,CACjB,wDAAyD,CAFzD,UAoBD,CAdC,uCACC,sBACD,CAEA,wIACC,sBAAuB,CACvB,wBAAyB,CACzB,eACD,CAEA,0CACC,qCAAsC,CACtC,sCACD,CAGD,6CACC,yDACD,CAGC,mEACC,wBACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3705,9 +3705,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 5730: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 5730: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck-editor__editable .ck-list-bogus-paragraph{display:block}", "", { version: 3, sources: ["webpack://./../ckeditor5-list/theme/documentlist.css"], names: [], mappings: "AAKA,8CACC,aACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3718,9 +3718,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4564: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4564: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck-content ol{list-style-type:decimal}.ck-content ol ol{list-style-type:lower-latin}.ck-content ol ol ol{list-style-type:lower-roman}.ck-content ol ol ol ol{list-style-type:upper-latin}.ck-content ol ol ol ol ol{list-style-type:upper-roman}.ck-content ul{list-style-type:disc}.ck-content ul ul{list-style-type:circle}.ck-content ul ul ul,.ck-content ul ul ul ul{list-style-type:square}", "", { version: 3, sources: ["webpack://./../ckeditor5-list/theme/list.css"], names: [], mappings: "AAKA,eACC,uBAiBD,CAfC,kBACC,2BAaD,CAXC,qBACC,2BASD,CAPC,wBACC,2BAKD,CAHC,2BACC,2BACD,CAMJ,eACC,oBAaD,CAXC,kBACC,sBASD,CAJE,6CACC,sBACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3763,9 +3763,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 6082: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 6082: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-list-properties.ck-list-properties_without-styles{padding:var(--ck-spacing-large)}.ck.ck-list-properties.ck-list-properties_without-styles>*{min-width:14em}.ck.ck-list-properties.ck-list-properties_without-styles>*+*{margin-top:var(--ck-spacing-standard)}.ck.ck-list-properties.ck-list-properties_with-numbered-properties>.ck-list-styles-list{grid-template-columns:repeat(4,auto)}.ck.ck-list-properties.ck-list-properties_with-numbered-properties>.ck-collapsible{border-top:1px solid var(--ck-color-base-border)}.ck.ck-list-properties.ck-list-properties_with-numbered-properties>.ck-collapsible>.ck-collapsible__children>*{width:100%}.ck.ck-list-properties.ck-list-properties_with-numbered-properties>.ck-collapsible>.ck-collapsible__children>*+*{margin-top:var(--ck-spacing-standard)}.ck.ck-list-properties .ck.ck-numbered-list-properties__start-index .ck-input{min-width:auto;width:100%}.ck.ck-list-properties .ck.ck-numbered-list-properties__reversed-order{background:transparent;margin-bottom:calc(var(--ck-spacing-tiny)*-1);padding-left:0;padding-right:0}.ck.ck-list-properties .ck.ck-numbered-list-properties__reversed-order:active,.ck.ck-list-properties .ck.ck-numbered-list-properties__reversed-order:hover{background:none;border-color:transparent;box-shadow:none}", "", { version: 3, sources: ["webpack://./../ckeditor5-theme-lark/theme/ckeditor5-list/listproperties.css"], names: [], mappings: "AAOC,yDACC,+BASD,CAPC,2DACC,cAKD,CAHC,6DACC,qCACD,CASD,wFACC,oCACD,CAGA,mFACC,gDAWD,CARE,+GACC,UAKD,CAHC,iHACC,qCACD,CAMJ,8EACC,cAAe,CACf,UACD,CAEA,uEACC,sBAAuB,CAGvB,6CAAgD,CAFhD,cAAe,CACf,eAQD,CALC,2JAGC,eAAgB,CADhB,wBAAyB,CADzB,eAGD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3830,9 +3830,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 2417: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 2417: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-list-styles-list{display:grid}:root{--ck-list-style-button-size:44px}.ck.ck-list-styles-list{column-gap:var(--ck-spacing-medium);grid-template-columns:repeat(3,auto);padding:var(--ck-spacing-large);row-gap:var(--ck-spacing-medium)}.ck.ck-list-styles-list .ck-button{box-sizing:content-box;margin:0;padding:0}.ck.ck-list-styles-list .ck-button,.ck.ck-list-styles-list .ck-button .ck-icon{height:var(--ck-list-style-button-size);width:var(--ck-list-style-button-size)}", "", { version: 3, sources: ["webpack://./../ckeditor5-list/theme/liststyles.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-list/liststyles.css"], names: [], mappings: "AAKA,wBACC,YACD,CCFA,MACC,gCACD,CAEA,wBAGC,mCAAoC,CAFpC,oCAAwC,CAGxC,+BAAgC,CAFhC,gCA4BD,CAxBC,mCAiBC,sBAAuB,CAPvB,QAAS,CANT,SAmBD,CAJC,+EAhBA,uCAAwC,CADxC,sCAoBA", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3883,9 +3883,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 1199: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 1199: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ':root{--ck-todo-list-checkmark-size:16px}.ck-content .todo-list{list-style:none}.ck-content .todo-list li{margin-bottom:5px}.ck-content .todo-list li .todo-list{margin-top:5px}.ck-content .todo-list .todo-list__label>input{-webkit-appearance:none;border:0;display:inline-block;height:var(--ck-todo-list-checkmark-size);left:-25px;margin-left:0;margin-right:-15px;position:relative;right:0;vertical-align:middle;width:var(--ck-todo-list-checkmark-size)}.ck-content .todo-list .todo-list__label>input:before{border:1px solid #333;border-radius:2px;box-sizing:border-box;content:"";display:block;height:100%;position:absolute;transition:box-shadow .25s ease-in-out,background .25s ease-in-out,border .25s ease-in-out;width:100%}.ck-content .todo-list .todo-list__label>input:after{border-color:transparent;border-style:solid;border-width:0 calc(var(--ck-todo-list-checkmark-size)/8) calc(var(--ck-todo-list-checkmark-size)/8) 0;box-sizing:content-box;content:"";display:block;height:calc(var(--ck-todo-list-checkmark-size)/2.6);left:calc(var(--ck-todo-list-checkmark-size)/3);pointer-events:none;position:absolute;top:calc(var(--ck-todo-list-checkmark-size)/5.3);transform:rotate(45deg);width:calc(var(--ck-todo-list-checkmark-size)/5.3)}.ck-content .todo-list .todo-list__label>input[checked]:before{background:#26ab33;border-color:#26ab33}.ck-content .todo-list .todo-list__label>input[checked]:after{border-color:#fff}.ck-content .todo-list .todo-list__label .todo-list__label__description{vertical-align:middle}[dir=rtl] .todo-list .todo-list__label>input{left:0;margin-left:-15px;margin-right:0;right:-25px}.ck-editor__editable .todo-list .todo-list__label>input{cursor:pointer}.ck-editor__editable .todo-list .todo-list__label>input:hover:before{box-shadow:0 0 0 5px rgba(0,0,0,.1)}', "", { version: 3, sources: ["webpack://./../ckeditor5-list/theme/todolist.css"], names: [], mappings: "AAKA,MACC,kCACD,CAEA,uBACC,eA0ED,CAxEC,0BACC,iBAKD,CAHC,qCACC,cACD,CAIA,+CACC,uBAAwB,CAQxB,QAAS,CAPT,oBAAqB,CAGrB,yCAA0C,CAO1C,UAAW,CAGX,aAAc,CAFd,kBAAmB,CAVnB,iBAAkB,CAWlB,OAAQ,CARR,qBAAsB,CAFtB,wCAqDD,CAxCC,sDAOC,qBAAiC,CACjC,iBAAkB,CALlB,qBAAsB,CACtB,UAAW,CAHX,aAAc,CAKd,WAAY,CAJZ,iBAAkB,CAOlB,0FAAgG,CAJhG,UAKD,CAEA,qDAaC,wBAAyB,CADzB,kBAAmB,CAEnB,sGAA+G,CAX/G,sBAAuB,CAEvB,UAAW,CAJX,aAAc,CAUd,mDAAwD,CAHxD,+CAAoD,CAJpD,mBAAoB,CAFpB,iBAAkB,CAOlB,gDAAqD,CAMrD,uBAAwB,CALxB,kDAMD,CAGC,+DACC,kBAA8B,CAC9B,oBACD,CAEA,8DACC,iBACD,CAIF,wEACC,qBACD,CAKF,6CACC,MAAO,CAGP,iBAAkB,CAFlB,cAAe,CACf,WAED,CAMA,wDACC,cAKD,CAHC,qEACC,mCACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -3993,9 +3993,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 2896: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 2896: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, '.ck-source-editing-area{overflow:hidden;position:relative}.ck-source-editing-area textarea,.ck-source-editing-area:after{border:1px solid transparent;font-family:monospace;font-size:var(--ck-font-size-normal);line-height:var(--ck-line-height-base);margin:0;padding:var(--ck-spacing-large);white-space:pre-wrap}.ck-source-editing-area:after{content:attr(data-value) " ";display:block;visibility:hidden}.ck-source-editing-area textarea{border-color:var(--ck-color-base-border);border-radius:0;box-sizing:border-box;height:100%;outline:none;overflow:hidden;position:absolute;resize:none;width:100%}.ck-rounded-corners .ck-source-editing-area textarea,.ck-source-editing-area textarea.ck-rounded-corners{border-radius:var(--ck-border-radius);border-top-left-radius:0;border-top-right-radius:0}.ck-source-editing-area textarea:not([readonly]):focus{border:var(--ck-focus-ring);box-shadow:var(--ck-inner-shadow),0 0;outline:none}', "", { version: 3, sources: ["webpack://./../ckeditor5-source-editing/theme/sourceediting.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_focus.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_shadow.css"], names: [], mappings: "AASA,wBAEC,eAAgB,CADhB,iBAED,CAEA,+DAIC,4BAA6B,CAG7B,qBAAsB,CADtB,oCAAqC,CADrC,sCAAuC,CAFvC,QAAS,CADT,+BAAgC,CAMhC,oBACD,CAEA,8BACC,4BAA6B,CAE7B,aAAc,CADd,iBAED,CAEA,iCASC,wCAAyC,CC7BzC,eAAgB,CD2BhB,qBAAsB,CAJtB,WAAY,CAEZ,YAAa,CACb,eAAgB,CALhB,iBAAkB,CAGlB,WAAY,CAFZ,UAkBD,CApBA,yGChBE,qCAAsC,CD4BtC,wBAAyB,CACzB,yBAOF,CAJC,uDEpCA,2BAA2B,CCF3B,qCAA8B,CDC9B,YFwCA", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4100,9 +4100,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 7368: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 7368: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-input-color{display:flex;flex-direction:row-reverse;width:100%}.ck.ck-input-color>input.ck.ck-input-text{flex-grow:1;min-width:auto}.ck.ck-input-color>div.ck.ck-dropdown{min-width:auto}.ck.ck-input-color>div.ck.ck-dropdown>.ck-input-color__button .ck-dropdown__arrow{display:none}.ck.ck-input-color .ck.ck-input-color__button{display:flex}.ck.ck-input-color .ck.ck-input-color__button .ck.ck-input-color__button__preview{overflow:hidden;position:relative}.ck.ck-input-color .ck.ck-input-color__button .ck.ck-input-color__button__preview>.ck.ck-input-color__button__preview__no-color-indicator{display:block;position:absolute}[dir=ltr] .ck.ck-input-color>.ck.ck-input-text{border-bottom-right-radius:0;border-top-right-radius:0}[dir=rtl] .ck.ck-input-color>.ck.ck-input-text{border-bottom-left-radius:0;border-top-left-radius:0}.ck.ck-input-color>.ck.ck-input-text:focus{z-index:0}.ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button{padding:0}[dir=ltr] .ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button{border-bottom-left-radius:0;border-top-left-radius:0}[dir=ltr] .ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button:not(:focus){border-left:1px solid transparent}[dir=rtl] .ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button{border-bottom-right-radius:0;border-top-right-radius:0}[dir=rtl] .ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button:not(:focus){border-right:1px solid transparent}.ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button.ck-disabled{background:var(--ck-color-input-disabled-background)}.ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button>.ck.ck-input-color__button__preview{border-radius:0}.ck-rounded-corners .ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button>.ck.ck-input-color__button__preview,.ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button>.ck.ck-input-color__button__preview.ck-rounded-corners{border-radius:var(--ck-border-radius)}.ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button>.ck.ck-input-color__button__preview{border:1px solid var(--ck-color-input-border);height:20px;width:20px}.ck.ck-input-color>.ck.ck-dropdown>.ck.ck-button.ck-input-color__button>.ck.ck-input-color__button__preview>.ck.ck-input-color__button__preview__no-color-indicator{background:red;border-radius:2px;height:150%;left:50%;top:-30%;transform:rotate(45deg);transform-origin:50%;width:8%}.ck.ck-input-color .ck.ck-input-color__remove-color{border-bottom-left-radius:0;border-bottom-right-radius:0;padding:calc(var(--ck-spacing-standard)/2) var(--ck-spacing-standard);width:100%}.ck.ck-input-color .ck.ck-input-color__remove-color:not(:focus){border-bottom:1px solid var(--ck-color-input-border)}[dir=ltr] .ck.ck-input-color .ck.ck-input-color__remove-color{border-top-right-radius:0}[dir=rtl] .ck.ck-input-color .ck.ck-input-color__remove-color{border-top-left-radius:0}.ck.ck-input-color .ck.ck-input-color__remove-color .ck.ck-icon{margin-right:var(--ck-spacing-standard)}[dir=rtl] .ck.ck-input-color .ck.ck-input-color__remove-color .ck.ck-icon{margin-left:var(--ck-spacing-standard);margin-right:0}", "", { version: 3, sources: ["webpack://./../ckeditor5-table/theme/colorinput.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-table/colorinput.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css"], names: [], mappings: "AAKA,mBAEC,YAAa,CACb,0BAA2B,CAF3B,UAgCD,CA5BC,0CAEC,WAAY,CADZ,cAED,CAEA,sCACC,cAMD,CAHC,kFACC,YACD,CAGD,8CAEC,YAWD,CATC,kFAEC,eAAgB,CADhB,iBAOD,CAJC,0IAEC,aAAc,CADd,iBAED,CC1BF,+CAGE,4BAA6B,CAD7B,yBAcF,CAhBA,+CAQE,2BAA4B,CAD5B,wBASF,CAHC,2CACC,SACD,CAIA,wEACC,SA0CD,CA3CA,kFAKE,2BAA4B,CAD5B,wBAuCF,CApCE,8FACC,iCACD,CATF,kFAcE,4BAA6B,CAD7B,yBA8BF,CA3BE,8FACC,kCACD,CAGD,oFACC,oDACD,CAEA,4GC1CF,eD2DE,CAjBA,+PCtCD,qCDuDC,CAjBA,4GAKC,6CAA8C,CAD9C,WAAY,CADZ,UAcD,CAVC,oKAKC,cAA6B,CAC7B,iBAAkB,CAHlB,WAAY,CADZ,QAAS,CADT,QAAS,CAMT,uBAAwB,CACxB,oBAAqB,CAJrB,QAKD,CAKH,oDAIC,2BAA4B,CAC5B,4BAA6B,CAH7B,qEAAwE,CADxE,UA0BD,CApBC,gEACC,oDACD,CATD,8DAYE,yBAeF,CA3BA,8DAgBE,wBAWF,CARC,gEACC,uCAMD,CAPA,0EAKE,sCAAuC,CADvC,cAGF", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4266,9 +4266,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4070: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4070: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-form{padding:0 0 var(--ck-spacing-large)}.ck.ck-form:focus{outline:none}.ck.ck-form .ck.ck-input-text{min-width:100%;width:0}.ck.ck-form .ck.ck-dropdown{min-width:100%}.ck.ck-form .ck.ck-dropdown .ck-dropdown__button:not(:focus){border:1px solid var(--ck-color-base-border)}.ck.ck-form .ck.ck-dropdown .ck-dropdown__button .ck-button__label{width:100%}", "", { version: 3, sources: ["webpack://./../ckeditor5-theme-lark/theme/ckeditor5-table/form.css"], names: [], mappings: "AAKA,YACC,mCAyBD,CAvBC,kBAEC,YACD,CAEA,8BACC,cAAe,CACf,OACD,CAEA,4BACC,cAWD,CARE,6DACC,4CACD,CAEA,mEACC,UACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4303,9 +4303,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 9247: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 9247: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-form__row{display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:space-between}.ck.ck-form__row>:not(.ck-label){flex-grow:1}.ck.ck-form__row.ck-table-form__action-row .ck-button-cancel,.ck.ck-form__row.ck-table-form__action-row .ck-button-save{justify-content:center}.ck.ck-form__row{padding:var(--ck-spacing-standard) var(--ck-spacing-large) 0}[dir=ltr] .ck.ck-form__row>:not(.ck-label)+*{margin-left:var(--ck-spacing-large)}[dir=rtl] .ck.ck-form__row>:not(.ck-label)+*{margin-right:var(--ck-spacing-large)}.ck.ck-form__row>.ck-label{min-width:100%;width:100%}.ck.ck-form__row.ck-table-form__action-row{margin-top:var(--ck-spacing-large)}.ck.ck-form__row.ck-table-form__action-row .ck-button .ck-button__label{color:var(--ck-color-text)}", "", { version: 3, sources: ["webpack://./../ckeditor5-table/theme/formrow.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-table/formrow.css"], names: [], mappings: "AAKA,iBACC,YAAa,CACb,kBAAmB,CACnB,gBAAiB,CACjB,6BAaD,CAVC,iCACC,WACD,CAGC,wHAEC,sBACD,CCbF,iBACC,4DA2BD,CAvBE,6CAEE,mCAMF,CARA,6CAME,oCAEF,CAGD,2BAEC,cAAe,CADf,UAED,CAEA,2CACC,kCAKD,CAHC,wEACC,0BACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4367,9 +4367,9 @@ span.ck-widget.html-object-embed {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 1613: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 1613: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck .ck-insert-table-dropdown__grid{display:flex;flex-direction:row;flex-wrap:wrap}:root{--ck-insert-table-dropdown-padding:10px;--ck-insert-table-dropdown-box-height:11px;--ck-insert-table-dropdown-box-width:12px;--ck-insert-table-dropdown-box-margin:1px}.ck .ck-insert-table-dropdown__grid{padding:var(--ck-insert-table-dropdown-padding) var(--ck-insert-table-dropdown-padding) 0;width:calc(var(--ck-insert-table-dropdown-box-width)*10 + var(--ck-insert-table-dropdown-box-margin)*20 + var(--ck-insert-table-dropdown-padding)*2)}.ck .ck-insert-table-dropdown__label,.ck[dir=rtl] .ck-insert-table-dropdown__label{text-align:center}.ck .ck-insert-table-dropdown-grid-box{border:1px solid var(--ck-color-base-border);border-radius:1px;margin:var(--ck-insert-table-dropdown-box-margin);min-height:var(--ck-insert-table-dropdown-box-height);min-width:var(--ck-insert-table-dropdown-box-width);outline:none;transition:none}.ck .ck-insert-table-dropdown-grid-box:focus{box-shadow:none}.ck .ck-insert-table-dropdown-grid-box.ck-on{background:var(--ck-color-focus-outer-shadow);border-color:var(--ck-color-focus-border)}", "", { version: 3, sources: ["webpack://./../ckeditor5-table/theme/inserttable.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-table/inserttable.css"], names: [], mappings: "AAKA,oCACC,YAAa,CACb,kBAAmB,CACnB,cACD,CCJA,MACC,uCAAwC,CACxC,0CAA2C,CAC3C,yCAA0C,CAC1C,yCACD,CAEA,oCAGC,yFAA0F,CAD1F,oJAED,CAEA,mFAEC,iBACD,CAEA,uCAIC,4CAA6C,CAC7C,iBAAkB,CAFlB,iDAAkD,CADlD,qDAAsD,CADtD,mDAAoD,CAKpD,YAAa,CACb,eAUD,CARC,6CACC,eACD,CAEA,6CAEC,6CAA8C,CAD9C,yCAED", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4424,9 +4424,9 @@ span.ck-widget.html-object-embed {
 
 `], sourceRoot: "" }]);
       const A = f;
-    }, 6306: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 6306: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck-content .table{display:table;margin:.9em auto}.ck-content .table table{border:1px double #b3b3b3;border-collapse:collapse;border-spacing:0;height:100%;width:100%}.ck-content .table table td,.ck-content .table table th{border:1px solid #bfbfbf;min-width:2em;padding:.4em}.ck-content .table table th{background:rgba(0,0,0,.05);font-weight:700}.ck-content[dir=rtl] .table th{text-align:right}.ck-content[dir=ltr] .table th{text-align:left}.ck-editor__editable .ck-table-bogus-paragraph{display:inline-block;width:100%}", "", { version: 3, sources: ["webpack://./../ckeditor5-table/theme/table.css"], names: [], mappings: "AAKA,mBAKC,aAAc,CADd,gBAiCD,CA9BC,yBAYC,yBAAkC,CAVlC,wBAAyB,CACzB,gBAAiB,CAKjB,WAAY,CADZ,UAsBD,CAfC,wDAQC,wBAAiC,CANjC,aAAc,CACd,YAMD,CAEA,4BAEC,0BAA+B,CAD/B,eAED,CAMF,+BACC,gBACD,CAEA,+BACC,eACD,CAEA,+CAKC,oBAAqB,CAMrB,UACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4496,9 +4496,9 @@ when content is available outside the editor. See https://github.com/ckeditor/ck
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 2128: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 2128: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-color-table-caption-background:#f7f7f7;--ck-color-table-caption-text:#333;--ck-color-table-caption-highlighted-background:#fd0}.ck-content .table>figcaption{background-color:var(--ck-color-table-caption-background);caption-side:top;color:var(--ck-color-table-caption-text);display:table-caption;font-size:.75em;outline-offset:-1px;padding:.6em;text-align:center;word-break:break-word}.ck.ck-editor__editable .table>figcaption.table__caption_highlighted{animation:ck-table-caption-highlight .6s ease-out}.ck.ck-editor__editable .table>figcaption.ck-placeholder:before{overflow:hidden;padding-left:inherit;padding-right:inherit;text-overflow:ellipsis;white-space:nowrap}@keyframes ck-table-caption-highlight{0%{background-color:var(--ck-color-table-caption-highlighted-background)}to{background-color:var(--ck-color-table-caption-background)}}", "", { version: 3, sources: ["webpack://./../ckeditor5-table/theme/tablecaption.css"], names: [], mappings: "AAKA,MACC,2CAAoD,CACpD,kCAA8C,CAC9C,oDACD,CAGA,8BAMC,yDAA0D,CAJ1D,gBAAiB,CAGjB,wCAAyC,CAJzC,qBAAsB,CAOtB,eAAgB,CAChB,mBAAoB,CAFpB,YAAa,CAHb,iBAAkB,CADlB,qBAOD,CAIC,qEACC,iDACD,CAEA,gEASC,eAAgB,CARhB,oBAAqB,CACrB,qBAAsB,CAQtB,sBAAuB,CAFvB,kBAGD,CAGD,sCACC,GACC,qEACD,CAEA,GACC,yDACD,CACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4554,9 +4554,9 @@ when content is available outside the editor. See https://github.com/ckeditor/ck
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 5087: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 5087: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-table-cell-properties-form .ck-form__row.ck-table-cell-properties-form__alignment-row{flex-wrap:wrap}.ck.ck-table-cell-properties-form .ck-form__row.ck-table-cell-properties-form__alignment-row .ck.ck-toolbar:first-of-type{flex-grow:0.57}.ck.ck-table-cell-properties-form .ck-form__row.ck-table-cell-properties-form__alignment-row .ck.ck-toolbar:last-of-type{flex-grow:0.43}.ck.ck-table-cell-properties-form .ck-form__row.ck-table-cell-properties-form__alignment-row .ck.ck-toolbar .ck-button{flex-grow:1}.ck.ck-table-cell-properties-form{width:320px}.ck.ck-table-cell-properties-form .ck-form__row.ck-table-cell-properties-form__padding-row{align-self:flex-end;padding:0;width:25%}.ck.ck-table-cell-properties-form .ck-form__row.ck-table-cell-properties-form__alignment-row .ck.ck-toolbar{background:none;margin-top:var(--ck-spacing-standard)}", "", { version: 3, sources: ["webpack://./../ckeditor5-table/theme/tablecellproperties.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-table/tablecellproperties.css"], names: [], mappings: "AAOE,6FACC,cAiBD,CAdE,0HAEC,cACD,CAEA,yHAEC,cACD,CAEA,uHACC,WACD,CClBJ,kCACC,WAkBD,CAfE,2FACC,mBAAoB,CACpB,SAAU,CACV,SACD,CAGC,4GACC,eAAgB,CAGhB,qCACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4612,9 +4612,9 @@ when content is available outside the editor. See https://github.com/ckeditor/ck
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4101: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4101: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-color-table-column-resizer-hover:var(--ck-color-base-active);--ck-table-column-resizer-width:7px;--ck-table-column-resizer-position-offset:calc(var(--ck-table-column-resizer-width)*-0.5 - 0.5px)}.ck-content .table .ck-table-resized{table-layout:fixed}.ck-content .table table{overflow:hidden}.ck-content .table td,.ck-content .table th{position:relative}.ck.ck-editor__editable .table .ck-table-column-resizer{bottom:-999999px;cursor:col-resize;position:absolute;right:var(--ck-table-column-resizer-position-offset);top:-999999px;user-select:none;width:var(--ck-table-column-resizer-width);z-index:var(--ck-z-default)}.ck.ck-editor__editable .table[draggable] .ck-table-column-resizer,.ck.ck-editor__editable.ck-column-resize_disabled .table .ck-table-column-resizer{display:none}.ck.ck-editor__editable .table .ck-table-column-resizer:hover,.ck.ck-editor__editable .table .ck-table-column-resizer__active{background-color:var(--ck-color-table-column-resizer-hover);opacity:.25}.ck.ck-editor__editable[dir=rtl] .table .ck-table-column-resizer{left:var(--ck-table-column-resizer-position-offset);right:unset}", "", { version: 3, sources: ["webpack://./../ckeditor5-table/theme/tablecolumnresize.css"], names: [], mappings: "AAKA,MACC,iEAAkE,CAClE,mCAAoC,CAIpC,iGACD,CAEA,qCACC,kBACD,CAEA,yBACC,eACD,CAEA,4CAEC,iBACD,CAEA,wDAOC,gBAAiB,CAGjB,iBAAkB,CATlB,iBAAkB,CAOlB,oDAAqD,CAFrD,aAAc,CAKd,gBAAiB,CAFjB,0CAA2C,CAG3C,2BACD,CAQA,qJACC,YACD,CAEA,8HAEC,2DAA4D,CAC5D,WACD,CAEA,iEACC,mDAAoD,CACpD,WACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4679,9 +4679,9 @@ when content is available outside the editor. See https://github.com/ckeditor/ck
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3881: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3881: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-color-table-focused-cell-background:rgba(158,201,250,.3)}.ck-widget.table td.ck-editor__nested-editable.ck-editor__nested-editable_focused,.ck-widget.table td.ck-editor__nested-editable:focus,.ck-widget.table th.ck-editor__nested-editable.ck-editor__nested-editable_focused,.ck-widget.table th.ck-editor__nested-editable:focus{background:var(--ck-color-table-focused-cell-background);border-style:none;outline:1px solid var(--ck-color-focus-border);outline-offset:-1px}", "", { version: 3, sources: ["webpack://./../ckeditor5-theme-lark/theme/ckeditor5-table/tableediting.css"], names: [], mappings: "AAKA,MACC,6DACD,CAKE,8QAGC,wDAAyD,CAKzD,iBAAkB,CAClB,8CAA+C,CAC/C,mBACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4710,9 +4710,9 @@ when content is available outside the editor. See https://github.com/ckeditor/ck
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 6237: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 6237: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, '.ck.ck-table-form .ck-form__row.ck-table-form__background-row,.ck.ck-table-form .ck-form__row.ck-table-form__border-row{flex-wrap:wrap}.ck.ck-table-form .ck-form__row.ck-table-form__dimensions-row{align-items:center;flex-wrap:wrap}.ck.ck-table-form .ck-form__row.ck-table-form__dimensions-row .ck-labeled-field-view{align-items:center;display:flex;flex-direction:column-reverse}.ck.ck-table-form .ck-form__row.ck-table-form__dimensions-row .ck-labeled-field-view .ck.ck-dropdown,.ck.ck-table-form .ck-form__row.ck-table-form__dimensions-row .ck-table-form__dimension-operator{flex-grow:0}.ck.ck-table-form .ck.ck-labeled-field-view{position:relative}.ck.ck-table-form .ck.ck-labeled-field-view .ck.ck-labeled-field-view__status{bottom:calc(var(--ck-table-properties-error-arrow-size)*-1);left:50%;position:absolute;transform:translate(-50%,100%);z-index:1}.ck.ck-table-form .ck.ck-labeled-field-view .ck.ck-labeled-field-view__status:after{content:"";left:50%;position:absolute;top:calc(var(--ck-table-properties-error-arrow-size)*-1);transform:translateX(-50%)}:root{--ck-table-properties-error-arrow-size:6px;--ck-table-properties-min-error-width:150px}.ck.ck-table-form .ck-form__row.ck-table-form__border-row .ck-labeled-field-view>.ck-label{font-size:var(--ck-font-size-tiny);text-align:center}.ck.ck-table-form .ck-form__row.ck-table-form__border-row .ck-table-form__border-style,.ck.ck-table-form .ck-form__row.ck-table-form__border-row .ck-table-form__border-width{max-width:80px;min-width:80px;width:80px}.ck.ck-table-form .ck-form__row.ck-table-form__dimensions-row{padding:0}.ck.ck-table-form .ck-form__row.ck-table-form__dimensions-row .ck-table-form__dimensions-row__height,.ck.ck-table-form .ck-form__row.ck-table-form__dimensions-row .ck-table-form__dimensions-row__width{margin:0}.ck.ck-table-form .ck-form__row.ck-table-form__dimensions-row .ck-table-form__dimension-operator{align-self:flex-end;display:inline-block;height:var(--ck-ui-component-min-height);line-height:var(--ck-ui-component-min-height);margin:0 var(--ck-spacing-small)}.ck.ck-table-form .ck.ck-labeled-field-view{padding-top:var(--ck-spacing-standard)}.ck.ck-table-form .ck.ck-labeled-field-view .ck.ck-labeled-field-view__status{border-radius:0}.ck-rounded-corners .ck.ck-table-form .ck.ck-labeled-field-view .ck.ck-labeled-field-view__status,.ck.ck-table-form .ck.ck-labeled-field-view .ck.ck-labeled-field-view__status.ck-rounded-corners{border-radius:var(--ck-border-radius)}.ck.ck-table-form .ck.ck-labeled-field-view .ck.ck-labeled-field-view__status{background:var(--ck-color-base-error);color:var(--ck-color-base-background);min-width:var(--ck-table-properties-min-error-width);padding:var(--ck-spacing-small) var(--ck-spacing-medium);text-align:center}.ck.ck-table-form .ck.ck-labeled-field-view .ck.ck-labeled-field-view__status:after{border-color:transparent transparent var(--ck-color-base-error) transparent;border-style:solid;border-width:0 var(--ck-table-properties-error-arrow-size) var(--ck-table-properties-error-arrow-size) var(--ck-table-properties-error-arrow-size)}.ck.ck-table-form .ck.ck-labeled-field-view .ck.ck-labeled-field-view__status{animation:ck-table-form-labeled-view-status-appear .15s ease both}.ck.ck-table-form .ck.ck-labeled-field-view .ck-input.ck-error:not(:focus)+.ck.ck-labeled-field-view__status{display:none}@keyframes ck-table-form-labeled-view-status-appear{0%{opacity:0}to{opacity:1}}', "", { version: 3, sources: ["webpack://./../ckeditor5-table/theme/tableform.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-table/tableform.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css"], names: [], mappings: "AAWE,wHACC,cACD,CAEA,8DAEC,kBAAmB,CADnB,cAgBD,CAbC,qFAGC,kBAAmB,CAFnB,YAAa,CACb,6BAMD,CAEA,sMACC,WACD,CAIF,4CAEC,iBAoBD,CAlBC,8EAGC,2DAAgE,CADhE,QAAS,CADT,iBAAkB,CAGlB,8BAA+B,CAG/B,SAUD,CAPC,oFACC,UAAW,CAGX,QAAS,CAFT,iBAAkB,CAClB,wDAA6D,CAE7D,0BACD,CChDH,MACC,0CAA2C,CAC3C,2CACD,CAMI,2FACC,kCAAmC,CACnC,iBACD,CAGD,8KAIC,cAAe,CADf,cAAe,CADf,UAGD,CAGD,8DACC,SAcD,CAZC,yMAEC,QACD,CAEA,iGACC,mBAAoB,CACpB,oBAAqB,CACrB,wCAAyC,CACzC,6CAA8C,CAC9C,gCACD,CAIF,4CACC,sCAyBD,CAvBC,8ECxCD,eDyDC,CAjBA,mMCpCA,qCDqDA,CAjBA,8EAGC,qCAAsC,CACtC,qCAAsC,CAEtC,oDAAqD,CADrD,wDAAyD,CAEzD,iBAUD,CAPC,oFACC,2EAA4E,CAE5E,kBAAmB,CADnB,kJAED,CAdD,8EAgBC,iEACD,CAGA,6GACC,YACD,CAIF,oDACC,GACC,SACD,CAEA,GACC,SACD,CACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4879,9 +4879,9 @@ when content is available outside the editor. See https://github.com/ckeditor/ck
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 7341: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 7341: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-table-properties-form .ck-form__row.ck-table-properties-form__alignment-row{align-content:baseline;flex-basis:0;flex-wrap:wrap}.ck.ck-table-properties-form .ck-form__row.ck-table-properties-form__alignment-row .ck.ck-toolbar .ck-toolbar__items{flex-wrap:nowrap}.ck.ck-table-properties-form{width:320px}.ck.ck-table-properties-form .ck-form__row.ck-table-properties-form__alignment-row{align-self:flex-end;padding:0}.ck.ck-table-properties-form .ck-form__row.ck-table-properties-form__alignment-row .ck.ck-toolbar{background:none;margin-top:var(--ck-spacing-standard)}.ck.ck-table-properties-form .ck-form__row.ck-table-properties-form__alignment-row .ck.ck-toolbar .ck-toolbar__items>*{width:40px}", "", { version: 3, sources: ["webpack://./../ckeditor5-table/theme/tableproperties.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-table/tableproperties.css"], names: [], mappings: "AAOE,mFAGC,sBAAuB,CADvB,YAAa,CADb,cAOD,CAHC,qHACC,gBACD,CCTH,6BACC,WAmBD,CAhBE,mFACC,mBAAoB,CACpB,SAYD,CAVC,kGACC,eAAgB,CAGhB,qCAKD,CAHC,uHACC,UACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4928,9 +4928,9 @@ when content is available outside the editor. See https://github.com/ckeditor/ck
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 6945: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 6945: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ':root{--ck-table-selected-cell-background:rgba(158,207,250,.3)}.ck.ck-editor__editable .table table td.ck-editor__editable_selected,.ck.ck-editor__editable .table table th.ck-editor__editable_selected{box-shadow:unset;caret-color:transparent;outline:unset;position:relative}.ck.ck-editor__editable .table table td.ck-editor__editable_selected:after,.ck.ck-editor__editable .table table th.ck-editor__editable_selected:after{background-color:var(--ck-table-selected-cell-background);bottom:0;content:"";left:0;pointer-events:none;position:absolute;right:0;top:0}.ck.ck-editor__editable .table table td.ck-editor__editable_selected ::selection,.ck.ck-editor__editable .table table td.ck-editor__editable_selected:focus,.ck.ck-editor__editable .table table th.ck-editor__editable_selected ::selection,.ck.ck-editor__editable .table table th.ck-editor__editable_selected:focus{background-color:transparent}.ck.ck-editor__editable .table table td.ck-editor__editable_selected .ck-widget,.ck.ck-editor__editable .table table th.ck-editor__editable_selected .ck-widget{outline:unset}.ck.ck-editor__editable .table table td.ck-editor__editable_selected .ck-widget>.ck-widget__selection-handle,.ck.ck-editor__editable .table table th.ck-editor__editable_selected .ck-widget>.ck-widget__selection-handle{display:none}', "", { version: 3, sources: ["webpack://./../ckeditor5-theme-lark/theme/ckeditor5-table/tableselection.css"], names: [], mappings: "AAKA,MACC,wDACD,CAGC,0IAKC,gBAAiB,CAFjB,uBAAwB,CACxB,aAAc,CAFd,iBAiCD,CA3BC,sJAGC,yDAA0D,CAK1D,QAAS,CAPT,UAAW,CAKX,MAAO,CAJP,mBAAoB,CAEpB,iBAAkB,CAGlB,OAAQ,CAFR,KAID,CAEA,wTAEC,4BACD,CAMA,gKACC,aAKD,CAHC,0NACC,YACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -4980,9 +4980,9 @@ when content is available outside the editor. See https://github.com/ckeditor/ck
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4906: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4906: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-button,a.ck.ck-button{align-items:center;display:inline-flex;justify-content:left;position:relative;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.ck.ck-button .ck-button__label,a.ck.ck-button .ck-button__label{display:none}.ck.ck-button.ck-button_with-text .ck-button__label,a.ck.ck-button.ck-button_with-text .ck-button__label{display:inline-block}.ck.ck-button:not(.ck-button_with-text),a.ck.ck-button:not(.ck-button_with-text){justify-content:center}.ck.ck-button,a.ck.ck-button{background:var(--ck-color-button-default-background)}.ck.ck-button:not(.ck-disabled):hover,a.ck.ck-button:not(.ck-disabled):hover{background:var(--ck-color-button-default-hover-background)}.ck.ck-button:not(.ck-disabled):active,a.ck.ck-button:not(.ck-disabled):active{background:var(--ck-color-button-default-active-background)}.ck.ck-button.ck-disabled,a.ck.ck-button.ck-disabled{background:var(--ck-color-button-default-disabled-background)}.ck.ck-button,a.ck.ck-button{border-radius:0}.ck-rounded-corners .ck.ck-button,.ck-rounded-corners a.ck.ck-button,.ck.ck-button.ck-rounded-corners,a.ck.ck-button.ck-rounded-corners{border-radius:var(--ck-border-radius)}.ck.ck-button,a.ck.ck-button{-webkit-appearance:none;border:1px solid transparent;cursor:default;font-size:inherit;line-height:1;min-height:var(--ck-ui-component-min-height);min-width:var(--ck-ui-component-min-height);padding:var(--ck-spacing-tiny);text-align:center;transition:box-shadow .2s ease-in-out,border .2s ease-in-out;vertical-align:middle;white-space:nowrap}.ck.ck-button:active,.ck.ck-button:focus,a.ck.ck-button:active,a.ck.ck-button:focus{border:var(--ck-focus-ring);box-shadow:var(--ck-focus-outer-shadow),0 0;outline:none}.ck.ck-button .ck-button__icon use,.ck.ck-button .ck-button__icon use *,a.ck.ck-button .ck-button__icon use,a.ck.ck-button .ck-button__icon use *{color:inherit}.ck.ck-button .ck-button__label,a.ck.ck-button .ck-button__label{color:inherit;cursor:inherit;font-size:inherit;font-weight:inherit;vertical-align:middle}[dir=ltr] .ck.ck-button .ck-button__label,[dir=ltr] a.ck.ck-button .ck-button__label{text-align:left}[dir=rtl] .ck.ck-button .ck-button__label,[dir=rtl] a.ck.ck-button .ck-button__label{text-align:right}.ck.ck-button .ck-button__keystroke,a.ck.ck-button .ck-button__keystroke{color:inherit}[dir=ltr] .ck.ck-button .ck-button__keystroke,[dir=ltr] a.ck.ck-button .ck-button__keystroke{margin-left:var(--ck-spacing-large)}[dir=rtl] .ck.ck-button .ck-button__keystroke,[dir=rtl] a.ck.ck-button .ck-button__keystroke{margin-right:var(--ck-spacing-large)}.ck.ck-button .ck-button__keystroke,a.ck.ck-button .ck-button__keystroke{font-weight:700;opacity:.7}.ck.ck-button.ck-disabled:active,.ck.ck-button.ck-disabled:focus,a.ck.ck-button.ck-disabled:active,a.ck.ck-button.ck-disabled:focus{box-shadow:var(--ck-focus-disabled-outer-shadow),0 0}.ck.ck-button.ck-disabled .ck-button__icon,.ck.ck-button.ck-disabled .ck-button__label,a.ck.ck-button.ck-disabled .ck-button__icon,a.ck.ck-button.ck-disabled .ck-button__label{opacity:var(--ck-disabled-opacity)}.ck.ck-button.ck-disabled .ck-button__keystroke,a.ck.ck-button.ck-disabled .ck-button__keystroke{opacity:.3}.ck.ck-button.ck-button_with-text,a.ck.ck-button.ck-button_with-text{padding:var(--ck-spacing-tiny) var(--ck-spacing-standard)}[dir=ltr] .ck.ck-button.ck-button_with-text .ck-button__icon,[dir=ltr] a.ck.ck-button.ck-button_with-text .ck-button__icon{margin-left:calc(var(--ck-spacing-small)*-1);margin-right:var(--ck-spacing-small)}[dir=rtl] .ck.ck-button.ck-button_with-text .ck-button__icon,[dir=rtl] a.ck.ck-button.ck-button_with-text .ck-button__icon{margin-left:var(--ck-spacing-small);margin-right:calc(var(--ck-spacing-small)*-1)}.ck.ck-button.ck-button_with-keystroke .ck-button__label,a.ck.ck-button.ck-button_with-keystroke .ck-button__label{flex-grow:1}.ck.ck-button.ck-on,a.ck.ck-button.ck-on{background:var(--ck-color-button-on-background)}.ck.ck-button.ck-on:not(.ck-disabled):hover,a.ck.ck-button.ck-on:not(.ck-disabled):hover{background:var(--ck-color-button-on-hover-background)}.ck.ck-button.ck-on:not(.ck-disabled):active,a.ck.ck-button.ck-on:not(.ck-disabled):active{background:var(--ck-color-button-on-active-background)}.ck.ck-button.ck-on.ck-disabled,a.ck.ck-button.ck-on.ck-disabled{background:var(--ck-color-button-on-disabled-background)}.ck.ck-button.ck-on,a.ck.ck-button.ck-on{color:var(--ck-color-button-on-color)}.ck.ck-button.ck-button-save,a.ck.ck-button.ck-button-save{color:var(--ck-color-button-save)}.ck.ck-button.ck-button-cancel,a.ck.ck-button.ck-button-cancel{color:var(--ck-color-button-cancel)}.ck.ck-button-action,a.ck.ck-button-action{background:var(--ck-color-button-action-background)}.ck.ck-button-action:not(.ck-disabled):hover,a.ck.ck-button-action:not(.ck-disabled):hover{background:var(--ck-color-button-action-hover-background)}.ck.ck-button-action:not(.ck-disabled):active,a.ck.ck-button-action:not(.ck-disabled):active{background:var(--ck-color-button-action-active-background)}.ck.ck-button-action.ck-disabled,a.ck.ck-button-action.ck-disabled{background:var(--ck-color-button-action-disabled-background)}.ck.ck-button-action,a.ck.ck-button-action{color:var(--ck-color-button-action-text)}.ck.ck-button-bold,a.ck.ck-button-bold{font-weight:700}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/button/button.css", "webpack://./../ckeditor5-ui/theme/mixins/_unselectable.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/button/button.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/mixins/_button.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_focus.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_shadow.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_disabled.css"], names: [], mappings: "AAOA,6BAMC,kBAAmB,CADnB,mBAAoB,CAEpB,oBAAqB,CAHrB,iBAAkB,CCFlB,qBAAsB,CACtB,wBAAyB,CACzB,oBAAqB,CACrB,gBDkBD,CAdC,iEACC,YACD,CAGC,yGACC,oBACD,CAID,iFACC,sBACD,CEjBD,6BCAC,oDD4ID,CCzIE,6EACC,0DACD,CAEA,+EACC,2DACD,CAID,qDACC,6DACD,CDfD,6BEDC,eF6ID,CA5IA,wIEGE,qCFyIF,CA5IA,6BA6BC,uBAAwB,CANxB,4BAA6B,CAjB7B,cAAe,CAcf,iBAAkB,CAHlB,aAAc,CAJd,4CAA6C,CAD7C,2CAA4C,CAJ5C,8BAA+B,CAC/B,iBAAkB,CAiBlB,4DAA8D,CAnB9D,qBAAsB,CAFtB,kBAuID,CA7GC,oFGhCA,2BAA2B,CCF3B,2CAA8B,CDC9B,YHqCA,CAIC,kJAEC,aACD,CAGD,iEAIC,aAAc,CACd,cAAe,CAHf,iBAAkB,CAClB,mBAAoB,CAMpB,qBASD,CAlBA,qFAYE,eAMF,CAlBA,qFAgBE,gBAEF,CAEA,yEACC,aAYD,CAbA,6FAIE,mCASF,CAbA,6FAQE,oCAKF,CAbA,yEAWC,eAAiB,CACjB,UACD,CAIC,oIIrFD,oDJyFC,CAOA,gLKhGD,kCLkGC,CAEA,iGACC,UACD,CAGD,qEACC,yDAcD,CAXC,2HAEE,4CAA+C,CAC/C,oCAOF,CAVA,2HAQE,mCAAoC,CADpC,6CAGF,CAKA,mHACC,WACD,CAID,yCC/HA,+CDmIA,CChIC,yFACC,qDACD,CAEA,2FACC,sDACD,CAID,iEACC,wDACD,CDgHA,yCAGC,qCACD,CAEA,2DACC,iCACD,CAEA,+DACC,mCACD,CAID,2CC/IC,mDDoJD,CCjJE,2FACC,yDACD,CAEA,6FACC,0DACD,CAID,mEACC,4DACD,CDgID,2CAIC,wCACD,CAEA,uCAEC,eACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -5286,9 +5286,9 @@ a.ck.ck-button-bold {
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 6758: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 6758: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-button.ck-switchbutton .ck-button__toggle,.ck.ck-button.ck-switchbutton .ck-button__toggle .ck-button__toggle__inner{display:block}:root{--ck-switch-button-toggle-width:2.6153846154em;--ck-switch-button-toggle-inner-size:calc(1.07692em + 1px);--ck-switch-button-translation:calc(var(--ck-switch-button-toggle-width) - var(--ck-switch-button-toggle-inner-size) - 2px);--ck-switch-button-inner-hover-shadow:0 0 0 5px var(--ck-color-switch-button-inner-shadow)}.ck.ck-button.ck-switchbutton,.ck.ck-button.ck-switchbutton.ck-on:active,.ck.ck-button.ck-switchbutton.ck-on:focus,.ck.ck-button.ck-switchbutton.ck-on:hover,.ck.ck-button.ck-switchbutton:active,.ck.ck-button.ck-switchbutton:focus,.ck.ck-button.ck-switchbutton:hover{background:transparent;color:inherit}[dir=ltr] .ck.ck-button.ck-switchbutton .ck-button__label{margin-right:calc(var(--ck-spacing-large)*2)}[dir=rtl] .ck.ck-button.ck-switchbutton .ck-button__label{margin-left:calc(var(--ck-spacing-large)*2)}.ck.ck-button.ck-switchbutton .ck-button__toggle{border-radius:0}.ck-rounded-corners .ck.ck-button.ck-switchbutton .ck-button__toggle,.ck.ck-button.ck-switchbutton .ck-button__toggle.ck-rounded-corners{border-radius:var(--ck-border-radius)}[dir=ltr] .ck.ck-button.ck-switchbutton .ck-button__toggle{margin-left:auto}[dir=rtl] .ck.ck-button.ck-switchbutton .ck-button__toggle{margin-right:auto}.ck.ck-button.ck-switchbutton .ck-button__toggle{background:var(--ck-color-switch-button-off-background);border:1px solid transparent;transition:background .4s ease,box-shadow .2s ease-in-out,outline .2s ease-in-out;width:var(--ck-switch-button-toggle-width)}.ck.ck-button.ck-switchbutton .ck-button__toggle .ck-button__toggle__inner{border-radius:0}.ck-rounded-corners .ck.ck-button.ck-switchbutton .ck-button__toggle .ck-button__toggle__inner,.ck.ck-button.ck-switchbutton .ck-button__toggle .ck-button__toggle__inner.ck-rounded-corners{border-radius:var(--ck-border-radius);border-radius:calc(var(--ck-border-radius)*.5)}.ck.ck-button.ck-switchbutton .ck-button__toggle .ck-button__toggle__inner{background:var(--ck-color-switch-button-inner-background);height:var(--ck-switch-button-toggle-inner-size);transition:all .3s ease;width:var(--ck-switch-button-toggle-inner-size)}.ck.ck-button.ck-switchbutton .ck-button__toggle:hover{background:var(--ck-color-switch-button-off-hover-background)}.ck.ck-button.ck-switchbutton .ck-button__toggle:hover .ck-button__toggle__inner{box-shadow:var(--ck-switch-button-inner-hover-shadow)}.ck.ck-button.ck-switchbutton.ck-disabled .ck-button__toggle{opacity:var(--ck-disabled-opacity)}.ck.ck-button.ck-switchbutton:focus{border-color:transparent;box-shadow:none;outline:none}.ck.ck-button.ck-switchbutton:focus .ck-button__toggle{box-shadow:0 0 0 1px var(--ck-color-base-background),0 0 0 5px var(--ck-color-focus-outer-shadow);outline:var(--ck-focus-ring);outline-offset:1px}.ck.ck-button.ck-switchbutton.ck-on .ck-button__toggle{background:var(--ck-color-switch-button-on-background)}.ck.ck-button.ck-switchbutton.ck-on .ck-button__toggle:hover{background:var(--ck-color-switch-button-on-hover-background)}[dir=ltr] .ck.ck-button.ck-switchbutton.ck-on .ck-button__toggle .ck-button__toggle__inner{transform:translateX(var( --ck-switch-button-translation ))}[dir=rtl] .ck.ck-button.ck-switchbutton.ck-on .ck-button__toggle .ck-button__toggle__inner{transform:translateX(calc(var( --ck-switch-button-translation )*-1))}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/button/switchbutton.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/button/switchbutton.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_disabled.css"], names: [], mappings: "AASE,4HACC,aACD,CCCF,MAEC,8CAA+C,CAE/C,0DAAgE,CAChE,2HAIC,CACD,0FACD,CAOC,0QAEC,sBAAuB,CADvB,aAED,CAEA,0DAGE,4CAOF,CAVA,0DAQE,2CAEF,CAEA,iDCpCA,eD4EA,CAxCA,yIChCC,qCDwED,CAxCA,2DAKE,gBAmCF,CAxCA,2DAUE,iBA8BF,CAxCA,iDAkBC,uDAAwD,CAFxD,4BAA6B,CAD7B,iFAAsF,CAEtF,0CAuBD,CApBC,2ECxDD,eDmEC,CAXA,6LCpDA,qCAAsC,CDsDpC,8CASF,CAXA,2EAOC,yDAA0D,CAD1D,gDAAiD,CAIjD,uBAA0B,CAL1B,+CAMD,CAEA,uDACC,6DAKD,CAHC,iFACC,qDACD,CAIF,6DEhFA,kCFkFA,CAGA,oCACC,wBAAyB,CAEzB,eAAgB,CADhB,YAQD,CALC,uDACC,iGAAmG,CAEnG,4BAA6B,CAD7B,kBAED,CAKA,uDACC,sDAkBD,CAhBC,6DACC,4DACD,CAEA,2FAKE,2DAMF,CAXA,2FASE,oEAEF", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -5465,9 +5465,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 6781: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 6781: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-color-grid{display:grid}:root{--ck-color-grid-tile-size:24px;--ck-color-color-grid-check-icon:#166fd4}.ck.ck-color-grid{grid-gap:5px;padding:8px}.ck.ck-color-grid__tile{border:0;height:var(--ck-color-grid-tile-size);min-height:var(--ck-color-grid-tile-size);min-width:var(--ck-color-grid-tile-size);padding:0;transition:box-shadow .2s ease;width:var(--ck-color-grid-tile-size)}.ck.ck-color-grid__tile.ck-disabled{cursor:unset;transition:unset}.ck.ck-color-grid__tile.ck-color-table__color-tile_bordered{box-shadow:0 0 0 1px var(--ck-color-base-border)}.ck.ck-color-grid__tile .ck.ck-icon{color:var(--ck-color-color-grid-check-icon);display:none}.ck.ck-color-grid__tile.ck-on{box-shadow:inset 0 0 0 1px var(--ck-color-base-background),0 0 0 2px var(--ck-color-base-text)}.ck.ck-color-grid__tile.ck-on .ck.ck-icon{display:block}.ck.ck-color-grid__tile.ck-on,.ck.ck-color-grid__tile:focus:not(.ck-disabled),.ck.ck-color-grid__tile:hover:not(.ck-disabled){border:0}.ck.ck-color-grid__tile:focus:not(.ck-disabled),.ck.ck-color-grid__tile:hover:not(.ck-disabled){box-shadow:inset 0 0 0 1px var(--ck-color-base-background),0 0 0 2px var(--ck-color-focus-border)}.ck.ck-color-grid__label{padding:0 var(--ck-spacing-standard)}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/colorgrid/colorgrid.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/colorgrid/colorgrid.css"], names: [], mappings: "AAKA,kBACC,YACD,CCAA,MACC,8BAA+B,CAK/B,wCACD,CAEA,kBACC,YAAa,CACb,WACD,CAEA,wBAOC,QAAS,CALT,qCAAsC,CAEtC,yCAA0C,CAD1C,wCAAyC,CAEzC,SAAU,CACV,8BAA+B,CAL/B,oCAyCD,CAjCC,oCACC,YAAa,CACb,gBACD,CAEA,4DACC,gDACD,CAEA,oCAEC,2CAA4C,CAD5C,YAED,CAEA,8BACC,8FAKD,CAHC,0CACC,aACD,CAGD,8HAIC,QACD,CAEA,gGAEC,iGACD,CAGD,yBACC,oCACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -5546,9 +5546,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3398: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3398: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-input{min-width:unset}.color-picker-hex-input{width:max-content}.ck.ck-color-picker__row{display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:space-between}.ck.ck-color-picker__row .ck-color-picker__hash-view{padding-right:var(--ck-spacing-medium);padding-top:var(--ck-spacing-tiny)}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/colorpicker/colorpicker.css"], names: [], mappings: "AAKA,aACC,eACD,CAEA,wBACC,iBACD,CAEA,yBACC,YAAa,CACb,kBAAmB,CACnB,gBAAiB,CACjB,6BAMD,CAJC,qDAEC,sCAAuC,CADvC,kCAED", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -5575,9 +5575,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 5485: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 5485: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-dropdown-max-width:75vw}.ck.ck-dropdown{display:inline-block;position:relative}.ck.ck-dropdown .ck-dropdown__arrow{pointer-events:none;z-index:var(--ck-z-default)}.ck.ck-dropdown .ck-button.ck-dropdown__button{width:100%}.ck.ck-dropdown .ck-dropdown__panel{display:none;max-width:var(--ck-dropdown-max-width);position:absolute;z-index:var(--ck-z-modal)}.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel-visible{display:inline-block}.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_n,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_ne,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_nme,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_nmw,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_nw{bottom:100%}.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_s,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_se,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_sme,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_smw,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_sw{bottom:auto;top:100%}.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_ne,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_se{left:0}.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_nw,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_sw{right:0}.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_n,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_s{left:50%;transform:translateX(-50%)}.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_nmw,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_smw{left:75%;transform:translateX(-75%)}.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_nme,.ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_sme{left:25%;transform:translateX(-25%)}.ck.ck-toolbar .ck-dropdown__panel{z-index:calc(var(--ck-z-modal) + 1)}:root{--ck-dropdown-arrow-size:calc(var(--ck-icon-size)*0.5)}.ck.ck-dropdown{font-size:inherit}.ck.ck-dropdown .ck-dropdown__arrow{width:var(--ck-dropdown-arrow-size)}[dir=ltr] .ck.ck-dropdown .ck-dropdown__arrow{margin-left:var(--ck-spacing-standard);right:var(--ck-spacing-standard)}[dir=rtl] .ck.ck-dropdown .ck-dropdown__arrow{left:var(--ck-spacing-standard);margin-right:var(--ck-spacing-small)}.ck.ck-dropdown.ck-disabled .ck-dropdown__arrow{opacity:var(--ck-disabled-opacity)}[dir=ltr] .ck.ck-dropdown .ck-button.ck-dropdown__button:not(.ck-button_with-text){padding-left:var(--ck-spacing-small)}[dir=rtl] .ck.ck-dropdown .ck-button.ck-dropdown__button:not(.ck-button_with-text){padding-right:var(--ck-spacing-small)}.ck.ck-dropdown .ck-button.ck-dropdown__button .ck-button__label{overflow:hidden;text-overflow:ellipsis;width:7em}.ck.ck-dropdown .ck-button.ck-dropdown__button.ck-disabled .ck-button__label{opacity:var(--ck-disabled-opacity)}.ck.ck-dropdown .ck-button.ck-dropdown__button.ck-on{border-bottom-left-radius:0;border-bottom-right-radius:0}.ck.ck-dropdown .ck-button.ck-dropdown__button.ck-dropdown__button_label-width_auto .ck-button__label{width:auto}.ck.ck-dropdown .ck-button.ck-dropdown__button.ck-off:active,.ck.ck-dropdown .ck-button.ck-dropdown__button.ck-on:active{box-shadow:none}.ck.ck-dropdown .ck-button.ck-dropdown__button.ck-off:active:focus,.ck.ck-dropdown .ck-button.ck-dropdown__button.ck-on:active:focus{box-shadow:var(--ck-focus-outer-shadow),0 0}.ck.ck-dropdown__panel{border-radius:0}.ck-rounded-corners .ck.ck-dropdown__panel,.ck.ck-dropdown__panel.ck-rounded-corners{border-radius:var(--ck-border-radius)}.ck.ck-dropdown__panel{background:var(--ck-color-dropdown-panel-background);border:1px solid var(--ck-color-dropdown-panel-border);bottom:0;box-shadow:var(--ck-drop-shadow),0 0;min-width:100%}.ck.ck-dropdown__panel.ck-dropdown__panel_se{border-top-left-radius:0}.ck.ck-dropdown__panel.ck-dropdown__panel_sw{border-top-right-radius:0}.ck.ck-dropdown__panel.ck-dropdown__panel_ne{border-bottom-left-radius:0}.ck.ck-dropdown__panel.ck-dropdown__panel_nw{border-bottom-right-radius:0}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/dropdown/dropdown.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/dropdown/dropdown.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_disabled.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_shadow.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css"], names: [], mappings: "AAKA,MACC,4BACD,CAEA,gBACC,oBAAqB,CACrB,iBA2ED,CAzEC,oCACC,mBAAoB,CACpB,2BACD,CAGA,+CACC,UACD,CAEA,oCACC,YAAa,CAEb,sCAAuC,CAEvC,iBAAkB,CAHlB,yBA4DD,CAvDC,+DACC,oBACD,CAEA,mSAKC,WACD,CAEA,mSAUC,WAAY,CADZ,QAED,CAEA,oHAEC,MACD,CAEA,oHAEC,OACD,CAEA,kHAGC,QAAS,CACT,0BACD,CAEA,sHAGC,QAAS,CACT,0BACD,CAEA,sHAGC,QAAS,CACT,0BACD,CAQF,mCACC,mCACD,CCpFA,MACC,sDACD,CAEA,gBAEC,iBA2ED,CAzEC,oCACC,mCACD,CAGC,8CAIC,sCAAuC,CAHvC,gCAID,CAIA,8CACC,+BAAgC,CAGhC,oCACD,CAGD,gDC/BA,kCDiCA,CAIE,mFAEC,oCACD,CAIA,mFAEC,qCACD,CAID,iEAEC,eAAgB,CAChB,sBAAuB,CAFvB,SAGD,CAGA,6EC1DD,kCD4DC,CAGA,qDACC,2BAA4B,CAC5B,4BACD,CAEA,sGACC,UACD,CAGA,yHAEC,eAKD,CAHC,qIE7EF,2CF+EE,CAKH,uBGlFC,eH8GD,CA5BA,qFG9EE,qCH0GF,CA5BA,uBAIC,oDAAqD,CACrD,sDAAuD,CACvD,QAAS,CE1FT,oCAA8B,CF6F9B,cAmBD,CAfC,6CACC,wBACD,CAEA,6CACC,yBACD,CAEA,6CACC,2BACD,CAEA,6CACC,4BACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -5845,9 +5845,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3949: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3949: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-dropdown .ck-dropdown__panel .ck-list{border-radius:0}.ck-rounded-corners .ck.ck-dropdown .ck-dropdown__panel .ck-list,.ck.ck-dropdown .ck-dropdown__panel .ck-list.ck-rounded-corners{border-radius:var(--ck-border-radius);border-top-left-radius:0}.ck.ck-dropdown .ck-dropdown__panel .ck-list .ck-list__item:first-child .ck-button{border-radius:0}.ck-rounded-corners .ck.ck-dropdown .ck-dropdown__panel .ck-list .ck-list__item:first-child .ck-button,.ck.ck-dropdown .ck-dropdown__panel .ck-list .ck-list__item:first-child .ck-button.ck-rounded-corners{border-radius:var(--ck-border-radius);border-bottom-left-radius:0;border-bottom-right-radius:0;border-top-left-radius:0}.ck.ck-dropdown .ck-dropdown__panel .ck-list .ck-list__item:last-child .ck-button{border-radius:0}.ck-rounded-corners .ck.ck-dropdown .ck-dropdown__panel .ck-list .ck-list__item:last-child .ck-button,.ck.ck-dropdown .ck-dropdown__panel .ck-list .ck-list__item:last-child .ck-button.ck-rounded-corners{border-radius:var(--ck-border-radius);border-top-left-radius:0;border-top-right-radius:0}", "", { version: 3, sources: ["webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/dropdown/listdropdown.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css"], names: [], mappings: "AAOA,6CCIC,eDqBD,CAzBA,iICQE,qCAAsC,CDJtC,wBAqBF,CAfE,mFCND,eDYC,CANA,6MCFA,qCAAsC,CDKpC,2BAA4B,CAC5B,4BAA6B,CAF7B,wBAIF,CAEA,kFCdD,eDmBC,CALA,2MCVA,qCAAsC,CDYpC,wBAAyB,CACzB,yBAEF", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -5902,9 +5902,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 7686: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 7686: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, '.ck.ck-splitbutton{font-size:inherit}.ck.ck-splitbutton .ck-splitbutton__action:focus{z-index:calc(var(--ck-z-default) + 1)}:root{--ck-color-split-button-hover-background:#ebebeb;--ck-color-split-button-hover-border:#b3b3b3}[dir=ltr] .ck.ck-splitbutton.ck-splitbutton_open>.ck-splitbutton__action,[dir=ltr] .ck.ck-splitbutton:hover>.ck-splitbutton__action{border-bottom-right-radius:unset;border-top-right-radius:unset}[dir=rtl] .ck.ck-splitbutton.ck-splitbutton_open>.ck-splitbutton__action,[dir=rtl] .ck.ck-splitbutton:hover>.ck-splitbutton__action{border-bottom-left-radius:unset;border-top-left-radius:unset}.ck.ck-splitbutton>.ck-splitbutton__arrow{min-width:unset}[dir=ltr] .ck.ck-splitbutton>.ck-splitbutton__arrow{border-bottom-left-radius:unset;border-top-left-radius:unset}[dir=rtl] .ck.ck-splitbutton>.ck-splitbutton__arrow{border-bottom-right-radius:unset;border-top-right-radius:unset}.ck.ck-splitbutton>.ck-splitbutton__arrow svg{width:var(--ck-dropdown-arrow-size)}.ck.ck-splitbutton>.ck-splitbutton__arrow:not(:focus){border-bottom-width:0;border-top-width:0}.ck.ck-splitbutton.ck-splitbutton_open>.ck-button:not(.ck-on):not(.ck-disabled):not(:hover),.ck.ck-splitbutton:hover>.ck-button:not(.ck-on):not(.ck-disabled):not(:hover){background:var(--ck-color-split-button-hover-background)}.ck.ck-splitbutton.ck-splitbutton_open>.ck-splitbutton__arrow:not(.ck-disabled):after,.ck.ck-splitbutton:hover>.ck-splitbutton__arrow:not(.ck-disabled):after{background-color:var(--ck-color-split-button-hover-border);content:"";height:100%;position:absolute;width:1px}.ck.ck-splitbutton.ck-splitbutton_open>.ck-splitbutton__arrow:focus:after,.ck.ck-splitbutton:hover>.ck-splitbutton__arrow:focus:after{--ck-color-split-button-hover-border:var(--ck-color-focus-border)}[dir=ltr] .ck.ck-splitbutton.ck-splitbutton_open>.ck-splitbutton__arrow:not(.ck-disabled):after,[dir=ltr] .ck.ck-splitbutton:hover>.ck-splitbutton__arrow:not(.ck-disabled):after{left:-1px}[dir=rtl] .ck.ck-splitbutton.ck-splitbutton_open>.ck-splitbutton__arrow:not(.ck-disabled):after,[dir=rtl] .ck.ck-splitbutton:hover>.ck-splitbutton__arrow:not(.ck-disabled):after{right:-1px}.ck.ck-splitbutton.ck-splitbutton_open{border-radius:0}.ck-rounded-corners .ck.ck-splitbutton.ck-splitbutton_open,.ck.ck-splitbutton.ck-splitbutton_open.ck-rounded-corners{border-radius:var(--ck-border-radius)}.ck-rounded-corners .ck.ck-splitbutton.ck-splitbutton_open>.ck-splitbutton__action,.ck.ck-splitbutton.ck-splitbutton_open.ck-rounded-corners>.ck-splitbutton__action{border-bottom-left-radius:0}.ck-rounded-corners .ck.ck-splitbutton.ck-splitbutton_open>.ck-splitbutton__arrow,.ck.ck-splitbutton.ck-splitbutton_open.ck-rounded-corners>.ck-splitbutton__arrow{border-bottom-right-radius:0}', "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/dropdown/splitbutton.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/dropdown/splitbutton.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css"], names: [], mappings: "AAKA,mBAEC,iBAKD,CAHC,iDACC,qCACD,CCJD,MACC,gDAAyD,CACzD,4CACD,CAMC,oIAKE,gCAAiC,CADjC,6BASF,CAbA,oIAWE,+BAAgC,CADhC,4BAGF,CAEA,0CAGC,eAiBD,CApBA,oDAQE,+BAAgC,CADhC,4BAaF,CApBA,oDAcE,gCAAiC,CADjC,6BAOF,CAHC,8CACC,mCACD,CAKD,sDAEC,qBAAwB,CADxB,kBAED,CAQC,0KACC,wDACD,CAIA,8JAKC,0DAA2D,CAJ3D,UAAW,CAGX,WAAY,CAFZ,iBAAkB,CAClB,SAGD,CAGA,sIACC,iEACD,CAGC,kLACC,SACD,CAIA,kLACC,UACD,CAMF,uCCzFA,eDmGA,CAVA,qHCrFC,qCD+FD,CARE,qKACC,2BACD,CAEA,mKACC,4BACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -6052,9 +6052,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 7339: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 7339: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-toolbar-dropdown-max-width:60vw}.ck.ck-toolbar-dropdown>.ck-dropdown__panel{max-width:var(--ck-toolbar-dropdown-max-width);width:max-content}.ck.ck-toolbar-dropdown>.ck-dropdown__panel .ck-button:focus{z-index:calc(var(--ck-z-default) + 1)}.ck.ck-toolbar-dropdown .ck-toolbar{border:0}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/dropdown/toolbardropdown.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/dropdown/toolbardropdown.css"], names: [], mappings: "AAKA,MACC,oCACD,CAEA,4CAGC,8CAA+C,CAD/C,iBAQD,CAJE,6DACC,qCACD,CCZF,oCACC,QACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -6085,9 +6085,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 9688: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 9688: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-color-editable-blur-selection:#d9d9d9}.ck.ck-editor__editable:not(.ck-editor__nested-editable){border-radius:0}.ck-rounded-corners .ck.ck-editor__editable:not(.ck-editor__nested-editable),.ck.ck-editor__editable.ck-rounded-corners:not(.ck-editor__nested-editable){border-radius:var(--ck-border-radius)}.ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable){border:var(--ck-focus-ring);box-shadow:var(--ck-inner-shadow),0 0;outline:none}.ck.ck-editor__editable_inline{border:1px solid transparent;overflow:auto;padding:0 var(--ck-spacing-standard)}.ck.ck-editor__editable_inline[dir=ltr]{text-align:left}.ck.ck-editor__editable_inline[dir=rtl]{text-align:right}.ck.ck-editor__editable_inline>:first-child{margin-top:var(--ck-spacing-large)}.ck.ck-editor__editable_inline>:last-child{margin-bottom:var(--ck-spacing-large)}.ck.ck-editor__editable_inline.ck-blurred ::selection{background:var(--ck-color-editable-blur-selection)}.ck.ck-balloon-panel.ck-toolbar-container[class*=arrow_n]:after{border-bottom-color:var(--ck-color-base-foreground)}.ck.ck-balloon-panel.ck-toolbar-container[class*=arrow_s]:after{border-top-color:var(--ck-color-base-foreground)}", "", { version: 3, sources: ["webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/editorui/editorui.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_focus.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_shadow.css"], names: [], mappings: "AAWA,MACC,0CACD,CAEA,yDCJC,eDWD,CAPA,yJCAE,qCDOF,CAJC,oEEPA,2BAA2B,CCF3B,qCAA8B,CDC9B,YFWA,CAGD,+BAGC,4BAA6B,CAF7B,aAAc,CACd,oCA6BD,CA1BC,wCACC,eACD,CAEA,wCACC,gBACD,CAGA,4CACC,kCACD,CAGA,2CAKC,qCACD,CAGA,sDACC,kDACD,CAKA,gEACC,mDACD,CAIA,gEACC,gDACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -6209,9 +6209,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 8847: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 8847: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-form__header{align-items:center;display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:space-between}:root{--ck-form-header-height:38px}.ck.ck-form__header{border-bottom:1px solid var(--ck-color-base-border);height:var(--ck-form-header-height);line-height:var(--ck-form-header-height);padding:var(--ck-spacing-small) var(--ck-spacing-large)}.ck.ck-form__header .ck-form__header__label{font-weight:700}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/formheader/formheader.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/formheader/formheader.css"], names: [], mappings: "AAKA,oBAIC,kBAAmB,CAHnB,YAAa,CACb,kBAAmB,CACnB,gBAAiB,CAEjB,6BACD,CCNA,MACC,4BACD,CAEA,oBAIC,mDAAoD,CAFpD,mCAAoC,CACpC,wCAAyC,CAFzC,uDAQD,CAHC,4CACC,eACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -6245,9 +6245,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 6574: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 6574: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-icon{vertical-align:middle}:root{--ck-icon-size:calc(var(--ck-line-height-base)*var(--ck-font-size-normal))}.ck.ck-icon{font-size:.8333350694em;height:var(--ck-icon-size);width:var(--ck-icon-size);will-change:transform}.ck.ck-icon,.ck.ck-icon *{cursor:inherit}.ck.ck-icon.ck-icon_inherit-color,.ck.ck-icon.ck-icon_inherit-color *{color:inherit}.ck.ck-icon.ck-icon_inherit-color :not([fill]){fill:currentColor}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/icon/icon.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/icon/icon.css"], names: [], mappings: "AAKA,YACC,qBACD,CCFA,MACC,0EACD,CAEA,YAKC,uBAAwB,CAHxB,0BAA2B,CAD3B,yBAA0B,CAU1B,qBAoBD,CAlBC,0BALA,cAQA,CAMC,sEACC,aAMD,CAJC,+CAEC,iBACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -6299,9 +6299,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4879: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4879: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-input-width:18em;--ck-input-text-width:var(--ck-input-width)}.ck.ck-input{border-radius:0}.ck-rounded-corners .ck.ck-input,.ck.ck-input.ck-rounded-corners{border-radius:var(--ck-border-radius)}.ck.ck-input{background:var(--ck-color-input-background);border:1px solid var(--ck-color-input-border);min-height:var(--ck-ui-component-min-height);min-width:var(--ck-input-width);padding:var(--ck-spacing-extra-tiny) var(--ck-spacing-medium);transition:box-shadow .1s ease-in-out,border .1s ease-in-out}.ck.ck-input:focus{border:var(--ck-focus-ring);box-shadow:var(--ck-focus-outer-shadow),0 0;outline:none}.ck.ck-input[readonly]{background:var(--ck-color-input-disabled-background);border:1px solid var(--ck-color-input-disabled-border);color:var(--ck-color-input-disabled-text)}.ck.ck-input[readonly]:focus{box-shadow:var(--ck-focus-disabled-outer-shadow),0 0}.ck.ck-input.ck-error{animation:ck-input-shake .3s ease both;border-color:var(--ck-color-input-error-border)}.ck.ck-input.ck-error:focus{box-shadow:var(--ck-focus-error-outer-shadow),0 0}@keyframes ck-input-shake{20%{transform:translateX(-2px)}40%{transform:translateX(2px)}60%{transform:translateX(-1px)}80%{transform:translateX(1px)}}", "", { version: 3, sources: ["webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/input/input.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_focus.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_shadow.css"], names: [], mappings: "AASA,MACC,qBAAsB,CAGtB,2CACD,CAEA,aCLC,eD2CD,CAtCA,iECDE,qCDuCF,CAtCA,aAGC,2CAA4C,CAC5C,6CAA8C,CAK9C,4CAA6C,CAH7C,+BAAgC,CADhC,6DAA8D,CAO9D,4DA0BD,CAxBC,mBEnBA,2BAA2B,CCF3B,2CAA8B,CDC9B,YFuBA,CAEA,uBAEC,oDAAqD,CADrD,sDAAuD,CAEvD,yCAMD,CAJC,6BG/BD,oDHkCC,CAGD,sBAEC,sCAAuC,CADvC,+CAMD,CAHC,4BGzCD,iDH2CC,CAIF,0BACC,IACC,0BACD,CAEA,IACC,yBACD,CAEA,IACC,0BACD,CAEA,IACC,yBACD,CACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -6427,9 +6427,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3662: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3662: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-label{display:block}.ck.ck-voice-label{display:none}.ck.ck-label{font-weight:700}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/label/label.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/label/label.css"], names: [], mappings: "AAKA,aACC,aACD,CAEA,mBACC,YACD,CCNA,aACC,eACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -6452,9 +6452,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 2577: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 2577: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-labeled-field-view>.ck.ck-labeled-field-view__input-wrapper{display:flex;position:relative}.ck.ck-labeled-field-view .ck.ck-label{display:block;position:absolute}:root{--ck-labeled-field-view-transition:.1s cubic-bezier(0,0,0.24,0.95);--ck-labeled-field-empty-unfocused-max-width:100% - 2 * var(--ck-spacing-medium);--ck-labeled-field-label-default-position-x:var(--ck-spacing-medium);--ck-labeled-field-label-default-position-y:calc(var(--ck-font-size-base)*0.6);--ck-color-labeled-field-label-background:var(--ck-color-base-background)}.ck.ck-labeled-field-view{border-radius:0}.ck-rounded-corners .ck.ck-labeled-field-view,.ck.ck-labeled-field-view.ck-rounded-corners{border-radius:var(--ck-border-radius)}.ck.ck-labeled-field-view>.ck.ck-labeled-field-view__input-wrapper{width:100%}.ck.ck-labeled-field-view>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label{top:0}[dir=ltr] .ck.ck-labeled-field-view>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label{left:0}[dir=rtl] .ck.ck-labeled-field-view>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label{right:0}.ck.ck-labeled-field-view>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label{background:var(--ck-color-labeled-field-label-background);font-weight:400;line-height:normal;max-width:100%;overflow:hidden;padding:0 calc(var(--ck-font-size-tiny)*.5);pointer-events:none;text-overflow:ellipsis;transform:translate(var(--ck-spacing-medium),-6px) scale(.75);transform-origin:0 0;transition:transform var(--ck-labeled-field-view-transition),padding var(--ck-labeled-field-view-transition),background var(--ck-labeled-field-view-transition)}.ck.ck-labeled-field-view.ck-error .ck-input:not([readonly])+.ck.ck-label,.ck.ck-labeled-field-view.ck-error>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label{color:var(--ck-color-base-error)}.ck.ck-labeled-field-view .ck-labeled-field-view__status{font-size:var(--ck-font-size-small);margin-top:var(--ck-spacing-small);white-space:normal}.ck.ck-labeled-field-view .ck-labeled-field-view__status.ck-labeled-field-view__status_error{color:var(--ck-color-base-error)}.ck.ck-labeled-field-view.ck-disabled>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label,.ck.ck-labeled-field-view.ck-labeled-field-view_empty:not(.ck-labeled-field-view_focused)>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label{color:var(--ck-color-input-disabled-text)}[dir=ltr] .ck.ck-labeled-field-view.ck-disabled.ck-labeled-field-view_empty>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label,[dir=ltr] .ck.ck-labeled-field-view.ck-labeled-field-view_empty:not(.ck-labeled-field-view_focused):not(.ck-labeled-field-view_placeholder)>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label{transform:translate(var(--ck-labeled-field-label-default-position-x),var(--ck-labeled-field-label-default-position-y)) scale(1)}[dir=rtl] .ck.ck-labeled-field-view.ck-disabled.ck-labeled-field-view_empty>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label,[dir=rtl] .ck.ck-labeled-field-view.ck-labeled-field-view_empty:not(.ck-labeled-field-view_focused):not(.ck-labeled-field-view_placeholder)>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label{transform:translate(calc(var(--ck-labeled-field-label-default-position-x)*-1),var(--ck-labeled-field-label-default-position-y)) scale(1)}.ck.ck-labeled-field-view.ck-disabled.ck-labeled-field-view_empty>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label,.ck.ck-labeled-field-view.ck-labeled-field-view_empty:not(.ck-labeled-field-view_focused):not(.ck-labeled-field-view_placeholder)>.ck.ck-labeled-field-view__input-wrapper>.ck.ck-label{background:transparent;max-width:calc(var(--ck-labeled-field-empty-unfocused-max-width));padding:0}.ck.ck-labeled-field-view>.ck.ck-labeled-field-view__input-wrapper>.ck-dropdown>.ck.ck-button{background:transparent}.ck.ck-labeled-field-view.ck-labeled-field-view_empty>.ck.ck-labeled-field-view__input-wrapper>.ck-dropdown>.ck-button>.ck-button__label{opacity:0}.ck.ck-labeled-field-view.ck-labeled-field-view_empty:not(.ck-labeled-field-view_focused):not(.ck-labeled-field-view_placeholder)>.ck.ck-labeled-field-view__input-wrapper>.ck-dropdown+.ck-label{max-width:calc(var(--ck-labeled-field-empty-unfocused-max-width) - var(--ck-dropdown-arrow-size) - var(--ck-spacing-standard))}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/labeledfield/labeledfieldview.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/labeledfield/labeledfieldview.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css"], names: [], mappings: "AAMC,mEACC,YAAa,CACb,iBACD,CAEA,uCACC,aAAc,CACd,iBACD,CCND,MACC,kEAAsE,CACtE,gFAAiF,CACjF,oEAAqE,CACrE,8EAAiF,CACjF,yEACD,CAEA,0BCLC,eD8GD,CAzGA,2FCDE,qCD0GF,CAtGC,mEACC,UAmCD,CAjCC,gFACC,KA+BD,CAhCA,0FAIE,MA4BF,CAhCA,0FAQE,OAwBF,CAhCA,gFAiBC,yDAA0D,CAG1D,eAAmB,CADnB,kBAAoB,CAOpB,cAAe,CAFf,eAAgB,CANhB,2CAA8C,CAP9C,mBAAoB,CAYpB,sBAAuB,CARvB,6DAA+D,CAH/D,oBAAqB,CAgBrB,+JAID,CAQA,mKACC,gCACD,CAGD,yDACC,mCAAoC,CACpC,kCAAmC,CAInC,kBAKD,CAHC,6FACC,gCACD,CAID,4OAEC,yCACD,CAIA,oUAGE,+HAYF,CAfA,oUAOE,wIAQF,CAfA,gTAaC,sBAAuB,CAFvB,iEAAkE,CAGlE,SACD,CAKA,8FACC,sBACD,CAGA,yIACC,SACD,CAGA,kMACC,8HACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -6614,9 +6614,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 1046: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 1046: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-list{display:flex;flex-direction:column;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.ck.ck-list .ck-list__item,.ck.ck-list .ck-list__separator{display:block}.ck.ck-list .ck-list__item>:focus{position:relative;z-index:var(--ck-z-default)}.ck.ck-list{border-radius:0}.ck-rounded-corners .ck.ck-list,.ck.ck-list.ck-rounded-corners{border-radius:var(--ck-border-radius)}.ck.ck-list{background:var(--ck-color-list-background);list-style-type:none}.ck.ck-list__item{cursor:default;min-width:12em}.ck.ck-list__item .ck-button{border-radius:0;min-height:unset;padding:calc(var(--ck-line-height-base)*.2*var(--ck-font-size-base)) calc(var(--ck-line-height-base)*.4*var(--ck-font-size-base));text-align:left;width:100%}.ck.ck-list__item .ck-button .ck-button__label{line-height:calc(var(--ck-line-height-base)*1.2*var(--ck-font-size-base))}.ck.ck-list__item .ck-button:active{box-shadow:none}.ck.ck-list__item .ck-button.ck-on{background:var(--ck-color-list-button-on-background);color:var(--ck-color-list-button-on-text)}.ck.ck-list__item .ck-button.ck-on:active{box-shadow:none}.ck.ck-list__item .ck-button.ck-on:hover:not(.ck-disabled){background:var(--ck-color-list-button-on-background-focus)}.ck.ck-list__item .ck-button.ck-on:focus:not(.ck-switchbutton):not(.ck-disabled){border-color:var(--ck-color-base-background)}.ck.ck-list__item .ck-button:hover:not(.ck-disabled){background:var(--ck-color-list-button-hover-background)}.ck.ck-list__item .ck-switchbutton.ck-on{background:var(--ck-color-list-background);color:inherit}.ck.ck-list__item .ck-switchbutton.ck-on:hover:not(.ck-disabled){background:var(--ck-color-list-button-hover-background);color:inherit}.ck.ck-list__separator{background:var(--ck-color-base-border);height:1px;width:100%}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/list/list.css", "webpack://./../ckeditor5-ui/theme/mixins/_unselectable.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/list/list.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css"], names: [], mappings: "AAOA,YAGC,YAAa,CACb,qBAAsB,CCFtB,qBAAsB,CACtB,wBAAyB,CACzB,oBAAqB,CACrB,gBDaD,CAZC,2DAEC,aACD,CAKA,kCACC,iBAAkB,CAClB,2BACD,CEfD,YCEC,eDGD,CALA,+DCME,qCDDF,CALA,YAIC,0CAA2C,CAD3C,oBAED,CAEA,kBACC,cAAe,CACf,cA2DD,CAzDC,6BAIC,eAAgB,CAHhB,gBAAiB,CAQjB,iIAEiE,CARjE,eAAgB,CADhB,UAwCD,CA7BC,+CAEC,yEACD,CAEA,oCACC,eACD,CAEA,mCACC,oDAAqD,CACrD,yCAaD,CAXC,0CACC,eACD,CAEA,2DACC,0DACD,CAEA,iFACC,4CACD,CAGD,qDACC,uDACD,CAMA,yCACC,0CAA2C,CAC3C,aAMD,CAJC,iEACC,uDAAwD,CACxD,aACD,CAKH,uBAGC,sCAAuC,CAFvC,UAAW,CACX,UAED", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -6762,9 +6762,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 8793: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 8793: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ':root{--ck-balloon-panel-arrow-z-index:calc(var(--ck-z-default) - 3)}.ck.ck-balloon-panel{display:none;position:absolute;z-index:var(--ck-z-modal)}.ck.ck-balloon-panel.ck-balloon-panel_with-arrow:after,.ck.ck-balloon-panel.ck-balloon-panel_with-arrow:before{content:"";position:absolute}.ck.ck-balloon-panel.ck-balloon-panel_with-arrow:before{z-index:var(--ck-balloon-panel-arrow-z-index)}.ck.ck-balloon-panel.ck-balloon-panel_with-arrow:after{z-index:calc(var(--ck-balloon-panel-arrow-z-index) + 1)}.ck.ck-balloon-panel[class*=arrow_n]:before{z-index:var(--ck-balloon-panel-arrow-z-index)}.ck.ck-balloon-panel[class*=arrow_n]:after{z-index:calc(var(--ck-balloon-panel-arrow-z-index) + 1)}.ck.ck-balloon-panel[class*=arrow_s]:before{z-index:var(--ck-balloon-panel-arrow-z-index)}.ck.ck-balloon-panel[class*=arrow_s]:after{z-index:calc(var(--ck-balloon-panel-arrow-z-index) + 1)}.ck.ck-balloon-panel.ck-balloon-panel_visible{display:block}:root{--ck-balloon-border-width:1px;--ck-balloon-arrow-offset:2px;--ck-balloon-arrow-height:10px;--ck-balloon-arrow-half-width:8px;--ck-balloon-arrow-drop-shadow:0 2px 2px var(--ck-color-shadow-drop)}.ck.ck-balloon-panel{border-radius:0}.ck-rounded-corners .ck.ck-balloon-panel,.ck.ck-balloon-panel.ck-rounded-corners{border-radius:var(--ck-border-radius)}.ck.ck-balloon-panel{background:var(--ck-color-panel-background);border:var(--ck-balloon-border-width) solid var(--ck-color-panel-border);box-shadow:var(--ck-drop-shadow),0 0;min-height:15px}.ck.ck-balloon-panel.ck-balloon-panel_with-arrow:after,.ck.ck-balloon-panel.ck-balloon-panel_with-arrow:before{border-style:solid;height:0;width:0}.ck.ck-balloon-panel[class*=arrow_n]:after,.ck.ck-balloon-panel[class*=arrow_n]:before{border-width:0 var(--ck-balloon-arrow-half-width) var(--ck-balloon-arrow-height) var(--ck-balloon-arrow-half-width)}.ck.ck-balloon-panel[class*=arrow_n]:before{border-color:transparent transparent var(--ck-color-panel-border) transparent;margin-top:calc(var(--ck-balloon-border-width)*-1)}.ck.ck-balloon-panel[class*=arrow_n]:after{border-color:transparent transparent var(--ck-color-panel-background) transparent;margin-top:calc(var(--ck-balloon-arrow-offset) - var(--ck-balloon-border-width))}.ck.ck-balloon-panel[class*=arrow_s]:after,.ck.ck-balloon-panel[class*=arrow_s]:before{border-width:var(--ck-balloon-arrow-height) var(--ck-balloon-arrow-half-width) 0 var(--ck-balloon-arrow-half-width)}.ck.ck-balloon-panel[class*=arrow_s]:before{border-color:var(--ck-color-panel-border) transparent transparent;filter:drop-shadow(var(--ck-balloon-arrow-drop-shadow));margin-bottom:calc(var(--ck-balloon-border-width)*-1)}.ck.ck-balloon-panel[class*=arrow_s]:after{border-color:var(--ck-color-panel-background) transparent transparent transparent;margin-bottom:calc(var(--ck-balloon-arrow-offset) - var(--ck-balloon-border-width))}.ck.ck-balloon-panel[class*=arrow_e]:after,.ck.ck-balloon-panel[class*=arrow_e]:before{border-width:var(--ck-balloon-arrow-half-width) 0 var(--ck-balloon-arrow-half-width) var(--ck-balloon-arrow-height)}.ck.ck-balloon-panel[class*=arrow_e]:before{border-color:transparent transparent transparent var(--ck-color-panel-border);margin-right:calc(var(--ck-balloon-border-width)*-1)}.ck.ck-balloon-panel[class*=arrow_e]:after{border-color:transparent transparent transparent var(--ck-color-panel-background);margin-right:calc(var(--ck-balloon-arrow-offset) - var(--ck-balloon-border-width))}.ck.ck-balloon-panel[class*=arrow_w]:after,.ck.ck-balloon-panel[class*=arrow_w]:before{border-width:var(--ck-balloon-arrow-half-width) var(--ck-balloon-arrow-height) var(--ck-balloon-arrow-half-width) 0}.ck.ck-balloon-panel[class*=arrow_w]:before{border-color:transparent var(--ck-color-panel-border) transparent transparent;margin-left:calc(var(--ck-balloon-border-width)*-1)}.ck.ck-balloon-panel[class*=arrow_w]:after{border-color:transparent var(--ck-color-panel-background) transparent transparent;margin-left:calc(var(--ck-balloon-arrow-offset) - var(--ck-balloon-border-width))}.ck.ck-balloon-panel.ck-balloon-panel_arrow_n:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_n:before{left:50%;margin-left:calc(var(--ck-balloon-arrow-half-width)*-1);top:calc(var(--ck-balloon-arrow-height)*-1)}.ck.ck-balloon-panel.ck-balloon-panel_arrow_nw:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_nw:before{left:calc(var(--ck-balloon-arrow-half-width)*2);top:calc(var(--ck-balloon-arrow-height)*-1)}.ck.ck-balloon-panel.ck-balloon-panel_arrow_ne:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_ne:before{right:calc(var(--ck-balloon-arrow-half-width)*2);top:calc(var(--ck-balloon-arrow-height)*-1)}.ck.ck-balloon-panel.ck-balloon-panel_arrow_s:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_s:before{bottom:calc(var(--ck-balloon-arrow-height)*-1);left:50%;margin-left:calc(var(--ck-balloon-arrow-half-width)*-1)}.ck.ck-balloon-panel.ck-balloon-panel_arrow_sw:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_sw:before{bottom:calc(var(--ck-balloon-arrow-height)*-1);left:calc(var(--ck-balloon-arrow-half-width)*2)}.ck.ck-balloon-panel.ck-balloon-panel_arrow_se:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_se:before{bottom:calc(var(--ck-balloon-arrow-height)*-1);right:calc(var(--ck-balloon-arrow-half-width)*2)}.ck.ck-balloon-panel.ck-balloon-panel_arrow_sme:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_sme:before{bottom:calc(var(--ck-balloon-arrow-height)*-1);margin-right:calc(var(--ck-balloon-arrow-half-width)*2);right:25%}.ck.ck-balloon-panel.ck-balloon-panel_arrow_smw:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_smw:before{bottom:calc(var(--ck-balloon-arrow-height)*-1);left:25%;margin-left:calc(var(--ck-balloon-arrow-half-width)*2)}.ck.ck-balloon-panel.ck-balloon-panel_arrow_nme:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_nme:before{margin-right:calc(var(--ck-balloon-arrow-half-width)*2);right:25%;top:calc(var(--ck-balloon-arrow-height)*-1)}.ck.ck-balloon-panel.ck-balloon-panel_arrow_nmw:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_nmw:before{left:25%;margin-left:calc(var(--ck-balloon-arrow-half-width)*2);top:calc(var(--ck-balloon-arrow-height)*-1)}.ck.ck-balloon-panel.ck-balloon-panel_arrow_e:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_e:before{margin-top:calc(var(--ck-balloon-arrow-half-width)*-1);right:calc(var(--ck-balloon-arrow-height)*-1);top:50%}.ck.ck-balloon-panel.ck-balloon-panel_arrow_w:after,.ck.ck-balloon-panel.ck-balloon-panel_arrow_w:before{left:calc(var(--ck-balloon-arrow-height)*-1);margin-top:calc(var(--ck-balloon-arrow-half-width)*-1);top:50%}', "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/panel/balloonpanel.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/panel/balloonpanel.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_shadow.css"], names: [], mappings: "AAKA,MAEC,8DACD,CAEA,qBACC,YAAa,CACb,iBAAkB,CAElB,yBAyCD,CAtCE,+GAEC,UAAW,CACX,iBACD,CAEA,wDACC,6CACD,CAEA,uDACC,uDACD,CAIA,4CACC,6CACD,CAEA,2CACC,uDACD,CAIA,4CACC,6CACD,CAEA,2CACC,uDACD,CAGD,8CACC,aACD,CC9CD,MACC,6BAA8B,CAC9B,6BAA8B,CAC9B,8BAA+B,CAC/B,iCAAkC,CAClC,oEACD,CAEA,qBCLC,eDmMD,CA9LA,iFCDE,qCD+LF,CA9LA,qBAMC,2CAA4C,CAC5C,wEAAyE,CEdzE,oCAA8B,CFW9B,eA0LD,CApLE,+GAIC,kBAAmB,CADnB,QAAS,CADT,OAGD,CAIA,uFAEC,mHACD,CAEA,4CACC,6EAA8E,CAC9E,kDACD,CAEA,2CACC,iFAAkF,CAClF,gFACD,CAIA,uFAEC,mHACD,CAEA,4CACC,iEAAkE,CAClE,uDAAwD,CACxD,qDACD,CAEA,2CACC,iFAAkF,CAClF,mFACD,CAIA,uFAEC,mHACD,CAEA,4CACC,6EAA8E,CAC9E,oDACD,CAEA,2CACC,iFAAkF,CAClF,kFACD,CAIA,uFAEC,mHACD,CAEA,4CACC,6EAA8E,CAC9E,mDACD,CAEA,2CACC,iFAAkF,CAClF,iFACD,CAIA,yGAEC,QAAS,CACT,uDAA0D,CAC1D,2CACD,CAIA,2GAEC,+CAAkD,CAClD,2CACD,CAIA,2GAEC,gDAAmD,CACnD,2CACD,CAIA,yGAIC,8CAAiD,CAFjD,QAAS,CACT,uDAED,CAIA,2GAGC,8CAAiD,CADjD,+CAED,CAIA,2GAGC,8CAAiD,CADjD,gDAED,CAIA,6GAIC,8CAAiD,CADjD,uDAA0D,CAD1D,SAGD,CAIA,6GAIC,8CAAiD,CAFjD,QAAS,CACT,sDAED,CAIA,6GAGC,uDAA0D,CAD1D,SAAU,CAEV,2CACD,CAIA,6GAEC,QAAS,CACT,sDAAyD,CACzD,2CACD,CAIA,yGAGC,sDAAyD,CADzD,6CAAgD,CAEhD,OACD,CAIA,yGAEC,4CAA+C,CAC/C,sDAAyD,CACzD,OACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -7067,9 +7067,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4650: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4650: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck .ck-balloon-rotator__navigation{align-items:center;display:flex;justify-content:center}.ck .ck-balloon-rotator__content .ck-toolbar{justify-content:center}.ck .ck-balloon-rotator__navigation{background:var(--ck-color-toolbar-background);border-bottom:1px solid var(--ck-color-toolbar-border);padding:0 var(--ck-spacing-small)}.ck .ck-balloon-rotator__navigation>*{margin-bottom:var(--ck-spacing-small);margin-right:var(--ck-spacing-small);margin-top:var(--ck-spacing-small)}.ck .ck-balloon-rotator__navigation .ck-balloon-rotator__counter{margin-left:var(--ck-spacing-small);margin-right:var(--ck-spacing-standard)}.ck .ck-balloon-rotator__content .ck.ck-annotation-wrapper{box-shadow:none}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/panel/balloonrotator.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/panel/balloonrotator.css"], names: [], mappings: "AAKA,oCAEC,kBAAmB,CADnB,YAAa,CAEb,sBACD,CAKA,6CACC,sBACD,CCXA,oCACC,6CAA8C,CAC9C,sDAAuD,CACvD,iCAgBD,CAbC,sCAGC,qCAAsC,CAFtC,oCAAqC,CACrC,kCAED,CAGA,iEAIC,mCAAoC,CAHpC,uCAID,CAMA,2DACC,eACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -7122,9 +7122,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 7676: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 7676: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck .ck-fake-panel{position:absolute;z-index:calc(var(--ck-z-modal) - 1)}.ck .ck-fake-panel div{position:absolute}.ck .ck-fake-panel div:first-child{z-index:2}.ck .ck-fake-panel div:nth-child(2){z-index:1}:root{--ck-balloon-fake-panel-offset-horizontal:6px;--ck-balloon-fake-panel-offset-vertical:6px}.ck .ck-fake-panel div{background:var(--ck-color-panel-background);border:1px solid var(--ck-color-panel-border);border-radius:var(--ck-border-radius);box-shadow:var(--ck-drop-shadow),0 0;height:100%;min-height:15px;width:100%}.ck .ck-fake-panel div:first-child{margin-left:var(--ck-balloon-fake-panel-offset-horizontal);margin-top:var(--ck-balloon-fake-panel-offset-vertical)}.ck .ck-fake-panel div:nth-child(2){margin-left:calc(var(--ck-balloon-fake-panel-offset-horizontal)*2);margin-top:calc(var(--ck-balloon-fake-panel-offset-vertical)*2)}.ck .ck-fake-panel div:nth-child(3){margin-left:calc(var(--ck-balloon-fake-panel-offset-horizontal)*3);margin-top:calc(var(--ck-balloon-fake-panel-offset-vertical)*3)}.ck .ck-balloon-panel_arrow_s+.ck-fake-panel,.ck .ck-balloon-panel_arrow_se+.ck-fake-panel,.ck .ck-balloon-panel_arrow_sw+.ck-fake-panel{--ck-balloon-fake-panel-offset-vertical:-6px}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/panel/fakepanel.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/panel/fakepanel.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_shadow.css"], names: [], mappings: "AAKA,mBACC,iBAAkB,CAGlB,mCACD,CAEA,uBACC,iBACD,CAEA,mCACC,SACD,CAEA,oCACC,SACD,CCfA,MACC,6CAA8C,CAC9C,2CACD,CAGA,uBAKC,2CAA4C,CAC5C,6CAA8C,CAC9C,qCAAsC,CCXtC,oCAA8B,CDc9B,WAAY,CAPZ,eAAgB,CAMhB,UAED,CAEA,mCACC,0DAA2D,CAC3D,uDACD,CAEA,oCACC,kEAAqE,CACrE,+DACD,CACA,oCACC,kEAAqE,CACrE,+DACD,CAGA,yIAGC,4CACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -7214,9 +7214,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 5868: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 5868: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-sticky-panel .ck-sticky-panel__content_sticky{position:fixed;top:0;z-index:var(--ck-z-modal)}.ck.ck-sticky-panel .ck-sticky-panel__content_sticky_bottom-limit{position:absolute;top:auto}.ck.ck-sticky-panel .ck-sticky-panel__content_sticky{border-top-left-radius:0;border-top-right-radius:0;border-width:0 1px 1px;box-shadow:var(--ck-drop-shadow),0 0}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/panel/stickypanel.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/panel/stickypanel.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_shadow.css"], names: [], mappings: "AAMC,qDAEC,cAAe,CACf,KAAM,CAFN,yBAGD,CAEA,kEAEC,iBAAkB,CADlB,QAED,CCPA,qDAIC,wBAAyB,CACzB,yBAA0B,CAF1B,sBAAuB,CCFxB,oCDKA", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -7270,9 +7270,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 6764: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 6764: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, '.ck-vertical-form .ck-button:after{bottom:-1px;content:"";position:absolute;right:-1px;top:-1px;width:0;z-index:1}.ck-vertical-form .ck-button:focus:after{display:none}@media screen and (max-width:600px){.ck.ck-responsive-form .ck-button:after{bottom:-1px;content:"";position:absolute;right:-1px;top:-1px;width:0;z-index:1}.ck.ck-responsive-form .ck-button:focus:after{display:none}}.ck-vertical-form>.ck-button:nth-last-child(2):after{border-right:1px solid var(--ck-color-base-border)}.ck.ck-responsive-form{padding:var(--ck-spacing-large)}.ck.ck-responsive-form:focus{outline:none}[dir=ltr] .ck.ck-responsive-form>:not(:first-child),[dir=rtl] .ck.ck-responsive-form>:not(:last-child){margin-left:var(--ck-spacing-standard)}@media screen and (max-width:600px){.ck.ck-responsive-form{padding:0;width:calc(var(--ck-input-width)*.8)}.ck.ck-responsive-form .ck-labeled-field-view{margin:var(--ck-spacing-large) var(--ck-spacing-large) 0}.ck.ck-responsive-form .ck-labeled-field-view .ck-input-text{min-width:0;width:100%}.ck.ck-responsive-form .ck-labeled-field-view .ck-labeled-field-view__error{white-space:normal}.ck.ck-responsive-form>.ck-button:nth-last-child(2):after{border-right:1px solid var(--ck-color-base-border)}.ck.ck-responsive-form>.ck-button:last-child,.ck.ck-responsive-form>.ck-button:nth-last-child(2){border-radius:0;margin-top:var(--ck-spacing-large);padding:var(--ck-spacing-standard)}.ck.ck-responsive-form>.ck-button:last-child:not(:focus),.ck.ck-responsive-form>.ck-button:nth-last-child(2):not(:focus){border-top:1px solid var(--ck-color-base-border)}[dir=ltr] .ck.ck-responsive-form>.ck-button:last-child,[dir=ltr] .ck.ck-responsive-form>.ck-button:nth-last-child(2),[dir=rtl] .ck.ck-responsive-form>.ck-button:last-child,[dir=rtl] .ck.ck-responsive-form>.ck-button:nth-last-child(2){margin-left:0}[dir=rtl] .ck.ck-responsive-form>.ck-button:last-child:last-of-type,[dir=rtl] .ck.ck-responsive-form>.ck-button:nth-last-child(2):last-of-type{border-right:1px solid var(--ck-color-base-border)}}', "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/responsive-form/responsiveform.css", "webpack://./../ckeditor5-ui/theme/mixins/_rwd.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/responsive-form/responsiveform.css"], names: [], mappings: "AAQC,mCAMC,WAAY,CALZ,UAAW,CAEX,iBAAkB,CAClB,UAAW,CACX,QAAS,CAHT,OAAQ,CAKR,SACD,CAEA,yCACC,YACD,CCdA,oCDoBE,wCAMC,WAAY,CALZ,UAAW,CAEX,iBAAkB,CAClB,UAAW,CACX,QAAS,CAHT,OAAQ,CAKR,SACD,CAEA,8CACC,YACD,CC9BF,CCAD,qDACC,kDACD,CAEA,uBACC,+BAmED,CAjEC,6BAEC,YACD,CASC,uGACC,sCACD,CDvBD,oCCMD,uBAqBE,SAAU,CACV,oCA8CF,CA5CE,8CACC,wDAWD,CATC,6DACC,WAAY,CACZ,UACD,CAGA,4EACC,kBACD,CAKA,0DACC,kDACD,CAGD,iGAIC,eAAgB,CADhB,kCAAmC,CADnC,kCAmBD,CAfC,yHACC,gDACD,CARD,0OAeE,aAMF,CAJE,+IACC,kDACD,CDpEH", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -7408,9 +7408,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 9695: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 9695: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-block-toolbar-button{position:absolute;z-index:var(--ck-z-default)}:root{--ck-color-block-toolbar-button:var(--ck-color-text);--ck-block-toolbar-button-size:var(--ck-font-size-normal)}.ck.ck-block-toolbar-button{color:var(--ck-color-block-toolbar-button);font-size:var(--ck-block-toolbar-size)}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/toolbar/blocktoolbar.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/toolbar/blocktoolbar.css"], names: [], mappings: "AAKA,4BACC,iBAAkB,CAClB,2BACD,CCHA,MACC,oDAAqD,CACrD,yDACD,CAEA,4BACC,0CAA2C,CAC3C,sCACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -7436,9 +7436,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 5542: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 5542: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-toolbar{align-items:center;display:flex;flex-flow:row nowrap;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}.ck.ck-toolbar>.ck-toolbar__items{align-items:center;display:flex;flex-flow:row wrap;flex-grow:1}.ck.ck-toolbar .ck.ck-toolbar__separator{display:inline-block}.ck.ck-toolbar .ck.ck-toolbar__separator:first-child,.ck.ck-toolbar .ck.ck-toolbar__separator:last-child{display:none}.ck.ck-toolbar .ck-toolbar__line-break{flex-basis:100%}.ck.ck-toolbar.ck-toolbar_grouping>.ck-toolbar__items{flex-wrap:nowrap}.ck.ck-toolbar.ck-toolbar_vertical>.ck-toolbar__items{flex-direction:column}.ck.ck-toolbar.ck-toolbar_floating>.ck-toolbar__items{flex-wrap:nowrap}.ck.ck-toolbar>.ck.ck-toolbar__grouped-dropdown>.ck-dropdown__button .ck-dropdown__arrow{display:none}.ck.ck-toolbar{border-radius:0}.ck-rounded-corners .ck.ck-toolbar,.ck.ck-toolbar.ck-rounded-corners{border-radius:var(--ck-border-radius)}.ck.ck-toolbar{background:var(--ck-color-toolbar-background);border:1px solid var(--ck-color-toolbar-border);padding:0 var(--ck-spacing-small)}.ck.ck-toolbar .ck.ck-toolbar__separator{align-self:stretch;background:var(--ck-color-toolbar-border);margin-bottom:var(--ck-spacing-small);margin-top:var(--ck-spacing-small);min-width:1px;width:1px}.ck.ck-toolbar .ck-toolbar__line-break{height:0}.ck.ck-toolbar>.ck-toolbar__items>:not(.ck-toolbar__line-break){margin-right:var(--ck-spacing-small)}.ck.ck-toolbar>.ck-toolbar__items:empty+.ck.ck-toolbar__separator{display:none}.ck.ck-toolbar>.ck-toolbar__items>:not(.ck-toolbar__line-break),.ck.ck-toolbar>.ck.ck-toolbar__grouped-dropdown{margin-bottom:var(--ck-spacing-small);margin-top:var(--ck-spacing-small)}.ck.ck-toolbar.ck-toolbar_vertical{padding:0}.ck.ck-toolbar.ck-toolbar_vertical>.ck-toolbar__items>.ck{border-radius:0;margin:0;width:100%}.ck.ck-toolbar.ck-toolbar_compact{padding:0}.ck.ck-toolbar.ck-toolbar_compact>.ck-toolbar__items>*{margin:0}.ck.ck-toolbar.ck-toolbar_compact>.ck-toolbar__items>:not(:first-child):not(:last-child){border-radius:0}.ck.ck-toolbar>.ck.ck-toolbar__grouped-dropdown>.ck.ck-button.ck-dropdown__button{padding-left:var(--ck-spacing-tiny)}.ck.ck-toolbar .ck-toolbar__nested-toolbar-dropdown>.ck-dropdown__panel{min-width:auto}.ck.ck-toolbar .ck-toolbar__nested-toolbar-dropdown>.ck-button>.ck-button__label{max-width:7em;width:auto}.ck.ck-toolbar:focus{outline:none}.ck-toolbar-container .ck.ck-toolbar{border:0}.ck.ck-toolbar[dir=rtl]>.ck-toolbar__items>.ck,[dir=rtl] .ck.ck-toolbar>.ck-toolbar__items>.ck{margin-right:0}.ck.ck-toolbar[dir=rtl]:not(.ck-toolbar_compact)>.ck-toolbar__items>.ck,[dir=rtl] .ck.ck-toolbar:not(.ck-toolbar_compact)>.ck-toolbar__items>.ck{margin-left:var(--ck-spacing-small)}.ck.ck-toolbar[dir=rtl]>.ck-toolbar__items>.ck:last-child,[dir=rtl] .ck.ck-toolbar>.ck-toolbar__items>.ck:last-child{margin-left:0}.ck.ck-toolbar.ck-toolbar_compact[dir=rtl]>.ck-toolbar__items>.ck:first-child,[dir=rtl] .ck.ck-toolbar.ck-toolbar_compact>.ck-toolbar__items>.ck:first-child{border-bottom-left-radius:0;border-top-left-radius:0}.ck.ck-toolbar.ck-toolbar_compact[dir=rtl]>.ck-toolbar__items>.ck:last-child,[dir=rtl] .ck.ck-toolbar.ck-toolbar_compact>.ck-toolbar__items>.ck:last-child{border-bottom-right-radius:0;border-top-right-radius:0}.ck.ck-toolbar.ck-toolbar_grouping[dir=rtl]>.ck-toolbar__items:not(:empty):not(:only-child),.ck.ck-toolbar[dir=rtl]>.ck.ck-toolbar__separator,[dir=rtl] .ck.ck-toolbar.ck-toolbar_grouping>.ck-toolbar__items:not(:empty):not(:only-child),[dir=rtl] .ck.ck-toolbar>.ck.ck-toolbar__separator{margin-left:var(--ck-spacing-small)}.ck.ck-toolbar[dir=ltr]>.ck-toolbar__items>.ck:last-child,[dir=ltr] .ck.ck-toolbar>.ck-toolbar__items>.ck:last-child{margin-right:0}.ck.ck-toolbar.ck-toolbar_compact[dir=ltr]>.ck-toolbar__items>.ck:first-child,[dir=ltr] .ck.ck-toolbar.ck-toolbar_compact>.ck-toolbar__items>.ck:first-child{border-bottom-right-radius:0;border-top-right-radius:0}.ck.ck-toolbar.ck-toolbar_compact[dir=ltr]>.ck-toolbar__items>.ck:last-child,[dir=ltr] .ck.ck-toolbar.ck-toolbar_compact>.ck-toolbar__items>.ck:last-child{border-bottom-left-radius:0;border-top-left-radius:0}.ck.ck-toolbar.ck-toolbar_grouping[dir=ltr]>.ck-toolbar__items:not(:empty):not(:only-child),.ck.ck-toolbar[dir=ltr]>.ck.ck-toolbar__separator,[dir=ltr] .ck.ck-toolbar.ck-toolbar_grouping>.ck-toolbar__items:not(:empty):not(:only-child),[dir=ltr] .ck.ck-toolbar>.ck.ck-toolbar__separator{margin-right:var(--ck-spacing-small)}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/toolbar/toolbar.css", "webpack://./../ckeditor5-ui/theme/mixins/_unselectable.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/toolbar/toolbar.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_rounded.css"], names: [], mappings: "AAOA,eAKC,kBAAmB,CAFnB,YAAa,CACb,oBAAqB,CCFrB,qBAAsB,CACtB,wBAAyB,CACzB,oBAAqB,CACrB,gBD6CD,CA3CC,kCAGC,kBAAmB,CAFnB,YAAa,CACb,kBAAmB,CAEnB,WAED,CAEA,yCACC,oBAWD,CAJC,yGAEC,YACD,CAGD,uCACC,eACD,CAEA,sDACC,gBACD,CAEA,sDACC,qBACD,CAEA,sDACC,gBACD,CAGC,yFACC,YACD,CE/CF,eCGC,eDwGD,CA3GA,qECOE,qCDoGF,CA3GA,eAGC,6CAA8C,CAE9C,+CAAgD,CADhD,iCAuGD,CApGC,yCACC,kBAAmB,CAGnB,yCAA0C,CAO1C,qCAAsC,CADtC,kCAAmC,CAPnC,aAAc,CADd,SAUD,CAEA,uCACC,QACD,CAGC,gEAEC,oCACD,CAIA,kEACC,YACD,CAGD,gHAIC,qCAAsC,CADtC,kCAED,CAEA,mCAEC,SAaD,CAVC,0DAQC,eAAgB,CAHhB,QAAS,CAHT,UAOD,CAGD,kCAEC,SAWD,CATC,uDAEC,QAMD,CAHC,yFACC,eACD,CASD,kFACC,mCACD,CAMA,wEACC,cACD,CAEA,iFACC,aAAc,CACd,UACD,CAGD,qBACC,YACD,CAtGD,qCAyGE,QAEF,CAYC,+FACC,cACD,CAEA,iJAEC,mCACD,CAEA,qHACC,aACD,CAIC,6JAEC,2BAA4B,CAD5B,wBAED,CAGA,2JAEC,4BAA6B,CAD7B,yBAED,CASD,8RACC,mCACD,CAWA,qHACC,cACD,CAIC,6JAEC,4BAA6B,CAD7B,yBAED,CAGA,2JAEC,2BAA4B,CAD5B,wBAED,CASD,8RACC,oCACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -7735,9 +7735,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3332: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3332: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck.ck-balloon-panel.ck-tooltip{--ck-balloon-border-width:0px;--ck-balloon-arrow-offset:0px;--ck-balloon-arrow-half-width:4px;--ck-balloon-arrow-height:4px;--ck-color-panel-background:var(--ck-color-tooltip-background);padding:0 var(--ck-spacing-medium);pointer-events:none;z-index:calc(var(--ck-z-modal) + 100)}.ck.ck-balloon-panel.ck-tooltip .ck-tooltip__text{color:var(--ck-color-tooltip-text);font-size:.9em;line-height:1.5}.ck.ck-balloon-panel.ck-tooltip{box-shadow:none}.ck.ck-balloon-panel.ck-tooltip:before{display:none}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/components/tooltip/tooltip.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/components/tooltip/tooltip.css"], names: [], mappings: "AAKA,gCCGC,6BAA8B,CAC9B,6BAA8B,CAC9B,iCAAkC,CAClC,6BAA8B,CAC9B,8DAA+D,CAE/D,kCAAmC,CDPnC,mBAAoB,CAEpB,qCACD,CCMC,kDAGC,kCAAmC,CAFnC,cAAe,CACf,eAED,CAbD,gCAgBC,eAMD,CAHC,uCACC,YACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -7781,9 +7781,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4793: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4793: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck-hidden{display:none!important}.ck-reset_all :not(.ck-reset_all-excluded *),.ck.ck-reset,.ck.ck-reset_all{box-sizing:border-box;height:auto;position:static;width:auto}:root{--ck-z-default:1;--ck-z-modal:calc(var(--ck-z-default) + 999)}.ck-transitions-disabled,.ck-transitions-disabled *{transition:none!important}:root{--ck-powered-by-line-height:10px;--ck-powered-by-padding-vertical:2px;--ck-powered-by-padding-horizontal:4px;--ck-powered-by-text-color:#4f4f4f;--ck-powered-by-border-radius:var(--ck-border-radius);--ck-powered-by-background:#fff;--ck-powered-by-border-color:var(--ck-color-focus-border)}.ck.ck-balloon-panel.ck-powered-by-balloon{--ck-border-radius:var(--ck-powered-by-border-radius);background:var(--ck-powered-by-background);border:0;box-shadow:none;min-height:unset}.ck.ck-balloon-panel.ck-powered-by-balloon .ck.ck-powered-by{line-height:var(--ck-powered-by-line-height)}.ck.ck-balloon-panel.ck-powered-by-balloon .ck.ck-powered-by a{align-items:center;cursor:pointer;display:flex;filter:grayscale(80%);line-height:var(--ck-powered-by-line-height);opacity:.66;padding:var(--ck-powered-by-padding-vertical) var(--ck-powered-by-padding-horizontal)}.ck.ck-balloon-panel.ck-powered-by-balloon .ck.ck-powered-by .ck-powered-by__label{color:var(--ck-powered-by-text-color);cursor:pointer;font-size:7.5px;font-weight:700;letter-spacing:-.2px;line-height:normal;margin-right:4px;padding-left:2px;text-transform:uppercase}.ck.ck-balloon-panel.ck-powered-by-balloon .ck.ck-powered-by .ck-icon{cursor:pointer;display:block}.ck.ck-balloon-panel.ck-powered-by-balloon .ck.ck-powered-by:hover a{filter:grayscale(0);opacity:1}.ck.ck-balloon-panel.ck-powered-by-balloon[class*=position_border]{border:var(--ck-focus-ring);border-color:var(--ck-powered-by-border-color)}:root{--ck-color-base-foreground:#fafafa;--ck-color-base-background:#fff;--ck-color-base-border:#ccced1;--ck-color-base-action:#53a336;--ck-color-base-focus:#6cb5f9;--ck-color-base-text:#333;--ck-color-base-active:#2977ff;--ck-color-base-active-focus:#0d65ff;--ck-color-base-error:#db3700;--ck-color-focus-border-coordinates:218,81.8%,56.9%;--ck-color-focus-border:hsl(var(--ck-color-focus-border-coordinates));--ck-color-focus-outer-shadow:#cae1fc;--ck-color-focus-disabled-shadow:rgba(119,186,248,.3);--ck-color-focus-error-shadow:rgba(255,64,31,.3);--ck-color-text:var(--ck-color-base-text);--ck-color-shadow-drop:rgba(0,0,0,.15);--ck-color-shadow-drop-active:rgba(0,0,0,.2);--ck-color-shadow-inner:rgba(0,0,0,.1);--ck-color-button-default-background:transparent;--ck-color-button-default-hover-background:#f0f0f0;--ck-color-button-default-active-background:#f0f0f0;--ck-color-button-default-disabled-background:transparent;--ck-color-button-on-background:#f0f7ff;--ck-color-button-on-hover-background:#dbecff;--ck-color-button-on-active-background:#dbecff;--ck-color-button-on-disabled-background:#f0f2f4;--ck-color-button-on-color:#2977ff;--ck-color-button-action-background:var(--ck-color-base-action);--ck-color-button-action-hover-background:#4d9d30;--ck-color-button-action-active-background:#4d9d30;--ck-color-button-action-disabled-background:#7ec365;--ck-color-button-action-text:var(--ck-color-base-background);--ck-color-button-save:#008a00;--ck-color-button-cancel:#db3700;--ck-color-switch-button-off-background:#939393;--ck-color-switch-button-off-hover-background:#7d7d7d;--ck-color-switch-button-on-background:var(--ck-color-button-action-background);--ck-color-switch-button-on-hover-background:#4d9d30;--ck-color-switch-button-inner-background:var(--ck-color-base-background);--ck-color-switch-button-inner-shadow:rgba(0,0,0,.1);--ck-color-dropdown-panel-background:var(--ck-color-base-background);--ck-color-dropdown-panel-border:var(--ck-color-base-border);--ck-color-input-background:var(--ck-color-base-background);--ck-color-input-border:var(--ck-color-base-border);--ck-color-input-error-border:var(--ck-color-base-error);--ck-color-input-text:var(--ck-color-base-text);--ck-color-input-disabled-background:#f2f2f2;--ck-color-input-disabled-border:var(--ck-color-base-border);--ck-color-input-disabled-text:#757575;--ck-color-list-background:var(--ck-color-base-background);--ck-color-list-button-hover-background:var(--ck-color-button-default-hover-background);--ck-color-list-button-on-background:var(--ck-color-button-on-color);--ck-color-list-button-on-background-focus:var(--ck-color-button-on-color);--ck-color-list-button-on-text:var(--ck-color-base-background);--ck-color-panel-background:var(--ck-color-base-background);--ck-color-panel-border:var(--ck-color-base-border);--ck-color-toolbar-background:var(--ck-color-base-background);--ck-color-toolbar-border:var(--ck-color-base-border);--ck-color-tooltip-background:var(--ck-color-base-text);--ck-color-tooltip-text:var(--ck-color-base-background);--ck-color-engine-placeholder-text:#707070;--ck-color-upload-bar-background:#6cb5f9;--ck-color-link-default:#0000f0;--ck-color-link-selected-background:rgba(31,176,255,.1);--ck-color-link-fake-selection:rgba(31,176,255,.3);--ck-color-highlight-background:#ff0;--ck-disabled-opacity:.5;--ck-focus-outer-shadow-geometry:0 0 0 3px;--ck-focus-outer-shadow:var(--ck-focus-outer-shadow-geometry) var(--ck-color-focus-outer-shadow);--ck-focus-disabled-outer-shadow:var(--ck-focus-outer-shadow-geometry) var(--ck-color-focus-disabled-shadow);--ck-focus-error-outer-shadow:var(--ck-focus-outer-shadow-geometry) var(--ck-color-focus-error-shadow);--ck-focus-ring:1px solid var(--ck-color-focus-border);--ck-font-size-base:13px;--ck-line-height-base:1.84615;--ck-font-face:Helvetica,Arial,Tahoma,Verdana,Sans-Serif;--ck-font-size-tiny:0.7em;--ck-font-size-small:0.75em;--ck-font-size-normal:1em;--ck-font-size-big:1.4em;--ck-font-size-large:1.8em;--ck-ui-component-min-height:2.3em}.ck-reset_all :not(.ck-reset_all-excluded *),.ck.ck-reset,.ck.ck-reset_all{word-wrap:break-word;background:transparent;border:0;margin:0;padding:0;text-decoration:none;transition:none;vertical-align:middle}.ck-reset_all :not(.ck-reset_all-excluded *),.ck.ck-reset_all{border-collapse:collapse;color:var(--ck-color-text);cursor:auto;float:none;font:normal normal normal var(--ck-font-size-base)/var(--ck-line-height-base) var(--ck-font-face);text-align:left;white-space:nowrap}.ck-reset_all .ck-rtl :not(.ck-reset_all-excluded *){text-align:right}.ck-reset_all iframe:not(.ck-reset_all-excluded *){vertical-align:inherit}.ck-reset_all textarea:not(.ck-reset_all-excluded *){white-space:pre-wrap}.ck-reset_all input[type=password]:not(.ck-reset_all-excluded *),.ck-reset_all input[type=text]:not(.ck-reset_all-excluded *),.ck-reset_all textarea:not(.ck-reset_all-excluded *){cursor:text}.ck-reset_all input[type=password][disabled]:not(.ck-reset_all-excluded *),.ck-reset_all input[type=text][disabled]:not(.ck-reset_all-excluded *),.ck-reset_all textarea[disabled]:not(.ck-reset_all-excluded *){cursor:default}.ck-reset_all fieldset:not(.ck-reset_all-excluded *){border:2px groove #dfdee3;padding:10px}.ck-reset_all button:not(.ck-reset_all-excluded *)::-moz-focus-inner{border:0;padding:0}.ck[dir=rtl],.ck[dir=rtl] .ck{text-align:right}:root{--ck-border-radius:2px;--ck-inner-shadow:2px 2px 3px var(--ck-color-shadow-inner) inset;--ck-drop-shadow:0 1px 2px 1px var(--ck-color-shadow-drop);--ck-drop-shadow-active:0 3px 6px 1px var(--ck-color-shadow-drop-active);--ck-spacing-unit:0.6em;--ck-spacing-large:calc(var(--ck-spacing-unit)*1.5);--ck-spacing-standard:var(--ck-spacing-unit);--ck-spacing-medium:calc(var(--ck-spacing-unit)*0.8);--ck-spacing-small:calc(var(--ck-spacing-unit)*0.5);--ck-spacing-tiny:calc(var(--ck-spacing-unit)*0.3);--ck-spacing-extra-tiny:calc(var(--ck-spacing-unit)*0.16)}", "", { version: 3, sources: ["webpack://./../ckeditor5-ui/theme/globals/_hidden.css", "webpack://./../ckeditor5-ui/theme/globals/_reset.css", "webpack://./../ckeditor5-ui/theme/globals/_zindex.css", "webpack://./../ckeditor5-ui/theme/globals/_transition.css", "webpack://./../ckeditor5-ui/theme/globals/_poweredby.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/globals/_colors.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/globals/_disabled.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/globals/_focus.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/globals/_fonts.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/globals/_reset.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/globals/_rounded.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/globals/_shadow.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-ui/globals/_spacing.css"], names: [], mappings: "AAQA,WAGC,sBACD,CCPA,2EAGC,qBAAsB,CAEtB,WAAY,CACZ,eAAgB,CAFhB,UAGD,CCPA,MACC,gBAAiB,CACjB,4CACD,CCAA,oDAEC,yBACD,CCNA,MACC,gCAAiC,CACjC,oCAAqC,CACrC,sCAAuC,CACvC,kCAA2C,CAC3C,qDAAsD,CACtD,+BAA4C,CAC5C,yDACD,CAEA,2CACC,qDAAsD,CAItD,0CAA2C,CAF3C,QAAS,CACT,eAAgB,CAEhB,gBA6CD,CA3CC,6DACC,4CAoCD,CAlCC,+DAGC,kBAAmB,CAFnB,cAAe,CACf,YAAa,CAGb,qBAAsB,CACtB,4CAA6C,CAF7C,WAAY,CAGZ,qFACD,CAEA,mFASC,qCAAsC,CAFtC,cAAe,CANf,eAAgB,CAIhB,eAAiB,CAHjB,oBAAqB,CAMrB,kBAAmB,CAFnB,gBAAiB,CAHjB,gBAAiB,CACjB,wBAOD,CAEA,sEAEC,cAAe,CADf,aAED,CAGC,qEACC,mBAAqB,CACrB,SACD,CAIF,mEACC,2BAA4B,CAC5B,8CACD,CC5DD,MACC,kCAAmD,CACnD,+BAAoD,CACpD,8BAAkD,CAClD,8BAAuD,CACvD,6BAAmD,CACnD,yBAA+C,CAC/C,8BAAsD,CACtD,oCAA4D,CAC5D,6BAAkD,CAIlD,mDAA4D,CAC5D,qEAA+E,CAC/E,qCAA4D,CAC5D,qDAA8D,CAC9D,gDAAyD,CACzD,yCAAqD,CACrD,sCAAsD,CACtD,4CAA0D,CAC1D,sCAAsD,CAItD,gDAAuD,CACvD,kDAAiE,CACjE,mDAAkE,CAClE,yDAA8D,CAE9D,uCAA6D,CAC7D,6CAAoE,CACpE,8CAAoE,CACpE,gDAAiE,CACjE,kCAAyD,CAGzD,+DAAsE,CACtE,iDAAsE,CACtE,kDAAsE,CACtE,oDAAoE,CACpE,6DAAsE,CAEtE,8BAAoD,CACpD,gCAAqD,CAErD,+CAA8D,CAC9D,qDAAiE,CACjE,+EAAqF,CACrF,oDAAuE,CACvE,yEAA8E,CAC9E,oDAAgE,CAIhE,oEAA2E,CAC3E,4DAAoE,CAIpE,2DAAoE,CACpE,mDAA6D,CAC7D,wDAAgE,CAChE,+CAA0D,CAC1D,4CAA2D,CAC3D,4DAAoE,CACpE,sCAAsD,CAItD,0DAAmE,CACnE,uFAA6F,CAC7F,oEAA2E,CAC3E,0EAA+E,CAC/E,8DAAsE,CAItE,2DAAoE,CACpE,mDAA6D,CAI7D,6DAAsE,CACtE,qDAA+D,CAI/D,uDAAgE,CAChE,uDAAiE,CAIjE,0CAAyD,CAIzD,wCAA2D,CAI3D,+BAAoD,CACpD,uDAAmE,CACnE,kDAAgE,CAIhE,oCAAwD,CCvGxD,wBAAyB,CCAzB,0CAA2C,CAK3C,gGAAiG,CAKjG,4GAA6G,CAK7G,sGAAuG,CAKvG,sDAAuD,CCvBvD,wBAAyB,CACzB,6BAA8B,CAC9B,wDAA6D,CAE7D,yBAA0B,CAC1B,2BAA4B,CAC5B,yBAA0B,CAC1B,wBAAyB,CACzB,0BAA2B,CCJ3B,kCJuGD,CIjGA,2EAaC,oBAAqB,CANrB,sBAAuB,CADvB,QAAS,CAFT,QAAS,CACT,SAAU,CAGV,oBAAqB,CAErB,eAAgB,CADhB,qBAKD,CAKA,8DAGC,wBAAyB,CAEzB,0BAA2B,CAG3B,WAAY,CACZ,UAAW,CALX,iGAAkG,CAElG,eAAgB,CAChB,kBAGD,CAGC,qDACC,gBACD,CAEA,mDAEC,sBACD,CAEA,qDACC,oBACD,CAEA,mLAGC,WACD,CAEA,iNAGC,cACD,CAEA,qDAEC,yBAAoC,CADpC,YAED,CAEA,qEAGC,QAAQ,CADR,SAED,CAMD,8BAEC,gBACD,CCnFA,MACC,sBAAuB,CCAvB,gEAAiE,CAKjE,0DAA2D,CAK3D,wEAAyE,CCbzE,uBAA8B,CAC9B,mDAA2D,CAC3D,4CAAkD,CAClD,oDAA4D,CAC5D,mDAA2D,CAC3D,kDAA2D,CAC3D,yDFFD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -8211,9 +8211,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 3488: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 3488: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ":root{--ck-color-resizer:var(--ck-color-focus-border);--ck-color-resizer-tooltip-background:#262626;--ck-color-resizer-tooltip-text:#f2f2f2;--ck-resizer-border-radius:var(--ck-border-radius);--ck-resizer-tooltip-offset:10px;--ck-resizer-tooltip-height:calc(var(--ck-spacing-small)*2 + 10px)}.ck .ck-widget,.ck .ck-widget.ck-widget_with-selection-handle{position:relative}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle{position:absolute}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle .ck-icon{display:block}.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle,.ck .ck-widget.ck-widget_with-selection-handle:hover>.ck-widget__selection-handle{visibility:visible}.ck .ck-size-view{background:var(--ck-color-resizer-tooltip-background);border:1px solid var(--ck-color-resizer-tooltip-text);border-radius:var(--ck-resizer-border-radius);color:var(--ck-color-resizer-tooltip-text);display:block;font-size:var(--ck-font-size-tiny);height:var(--ck-resizer-tooltip-height);line-height:var(--ck-resizer-tooltip-height);padding:0 var(--ck-spacing-small)}.ck .ck-size-view.ck-orientation-above-center,.ck .ck-size-view.ck-orientation-bottom-left,.ck .ck-size-view.ck-orientation-bottom-right,.ck .ck-size-view.ck-orientation-top-left,.ck .ck-size-view.ck-orientation-top-right{position:absolute}.ck .ck-size-view.ck-orientation-top-left{left:var(--ck-resizer-tooltip-offset);top:var(--ck-resizer-tooltip-offset)}.ck .ck-size-view.ck-orientation-top-right{right:var(--ck-resizer-tooltip-offset);top:var(--ck-resizer-tooltip-offset)}.ck .ck-size-view.ck-orientation-bottom-right{bottom:var(--ck-resizer-tooltip-offset);right:var(--ck-resizer-tooltip-offset)}.ck .ck-size-view.ck-orientation-bottom-left{bottom:var(--ck-resizer-tooltip-offset);left:var(--ck-resizer-tooltip-offset)}.ck .ck-size-view.ck-orientation-above-center{left:50%;top:calc(var(--ck-resizer-tooltip-height)*-1);transform:translate(-50%)}:root{--ck-widget-outline-thickness:3px;--ck-widget-handler-icon-size:16px;--ck-widget-handler-animation-duration:200ms;--ck-widget-handler-animation-curve:ease;--ck-color-widget-blurred-border:#dedede;--ck-color-widget-hover-border:#ffc83d;--ck-color-widget-editable-focus-background:var(--ck-color-base-background);--ck-color-widget-drag-handler-icon-color:var(--ck-color-base-background)}.ck .ck-widget{outline-color:transparent;outline-style:solid;outline-width:var(--ck-widget-outline-thickness);transition:outline-color var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve)}.ck .ck-widget.ck-widget_selected,.ck .ck-widget.ck-widget_selected:hover{outline:var(--ck-widget-outline-thickness) solid var(--ck-color-focus-border)}.ck .ck-widget:hover{outline-color:var(--ck-color-widget-hover-border)}.ck .ck-editor__nested-editable{border:1px solid transparent}.ck .ck-editor__nested-editable.ck-editor__nested-editable_focused,.ck .ck-editor__nested-editable:focus{background-color:var(--ck-color-widget-editable-focus-background);border:var(--ck-focus-ring);box-shadow:var(--ck-inner-shadow),0 0;outline:none}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle{background-color:transparent;border-radius:var(--ck-border-radius) var(--ck-border-radius) 0 0;box-sizing:border-box;left:calc(0px - var(--ck-widget-outline-thickness));opacity:0;padding:4px;top:0;transform:translateY(-100%);transition:background-color var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),visibility var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),opacity var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve)}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle .ck-icon{color:var(--ck-color-widget-drag-handler-icon-color);height:var(--ck-widget-handler-icon-size);width:var(--ck-widget-handler-icon-size)}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle .ck-icon .ck-icon__selected-indicator{opacity:0;transition:opacity .3s var(--ck-widget-handler-animation-curve)}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle:hover .ck-icon .ck-icon__selected-indicator{opacity:1}.ck .ck-widget.ck-widget_with-selection-handle:hover>.ck-widget__selection-handle{background-color:var(--ck-color-widget-hover-border);opacity:1}.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected:hover>.ck-widget__selection-handle,.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle{background-color:var(--ck-color-focus-border);opacity:1}.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected:hover>.ck-widget__selection-handle .ck-icon .ck-icon__selected-indicator,.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle .ck-icon .ck-icon__selected-indicator{opacity:1}.ck[dir=rtl] .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle{left:auto;right:calc(0px - var(--ck-widget-outline-thickness))}.ck.ck-editor__editable.ck-read-only .ck-widget{transition:none}.ck.ck-editor__editable.ck-read-only .ck-widget:not(.ck-widget_selected){--ck-widget-outline-thickness:0px}.ck.ck-editor__editable.ck-read-only .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle,.ck.ck-editor__editable.ck-read-only .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle:hover{background:var(--ck-color-widget-blurred-border)}.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover{outline-color:var(--ck-color-widget-blurred-border)}.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle:hover>.ck-widget__selection-handle,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle:hover>.ck-widget__selection-handle:hover,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle>.ck-widget__selection-handle,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle>.ck-widget__selection-handle:hover{background:var(--ck-color-widget-blurred-border)}.ck.ck-editor__editable blockquote>.ck-widget.ck-widget_with-selection-handle:first-child,.ck.ck-editor__editable>.ck-widget.ck-widget_with-selection-handle:first-child{margin-top:calc(1em + var(--ck-widget-handler-icon-size))}", "", { version: 3, sources: ["webpack://./../ckeditor5-widget/theme/widget.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-widget/widget.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_focus.css", "webpack://./../ckeditor5-theme-lark/theme/mixins/_shadow.css"], names: [], mappings: "AAKA,MACC,+CAAgD,CAChD,6CAAsD,CACtD,uCAAgD,CAEhD,kDAAmD,CACnD,gCAAiC,CACjC,kEACD,CAOA,8DAEC,iBAqBD,CAnBC,4EACC,iBAOD,CALC,qFAGC,aACD,CASD,iLACC,kBACD,CAGD,kBACC,qDAAsD,CAEtD,qDAAsD,CACtD,6CAA8C,CAF9C,0CAA2C,CAI3C,aAAc,CADd,kCAAmC,CAGnC,uCAAwC,CACxC,4CAA6C,CAF7C,iCAsCD,CAlCC,8NAKC,iBACD,CAEA,0CAEC,qCAAsC,CADtC,oCAED,CAEA,2CAEC,sCAAuC,CADvC,oCAED,CAEA,8CACC,uCAAwC,CACxC,sCACD,CAEA,6CACC,uCAAwC,CACxC,qCACD,CAGA,8CAEC,QAAS,CADT,6CAAgD,CAEhD,yBACD,CCjFD,MACC,iCAAkC,CAClC,kCAAmC,CACnC,4CAA6C,CAC7C,wCAAyC,CAEzC,wCAAiD,CACjD,sCAAkD,CAClD,2EAA4E,CAC5E,yEACD,CAEA,eAGC,yBAA0B,CAD1B,mBAAoB,CADpB,gDAAiD,CAGjD,6GAUD,CARC,0EAEC,6EACD,CAEA,qBACC,iDACD,CAGD,gCACC,4BAWD,CAPC,yGAKC,iEAAkE,CCnCnE,2BAA2B,CCF3B,qCAA8B,CDC9B,YDqCA,CAIA,4EAKC,4BAA6B,CAa7B,iEAAkE,CAhBlE,qBAAsB,CAoBtB,mDAAoD,CAhBpD,SAAU,CALV,WAAY,CAsBZ,KAAM,CAFN,2BAA4B,CAT5B,6SAgCD,CAnBC,qFAIC,oDAAqD,CADrD,yCAA0C,CAD1C,wCAWD,CANC,kHACC,SAAU,CAGV,+DACD,CAID,wHACC,SACD,CAID,kFAEC,oDAAqD,CADrD,SAED,CAKC,oMAEC,6CAA8C,CAD9C,SAOD,CAHC,gRACC,SACD,CAOH,qFACC,SAAU,CACV,oDACD,CAGA,gDAEC,eAkBD,CAhBC,yEAOC,iCACD,CAGC,gOAEC,gDACD,CAOD,wIAEC,mDAQD,CALE,ghBAEC,gDACD,CAKH,yKAOC,yDACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -8511,9 +8511,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 8506: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 8506: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".ck .ck-widget_with-resizer{position:relative}.ck .ck-widget__resizer{display:none;left:0;pointer-events:none;position:absolute;top:0}.ck-focused .ck-widget_with-resizer.ck-widget_selected>.ck-widget__resizer{display:block}.ck .ck-widget__resizer__handle{pointer-events:all;position:absolute}.ck .ck-widget__resizer__handle.ck-widget__resizer__handle-bottom-right,.ck .ck-widget__resizer__handle.ck-widget__resizer__handle-top-left{cursor:nwse-resize}.ck .ck-widget__resizer__handle.ck-widget__resizer__handle-bottom-left,.ck .ck-widget__resizer__handle.ck-widget__resizer__handle-top-right{cursor:nesw-resize}:root{--ck-resizer-size:10px;--ck-resizer-offset:calc(var(--ck-resizer-size)/-2 - 2px);--ck-resizer-border-width:1px}.ck .ck-widget__resizer{outline:1px solid var(--ck-color-resizer)}.ck .ck-widget__resizer__handle{background:var(--ck-color-focus-border);border:var(--ck-resizer-border-width) solid #fff;border-radius:var(--ck-resizer-border-radius);height:var(--ck-resizer-size);width:var(--ck-resizer-size)}.ck .ck-widget__resizer__handle.ck-widget__resizer__handle-top-left{left:var(--ck-resizer-offset);top:var(--ck-resizer-offset)}.ck .ck-widget__resizer__handle.ck-widget__resizer__handle-top-right{right:var(--ck-resizer-offset);top:var(--ck-resizer-offset)}.ck .ck-widget__resizer__handle.ck-widget__resizer__handle-bottom-right{bottom:var(--ck-resizer-offset);right:var(--ck-resizer-offset)}.ck .ck-widget__resizer__handle.ck-widget__resizer__handle-bottom-left{bottom:var(--ck-resizer-offset);left:var(--ck-resizer-offset)}", "", { version: 3, sources: ["webpack://./../ckeditor5-widget/theme/widgetresize.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-widget/widgetresize.css"], names: [], mappings: "AAKA,4BAEC,iBACD,CAEA,wBACC,YAAa,CAMb,MAAO,CAFP,mBAAoB,CAHpB,iBAAkB,CAMlB,KACD,CAGC,2EACC,aACD,CAGD,gCAIC,kBAAmB,CAHnB,iBAcD,CATC,4IAEC,kBACD,CAEA,4IAEC,kBACD,CCpCD,MACC,sBAAuB,CAGvB,yDAAiE,CACjE,6BACD,CAEA,wBACC,yCACD,CAEA,gCAGC,uCAAwC,CACxC,gDAA6D,CAC7D,6CAA8C,CAH9C,6BAA8B,CAD9B,4BAyBD,CAnBC,oEAEC,6BAA8B,CAD9B,4BAED,CAEA,qEAEC,8BAA+B,CAD/B,4BAED,CAEA,wEACC,+BAAgC,CAChC,8BACD,CAEA,uEACC,+BAAgC,CAChC,6BACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -8603,9 +8603,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 4921: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 4921: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, '.ck .ck-widget .ck-widget__type-around__button{display:block;overflow:hidden;position:absolute;z-index:var(--ck-z-default)}.ck .ck-widget .ck-widget__type-around__button svg{left:50%;position:absolute;top:50%;z-index:calc(var(--ck-z-default) + 2)}.ck .ck-widget .ck-widget__type-around__button.ck-widget__type-around__button_before{left:min(10%,30px);top:calc(var(--ck-widget-outline-thickness)*-.5);transform:translateY(-50%)}.ck .ck-widget .ck-widget__type-around__button.ck-widget__type-around__button_after{bottom:calc(var(--ck-widget-outline-thickness)*-.5);right:min(10%,30px);transform:translateY(50%)}.ck .ck-widget.ck-widget_selected>.ck-widget__type-around>.ck-widget__type-around__button:after,.ck .ck-widget>.ck-widget__type-around>.ck-widget__type-around__button:hover:after{content:"";display:block;left:1px;position:absolute;top:1px;z-index:calc(var(--ck-z-default) + 1)}.ck .ck-widget>.ck-widget__type-around>.ck-widget__type-around__fake-caret{display:none;left:0;position:absolute;right:0}.ck .ck-widget:hover>.ck-widget__type-around>.ck-widget__type-around__fake-caret{left:calc(var(--ck-widget-outline-thickness)*-1);right:calc(var(--ck-widget-outline-thickness)*-1)}.ck .ck-widget.ck-widget_type-around_show-fake-caret_before>.ck-widget__type-around>.ck-widget__type-around__fake-caret{display:block;top:calc(var(--ck-widget-outline-thickness)*-1 - 1px)}.ck .ck-widget.ck-widget_type-around_show-fake-caret_after>.ck-widget__type-around>.ck-widget__type-around__fake-caret{bottom:calc(var(--ck-widget-outline-thickness)*-1 - 1px);display:block}.ck.ck-editor__editable.ck-read-only .ck-widget__type-around,.ck.ck-editor__editable.ck-restricted-editing_mode_restricted .ck-widget__type-around,.ck.ck-editor__editable.ck-widget__type-around_disabled .ck-widget__type-around{display:none}:root{--ck-widget-type-around-button-size:20px;--ck-color-widget-type-around-button-active:var(--ck-color-focus-border);--ck-color-widget-type-around-button-hover:var(--ck-color-widget-hover-border);--ck-color-widget-type-around-button-blurred-editable:var(--ck-color-widget-blurred-border);--ck-color-widget-type-around-button-radar-start-alpha:0;--ck-color-widget-type-around-button-radar-end-alpha:.3;--ck-color-widget-type-around-button-icon:var(--ck-color-base-background)}.ck .ck-widget .ck-widget__type-around__button{background:var(--ck-color-widget-type-around-button);border-radius:100px;height:var(--ck-widget-type-around-button-size);opacity:0;pointer-events:none;transition:opacity var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),background var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve);width:var(--ck-widget-type-around-button-size)}.ck .ck-widget .ck-widget__type-around__button svg{height:8px;margin-top:1px;transform:translate(-50%,-50%);transition:transform .5s ease;width:10px}.ck .ck-widget .ck-widget__type-around__button svg *{stroke-dasharray:10;stroke-dashoffset:0;fill:none;stroke:var(--ck-color-widget-type-around-button-icon);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round}.ck .ck-widget .ck-widget__type-around__button svg line{stroke-dasharray:7}.ck .ck-widget .ck-widget__type-around__button:hover{animation:ck-widget-type-around-button-sonar 1s ease infinite}.ck .ck-widget .ck-widget__type-around__button:hover svg polyline{animation:ck-widget-type-around-arrow-dash 2s linear}.ck .ck-widget .ck-widget__type-around__button:hover svg line{animation:ck-widget-type-around-arrow-tip-dash 2s linear}.ck .ck-widget.ck-widget_selected>.ck-widget__type-around>.ck-widget__type-around__button,.ck .ck-widget:hover>.ck-widget__type-around>.ck-widget__type-around__button{opacity:1;pointer-events:auto}.ck .ck-widget:not(.ck-widget_selected)>.ck-widget__type-around>.ck-widget__type-around__button{background:var(--ck-color-widget-type-around-button-hover)}.ck .ck-widget.ck-widget_selected>.ck-widget__type-around>.ck-widget__type-around__button,.ck .ck-widget>.ck-widget__type-around>.ck-widget__type-around__button:hover{background:var(--ck-color-widget-type-around-button-active)}.ck .ck-widget.ck-widget_selected>.ck-widget__type-around>.ck-widget__type-around__button:after,.ck .ck-widget>.ck-widget__type-around>.ck-widget__type-around__button:hover:after{background:linear-gradient(135deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.3));border-radius:100px;height:calc(var(--ck-widget-type-around-button-size) - 2px);width:calc(var(--ck-widget-type-around-button-size) - 2px)}.ck .ck-widget.ck-widget_with-selection-handle>.ck-widget__type-around>.ck-widget__type-around__button_before{margin-left:20px}.ck .ck-widget .ck-widget__type-around__fake-caret{animation:ck-widget-type-around-fake-caret-pulse 1s linear infinite normal forwards;background:var(--ck-color-base-text);height:1px;outline:1px solid hsla(0,0%,100%,.5);pointer-events:none}.ck .ck-widget.ck-widget_selected.ck-widget_type-around_show-fake-caret_after,.ck .ck-widget.ck-widget_selected.ck-widget_type-around_show-fake-caret_before{outline-color:transparent}.ck .ck-widget.ck-widget_type-around_show-fake-caret_after.ck-widget_selected:hover,.ck .ck-widget.ck-widget_type-around_show-fake-caret_before.ck-widget_selected:hover{outline-color:var(--ck-color-widget-hover-border)}.ck .ck-widget.ck-widget_type-around_show-fake-caret_after>.ck-widget__type-around>.ck-widget__type-around__button,.ck .ck-widget.ck-widget_type-around_show-fake-caret_before>.ck-widget__type-around>.ck-widget__type-around__button{opacity:0;pointer-events:none}.ck .ck-widget.ck-widget_type-around_show-fake-caret_after.ck-widget_selected.ck-widget_with-resizer>.ck-widget__resizer,.ck .ck-widget.ck-widget_type-around_show-fake-caret_after.ck-widget_with-selection-handle.ck-widget_selected:hover>.ck-widget__selection-handle,.ck .ck-widget.ck-widget_type-around_show-fake-caret_after.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle,.ck .ck-widget.ck-widget_type-around_show-fake-caret_before.ck-widget_selected.ck-widget_with-resizer>.ck-widget__resizer,.ck .ck-widget.ck-widget_type-around_show-fake-caret_before.ck-widget_with-selection-handle.ck-widget_selected:hover>.ck-widget__selection-handle,.ck .ck-widget.ck-widget_type-around_show-fake-caret_before.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle{opacity:0}.ck[dir=rtl] .ck-widget.ck-widget_with-selection-handle .ck-widget__type-around>.ck-widget__type-around__button_before{margin-left:0;margin-right:20px}.ck-editor__nested-editable.ck-editor__editable_selected .ck-widget.ck-widget_selected>.ck-widget__type-around>.ck-widget__type-around__button,.ck-editor__nested-editable.ck-editor__editable_selected .ck-widget:hover>.ck-widget__type-around>.ck-widget__type-around__button{opacity:0;pointer-events:none}.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected>.ck-widget__type-around>.ck-widget__type-around__button:not(:hover){background:var(--ck-color-widget-type-around-button-blurred-editable)}.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected>.ck-widget__type-around>.ck-widget__type-around__button:not(:hover) svg *{stroke:#999}@keyframes ck-widget-type-around-arrow-dash{0%{stroke-dashoffset:10}20%,to{stroke-dashoffset:0}}@keyframes ck-widget-type-around-arrow-tip-dash{0%,20%{stroke-dashoffset:7}40%,to{stroke-dashoffset:0}}@keyframes ck-widget-type-around-button-sonar{0%{box-shadow:0 0 0 0 hsla(var(--ck-color-focus-border-coordinates),var(--ck-color-widget-type-around-button-radar-start-alpha))}50%{box-shadow:0 0 0 5px hsla(var(--ck-color-focus-border-coordinates),var(--ck-color-widget-type-around-button-radar-end-alpha))}to{box-shadow:0 0 0 5px hsla(var(--ck-color-focus-border-coordinates),var(--ck-color-widget-type-around-button-radar-start-alpha))}}@keyframes ck-widget-type-around-fake-caret-pulse{0%{opacity:1}49%{opacity:1}50%{opacity:0}99%{opacity:0}to{opacity:1}}', "", { version: 3, sources: ["webpack://./../ckeditor5-widget/theme/widgettypearound.css", "webpack://./../ckeditor5-theme-lark/theme/ckeditor5-widget/widgettypearound.css"], names: [], mappings: "AASC,+CACC,aAAc,CAEd,eAAgB,CADhB,iBAAkB,CAElB,2BAwBD,CAtBC,mDAGC,QAAS,CAFT,iBAAkB,CAClB,OAAQ,CAER,qCACD,CAEA,qFAGC,kBAAoB,CADpB,gDAAoD,CAGpD,0BACD,CAEA,oFAEC,mDAAuD,CACvD,mBAAqB,CAErB,yBACD,CAUA,mLACC,UAAW,CACX,aAAc,CAGd,QAAS,CAFT,iBAAkB,CAClB,OAAQ,CAER,qCACD,CAMD,2EACC,YAAa,CAEb,MAAO,CADP,iBAAkB,CAElB,OACD,CAOA,iFACC,gDAAqD,CACrD,iDACD,CAKA,wHAEC,aAAc,CADd,qDAED,CAKA,uHACC,wDAA6D,CAC7D,aACD,CAoBD,mOACC,YACD,CC3GA,MACC,wCAAyC,CACzC,wEAAyE,CACzE,8EAA+E,CAC/E,2FAA4F,CAC5F,wDAAyD,CACzD,uDAAwD,CACxD,yEACD,CAgBC,+CAGC,oDAAqD,CACrD,mBAAoB,CAFpB,+CAAgD,CAVjD,SAAU,CACV,mBAAoB,CAYnB,uMAAyM,CAJzM,8CAkDD,CA1CC,mDAEC,UAAW,CAGX,cAAe,CAFf,8BAA+B,CAC/B,6BAA8B,CAH9B,UAoBD,CAdC,qDACC,mBAAoB,CACpB,mBAAoB,CAEpB,SAAU,CACV,qDAAsD,CACtD,kBAAmB,CACnB,oBAAqB,CACrB,qBACD,CAEA,wDACC,kBACD,CAGD,qDAIC,6DAcD,CARE,kEACC,oDACD,CAEA,8DACC,wDACD,CAUF,uKAvED,SAAU,CACV,mBAwEC,CAOD,gGACC,0DACD,CAOA,uKAEC,2DAQD,CANC,mLAIC,uEAAkF,CADlF,mBAAoB,CADpB,2DAA4D,CAD5D,0DAID,CAOD,8GACC,gBACD,CAKA,mDAGC,mFAAoF,CAOpF,oCAAqC,CARrC,UAAW,CAOX,oCAAwC,CARxC,mBAUD,CAOC,6JAEC,yBACD,CAUA,yKACC,iDACD,CAMA,uOAlJD,SAAU,CACV,mBAmJC,CAoBA,6yBACC,SACD,CASF,uHACC,aAAc,CACd,iBACD,CAYG,iRAlMF,SAAU,CACV,mBAmME,CAQH,kIACC,qEAKD,CAHC,wIACC,WACD,CAGD,4CACC,GACC,oBACD,CACA,OACC,mBACD,CACD,CAEA,gDACC,OACC,mBACD,CACA,OACC,mBACD,CACD,CAEA,8CACC,GACC,6HACD,CACA,IACC,6HACD,CACA,GACC,+HACD,CACD,CAEA,kDACC,GACC,SACD,CACA,IACC,SACD,CACA,IACC,SACD,CACA,IACC,SACD,CACA,GACC,SACD,CACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -9001,9 +9001,9 @@ of the component, floating–point numbers have been used which, for the default
 }
 `], sourceRoot: "" }]);
       const A = f;
-    }, 2245: (k, x, m) => {
-      m.d(x, { Z: () => A });
-      var C = m(1799), D = m.n(C), v = m(2609), f = m.n(v)()(D());
+    }, 2245: (k, S, m) => {
+      m.d(S, { Z: () => A });
+      var E = m(1799), x = m.n(E), v = m(2609), f = m.n(v)()(x());
       f.push([k.id, ".viur-txt-align--left{text-align:left}.viur-txt-align--right{text-align:right}.viur-txt-align--center{text-align:center}.viur-txt-align--justify{text-align:justify}.viur-txt-indent--1{margin-left:1em}.viur-txt-indent--2{margin-left:2em}.viur-txt-indent--3{margin-left:3em}.viur-txt-indent--4{margin-left:4em}.viur-txt-indent--5{margin-left:5em}.viur-txt-indent--6{margin-left:6em}.viur-txt-indent--7{margin-left:7em}.viur-txt-indent--8{margin-left:8em}.viur-txt-indent--9{margin-left:9em}.viur-txt-indent--10{margin-left:10em}", "", { version: 3, sources: ["webpack://./../viur/theme.css"], names: [], mappings: "AAKA,sBACC,eACD,CACA,uBACC,gBACD,CACA,wBACC,iBACD,CACA,yBACC,kBACD,CACA,oBACC,eACD,CACA,oBACC,eACD,CACA,oBACC,eACD,CACA,oBACC,eACD,CACA,oBACC,eACD,CACA,oBACC,eACD,CACA,oBACC,eACD,CACA,oBACC,eACD,CACA,oBACC,eACD,CACA,qBACC,gBACD", sourcesContent: [`/*
  * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
@@ -9055,31 +9055,31 @@ of the component, floating–point numbers have been used which, for the default
 `], sourceRoot: "" }]);
       const A = f;
     }, 2609: (k) => {
-      k.exports = function(x) {
+      k.exports = function(S) {
         var m = [];
         return m.toString = function() {
-          return this.map(function(C) {
-            var D = x(C);
-            return C[2] ? "@media ".concat(C[2], " {").concat(D, "}") : D;
+          return this.map(function(E) {
+            var x = S(E);
+            return E[2] ? "@media ".concat(E[2], " {").concat(x, "}") : x;
           }).join("");
-        }, m.i = function(C, D, v) {
-          typeof C == "string" && (C = [[null, C, ""]]);
+        }, m.i = function(E, x, v) {
+          typeof E == "string" && (E = [[null, E, ""]]);
           var f = {};
           if (v) for (var A = 0; A < this.length; A++) {
             var P = this[A][0];
             P != null && (f[P] = !0);
           }
-          for (var B = 0; B < C.length; B++) {
-            var R = [].concat(C[B]);
-            v && f[R[0]] || (D && (R[2] ? R[2] = "".concat(D, " and ").concat(R[2]) : R[2] = D), m.push(R));
+          for (var B = 0; B < E.length; B++) {
+            var R = [].concat(E[B]);
+            v && f[R[0]] || (x && (R[2] ? R[2] = "".concat(x, " and ").concat(R[2]) : R[2] = x), m.push(R));
           }
         }, m;
       };
     }, 1799: (k) => {
-      function x(C, D) {
+      function S(E, x) {
         return function(v) {
           if (Array.isArray(v)) return v;
-        }(C) || function(v, f) {
+        }(E) || function(v, f) {
           var A = v && (typeof Symbol < "u" && v[Symbol.iterator] || v["@@iterator"]);
           if (A != null) {
             var P, B, R = [], N = !0, j = !1;
@@ -9096,25 +9096,25 @@ of the component, floating–point numbers have been used which, for the default
             }
             return R;
           }
-        }(C, D) || function(v, f) {
+        }(E, x) || function(v, f) {
           if (v) {
             if (typeof v == "string") return m(v, f);
             var A = Object.prototype.toString.call(v).slice(8, -1);
             if (A === "Object" && v.constructor && (A = v.constructor.name), A === "Map" || A === "Set") return Array.from(v);
             if (A === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(A)) return m(v, f);
           }
-        }(C, D) || function() {
+        }(E, x) || function() {
           throw new TypeError(`Invalid attempt to destructure non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`);
         }();
       }
-      function m(C, D) {
-        (D == null || D > C.length) && (D = C.length);
-        for (var v = 0, f = new Array(D); v < D; v++) f[v] = C[v];
+      function m(E, x) {
+        (x == null || x > E.length) && (x = E.length);
+        for (var v = 0, f = new Array(x); v < x; v++) f[v] = E[v];
         return f;
       }
-      k.exports = function(C) {
-        var D = x(C, 4), v = D[1], f = D[3];
+      k.exports = function(E) {
+        var x = S(E, 4), v = x[1], f = x[3];
         if (!f) return v;
         if (typeof btoa == "function") {
           var A = btoa(unescape(encodeURIComponent(JSON.stringify(f)))), P = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(A), B = "/*# ".concat(P, " */"), R = f.sources.map(function(N) {
@@ -9126,9 +9126,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return [v].join(`
 `);
       };
-    }, 6062: (k, x, m) => {
-      var C, D = function() {
-        return C === void 0 && (C = !!(window && document && document.all && !window.atob)), C;
+    }, 6062: (k, S, m) => {
+      var E, x = function() {
+        return E === void 0 && (E = !!(window && document && document.all && !window.atob)), E;
       }, v = /* @__PURE__ */ function() {
         var Y = {};
         return function(ne) {
@@ -9217,7 +9217,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
       }
       k.exports = function(Y, ne) {
-        (ne = ne || {}).singleton || typeof ne.singleton == "boolean" || (ne.singleton = D());
+        (ne = ne || {}).singleton || typeof ne.singleton == "boolean" || (ne.singleton = x());
         var T = P(Y = Y || [], ne);
         return function(ee) {
           if (ee = ee || [], Object.prototype.toString.call(ee) === "[object Array]") {
@@ -9234,25 +9234,25 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         };
       };
     } }, O = {};
-    function S(k) {
-      var x = O[k];
-      if (x !== void 0) return x.exports;
+    function D(k) {
+      var S = O[k];
+      if (S !== void 0) return S.exports;
       var m = O[k] = { id: k, exports: {} };
-      return _[k](m, m.exports, S), m.exports;
+      return _[k](m, m.exports, D), m.exports;
     }
-    S.n = (k) => {
-      var x = k && k.__esModule ? () => k.default : () => k;
-      return S.d(x, { a: x }), x;
-    }, S.d = (k, x) => {
-      for (var m in x) S.o(x, m) && !S.o(k, m) && Object.defineProperty(k, m, { enumerable: !0, get: x[m] });
-    }, S.g = function() {
+    D.n = (k) => {
+      var S = k && k.__esModule ? () => k.default : () => k;
+      return D.d(S, { a: S }), S;
+    }, D.d = (k, S) => {
+      for (var m in S) D.o(S, m) && !D.o(k, m) && Object.defineProperty(k, m, { enumerable: !0, get: S[m] });
+    }, D.g = function() {
       if (typeof globalThis == "object") return globalThis;
       try {
         return this || new Function("return this")();
       } catch {
         if (typeof window == "object") return window;
       }
-    }(), S.o = (k, x) => Object.prototype.hasOwnProperty.call(k, x), S.nc = void 0;
+    }(), D.o = (k, S) => Object.prototype.hasOwnProperty.call(k, S), D.nc = void 0;
     var M = {};
     return (() => {
       function k({ emitter: o, activator: e, callback: t, contextElements: n }) {
@@ -9263,7 +9263,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           t();
         });
       }
-      function x(o) {
+      function S(o) {
         return class extends o {
           disableCssTransitions() {
             this._isCssTransitionsDisabled = !0;
@@ -9284,24 +9284,24 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           t.preventDefault(), o.fire("submit");
         }, { useCapture: !0 });
       }
-      S.d(M, { default: () => sl });
-      const C = function() {
+      D.d(M, { default: () => sl });
+      const E = function() {
         try {
           return navigator.userAgent.toLowerCase();
         } catch {
           return "";
         }
-      }(), D = { isMac: A(C), isWindows: (v = C, v.indexOf("windows") > -1), isGecko: function(o) {
+      }(), x = { isMac: A(E), isWindows: (v = E, v.indexOf("windows") > -1), isGecko: function(o) {
         return !!o.match(/gecko\/\d+/);
-      }(C), isSafari: function(o) {
+      }(E), isSafari: function(o) {
         return o.indexOf(" applewebkit/") > -1 && o.indexOf("chrome") === -1;
-      }(C), isiOS: function(o) {
+      }(E), isiOS: function(o) {
         return !!o.match(/iphone|ipad/i) || A(o) && navigator.maxTouchPoints > 0;
-      }(C), isAndroid: function(o) {
+      }(E), isAndroid: function(o) {
         return o.indexOf("android") > -1;
-      }(C), isBlink: function(o) {
+      }(E), isBlink: function(o) {
         return o.indexOf("chrome/") > -1 && o.indexOf("edge/") < 0;
-      }(C), features: { isRegExpUnicodePropertySupported: function() {
+      }(E), features: { isRegExpUnicodePropertySupported: function() {
         let o = !1;
         try {
           o = "ć".search(new RegExp("[\\p{L}]", "u")) === 0;
@@ -9310,7 +9310,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return o;
       }() } };
       var v;
-      const f = D;
+      const f = x;
       function A(o) {
         return o.indexOf("macintosh") > -1;
       }
@@ -9321,8 +9321,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         const i = Array.isArray(o) ? o : Array.prototype.slice.call(o), r = Array.isArray(e) ? e : Array.prototype.slice.call(e), s = function(l, c, d) {
           const u = B(l, c, d);
           if (u === -1) return { firstIndex: -1, lastIndexOld: -1, lastIndexNew: -1 };
-          const g = R(l, u), p = R(c, u), b = B(g, p, d), w = l.length - b, E = c.length - b;
-          return { firstIndex: u, lastIndexOld: w, lastIndexNew: E };
+          const g = R(l, u), p = R(c, u), b = B(g, p, d), w = l.length - b, y = c.length - b;
+          return { firstIndex: u, lastIndexOld: w, lastIndexNew: y };
         }(i, r, t);
         return n ? function(l, c) {
           const { firstIndex: d, lastIndexOld: u, lastIndexNew: g } = l;
@@ -9342,8 +9342,8 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         return o.slice(e).reverse();
       }
       function N(o, e, t) {
-        t = t || function(w, E) {
-          return w === E;
+        t = t || function(w, y) {
+          return w === y;
         };
         const n = o.length, i = e.length;
         if (n > 200 || i > 200 || n + i > 300) return N.fastDiff(o, e, t, !0);
@@ -9354,9 +9354,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         } else r = "insert", s = "delete";
         const a = o.length, l = e.length, c = l - a, d = {}, u = {};
         function g(w) {
-          const E = (u[w - 1] !== void 0 ? u[w - 1] : -1) + 1, I = u[w + 1] !== void 0 ? u[w + 1] : -1, z = E > I ? -1 : 1;
-          d[w + z] && (d[w] = d[w + z].slice(0)), d[w] || (d[w] = []), d[w].push(E > I ? r : s);
-          let H = Math.max(E, I), X = H - w;
+          const y = (u[w - 1] !== void 0 ? u[w - 1] : -1) + 1, I = u[w + 1] !== void 0 ? u[w + 1] : -1, z = y > I ? -1 : 1;
+          d[w + z] && (d[w] = d[w + z].slice(0)), d[w] || (d[w] = []), d[w].push(y > I ? r : s);
+          let H = Math.max(y, I), X = H - w;
           for (; X < a && H < l && t(o[X], e[H]); ) X++, H++, d[w].push("equal");
           return H;
         }
@@ -9426,7 +9426,7 @@ Read more: ${ne}#error-${o}`;
         const t = Te(o);
         return e ? [o, e, t] : [o, t];
       }
-      const Le = "38.0.1", en = new Date(2023, 4, 23), Bt = typeof window == "object" ? window : S.g;
+      const Le = "38.0.1", en = new Date(2023, 4, 23), Bt = typeof window == "object" ? window : D.g;
       if (Bt.CKEDITOR_VERSION) throw new T("ckeditor-duplicated-modules", null);
       Bt.CKEDITOR_VERSION = Le;
       const Tt = Symbol("listeningTo"), Hn = Symbol("emitterId"), jt = Symbol("delegations"), bl = _e(Object);
@@ -9665,8 +9665,8 @@ Read more: ${ne}#error-${o}`;
           r._bindings.forEach((a, l) => {
             r._to.forEach((c) => {
               s = c.properties[a.callback ? 0 : r._bindProperties.indexOf(l)], a.to.push([c.observable, s]), function(d, u, g, p) {
-                const b = d[ui], w = b.get(g), E = w || {};
-                E[p] || (E[p] = /* @__PURE__ */ new Set()), E[p].add(u), w || b.set(g, E);
+                const b = d[ui], w = b.get(g), y = w || {};
+                y[p] || (y[p] = /* @__PURE__ */ new Set()), y[p].add(u), w || b.set(g, y);
               }(r._observable, a, c.observable, s);
             });
           });
@@ -9945,7 +9945,7 @@ Read more: ${ne}#error-${o}`;
       }, yk = function() {
         return !1;
       };
-      var Fl = y && !y.nodeType && y, Nl = Fl && !0 && h && !h.nodeType && h, Vl = Nl && Nl.exports === Fl ? yt.Buffer : void 0;
+      var Fl = C && !C.nodeType && C, Nl = Fl && !0 && h && !h.nodeType && h, Vl = Nl && Nl.exports === Fl ? yt.Buffer : void 0;
       const Io = (Vl ? Vl.isBuffer : void 0) || yk;
       var Ek = /^(?:0|[1-9]\d*)$/;
       const $r = function(o, e) {
@@ -9963,7 +9963,7 @@ Read more: ${ne}#error-${o}`;
           return o(e);
         };
       };
-      var jl = y && !y.nodeType && y, Po = jl && !0 && h && !h.nodeType && h, qr = Po && Po.exports === jl && Sl.process;
+      var jl = C && !C.nodeType && C, Po = jl && !0 && h && !h.nodeType && h, qr = Po && Po.exports === jl && Sl.process;
       const Jn = function() {
         try {
           var o = Po && Po.require && Po.require("util").types;
@@ -10012,7 +10012,7 @@ Read more: ${ne}#error-${o}`;
       }, Mk = function(o, e) {
         return o && Zn(e, Yn(e), o);
       };
-      var ql = y && !y.nodeType && y, Ul = ql && !0 && h && !h.nodeType && h, Wl = Ul && Ul.exports === ql ? yt.Buffer : void 0, Kl = Wl ? Wl.allocUnsafe : void 0;
+      var ql = C && !C.nodeType && C, Ul = ql && !0 && h && !h.nodeType && h, Wl = Ul && Ul.exports === ql ? yt.Buffer : void 0, Kl = Wl ? Wl.allocUnsafe : void 0;
       const Gl = function(o, e) {
         if (e) return o.slice();
         var t = o.length, n = Kl ? Kl(t) : new o.constructor(t);
@@ -10169,14 +10169,14 @@ Read more: ${ne}#error-${o}`;
         s || (s = new To());
         var b = s.get(e);
         if (b) return b;
-        s.set(e, a), iw(e) ? e.forEach(function(E) {
-          a.add(o(E, t, n, E, e, s));
-        }) : nw(e) && e.forEach(function(E, I) {
-          a.set(I, o(E, t, n, I, e, s));
+        s.set(e, a), iw(e) ? e.forEach(function(y) {
+          a.add(o(y, t, n, y, e, s));
+        }) : nw(e) && e.forEach(function(y, I) {
+          a.set(I, o(y, t, n, I, e, s));
         });
         var w = u ? void 0 : (d ? c ? jk : Jr : c ? Yn : Kr)(e);
-        return wk(w || e, function(E, I) {
-          w && (E = e[I = E]), Lr(a, I, o(E, t, n, I, e, s));
+        return wk(w || e, function(y, I) {
+          w && (y = e[I = y]), Lr(a, I, o(y, t, n, I, e, s));
         }), a;
       }, os = function(o, e) {
         return ns(o, 5, e = typeof e == "function" ? e : void 0);
@@ -10493,11 +10493,11 @@ Read more: ${ne}#error-${o}`;
         if (n || i) {
           const g = n && new Fe(n).getVisible();
           Object.assign(u, { limiterRect: g, viewportRect: d }), c = function(p, b) {
-            const { elementRect: w } = b, E = w.getArea(), I = p.map((X) => new ss(X, b)).filter((X) => !!X.name);
+            const { elementRect: w } = b, y = w.getArea(), I = p.map((X) => new ss(X, b)).filter((X) => !!X.name);
             let z = 0, H = null;
             for (const X of I) {
               const { limiterIntersectionArea: ce, viewportIntersectionArea: Oe } = X;
-              if (ce === E) return X;
+              if (ce === y) return X;
               const be = xc(Oe, 2) + xc(ce, 2);
               be > z && (z = be, H = X);
             }
@@ -10912,7 +10912,7 @@ Read more: ${ne}#error-${o}`;
           return super.remove(e);
         }
       }
-      var kw = S(6062), J = S.n(kw), Nc = S(4793), ww = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var kw = D(6062), J = D.n(kw), Nc = D(4793), ww = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Nc.Z, ww), Nc.Z.locals;
       class de extends on(ve()) {
         constructor(e) {
@@ -11196,7 +11196,7 @@ Read more: ${ne}#error-${o}`;
           e && e.childElementCount == 0 && e.remove();
         }
       }
-      var Zc = S(6574), Ew = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Zc = D(6574), Ew = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Zc.Z, Ew), Zc.Z.locals;
       const Jc = class extends de {
         constructor() {
@@ -11228,7 +11228,7 @@ Read more: ${ne}#error-${o}`;
       };
       let zo = Jc;
       zo.presentationalAttributeNames = ["alignment-baseline", "baseline-shift", "clip-path", "clip-rule", "color", "color-interpolation", "color-interpolation-filters", "color-rendering", "cursor", "direction", "display", "dominant-baseline", "fill", "fill-opacity", "fill-rule", "filter", "flood-color", "flood-opacity", "font-family", "font-size", "font-size-adjust", "font-stretch", "font-style", "font-variant", "font-weight", "image-rendering", "letter-spacing", "lighting-color", "marker-end", "marker-mid", "marker-start", "mask", "opacity", "overflow", "paint-order", "pointer-events", "shape-rendering", "stop-color", "stop-opacity", "stroke", "stroke-dasharray", "stroke-dashoffset", "stroke-linecap", "stroke-linejoin", "stroke-miterlimit", "stroke-opacity", "stroke-width", "text-anchor", "text-decoration", "text-overflow", "text-rendering", "transform", "unicode-bidi", "vector-effect", "visibility", "white-space", "word-spacing", "writing-mode"];
-      var Yc = S(4906), xw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Yc = D(4906), xw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Yc.Z, xw), Yc.Z.locals;
       class De extends de {
         constructor(e) {
@@ -11265,7 +11265,7 @@ Read more: ${ne}#error-${o}`;
           return e ? typeof e == "string" ? e : (n && (n = zc(n)), e instanceof Function ? e(t, n) : `${t}${n ? ` (${n})` : ""}`) : "";
         }
       }
-      var Qc = S(6758), Sw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Qc = D(6758), Sw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Qc.Z, Sw), Qc.Z.locals;
       class Di extends De {
         constructor(e) {
@@ -11279,9 +11279,9 @@ Read more: ${ne}#error-${o}`;
           return e.setTemplate({ tag: "span", attributes: { class: ["ck", "ck-button__toggle"] }, children: [{ tag: "span", attributes: { class: ["ck", "ck-button__toggle__inner"] } }] }), e;
         }
       }
-      var Xc = S(6781), Dw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
-      J()(Xc.Z, Dw), Xc.Z.locals, S(1103), S(841);
-      var ed = S(3662), Bw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Xc = D(6781), Dw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      J()(Xc.Z, Dw), Xc.Z.locals, D(1103), D(841);
+      var ed = D(3662), Bw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(ed.Z, Bw), ed.Z.locals;
       class td extends de {
         constructor(e) {
@@ -11290,7 +11290,7 @@ Read more: ${ne}#error-${o}`;
           this.setTemplate({ tag: "label", attributes: { class: ["ck", "ck-label"], id: this.id, for: t.to("for") }, children: [{ text: t.to("text") }] });
         }
       }
-      var nd = S(2577), Tw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var nd = D(2577), Tw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(nd.Z, Tw), nd.Z.locals;
       class od extends de {
         constructor(e, t) {
@@ -11312,7 +11312,7 @@ Read more: ${ne}#error-${o}`;
           this.fieldView.focus();
         }
       }
-      var id = S(4879), Iw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var id = D(4879), Iw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(id.Z, Iw), id.Z.locals;
       class Pw extends de {
         constructor(e) {
@@ -11369,7 +11369,7 @@ Read more: ${ne}#error-${o}`;
           }
         }
       }
-      var rd = S(5485), zw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var rd = D(5485), zw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(rd.Z, zw), rd.Z.locals;
       const ms = class extends de {
         constructor(o, e, t) {
@@ -11588,20 +11588,20 @@ Read more: ${ne}#error-${o}`;
         }
         init(e, t = [], n = []) {
           const i = this, r = this._context;
-          (function b(w, E = /* @__PURE__ */ new Set()) {
+          (function b(w, y = /* @__PURE__ */ new Set()) {
             w.forEach((I) => {
-              l(I) && (E.has(I) || (E.add(I), I.pluginName && !i._availablePlugins.has(I.pluginName) && i._availablePlugins.set(I.pluginName, I), I.requires && b(I.requires, E)));
+              l(I) && (y.has(I) || (y.add(I), I.pluginName && !i._availablePlugins.has(I.pluginName) && i._availablePlugins.set(I.pluginName, I), I.requires && b(I.requires, y)));
             });
           })(e), g(e);
-          const s = [...function b(w, E = /* @__PURE__ */ new Set()) {
-            return w.map((I) => l(I) ? I : i._availablePlugins.get(I)).reduce((I, z) => E.has(z) ? I : (E.add(z), z.requires && (g(z.requires, z), b(z.requires, E).forEach((H) => I.add(H))), I.add(z)), /* @__PURE__ */ new Set());
+          const s = [...function b(w, y = /* @__PURE__ */ new Set()) {
+            return w.map((I) => l(I) ? I : i._availablePlugins.get(I)).reduce((I, z) => y.has(z) ? I : (y.add(z), z.requires && (g(z.requires, z), b(z.requires, y).forEach((H) => I.add(H))), I.add(z)), /* @__PURE__ */ new Set());
           }(e.filter((b) => !d(b, t)))];
           (function(b, w) {
-            for (const E of w) {
-              if (typeof E != "function") throw new T("plugincollection-replace-plugin-invalid-type", null, { pluginItem: E });
-              const I = E.pluginName;
-              if (!I) throw new T("plugincollection-replace-plugin-missing-name", null, { pluginItem: E });
-              if (E.requires && E.requires.length) throw new T("plugincollection-plugin-for-replacing-cannot-have-dependencies", null, { pluginName: I });
+            for (const y of w) {
+              if (typeof y != "function") throw new T("plugincollection-replace-plugin-invalid-type", null, { pluginItem: y });
+              const I = y.pluginName;
+              if (!I) throw new T("plugincollection-replace-plugin-missing-name", null, { pluginItem: y });
+              if (y.requires && y.requires.length) throw new T("plugincollection-plugin-for-replacing-cannot-have-dependencies", null, { pluginName: I });
               const z = i._availablePlugins.get(I);
               if (!z) throw new T("plugincollection-plugin-for-replacing-not-exist", null, { pluginName: I });
               const H = b.indexOf(z);
@@ -11610,7 +11610,7 @@ Read more: ${ne}#error-${o}`;
                 throw new T("plugincollection-plugin-for-replacing-not-loaded", null, { pluginName: I });
               }
               if (z.requires && z.requires.length) throw new T("plugincollection-replaced-plugin-cannot-have-dependencies", null, { pluginName: I });
-              b.splice(H, 1, E), i._availablePlugins.set(I, E);
+              b.splice(H, 1, y), i._availablePlugins.set(I, y);
             }
           })(s, n);
           const a = s.map((b) => {
@@ -11625,27 +11625,27 @@ Read more: ${ne}#error-${o}`;
             return l(b) && !!b.isContextPlugin;
           }
           function d(b, w) {
-            return w.some((E) => E === b || u(b) === E || u(E) === b);
+            return w.some((y) => y === b || u(b) === y || u(y) === b);
           }
           function u(b) {
             return l(b) ? b.pluginName || b.name : b;
           }
           function g(b, w = null) {
-            b.map((E) => l(E) ? E : i._availablePlugins.get(E) || E).forEach((E) => {
+            b.map((y) => l(y) ? y : i._availablePlugins.get(y) || y).forEach((y) => {
               (function(I, z) {
                 if (!l(I))
                   throw z ? new T("plugincollection-soft-required", r, { missingPlugin: I, requiredBy: u(z) }) : new T("plugincollection-plugin-not-found", r, { plugin: I });
-              })(E, w), function(I, z) {
+              })(y, w), function(I, z) {
                 if (c(z) && !c(I))
                   throw new T("plugincollection-context-required", r, { plugin: u(I), requiredBy: u(z) });
-              }(E, w), function(I, z) {
+              }(y, w), function(I, z) {
                 if (z && d(I, t))
                   throw new T("plugincollection-required", r, { plugin: u(I), requiredBy: u(z) });
-              }(E, w);
+              }(y, w);
             });
           }
           function p(b, w) {
-            return b.reduce((E, I) => I[w] ? i._contextPlugins.has(I) ? E : E.then(I[w].bind(I)) : E, Promise.resolve());
+            return b.reduce((y, I) => I[w] ? i._contextPlugins.has(I) ? y : y.then(I[w].bind(I)) : y, Promise.resolve());
           }
         }
         destroy() {
@@ -11725,7 +11725,7 @@ Read more: ${ne}#error-${o}`;
           super.set(e, t, n);
         }
       }
-      var pd = S(4717), Nw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var pd = D(4717), Nw = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(pd.Z, Nw), pd.Z.locals;
       const Ti = /* @__PURE__ */ new WeakMap();
       function Vw(o, e) {
@@ -13627,7 +13627,7 @@ Read more: ${ne}#error-${o}`;
           }
         }
       }
-      var $d = S(9315), EA = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var $d = D(9315), EA = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()($d.Z, EA), $d.Z.locals;
       class xA extends ve() {
         constructor(e, t) {
@@ -14306,13 +14306,13 @@ Read more: ${ne}#error-${o}`;
         }
         function w() {
           var z = Ns();
-          if (b(z)) return E(z);
+          if (b(z)) return y(z);
           a = setTimeout(w, function(H) {
             var X = e - (H - l);
             return u ? HA(X, r - (H - c)) : X;
           }(z));
         }
-        function E(z) {
+        function y(z) {
           return a = void 0, g && n ? p(z) : (n = i = void 0, s);
         }
         function I() {
@@ -14328,7 +14328,7 @@ Read more: ${ne}#error-${o}`;
         return e = Yd(e) || 0, ze(t) && (d = !!t.leading, r = (u = "maxWait" in t) ? $A(Yd(t.maxWait) || 0, e) : r, g = "trailing" in t ? !!t.trailing : g), I.cancel = function() {
           a !== void 0 && clearTimeout(a), c = 0, n = l = i = a = void 0;
         }, I.flush = function() {
-          return a === void 0 ? s : E(Ns());
+          return a === void 0 ? s : y(Ns());
         }, I;
       };
       class qA extends Mt {
@@ -14380,9 +14380,9 @@ Read more: ${ne}#error-${o}`;
         var u = -1, g = !0, p = 2 & t ? new KA() : void 0;
         for (r.set(o, e), r.set(e, o); ++u < a; ) {
           var b = o[u], w = e[u];
-          if (n) var E = s ? n(w, b, u, e, o, r) : n(b, w, u, o, e, r);
-          if (E !== void 0) {
-            if (E) continue;
+          if (n) var y = s ? n(w, b, u, e, o, r) : n(b, w, u, o, e, r);
+          if (y !== void 0) {
+            if (y) continue;
             g = !1;
             break;
           }
@@ -14455,9 +14455,9 @@ Read more: ${ne}#error-${o}`;
         var p = !0;
         r.set(o, e), r.set(e, o);
         for (var b = s; ++c < l; ) {
-          var w = o[d = a[c]], E = e[d];
-          if (n) var I = s ? n(E, w, d, e, o, r) : n(w, E, d, o, e, r);
-          if (!(I === void 0 ? w === E || i(w, E, t, n, r) : I)) {
+          var w = o[d = a[c]], y = e[d];
+          if (n) var I = s ? n(y, w, d, e, o, r) : n(w, y, d, o, e, r);
+          if (!(I === void 0 ? w === y || i(w, y, t, n, r) : I)) {
             p = !1;
             break;
           }
@@ -14480,8 +14480,8 @@ Read more: ${ne}#error-${o}`;
         if (!(1 & t)) {
           var p = d && nu.call(o, "__wrapped__"), b = u && nu.call(e, "__wrapped__");
           if (p || b) {
-            var w = p ? o.value() : o, E = b ? e.value() : e;
-            return r || (r = new To()), i(w, E, t, n, r);
+            var w = p ? o.value() : o, y = b ? e.value() : e;
+            return r || (r = new To()), i(w, y, t, n, r);
           }
         }
         return !!g && (r || (r = new To()), e0(o, e, t, n, i, r));
@@ -16549,13 +16549,13 @@ Read more: ${ne}#error-${o}`;
               r.on(`insert:${n.name}`, (s = i, a = Eu(n), (l, c, d) => {
                 if (!a(c.item, d.consumable, { preflight: !0 })) return;
                 const u = /* @__PURE__ */ new Map();
-                d.writer._registerSlotFactory(/* @__PURE__ */ function(b, w, E) {
+                d.writer._registerSlotFactory(/* @__PURE__ */ function(b, w, y) {
                   return (I, z) => {
                     const H = I.createContainerElement("$slot");
                     let X = null;
                     if (z === "children") X = Array.from(b.getChildren());
                     else {
-                      if (typeof z != "function") throw new T("conversion-slot-mode-unknown", E.dispatcher, { modeOrFilter: z });
+                      if (typeof z != "function") throw new T("conversion-slot-mode-unknown", y.dispatcher, { modeOrFilter: z });
                       X = Array.from(b.getChildren()).filter((ce) => z(ce));
                     }
                     return w.set(H, X), H;
@@ -16563,21 +16563,21 @@ Read more: ${ne}#error-${o}`;
                 }(c.item, u, d));
                 const g = s(c.item, d, c);
                 if (d.writer._clearSlotFactory(), !g) return;
-                (function(b, w, E) {
+                (function(b, w, y) {
                   const I = Array.from(w.values()).flat(), z = new Set(I);
-                  if (z.size != I.length) throw new T("conversion-slot-filter-overlap", E.dispatcher, { element: b });
-                  if (z.size != b.childCount) throw new T("conversion-slot-filter-incomplete", E.dispatcher, { element: b });
+                  if (z.size != I.length) throw new T("conversion-slot-filter-overlap", y.dispatcher, { element: b });
+                  if (z.size != b.childCount) throw new T("conversion-slot-filter-incomplete", y.dispatcher, { element: b });
                 })(c.item, u, d), a(c.item, d.consumable);
                 const p = d.mapper.toViewPosition(c.range.start);
-                d.mapper.bindElements(c.item, g), d.writer.insert(p, g), d.convertAttributes(c.item), function(b, w, E, I) {
-                  E.mapper.on("modelToViewPosition", X, { priority: "highest" });
+                d.mapper.bindElements(c.item, g), d.writer.insert(p, g), d.convertAttributes(c.item), function(b, w, y, I) {
+                  y.mapper.on("modelToViewPosition", X, { priority: "highest" });
                   let z = null, H = null;
-                  for ([z, H] of w) xu(b, H, E, I), E.writer.move(E.writer.createRangeIn(z), E.writer.createPositionBefore(z)), E.writer.remove(z);
+                  for ([z, H] of w) xu(b, H, y, I), y.writer.move(y.writer.createRangeIn(z), y.writer.createPositionBefore(z)), y.writer.remove(z);
                   function X(ce, Oe) {
                     const be = Oe.modelPosition.nodeAfter, Qt = H.indexOf(be);
                     Qt < 0 || (Oe.viewPosition = Oe.mapper.findPositionIn(z, Qt));
                   }
-                  E.mapper.off("modelToViewPosition", X);
+                  y.mapper.off("modelToViewPosition", X);
                 }(g, u, d, { reconversion: c.reconversion });
               }), { priority: t.converterPriority || "normal" }), r.on("reduceChanges", yu(n), { priority: "low" });
             };
@@ -16630,17 +16630,17 @@ Read more: ${ne}#error-${o}`;
                 if (!p) throw new T("conversion-attribute-to-attribute-on-text", d.dispatcher, c);
                 if (c.attributeOldValue !== null && u) if (u.key == "class") {
                   const w = $e(u.value);
-                  for (const E of w) b.removeClass(E, p);
+                  for (const y of w) b.removeClass(y, p);
                 } else if (u.key == "style") {
                   const w = Object.keys(u.value);
-                  for (const E of w) b.removeStyle(E, p);
+                  for (const y of w) b.removeStyle(y, p);
                 } else b.removeAttribute(u.key, p);
                 if (c.attributeNewValue !== null && g) if (g.key == "class") {
                   const w = $e(g.value);
-                  for (const E of w) b.addClass(E, p);
+                  for (const y of w) b.addClass(y, p);
                 } else if (g.key == "style") {
                   const w = Object.keys(g.value);
-                  for (const E of w) b.setStyle(E, g.value[E], p);
+                  for (const y of w) b.setStyle(y, g.value[y], p);
                 } else b.setAttribute(g.key, g.value, p);
               }), { priority: t.converterPriority || "normal" });
             };
@@ -16739,8 +16739,8 @@ Read more: ${ne}#error-${o}`;
                   }
                   function p(b, w) {
                     if (w.hasAttribute(b)) {
-                      const E = new Set(w.getAttribute(b).split(","));
-                      E.delete(u.name), E.size == 0 ? d.writer.removeAttribute(b, w) : d.writer.setAttribute(b, Array.from(E).join(","), w);
+                      const y = new Set(w.getAttribute(b).split(","));
+                      y.delete(u.name), y.size == 0 ? d.writer.removeAttribute(b, w) : d.writer.setAttribute(b, Array.from(y).join(","), w);
                     }
                   }
                 };
@@ -16759,9 +16759,9 @@ Read more: ${ne}#error-${o}`;
           let l, c;
           e && s || !e && !a ? (l = s, c = !0) : (l = a, c = !1);
           const d = t.mapper.toViewElement(l);
-          if (d) return void function(u, g, p, b, w, E) {
-            const I = `data-${E.group}-${g ? "start" : "end"}-${p ? "before" : "after"}`, z = u.hasAttribute(I) ? u.getAttribute(I).split(",") : [];
-            z.unshift(E.name), b.writer.setAttribute(I, z.join(","), u), b.mapper.bindElementToMarker(u, w.markerName);
+          if (d) return void function(u, g, p, b, w, y) {
+            const I = `data-${y.group}-${g ? "start" : "end"}-${p ? "before" : "after"}`, z = u.hasAttribute(I) ? u.getAttribute(I).split(",") : [];
+            z.unshift(y.name), b.writer.setAttribute(I, z.join(","), u), b.mapper.bindElementToMarker(u, w.markerName);
           }(d, e, c, t, n, i);
         }
         (function(l, c, d, u, g) {
@@ -16930,10 +16930,10 @@ Read more: ${ne}#error-${o}`;
               s.on("element", /* @__PURE__ */ function(d) {
                 return (u, g, p) => {
                   const b = `data-${d.view}`;
-                  function w(E, I) {
+                  function w(y, I) {
                     for (const z of I) {
                       const H = d.model(z, p), X = p.writer.createElement("$marker", { "data-name": H });
-                      p.writer.insert(X, E), g.modelCursor.isEqual(E) ? g.modelCursor = g.modelCursor.getShiftedBy(1) : g.modelCursor = g.modelCursor._getTransformedByInsertion(E, 1), g.modelRange = g.modelRange._getTransformedByInsertion(E, 1)[0];
+                      p.writer.insert(X, y), g.modelCursor.isEqual(y) ? g.modelCursor = g.modelCursor.getShiftedBy(1) : g.modelCursor = g.modelCursor._getTransformedByInsertion(y, 1), g.modelRange = g.modelRange._getTransformedByInsertion(y, 1)[0];
                     }
                   }
                   (p.consumable.test(g.viewItem, { attributes: b + "-end-after" }) || p.consumable.test(g.viewItem, { attributes: b + "-start-after" }) || p.consumable.test(g.viewItem, { attributes: b + "-end-before" }) || p.consumable.test(g.viewItem, { attributes: b + "-start-before" })) && (g.modelRange || Object.assign(g, p.convertChildren(g.viewItem, g.modelCursor)), p.consumable.consume(g.viewItem, { attributes: b + "-end-after" }) && w(g.modelRange.end, g.viewItem.getAttribute(b + "-end-after").split(",")), p.consumable.consume(g.viewItem, { attributes: b + "-start-after" }) && w(g.modelRange.end, g.viewItem.getAttribute(b + "-start-after").split(",")), p.consumable.consume(g.viewItem, { attributes: b + "-end-before" }) && w(g.modelRange.start, g.viewItem.getAttribute(b + "-end-before").split(",")), p.consumable.consume(g.viewItem, { attributes: b + "-start-before" }) && w(g.modelRange.start, g.viewItem.getAttribute(b + "-start-before").split(",")));
@@ -17010,8 +17010,8 @@ Read more: ${ne}#error-${o}`;
                 if (g.isEqual(w)) d.add(b);
                 else if (g.isIntersecting(w)) {
                   d.add(b), d.add(u);
-                  const E = g.getJoined(w);
-                  c.push(E);
+                  const y = g.getJoined(w);
+                  c.push(y);
                 }
               }
               u++;
@@ -17035,8 +17035,8 @@ Read more: ${ne}#error-${o}`;
           if (l === c) {
             if (s && a) return null;
             if (function(g, p, b) {
-              const w = g.nodeAfter && !b.isLimit(g.nodeAfter) || b.checkChild(g, "$text"), E = p.nodeBefore && !b.isLimit(p.nodeBefore) || b.checkChild(p, "$text");
-              return w || E;
+              const w = g.nodeAfter && !b.isLimit(g.nodeAfter) || b.checkChild(g, "$text"), y = p.nodeBefore && !b.isLimit(p.nodeBefore) || b.checkChild(p, "$text");
+              return w || y;
             }(i, r, n)) {
               const g = i.nodeAfter && n.isSelectable(i.nodeAfter) ? null : n.getNearestSelectionRange(i, "forward"), p = r.nodeBefore && n.isSelectable(r.nodeBefore) ? null : n.getNearestSelectionRange(r, "backward"), b = g ? g.start : i, w = p ? p.end : r;
               return new V(b, w);
@@ -17045,8 +17045,8 @@ Read more: ${ne}#error-${o}`;
           const d = l && !l.is("rootElement"), u = c && !c.is("rootElement");
           if (d || u) {
             const g = i.nodeAfter && r.nodeBefore && i.nodeAfter.parent === r.nodeBefore.parent, p = d && (!g || !Nu(i.nodeAfter, n)), b = u && (!g || !Nu(r.nodeBefore, n));
-            let w = i, E = r;
-            return p && (w = U._createBefore(Fu(l, n))), b && (E = U._createAfter(Fu(c, n))), new V(w, E);
+            let w = i, y = r;
+            return p && (w = U._createBefore(Fu(l, n))), b && (y = U._createAfter(Fu(c, n))), new V(w, y);
           }
           return null;
         }(o, e);
@@ -17075,10 +17075,10 @@ Read more: ${ne}#error-${o}`;
           }, { priority: "low" }), this.listenTo(this.view.document, "selectionChange", /* @__PURE__ */ function(c, d) {
             return (u, g) => {
               const p = g.newSelection, b = [];
-              for (const E of p.getRanges()) b.push(d.toModelRange(E));
+              for (const y of p.getRanges()) b.push(d.toModelRange(y));
               const w = c.createSelection(b, { backward: p.isBackward });
-              w.isEqual(c.document.selection) || c.change((E) => {
-                E.setSelection(w);
+              w.isEqual(c.document.selection) || c.change((y) => {
+                y.setSelection(w);
               });
             };
           }(this.model, this.mapper)), this.listenTo(this.view.document, "beforeinput", (s = this.mapper, a = this.model.schema, l = this.view, (c, d) => {
@@ -17093,8 +17093,8 @@ Read more: ${ne}#error-${o}`;
           }, { priority: "lowest" }), this.downcastDispatcher.on("insert", (c, d, u) => {
             u.convertAttributes(d.item), d.reconversion || !d.item.is("element") || d.item.isEmpty || u.convertChildren(d.item);
           }, { priority: "lowest" }), this.downcastDispatcher.on("remove", (c, d, u) => {
-            const g = u.mapper.toViewPosition(d.position), p = d.position.getShiftedBy(d.length), b = u.mapper.toViewPosition(p, { isPhantom: !0 }), w = u.writer.createRange(g, b), E = u.writer.remove(w.getTrimmed());
-            for (const I of u.writer.createRangeIn(E).getItems()) u.mapper.unbindViewElement(I, { defer: !0 });
+            const g = u.mapper.toViewPosition(d.position), p = d.position.getShiftedBy(d.length), b = u.mapper.toViewPosition(p, { isPhantom: !0 }), w = u.writer.createRange(g, b), y = u.writer.remove(w.getTrimmed());
+            for (const I of u.writer.createRangeIn(y).getItems()) u.mapper.unbindViewElement(I, { defer: !0 });
           }, { priority: "low" }), this.downcastDispatcher.on("selection", (c, d, u) => {
             const g = u.writer, p = g.document.selection;
             for (const b of p.getRanges()) b.isCollapsed && b.end.parent.isAttached() && u.writer.mergeAttributes(b.start);
@@ -17108,8 +17108,8 @@ Read more: ${ne}#error-${o}`;
           }, { priority: "low" }), this.downcastDispatcher.on("selection", (c, d, u) => {
             const g = d.selection;
             if (!g.isCollapsed || !u.consumable.consume(g, "selection")) return;
-            const p = u.writer, b = g.getFirstPosition(), w = u.mapper.toViewPosition(b), E = p.breakAttributes(w);
-            p.setSelection(E);
+            const p = u.writer, b = g.getFirstPosition(), w = u.mapper.toViewPosition(b), y = p.breakAttributes(w);
+            p.setSelection(y);
           }, { priority: "low" }), this.view.document.roots.bindTo(this.model.document.roots).using((c) => {
             if (c.rootName == "$graveyard") return null;
             const d = new Td(this.view.document, c.name);
@@ -17737,8 +17737,8 @@ Read more: ${ne}#error-${o}`;
               const p = g.getRange(), b = p.isCollapsed, w = p.start.isEqual(u.start) || p.end.isEqual(u.end);
               if (b && w) c.push([g.name, p]);
               else {
-                const E = u.getIntersection(p);
-                E && c.push([g.name, E]);
+                const y = u.getIntersection(p);
+                y && c.push([g.name, y]);
               }
             }
             return c.sort(([g, p], [b, w]) => {
@@ -19691,17 +19691,17 @@ Read more: ${ne}#error-${o}`;
             let g = c.end;
             if (d.hasContent(c, { ignoreMarkers: !0 })) {
               const p = function(b) {
-                const w = b.parent, E = w.root.document.model.schema, I = w.getAncestors({ parentFirst: !0, includeSelf: !0 });
+                const w = b.parent, y = w.root.document.model.schema, I = w.getAncestors({ parentFirst: !0, includeSelf: !0 });
                 for (const z of I) {
-                  if (E.isLimit(z)) return null;
-                  if (E.isBlock(z)) return z;
+                  if (y.isLimit(z)) return null;
+                  if (y.isBlock(z)) return z;
                 }
               }(g);
               if (p && g.isTouching(d.createPositionAt(p, 0))) {
                 const b = d.createSelection(c);
                 d.modifySelection(b, { direction: "backward" });
-                const w = b.getLastPosition(), E = d.createRange(w, g);
-                d.hasContent(E, { ignoreMarkers: !0 }) || (g = w);
+                const w = b.getLastPosition(), y = d.createRange(w, g);
+                d.hasContent(y, { ignoreMarkers: !0 }) || (g = w);
               }
             }
             return [dt.fromPosition(u, "toPrevious"), dt.fromPosition(g, "toNext")];
@@ -19709,8 +19709,8 @@ Read more: ${ne}#error-${o}`;
           a.isTouching(l) || r.remove(r.createRange(a, l)), t.leaveUnmerged || (function(c, d, u) {
             const g = c.model;
             if (!Ys(c.model.schema, d, u)) return;
-            const [p, b] = function(w, E) {
-              const I = w.getAncestors(), z = E.getAncestors();
+            const [p, b] = function(w, y) {
+              const I = w.getAncestors(), z = y.getAncestors();
               let H = 0;
               for (; I[H] && I[H] == z[H]; ) H++;
               return [I[H], z[H]];
@@ -19894,12 +19894,12 @@ Read more: ${ne}#error-${o}`;
           !o.schema.checkChild(d, e) && o.schema.checkChild(d, "paragraph") && o.schema.checkChild("paragraph", e) && (c = l.createElement("paragraph"), l.insert(e, c)), o.schema.setAllowedAttributes(c, a, l);
           const u = o.insertContent(c, r);
           return u.isCollapsed || n.setSelection && function(g, p, b, w) {
-            const E = g.model;
+            const y = g.model;
             if (b == "on") return void g.setSelection(p, "on");
-            if (b != "after") throw new T("insertobject-invalid-place-parameter-value", E);
+            if (b != "after") throw new T("insertobject-invalid-place-parameter-value", y);
             let I = p.nextSibling;
-            if (E.schema.isInline(p)) return void g.setSelection(p, "after");
-            !(I && E.schema.checkChild(I, "$text")) && E.schema.checkChild(p.parent, "paragraph") && (I = g.createElement("paragraph"), E.schema.setAllowedAttributes(I, w, g), E.insertContent(I, g.createPositionAfter(p))), I && g.setSelection(I, 0);
+            if (y.schema.isInline(p)) return void g.setSelection(p, "after");
+            !(I && y.schema.checkChild(I, "$text")) && y.schema.checkChild(p.parent, "paragraph") && (I = g.createElement("paragraph"), y.schema.setAllowedAttributes(I, w, g), y.insertContent(I, g.createPositionAfter(p))), I && g.setSelection(I, 0);
           }(l, e, n.setSelection, a), u;
         });
       }
@@ -19961,15 +19961,15 @@ Read more: ${ne}#error-${o}`;
                 if (r.is("documentFragment")) {
                   if (r.markers.size) {
                     const b = [];
-                    for (const [w, E] of r.markers) {
-                      const { start: I, end: z } = E, H = I.isEqual(z);
+                    for (const [w, y] of r.markers) {
+                      const { start: I, end: z } = y, H = I.isEqual(z);
                       b.push({ position: I, name: w, isCollapsed: H }, { position: z, name: w, isCollapsed: H });
                     }
-                    b.sort(({ position: w }, { position: E }) => w.isBefore(E) ? 1 : -1);
-                    for (const { position: w, name: E, isCollapsed: I } of b) {
+                    b.sort(({ position: w }, { position: y }) => w.isBefore(y) ? 1 : -1);
+                    for (const { position: w, name: y, isCollapsed: I } of b) {
                       let z = null, H = null;
                       const X = w.parent === r && w.isAtStart, ce = w.parent === r && w.isAtEnd;
-                      X || ce ? I && (H = X ? "start" : "end") : (z = a.createElement("$marker"), a.insert(z, w)), d.push({ name: E, element: z, collapsed: H });
+                      X || ce ? I && (H = X ? "start" : "end") : (z = a.createElement("$marker"), a.insert(z, w)), d.push({ name: y, element: z, collapsed: H });
                     }
                   }
                   u = r.getChildren();
@@ -19978,8 +19978,8 @@ Read more: ${ne}#error-${o}`;
                 let g = c.getSelectionRange();
                 if (r.is("documentFragment") && d.length) {
                   const b = g ? qt.fromRange(g) : null, w = {};
-                  for (let E = d.length - 1; E >= 0; E--) {
-                    const { name: I, element: z, collapsed: H } = d[E], X = !w[I];
+                  for (let y = d.length - 1; y >= 0; y--) {
+                    const { name: I, element: z, collapsed: H } = d[y], X = !w[I];
                     if (X && (w[I] = []), z) {
                       const ce = a.createPositionAt(z, "before");
                       w[I].push(ce), a.remove(z);
@@ -19992,7 +19992,7 @@ Read more: ${ne}#error-${o}`;
                       H ? w[I].push(ce[H]) : w[I].push(X ? ce.start : ce.end);
                     }
                   }
-                  for (const [E, [I, z]] of Object.entries(w)) I && z && I.root === z.root && a.addMarker(E, { usingOperation: !0, affectsData: !0, range: new V(I, z) });
+                  for (const [y, [I, z]] of Object.entries(w)) I && z && I.root === z.root && a.addMarker(y, { usingOperation: !0, affectsData: !0, range: new V(I, z) });
                   b && (g = b.toRange(), b.detach());
                 }
                 g && (l instanceof St ? a.setSelection(g) : l.setTo(g));
@@ -20386,7 +20386,7 @@ Read more: ${ne}#error-${o}`;
         }
       }
       const Pe = { bold: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.187 17H5.773c-.637 0-1.092-.138-1.364-.415-.273-.277-.409-.718-.409-1.323V4.738c0-.617.14-1.062.419-1.332.279-.27.73-.406 1.354-.406h4.68c.69 0 1.288.041 1.793.124.506.083.96.242 1.36.478.341.197.644.447.906.75a3.262 3.262 0 0 1 .808 2.162c0 1.401-.722 2.426-2.167 3.075C15.05 10.175 16 11.315 16 13.01a3.756 3.756 0 0 1-2.296 3.504 6.1 6.1 0 0 1-1.517.377c-.571.073-1.238.11-2 .11zm-.217-6.217H7v4.087h3.069c1.977 0 2.965-.69 2.965-2.072 0-.707-.256-1.22-.768-1.537-.512-.319-1.277-.478-2.296-.478zM7 5.13v3.619h2.606c.729 0 1.292-.067 1.69-.2a1.6 1.6 0 0 0 .91-.765c.165-.267.247-.566.247-.897 0-.707-.26-1.176-.778-1.409-.519-.232-1.31-.348-2.375-.348H7z"/></svg>', cancel: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m11.591 10.177 4.243 4.242a1 1 0 0 1-1.415 1.415l-4.242-4.243-4.243 4.243a1 1 0 0 1-1.414-1.415l4.243-4.242L4.52 5.934A1 1 0 0 1 5.934 4.52l4.243 4.243 4.242-4.243a1 1 0 1 1 1.415 1.414l-4.243 4.243z"/></svg>', caption: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 16h9a1 1 0 0 1 0 2H2a1 1 0 0 1 0-2z"/><path d="M17 1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h14zm0 1.5H3a.5.5 0 0 0-.492.41L2.5 3v9a.5.5 0 0 0 .41.492L3 12.5h14a.5.5 0 0 0 .492-.41L17.5 12V3a.5.5 0 0 0-.41-.492L17 2.5z" fill-opacity=".6"/></svg>', check: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6.972 16.615a.997.997 0 0 1-.744-.292l-4.596-4.596a1 1 0 1 1 1.414-1.414l3.926 3.926 9.937-9.937a1 1 0 0 1 1.414 1.415L7.717 16.323a.997.997 0 0 1-.745.292z"/></svg>', cog: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m11.333 2 .19 2.263a5.899 5.899 0 0 1 1.458.604L14.714 3.4 16.6 5.286l-1.467 1.733c.263.452.468.942.605 1.46L18 8.666v2.666l-2.263.19a5.899 5.899 0 0 1-.604 1.458l1.467 1.733-1.886 1.886-1.733-1.467a5.899 5.899 0 0 1-1.46.605L11.334 18H8.667l-.19-2.263a5.899 5.899 0 0 1-1.458-.604L5.286 16.6 3.4 14.714l1.467-1.733a5.899 5.899 0 0 1-.604-1.458L2 11.333V8.667l2.262-.189a5.899 5.899 0 0 1 .605-1.459L3.4 5.286 5.286 3.4l1.733 1.467a5.899 5.899 0 0 1 1.46-.605L8.666 2h2.666zM10 6.267a3.733 3.733 0 1 0 0 7.466 3.733 3.733 0 0 0 0-7.466z"/></svg>', eraser: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m8.636 9.531-2.758 3.94a.5.5 0 0 0 .122.696l3.224 2.284h1.314l2.636-3.736L8.636 9.53zm.288 8.451L5.14 15.396a2 2 0 0 1-.491-2.786l6.673-9.53a2 2 0 0 1 2.785-.49l3.742 2.62a2 2 0 0 1 .491 2.785l-7.269 10.053-2.147-.066z"/><path d="M4 18h5.523v-1H4zm-2 0h1v-1H2z"/></svg>', image: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6.91 10.54c.26-.23.64-.21.88.03l3.36 3.14 2.23-2.06a.64.64 0 0 1 .87 0l2.52 2.97V4.5H3.2v10.12l3.71-4.08zm10.27-7.51c.6 0 1.09.47 1.09 1.05v11.84c0 .59-.49 1.06-1.09 1.06H2.79c-.6 0-1.09-.47-1.09-1.06V4.08c0-.58.49-1.05 1.1-1.05h14.38zm-5.22 5.56a1.96 1.96 0 1 1 3.4-1.96 1.96 1.96 0 0 1-3.4 1.96z"/></svg>', lowVision: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5.085 6.22 2.943 4.078a.75.75 0 1 1 1.06-1.06l2.592 2.59A11.094 11.094 0 0 1 10 5.068c4.738 0 8.578 3.101 8.578 5.083 0 1.197-1.401 2.803-3.555 3.887l1.714 1.713a.75.75 0 0 1-.09 1.138.488.488 0 0 1-.15.084.75.75 0 0 1-.821-.16L6.17 7.304c-.258.11-.51.233-.757.365l6.239 6.24-.006.005.78.78c-.388.094-.78.166-1.174.215l-1.11-1.11h.011L4.55 8.197a7.2 7.2 0 0 0-.665.514l-.112.098 4.897 4.897-.005.006 1.276 1.276a10.164 10.164 0 0 1-1.477-.117l-.479-.479-.009.009-4.863-4.863-.022.031a2.563 2.563 0 0 0-.124.2c-.043.077-.08.158-.108.241a.534.534 0 0 0-.028.133.29.29 0 0 0 .008.072.927.927 0 0 0 .082.226c.067.133.145.26.234.379l3.242 3.365.025.01.59.623c-3.265-.918-5.59-3.155-5.59-4.668 0-1.194 1.448-2.838 3.663-3.93zm7.07.531a4.632 4.632 0 0 1 1.108 5.992l.345.344.046-.018a9.313 9.313 0 0 0 2-1.112c.256-.187.5-.392.727-.613.137-.134.27-.277.392-.431.072-.091.141-.185.203-.286.057-.093.107-.19.148-.292a.72.72 0 0 0 .036-.12.29.29 0 0 0 .008-.072.492.492 0 0 0-.028-.133.999.999 0 0 0-.036-.096 2.165 2.165 0 0 0-.071-.145 2.917 2.917 0 0 0-.125-.2 3.592 3.592 0 0 0-.263-.335 5.444 5.444 0 0 0-.53-.523 7.955 7.955 0 0 0-1.054-.768 9.766 9.766 0 0 0-1.879-.891c-.337-.118-.68-.219-1.027-.301zm-2.85.21-.069.002a.508.508 0 0 0-.254.097.496.496 0 0 0-.104.679.498.498 0 0 0 .326.199l.045.005c.091.003.181.003.272.012a2.45 2.45 0 0 1 2.017 1.513c.024.061.043.125.069.185a.494.494 0 0 0 .45.287h.008a.496.496 0 0 0 .35-.158.482.482 0 0 0 .13-.335.638.638 0 0 0-.048-.219 3.379 3.379 0 0 0-.36-.723 3.438 3.438 0 0 0-2.791-1.543l-.028-.001h-.013z"/></svg>', importExport: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)"><path clip-rule="evenodd" d="M19 4.5 14 0H3v12.673l.868-1.041c.185-.222.4-.402.632-.54V1.5h8v5h5v7.626a2.24 2.24 0 0 1 1.5.822V4.5ZM14 5V2l3.3 3H14Zm-3.692 12.5c.062.105.133.206.213.303L11.52 19H8v-.876a2.243 2.243 0 0 0 1.82-.624h.488Zm7.518-.657a.75.75 0 0 0-1.152-.96L15.5 17.29V12H14v5.29l-1.174-1.408a.75.75 0 0 0-1.152.96l2.346 2.816a.95.95 0 0 0 1.46 0l2.346-2.815Zm-15.056-.38a.75.75 0 0 1-.096-1.056l2.346-2.815a.95.95 0 0 1 1.46 0l2.346 2.815a.75.75 0 1 1-1.152.96L6.5 14.96V20H5v-5.04l-1.174 1.408a.75.75 0 0 1-1.056.096Z"/></g><defs><clipPath id="a"><path d="M0 0h20v20H0z"/></clipPath></defs></svg>', paragraph: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 5.5H7v5h3.5a2.5 2.5 0 1 0 0-5zM5 3h6.5v.025a5 5 0 0 1 0 9.95V13H7v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/></svg>', plus: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 0 0-1 1v6H3a1 1 0 1 0 0 2h6v6a1 1 0 1 0 2 0v-6h6a1 1 0 1 0 0-2h-6V3a1 1 0 0 0-1-1Z"/></svg>', text: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)"><path d="M9.816 11.5 7.038 4.785 4.261 11.5h5.555Zm.62 1.5H3.641l-1.666 4.028H.312l5.789-14h1.875l5.789 14h-1.663L10.436 13Z"/><path clip-rule="evenodd" d="m12.09 17-.534-1.292.848-1.971.545 1.319L12.113 17h-.023Zm1.142-5.187.545 1.319L15.5 9.13l1.858 4.316h-3.45l.398.965h3.467L18.887 17H20l-3.873-9h-1.254l-1.641 3.813Z"/></g><defs><clipPath id="a"><path d="M0 0h20v20H0z"/></clipPath></defs></svg>', alignBottom: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m9.239 13.938-2.88-1.663a.75.75 0 0 1 .75-1.3L9 12.067V4.75a.75.75 0 1 1 1.5 0v7.318l1.89-1.093a.75.75 0 0 1 .75 1.3l-2.879 1.663a.752.752 0 0 1-.511.187.752.752 0 0 1-.511-.187zM4.25 17a.75.75 0 1 1 0-1.5h10.5a.75.75 0 0 1 0 1.5H4.25z"/></svg>', alignMiddle: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.75 11.875a.752.752 0 0 1 .508.184l2.883 1.666a.75.75 0 0 1-.659 1.344l-.091-.044-1.892-1.093.001 4.318a.75.75 0 1 1-1.5 0v-4.317l-1.89 1.092a.75.75 0 0 1-.75-1.3l2.879-1.663a.752.752 0 0 1 .51-.187zM15.25 9a.75.75 0 1 1 0 1.5H4.75a.75.75 0 1 1 0-1.5h10.5zM9.75.375a.75.75 0 0 1 .75.75v4.318l1.89-1.093.092-.045a.75.75 0 0 1 .659 1.344l-2.883 1.667a.752.752 0 0 1-.508.184.752.752 0 0 1-.511-.187L6.359 5.65a.75.75 0 0 1 .75-1.299L9 5.442V1.125a.75.75 0 0 1 .75-.75z"/></svg>', alignTop: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m10.261 7.062 2.88 1.663a.75.75 0 0 1-.75 1.3L10.5 8.933v7.317a.75.75 0 1 1-1.5 0V8.932l-1.89 1.093a.75.75 0 0 1-.75-1.3l2.879-1.663a.752.752 0 0 1 .511-.187.752.752 0 0 1 .511.187zM15.25 4a.75.75 0 1 1 0 1.5H4.75a.75.75 0 0 1 0-1.5h10.5z"/></svg>', alignLeft: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 4c0 .414.336.75.75.75h9.929a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0-8c0 .414.336.75.75.75h9.929a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75z"/></svg>', alignCenter: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm2.286 4c0 .414.336.75.75.75h9.928a.75.75 0 1 0 0-1.5H5.036a.75.75 0 0 0-.75.75zm0-8c0 .414.336.75.75.75h9.928a.75.75 0 1 0 0-1.5H5.036a.75.75 0 0 0-.75.75z"/></svg>', alignRight: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 3.75a.75.75 0 0 1-.75.75H2.75a.75.75 0 1 1 0-1.5h14.5a.75.75 0 0 1 .75.75zm0 8a.75.75 0 0 1-.75.75H2.75a.75.75 0 1 1 0-1.5h14.5a.75.75 0 0 1 .75.75zm0 4a.75.75 0 0 1-.75.75H7.321a.75.75 0 1 1 0-1.5h9.929a.75.75 0 0 1 .75.75zm0-8a.75.75 0 0 1-.75.75H7.321a.75.75 0 1 1 0-1.5h9.929a.75.75 0 0 1 .75.75z"/></svg>', alignJustify: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 4c0 .414.336.75.75.75h9.929a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0-8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75z"/></svg>', objectLeft: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path opacity=".5" d="M2 3h16v1.5H2zm11.5 9H18v1.5h-4.5zm0-3H18v1.5h-4.5zm0-3H18v1.5h-4.5zM2 15h16v1.5H2z"/><path d="M12.003 7v5.5a1 1 0 0 1-1 1H2.996a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h8.007a1 1 0 0 1 1 1zm-1.506.5H3.5V12h6.997V7.5z"/></svg>', objectCenter: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path opacity=".5" d="M2 3h16v1.5H2zm0 12h16v1.5H2z"/><path d="M15.003 7v5.5a1 1 0 0 1-1 1H5.996a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h8.007a1 1 0 0 1 1 1zm-1.506.5H6.5V12h6.997V7.5z"/></svg>', objectRight: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path opacity=".5" d="M2 3h16v1.5H2zm0 12h16v1.5H2zm0-9h5v1.5H2zm0 3h5v1.5H2zm0 3h5v1.5H2z"/><path d="M18.003 7v5.5a1 1 0 0 1-1 1H8.996a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h8.007a1 1 0 0 1 1 1zm-1.506.5H9.5V12h6.997V7.5z"/></svg>', objectFullWidth: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path opacity=".5" d="M2 3h16v1.5H2zm0 12h16v1.5H2z"/><path d="M18 7v5.5a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1zm-1.505.5H3.504V12h12.991V7.5z"/></svg>', objectInline: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path opacity=".5" d="M2 3h16v1.5H2zm11.5 9H18v1.5h-4.5zM2 15h16v1.5H2z"/><path d="M12.003 7v5.5a1 1 0 0 1-1 1H2.996a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h8.007a1 1 0 0 1 1 1zm-1.506.5H3.5V12h6.997V7.5z"/></svg>', objectBlockLeft: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path opacity=".5" d="M2 3h16v1.5H2zm0 12h16v1.5H2z"/><path d="M12.003 7v5.5a1 1 0 0 1-1 1H2.996a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h8.007a1 1 0 0 1 1 1zm-1.506.5H3.5V12h6.997V7.5z"/></svg>', objectBlockRight: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path opacity=".5" d="M2 3h16v1.5H2zm0 12h16v1.5H2z"/><path d="M18.003 7v5.5a1 1 0 0 1-1 1H8.996a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h8.007a1 1 0 0 1 1 1zm-1.506.5H9.5V12h6.997V7.5z"/></svg>', objectSizeFull: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M18.095 2H1.905C.853 2 0 2.895 0 4v12c0 1.105.853 2 1.905 2h16.19C19.147 18 20 17.105 20 16V4c0-1.105-.853-2-1.905-2zm0 1.5c.263 0 .476.224.476.5v12c0 .276-.213.5-.476.5H1.905a.489.489 0 0 1-.476-.5V4c0-.276.213-.5.476-.5h16.19z"/></svg>', objectSizeLarge: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M13 6H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm0 1.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V8a.5.5 0 0 1 .5-.5h11z"/></svg>', objectSizeSmall: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M7 10H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2zm0 1.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h5z"/></svg>', objectSizeMedium: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M10 8H2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2zm0 1.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h8z"/></svg>', pencil: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m7.3 17.37-.061.088a1.518 1.518 0 0 1-.934.535l-4.178.663-.806-4.153a1.495 1.495 0 0 1 .187-1.058l.056-.086L8.77 2.639c.958-1.351 2.803-1.076 4.296-.03 1.497 1.047 2.387 2.693 1.433 4.055L7.3 17.37zM9.14 4.728l-5.545 8.346 3.277 2.294 5.544-8.346L9.14 4.728zM6.07 16.512l-3.276-2.295.53 2.73 2.746-.435zM9.994 3.506 13.271 5.8c.316-.452-.16-1.333-1.065-1.966-.905-.634-1.895-.78-2.212-.328zM8 18.5 9.375 17H19v1.5H8z"/></svg>', pilcrow: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6.999 2H15a1 1 0 0 1 0 2h-1.004v13a1 1 0 1 1-2 0V4H8.999v13a1 1 0 1 1-2 0v-7A4 4 0 0 1 3 6a4 4 0 0 1 3.999-4z"/></svg>', quote: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 10.423a6.5 6.5 0 0 1 6.056-6.408l.038.67C6.448 5.423 5.354 7.663 5.22 10H9c.552 0 .5.432.5.986v4.511c0 .554-.448.503-1 .503h-5c-.552 0-.5-.449-.5-1.003v-4.574zm8 0a6.5 6.5 0 0 1 6.056-6.408l.038.67c-2.646.739-3.74 2.979-3.873 5.315H17c.552 0 .5.432.5.986v4.511c0 .554-.448.503-1 .503h-5c-.552 0-.5-.449-.5-1.003v-4.574z"/></svg>', threeVerticalDots: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9.5" cy="4.5" r="1.5"/><circle cx="9.5" cy="10.5" r="1.5"/><circle cx="9.5" cy="16.5" r="1.5"/></svg>' };
-      var ph = S(5542), W_ = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var ph = D(5542), W_ = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(ph.Z, W_), ph.Z.locals;
       const { threeVerticalDots: fh } = Pe, K_ = { alignLeft: Pe.alignLeft, bold: Pe.bold, importExport: Pe.importExport, paragraph: Pe.paragraph, plus: Pe.plus, text: Pe.text, threeVerticalDots: Pe.threeVerticalDots };
       class ta extends de {
@@ -20525,7 +20525,7 @@ Read more: ${ne}#error-${o}`;
           }), this.groupedItems.length && this.viewFocusables.add(this.groupedItemsDropdown);
         }
       }
-      var bh = S(1046), Y_ = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var bh = D(1046), Y_ = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(bh.Z, Y_), bh.Z.locals;
       class Q_ extends de {
         constructor(e) {
@@ -20567,7 +20567,7 @@ Read more: ${ne}#error-${o}`;
           super(e), this.setTemplate({ tag: "li", attributes: { class: ["ck", "ck-list__separator"] } });
         }
       }
-      var wh = S(7686), ev = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var wh = D(7686), ev = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(wh.Z, ev), wh.Z.locals;
       class na extends de {
         constructor(e) {
@@ -20597,9 +20597,9 @@ Read more: ${ne}#error-${o}`;
           return e.icon = sd, e.extendTemplate({ attributes: { class: ["ck-splitbutton__arrow"], "data-cke-tooltip-disabled": t.to("isOn"), "aria-haspopup": !0, "aria-expanded": t.to("isOn", (n) => String(n)) } }), e.bind("isEnabled").to(this), e.bind("label").to(this), e.bind("tooltip").to(this), e.delegate("execute").to(this, "open"), e;
         }
       }
-      var Ah = S(7339), tv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Ah = D(7339), tv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Ah.Z, tv), Ah.Z.locals;
-      var _h = S(3949), nv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var _h = D(3949), nv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(_h.Z, nv), _h.Z.locals;
       function Kt(o, e = ad) {
         const t = new e(o), n = new Ow(o), i = new ps(o, t, n);
@@ -20822,7 +20822,7 @@ Read more: ${ne}#error-${o}`;
       }
       customElements.define("hex-color-picker", class extends uv {
       });
-      var zh = S(3398), hv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var zh = D(3398), hv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(zh.Z, hv), zh.Z.locals;
       class gv {
         constructor(e) {
@@ -20845,7 +20845,7 @@ Read more: ${ne}#error-${o}`;
       function da(o) {
         return String(o).toLowerCase();
       }
-      var Mh = S(8793), mv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Mh = D(8793), mv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Mh.Z, mv), Mh.Z.locals;
       var pv = Object.defineProperty, Fh = Object.getOwnPropertySymbols, fv = Object.prototype.hasOwnProperty, bv = Object.prototype.propertyIsEnumerable, Nh = (o, e, t) => e in o ? pv(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t, pe = (o, e) => {
         for (var t in e || (e = {})) fv.call(e, t) && Nh(o, t, e[t]);
@@ -20906,7 +20906,7 @@ Read more: ${ne}#error-${o}`;
         }
       }
       ut.arrowSideOffset = 25, ut.arrowHeightOffset = 10, ut.stickyVerticalOffset = 20, ut._getOptimalPosition = Sc, ut.defaultPositions = jh();
-      var $h = S(3332), kv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var $h = D(3332), kv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()($h.Z, kv), $h.Z.locals;
       const Hh = "ck-tooltip", ht = class extends on() {
         constructor(o) {
@@ -21184,7 +21184,7 @@ Read more: ${ne}#error-${o}`;
         let n = 10;
         return kn(e.element) && n--, t.isContextual && n--, n;
       }
-      var Zh = S(9688), Bv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Zh = D(9688), Bv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Zh.Z, Bv), Zh.Z.locals;
       class Tv extends de {
         constructor(e) {
@@ -21249,7 +21249,7 @@ Read more: ${ne}#error-${o}`;
           });
         }
       }
-      var Jh = S(8847), Ov = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Jh = D(8847), Ov = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Jh.Z, Ov), Jh.Z.locals;
       class Yh extends Bi {
         static get pluginName() {
@@ -21279,9 +21279,9 @@ Read more: ${ne}#error-${o}`;
           super(), t && Jd(this, t), e && this.set(e);
         }
       }
-      var Qh = S(4650), zv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Qh = D(4650), zv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Qh.Z, zv), Qh.Z.locals;
-      var Xh = S(7676), Mv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Xh = D(7676), Mv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Xh.Z, Mv), Xh.Z.locals;
       const er = rs("px");
       class tr extends K {
@@ -21417,7 +21417,7 @@ Read more: ${ne}#error-${o}`;
           }
         }
       }
-      var eg = S(5868), Vv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var eg = D(5868), Vv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(eg.Z, Vv), eg.Z.locals;
       const Yo = rs("px");
       class Lv extends de {
@@ -21439,7 +21439,7 @@ Read more: ${ne}#error-${o}`;
           this.limiterElement ? (t = this._limiterRect = this.limiterElement.getBoundingClientRect(), this.isSticky = this.isActive && t.top < this.viewportTopOffset && this._panelRect.height + this.limiterBottomOffset < t.height) : this.isSticky = !1, this.isSticky ? (this._isStickyToTheLimiter = t.bottom < e.height + this.limiterBottomOffset + this.viewportTopOffset, this._hasViewportTopOffset = !this._isStickyToTheLimiter && !!this.viewportTopOffset, this._marginLeft = this._isStickyToTheLimiter ? null : Yo(-le.window.scrollX)) : (this._isStickyToTheLimiter = !1, this._hasViewportTopOffset = !1, this._marginLeft = null);
         }
       }
-      var tg = S(9695), jv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var tg = D(9695), jv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(tg.Z, jv), tg.Z.locals;
       class $v extends Dv {
         constructor(e, t) {
@@ -21475,7 +21475,7 @@ Read more: ${ne}#error-${o}`;
           }({ view: t, element: n, text: r, isDirectHost: !1, keepOnFocus: !0 });
         }
       }
-      var ng = S(3143), Hv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var ng = D(3143), Hv = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(ng.Z, Hv), ng.Z.locals;
       class qv extends Iv {
         constructor(e, t, n = {}) {
@@ -21926,7 +21926,7 @@ Read more: ${ne}#error-${o}`;
             const { text: l, selection: c, resultRange: d } = a, u = Array.from(c.getRanges()).map((b) => e.editing.mapper.toModelRange(b));
             let g = l;
             if (f.isAndroid) {
-              const b = Array.from(u[0].getItems()).reduce((w, E) => w + (E.is("$textProxy") ? E.data : ""), "");
+              const b = Array.from(u[0].getItems()).reduce((w, y) => w + (y.is("$textProxy") ? y.data : ""), "");
               b && (b.length <= g.length ? g.startsWith(b) && (g = g.substring(b.length), u[0].start = u[0].start.getShiftedBy(b.length)) : b.startsWith(g) && (u[0].start = u[0].start.getShiftedBy(g.length), g = ""));
             }
             const p = { text: g, selection: t.createSelection(u) };
@@ -22007,8 +22007,8 @@ Read more: ${ne}#error-${o}`;
               let b = 0;
               for (const { nextPosition: w } of p) {
                 if (w.parent.is("$text")) {
-                  const E = w.parent.data, I = w.offset;
-                  if (ds(E, I) || us(E, I) || Fc(E, I)) continue;
+                  const y = w.parent.data, I = w.offset;
+                  if (ds(y, I) || us(y, I) || Fc(y, I)) continue;
                   b++;
                 } else b++;
                 if (b > 1) return !0;
@@ -22031,7 +22031,7 @@ Read more: ${ne}#error-${o}`;
             }), s.on("keyup", (u, { keyCode: g, domEvent: p }) => {
               const b = s.selection, w = i.isEnabled && g == a && c(g) && !b.isCollapsed && !l;
               if (a = null, w) {
-                const E = b.getFirstRange(), I = new oo(s, "delete", E), z = { unit: ln, direction: d(g), selectionToRemove: b };
+                const y = b.getFirstRange(), I = new oo(s, "delete", y), z = { unit: ln, direction: d(g), selectionToRemove: b };
                 s.fire(I, new ro(r, p, z));
               }
             }), s.on("beforeinput", (u, { inputType: g }) => {
@@ -22392,7 +22392,7 @@ Read more: ${ne}#error-${o}`;
       function cn(o) {
         return o.getAttribute(Zt);
       }
-      var Bg = S(4921), pC = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Bg = D(4921), pC = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Bg.Z, pC), Bg.Z.locals;
       const Tg = ["before", "after"], fC = new DOMParser().parseFromString('<svg viewBox="0 0 10 8" xmlns="http://www.w3.org/2000/svg"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"/></svg>', "image/svg+xml").firstChild, Ig = "ck-widget__type-around_disabled";
       class bC extends K {
@@ -22440,14 +22440,14 @@ Read more: ${ne}#error-${o}`;
             l && Tn(l, s.item, t) && (function(c, d, u) {
               const g = c.createUIElement("div", { class: "ck ck-reset_all ck-widget__type-around" }, function(p) {
                 const b = this.toDomElement(p);
-                return function(w, E) {
+                return function(w, y) {
                   for (const I of Tg) {
-                    const z = new Pt({ tag: "div", attributes: { class: ["ck", "ck-widget__type-around__button", `ck-widget__type-around__button_${I}`], title: E[I], "aria-hidden": "true" }, children: [w.ownerDocument.importNode(fC, !0)] });
+                    const z = new Pt({ tag: "div", attributes: { class: ["ck", "ck-widget__type-around__button", `ck-widget__type-around__button_${I}`], title: y[I], "aria-hidden": "true" }, children: [w.ownerDocument.importNode(fC, !0)] });
                     w.appendChild(z.render());
                   }
                 }(b, d), function(w) {
-                  const E = new Pt({ tag: "div", attributes: { class: ["ck", "ck-widget__type-around__fake-caret"] } });
-                  w.appendChild(E.render());
+                  const y = new Pt({ tag: "div", attributes: { class: ["ck", "ck-widget__type-around__fake-caret"] } });
+                  w.appendChild(y.render());
                 }(b), b;
               });
               c.insert(c.createPositionAt(u, "end"), g);
@@ -22559,12 +22559,12 @@ Read more: ${ne}#error-${o}`;
                 const g = n.createSelection(u.start);
                 if (n.modifySelection(g, { direction: l }), g.focus.isEqual(u.start)) {
                   const p = function(b, w) {
-                    let E = w;
+                    let y = w;
                     for (const I of w.getAncestors({ parentFirst: !0 })) {
                       if (I.childCount > 1 || b.isLimit(I)) break;
-                      E = I;
+                      y = I;
                     }
-                    return E;
+                    return y;
                   }(i, u.start.parent);
                   n.deleteContent(n.createSelection(p, "on"), { doNotAutoparagraph: !0 });
                 } else n.change((p) => {
@@ -22618,13 +22618,13 @@ Read more: ${ne}#error-${o}`;
             if (g) {
               const b = u.isCollapsed ? u.focus : u.getLastPosition(), w = Pg(p, b, "forward");
               if (!w) return null;
-              const E = p.createRange(b, w), I = Rg(p.schema, E, "backward");
+              const y = p.createRange(b, w), I = Rg(p.schema, y, "backward");
               return I ? p.createRange(b, I) : null;
             }
             {
               const b = u.isCollapsed ? u.focus : u.getFirstPosition(), w = Pg(p, b, "backward");
               if (!w) return null;
-              const E = p.createRange(w, b), I = Rg(p.schema, E, "forward");
+              const y = p.createRange(w, b), I = Rg(p.schema, y, "forward");
               return I ? p.createRange(I, b) : null;
             }
           }(o, a, l);
@@ -22637,7 +22637,7 @@ Read more: ${ne}#error-${o}`;
                 const H = p.createSelection(u.start);
                 p.modifySelection(H), H.focus.isAtEnd || u.start.isEqual(H.focus) || (u = p.createRange(H.focus, u.end));
               }
-              const w = d.mapper.toViewRange(u), E = b.viewRangeToDom(w), I = Fe.getDomRangeRects(E);
+              const w = d.mapper.toViewRange(u), y = b.viewRangeToDom(w), I = Fe.getDomRangeRects(y);
               let z;
               for (const H of I) if (z !== void 0) {
                 if (Math.round(H.top) >= z) return !1;
@@ -22668,7 +22668,7 @@ Read more: ${ne}#error-${o}`;
         for (const { nextPosition: i } of e.getWalker({ direction: t })) if (o.checkChild(i, "$text")) return i;
         return null;
       }
-      var Og = S(3488), wC = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Og = D(3488), wC = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Og.Z, wC), Og.Z.locals;
       class ti extends K {
         constructor() {
@@ -22741,8 +22741,8 @@ Read more: ${ne}#error-${o}`;
           }
           if (!s.isCollapsed && !t.shiftKey) {
             const g = s.getFirstPosition(), p = s.getLastPosition(), b = g.nodeAfter, w = p.nodeBefore;
-            return void ((b && r.isObject(b) || w && r.isObject(w)) && (i.change((E) => {
-              E.setSelection(c ? p : g);
+            return void ((b && r.isObject(b) || w && r.isObject(w)) && (i.change((y) => {
+              y.setSelection(c ? p : g);
             }), t.preventDefault(), e.stop()));
           }
           if (!s.isCollapsed) return;
@@ -22871,9 +22871,9 @@ Read more: ${ne}#error-${o}`;
         const t = o.editing.view, n = ut.defaultPositions;
         return { target: t.domConverter.mapViewToDom(e), positions: [n.northArrowSouth, n.northArrowSouthWest, n.northArrowSouthEast, n.southArrowNorth, n.southArrowNorthWest, n.southArrowNorthEast, n.viewportStickyNorth] };
       }
-      var Fg = S(8506), _C = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Fg = D(8506), _C = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Fg.Z, _C), Fg.Z.locals;
-      var Ng = S(903), vC = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Ng = D(903), vC = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Ng.Z, vC), Ng.Z.locals;
       class CC extends K {
         static get pluginName() {
@@ -23021,8 +23021,8 @@ Read more: ${ne}#error-${o}`;
         return l ? (r = function(c, d, u) {
           const g = c.model;
           if (!g.schema.checkChild(u, "$block")) return null;
-          const p = g.createPositionAt(u, 0), b = d.path.slice(0, p.path.length), w = g.createPositionFromPath(d.root, b), E = w.nodeAfter;
-          return E && g.schema.isObject(E) ? g.createRangeOn(E) : null;
+          const p = g.createPositionAt(u, 0), b = d.path.slice(0, p.path.length), w = g.createPositionFromPath(d.root, b), y = w.nodeAfter;
+          return y && g.schema.isObject(y) ? g.createRangeOn(y) : null;
         }(o, l, a), r || (r = n.schema.getNearestSelectionRange(l, f.isGecko ? "forward" : "backward"), r || function(c, d) {
           const u = c.model;
           let g = d;
@@ -23511,7 +23511,7 @@ Read more: ${ne}#error-${o}`;
           });
         }
       }
-      var Yg = S(8603), GC = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Yg = D(8603), GC = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Yg.Z, GC), Yg.Z.locals;
       const fo = "italic";
       class ZC extends K {
@@ -23657,7 +23657,7 @@ Read more: ${ne}#error-${o}`;
           }, { context: "blockquote" });
         }
       }
-      var em = S(3062), t1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var em = D(3062), t1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(em.Z, t1), em.Z.locals;
       class n1 extends K {
         static get pluginName() {
@@ -23794,7 +23794,7 @@ Read more: ${ne}#error-${o}`;
           e.conversion.for("upcast").elementToElement({ model: "heading1", view: "h1", converterPriority: se.get("low") + 1 });
         }
       }
-      var rm = S(8733), c1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var rm = D(8733), c1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(rm.Z, c1), rm.Z.locals;
       class d1 extends K {
         static get pluginName() {
@@ -23953,9 +23953,9 @@ Read more: ${ne}#error-${o}`;
           this.editor.commands.add("imageTextAlternative", new m1(this.editor));
         }
       }
-      var hm = S(1905), f1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var hm = D(1905), f1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(hm.Z, f1), hm.Z.locals;
-      var gm = S(6764), b1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var gm = D(6764), b1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(gm.Z, b1), gm.Z.locals;
       class k1 extends de {
         constructor(e) {
@@ -24008,7 +24008,7 @@ Read more: ${ne}#error-${o}`;
         }
         _createForm() {
           const e = this.editor, t = e.editing.view.document, n = e.plugins.get("ImageUtils");
-          this._balloon = this.editor.plugins.get("ContextualBalloon"), this._form = new (x(k1))(e.locale), this._form.render(), this.listenTo(this._form, "submit", () => {
+          this._balloon = this.editor.plugins.get("ContextualBalloon"), this._form = new (S(k1))(e.locale), this._form.render(), this.listenTo(this._form, "submit", () => {
             e.execute("imageTextAlternative", { newValue: this._form.labeledInput.fieldView.element.value }), this._hideForm(!0);
           }), this.listenTo(this._form, "cancel", () => {
             this._hideForm(!0);
@@ -24207,7 +24207,7 @@ Read more: ${ne}#error-${o}`;
           });
         }
       }
-      var _m = S(3508), S1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var _m = D(3508), S1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(_m.Z, S1), _m.Z.locals;
       class D1 extends K {
         static get requires() {
@@ -24259,7 +24259,7 @@ Read more: ${ne}#error-${o}`;
           return "ImageInline";
         }
       }
-      var vm = S(2640), I1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var vm = D(2640), I1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(vm.Z, I1), vm.Z.locals;
       function Cm(o) {
         const e = o.map((t) => t.replace("+", "\\+"));
@@ -24305,11 +24305,11 @@ Read more: ${ne}#error-${o}`;
           e.ui.componentFactory.add("uploadImage", n), e.ui.componentFactory.add("imageUpload", n);
         }
       }
-      var Em = S(3689), O1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Em = D(3689), O1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Em.Z, O1), Em.Z.locals;
-      var xm = S(4036), z1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var xm = D(4036), z1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(xm.Z, z1), xm.Z.locals;
-      var Sm = S(3773), M1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Sm = D(3773), M1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Sm.Z, M1), Sm.Z.locals;
       class F1 extends K {
         constructor(e) {
@@ -24320,27 +24320,27 @@ Read more: ${ne}#error-${o}`;
             if (d == "reading") return Dm(g, p), void Bm(l, u, g, p);
             if (d == "uploading") {
               const b = c.loaders.get(a);
-              return Dm(g, p), void (b ? (Tm(g, p), function(w, E, I, z) {
+              return Dm(g, p), void (b ? (Tm(g, p), function(w, y, I, z) {
                 const H = function(X) {
                   const ce = X.createUIElement("div", { class: "ck-progress-bar" });
                   return X.setCustomProperty("progressBar", !0, ce), ce;
-                }(E);
-                E.insert(E.createPositionAt(w, "end"), H), I.on("change:uploadedPercent", (X, ce, Oe) => {
+                }(y);
+                y.insert(y.createPositionAt(w, "end"), H), I.on("change:uploadedPercent", (X, ce, Oe) => {
                   z.change((be) => {
                     be.setStyle("width", Oe + "%", H);
                   });
                 });
-              }(g, p, b, r.editing.view), function(w, E, I, z) {
+              }(g, p, b, r.editing.view), function(w, y, I, z) {
                 if (z.data) {
-                  const H = w.findViewImgElement(E);
+                  const H = w.findViewImgElement(y);
                   I.setAttribute("src", z.data, H);
                 }
               }(l, g, p, b)) : Bm(l, u, g, p));
             }
-            d == "complete" && c.loaders.get(a) && function(b, w, E) {
+            d == "complete" && c.loaders.get(a) && function(b, w, y) {
               const I = w.createUIElement("div", { class: "ck-image-upload-complete-icon" });
               w.insert(w.createPositionAt(b, "end"), I), setTimeout(() => {
-                E.change((z) => z.remove(z.createRangeOn(I)));
+                y.change((z) => z.remove(z.createRangeOn(I)));
               }, 3e3);
             }(g, p, r.editing.view), function(b, w) {
               Pm(b, w, "progressBar");
@@ -24445,8 +24445,8 @@ Read more: ${ne}#error-${o}`;
               for (const b of U1(e, g)) {
                 const w = b.getAttribute("uploadId");
                 if (!w) continue;
-                const E = i.loaders.get(w);
-                E && (p ? d.has(w) || E.abort() : (d.add(w), this._uploadImageElements.set(w, b), E.status == "idle" && this._readAndUpload(E)));
+                const y = i.loaders.get(w);
+                y && (p ? d.has(w) || y.abort() : (d.add(w), this._uploadImageElements.set(w, b), y.status == "idle" && this._readAndUpload(y)));
               }
             }
           }), this.on("uploadComplete", (c, { imageElement: d, data: u }) => {
@@ -24510,9 +24510,9 @@ Read more: ${ne}#error-${o}`;
         const t = o.plugins.get("ImageUtils");
         return Array.from(o.model.createRangeOn(e)).filter((n) => t.isImage(n.item)).map((n) => n.item);
       }
-      var zm = S(1568), W1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var zm = D(1568), W1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(zm.Z, W1), zm.Z.locals;
-      var Mm = S(3535), K1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Mm = D(3535), K1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Mm.Z, K1), Mm.Z.locals;
       class G1 extends ae {
         refresh() {
@@ -24556,7 +24556,7 @@ Read more: ${ne}#error-${o}`;
       function Fm(o) {
         return (e) => o === null && e === o || e !== null && e.width === o;
       }
-      var Nm = S(6270), J1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Nm = D(6270), J1 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Nm.Z, J1), Nm.Z.locals;
       class Y1 extends ae {
         constructor(e, t) {
@@ -24674,7 +24674,7 @@ Read more: ${ne}#error-${o}`;
           });
         }
       }
-      var Ym = S(5083), ny = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Ym = D(5083), ny = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Ym.Z, ny), Ym.Z.locals;
       class oy extends K {
         static get requires() {
@@ -25009,7 +25009,7 @@ Read more: ${ne}#error-${o}`;
           return { attributes: this.attributes, classes: this.classes, styles: this.styles };
         }
       }
-      var bp = S(9773), Ey = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var bp = D(9773), Ey = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(bp.Z, Ey), bp.Z.locals;
       var xy = Object.defineProperty, kp = Object.getOwnPropertySymbols, Sy = Object.prototype.hasOwnProperty, Dy = Object.prototype.propertyIsEnumerable, wp = (o, e, t) => e in o ? xy(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t, By = (o, e) => {
         for (var t in e || (e = {})) Sy.call(e, t) && wp(o, t, e[t]);
@@ -25179,7 +25179,7 @@ Read more: ${ne}#error-${o}`;
       function Va(o) {
         return o.getDefinition("$text").allowAttributes.filter((e) => e.startsWith("link"));
       }
-      var vp = S(7754), Py = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var vp = D(7754), Py = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(vp.Z, Py), vp.Z.locals;
       class Ry extends de {
         constructor(e, t) {
@@ -25230,7 +25230,7 @@ Read more: ${ne}#error-${o}`;
           return t.add(this.saveButtonView), t.add(this.cancelButtonView), t;
         }
       }
-      var Cp = S(2347), Oy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Cp = D(2347), Oy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Cp.Z, Oy), Cp.Z.locals;
       class zy extends de {
         constructor(e) {
@@ -25292,7 +25292,7 @@ Read more: ${ne}#error-${o}`;
           }), t;
         }
         _createFormView() {
-          const e = this.editor, t = e.commands.get("link"), n = e.config.get("link.defaultProtocol"), i = new (x(Ry))(e.locale, t);
+          const e = this.editor, t = e.commands.get("link"), n = e.config.get("link.defaultProtocol"), i = new (S(Ry))(e.locale, t);
           return i.urlInputView.fieldView.bind("value").to(t, "value"), i.urlInputView.bind("isEnabled").to(t, "isEnabled"), i.saveButtonView.bind("isEnabled").to(t), this.listenTo(i, "submit", () => {
             const { value: r } = i.urlInputView.fieldView.element, s = Fa(r, n);
             e.execute("link", s, i.getDecoratorSwitchesState()), this._closeFormView();
@@ -25496,11 +25496,11 @@ Read more: ${ne}#error-${o}`;
         const e = Fy.exec(o);
         return e ? e[2] : null;
       }
-      var Ep = S(111), Vy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Ep = D(111), Vy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Ep.Z, Vy), Ep.Z.locals;
-      var xp = S(5730), Ly = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var xp = D(5730), Ly = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(xp.Z, Ly), xp.Z.locals;
-      var Sp = S(4564), jy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Sp = D(4564), jy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Sp.Z, jy), Sp.Z.locals;
       function $y(o, e) {
         const t = e.mapper, n = e.writer, i = o.getAttribute("listType") == "numbered" ? "ol" : "ul", r = function(a) {
@@ -25595,11 +25595,11 @@ Read more: ${ne}#error-${o}`;
       }
       const Ky = [{ listStyle: "disc", typeAttribute: "disc", listType: "bulleted" }, { listStyle: "circle", typeAttribute: "circle", listType: "bulleted" }, { listStyle: "square", typeAttribute: "square", listType: "bulleted" }, { listStyle: "decimal", typeAttribute: "1", listType: "numbered" }, { listStyle: "decimal-leading-zero", typeAttribute: null, listType: "numbered" }, { listStyle: "lower-roman", typeAttribute: "i", listType: "numbered" }, { listStyle: "upper-roman", typeAttribute: "I", listType: "numbered" }, { listStyle: "lower-alpha", typeAttribute: "a", listType: "numbered" }, { listStyle: "upper-alpha", typeAttribute: "A", listType: "numbered" }, { listStyle: "lower-latin", typeAttribute: "a", listType: "numbered" }, { listStyle: "upper-latin", typeAttribute: "A", listType: "numbered" }];
       for (const { listStyle: o, typeAttribute: e, listType: t } of Ky) ;
-      var Pp = S(4721), Gy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Pp = D(4721), Gy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Pp.Z, Gy), Pp.Z.locals;
-      var Rp = S(6082), Zy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Rp = D(6082), Zy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Rp.Z, Zy), Rp.Z.locals;
-      var Op = S(2417), Jy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Op = D(2417), Jy = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Op.Z, Jy), Op.Z.locals;
       class zp extends ae {
         constructor(e, t) {
@@ -25777,8 +25777,8 @@ Read more: ${ne}#error-${o}`;
             let p = u.createPositionAfter(l);
             for (const b of c) if (b.name == "ul" || b.name == "ol") p = d.convertItem(b, p).modelCursor;
             else {
-              const w = d.convertItem(b, u.createPositionAt(l, "end")), E = w.modelRange.start.nodeAfter;
-              E && E.is("element") && !g.checkChild(l, E.name) && (l = w.modelCursor.parent.is("element", "listItem") ? w.modelCursor.parent : iE(w.modelCursor), p = u.createPositionAfter(l));
+              const w = d.convertItem(b, u.createPositionAt(l, "end")), y = w.modelRange.start.nodeAfter;
+              y && y.is("element") && !g.checkChild(l, y.name) && (l = w.modelCursor.parent.is("element", "listItem") ? w.modelCursor.parent : iE(w.modelCursor), p = u.createPositionAfter(l));
             }
             return p;
           }(i, e.viewItem.getChildren(), t);
@@ -25872,45 +25872,45 @@ Read more: ${ne}#error-${o}`;
             for (const w of c) if (w.type == "insert" && w.name == "listItem") g(w.position);
             else if (w.type == "insert" && w.name != "listItem") {
               if (w.name != "$text") {
-                const E = w.position.nodeAfter;
-                E.hasAttribute("listIndent") && (l.removeAttribute("listIndent", E), u = !0), E.hasAttribute("listType") && (l.removeAttribute("listType", E), u = !0), E.hasAttribute("listStyle") && (l.removeAttribute("listStyle", E), u = !0), E.hasAttribute("listReversed") && (l.removeAttribute("listReversed", E), u = !0), E.hasAttribute("listStart") && (l.removeAttribute("listStart", E), u = !0);
-                for (const I of Array.from(a.createRangeIn(E)).filter((z) => z.item.is("element", "listItem"))) g(I.previousPosition);
+                const y = w.position.nodeAfter;
+                y.hasAttribute("listIndent") && (l.removeAttribute("listIndent", y), u = !0), y.hasAttribute("listType") && (l.removeAttribute("listType", y), u = !0), y.hasAttribute("listStyle") && (l.removeAttribute("listStyle", y), u = !0), y.hasAttribute("listReversed") && (l.removeAttribute("listReversed", y), u = !0), y.hasAttribute("listStart") && (l.removeAttribute("listStart", y), u = !0);
+                for (const I of Array.from(a.createRangeIn(y)).filter((z) => z.item.is("element", "listItem"))) g(I.previousPosition);
               }
               g(w.position.getShiftedBy(w.length));
             } else w.type == "remove" && w.name == "listItem" ? g(w.position) : (w.type == "attribute" && w.attributeKey == "listIndent" || w.type == "attribute" && w.attributeKey == "listType") && g(w.range.start);
             for (const w of d.values()) p(w), b(w);
             return u;
             function g(w) {
-              const E = w.nodeBefore;
-              if (E && E.is("element", "listItem")) {
-                let I = E;
+              const y = w.nodeBefore;
+              if (y && y.is("element", "listItem")) {
+                let I = y;
                 if (d.has(I)) return;
                 for (let z = I.previousSibling; z && z.is("element", "listItem"); z = I.previousSibling) if (I = z, d.has(I)) return;
-                d.set(E, I);
+                d.set(y, I);
               } else {
                 const I = w.nodeAfter;
                 I && I.is("element", "listItem") && d.set(I, I);
               }
             }
             function p(w) {
-              let E = 0, I = null;
+              let y = 0, I = null;
               for (; w && w.is("element", "listItem"); ) {
                 const z = w.getAttribute("listIndent");
-                if (z > E) {
+                if (z > y) {
                   let H;
-                  I === null ? (I = z - E, H = E) : (I > z && (I = z), H = z - I), l.setAttribute("listIndent", H, w), u = !0;
-                } else I = null, E = w.getAttribute("listIndent") + 1;
+                  I === null ? (I = z - y, H = y) : (I > z && (I = z), H = z - I), l.setAttribute("listIndent", H, w), u = !0;
+                } else I = null, y = w.getAttribute("listIndent") + 1;
                 w = w.nextSibling;
               }
             }
             function b(w) {
-              let E = [], I = null;
+              let y = [], I = null;
               for (; w && w.is("element", "listItem"); ) {
                 const z = w.getAttribute("listIndent");
-                if (I && I.getAttribute("listIndent") > z && (E = E.slice(0, z + 1)), z != 0) if (E[z]) {
-                  const H = E[z];
+                if (I && I.getAttribute("listIndent") > z && (y = y.slice(0, z + 1)), z != 0) if (y[z]) {
+                  const H = y[z];
                   w.getAttribute("listType") != H && (l.setAttribute("listType", H, w), u = !0);
-                } else E[z] = w.getAttribute("listType");
+                } else y[z] = w.getAttribute("listType");
                 I = w, w = w.nextSibling;
               }
             }
@@ -25939,15 +25939,15 @@ Read more: ${ne}#error-${o}`;
                 g.breakContainer(g.createPositionBefore(u)), g.breakContainer(g.createPositionAfter(u));
                 const p = u.parent, b = p.previousSibling, w = g.createRangeOn(p);
                 g.remove(w), b && b.nextSibling && Ct(g, b, b.nextSibling), Hp(c.attributeOldValue + 1, c.range.start, w.start, u, d, a), Dp(c.item, u, d, a);
-                for (const E of c.item.getChildren()) d.consumable.consume(E, "insert");
+                for (const y of c.item.getChildren()) d.consumable.consume(y, "insert");
               };
             }(e.model)), s.on("remove:listItem", /* @__PURE__ */ function(a) {
               return (l, c, d) => {
                 const u = d.mapper.toViewPosition(c.position).getLastMatchingPosition((I) => !I.item.is("element", "li")).nodeAfter, g = d.writer;
                 g.breakContainer(g.createPositionBefore(u)), g.breakContainer(g.createPositionAfter(u));
-                const p = u.parent, b = p.previousSibling, w = g.createRangeOn(p), E = g.remove(w);
+                const p = u.parent, b = p.previousSibling, w = g.createRangeOn(p), y = g.remove(w);
                 b && b.nextSibling && Ct(g, b, b.nextSibling), Hp(d.mapper.toModelElement(u).getAttribute("listIndent") + 1, c.position, w.start, u, d, a);
-                for (const I of g.createRangeIn(E).getItems()) d.mapper.unbindViewElement(I);
+                for (const I of g.createRangeIn(y).getItems()) d.mapper.unbindViewElement(I);
                 l.stop();
               };
             }(e.model)), s.on("remove", eE, { priority: "low" });
@@ -25984,7 +25984,7 @@ Read more: ${ne}#error-${o}`;
         return e;
       }
       Ei("Ctrl+Enter");
-      var qp = S(1199), sE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var qp = D(1199), sE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(qp.Z, sE), qp.Z.locals;
       function qe(o, e, t, n, i = 1) {
         e != null && i != null && e > i ? n.setAttribute(o, e, t) : n.removeAttribute(o, t);
@@ -26006,11 +26006,11 @@ Read more: ${ne}#error-${o}`;
               let u, g = 0;
               const p = [], b = [];
               let w;
-              for (const E of Array.from(d.getChildren())) {
-                if (E.name !== "tbody" && E.name !== "thead" && E.name !== "tfoot") continue;
-                E.name !== "thead" || w || (w = E);
-                const I = Array.from(E.getChildren()).filter((z) => z.is("element", "tr"));
-                for (const z of I) if (w && E === w || E.name === "tbody" && Array.from(z.getChildren()).length && Array.from(z.getChildren()).every((H) => H.is("element", "th"))) g++, p.push(z);
+              for (const y of Array.from(d.getChildren())) {
+                if (y.name !== "tbody" && y.name !== "thead" && y.name !== "tfoot") continue;
+                y.name !== "thead" || w || (w = y);
+                const I = Array.from(y.getChildren()).filter((z) => z.is("element", "tr"));
+                for (const z of I) if (w && y === w || y.name === "tbody" && Array.from(z.getChildren()).length && Array.from(z.getChildren()).every((H) => H.is("element", "th"))) g++, p.push(z);
                 else {
                   b.push(z);
                   const H = lE(z);
@@ -26224,7 +26224,7 @@ Read more: ${ne}#error-${o}`;
         for (let d = 0; d < l; d++) t.insertElement("tableRow", a, "end");
         const c = [...new we(o, { startRow: n, endRow: r, startColumn: i, endColumn: s, includeAllSlots: !0 })];
         for (const { row: d, column: u, cell: g, isAnchor: p, cellAnchorRow: b, cellAnchorColumn: w } of c) {
-          const E = d - n, I = a.getChild(E);
+          const y = d - n, I = a.getChild(y);
           if (p) {
             const z = t.cloneElement(g);
             t.append(z, I), rf(z, d, u, r, s, t);
@@ -26233,8 +26233,8 @@ Read more: ${ne}#error-${o}`;
         return function(d, u, g, p, b) {
           const w = parseInt(u.getAttribute("headingRows") || "0");
           w > 0 && qe("headingRows", w - g, d, b, 0);
-          const E = parseInt(u.getAttribute("headingColumns") || "0");
-          E > 0 && qe("headingColumns", E - p, d, b, 0);
+          const y = parseInt(u.getAttribute("headingColumns") || "0");
+          y > 0 && qe("headingColumns", y - p, d, b, 0);
         }(a, o, n, i, t), a;
       }
       function ef(o, e, t = 0) {
@@ -26253,8 +26253,8 @@ Read more: ${ne}#error-${o}`;
         const d = r + s, u = [...new we(i, { startRow: r, endRow: d, includeAllSlots: !0 })];
         let g, p = null;
         for (const b of u) {
-          const { row: w, column: E, cell: I } = b;
-          I === o && g === void 0 && (g = E), g !== void 0 && g === E && w === d && (p = In(t, b.getPositionBefore(), a));
+          const { row: w, column: y, cell: I } = b;
+          I === o && g === void 0 && (g = y), g !== void 0 && g === y && w === d && (p = In(t, b.getPositionBefore(), a));
         }
         return qe("rowspan", s, o, t), p;
       }
@@ -26325,8 +26325,8 @@ Read more: ${ne}#error-${o}`;
           const e = this.editor.model, t = e.document, n = this.editor.plugins.get("TableUtils").getTableCellsContainingSelection(t.selection)[0], i = this.value, r = this.direction;
           e.change((s) => {
             const a = r == "right" || r == "down", l = a ? n : i, c = a ? i : n, d = c.parent;
-            (function(w, E, I) {
-              lf(w) || (lf(E) && I.remove(I.createRangeIn(E)), I.move(I.createRangeIn(w), I.createPositionAt(E, "end"))), I.remove(w);
+            (function(w, y, I) {
+              lf(w) || (lf(y) && I.remove(I.createRangeIn(y)), I.move(I.createRangeIn(w), I.createPositionAt(y, "end"))), I.remove(w);
             })(c, l, s);
             const u = this.isHorizontal ? "colspan" : "rowspan", g = parseInt(n.getAttribute(u) || "1"), p = parseInt(i.getAttribute(u) || "1");
             s.setAttribute(u, g + p, l), s.setSelection(s.createRangeIn(l));
@@ -26340,14 +26340,14 @@ Read more: ${ne}#error-${o}`;
           const i = this.isHorizontal ? function(a, l, c) {
             const d = a.parent, u = d.parent, g = l == "right" ? a.nextSibling : a.previousSibling, p = (u.getAttribute("headingColumns") || 0) > 0;
             if (!g) return;
-            const b = l == "right" ? a : g, w = l == "right" ? g : a, { column: E } = c.getCellLocation(b), { column: I } = c.getCellLocation(w), z = parseInt(b.getAttribute("colspan") || "1"), H = Ha(c, b), X = Ha(c, w);
+            const b = l == "right" ? a : g, w = l == "right" ? g : a, { column: y } = c.getCellLocation(b), { column: I } = c.getCellLocation(w), z = parseInt(b.getAttribute("colspan") || "1"), H = Ha(c, b), X = Ha(c, w);
             if (!(p && H != X))
-              return E + z === I ? g : void 0;
+              return y + z === I ? g : void 0;
           }(n, this.direction, t) : function(a, l, c) {
             const d = a.parent, u = d.parent, g = u.getChildIndex(d);
             if (l == "down" && g === c.getRows(u) - 1 || l == "up" && g === 0) return null;
-            const p = parseInt(a.getAttribute("rowspan") || "1"), b = u.getAttribute("headingRows") || 0, w = l == "down" && g + p === b, E = l == "up" && g === b;
-            if (b && (w || E)) return null;
+            const p = parseInt(a.getAttribute("rowspan") || "1"), b = u.getAttribute("headingRows") || 0, w = l == "down" && g + p === b, y = l == "up" && g === b;
+            if (b && (w || y)) return null;
             const I = parseInt(a.getAttribute("rowspan") || "1"), z = l == "down" ? g + I : g, H = [...new we(u, { endRow: z })], X = H.find((be) => be.cell === a), ce = X.column, Oe = H.find(({ row: be, cellHeight: Qt, column: kt }) => kt === ce && (l == "down" ? be === z : z === be + Qt));
             return Oe && Oe.cell ? Oe.cell : null;
           }(n, this.direction, t);
@@ -26375,12 +26375,12 @@ Read more: ${ne}#error-${o}`;
             t.removeRows(s, { at: i.first, rows: c });
             const d = function(u, g, p, b) {
               const w = u.getChild(Math.min(g, b - 1));
-              let E = w.getChild(0), I = 0;
+              let y = w.getChild(0), I = 0;
               for (const z of w.getChildren()) {
-                if (I > p) return E;
-                E = z, I += parseInt(z.getAttribute("colspan") || "1");
+                if (I > p) return y;
+                y = z, I += parseInt(z.getAttribute("colspan") || "1");
               }
-              return E;
+              return y;
             }(s, i.first, a, t.getRows(s));
             l.setSelection(l.createPositionAt(d, 0));
           });
@@ -26467,15 +26467,15 @@ Read more: ${ne}#error-${o}`;
             const u = e.getAttribute("headingRows") || 0;
             if (u > i && qe("headingRows", u + r, e, d, 0), !s && (i === 0 || i === l)) return void Ka(d, e, i, r, c);
             const g = s ? Math.max(i, a) : i, p = new we(e, { endRow: g }), b = new Array(c).fill(1);
-            for (const { row: w, column: E, cellHeight: I, cellWidth: z, cell: H } of p) {
+            for (const { row: w, column: y, cellHeight: I, cellWidth: z, cell: H } of p) {
               const X = w + I - 1, ce = w <= a && a <= X;
-              w < i && i <= X ? (d.setAttribute("rowspan", I + r, H), b[E] = -z) : s && ce && (b[E] = z);
+              w < i && i <= X ? (d.setAttribute("rowspan", I + r, H), b[y] = -z) : s && ce && (b[y] = z);
             }
             for (let w = 0; w < r; w++) {
-              const E = d.createElement("tableRow");
-              d.insert(E, e, i);
+              const y = d.createElement("tableRow");
+              d.insert(y, e, i);
               for (let I = 0; I < b.length; I++) {
-                const z = b[I], H = d.createPositionAt(E, "end");
+                const z = b[I], H = d.createPositionAt(y, "end");
                 z > 0 && In(d, H, z > 1 ? { colspan: z } : void 0), I += Math.abs(z) - 1;
               }
             }
@@ -26493,10 +26493,10 @@ Read more: ${ne}#error-${o}`;
             }
             const c = new we(e, { column: i, includeAllSlots: !0 });
             for (const d of c) {
-              const { row: u, cell: g, cellAnchorColumn: p, cellAnchorRow: b, cellWidth: w, cellHeight: E } = d;
+              const { row: u, cell: g, cellAnchorColumn: p, cellAnchorRow: b, cellWidth: w, cellHeight: y } = d;
               if (p < i) {
                 s.setAttribute("colspan", w + r, g);
-                const I = b + E - 1;
+                const I = b + y - 1;
                 for (let z = u; z <= I; z++) c.skipRow(z);
               } else ko(r, s, d.getPositionBefore());
             }
@@ -26507,7 +26507,7 @@ Read more: ${ne}#error-${o}`;
           if (a > r - 1) throw new T("tableutils-removerows-row-index-out-of-range", this, { table: e, options: t });
           n.change((l) => {
             const c = { first: s, last: a }, { cellsToMove: d, cellsToTrim: u } = function(g, { first: p, last: b }) {
-              const w = /* @__PURE__ */ new Map(), E = [];
+              const w = /* @__PURE__ */ new Map(), y = [];
               for (const { row: I, column: z, cellHeight: H, cell: X } of new we(g, { endRow: b })) {
                 const ce = I + H - 1;
                 if (I >= p && I <= b && ce > b) {
@@ -26516,13 +26516,13 @@ Read more: ${ne}#error-${o}`;
                 }
                 if (I < p && ce >= p) {
                   let Oe;
-                  Oe = ce >= b ? b - p + 1 : ce - p + 1, E.push({ cell: X, rowspan: H - Oe });
+                  Oe = ce >= b ? b - p + 1 : ce - p + 1, y.push({ cell: X, rowspan: H - Oe });
                 }
               }
-              return { cellsToMove: w, cellsToTrim: E };
+              return { cellsToMove: w, cellsToTrim: y };
             }(e, c);
             d.size && function(g, p, b, w) {
-              const E = new we(g, { includeAllSlots: !0, row: p }), I = [...E], z = g.getChild(p);
+              const y = new we(g, { includeAllSlots: !0, row: p }), I = [...y], z = g.getChild(p);
               let H;
               for (const { column: X, cell: ce, isAnchor: Oe } of I) if (b.has(X)) {
                 const { cell: be, rowspan: Qt } = b.get(X), kt = H ? w.createPositionAfter(H) : w.createPositionAt(z, 0);
@@ -26532,8 +26532,8 @@ Read more: ${ne}#error-${o}`;
             for (let g = a; g >= s; g--) l.remove(e.getChild(g));
             for (const { rowspan: g, cell: p } of u) qe("rowspan", g, p, l);
             (function(g, { first: p, last: b }, w) {
-              const E = g.getAttribute("headingRows") || 0;
-              p < E && qe("headingRows", b < E ? E - (b - p + 1) : p, g, w, 0);
+              const y = g.getAttribute("headingRows") || 0;
+              p < y && qe("headingRows", b < y ? y - (b - p + 1) : p, g, w, 0);
             })(e, c, l), qa(e, this) || Ua(e, this);
           });
         }
@@ -26561,7 +26561,7 @@ Read more: ${ne}#error-${o}`;
               l > 1 && (d.colspan = l), r > 1 && (d.rowspan = r), ko(s > t ? t - 1 : s - 1, a, a.createPositionAfter(e), d);
             }
             if (s < t) {
-              const l = t - s, c = [...new we(i)], { column: d } = c.find(({ cell: b }) => b === e), u = c.filter(({ cell: b, cellWidth: w, column: E }) => b !== e && E === d || E < d && E + w > d);
+              const l = t - s, c = [...new we(i)], { column: d } = c.find(({ cell: b }) => b === e), u = c.filter(({ cell: b, cellWidth: w, column: y }) => b !== e && y === d || y < d && y + w > d);
               for (const { cell: b, cellWidth: w } of u) a.setAttribute("colspan", w + l, b);
               const g = {};
               r > 1 && (g.rowspan = r), ko(l, a, a.createPositionAfter(e), g);
@@ -26579,13 +26579,13 @@ Read more: ${ne}#error-${o}`;
               const { column: p } = d.find(({ cell: w }) => w === e), b = {};
               u > 1 && (b.rowspan = u), l > 1 && (b.colspan = l);
               for (const w of d) {
-                const { column: E, row: I } = w;
-                I >= s + g && E === p && (I + s + g) % u == 0 && ko(1, c, w.getPositionBefore(), b);
+                const { column: y, row: I } = w;
+                I >= s + g && y === p && (I + s + g) % u == 0 && ko(1, c, w.getPositionBefore(), b);
               }
             }
             if (a < t) {
               const d = t - a, u = [...new we(r, { startRow: 0, endRow: s })];
-              for (const { cell: b, cellHeight: w, row: E } of u) if (b !== e && E + w > s) {
+              for (const { cell: b, cellHeight: w, row: y } of u) if (b !== e && y + w > s) {
                 const I = w + d;
                 c.setAttribute("rowspan", I, b);
               }
@@ -26695,8 +26695,8 @@ Read more: ${ne}#error-${o}`;
                 const { row: z, column: H } = d.getCellLocation(I);
                 u = uf(I, H, u, "colspan"), g = uf(I, z, g, "rowspan");
               }
-              const { row: p, column: b } = d.getCellLocation(l), w = u - b, E = g - p;
-              return { mergeWidth: w, mergeHeight: E };
+              const { row: p, column: b } = d.getCellLocation(l), w = u - b, y = g - p;
+              return { mergeWidth: w, mergeHeight: y };
             }(r, i, t);
             qe("colspan", s, r, n), qe("rowspan", a, r, n);
             for (const l of i) bE(l, r, n);
@@ -26841,7 +26841,7 @@ Read more: ${ne}#error-${o}`;
         const t = e.toViewElement(o);
         return !!t && Zp(o) !== t.is("element", "span");
       }
-      var gf = S(3881), DE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var gf = D(3881), DE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(gf.Z, DE), gf.Z.locals;
       class BE extends K {
         constructor(e) {
@@ -26883,8 +26883,8 @@ Read more: ${ne}#error-${o}`;
                 if (!d) continue;
                 const g = d.getAttribute("headingRows") || 0, p = d.getAttribute("headingColumns") || 0, b = new we(d);
                 for (const w of b) {
-                  const E = w.row < g || w.column < p ? "th" : "td", I = a.mapper.toViewElement(w.cell);
-                  I && I.is("element") && I.name != E && a.reconvertItem(u ? w.cell.parent : w.cell);
+                  const y = w.row < g || w.column < p ? "th" : "td", I = a.mapper.toViewElement(w.cell);
+                  I && I.is("element") && I.name != y && a.reconvertItem(u ? w.cell.parent : w.cell);
                 }
               }
             })(t, e.editing), function(s, a) {
@@ -26910,7 +26910,7 @@ Read more: ${ne}#error-${o}`;
           return Number.isNaN(t) || t <= 0 ? null : t;
         };
       }
-      var pf = S(1613), TE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var pf = D(1613), TE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(pf.Z, TE), pf.Z.locals;
       class IE extends de {
         constructor(e) {
@@ -27033,7 +27033,7 @@ Read more: ${ne}#error-${o}`;
         }
         n.add(o);
       }
-      var ff = S(6945), OE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var ff = D(6945), OE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(ff.Z, OE), ff.Z.locals;
       class Pn extends K {
         static get pluginName() {
@@ -27157,12 +27157,12 @@ Read more: ${ne}#error-${o}`;
           if (!s) return;
           const a = r.getSelectionAffectedTableCells(i.document.selection);
           a.length ? (e.stop(), i.change((l) => {
-            const c = { width: r.getColumns(s), height: r.getRows(s) }, d = function(E, I, z, H) {
-              const X = E[0].findAncestor("table"), ce = H.getColumnIndexes(E), Oe = H.getRowIndexes(E), be = { firstColumn: ce.first, lastColumn: ce.last, firstRow: Oe.first, lastRow: Oe.last }, Qt = E.length === 1;
+            const c = { width: r.getColumns(s), height: r.getRows(s) }, d = function(y, I, z, H) {
+              const X = y[0].findAncestor("table"), ce = H.getColumnIndexes(y), Oe = H.getRowIndexes(y), be = { firstColumn: ce.first, lastColumn: ce.last, firstRow: Oe.first, lastRow: Oe.last }, Qt = y.length === 1;
               return Qt && (be.lastRow += I.height - 1, be.lastColumn += I.width - 1, function(kt, wr, Mn, un) {
                 const vo = un.getColumns(kt), Co = un.getRows(kt);
                 Mn > vo && un.insertColumns(kt, { at: vo, columns: Mn - vo }), wr > Co && un.insertRows(kt, { at: Co, rows: wr - Co });
-              }(X, be.lastRow + 1, be.lastColumn + 1, H)), Qt || !H.isSelectionRectangular(E) ? function(kt, wr, Mn) {
+              }(X, be.lastRow + 1, be.lastColumn + 1, H)), Qt || !H.isSelectionRectangular(y) ? function(kt, wr, Mn) {
                 const { firstRow: un, lastRow: vo, firstColumn: Co, lastColumn: Yf } = wr, Qf = { first: un, last: vo }, Xf = { first: Co, last: Yf };
                 Ja(kt, Co, Qf, Mn), Ja(kt, Yf + 1, Qf, Mn), Za(kt, un, Xf, Mn), Za(kt, vo + 1, Xf, Mn, un);
               }(X, be, z) : (be.lastRow = sf(X, be), be.lastColumn = af(X, be)), be;
@@ -27170,32 +27170,32 @@ Read more: ${ne}#error-${o}`;
             s = Xp(s, p, l);
             const b = a[0].findAncestor("table"), w = this._replaceSelectedCellsWithPasted(s, c, b, d, l);
             if (this.editor.plugins.get("TableSelection").isEnabled) {
-              const E = r.sortRanges(w.map((I) => l.createRangeOn(I)));
-              l.setSelection(E);
+              const y = r.sortRanges(w.map((I) => l.createRangeOn(I)));
+              l.setSelection(y);
             } else l.setSelection(w[0], 0);
           })) : Wa(s, r);
         }
         _replaceSelectedCellsWithPasted(e, t, n, i, r) {
-          const { width: s, height: a } = t, l = function(E, I, z) {
+          const { width: s, height: a } = t, l = function(y, I, z) {
             const H = new Array(z).fill(null).map(() => new Array(I).fill(null));
-            for (const { column: X, row: ce, cell: Oe } of new we(E)) H[ce][X] = Oe;
+            for (const { column: X, row: ce, cell: Oe } of new we(y)) H[ce][X] = Oe;
             return H;
           }(e, s, a), c = [...new we(n, { startRow: i.firstRow, endRow: i.lastRow, startColumn: i.firstColumn, endColumn: i.lastColumn, includeAllSlots: !0 })], d = [];
           let u;
-          for (const E of c) {
-            const { row: I, column: z } = E;
-            z === i.firstColumn && (u = E.getPositionBefore());
-            const H = I - i.firstRow, X = z - i.firstColumn, ce = l[H % a][X % s], Oe = ce ? r.cloneElement(ce) : null, be = this._replaceTableSlotCell(E, Oe, u, r);
+          for (const y of c) {
+            const { row: I, column: z } = y;
+            z === i.firstColumn && (u = y.getPositionBefore());
+            const H = I - i.firstRow, X = z - i.firstColumn, ce = l[H % a][X % s], Oe = ce ? r.cloneElement(ce) : null, be = this._replaceTableSlotCell(y, Oe, u, r);
             be && (rf(be, I, z, i.lastRow, i.lastColumn, r), d.push(be), u = r.createPositionAfter(be));
           }
           const g = parseInt(n.getAttribute("headingRows") || "0"), p = parseInt(n.getAttribute("headingColumns") || "0"), b = i.firstRow < g && g <= i.lastRow, w = i.firstColumn < p && p <= i.lastColumn;
           if (b) {
-            const E = Za(n, g, { first: i.firstColumn, last: i.lastColumn }, r, i.firstRow);
-            d.push(...E);
+            const y = Za(n, g, { first: i.firstColumn, last: i.lastColumn }, r, i.firstRow);
+            d.push(...y);
           }
           if (w) {
-            const E = Ja(n, p, { first: i.firstRow, last: i.lastRow }, r);
-            d.push(...E);
+            const y = Ja(n, p, { first: i.firstRow, last: i.lastRow }, r);
+            d.push(...y);
           }
           return d;
         }
@@ -27259,15 +27259,15 @@ Read more: ${ne}#error-${o}`;
           if (a && w && b && (n.execute("insertTableRowBelow"), u === i.getRows(d) - 1)) return void n.model.change((I) => {
             I.setSelection(I.createRangeOn(d));
           });
-          let E;
+          let y;
           if (a && b)
-            E = d.getChild(u + 1).getChild(0);
+            y = d.getChild(u + 1).getChild(0);
           else if (!a && p) {
             const I = d.getChild(u - 1);
-            E = I.getChild(I.childCount - 1);
-          } else E = c.getChild(g + (a ? 1 : -1));
+            y = I.getChild(I.childCount - 1);
+          } else y = c.getChild(g + (a ? 1 : -1));
           n.model.change((I) => {
-            I.setSelection(I.createRangeIn(E));
+            I.setSelection(I.createRangeIn(y));
           });
         }
         _onArrowKey(e, t) {
@@ -27323,8 +27323,8 @@ Read more: ${ne}#error-${o}`;
             b.setCellSelection(w, g);
           } else {
             const w = i.createPositionAt(g, p ? 0 : "end");
-            i.change((E) => {
-              E.setSelection(w);
+            i.change((y) => {
+              y.setSelection(w);
             });
           }
         }
@@ -27388,7 +27388,7 @@ Read more: ${ne}#error-${o}`;
       function kf(o, e) {
         return o.parent.parent == e.parent.parent;
       }
-      var wf = S(6306), VE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var wf = D(6306), VE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(wf.Z, VE), wf.Z.locals;
       function LE(o) {
         const e = o.getSelectedElement();
@@ -27407,23 +27407,23 @@ Read more: ${ne}#error-${o}`;
       function Af(o) {
         return !!o.getCustomProperty("table") && Ne(o);
       }
-      var _f = S(7368), $E = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var _f = D(7368), $E = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(_f.Z, $E), _f.Z.locals;
-      var vf = S(9247), HE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var vf = D(9247), HE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(vf.Z, HE), vf.Z.locals;
-      var Cf = S(4070), qE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Cf = D(4070), qE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Cf.Z, qE), Cf.Z.locals;
-      var yf = S(6237), UE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var yf = D(6237), UE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(yf.Z, UE), yf.Z.locals;
-      var Ef = S(5087), WE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Ef = D(5087), WE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Ef.Z, WE), Ef.Z.locals;
       const Rn = ut.defaultPositions;
       Rn.northArrowSouth, Rn.northArrowSouthWest, Rn.northArrowSouthEast, Rn.southArrowNorth, Rn.southArrowNorthWest, Rn.southArrowNorthEast, Rn.viewportStickyNorth;
-      var xf = S(7341), KE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var xf = D(7341), KE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(xf.Z, KE), xf.Z.locals;
-      var Sf = S(2128), GE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Sf = D(2128), GE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Sf.Z, GE), Sf.Z.locals;
-      var Df = S(4101), ZE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Df = D(4101), ZE = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Df.Z, ZE), Df.Z.locals;
       var JE = Object.defineProperty, Bf = Object.getOwnPropertySymbols, YE = Object.prototype.hasOwnProperty, QE = Object.prototype.propertyIsEnumerable, Tf = (o, e, t) => e in o ? JE(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t, If = (o, e) => {
         for (var t in e || (e = {})) YE.call(e, t) && Tf(o, t, e[t]);
@@ -27697,7 +27697,7 @@ $&
       function tl(o, e, t = "    ") {
         return `${t.repeat(Math.max(0, e))}${o}`;
       }
-      var Ff = S(2896), a2 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Ff = D(2896), a2 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Ff.Z, a2), Ff.Z.locals;
       const Nf = "SourceEditingMode";
       function l2(o) {
@@ -27915,7 +27915,7 @@ $&
       }, I2 = Ed(function(o, e) {
         return o && o.length && e && e.length ? T2(o, e) : o;
       });
-      var Uf = S(5049), P2 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Uf = D(5049), P2 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Uf.Z, P2), Uf.Z.locals;
       class Ze extends K {
         constructor(e) {
@@ -28087,9 +28087,9 @@ $&
               return (l) => {
                 l.on("element:code", (c, d, u) => {
                   const g = d.viewItem, p = g.parent;
-                  function b(w, E) {
+                  function b(w, y) {
                     const I = a.processViewAttributes(w, u);
-                    I && u.writer.setAttribute(E, I, d.modelRange);
+                    I && u.writer.setAttribute(y, I, d.modelRange);
                   }
                   p && p.is("element", "pre") && (b(p, "htmlAttributes"), b(g, "htmlContentAttributes"));
                 }, { priority: "low" });
@@ -28191,12 +28191,12 @@ $&
                 l.on("element:img", (c, d, u) => {
                   if (!d.modelRange) return;
                   const g = d.viewItem, p = g.parent;
-                  function b(E, I) {
-                    const z = a.processViewAttributes(E, u);
+                  function b(y, I) {
+                    const z = a.processViewAttributes(y, u);
                     z && u.writer.setAttribute(I, z, d.modelRange);
                   }
-                  function w(E) {
-                    d.modelRange && d.modelRange.getContainedElement().is("element", "imageBlock") && b(E, "htmlLinkAttributes");
+                  function w(y) {
+                    d.modelRange && d.modelRange.getContainedElement().is("element", "imageBlock") && b(y, "htmlLinkAttributes");
                   }
                   b(g, "htmlAttributes"), p.is("element", "a") && w(p);
                 }, { priority: "low" });
@@ -28205,19 +28205,19 @@ $&
               function l(d) {
                 a.on(`attribute:${d}:imageInline`, (u, g, p) => {
                   if (!p.consumable.consume(g.item, u.name)) return;
-                  const { attributeOldValue: b, attributeNewValue: w } = g, E = p.mapper.toViewElement(g.item);
-                  On(p.writer, b, w, E);
+                  const { attributeOldValue: b, attributeNewValue: w } = g, y = p.mapper.toViewElement(g.item);
+                  On(p.writer, b, w, y);
                 }, { priority: "low" });
               }
               function c(d, u) {
                 a.on(`attribute:${u}:imageBlock`, (g, p, b) => {
                   if (!b.consumable.test(p.item, g.name)) return;
-                  const { attributeOldValue: w, attributeNewValue: E } = p, I = b.mapper.toViewElement(p.item), z = kr(b.writer, I, d);
-                  z && (On(b.writer, w, E, z), b.consumable.consume(p.item, g.name));
+                  const { attributeOldValue: w, attributeNewValue: y } = p, I = b.mapper.toViewElement(p.item), z = kr(b.writer, I, d);
+                  z && (On(b.writer, w, y, z), b.consumable.consume(p.item, g.name));
                 }, { priority: "low" }), d === "a" && a.on("attribute:linkHref:imageBlock", (g, p, b) => {
                   if (!b.consumable.consume(p.item, "attribute:htmlLinkAttributes:imageBlock")) return;
-                  const w = b.mapper.toViewElement(p.item), E = kr(b.writer, w, "a");
-                  dn(b.writer, p.item.getAttribute("htmlLinkAttributes"), E);
+                  const w = b.mapper.toViewElement(p.item), y = kr(b.writer, w, "a");
+                  dn(b.writer, p.item.getAttribute("htmlLinkAttributes"), y);
                 }, { priority: "low" });
               }
               l("htmlAttributes"), c("img", "htmlAttributes"), c("figure", "htmlFigureAttributes"), c("a", "htmlLinkAttributes");
@@ -28250,8 +28250,8 @@ $&
           }), i.on(`register:${s}`, (a, l) => {
             l.model === "media" && (t.extend("media", { allowAttributes: ["htmlAttributes", "htmlFigureAttributes"] }), n.for("upcast").add(/* @__PURE__ */ function(c, d) {
               const u = (g, p, b) => {
-                function w(E, I) {
-                  const z = c.processViewAttributes(E, b);
+                function w(y, I) {
+                  const z = c.processViewAttributes(y, b);
                   z && b.writer.setAttribute(I, z, p.modelRange);
                 }
                 w(p.viewItem, "htmlAttributes");
@@ -28262,10 +28262,10 @@ $&
             }(i, s)), n.for("dataDowncast").add(/* @__PURE__ */ function(c) {
               return (d) => {
                 function u(g, p) {
-                  d.on(`attribute:${p}:media`, (b, w, E) => {
-                    if (!E.consumable.consume(w.item, b.name)) return;
-                    const { attributeOldValue: I, attributeNewValue: z } = w, H = E.mapper.toViewElement(w.item), X = kr(E.writer, H, g);
-                    On(E.writer, I, z, X);
+                  d.on(`attribute:${p}:media`, (b, w, y) => {
+                    if (!y.consumable.consume(w.item, b.name)) return;
+                    const { attributeOldValue: I, attributeNewValue: z } = w, H = y.mapper.toViewElement(w.item), X = kr(y.writer, H, g);
+                    On(y.writer, I, z, X);
                   });
                 }
                 u(c, "htmlAttributes"), u("figure", "htmlFigureAttributes");
@@ -28319,9 +28319,9 @@ $&
                   const p = u.viewItem;
                   b(p, "htmlAttributes");
                   for (const w of p.getChildren()) w.is("element", "thead") && b(w, "htmlTheadAttributes"), w.is("element", "tbody") && b(w, "htmlTbodyAttributes");
-                  function b(w, E) {
+                  function b(w, y) {
                     const I = l.processViewAttributes(w, g);
-                    I && g.writer.setAttribute(E, I, u.modelRange);
+                    I && g.writer.setAttribute(y, I, u.modelRange);
                   }
                 }, { priority: "low" });
               };
@@ -28329,8 +28329,8 @@ $&
               function c(d, u) {
                 l.on(`attribute:${u}:table`, (g, p, b) => {
                   if (!b.consumable.test(p.item, g.name)) return;
-                  const w = b.mapper.toViewElement(p.item), E = kr(b.writer, w, d);
-                  E && (b.consumable.consume(p.item, g.name), On(b.writer, p.attributeOldValue, p.attributeNewValue, E));
+                  const w = b.mapper.toViewElement(p.item), y = kr(b.writer, w, d);
+                  y && (b.consumable.consume(p.item, g.name), On(b.writer, p.attributeOldValue, p.attributeNewValue, y));
                 });
               }
               c("table", "htmlAttributes"), c("figure", "htmlFigureAttributes"), c("thead", "htmlTheadAttributes"), c("tbody", "htmlTbodyAttributes");
@@ -28340,8 +28340,8 @@ $&
                 let g = !1;
                 for (const p of u) {
                   if (p.type != "attribute" || p.attributeKey != "headingRows") continue;
-                  const b = p.range.start.nodeAfter, w = b.getAttribute("htmlTheadAttributes"), E = b.getAttribute("htmlTbodyAttributes");
-                  w && !p.attributeNewValue ? (d.removeAttribute("htmlTheadAttributes", b), g = !0) : E && p.attributeNewValue == c.getRows(b) && (d.removeAttribute("htmlTbodyAttributes", b), g = !0);
+                  const b = p.range.start.nodeAfter, w = b.getAttribute("htmlTheadAttributes"), y = b.getAttribute("htmlTbodyAttributes");
+                  w && !p.attributeNewValue ? (d.removeAttribute("htmlTheadAttributes", b), g = !0) : y && p.attributeNewValue == c.getRows(b) && (d.removeAttribute("htmlTbodyAttributes", b), g = !0);
                 }
                 return g;
               };
@@ -28434,9 +28434,9 @@ $&
             n.stop();
             const r = this.editor, s = r.model.schema, a = r.conversion, l = r.editing.view.domConverter.unsafeElements, c = r.data.htmlProcessor.domConverter.preElements;
             s.register(i.model, i.modelSchema), s.extend(i.model, { allowAttributes: ["htmlElementName", "htmlAttributes", "htmlContent"], isContent: !0 }), a.for("upcast").elementToElement({ view: /.*/, model: (d, u) => {
-              if (d.name == "$comment" || !function(E) {
+              if (d.name == "$comment" || !function(y) {
                 try {
-                  document.createElement(E);
+                  document.createElement(y);
                 } catch {
                   return !1;
                 }
@@ -28447,14 +28447,14 @@ $&
               p && u.writer.setAttribute("htmlAttributes", p, g);
               const b = new Wi(d.document).createDocumentFragment(d), w = r.data.processor.toData(b);
               u.writer.setAttribute("htmlContent", w, g);
-              for (const { item: E } of r.editing.view.createRangeIn(d)) u.consumable.consume(E, { name: !0 });
+              for (const { item: y } of r.editing.view.createRangeIn(d)) u.consumable.consume(y, { name: !0 });
               return g;
             }, converterPriority: "low" }), a.for("editingDowncast").elementToElement({ model: { name: i.model, attributes: ["htmlElementName", "htmlAttributes", "htmlContent"] }, view: (d, { writer: u }) => {
               const g = d.getAttribute("htmlElementName"), p = u.createRawElement(g);
               return d.hasAttribute("htmlAttributes") && dn(u, d.getAttribute("htmlAttributes"), p), p;
             } }), a.for("dataDowncast").elementToElement({ model: { name: i.model, attributes: ["htmlElementName", "htmlAttributes", "htmlContent"] }, view: (d, { writer: u }) => {
-              const g = d.getAttribute("htmlElementName"), p = d.getAttribute("htmlContent"), b = u.createRawElement(g, null, (w, E) => {
-                E.setContentOf(w, p);
+              const g = d.getAttribute("htmlElementName"), p = d.getAttribute("htmlContent"), b = u.createRawElement(g, null, (w, y) => {
+                y.setContentOf(w, p);
                 const I = w.firstChild;
                 for (I.remove(); I.firstChild; ) w.appendChild(I.firstChild);
               });
@@ -28541,7 +28541,7 @@ $&
           this.xhr && this.xhr.abort();
         }
       }
-      var Jf = S(2245), U2 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
+      var Jf = D(2245), U2 = { injectType: "singletonStyleTag", attributes: { "data-cke": !0 }, insert: "head", singleton: !0 };
       J()(Jf.Z, U2), Jf.Z.locals;
       class sl extends nr {
       }
@@ -28816,13 +28816,13 @@ $&
             let g = c.index;
             e.enqueueChange((p) => {
               for (let b = 1; b < c.length; b++) {
-                const w = c[b], E = d[b - 1];
-                if (E == null) {
+                const w = c[b], y = d[b - 1];
+                if (y == null) {
                   g += w.length;
                   continue;
                 }
                 const I = u.start.getShiftedBy(g), z = e.createRange(I, I.getShiftedBy(w.length)), H = nC(I);
-                e.insertContent(p.createText(E, H), z), g += E.length;
+                e.insertContent(p.createText(y, H), z), g += y.length;
               }
               e.enqueueChange(() => {
                 t.requestUndoOnBackspace();
@@ -29012,59 +29012,59 @@ const fb = /* @__PURE__ */ sD(aD), lD = Ve({
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       value: "",
       editorConfig: {},
       editor: ie(() => fb)
     });
-    function S(x) {
-      y.emit("change", h.name, O.value, h.lang, h.index);
+    function D(S) {
+      C.emit("change", h.name, O.value, h.lang, h.index);
     }
-    function M(x) {
-      O.value = x.target.value, y.emit("change", h.name, O.value, h.lang, h.index);
+    function M(S) {
+      O.value = S.target.value, C.emit("change", h.name, O.value, h.lang, h.index);
     }
     Qe(() => {
-      h.value !== null && (O.value = h.value), y.emit("change", h.name, h.value, h.lang, h.index);
+      h.value !== null && (O.value = h.value), C.emit("change", h.name, h.value, h.lang, h.index);
     });
-    function k(x) {
-      x.editing.view.change((m) => {
-        m.setStyle("min-height", "250px", x.editing.view.document.getRoot());
+    function k(S) {
+      S.editing.view.change((m) => {
+        m.setStyle("min-height", "250px", S.editing.view.document.getRoot());
       });
     }
     return Eo(
       () => h.value,
-      (x, m) => {
-        O.value = x;
+      (S, m) => {
+        O.value = S;
       }
     ), {
       state: O,
       ClassicEditor: fb,
       boneState: _,
-      changeEvent: S,
+      changeEvent: D,
       onReady: k,
       changeEventTextarea: M
     };
   }
 }), cD = ["disabled", "value"];
-function dD(h, y, _, O, S, M) {
-  var x, m, C, D;
+function dD(h, C, _, O, D, M) {
+  var S, m, E, x;
   const k = Ln("ckeditor");
   return h.state.editor ? (L(), $(re, { key: 0 }, [
-    (x = h.boneState.bonestructure) != null && x.valid_html || (m = h.boneState.bonestructure) != null && m.validHtml ? (L(), Ue(k, {
+    (S = h.boneState.bonestructure) != null && S.valid_html || (m = h.boneState.bonestructure) != null && m.validHtml ? (L(), Ue(k, {
       key: 0,
       modelValue: h.state.value,
-      "onUpdate:modelValue": y[0] || (y[0] = (v) => h.state.value = v),
+      "onUpdate:modelValue": C[0] || (C[0] = (v) => h.state.value = v),
       editor: h.state.editor,
       config: h.state.editorConfig,
-      disabled: (C = h.boneState) == null ? void 0 : C.readonly,
+      disabled: (E = h.boneState) == null ? void 0 : E.readonly,
       onReady: h.onReady,
       onInput: h.changeEvent
     }, null, 8, ["modelValue", "editor", "config", "disabled", "onReady", "onInput"])) : (L(), $("sl-textarea", {
       key: 1,
-      disabled: (D = h.boneState) == null ? void 0 : D.readonly,
+      disabled: (x = h.boneState) == null ? void 0 : x.readonly,
       value: h.value,
-      onInput: y[1] || (y[1] = (...v) => h.changeEventTextarea && h.changeEventTextarea(...v))
+      onInput: C[1] || (C[1] = (...v) => h.changeEventTextarea && h.changeEventTextarea(...v))
     }, null, 40, cD))
   ], 64)) : oe("", !0);
 }
@@ -29078,31 +29078,31 @@ const bb = /* @__PURE__ */ ke(lD, [["render", dD]]), uD = Ve({
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       valueLat: null,
       valueLng: null
     });
-    function S() {
-      y.emit("change", h.name, [O.valueLat, O.valueLng], h.lang, h.index);
+    function D() {
+      C.emit("change", h.name, [O.valueLat, O.valueLng], h.lang, h.index);
     }
     return Qe(() => {
       try {
         O.valueLat = h.value[0], O.valueLng = h.value[1];
       } catch {
       }
-      y.emit("change", h.name, [O.valueLat, O.valueLng], h.lang, h.index);
+      C.emit("change", h.name, [O.valueLat, O.valueLng], h.lang, h.index);
     }), {
       state: O,
       boneState: _,
-      changeEvent: S
+      changeEvent: D
     };
   }
 }), hD = ["name", "min", "max", "disabled"], gD = ["name", "min", "max", "disabled"];
-function mD(h, y, _, O, S, M) {
+function mD(h, C, _, O, D, M) {
   return L(), $(re, null, [
     hn(F("sl-input", {
-      "onUpdate:modelValue": y[0] || (y[0] = (k) => h.state.valueLat = k),
+      "onUpdate:modelValue": C[0] || (C[0] = (k) => h.state.valueLat = k),
       index: "lat",
       type: "number",
       name: h.name,
@@ -29111,13 +29111,13 @@ function mD(h, y, _, O, S, M) {
       disabled: h.boneState.readonly,
       "value-as-number": "",
       step: "0.000001",
-      onSlChange: y[1] || (y[1] = (...k) => h.changeEvent && h.changeEvent(...k)),
+      onSlChange: C[1] || (C[1] = (...k) => h.changeEvent && h.changeEvent(...k)),
       placeholder: "Lat"
     }, null, 40, hD), [
       [ri, h.state.valueLat]
     ]),
     hn(F("sl-input", {
-      "onUpdate:modelValue": y[2] || (y[2] = (k) => h.state.valueLng = k),
+      "onUpdate:modelValue": C[2] || (C[2] = (k) => h.state.valueLng = k),
       index: "lng",
       type: "number",
       name: h.name,
@@ -29126,7 +29126,7 @@ function mD(h, y, _, O, S, M) {
       disabled: h.boneState.readonly,
       "value-as-number": "",
       step: "0.000001",
-      onSlChange: y[3] || (y[3] = (...k) => h.changeEvent && h.changeEvent(...k)),
+      onSlChange: C[3] || (C[3] = (...k) => h.changeEvent && h.changeEvent(...k)),
       placeholder: "Long"
     }, null, 40, gD), [
       [ri, h.state.valueLng]
@@ -29144,33 +29144,33 @@ const kb = /* @__PURE__ */ ke(uD, [["render", mD], ["__scopeId", "data-v-7bc3102
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = he({
       counter: 0,
       debounce: null
-    }), S = Se("addMultipleEntry"), M = Se("removeMultipleEntries");
+    }), D = Se("addMultipleEntry"), M = Se("removeMultipleEntries");
     function k() {
       O.counter += 1;
       let m = 200;
       O.counter > 1 && (m = 500), O.debounce && clearTimeout(O.debounce), O.debounce = setTimeout(() => {
-        for (let C = O.counter; C--; )
-          S(h.lang);
+        for (let E = O.counter; E--; )
+          D(h.lang);
         O.counter = 0;
       }, m);
     }
-    function x() {
+    function S() {
       let m = 200;
       O.debounce && clearTimeout(O.debounce), O.debounce = setTimeout(() => {
         M(h.lang);
       }, m);
     }
     return Qe(() => {
-      (!h.value || h.value.length === 0) && y.emit("change", h.name, [], h.lang);
+      (!h.value || h.value.length === 0) && C.emit("change", h.name, [], h.lang);
     }), {
       state: O,
       boneState: _,
       handleAdd: k,
-      handleRemove: x,
+      handleRemove: S,
       removeMultipleEntries: M
     };
   }
@@ -29183,7 +29183,7 @@ const kb = /* @__PURE__ */ ke(uD, [["render", mD], ["__scopeId", "data-v-7bc3102
   slot: "prefix",
   name: "plus-lg"
 }, null, -1));
-function vD(h, y, _, O, S, M) {
+function vD(h, C, _, O, D, M) {
   return L(), $("div", fD, [
     h.boneState.multiple && !h.readonly ? (L(), $("sl-button", {
       key: 0,
@@ -29191,7 +29191,7 @@ function vD(h, y, _, O, S, M) {
       title: h.$t("bone.del"),
       outline: "",
       class: "delete-btn",
-      onClick: y[0] || (y[0] = (k) => h.handleRemove(h.lang))
+      onClick: C[0] || (C[0] = (k) => h.handleRemove(h.lang))
     }, wD, 8, bD)) : oe("", !0),
     h.boneState.multiple && !h.readonly ? (L(), $("sl-button", {
       key: 1,
@@ -29199,7 +29199,7 @@ function vD(h, y, _, O, S, M) {
       title: h.$t("bone.add"),
       outline: "",
       class: "add-btn",
-      onClick: y[1] || (y[1] = (k) => h.handleAdd(h.lang))
+      onClick: C[1] || (C[1] = (k) => h.handleAdd(h.lang))
     }, [
       _D,
       ue(" " + Ae(h.$t("bone.add")) + " ", 1),
@@ -29222,29 +29222,29 @@ const ED = Ve({
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
-    const _ = Se("boneState"), O = Se("addMultipleEntry"), S = Se("formatString"), M = null, k = he({
+  setup(h, C) {
+    const _ = Se("boneState"), O = Se("addMultipleEntry"), D = Se("formatString"), M = null, k = he({
       skels: {},
       hasUsing: ie(() => _ == null ? void 0 : _.bonestructure.using)
     });
-    function x(m) {
-      let C = "";
-      return _.bonestructure.type === "relational.tree.leaf.file" ? C = "skelType=leaf&" : _.bonestructure.type === "relational.tree.node.file" && (C = "skelType=node&"), Be.get(
-        `/${yD.VITE_DEFAULT_RENDERER || "vi"}/${_.bonestructure.module}/list?${C}limit=99`
-      ).then(async (D) => {
+    function S(m) {
+      let E = "";
+      return _.bonestructure.type === "relational.tree.leaf.file" ? E = "skelType=leaf&" : _.bonestructure.type === "relational.tree.node.file" && (E = "skelType=node&"), Be.get(
+        `/${yD.VITE_DEFAULT_RENDERER || "vi"}/${_.bonestructure.module}/list?${E}limit=99`
+      ).then(async (x) => {
         var f;
-        const v = await D.json();
-        return k.skels = v.skellist.reduce((A, P) => (A[P.key] = P, A), {}), (f = v.skellist) == null ? void 0 : f.map((A) => ({ text: S(_.bonestructure.format, { dest: A }), value: A.key, data: A }));
+        const v = await x.json();
+        return k.skels = v.skellist.reduce((A, P) => (A[P.key] = P, A), {}), (f = v.skellist) == null ? void 0 : f.map((A) => ({ text: D(_.bonestructure.format, { dest: A }), value: A.key, data: A }));
       });
     }
     return Qe(() => {
-      (!h.value || h.value.length === 0) && y.emit("change", h.name, [], h.lang);
+      (!h.value || h.value.length === 0) && C.emit("change", h.name, [], h.lang);
     }), {
       state: k,
       boneState: _,
       addMultipleEntry: O,
       removeMultipleEntries: M,
-      getList: x
+      getList: S
     };
   }
 }), Eb = (h) => (rt("data-v-eeea51c6"), h = h(), st(), h), xD = { class: "actionbar" }, SD = ["title"], DD = /* @__PURE__ */ Eb(() => /* @__PURE__ */ F("sl-icon", {
@@ -29256,7 +29256,7 @@ const ED = Ve({
   slot: "prefix",
   name: "plus-lg"
 }, null, -1));
-function RD(h, y, _, O, S, M) {
+function RD(h, C, _, O, D, M) {
   return L(), $("div", xD, [
     h.boneState.multiple && !h.readonly ? (L(), $("sl-button", {
       key: 0,
@@ -29264,15 +29264,15 @@ function RD(h, y, _, O, S, M) {
       title: h.$t("bone.del"),
       outline: "",
       class: "delete-btn",
-      onClick: y[0] || (y[0] = (k) => h.openSelector())
+      onClick: C[0] || (C[0] = (k) => h.openSelector())
     }, BD, 8, SD)) : oe("", !0),
     F("sl-combobox", {
       source: h.getList,
       hoist: "",
-      onSlItemSelect: y[1] || (y[1] = (k) => {
-        var x;
+      onSlItemSelect: C[1] || (C[1] = (k) => {
+        var S;
         return h.addMultipleEntry(h.lang, {
-          dest: (x = h.state.skels) == null ? void 0 : x[k.detail.item.value],
+          dest: (S = h.state.skels) == null ? void 0 : S[k.detail.item.value],
           rel: h.state.hasUsing ? void 0 : null
         });
       })
@@ -29283,7 +29283,7 @@ function RD(h, y, _, O, S, M) {
       title: h.$t("bone.add"),
       outline: "",
       class: "add-btn",
-      onClick: y[2] || (y[2] = (k) => h.addMultipleEntry(h.lang))
+      onClick: C[2] || (C[2] = (k) => h.addMultipleEntry(h.lang))
     }, [
       PD,
       ue(" " + Ae(h.$t("bone.list")), 1)
@@ -29303,27 +29303,27 @@ const zD = Ve({
   },
   components: {},
   emits: ["change"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState"), O = Se("addMultipleEntry");
     Se("formatString");
-    const S = null, M = Dt(), k = he({
+    const D = null, M = Dt(), k = he({
       skels: {},
       uploadinput: null,
       loading: !1,
       droparea: !1,
       hasUsing: ie(() => _ == null ? void 0 : _.bonestructure.using)
     });
-    function x(D) {
+    function S(x) {
       const v = {
-        fileName: D.name,
-        mimeType: D.type || "application/octet-stream",
-        size: D.size.toString()
+        fileName: x.name,
+        mimeType: x.type || "application/octet-stream",
+        size: x.size.toString()
       };
       return new Promise((f, A) => {
         Be.securePost(`/${wb.VITE_DEFAULT_RENDERER || "vi"}/file/getUploadURL`, { dataObj: v }).then(async (P) => {
           let B = await P.json();
           fetch(B.values.uploadUrl, {
-            body: D,
+            body: x,
             method: "POST",
             mode: "no-cors"
           }).then(async (R) => {
@@ -29346,20 +29346,20 @@ const zD = Ve({
         });
       });
     }
-    async function m(D) {
+    async function m(x) {
       k.loading = !0;
-      for (let v of D.target.files) {
-        let f = await x(v);
+      for (let v of x.target.files) {
+        let f = await S(v);
         M.value.value = null;
         let A = null;
         k.hasUsing && (A = void 0), O(h.lang, { dest: f, rel: A });
       }
       k.loading = !1;
     }
-    async function C(D) {
+    async function E(x) {
       k.loading = !0, k.droparea = !1;
-      for (let v of D.dataTransfer.files) {
-        let f = await x(v);
+      for (let v of x.dataTransfer.files) {
+        let f = await S(v);
         M.value.value = null;
         let A = null;
         k.hasUsing && (A = void 0), O(h.lang, { dest: f, rel: A });
@@ -29367,16 +29367,16 @@ const zD = Ve({
       k.loading = !1;
     }
     return Qe(() => {
-      (!h.value || h.value.length === 0) && y.emit("change", h.name, [], h.lang);
+      (!h.value || h.value.length === 0) && C.emit("change", h.name, [], h.lang);
     }), {
       state: k,
       boneState: _,
       addMultipleEntry: O,
-      removeMultipleEntries: S,
-      uploadFile: x,
+      removeMultipleEntries: D,
+      uploadFile: S,
       uploadinput: M,
       handleUpload: m,
-      handleDrop: C
+      handleDrop: E
     };
   }
 }), ml = (h) => (rt("data-v-9bac9f8a"), h = h(), st(), h), MD = ["title"], FD = /* @__PURE__ */ ml(() => /* @__PURE__ */ F("sl-icon", {
@@ -29396,12 +29396,12 @@ const zD = Ve({
   key: 0,
   slot: "suffix"
 };
-function KD(h, y, _, O, S, M) {
+function KD(h, C, _, O, D, M) {
   return L(), $("div", {
     class: "actionbar",
-    onDragover: y[4] || (y[4] = Er((k) => h.state.droparea = !0, ["prevent"])),
-    onDragleave: y[5] || (y[5] = (k) => h.state.droparea = !1),
-    onDrop: y[6] || (y[6] = Er((...k) => h.handleDrop && h.handleDrop(...k), ["prevent"]))
+    onDragover: C[4] || (C[4] = Er((k) => h.state.droparea = !0, ["prevent"])),
+    onDragleave: C[5] || (C[5] = (k) => h.state.droparea = !1),
+    onDrop: C[6] || (C[6] = Er((...k) => h.handleDrop && h.handleDrop(...k), ["prevent"]))
   }, [
     h.boneState.multiple && !h.readonly ? (L(), $("sl-button", {
       key: 0,
@@ -29409,7 +29409,7 @@ function KD(h, y, _, O, S, M) {
       title: h.$t("bone.del"),
       outline: "",
       class: "delete-btn",
-      onClick: y[0] || (y[0] = (k) => h.openSelector())
+      onClick: C[0] || (C[0] = (k) => h.openSelector())
     }, ND, 8, MD)) : oe("", !0),
     h.state.droparea ? (L(), $("div", VD, " Dateien hier hinziehen ")) : oe("", !0),
     F("input", {
@@ -29417,14 +29417,14 @@ function KD(h, y, _, O, S, M) {
       hidden: "",
       type: "file",
       multiple: h.boneState.multiple,
-      onChange: y[1] || (y[1] = (...k) => h.handleUpload && h.handleUpload(...k))
+      onChange: C[1] || (C[1] = (...k) => h.handleUpload && h.handleUpload(...k))
     }, null, 40, LD),
     h.boneState.multiple && !h.readonly ? (L(), $("sl-button", {
       key: 2,
       outline: "",
       title: h.$t("bone.list"),
       class: "add-btn",
-      onClick: y[2] || (y[2] = (k) => h.addMultipleEntry(h.lang))
+      onClick: C[2] || (C[2] = (k) => h.addMultipleEntry(h.lang))
     }, HD, 8, jD)) : oe("", !0),
     h.boneState.multiple && !h.readonly ? (L(), $("sl-button", {
       key: 3,
@@ -29432,7 +29432,7 @@ function KD(h, y, _, O, S, M) {
       outline: "",
       title: h.$t("bone.upload"),
       class: "upload-btn",
-      onClick: y[3] || (y[3] = (k) => h.uploadinput.click())
+      onClick: C[3] || (C[3] = (k) => h.uploadinput.click())
     }, [
       UD,
       ue(" " + Ae(h.$t("bone.upload")) + " ", 1),
@@ -29467,12 +29467,12 @@ const GD = /* @__PURE__ */ ke(zD, [["render", KD], ["__scopeId", "data-v-9bac9f8
     }),
     multibones: Xt(["select", "select."])
   });
-  function y(k, x) {
-    h.additionalBones[k] = x;
+  function C(k, S) {
+    h.additionalBones[k] = S;
   }
   function _() {
     let k = h.defaultBones;
-    for (const [x, m] of Object.entries(h.additionalBones))
+    for (const [S, m] of Object.entries(h.additionalBones))
       k.add(m);
     return k;
   }
@@ -29480,43 +29480,43 @@ const GD = /* @__PURE__ */ ke(zD, [["render", KD], ["__scopeId", "data-v-9bac9f8
     if (Object.keys(h.additionalBones).includes(k))
       return h.additionalBones[k];
     {
-      let x = k.split("."), m = Object.entries(h.additionalBones).filter(
-        (C) => C[0].startsWith(x[0] + ".")
+      let S = k.split("."), m = Object.entries(h.additionalBones).filter(
+        (E) => E[0].startsWith(S[0] + ".")
       );
       if (m.length > 0) {
-        m.sort((C, D) => D.length - C.length);
-        for (let C of m)
-          if (k.startsWith(C[0]))
-            return h.additionalBones[C[0]];
+        m.sort((E, x) => x.length - E.length);
+        for (let E of m)
+          if (k.startsWith(E[0]))
+            return h.additionalBones[E[0]];
       }
     }
     return k === "date" ? sb : k === "key" ? ob : k === "str.email" ? rb : k === "str" || k.startsWith("str.") ? ib : k === "select" || k.startsWith("select.") ? ab : k === "bool" ? lb : k === "password" ? cb : k === "record" ? db : k === "numeric" || k.startsWith("numeric.") ? hb : k === "relational.tree.leaf.file.file" ? pb : k === "relational" || k.startsWith("relational.") ? gb : k === "color" ? ub : k === "text" ? bb : k === "spatial" ? kb : ul;
   }
-  function S(k, x) {
-    h.actionbars[k] = x;
+  function D(k, S) {
+    h.actionbars[k] = S;
   }
   function M(k) {
     if (Object.keys(h.actionbars).includes(k))
       return h.actionbars[k];
     {
-      let x = k.split("."), m = Object.entries(h.actionbars).filter(
-        (C) => C[0].startsWith(x[0] + ".")
+      let S = k.split("."), m = Object.entries(h.actionbars).filter(
+        (E) => E[0].startsWith(S[0] + ".")
       );
       if (m.length > 0) {
-        m.sort((C, D) => D.length - C.length);
-        for (let C of m)
-          if (k.startsWith(C[0]))
-            return h.actionbars[C[0]];
+        m.sort((E, x) => x.length - E.length);
+        for (let E of m)
+          if (k.startsWith(E[0]))
+            return h.actionbars[E[0]];
       }
     }
     return CD;
   }
   return {
     state: h,
-    addBoneWidget: y,
+    addBoneWidget: C,
     getBoneWidget: O,
     importWidgets: _,
-    addBoneActionbar: S,
+    addBoneActionbar: D,
     getBoneActionbar: M
   };
 });
@@ -29527,30 +29527,30 @@ function Vn(h) {
   return pl().getBoneWidget(h);
 }
 function JD(h) {
-  const y = pl();
-  if (y.state.multibones.includes(h))
+  const C = pl();
+  if (C.state.multibones.includes(h))
     return !0;
   {
-    let _ = h.split("."), O = Object.entries(y.state.multibones).filter(
-      (S) => S[1].startsWith(_[0] + ".")
+    let _ = h.split("."), O = Object.entries(C.state.multibones).filter(
+      (D) => D[1].startsWith(_[0] + ".")
     );
     if (O.length > 0) {
-      O.sort((S, M) => M.length - S.length);
-      for (let S of O)
-        if (h.startsWith(S[1]))
+      O.sort((D, M) => M.length - D.length);
+      for (let D of O)
+        if (h.startsWith(D[1]))
           return !0;
     }
   }
   return !1;
 }
-const fl = (h) => (rt("data-v-f4f9e4ea"), h = h(), st(), h), YD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Nutzterdaten", -1)), QD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Lieferadresse", -1)), XD = { key: 0 }, eB = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Rechnungsadresse", -1)), tB = {
+const fl = (h) => (rt("data-v-00cf0e53"), h = h(), st(), h), YD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Nutzterdaten", -1)), QD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Lieferadresse", -1)), XD = { key: 0 }, eB = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Rechnungsadresse", -1)), tB = {
   __name: "UserInformation",
   props: {
     mode: { type: String, default: "form" },
     conditions: { type: Function }
   },
   setup(h) {
-    const y = ai(), _ = he({
+    const C = ai(), _ = he({
       formValues: {},
       requiredFieldsFilled: ie(() => {
         if (_.isCustomAdress)
@@ -29565,70 +29565,66 @@ const fl = (h) => (rt("data-v-f4f9e4ea"), h = h(), st(), h), YD = /* @__PURE__ *
     function O(k) {
       k.target.checked && (_.isCustomAdress = !1), k.target.checked || (_.isCustomAdress = !0);
     }
-    function S(k, x) {
-      for (const [m, C] of Object.entries(x.value[0]))
-        _.formValues[m] = C;
+    function D(k, S) {
+      for (const [m, E] of Object.entries(S.value[0]))
+        _.formValues[m] = E;
     }
     function M(k) {
-      let x = {};
+      let S = {};
       return k instanceof Object ? k : (k.forEach((m) => {
-        let C = m[0], D = m[1];
-        x[C] = D;
-      }), x);
+        let E = m[0], x = m[1];
+        S[E] = x;
+      }), S);
     }
     return Eo(_.formValues, (k) => {
-      Object.entries(k).forEach(([x, m]) => {
-        m === "" && delete _.formValues[x];
+      Object.entries(k).forEach(([S, m]) => {
+        m === "" && delete _.formValues[S];
       });
     }), jn(async () => {
-      await y.getAdressStructure(), _.addSkel = y.state.structure.address;
-    }), (k, x) => {
+      await C.getAdressStructure(), _.addSkel = C.state.structure.address;
+    }), (k, S) => {
       const m = Ln("bone");
       return L(), $(re, null, [
         F("div", null, [
           YD,
-          (L(!0), $(re, null, Je(M(_.addSkel), (C, D) => (L(), $(re, { key: D }, [
-            C.visible && C.params.group === "Customer Info" ? (L(), Ue(m, {
+          (L(!0), $(re, null, Je(M(_.addSkel), (E, x) => (L(), $(re, { key: x }, [
+            E.visible && E.params.group === "Customer Info" ? (L(), Ue(m, {
               key: 0,
-              is: wt(Vn)(C.type),
-              name: D,
+              is: wt(Vn)(E.type),
+              name: x,
               structure: M(_.addSkel),
-              errors: _.errors[D] ? _.errors[D] : [],
+              errors: _.errors[x] ? _.errors[x] : [],
               skel: _.formValues,
-              onChange: (v) => S(D, v),
+              onChange: (v) => D(x, v),
               class: "viur-shop-form-grid-w-2"
             }, null, 8, ["is", "name", "structure", "errors", "skel", "onChange"])) : oe("", !0)
           ], 64))), 128))
         ]),
         F("div", null, [
           QD,
-          (L(!0), $(re, null, Je(_.addSkel, (C) => (L(), $(re, {
-            key: C[0]
-          }, [
-            C[1].visible && C[1].params.group === "Customer Address" ? (L(), Ue(m, {
+          (L(!0), $(re, null, Je(M(_.addSkel), (E, x) => (L(), $(re, { key: x }, [
+            E.visible && E.params.group === "Customer Address" ? (L(), Ue(m, {
               key: 0,
-              is: wt(Vn)(C[1].type),
-              name: C[0],
+              is: wt(Vn)(E.type),
+              name: x,
               structure: M(_.addSkel),
-              errors: _.errors[C[0]] ? _.errors[C[0]] : [],
+              errors: _.errors[x] ? _.errors[x] : [],
               skel: _.formValues,
-              onChange: (D) => S(C[0], D)
+              onChange: (v) => D(x, v)
             }, null, 8, ["is", "name", "structure", "errors", "skel", "onChange"])) : oe("", !0)
           ], 64))), 128))
         ]),
         _.isCustomAdress ? (L(), $("div", XD, [
           eB,
-          (L(!0), $(re, null, Je(_.addSkel, (C) => (L(), $(re, {
-            key: C[0]
-          }, [
-            C[1].visible && C[1].params.group === "Customer Address" ? (L(), Ue(m, {
+          (L(!0), $(re, null, Je(M(_.addSkel), (E, x) => (L(), $(re, { key: x }, [
+            E.visible && E.params.group === "Customer Address" ? (L(), Ue(m, {
               key: 0,
-              is: wt(Vn)(C[1].type),
-              name: C[0],
+              is: wt(Vn)(E.type),
+              name: x,
               structure: M(_.addSkel),
-              errors: _.errors[C[0]] ? _.errors[C[0]] : [],
+              errors: _.errors[x] ? _.errors[x] : [],
               skel: _.formValues,
-              onChange: (D) => S(C[0], D)
+              onChange: (v) => D(x, v)
             }, null, 8, ["is", "name", "structure", "errors", "skel", "onChange"])) : oe("", !0)
           ], 64))), 128))
         ])) : oe("", !0),
@@ -29639,7 +29635,7 @@ const fl = (h) => (rt("data-v-f4f9e4ea"), h = h(), st(), h), YD = /* @__PURE__ *
       ], 64);
     };
   }
-}, nB = /* @__PURE__ */ ke(tB, [["__scopeId", "data-v-f4f9e4ea"]]), oB = Ve({
+}, nB = /* @__PURE__ */ ke(tB, [["__scopeId", "data-v-00cf0e53"]]), oB = Ve({
   props: {
     isDragging: Boolean,
     draggingLineBottom: Boolean,
@@ -29647,7 +29643,7 @@ const fl = (h) => (rt("data-v-f4f9e4ea"), h = h(), st(), h), YD = /* @__PURE__ *
   },
   components: {},
   emits: ["change", "delete", "handleDragStart", "handleDragEnd", "handleDragOver", "handleDrop"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState");
     return {
       state: he({
@@ -29667,7 +29663,7 @@ const fl = (h) => (rt("data-v-f4f9e4ea"), h = h(), st(), h), YD = /* @__PURE__ *
 }, null, -1)), uB = [
   dB
 ];
-function hB(h, y, _, O, S, M) {
+function hB(h, C, _, O, D, M) {
   return L(), $("div", {
     class: yo(["value-line", {
       "is-dragging": h.isDragging,
@@ -29675,15 +29671,15 @@ function hB(h, y, _, O, S, M) {
       "dragging-line-top": h.draggingLineTop
     }]),
     draggable: h.state.isDraggable,
-    onDragover: y[2] || (y[2] = (k) => h.$emit("handleDragOver", k)),
-    onDrop: y[3] || (y[3] = (k) => h.$emit("handleDrop", k)),
-    onDragstart: y[4] || (y[4] = (k) => h.$emit("handleDragStart", k)),
-    onDragend: y[5] || (y[5] = (k) => h.$emit("handleDragEnd"))
+    onDragover: C[2] || (C[2] = (k) => h.$emit("handleDragOver", k)),
+    onDrop: C[3] || (C[3] = (k) => h.$emit("handleDrop", k)),
+    onDragstart: C[4] || (C[4] = (k) => h.$emit("handleDragStart", k)),
+    onDragend: C[5] || (C[5] = (k) => h.$emit("handleDragEnd"))
   }, [
     F("sl-button", {
       disabled: h.boneState.readonly,
       class: "drag-button",
-      onMousedown: y[0] || (y[0] = (k) => h.state.isDraggable = !0)
+      onMousedown: C[0] || (C[0] = (k) => h.state.isDraggable = !0)
     }, aB, 40, rB),
     F("div", lB, [
       Ab(h.$slots, "default", {}, void 0, !0)
@@ -29694,7 +29690,7 @@ function hB(h, y, _, O, S, M) {
       outline: "",
       title: h.$t("bone.del"),
       class: "delete-btn",
-      onClick: y[1] || (y[1] = (k) => h.$emit("delete"))
+      onClick: C[1] || (C[1] = (k) => h.$emit("delete"))
     }, uB, 8, cB)
   ], 42, iB);
 }
@@ -29709,7 +29705,7 @@ const gB = /* @__PURE__ */ ke(oB, [["render", hB], ["__scopeId", "data-v-141aaf9
   },
   components: {},
   emits: ["change", "handleClick"],
-  setup(h, y) {
+  setup(h, C) {
     const _ = Se("boneState");
     return {
       state: he({
@@ -29719,7 +29715,7 @@ const gB = /* @__PURE__ */ ke(oB, [["render", hB], ["__scopeId", "data-v-141aaf9
     };
   }
 }), pB = { class: "bone-name" }, fB = { key: 0 }, bB = { class: "bone" };
-function kB(h, y, _, O, S, M) {
+function kB(h, C, _, O, D, M) {
   return L(), $(re, null, [
     F("label", pB, [
       Ab(h.$slots, "default", {}, void 0, !0),
@@ -29766,7 +29762,7 @@ const wB = /* @__PURE__ */ ke(mB, [["render", kB], ["__scopeId", "data-v-b714917
     showLabelInfo: { type: Boolean, required: !1, default: !1 },
     autofocus: { type: Boolean, required: !1, default: !1 }
   },
-  setup(h, y) {
+  setup(h, C) {
     const _ = he({
       bonestructure: ie(() => {
         var B;
@@ -29832,26 +29828,26 @@ const wB = /* @__PURE__ */ ke(mB, [["render", kB], ["__scopeId", "data-v-b714917
     function O(B, R, N) {
       k(R, B, "isDragging"), k(R, B, "dragStartIndex");
     }
-    function S(B, R, N) {
+    function D(B, R, N) {
       N.preventDefault();
       const j = N.clientY - N.target.getBoundingClientRect().top, q = N.target.closest(".value-line");
-      j < q.offsetHeight / 2 ? (k(R, B, "draggingLineTop"), x("draggingLineBottom"), _.dropIndex.index = B) : (k(R, B, "draggingLineBottom"), x("draggingLineTop"), _.dropIndex.index = B + 1);
+      j < q.offsetHeight / 2 ? (k(R, B, "draggingLineTop"), S("draggingLineBottom"), _.dropIndex.index = B) : (k(R, B, "draggingLineBottom"), S("draggingLineTop"), _.dropIndex.index = B + 1);
       let Z = R ? _.bonevalue[R] : _.bonevalue;
       _.dropIndex.index > Z.length - 1 && (_.dropIndex.index -= 1);
     }
     function M(B, R, N) {
       let j = null;
-      _.dragStartIndex.index !== _.dropIndex.index && (R ? (j = _.bonevalue[R].splice(_.dragStartIndex.index, 1)[0], _.bonevalue[R].splice(_.dropIndex.index, 0, j)) : (j = _.bonevalue.splice(_.dragStartIndex.index, 1)[0], _.bonevalue.splice(_.dropIndex.index, 0, j)), console.dir(_.bonevalue[0]), y.emit("change", {
+      _.dragStartIndex.index !== _.dropIndex.index && (R ? (j = _.bonevalue[R].splice(_.dragStartIndex.index, 1)[0], _.bonevalue[R].splice(_.dropIndex.index, 0, j)) : (j = _.bonevalue.splice(_.dragStartIndex.index, 1)[0], _.bonevalue.splice(_.dropIndex.index, 0, j)), console.dir(_.bonevalue[0]), C.emit("change", {
         name: h.name,
-        value: C(),
+        value: E(),
         lang: R,
         index: B
-      })), x("draggingLineBottom", "draggingLineTop", "isDragging", "dragStartIndex", "dropIndex");
+      })), S("draggingLineBottom", "draggingLineTop", "isDragging", "dragStartIndex", "dropIndex");
     }
     function k(B, R, N) {
       _[N].lang = B || null, _[N].index = R;
     }
-    function x(...B) {
+    function S(...B) {
       B.forEach((R) => {
         _[R] = {
           lang: null,
@@ -29863,7 +29859,7 @@ const wB = /* @__PURE__ */ ke(mB, [["render", kB], ["__scopeId", "data-v-b714917
       if (R === void 0 || (N ? (_.bonevalue || (_.bonevalue = {}), Object.keys(_.bonevalue).includes(N) && j !== null ? _.bonevalue[N][j] = R : _.bonevalue[N] = R) : j !== null ? _.bonevalue[j] = R : q === !1 || (_.bonevalue = R), _.readonly)) return !1;
       let Z = {
         name: B,
-        value: C(),
+        value: E(),
         lang: N,
         index: j
       }, Q = {
@@ -29872,9 +29868,9 @@ const wB = /* @__PURE__ */ ke(mB, [["render", kB], ["__scopeId", "data-v-b714917
         lang: N,
         index: j
       };
-      q != null && (Z.pwMatch = q, Q.pwMatch = q), y.emit("change", Z), y.emit("change-internal", Q);
+      q != null && (Z.pwMatch = q, Q.pwMatch = q), C.emit("change", Z), C.emit("change-internal", Q);
     }
-    function C() {
+    function E() {
       function B(N, j = null) {
         let q = [];
         if (Array.isArray(N))
@@ -29896,39 +29892,39 @@ const wB = /* @__PURE__ */ ke(mB, [["render", kB], ["__scopeId", "data-v-b714917
       let R = B(_.bonevalue, h.name);
       return R = R.flat(10), R;
     }
-    function D(B = null, R = "") {
+    function x(B = null, R = "") {
       B ? Object.keys(_.bonevalue).includes(B) ? _.bonevalue[B].push(R) : _.bonevalue[B] = [R] : _.bonevalue ? _.bonevalue.push(R) : _.bonevalue = [R];
     }
-    Ar("addMultipleEntry", D);
+    Ar("addMultipleEntry", x);
     function v(B, R = null) {
       var N;
-      R ? (N = _.bonevalue) == null || N[R].splice(B, 1) : _.bonevalue.splice(B, 1), y.emit("change", {
+      R ? (N = _.bonevalue) == null || N[R].splice(B, 1) : _.bonevalue.splice(B, 1), C.emit("change", {
         name: h.name,
-        value: C(),
+        value: E(),
         lang: R,
         index: B
-      }), y.emit("change-internal", {
+      }), C.emit("change-internal", {
         name: h.name,
-        value: C(),
+        value: E(),
         lang: R,
         index: B
       });
     }
     function f(B = null) {
       var R;
-      B ? (R = _.bonevalue) == null || R[B].splice(0) : _.bonevalue.splice(0), y.emit("change", {
+      B ? (R = _.bonevalue) == null || R[B].splice(0) : _.bonevalue.splice(0), C.emit("change", {
         name: h.name,
-        value: C(),
+        value: E(),
         lang: B
-      }), y.emit("change-internal", {
+      }), C.emit("change-internal", {
         name: h.name,
-        value: C(),
+        value: E(),
         lang: B
       });
     }
     Ar("removeMultipleEntries", f);
     function A(B = null, R = "") {
-      D(B, R);
+      x(B, R);
     }
     function P(B, R) {
       function N(Q) {
@@ -29988,16 +29984,16 @@ const wB = /* @__PURE__ */ ke(mB, [["render", kB], ["__scopeId", "data-v-b714917
     ), {
       state: _,
       updateValue: m,
-      addMultipleEntry: D,
+      addMultipleEntry: x,
       removeMultipleEntry: v,
       removeMultipleEntries: f,
       BoneHasMultipleHandling: JD,
       multipleBonePressEnter: A,
       handleDragStart: O,
-      handleDragOver: S,
+      handleDragOver: D,
       handleDrop: M,
       setStateProperties: k,
-      resetStateProperties: x
+      resetStateProperties: S
     };
   }
 }), ci = (h) => (rt("data-v-dee63f3c"), h = h(), st(), h), _B = {
@@ -30043,9 +30039,9 @@ const wB = /* @__PURE__ */ ke(mB, [["render", kB], ["__scopeId", "data-v-b714917
   slot: "icon",
   name: "exclamation-triangle"
 }, null, -1)), NB = { class: "error-msg" };
-function VB(h, y, _, O, S, M) {
+function VB(h, C, _, O, D, M) {
   var m;
-  const k = Ln("bone-label"), x = Ln("wrapper-multiple");
+  const k = Ln("bone-label"), S = Ln("wrapper-multiple");
   return L(), $("div", {
     class: yo([
       "bone-wrapper",
@@ -30072,41 +30068,41 @@ function VB(h, y, _, O, S, M) {
     ])) : oe("", !0),
     F("div", SB, [
       h.state.multilanguage ? (L(), $("sl-tab-group", DB, [
-        (L(!0), $(re, null, Je(h.state.languages, (C) => {
-          var D, v, f, A;
+        (L(!0), $(re, null, Je(h.state.languages, (E) => {
+          var x, v, f, A;
           return L(), $(re, {
-            key: C + "_tab"
+            key: E + "_tab"
           }, [
             F("sl-tab", {
               slot: "nav",
-              panel: "lang_" + C
-            }, Ae(h.$t(C)), 9, BB),
+              panel: "lang_" + E
+            }, Ae(h.$t(E)), 9, BB),
             F("sl-tab-panel", {
-              name: "lang_" + C
+              name: "lang_" + E
             }, [
               h.state.multiple && !h.BoneHasMultipleHandling(h.state.bonestructure.type) ? (L(), $(re, { key: 0 }, [
-                (D = h.state.bonevalue) != null && D[C].length ? (L(!0), $(re, { key: 0 }, Je((v = h.state.bonevalue) == null ? void 0 : v[C], (P, B) => (L(), $("div", {
+                (x = h.state.bonevalue) != null && x[E].length ? (L(!0), $(re, { key: 0 }, Je((v = h.state.bonevalue) == null ? void 0 : v[E], (P, B) => (L(), $("div", {
                   key: B,
                   class: "multiple-bone"
                 }, [
-                  yr(x, {
+                  yr(S, {
                     readonly: !h.state.readonly,
-                    "is-dragging": h.state.isDragging.lang === C && h.state.isDragging.index === B,
-                    "dragging-line-bottom": h.state.draggingLineBottom.lang === C && h.state.draggingLineBottom.index === B,
-                    "dragging-line-top": h.state.draggingLineTop.lang === C && h.state.draggingLineTop.index === B,
-                    onDelete: (R) => h.removeMultipleEntry(B, C),
-                    onHandleDragStart: (R) => h.handleDragStart(B, C, R),
-                    onHandleDragOver: (R) => h.handleDragOver(B, C, R),
-                    onHandleDrop: (R) => h.handleDrop(B, C, R)
+                    "is-dragging": h.state.isDragging.lang === E && h.state.isDragging.index === B,
+                    "dragging-line-bottom": h.state.draggingLineBottom.lang === E && h.state.draggingLineBottom.index === B,
+                    "dragging-line-top": h.state.draggingLineTop.lang === E && h.state.draggingLineTop.index === B,
+                    onDelete: (R) => h.removeMultipleEntry(B, E),
+                    onHandleDragStart: (R) => h.handleDragStart(B, E, R),
+                    onHandleDragOver: (R) => h.handleDragOver(B, E, R),
+                    onHandleDrop: (R) => h.handleDrop(B, E, R)
                   }, {
                     default: Cr(() => [
                       (L(), Ue(Nn(h.is), {
                         value: P,
                         index: B,
-                        lang: C,
+                        lang: E,
                         name: h.name,
                         onChange: h.updateValue,
-                        onKeydown: al((R) => h.multipleBonePressEnter(C), ["enter"])
+                        onKeydown: al((R) => h.multipleBonePressEnter(E), ["enter"])
                       }, null, 40, ["value", "index", "lang", "name", "onChange", "onKeydown"]))
                     ]),
                     _: 2
@@ -30117,16 +30113,16 @@ function VB(h, y, _, O, S, M) {
                 }, PB, 2)),
                 h.state.readonly ? oe("", !0) : (L(), Ue(Nn(h.state.actionbar), {
                   key: 2,
-                  value: (f = h.state.bonevalue) == null ? void 0 : f[C],
+                  value: (f = h.state.bonevalue) == null ? void 0 : f[E],
                   name: h.name,
-                  lang: C,
+                  lang: E,
                   onChange: h.updateValue
                 }, null, 40, ["value", "name", "lang", "onChange"]))
               ], 64)) : (L(), Ue(Nn(h.is), {
                 key: 1,
-                value: (A = h.state.bonevalue) == null ? void 0 : A[C],
+                value: (A = h.state.bonevalue) == null ? void 0 : A[E],
                 index: null,
-                lang: C,
+                lang: E,
                 name: h.name,
                 onChange: h.updateValue
               }, null, 40, ["value", "lang", "name", "onChange"]))
@@ -30135,27 +30131,27 @@ function VB(h, y, _, O, S, M) {
         }), 128))
       ])) : (L(), $(re, { key: 1 }, [
         h.state.multiple && !h.BoneHasMultipleHandling(h.state.bonestructure.type) ? (L(), $(re, { key: 0 }, [
-          (m = h.state.bonevalue) != null && m.length ? (L(!0), $(re, { key: 0 }, Je(h.state.bonevalue, (C, D) => (L(), $("div", {
-            key: D,
+          (m = h.state.bonevalue) != null && m.length ? (L(!0), $(re, { key: 0 }, Je(h.state.bonevalue, (E, x) => (L(), $("div", {
+            key: x,
             class: "multiple-bone"
           }, [
-            yr(x, {
+            yr(S, {
               readonly: !h.state.readonly,
-              "is-dragging": h.state.isDragging.index === D,
-              "dragging-line-bottom": h.state.draggingLineBottom.index === D,
-              "dragging-line-top": h.state.draggingLineTop.index === D,
-              onDelete: (v) => h.removeMultipleEntry(D),
-              onHandleDragStart: (v) => h.handleDragStart(D, h.lang = null, v),
-              onHandleDragOver: (v) => h.handleDragOver(D, h.lang = null, v),
-              onHandleDrop: (v) => h.handleDrop(D, h.lang = null, v)
+              "is-dragging": h.state.isDragging.index === x,
+              "dragging-line-bottom": h.state.draggingLineBottom.index === x,
+              "dragging-line-top": h.state.draggingLineTop.index === x,
+              onDelete: (v) => h.removeMultipleEntry(x),
+              onHandleDragStart: (v) => h.handleDragStart(x, h.lang = null, v),
+              onHandleDragOver: (v) => h.handleDragOver(x, h.lang = null, v),
+              onHandleDrop: (v) => h.handleDrop(x, h.lang = null, v)
             }, {
               default: Cr(() => [
                 (L(), Ue(Nn(h.is), {
-                  value: C,
-                  index: D,
+                  value: E,
+                  index: x,
                   name: h.name,
                   onChange: h.updateValue,
-                  onKeydown: y[0] || (y[0] = al((v) => h.multipleBonePressEnter(), ["enter"]))
+                  onKeydown: C[0] || (C[0] = al((v) => h.multipleBonePressEnter(), ["enter"]))
                 }, null, 40, ["value", "index", "name", "onChange"]))
               ]),
               _: 2
@@ -30177,9 +30173,9 @@ function VB(h, y, _, O, S, M) {
           onKeypress: al(h.updateValue, ["enter"])
         }, null, 40, ["value", "name", "autofocus", "onChange", "onKeypress"]))
       ], 64)),
-      (L(!0), $(re, null, Je(h.state.errorMessages, (C) => (L(), $("sl-alert", MB, [
+      (L(!0), $(re, null, Je(h.state.errorMessages, (E) => (L(), $("sl-alert", MB, [
         FB,
-        F("div", NB, Ae(C), 1)
+        F("div", NB, Ae(E), 1)
       ]))), 256))
     ])
   ], 2);
@@ -30201,7 +30197,7 @@ const cl = /* @__PURE__ */ ke(AB, [["render", VB], ["__scopeId", "data-v-dee63f3
     mode: { type: String, default: "form" }
   },
   setup(h) {
-    const y = ai(), _ = he({
+    const C = ai(), _ = he({
       formValues: {},
       requiredFieldsFilled: ie(() => {
         if (_.isCustomAdress)
@@ -30212,44 +30208,44 @@ const cl = /* @__PURE__ */ ke(AB, [["render", VB], ["__scopeId", "data-v-dee63f3
       isCustomAdress: !1,
       shippingAdressAmount: 1,
       maxShippingAdress: ie(
-        () => Object.keys(y.state.carts).length + 2
+        () => Object.keys(C.state.carts).length + 2
       ),
       amountAlert: { title: "", msg: "" },
       items: null,
       addSkel: null,
       errors: {},
       selectedItem: {},
-      isInit: ie(() => !!y.state.carts[y.state.basket])
-    }), O = Dt(null), S = Dt(null);
+      isInit: ie(() => !!C.state.carts[C.state.basket])
+    }), O = Dt(null), D = Dt(null);
     function M(f) {
       f.target.checked && (_.isCustomAdress = !1), f.target.checked || (_.isCustomAdress = !0);
     }
     function k() {
       if (_.shippingAdressAmount === _.maxShippingAdress) {
-        _.amountAlert.title = "Zu viele Lieferadressen", _.amountAlert.msg = `Sie können nur maximal: "${_.maxShippingAdress}" Lieferadressen verwenden.`, S.value.show();
+        _.amountAlert.title = "Zu viele Lieferadressen", _.amountAlert.msg = `Sie können nur maximal: "${_.maxShippingAdress}" Lieferadressen verwenden.`, D.value.show();
         return;
       }
       _.shippingAdressAmount += 1;
     }
-    function x(f, A) {
+    function S(f, A) {
       for (const [P, B] of Object.entries(A.value[0]))
         _.formValues[P] = B;
     }
     function m() {
       if (_.shippingAdressAmount === 1) {
-        _.amountAlert.title = "Zu wenig Lieferadressen", _.amountAlert.msg = "Mindestens eine Lieferadresse muss angegeben werden.", S.value.show();
+        _.amountAlert.title = "Zu wenig Lieferadressen", _.amountAlert.msg = "Mindestens eine Lieferadresse muss angegeben werden.", D.value.show();
         return;
       }
       _.shippingAdressAmount -= 1;
     }
-    function C(f, A) {
+    function E(f, A) {
       if (console.log(f.target.value), !f.target.value.length) {
-        D();
+        x();
         return;
       }
       _.selectedItem[A] = f.target.value, _.isItemSelected = !0;
     }
-    function D(f, A) {
+    function x(f, A) {
       console.log("clearing..."), delete _.selectedItem[A], _.isItemSelected = !1;
     }
     function v(f) {
@@ -30264,7 +30260,7 @@ const cl = /* @__PURE__ */ ke(AB, [["render", VB], ["__scopeId", "data-v-dee63f3
         P === "" && delete _.formValues[A];
       });
     }), jn(async () => {
-      await y.getAdressStructure(), _.addSkel = y.state.structure.address;
+      await C.getAdressStructure(), _.addSkel = C.state.structure.address;
     }), (f, A) => (L(), $(re, null, [
       F("div", null, [
         LB,
@@ -30278,7 +30274,7 @@ const cl = /* @__PURE__ */ ke(AB, [["render", VB], ["__scopeId", "data-v-dee63f3
             structure: v(_.addSkel),
             errors: _.errors[P[0]] ? _.errors[P[0]] : [],
             skel: _.formValues,
-            onChange: (B) => x(P[0], B),
+            onChange: (B) => S(P[0], B),
             class: "viur-shop-form-grid-w-2"
           }, null, 8, ["is", "name", "structure", "errors", "skel", "onChange"])) : oe("", !0)
         ], 64))), 128))
@@ -30290,12 +30286,12 @@ const cl = /* @__PURE__ */ ke(AB, [["render", VB], ["__scopeId", "data-v-dee63f3
           ref_for: !0,
           ref_key: "itemSelection",
           ref: O,
-          onSlChange: (B) => C(B, P),
-          onSlClear: (B) => D(B, P),
-          label: _.selectedItem[P] ? wt(y).state.carts[_.selectedItem[P]].info.name : "Warenkorb für Adresse wählen.",
+          onSlChange: (B) => E(B, P),
+          onSlClear: (B) => x(B, P),
+          label: _.selectedItem[P] ? wt(C).state.carts[_.selectedItem[P]].info.name : "Warenkorb für Adresse wählen.",
           class: "grid-w-4"
         }, [
-          (L(!0), $(re, null, Je(wt(y).state.carts, (B, R) => (L(), $("sl-option", { value: R }, Ae(B.info.name), 9, HB))), 256))
+          (L(!0), $(re, null, Je(wt(C).state.carts, (B, R) => (L(), $("sl-option", { value: R }, Ae(B.info.name), 9, HB))), 256))
         ], 40, $B),
         (L(!0), $(re, null, Je(_.addSkel, (B) => (L(), $(re, {
           key: B[0]
@@ -30307,7 +30303,7 @@ const cl = /* @__PURE__ */ ke(AB, [["render", VB], ["__scopeId", "data-v-dee63f3
             structure: v(_.addSkel),
             errors: _.errors[B[0]] ? _.errors[B[0]] : [],
             skel: _.formValues,
-            onChange: (R) => x(B[0], R)
+            onChange: (R) => S(B[0], R)
           }, null, 8, ["is", "name", "structure", "errors", "skel", "onChange"])) : oe("", !0)
         ], 64))), 128))
       ]))), 128)),
@@ -30323,7 +30319,7 @@ const cl = /* @__PURE__ */ ke(AB, [["render", VB], ["__scopeId", "data-v-dee63f3
             structure: v(_.addSkel),
             errors: _.errors[P[0]] ? _.errors[P[0]] : [],
             skel: _.formValues,
-            onChange: (B) => x(P[0], B)
+            onChange: (B) => S(P[0], B)
           }, null, 8, ["is", "name", "structure", "errors", "skel", "onChange"])) : oe("", !0)
         ], 64))), 128))
       ])) : oe("", !0),
@@ -30346,7 +30342,7 @@ const cl = /* @__PURE__ */ ke(AB, [["render", VB], ["__scopeId", "data-v-dee63f3
         variant: "warning",
         duration: "2000",
         ref_key: "shippingWarning",
-        ref: S,
+        ref: D,
         closable: ""
       }, [
         ZB,
@@ -30363,8 +30359,8 @@ const cl = /* @__PURE__ */ ke(AB, [["render", VB], ["__scopeId", "data-v-dee63f3
 }, QB = /* @__PURE__ */ ke(YB, [["__scopeId", "data-v-71a3c8c9"]]), XB = {
   __name: "ExampleUsage",
   setup(h) {
-    const y = ai(), _ = ie(
-      () => y.state.basketRootNode.key ? y.state.basketRootNode.key : ""
+    const C = ai(), _ = ie(
+      () => C.state.basketRootNode.key ? C.state.basketRootNode.key : ""
     ), O = he({
       rootNode: {},
       tabs: {
@@ -30440,14 +30436,14 @@ const cl = /* @__PURE__ */ ke(AB, [["render", VB], ["__scopeId", "data-v-dee63f3
         }
       }
     });
-    function S(M) {
+    function D(M) {
       (M == null ? void 0 : M.detail.name) === "confirm" && (O.tabs.orderComplete.disabled = !1);
     }
     return jn(async () => {
-      await y.init(), await y.getAdressStructure(), console.log("debug init exampleusage :", y.state.basketRootNode);
+      await C.init(), await C.getAdressStructure(), console.log("debug init exampleusage :", C.state.basketRootNode);
     }), (M, k) => (L(), Ue(f5, {
       tabs: O.tabs,
-      onTabChange: S
+      onTabChange: D
     }, null, 8, ["tabs"]));
   }
 }, aT = {
