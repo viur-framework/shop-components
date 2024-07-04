@@ -143,7 +143,7 @@
 
   <div>
     <h2 class="viur-shop-form-headline headline">Nutzterdaten</h2>
-    <template v-for="(value, key) in structToDict(state.addSkel)" :key="key">
+    <template v-for="(value, key) in state.addSkel" :key="key">
       <bone
         :is="getBoneWidget(value.type)"
         v-if="value.visible && value.params.group === 'Customer Info'"
@@ -159,7 +159,7 @@
   </div>
   <div>
     <h2 class="viur-shop-form-headline headline">Lieferadresse</h2>
-    <template v-for="(value, key) in structToDict(state.addSkel)" :key="key">
+    <template v-for="(value, key) in state.addSkel" :key="key">
       <bone
         :is="getBoneWidget(value.type)"
         v-if="value.visible && value.params.group === 'Customer Address'"
@@ -174,7 +174,7 @@
   </div>
   <div v-if="state.isCustomAdress">
     <h2 class="viur-shop-form-headline headline">Rechnungsadresse</h2>
-    <template v-for="(value, key) in structToDict(state.addSkel)" :key="key">
+    <template v-for="(value, key) in state.addSkel" :key="key">
       <bone
         :is="getBoneWidget(value.type)"
         v-if="value.visible && value.params.group === 'Customer Address'"
@@ -295,7 +295,7 @@ watch(state.formValues, (newValues) => {
 
 onBeforeMount(async () => {
   await cartStore.getAdressStructure();
-  state.addSkel = cartStore.state.structure.address;
+  state.addSkel = structToDict(cartStore.state.structure.address);
 });
 </script>
 

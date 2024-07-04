@@ -29543,7 +29543,7 @@ function JD(h) {
   }
   return !1;
 }
-const fl = (h) => (rt("data-v-00cf0e53"), h = h(), st(), h), YD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Nutzterdaten", -1)), QD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Lieferadresse", -1)), XD = { key: 0 }, eB = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Rechnungsadresse", -1)), tB = {
+const fl = (h) => (rt("data-v-82f9bd25"), h = h(), st(), h), YD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Nutzterdaten", -1)), QD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Lieferadresse", -1)), XD = { key: 0 }, eB = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Rechnungsadresse", -1)), tB = {
   __name: "UserInformation",
   props: {
     mode: { type: String, default: "form" },
@@ -29581,13 +29581,13 @@ const fl = (h) => (rt("data-v-00cf0e53"), h = h(), st(), h), YD = /* @__PURE__ *
         m === "" && delete _.formValues[S];
       });
     }), jn(async () => {
-      await C.getAdressStructure(), _.addSkel = C.state.structure.address;
+      await C.getAdressStructure(), _.addSkel = M(C.state.structure.address);
     }), (k, S) => {
       const m = Ln("bone");
       return L(), $(re, null, [
         F("div", null, [
           YD,
-          (L(!0), $(re, null, Je(M(_.addSkel), (E, x) => (L(), $(re, { key: x }, [
+          (L(!0), $(re, null, Je(_.addSkel, (E, x) => (L(), $(re, { key: x }, [
             E.visible && E.params.group === "Customer Info" ? (L(), Ue(m, {
               key: 0,
               is: wt(Vn)(E.type),
@@ -29602,7 +29602,7 @@ const fl = (h) => (rt("data-v-00cf0e53"), h = h(), st(), h), YD = /* @__PURE__ *
         ]),
         F("div", null, [
           QD,
-          (L(!0), $(re, null, Je(M(_.addSkel), (E, x) => (L(), $(re, { key: x }, [
+          (L(!0), $(re, null, Je(_.addSkel, (E, x) => (L(), $(re, { key: x }, [
             E.visible && E.params.group === "Customer Address" ? (L(), Ue(m, {
               key: 0,
               is: wt(Vn)(E.type),
@@ -29616,7 +29616,7 @@ const fl = (h) => (rt("data-v-00cf0e53"), h = h(), st(), h), YD = /* @__PURE__ *
         ]),
         _.isCustomAdress ? (L(), $("div", XD, [
           eB,
-          (L(!0), $(re, null, Je(M(_.addSkel), (E, x) => (L(), $(re, { key: x }, [
+          (L(!0), $(re, null, Je(_.addSkel, (E, x) => (L(), $(re, { key: x }, [
             E.visible && E.params.group === "Customer Address" ? (L(), Ue(m, {
               key: 0,
               is: wt(Vn)(E.type),
@@ -29635,7 +29635,7 @@ const fl = (h) => (rt("data-v-00cf0e53"), h = h(), st(), h), YD = /* @__PURE__ *
       ], 64);
     };
   }
-}, nB = /* @__PURE__ */ ke(tB, [["__scopeId", "data-v-00cf0e53"]]), oB = Ve({
+}, nB = /* @__PURE__ */ ke(tB, [["__scopeId", "data-v-82f9bd25"]]), oB = Ve({
   props: {
     isDragging: Boolean,
     draggingLineBottom: Boolean,
