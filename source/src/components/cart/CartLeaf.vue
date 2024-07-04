@@ -109,12 +109,11 @@ onBeforeMount(() => {
 </script>
 
 <style scoped>
-.viur-shop-cart-leaf-img {
-  aspect-ratio: 1;
-}
-
 .viur-shop-cart-leaf {
   margin-bottom: var(--sl-spacing-x-large);
+  grid-column: auto / span var(--shop-main-columns);
+  display: grid;
+  grid-template-columns: subgrid;
 
   &::part(header) {
     border-bottom: none;
@@ -138,6 +137,10 @@ onBeforeMount(() => {
   &::part(group) {
     padding: var(--sl-spacing-small) 0;
   }
+}
+
+.viur-shop-cart-leaf-img {
+  aspect-ratio: 1;
 }
 
 .viur-shop-cart-leaf-body-row {
