@@ -37,16 +37,16 @@ const state = reactive({
       atShow: null,
       atHide: null,
     },
-    // confirm: {
-    //   component: shallowRef(ConfirmView),
-    //   props: {},
-    //   displayName: "Bestellung prüfen",
-    //   icon: { name: "order-check", library: "hsk" },
-    //   position: 5,
-    //   disabled: false,
-    //   atShow: null,
-    //   atHide: null,
-    // },
+    confirm: {
+      component: shallowRef(ConfirmView),
+      props: {},
+      displayName: "Bestellung prüfen",
+      icon: { name: "order-check", library: "hsk" },
+      position: 5,
+      disabled: false,
+      atShow: null,
+      atHide: null,
+    },
     // order: {
     //   component: shallowRef(CategoryView),
     //   props: {
