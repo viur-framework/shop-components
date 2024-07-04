@@ -1,14 +1,14 @@
-import { reactive as R, computed as C, useCssVars as L, resolveComponent as v, openBlock as c, createBlock as N, Transition as M, withCtx as f, createElementBlock as k, createVNode as l, createElementVNode as e, createCommentVNode as B, Fragment as x, createTextVNode as i, toDisplayString as S, onBeforeMount as E, pushScopeId as T, popScopeId as j, ref as P, renderList as q, unref as z, Teleport as Q, resolveDynamicComponent as X, mergeProps as Y, normalizeClass as ee, withDirectives as te, vShow as se, shallowRef as ae } from "vue";
-import { Request as U } from "@viur/vue-utils";
-import { defineStore as oe } from "pinia";
-import { ViURShopClient as ne } from "@viur/viur-shop-client";
+import { reactive as I, computed as v, useCssVars as K, openBlock as d, createBlock as C, Transition as G, withCtx as Z, createElementBlock as h, createElementVNode as e, createCommentVNode as R, pushScopeId as N, popScopeId as z, Fragment as $, createTextVNode as i, toDisplayString as y, onBeforeMount as q, withDirectives as U, vModelText as F, ref as M, renderList as B, createVNode as P, unref as k, Teleport as J, resolveDynamicComponent as L, mergeProps as Q, normalizeClass as X, vShow as Y, shallowRef as E } from "vue";
+import { Request as A } from "@viur/vue-utils";
+import { defineStore as ee } from "pinia";
+import { ViURShopClient as te } from "@viur/viur-shop-client";
 import "vue-router";
-const O = (t, n) => {
+const x = (t, n) => {
   const o = t.__vccOpts || t;
   for (const [p, s] of n)
     o[p] = s;
   return o;
-}, K = {
+}, T = {
   props: {
     size: {
       type: String,
@@ -28,17 +28,17 @@ const O = (t, n) => {
     }
   },
   setup(t, n) {
-    const o = R({
-      trackWidth: C(() => `${t.size / 30}rem`),
-      outerSize: C(() => `calc(${t.size}rem + ${o.trackWidth})`),
-      spinnerSize: C(() => `${t.size}rem`),
-      logoSize: C(() => `calc(${t.size}rem - ${o.trackWidth} * 10)`),
-      shadow: C(() => `0px 0px ${t.size / 6}rem 0 color-mix(in hsl, var(--sl-color-neutral-1000), 80% transparent)`)
+    const o = I({
+      trackWidth: v(() => `${t.size / 30}rem`),
+      outerSize: v(() => `calc(${t.size}rem + ${o.trackWidth})`),
+      spinnerSize: v(() => `${t.size}rem`),
+      logoSize: v(() => `calc(${t.size}rem - ${o.trackWidth} * 10)`),
+      shadow: v(() => `0px 0px ${t.size / 6}rem 0 color-mix(in hsl, var(--sl-color-neutral-1000), 80% transparent)`)
     });
     return { state: o };
   }
-}, Z = () => {
-  L((t) => ({
+}, W = () => {
+  K((t) => ({
     "93747d92": t.state.outerSize,
     "284424e5": t.state.shadow,
     "6485ca5e": t.state.logoSize,
@@ -46,30 +46,29 @@ const O = (t, n) => {
     d5b3feca: t.color,
     "2050b700": t.state.trackWidth
   }));
-}, H = K.setup;
-K.setup = H ? (t, n) => (Z(), H(t, n)) : Z;
-const re = {
+}, j = T.setup;
+T.setup = j ? (t, n) => (W(), j(t, n)) : W;
+const se = (t) => (N("data-v-46c45785"), t = t(), z(), t), ae = {
   key: 0,
   class: "loading"
-}, ie = { class: "logo" };
-function le(t, n, o, p, s, d) {
-  const $ = v("sl-spinner"), b = v("sl-icon");
-  return c(), N(M, null, {
-    default: f(() => [
-      o.active ? (c(), k("div", re, [
-        l($, { class: "loader" }),
-        e("div", ie, [
-          l(b, { src: o.logo }, null, 8, ["src"])
+}, oe = /* @__PURE__ */ se(() => /* @__PURE__ */ e("sl-spinner", { class: "loader" }, null, -1)), ne = { class: "logo" }, re = ["src"];
+function ie(t, n, o, p, s, u) {
+  return d(), C(G, null, {
+    default: Z(() => [
+      o.active ? (d(), h("div", ae, [
+        oe,
+        e("div", ne, [
+          e("sl-icon", { src: o.logo }, null, 8, re)
         ])
-      ])) : B("", !0)
+      ])) : R("", !0)
     ]),
     _: 1
   });
 }
-const ce = /* @__PURE__ */ O(K, [["render", le], ["__scopeId", "data-v-46c45785"]]), G = oe("cartstore", () => {
-  const t = new ne({
+const le = /* @__PURE__ */ x(T, [["render", ie], ["__scopeId", "data-v-46c45785"]]), D = ee("cartstore", () => {
+  const t = new te({
     host_url: window.location.origin === "http://localhost:8081" ? "http://localhost:8080" : window.location.origin
-  }), n = R({
+  }), n = I({
     basketRootNode: {},
     whishlistRootNodes: [],
     children: {},
@@ -86,65 +85,68 @@ const ce = /* @__PURE__ */ O(K, [["render", le], ["__scopeId", "data-v-46c45785"
       a.is_root_node && (a.cart_type === "basket" ? n.basketRootNode = a : n.whishlistRootNodes.push(a));
     });
   }
-  async function d(r, a) {
-    let _ = await t.article_add({
+  async function u(r, a) {
+    let c = await t.article_add({
       article_key: r,
       parent_cart_key: a
     });
-    console.log("addToCart", _);
+    console.log("addToCart", c);
   }
-  async function $(r, a) {
-    let _ = await t.article_view({
+  async function g(r, a) {
+    let c = await t.article_view({
       article_key: r,
       parent_cart_key: a
     });
-    console.log("getArticleView", _);
+    console.log("getArticleView", c);
   }
-  async function b(r, a) {
-    let _ = await t.article_remove({
+  async function _(r, a) {
+    let c = await t.article_remove({
       article_key: r,
       parent_cart_key: a
     });
-    console.log("remove Resp", _);
+    console.log("remove Resp", c);
   }
-  async function m(r, a, _) {
-    let h = await t.article_update({
+  async function f(r, a, c) {
+    let l = await t.article_update({
       article_key: r,
       parent_cart_key: a,
-      quantity: _,
+      quantity: c,
       quantity_mode: "replace"
     });
-    console.log("update Resp", h);
+    console.log("update Resp", l);
   }
-  async function y() {
+  async function m() {
     let r = await t.address_structure();
     n.structure.address = r.addSkel, console.log("adress add", n.structure.address);
   }
   return {
     state: n,
-    addToCart: d,
-    getArticleView: $,
-    removeItem: b,
-    updateItem: m,
+    addToCart: u,
+    getArticleView: g,
+    removeItem: _,
+    updateItem: f,
     init: o,
-    getAdressStructure: y,
+    getAdressStructure: m,
     getChildren: p
   };
-}), de = {
+}), ce = {
   __name: "CartNode",
   props: {
     node: { type: Object, required: !0 }
   },
   setup(t) {
-    return R({}), (n, o) => (c(), k(x, null, [
+    return I({}), (n, o) => (d(), h($, null, [
       i(" cartnode "),
-      e("pre", null, S(t.node.name), 1)
+      e("pre", null, y(t.node.name), 1)
     ], 64));
   }
-}, F = (t) => (T("data-v-0e24135f"), t = t(), j(), t), ue = ["src"], _e = {
+}, V = (t) => (N("data-v-0e24135f"), t = t(), z(), t), de = {
+  horizontal: "",
+  class: "viur-shop-cart-card"
+}, ue = ["src"], he = {
   class: "viur-shop-cart-card-header",
   slot: "header"
-}, he = { class: "viur-shop-cart-card-headline headline" }, pe = { class: "viur-shop-cart-card-body-row" }, me = { class: "viur-shop-cart-card-body-info" }, fe = /* @__PURE__ */ F(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-card-descr" }, [
+}, pe = { class: "viur-shop-cart-card-headline headline" }, _e = { class: "viur-shop-cart-card-body-row" }, me = { class: "viur-shop-cart-card-body-info" }, fe = /* @__PURE__ */ V(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-card-descr" }, [
   /* @__PURE__ */ i(" Version: 900x900x2000 "),
   /* @__PURE__ */ e("br"),
   /* @__PURE__ */ i(" Farbe: Chromoptik "),
@@ -154,10 +156,26 @@ const ce = /* @__PURE__ */ O(K, [["render", le], ["__scopeId", "data-v-46c45785"
   /* @__PURE__ */ i(" Anschlag: Beidseitig variabel"),
   /* @__PURE__ */ e("br"),
   /* @__PURE__ */ i(" Griff: Stangengriff Exklusiv (56) ")
-], -1)), ve = { class: "viur-shop-cart-card-body-footer" }, be = { class: "viur-shop-cart-card-body-amount" }, ye = {
+], -1)), be = { class: "viur-shop-cart-card-body-footer" }, ve = /* @__PURE__ */ V(() => /* @__PURE__ */ e("sl-button", {
+  size: "small",
+  outline: "",
+  class: "viur-shop-cart-card-add-to-favourites-btn",
+  variant: "primary",
+  title: "Add to favourites"
+}, [
+  /* @__PURE__ */ e("sl-icon", {
+    name: "heart",
+    slot: "prefix"
+  })
+], -1)), ye = /* @__PURE__ */ V(() => /* @__PURE__ */ e("sl-icon", {
+  name: "trash",
+  slot: "prefix"
+}, null, -1)), ge = [
+  ye
+], ke = { class: "viur-shop-cart-card-body-amount" }, we = {
   class: "viur-shop-cart-card-price-wrap",
   slot: "footer"
-}, ke = /* @__PURE__ */ F(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-card-price-label" }, "Preis", -1)), ge = { class: "viur-shop-cart-card-price" }, we = /* @__PURE__ */ F(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-card-small-print" }, "Brutto / Stk.", -1)), $e = {
+}, $e = /* @__PURE__ */ V(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-card-price-label" }, "Preis", -1)), Ie = { class: "viur-shop-cart-card-price" }, Se = /* @__PURE__ */ V(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-card-small-print" }, "Brutto / Stk.", -1)), Ce = {
   __name: "CartLeaf",
   props: {
     leaf: { type: Object, required: !0 },
@@ -165,118 +183,103 @@ const ce = /* @__PURE__ */ O(K, [["render", le], ["__scopeId", "data-v-46c45785"
   },
   emits: ["updateItem", "removeItem"],
   setup(t, { emit: n }) {
-    const o = t, p = n, s = R({
+    const o = t, p = n, s = I({
       leaf: {}
     });
-    function d(m) {
-      return m !== void 0 ? U.downloadUrlFor(m) : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
+    function u(f) {
+      return f !== void 0 ? A.downloadUrlFor(f) : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
     }
-    function $(m, y, r, a) {
+    function g(f, m, r, a) {
       p("updateItem", {
-        item: m,
-        articleKey: y,
+        item: f,
+        articleKey: m,
         node: r,
         quantity: a
       });
     }
-    function b(m, y, r) {
-      p("removeItem", { item: m, articleKey: y, node: r });
+    function _(f, m, r) {
+      p("removeItem", { item: f, articleKey: m, node: r });
     }
-    return E(() => {
+    return q(() => {
       s.leaf = o.leaf;
-    }), (m, y) => {
-      const r = v("sl-icon"), a = v("sl-button"), _ = v("sl-input"), h = v("sl-card");
-      return c(), k(x, null, [
-        i(" cartleafe "),
-        l(h, {
-          horizontal: "",
-          class: "viur-shop-cart-card"
-        }, {
-          default: f(() => [
-            e("img", {
-              class: "viur-shop-cart-card-img",
-              slot: "image",
-              src: d(s.leaf.shop_image ? s.leaf.shop_image : void 0)
-            }, null, 8, ue),
-            e("div", _e, [
-              e("h4", he, S(s.leaf.shop_name) + " | " + S(t.leaf.shop_art_no_or_gtin), 1)
-            ]),
-            e("div", pe, [
-              e("div", me, [
-                fe,
-                e("div", ve, [
-                  l(a, {
-                    size: "small",
-                    outline: "",
-                    class: "viur-shop-cart-card-add-to-favourites-btn",
-                    variant: "primary",
-                    title: "Add to favourites"
-                  }, {
-                    default: f(() => [
-                      l(r, {
-                        name: "heart",
-                        slot: "prefix"
-                      })
-                    ]),
-                    _: 1
-                  }),
-                  l(a, {
-                    size: "small",
-                    outline: "",
-                    class: "viur-shop-cart-card-delete-btn",
-                    variant: "primary",
-                    title: "Remove from cart",
-                    onClick: y[0] || (y[0] = (I) => b(s.leaf, s.leaf.article.dest.key, t.node))
-                  }, {
-                    default: f(() => [
-                      l(r, {
-                        name: "trash",
-                        slot: "prefix"
-                      })
-                    ]),
-                    _: 1
-                  })
-                ])
-              ]),
-              e("div", be, [
-                l(_, {
-                  class: "amount-input",
-                  type: "number",
-                  label: "Anzahl",
-                  placeholder: "Number",
-                  min: "0",
-                  modelValue: s.leaf.quantity,
-                  "onUpdate:modelValue": y[1] || (y[1] = (I) => s.leaf.quantity = I),
-                  onInput: y[2] || (y[2] = (I) => $(
-                    s.leaf,
-                    s.leaf.article.dest.key,
-                    t.node,
-                    s.leaf.quantity
-                  ))
-                }, null, 8, ["modelValue"])
-              ]),
-              e("div", ye, [
-                ke,
-                e("div", ge, S(s.leaf.price.retail) + " € ", 1),
-                we
-              ])
+    }), (f, m) => (d(), h($, null, [
+      i(" cartleafe "),
+      e("sl-card", de, [
+        e("img", {
+          class: "viur-shop-cart-card-img",
+          slot: "image",
+          src: u(s.leaf.shop_image ? s.leaf.shop_image : void 0)
+        }, null, 8, ue),
+        e("div", he, [
+          e("h4", pe, y(s.leaf.shop_name) + " | " + y(t.leaf.shop_art_no_or_gtin), 1)
+        ]),
+        e("div", _e, [
+          e("div", me, [
+            fe,
+            e("div", be, [
+              ve,
+              e("sl-button", {
+                size: "small",
+                outline: "",
+                class: "viur-shop-cart-card-delete-btn",
+                variant: "primary",
+                title: "Remove from cart",
+                onClick: m[0] || (m[0] = (r) => _(s.leaf, s.leaf.article.dest.key, t.node))
+              }, ge)
             ])
           ]),
-          _: 1
-        })
-      ], 64);
-    };
+          e("div", ke, [
+            U(e("sl-input", {
+              class: "amount-input",
+              type: "number",
+              label: "Anzahl",
+              placeholder: "Number",
+              min: "0",
+              "onUpdate:modelValue": m[1] || (m[1] = (r) => s.leaf.quantity = r),
+              onInput: m[2] || (m[2] = (r) => g(
+                s.leaf,
+                s.leaf.article.dest.key,
+                t.node,
+                s.leaf.quantity
+              ))
+            }, null, 544), [
+              [F, s.leaf.quantity]
+            ])
+          ]),
+          e("div", we, [
+            $e,
+            e("div", Ie, y(s.leaf.price.retail) + " € ", 1),
+            Se
+          ])
+        ])
+      ])
+    ], 64));
   }
-}, Ie = /* @__PURE__ */ O($e, [["__scopeId", "data-v-0e24135f"]]), V = (t) => (T("data-v-7aae4815"), t = t(), j(), t), Ce = /* @__PURE__ */ V(() => /* @__PURE__ */ e("p", null, "Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?", -1)), Se = {
+}, Ne = /* @__PURE__ */ x(Ce, [["__scopeId", "data-v-0e24135f"]]), w = (t) => (N("data-v-7aae4815"), t = t(), z(), t), ze = { key: 0 }, xe = /* @__PURE__ */ w(() => /* @__PURE__ */ e("p", null, "Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?", -1)), Re = {
   class: "footer-wrap",
   slot: "footer"
-}, Ne = { key: 0 }, ze = /* @__PURE__ */ V(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Zusammenfassung", -1)), xe = /* @__PURE__ */ V(() => /* @__PURE__ */ e("br", null, null, -1)), Re = /* @__PURE__ */ V(() => /* @__PURE__ */ e("br", null, null, -1)), Ve = { class: "viur-shop-cart-sidebar-info-line" }, Be = /* @__PURE__ */ V(() => /* @__PURE__ */ e("span", null, "Zwischensumme", -1)), qe = /* @__PURE__ */ V(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
+}, Be = { key: 0 }, Ve = /* @__PURE__ */ w(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Zusammenfassung", -1)), Ee = /* @__PURE__ */ w(() => /* @__PURE__ */ e("br", null, null, -1)), qe = /* @__PURE__ */ w(() => /* @__PURE__ */ e("sl-input", { label: "Rabattcode eingeben" }, null, -1)), Oe = /* @__PURE__ */ w(() => /* @__PURE__ */ e("br", null, null, -1)), Ae = { class: "viur-shop-cart-sidebar-info-line" }, Te = /* @__PURE__ */ w(() => /* @__PURE__ */ e("span", null, "Zwischensumme", -1)), De = /* @__PURE__ */ w(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
   /* @__PURE__ */ e("span", null, "Rabatt"),
   /* @__PURE__ */ i(" 0 € ")
-], -1)), Oe = /* @__PURE__ */ V(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
+], -1)), We = /* @__PURE__ */ w(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
   /* @__PURE__ */ e("span", null, "Versandkosten"),
   /* @__PURE__ */ i(" 0 € ")
-], -1)), Ae = { class: "viur-shop-cart-sidebar-info-line total" }, Ee = /* @__PURE__ */ V(() => /* @__PURE__ */ e("span", null, "Gesamt:", -1)), Te = { class: "viur-shop-cart-sidebar-btn-wrap" }, je = {
+], -1)), je = { class: "viur-shop-cart-sidebar-info-line total" }, Ue = /* @__PURE__ */ w(() => /* @__PURE__ */ e("span", null, "Gesamt:", -1)), Me = /* @__PURE__ */ w(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-btn-wrap" }, [
+  /* @__PURE__ */ e("sl-button", {
+    variant: "info",
+    size: "small"
+  }, " Jetzt Bestellen "),
+  /* @__PURE__ */ e("sl-button", {
+    size: "small",
+    variant: "primary"
+  }, [
+    /* @__PURE__ */ e("sl-icon", {
+      name: "paypal",
+      slot: "prefix"
+    }),
+    /* @__PURE__ */ i(" Paypal ")
+  ])
+], -1)), He = {
   __name: "CartView",
   props: {
     mode: { type: String, default: "basket" },
@@ -284,320 +287,260 @@ const ce = /* @__PURE__ */ O(K, [["render", le], ["__scopeId", "data-v-46c45785"
     sidebar: { type: Boolean, default: !0 }
   },
   setup(t) {
-    const n = t, o = G(), p = P(null), s = R({
-      cartIsInit: C(() => !!o.state.basketRootNode),
-      itemsIsInit: C(() => !0),
+    const n = t, o = D(), p = M(null), s = I({
+      cartIsInit: v(() => !!o.state.basketRootNode),
+      itemsIsInit: v(() => !0),
       images: {},
       currentItem: {},
       currentNode: {},
       nodes: [],
       leaves: {}
     });
-    C(() => n.mode === "basket" ? o.state.basket : n.cartKey);
-    async function d() {
+    v(() => n.mode === "basket" ? o.state.basket : n.cartKey);
+    async function u() {
       await o.updateItem(
         s.currentItem.article.dest.key,
         s.currentNode.key,
         0
-      ), await y(), p.value.hide();
+      ), await m(), p.value.hide();
     }
-    async function $(a) {
+    async function g(a) {
       console.log("updateItem :", a), a.quantity === 0 ? (p.value.show(), s.currentItem = a.item, s.currentNode = a.node) : (await o.updateItem(a.articleKey, a.node.key, a.quantity), await o.init());
     }
-    function b(a) {
+    function _(a) {
       console.log("removeItem :", a), p.value.show(), s.currentItem = a.item, s.currentNode = a.node;
     }
-    async function m() {
+    async function f() {
       s.leaves[s.currentNode.key].forEach((a) => {
         a.key === s.currentItem.key && (a.quantity = 1);
       }), s.currentItem = {}, s.currentNode = {};
     }
-    async function y() {
+    async function m() {
       s.nodes = [], s.leaves = {}, await o.init(), await r();
     }
     async function r(a = n.cartKey) {
       console.log("debug getChildren parentKey from comp: ", a);
-      const _ = await o.getChildren(a);
-      console.log("getChildren children: ", _), _.forEach(async (h) => {
-        h.skel_type === "node" ? (s.nodes.push(h), await r(h.key)) : (Object.keys(s.leaves).includes(a) || (s.leaves[a] = []), s.leaves[a].push(h));
+      const c = await o.getChildren(a);
+      console.log("getChildren children: ", c), c.forEach(async (l) => {
+        l.skel_type === "node" ? (s.nodes.push(l), await r(l.key)) : (Object.keys(s.leaves).includes(a) || (s.leaves[a] = []), s.leaves[a].push(l));
       });
     }
-    return E(async () => {
+    return q(async () => {
       await o.init(), await r(), n.mode === "basket" && s.nodes.push(o.state.basketRootNode), console.log("state.nodes test", s.nodes), console.log("state.leaves", s.leaves);
-    }), (a, _) => {
-      const h = v("sl-spinner"), I = v("sl-button"), D = v("sl-dialog"), W = v("sl-input"), g = v("sl-icon");
-      return t.cartKey.length ? (c(), k(x, { key: 1 }, [
-        l(D, {
-          ref_key: "confirm",
-          ref: p,
-          onSlHide: m
-        }, {
-          default: f(() => [
-            Ce,
-            e("div", Se, [
-              l(I, {
-                variant: "danger",
-                onClick: _[0] || (_[0] = (w) => p.value.hide()),
-                size: "medium"
-              }, {
-                default: f(() => [
-                  i(" Abbrechen ")
-                ]),
-                _: 1
-              }),
-              l(I, {
-                variant: "success",
-                onClick: d,
-                size: "medium"
-              }, {
-                default: f(() => [
-                  i(" Aus Warenkorb entfernen ")
-                ]),
-                _: 1
-              })
-            ])
-          ]),
-          _: 1
-        }, 512),
-        (c(!0), k(x, null, q(s.nodes, (w) => (c(), k("div", null, [
-          Object.keys(s.leaves).includes(w.key) ? (c(), k(x, { key: 0 }, [
-            l(de, { node: w }, null, 8, ["node"]),
-            (c(!0), k(x, null, q(s.leaves[w.key], (A) => (c(), N(Ie, {
-              key: A.key,
-              leaf: A,
-              node: w,
-              onRemoveItem: b,
-              onUpdateItem: $
-            }, null, 8, ["leaf", "node"]))), 128))
-          ], 64)) : B("", !0)
-        ]))), 256)),
-        t.sidebar ? (c(), k("div", Ne, [
-          ze,
-          xe,
-          l(W, { label: "Rabattcode eingeben" }),
-          Re,
-          e("div", Ve, [
-            Be,
-            i(" --> " + S(t.mode === "basket" ? z(o).state.basketRootNode.total : z(o).state.whishlistRootNodes[t.cartKey].total) + " € ", 1)
-          ]),
-          qe,
-          Oe,
-          e("div", Ae, [
-            Ee,
-            i(" " + S(t.mode === "basket" ? z(o).state.basketRootNode.total : z(o).state.whishlistRootNodes[t.cartKey].total) + " € ", 1)
-          ]),
-          e("div", Te, [
-            l(I, {
-              variant: "info",
-              size: "small"
-            }, {
-              default: f(() => [
-                i(" Jetzt Bestellen ")
-              ]),
-              _: 1
-            }),
-            l(I, {
-              size: "small",
-              variant: "primary"
-            }, {
-              default: f(() => [
-                l(g, {
-                  name: "paypal",
-                  slot: "prefix"
-                }),
-                i(" Paypal ")
-              ]),
-              _: 1
-            })
-          ])
-        ])) : B("", !0)
-      ], 64)) : (c(), N(h, { key: 0 }));
-    };
+    }), (a, c) => t.cartKey.length ? (d(), h($, { key: 1 }, [
+      e("sl-dialog", {
+        ref_key: "confirm",
+        ref: p,
+        onSlHide: f
+      }, [
+        xe,
+        e("div", Re, [
+          e("sl-button", {
+            variant: "danger",
+            onClick: c[0] || (c[0] = (l) => p.value.hide()),
+            size: "medium"
+          }, " Abbrechen "),
+          e("sl-button", {
+            variant: "success",
+            onClick: u,
+            size: "medium"
+          }, " Aus Warenkorb entfernen ")
+        ])
+      ], 544),
+      (d(!0), h($, null, B(s.nodes, (l) => (d(), h("div", null, [
+        Object.keys(s.leaves).includes(l.key) ? (d(), h($, { key: 0 }, [
+          P(ce, { node: l }, null, 8, ["node"]),
+          (d(!0), h($, null, B(s.leaves[l.key], (S) => (d(), C(Ne, {
+            key: S.key,
+            leaf: S,
+            node: l,
+            onRemoveItem: _,
+            onUpdateItem: g
+          }, null, 8, ["leaf", "node"]))), 128))
+        ], 64)) : R("", !0)
+      ]))), 256)),
+      t.sidebar ? (d(), h("div", Be, [
+        Ve,
+        Ee,
+        qe,
+        Oe,
+        e("div", Ae, [
+          Te,
+          i(" --> " + y(t.mode === "basket" ? k(o).state.basketRootNode.total : k(o).state.whishlistRootNodes[t.cartKey].total) + " € ", 1)
+        ]),
+        De,
+        We,
+        e("div", je, [
+          Ue,
+          i(" " + y(t.mode === "basket" ? k(o).state.basketRootNode.total : k(o).state.whishlistRootNodes[t.cartKey].total) + " € ", 1)
+        ]),
+        Me
+      ])) : R("", !0)
+    ], 64)) : (d(), h("sl-spinner", ze));
   }
-}, J = /* @__PURE__ */ O(je, [["__scopeId", "data-v-7aae4815"]]), u = (t) => (T("data-v-75e70e9a"), t = t(), j(), t), De = {
+}, H = /* @__PURE__ */ x(He, [["__scopeId", "data-v-7aae4815"]]), b = (t) => (N("data-v-75e70e9a"), t = t(), z(), t), Ke = {
   key: 1,
   class: "list"
-}, We = /* @__PURE__ */ u(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-headline headline" }, "Bestellung prüfen", -1)), Ue = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Ke = { class: "viur-shop-cart-address-wrap" }, Ge = { class: "viur-shop-cart-address" }, Fe = { class: "viur-shop-cart-address-headline" }, Ze = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), He = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Pe = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Je = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Le = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Me = { class: "viur-shop-cart-address" }, Qe = { class: "viur-shop-cart-address-headline" }, Xe = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), Ye = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), et = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), tt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), st = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), at = { class: "viur-shop-cart-payment" }, ot = /* @__PURE__ */ u(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-payment-method" }, [
-  /* @__PURE__ */ e("span", null, "Zahlungsmethode:"),
-  /* @__PURE__ */ i(" Paypal ")
-], -1)), nt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-headline headline" }, "Warenkorb", -1)), rt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), it = ["src"], lt = {
+}, Ge = /* @__PURE__ */ b(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-headline headline" }, "Bestellung prüfen", -1)), Ze = /* @__PURE__ */ b(() => /* @__PURE__ */ e("br", null, null, -1)), Fe = /* @__PURE__ */ b(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-address-wrap" }, [
+  /* @__PURE__ */ e("div", { class: "viur-shop-cart-address" }, [
+    /* @__PURE__ */ e("div", { class: "viur-shop-cart-address-headline" }, [
+      /* @__PURE__ */ i(" Versandadresse "),
+      /* @__PURE__ */ e("sl-button", {
+        outline: "",
+        size: "small"
+      }, [
+        /* @__PURE__ */ e("sl-icon", {
+          name: "pencil",
+          slot: "prefix"
+        })
+      ])
+    ]),
+    /* @__PURE__ */ i(" Roland Brose"),
+    /* @__PURE__ */ e("br"),
+    /* @__PURE__ */ i(" Speicherstraße 33"),
+    /* @__PURE__ */ e("br"),
+    /* @__PURE__ */ i(" 44147 Dortmund, DE"),
+    /* @__PURE__ */ e("br"),
+    /* @__PURE__ */ e("br"),
+    /* @__PURE__ */ i(" rb@mausbrand.de"),
+    /* @__PURE__ */ e("br"),
+    /* @__PURE__ */ i(" 0231 21 34 68 90 ")
+  ]),
+  /* @__PURE__ */ e("div", { class: "viur-shop-cart-address" }, [
+    /* @__PURE__ */ e("div", { class: "viur-shop-cart-address-headline" }, [
+      /* @__PURE__ */ i(" Rechnungsadresse "),
+      /* @__PURE__ */ e("sl-button", {
+        outline: "",
+        size: "small"
+      }, [
+        /* @__PURE__ */ e("sl-icon", {
+          name: "pencil",
+          slot: "prefix"
+        })
+      ])
+    ]),
+    /* @__PURE__ */ i(" Roland Brose"),
+    /* @__PURE__ */ e("br"),
+    /* @__PURE__ */ i(" Speicherstraße 33"),
+    /* @__PURE__ */ e("br"),
+    /* @__PURE__ */ i(" 44147 Dortmund, DE"),
+    /* @__PURE__ */ e("br"),
+    /* @__PURE__ */ e("br"),
+    /* @__PURE__ */ i(" rb@mausbrand.de"),
+    /* @__PURE__ */ e("br"),
+    /* @__PURE__ */ i(" 0231 21 34 68 90 ")
+  ])
+], -1)), Pe = /* @__PURE__ */ b(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-payment" }, [
+  /* @__PURE__ */ e("div", { class: "viur-shop-cart-payment-method" }, [
+    /* @__PURE__ */ e("span", null, "Zahlungsmethode:"),
+    /* @__PURE__ */ i(" Paypal ")
+  ]),
+  /* @__PURE__ */ e("sl-button", {
+    outline: "",
+    size: "small"
+  }, [
+    /* @__PURE__ */ e("sl-icon", {
+      name: "pencil",
+      slot: "prefix"
+    })
+  ])
+], -1)), Je = /* @__PURE__ */ b(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-headline headline" }, "Warenkorb", -1)), Le = /* @__PURE__ */ b(() => /* @__PURE__ */ e("br", null, null, -1)), Qe = {
+  horizontal: "",
+  class: "viur-shop-cart-mini-card"
+}, Xe = ["src"], Ye = {
   class: "viur-shop-cart-mini-cart-header",
   slot: "header"
-}, ct = { class: "viur-shop-cart-mini-headline headline" }, dt = { class: "viur-shop-cart-mini-card-body-row" }, ut = { class: "viur-shop-cart-mini-card-body-info" }, _t = { class: "viur-shop-cart-mini-card-info-wrap" }, ht = /* @__PURE__ */ u(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-mini-card-info" }, [
+}, et = { class: "viur-shop-cart-mini-headline headline" }, tt = { class: "viur-shop-cart-mini-card-body-row" }, st = { class: "viur-shop-cart-mini-card-body-info" }, at = { class: "viur-shop-cart-mini-card-info-wrap" }, ot = /* @__PURE__ */ b(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-mini-card-info" }, [
   /* @__PURE__ */ e("span", null, "Anzahl: "),
   /* @__PURE__ */ i(" 1 ")
-], -1)), pt = { class: "viur-shop-cart-mini-card-info" }, mt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("span", null, "Preis: ", -1)), ft = /* @__PURE__ */ u(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Jetzt Bestellen", -1)), vt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("br", null, null, -1)), bt = { class: "viur-shop-cart-sidebar-info-line" }, yt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("span", null, "Zwischensumme", -1)), kt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
+], -1)), nt = { class: "viur-shop-cart-mini-card-info" }, rt = /* @__PURE__ */ b(() => /* @__PURE__ */ e("span", null, "Preis: ", -1)), it = /* @__PURE__ */ b(() => /* @__PURE__ */ e("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Jetzt Bestellen", -1)), lt = /* @__PURE__ */ b(() => /* @__PURE__ */ e("br", null, null, -1)), ct = { class: "viur-shop-cart-sidebar-info-line" }, dt = /* @__PURE__ */ b(() => /* @__PURE__ */ e("span", null, "Zwischensumme", -1)), ut = /* @__PURE__ */ b(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
   /* @__PURE__ */ e("span", null, "Rabatt"),
   /* @__PURE__ */ i(" 0 € ")
-], -1)), gt = /* @__PURE__ */ u(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
+], -1)), ht = /* @__PURE__ */ b(() => /* @__PURE__ */ e("div", { class: "viur-shop-cart-sidebar-info-line" }, [
   /* @__PURE__ */ e("span", null, "Versandkosten"),
   /* @__PURE__ */ i(" 0 € ")
-], -1)), wt = { class: "viur-shop-cart-sidebar-info-line total" }, $t = /* @__PURE__ */ u(() => /* @__PURE__ */ e("span", null, "Gesamt:", -1)), It = { class: "viur-shop-cart-sidebar-btn-wrap" }, Ct = {
+], -1)), pt = { class: "viur-shop-cart-sidebar-info-line total" }, _t = /* @__PURE__ */ b(() => /* @__PURE__ */ e("span", null, "Gesamt:", -1)), mt = { class: "viur-shop-cart-sidebar-btn-wrap" }, ft = ["variant", "disabled"], bt = {
   __name: "ConfirmView",
   setup(t) {
-    const n = G(), o = R({
-      cartIsInit: C(() => !!n.state.basket.length),
-      itemsIsInit: C(() => !!n.state.carts[n.state.basket].items),
+    const n = D(), o = I({
+      cartIsInit: v(() => !!n.state.basket.length),
+      itemsIsInit: v(() => !!n.state.carts[n.state.basket].items),
       images: {},
       showOrderButton: !1
     });
-    function p(d) {
-      return U.get(`/json/dk_variante/view/${d}`).then(async ($) => {
-        let b = await $.json();
-        b = b.values;
-        let m = b.dk_artikel.dest.image ? U.downloadUrlFor(b.dk_artikel.dest.image) : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-        o.images[d] = m;
-      }), o.images[d];
+    function p(u) {
+      return A.get(`/json/dk_variante/view/${u}`).then(async (g) => {
+        let _ = await g.json();
+        _ = _.values;
+        let f = _.dk_artikel.dest.image ? A.downloadUrlFor(_.dk_artikel.dest.image) : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
+        o.images[u] = f;
+      }), o.images[u];
     }
-    function s(d) {
-      d.target.checked && (o.showOrderButton = !0), d.target.checked || (o.showOrderButton = !1);
+    function s(u) {
+      u.target.checked && (o.showOrderButton = !0), u.target.checked || (o.showOrderButton = !1);
     }
-    return E(async () => {
+    return q(async () => {
       await n.init();
-    }), (d, $) => {
-      const b = v("sl-icon"), m = v("sl-button"), y = v("sl-card"), r = v("sl-checkbox");
-      return o.cartIsInit ? (c(), k("div", De, [
-        We,
-        Ue,
-        e("div", Ke, [
-          e("div", Ge, [
-            e("div", Fe, [
-              i(" Versandadresse "),
-              l(m, {
-                outline: "",
-                size: "small"
-              }, {
-                default: f(() => [
-                  l(b, {
-                    name: "pencil",
-                    slot: "prefix"
-                  })
-                ]),
-                _: 1
-              })
-            ]),
-            i(" Roland Brose"),
-            Ze,
-            i(" Speicherstraße 33"),
-            He,
-            i(" 44147 Dortmund, DE"),
-            Pe,
-            Je,
-            i(" rb@mausbrand.de"),
-            Le,
-            i(" 0231 21 34 68 90 ")
-          ]),
-          e("div", Me, [
-            e("div", Qe, [
-              i(" Rechnungsadresse "),
-              l(m, {
-                outline: "",
-                size: "small"
-              }, {
-                default: f(() => [
-                  l(b, {
-                    name: "pencil",
-                    slot: "prefix"
-                  })
-                ]),
-                _: 1
-              })
-            ]),
-            i(" Roland Brose"),
-            Xe,
-            i(" Speicherstraße 33"),
-            Ye,
-            i(" 44147 Dortmund, DE"),
-            et,
-            tt,
-            i(" rb@mausbrand.de"),
-            st,
-            i(" 0231 21 34 68 90 ")
-          ])
+    }), (u, g) => o.cartIsInit ? (d(), h("div", Ke, [
+      Ge,
+      Ze,
+      Fe,
+      Pe,
+      Je,
+      Le,
+      (d(!0), h($, null, B(k(n).state.carts[k(n).state.basket].items, (_) => (d(), h("sl-card", Qe, [
+        e("img", {
+          class: "viur-shop-cart-mini-card-img",
+          slot: "image",
+          src: p(_.article.dest.key)
+        }, null, 8, Xe),
+        e("div", Ye, [
+          e("h4", et, y(_.article.dest.shop_name) + " | 425018", 1)
         ]),
-        e("div", at, [
-          ot,
-          l(m, {
-            outline: "",
-            size: "small"
-          }, {
-            default: f(() => [
-              l(b, {
-                name: "pencil",
-                slot: "prefix"
-              })
-            ]),
-            _: 1
-          })
-        ]),
-        nt,
-        rt,
-        (c(!0), k(x, null, q(z(n).state.carts[z(n).state.basket].items, (a) => (c(), N(y, {
-          horizontal: "",
-          class: "viur-shop-cart-mini-card"
-        }, {
-          default: f(() => [
-            e("img", {
-              class: "viur-shop-cart-mini-card-img",
-              slot: "image",
-              src: p(a.article.dest.key)
-            }, null, 8, it),
-            e("div", lt, [
-              e("h4", ct, S(a.article.dest.shop_name) + " | 425018", 1)
-            ]),
-            e("div", dt, [
-              e("div", ut, [
-                e("div", _t, [
-                  ht,
-                  e("div", pt, [
-                    mt,
-                    i(" " + S(a.article.dest.shop_price_recommended) + " € ", 1)
-                  ])
-                ])
+        e("div", tt, [
+          e("div", st, [
+            e("div", at, [
+              ot,
+              e("div", nt, [
+                rt,
+                i(" " + y(_.article.dest.shop_price_recommended) + " € ", 1)
               ])
             ])
-          ]),
-          _: 2
-        }, 1024))), 256)),
-        (c(), N(Q, { to: "#order_sidebar" }, [
-          ft,
-          vt,
-          e("div", bt, [
-            yt,
-            i(" " + S(z(n).state.carts[z(n).state.basket].info.total) + " € ", 1)
-          ]),
-          kt,
-          gt,
-          e("div", wt, [
-            $t,
-            i(" " + S(z(n).state.carts[z(n).state.basket].info.total) + " € ", 1)
-          ]),
-          l(r, { onSlChange: s }, {
-            default: f(() => [
-              i(" Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen ")
-            ]),
-            _: 1
-          }),
-          e("div", It, [
-            l(m, {
-              variant: o.showOrderButton ? "info" : "disabled",
-              size: "small",
-              disabled: !o.showOrderButton
-            }, {
-              default: f(() => [
-                i(" Zahlungspflichtig bestellen ")
-              ]),
-              _: 1
-            }, 8, ["variant", "disabled"])
           ])
-        ]))
-      ])) : (c(), N(ce, { key: 0 }));
-    };
+        ])
+      ]))), 256)),
+      (d(), C(J, { to: "#order_sidebar" }, [
+        it,
+        lt,
+        e("div", ct, [
+          dt,
+          i(" " + y(k(n).state.carts[k(n).state.basket].info.total) + " € ", 1)
+        ]),
+        ut,
+        ht,
+        e("div", pt, [
+          _t,
+          i(" " + y(k(n).state.carts[k(n).state.basket].info.total) + " € ", 1)
+        ]),
+        e("sl-checkbox", { onSlChange: s }, " Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen ", 32),
+        e("div", mt, [
+          e("sl-button", {
+            variant: o.showOrderButton ? "info" : "disabled",
+            size: "small",
+            disabled: !o.showOrderButton
+          }, " Zahlungspflichtig bestellen ", 8, ft)
+        ])
+      ]))
+    ])) : (d(), C(le, { key: 0 }));
   }
-}, St = /* @__PURE__ */ O(Ct, [["__scopeId", "data-v-75e70e9a"]]), Nt = (t) => (T("data-v-61488015"), t = t(), j(), t), zt = { class: "bind viur-shop-wrap" }, xt = { class: "viur-shop-order-step" }, Rt = { class: "viur-shop-order-status-text" }, Vt = /* @__PURE__ */ Nt(() => /* @__PURE__ */ e("div", {
+}, vt = /* @__PURE__ */ x(bt, [["__scopeId", "data-v-75e70e9a"]]), yt = (t) => (N("data-v-61488015"), t = t(), z(), t), gt = { class: "bind viur-shop-wrap" }, kt = ["panel", "disabled"], wt = { class: "viur-shop-order-step" }, $t = ["name", "library"], It = { class: "viur-shop-order-status-text" }, St = {
+  key: 0,
+  name: "chevron-right",
+  class: "viur-shop-order-tab-check"
+}, Ct = ["name"], Nt = ["onClick"], zt = ["onClick"], xt = /* @__PURE__ */ yt(() => /* @__PURE__ */ e("div", {
   class: "viur-shop-sidebar",
   id: "order_sidebar"
-}, null, -1)), Bt = {
+}, null, -1)), Rt = {
   __name: "OrderView",
   props: {
     tabs: {
@@ -607,112 +550,109 @@ const ce = /* @__PURE__ */ O(K, [["render", le], ["__scopeId", "data-v-46c45785"
   },
   emits: ["tabChange"],
   setup(t, { emit: n }) {
-    const o = t, p = n, s = R({
-      tabNames: C(() => $(o.tabs)),
+    const o = t, p = n, s = I({
+      tabNames: v(() => g(o.tabs)),
       isFirstTab: (r) => r === 0
-    }), d = P(null);
-    function $(r) {
-      let a = [], _ = [];
-      for (const h in r)
-        r[h].position ? a.push([h, r[h].position]) : a.push([h, 0]);
-      return a.sort((h, I) => h[1] - I[1]), a.forEach((h) => {
-        _.push(h[0]);
-      }), _;
+    }), u = M(null);
+    function g(r) {
+      let a = [], c = [];
+      for (const l in r)
+        r[l].position ? a.push([l, r[l].position]) : a.push([l, 0]);
+      return a.sort((l, S) => l[1] - S[1]), a.forEach((l) => {
+        c.push(l[0]);
+      }), c;
     }
-    function b(r) {
+    function _(r) {
       p("tabChange", r);
     }
+    function f(r) {
+      u.value.show(r);
+    }
     function m(r) {
-      d.value.show(r);
+      u.value.show(r);
     }
-    function y(r) {
-      d.value.show(r);
-    }
-    return (r, a) => {
-      const _ = v("sl-icon"), h = v("sl-tab"), I = v("sl-button"), D = v("sl-tab-panel"), W = v("sl-tab-group");
-      return c(), k("div", zt, [
-        l(W, {
-          class: "viur-shop-order-tab",
-          noScrollControls: "",
-          onSlTabShow: b,
-          ref_key: "tabGroup",
-          ref: d
-        }, {
-          default: f(() => [
-            (c(!0), k(x, null, q(s.tabNames, (g, w) => (c(), N(h, {
-              slot: "nav",
-              panel: g,
-              key: g,
-              disabled: t.tabs[g].disabled
-            }, {
-              default: f(() => [
-                e("div", xt, [
-                  l(_, {
-                    name: t.tabs[g].icon.name,
-                    library: t.tabs[g].icon.library
-                  }, null, 8, ["name", "library"]),
-                  e("div", Rt, S(w + 1) + ". " + S(t.tabs[g].displayName), 1)
-                ]),
-                w < s.tabNames.length - 1 ? (c(), N(_, {
-                  key: 0,
-                  name: "chevron-right",
-                  class: "viur-shop-order-tab-check"
-                })) : B("", !0)
-              ]),
-              _: 2
-            }, 1032, ["panel", "disabled"]))), 128)),
-            (c(!0), k(x, null, q(s.tabNames, (g, w) => (c(), N(D, {
-              name: g,
-              key: g
-            }, {
-              default: f(() => [
-                (c(), N(X(t.tabs[g].component), Y({ ref_for: !0 }, t.tabs[g].props ? t.tabs[g].props : ""), null, 16)),
-                w !== s.tabNames.length - 1 ? (c(), k("div", {
-                  key: 0,
-                  class: ee(["viur-shop-form-footer", { "flex-end": s.isFirstTab(w) }])
-                }, [
-                  te(l(I, {
-                    type: "submit",
-                    onClick: (A) => m(s.tabNames[w - 1])
-                  }, {
-                    default: f(() => [
-                      i(" Zurück ")
-                    ]),
-                    _: 2
-                  }, 1032, ["onClick"]), [
-                    [se, w !== 0]
-                  ]),
-                  l(I, {
-                    type: "submit",
-                    variant: "primary",
-                    onClick: (A) => y(s.tabNames[w + 1])
-                  }, {
-                    default: f(() => [
-                      i(" Weiter ")
-                    ]),
-                    _: 2
-                  }, 1032, ["onClick"])
-                ], 2)) : B("", !0)
-              ]),
-              _: 2
-            }, 1032, ["name"]))), 128))
+    return (r, a) => (d(), h("div", gt, [
+      e("sl-tab-group", {
+        class: "viur-shop-order-tab",
+        noScrollControls: "",
+        onSlTabShow: _,
+        ref_key: "tabGroup",
+        ref: u
+      }, [
+        (d(!0), h($, null, B(s.tabNames, (c, l) => (d(), h("sl-tab", {
+          slot: "nav",
+          panel: c,
+          key: c,
+          disabled: t.tabs[c].disabled
+        }, [
+          e("div", wt, [
+            e("sl-icon", {
+              name: t.tabs[c].icon.name,
+              library: t.tabs[c].icon.library
+            }, null, 8, $t),
+            e("div", It, y(l + 1) + ". " + y(t.tabs[c].displayName), 1)
           ]),
-          _: 1
-        }, 512),
-        Vt
-      ]);
-    };
+          l < s.tabNames.length - 1 ? (d(), h("sl-icon", St)) : R("", !0)
+        ], 8, kt))), 128)),
+        (d(!0), h($, null, B(s.tabNames, (c, l) => (d(), h("sl-tab-panel", {
+          name: c,
+          key: c
+        }, [
+          (d(), C(L(t.tabs[c].component), Q({ ref_for: !0 }, t.tabs[c].props ? t.tabs[c].props : ""), null, 16)),
+          l !== s.tabNames.length - 1 ? (d(), h("div", {
+            key: 0,
+            class: X(["viur-shop-form-footer", { "flex-end": s.isFirstTab(l) }])
+          }, [
+            U(e("sl-button", {
+              type: "submit",
+              onClick: (S) => f(s.tabNames[l - 1])
+            }, " Zurück ", 8, Nt), [
+              [Y, l !== 0]
+            ]),
+            e("sl-button", {
+              type: "submit",
+              variant: "primary",
+              onClick: (S) => m(s.tabNames[l + 1])
+            }, " Weiter ", 8, zt)
+          ], 2)) : R("", !0)
+        ], 8, Ct))), 128))
+      ], 544),
+      xt
+    ]));
   }
-}, qt = /* @__PURE__ */ O(Bt, [["__scopeId", "data-v-61488015"]]), Ot = {
+}, Bt = /* @__PURE__ */ x(Rt, [["__scopeId", "data-v-61488015"]]), Vt = {}, O = (t) => (N("data-v-36ccc280"), t = t(), z(), t), Et = { class: "bind" }, qt = /* @__PURE__ */ O(() => /* @__PURE__ */ e("h1", { class: "headline" }, "Vielen Dank für Ihre Bestellung", -1)), Ot = /* @__PURE__ */ O(() => /* @__PURE__ */ e("br", null, null, -1)), At = /* @__PURE__ */ O(() => /* @__PURE__ */ e("p", { class: "paragraph" }, [
+  /* @__PURE__ */ e("strong", null, "Ihre Bestellnummer:"),
+  /* @__PURE__ */ i(" 123345670 ")
+], -1)), Tt = /* @__PURE__ */ O(() => /* @__PURE__ */ e("p", { class: "paragraph" }, [
+  /* @__PURE__ */ i(" Wir haben Ihre Bestellung erhalten und werden diese schenllstmöglich bearbeiten."),
+  /* @__PURE__ */ e("br"),
+  /* @__PURE__ */ i(" Sie erhalten in wenigen Minuten eine Bestätigung per E-Mail. "),
+  /* @__PURE__ */ e("div", { class: "btn-wrap" }, [
+    /* @__PURE__ */ e("sl-button", { size: "medium" }, " Zur Startseite "),
+    /* @__PURE__ */ e("sl-button", {
+      variant: "primary",
+      size: "medium"
+    }, " Weiter Einkaufen ")
+  ])
+], -1)), Dt = [
+  qt,
+  Ot,
+  At,
+  Tt
+];
+function Wt(t, n) {
+  return d(), h("div", Et, Dt);
+}
+const jt = /* @__PURE__ */ x(Vt, [["render", Wt], ["__scopeId", "data-v-36ccc280"]]), Ut = {
   __name: "ExampleUsage",
   setup(t) {
-    const n = G(), o = C(
+    const n = D(), o = v(
       () => n.state.basketRootNode.key ? n.state.basketRootNode.key : ""
-    ), p = R({
+    ), p = I({
       rootNode: {},
       tabs: {
         cart: {
-          component: ae(J),
+          component: E(H),
           props: {
             sidebar: !0,
             mode: "basket",
@@ -725,7 +665,7 @@ const ce = /* @__PURE__ */ O(K, [["render", le], ["__scopeId", "data-v-46c45785"
           disabled: !1,
           atShow: null,
           atHide: null
-        }
+        },
         // confirm: {
         //   component: shallowRef(ConfirmView),
         //   props: {},
@@ -751,57 +691,57 @@ const ce = /* @__PURE__ */ O(K, [["render", le], ["__scopeId", "data-v-46c45785"
         //   atShow: null,
         //   atHide: null,
         // },
-        // orderComplete: {
-        //   component: shallowRef(OrderComplete),
-        //   props: {},
-        //   displayName: "Bestellung Abgeschlossen",
-        //   icon: { name: "order-confirmed", library: "hsk" },
-        //   position: 6,
-        //   disabled: true,
-        //   atShow: null,
-        //   atHide: null,
-        // },
-        // userInfo: {
-        //   component: shallowRef(UserInformation),
-        //   props: {},
-        //   displayName: "Daten Eingeben",
-        //   icon: { name: "user", library: "hsk" },
-        //   position: 3,
-        //   disabled: false,
-        //   atShow: null,
-        //   atHide: null,
-        // },
-        // userInfoMulti: {
-        //   component: shallowRef(UserInfoMulti),
-        //   props: {},
-        //   displayName: "Daten Eingeben (Multi)",
-        //   icon: { name: "user", library: "hsk" },
-        //   position: 4,
-        //   disabled: false,
-        //   atShow: null,
-        //   atHide: null,
-        // },
+        orderComplete: {
+          component: E(jt),
+          props: {},
+          displayName: "Bestellung Abgeschlossen",
+          icon: { name: "order-confirmed", library: "hsk" },
+          position: 6,
+          disabled: !0,
+          atShow: null,
+          atHide: null
+        },
+        userInfo: {
+          component: E(UserInformation),
+          props: {},
+          displayName: "Daten Eingeben",
+          icon: { name: "user", library: "hsk" },
+          position: 3,
+          disabled: !1,
+          atShow: null,
+          atHide: null
+        },
+        userInfoMulti: {
+          component: E(UserInfoMulti),
+          props: {},
+          displayName: "Daten Eingeben (Multi)",
+          icon: { name: "user", library: "hsk" },
+          position: 4,
+          disabled: !1,
+          atShow: null,
+          atHide: null
+        }
       }
     });
-    function s(d) {
-      (d == null ? void 0 : d.detail.name) === "confirm" && (p.tabs.orderComplete.disabled = !1);
+    function s(u) {
+      (u == null ? void 0 : u.detail.name) === "confirm" && (p.tabs.orderComplete.disabled = !1);
     }
-    return E(async () => {
+    return q(async () => {
       await n.init(), await n.getAdressStructure(), console.log("debug init exampleusage :", n.state.basketRootNode);
-    }), (d, $) => (c(), N(qt, {
+    }), (u, g) => (d(), C(Bt, {
       tabs: p.tabs,
       onTabChange: s
     }, null, 8, ["tabs"]));
   }
-}, Wt = {
+}, Ft = {
   install(t) {
-    t.component("CartView", J), t.component("ExampleUsage", Ot), t.component("ConfirmView", St);
+    t.component("CartView", H), t.component("ExampleUsage", Ut), t.component("ConfirmView", vt);
   }
 };
 export {
-  J as CartView,
-  St as ConfirmView,
-  Ot as ExampleUsage,
-  Wt as default,
-  G as useCartStore
+  H as CartView,
+  vt as ConfirmView,
+  Ut as ExampleUsage,
+  Ft as default,
+  D as useCartStore
 };
