@@ -32,6 +32,7 @@
       </sl-tab>
 
       <sl-tab-panel
+        class="viur-shop-order-tab-panel"
         :name="tab"
         v-for="(tab, index) in state.tabNames"
         :key="tab"
@@ -156,11 +157,13 @@ function nextTab(tabName) {
   grid-column: auto / span var(--shop-main-columns);
   display: grid;
   grid-template-columns: subgrid;
-  &::part(base) {
-    grid-column: auto / span var(--shop-main-columns);
-  }
-  &::part(nav),
+  &::part(base),
   &::part(body) {
+    grid-column: auto / span var(--shop-main-columns);
+    display: grid;
+    grid-template-columns: subgrid;
+  }
+  &::part(nav) {
     grid-column: auto / span var(--shop-main-columns);
   }
 }
@@ -206,6 +209,15 @@ function nextTab(tabName) {
     font-size: 0.7em;
     right: -0.35em;
     top: calc(50% - 0.35em);
+  }
+}
+
+.viur-shop-order-tab-panel {
+  &,
+  &::part(base) {
+    grid-column: auto / span var(--shop-main-columns);
+    display: grid;
+    grid-template-columns: subgrid;
   }
 }
 

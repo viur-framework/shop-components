@@ -39,7 +39,7 @@
         <sl-icon name="trash" slot="prefix"></sl-icon>
       </sl-button>
     </div>
-    <div class="viur-shop-cart-leaf-body-amount">
+    <div class="viur-shop-cart-leaf-amount">
       <sl-input
         class="amount-input"
         type="number"
@@ -110,10 +110,17 @@ onBeforeMount(() => {
 
 <style scoped>
 .viur-shop-cart-leaf {
-  margin-bottom: var(--sl-spacing-x-large);
+  --shop-leaf-label-color: var(--ignt-color-primary);
+
   grid-column: auto / span var(--shop-main-columns);
   display: grid;
   grid-template-columns: subgrid;
+  margin-bottom: var(--sl-spacing-x-large);
+  &::part(base) {
+    grid-column: auto / span var(--shop-main-columns);
+    display: grid;
+    grid-template-columns: subgrid;
+  }
 
   &::part(header) {
     border-bottom: none;
@@ -122,20 +129,21 @@ onBeforeMount(() => {
   }
 
   &::part(image) {
-    flex-basis: 25%;
-    max-width: 250px;
+    grid-column: auto / span 2;
   }
 
   &::part(body) {
-    display: flex;
-    flex: 1;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: 0;
+    grid-column: auto / span 7;
+    display: grid;
+    grid-template-columns: subgrid;
+    padding: 0;
   }
 
   &::part(group) {
-    padding: var(--sl-spacing-small) 0;
+    padding: 0;
+    grid-column: auto / span 7;
+    display: grid;
+    grid-template-columns: subgrid;
   }
 }
 
@@ -143,53 +151,37 @@ onBeforeMount(() => {
   aspect-ratio: 1;
 }
 
-.viur-shop-cart-leaf-body-row {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: var(--sl-spacing-large);
-  flex: 1;
+.viur-shop-cart-leaf-headline {
+  grid-column: 1 / span 3;
 }
 
-.viur-shop-cart-leaf-body-info {
+.viur-shop-cart-leaf-actions {
+  grid-column: 1;
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  justify-content: space-between;
+  order: 10;
 }
 
-.viur-shop-cart-leaf-descr {
-  margin-bottom: auto;
-}
-
-.viur-shop-cart-leaf-body-footer {
-  display: flex;
-  flex-direction: row;
-  gap: var(--sl-spacing-2x-small);
-  margin-top: var(--sl-spacing-large);
+.viur-shop-cart-leaf-description {
+  grid-column: 1 / span 3;
+  margin-bottom: var(--ignt-spacing-small);
 }
 
 .amount-input {
   width: 5em;
 }
 
-.viur-shop-cart-leaf-price-wrap {
-  display: flex;
-  flex-direction: column;
-
-  .viur-shop-cart-leaf-small-print {
-    font-size: 0.75em;
-    margin-left: auto;
-  }
-}
-
 .viur-shop-cart-leaf-price {
+  grid-column: auto / 8;
+  text-align: right;
   font-size: 1.3em;
 }
 
-.viur-shop-cart-leaf-price-label {
-  color: var(--ignt-color-primary);
+.viur-shop-cart-leaf-label,
+.amount-input::part(form-control-label) {
+  color: var(--shop-leaf-label-color);
   font-weight: 600;
-  margin-bottom: 10px;
   font-size: 1em;
-  margin-left: auto;
+  margin-bottom: var(--ignt-spacing-x-small);
 }
 </style>

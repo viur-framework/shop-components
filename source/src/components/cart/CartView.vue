@@ -397,6 +397,12 @@ sl-alert {
   flex: 1;
 }
 
+.viur-shop-cart-node {
+    grid-column: auto / span var(--shop-main-columns);
+    display: grid;
+    grid-template-columns: subgrid;
+}
+
 .cart-wrap {
   display: flex;
   flex-direction: column;
