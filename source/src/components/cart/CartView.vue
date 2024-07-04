@@ -320,7 +320,7 @@ onBeforeMount(async () => {
     state.nodes.push(cartStore.state.basketRootNode);
   }
 
-  console.log("state.nodes", state.nodes);
+  console.log("state.nodes test", state.nodes);
 
   console.log("state.leaves", state.leaves);
 });

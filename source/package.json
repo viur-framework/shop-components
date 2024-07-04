@@ -17,10 +17,15 @@
     "url": "https://github.com/viur-framework/shop-components/issues"
   },
   "homepage": "https://github.com/viur-framework/shop-components#readme",
-  "devDependencies": {
-    "postcss-custom-media": "^10.0.0",
-    "postcss-nesting": "^12.0.0",
-    "prettier": "^3.2.5"
+  "main": "dist/viur-shop-components.umd.js",
+  "module": "dist/viur-shop-components.es.js",
+  "style": "dist/style.css",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "watch": "vite build --watch"
   },
   "dependencies": {
     "@viur/ignite": "^5.0.2",
@@ -30,5 +35,12 @@
     "pinia": "^2.1.7",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "postcss-custom-media": "^10.0.0",
+    "postcss-nesting": "^12.0.0",
+    "prettier": "^3.2.5",
+    "vite": "^2.0.0",
+    "@vitejs/plugin-vue": "^1.0.0"
   }
 }
