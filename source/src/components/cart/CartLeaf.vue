@@ -60,11 +60,11 @@
     </div>
      <div class="viur-shop-cart-leaf-unitprice">
       <div class="viur-shop-cart-leaf-label">Stückpreis</div>
-        {{ state.leaf.price.retail }} €
+      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.leaf.price.retail" class="viur-shop-cart-leaf-value"></sl-format-number>
     </div>
     <div class="viur-shop-cart-leaf-price">
       <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
-        {{ state.leaf.price.retail * state.leaf.quantity }} €
+      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.leaf.price.retail * state.leaf.quantity" class="viur-shop-cart-leaf-value"></sl-format-number>
     </div>
   </sl-card>
 </template>
@@ -111,6 +111,8 @@ onBeforeMount(() => {
 <style scoped>
 .viur-shop-cart-leaf {
   --shop-leaf-label-color: var(--ignt-color-primary);
+  --shop-leaf-label-font-weight: 600;
+  --shop-leaf-label-font-size: 1em;
 
   grid-column: auto / span var(--shop-main-columns);
   display: grid;
@@ -180,8 +182,8 @@ onBeforeMount(() => {
 .viur-shop-cart-leaf-label,
 .amount-input::part(form-control-label) {
   color: var(--shop-leaf-label-color);
-  font-weight: 600;
-  font-size: 1em;
+  font-weight: var(--shop-leaf-label-font-weight);
+  font-size: var(--shop-leaf-label-font-size);
   margin-bottom: var(--ignt-spacing-x-small);
 }
 </style>
