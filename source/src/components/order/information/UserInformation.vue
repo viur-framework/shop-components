@@ -142,8 +142,10 @@
   <!-- <div class="viur-shop-form-wrap"> -->
 
   <div>
+    test
     <h2 class="viur-shop-form-headline headline">Nutzterdaten</h2>
     <template v-for="(value, key) in state.addSkel" :key="key">
+      {{ key }}
       <bone
         :is="getBoneWidget(value.type)"
         v-if="value.visible && value.params.group === 'Customer Info'"
@@ -259,7 +261,7 @@ function changeEvent(boneName, ev) {
 function structToDict(structure) {
   let output = {};
 
-  if (structure instanceof Object) {
+  if (!Array.isArray(structure)) {
     return structure;
   }
 
@@ -269,7 +271,7 @@ function structToDict(structure) {
 
     output[boneName] = boneValues;
   });
-
+  console.log("output", output);
   return output;
 }
 

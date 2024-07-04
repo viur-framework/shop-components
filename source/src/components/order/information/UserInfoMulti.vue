@@ -356,7 +356,7 @@ function getLabel(cart) {
 function structToDict(structure) {
   let output = {};
 
-  if (structure instanceof Object) {
+  if (!Array.isArray(structure)) {
     return structure;
   }
 
