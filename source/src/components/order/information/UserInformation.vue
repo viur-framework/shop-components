@@ -143,7 +143,7 @@
 
   <div>
     <h2 class="viur-shop-form-headline headline">Nutzterdaten</h2>
-    <template v-for="(key, value) of structToDict(state.addSkel)" :key="key">
+    <template v-for="(value, key) in structToDict(state.addSkel)" :key="key">
       <bone
         :is="getBoneWidget(value.type)"
         v-if="value.visible && value.params.group === 'Customer Info'"

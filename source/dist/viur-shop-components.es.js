@@ -29543,7 +29543,7 @@ function JD(h) {
   }
   return !1;
 }
-const fl = (h) => (rt("data-v-96ba7336"), h = h(), st(), h), YD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Nutzterdaten", -1)), QD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Lieferadresse", -1)), XD = { key: 0 }, eB = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Rechnungsadresse", -1)), tB = {
+const fl = (h) => (rt("data-v-f4f9e4ea"), h = h(), st(), h), YD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Nutzterdaten", -1)), QD = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Lieferadresse", -1)), XD = { key: 0 }, eB = /* @__PURE__ */ fl(() => /* @__PURE__ */ F("h2", { class: "viur-shop-form-headline headline" }, "Rechnungsadresse", -1)), tB = {
   __name: "UserInformation",
   props: {
     mode: { type: String, default: "form" },
@@ -29587,15 +29587,15 @@ const fl = (h) => (rt("data-v-96ba7336"), h = h(), st(), h), YD = /* @__PURE__ *
       return L(), $(re, null, [
         F("div", null, [
           YD,
-          (L(!0), $(re, null, Je(M(_.addSkel), (C, D) => (L(), $(re, { key: C }, [
-            D.visible && D.params.group === "Customer Info" ? (L(), Ue(m, {
+          (L(!0), $(re, null, Je(M(_.addSkel), (C, D) => (L(), $(re, { key: D }, [
+            C.visible && C.params.group === "Customer Info" ? (L(), Ue(m, {
               key: 0,
-              is: wt(Vn)(D.type),
-              name: C,
+              is: wt(Vn)(C.type),
+              name: D,
               structure: M(_.addSkel),
-              errors: _.errors[C] ? _.errors[C] : [],
+              errors: _.errors[D] ? _.errors[D] : [],
               skel: _.formValues,
-              onChange: (v) => S(C, v),
+              onChange: (v) => S(D, v),
               class: "viur-shop-form-grid-w-2"
             }, null, 8, ["is", "name", "structure", "errors", "skel", "onChange"])) : oe("", !0)
           ], 64))), 128))
@@ -29639,7 +29639,7 @@ const fl = (h) => (rt("data-v-96ba7336"), h = h(), st(), h), YD = /* @__PURE__ *
       ], 64);
     };
   }
-}, nB = /* @__PURE__ */ ke(tB, [["__scopeId", "data-v-96ba7336"]]), oB = Ve({
+}, nB = /* @__PURE__ */ ke(tB, [["__scopeId", "data-v-f4f9e4ea"]]), oB = Ve({
   props: {
     isDragging: Boolean,
     draggingLineBottom: Boolean,
