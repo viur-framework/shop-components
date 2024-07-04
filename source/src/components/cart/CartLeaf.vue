@@ -11,7 +11,7 @@
     <h5 class="viur-shop-cart-leaf-artno">
       {{ state.leaf.shop_art_no_or_gtin }}
     </h5>
-    <div class="viur-shop-cart-leaf-descr">
+    <div class="viur-shop-cart-leaf-description">
       Version: 900x900x2000 <br />
       Farbe: Chromoptik <br />
       Glasart: Klar hell mit Edelglasbeschichtung<br />
@@ -20,7 +20,7 @@
     </div>
     <div class="viur-shop-cart-leaf-actions">
       <sl-button
-        size="medium"
+        size="small"
         outline
         class="viur-shop-cart-leaf-add-to-favourites-btn"
         variant="primary"
@@ -29,7 +29,7 @@
         <sl-icon name="heart" slot="prefix"></sl-icon>
       </sl-button>
       <sl-button
-        size="medium"
+        size="small"
         outline
         class="viur-shop-cart-leaf-delete-btn"
         variant="primary"
@@ -39,36 +39,32 @@
         <sl-icon name="trash" slot="prefix"></sl-icon>
       </sl-button>
     </div>
-    <sl-input
-      class="viur-shop-cart-leaf-body-amount-input"
-      type="number"
-      label="Anzahl"
-      placeholder="Number"
-      min="0"
-      v-model="state.leaf.quantity"
-      @input="
-            updateItem(
-              state.leaf,
-              state.leaf.article.dest.key,
-              node,
-              state.leaf.quantity,
-            )
-          "
-    >
-    </sl-input>
-    <div class="viur-shop-cart-leaf-unitprice">
+    <div class="viur-shop-cart-leaf-body-amount">
+      <sl-input
+        class="amount-input"
+        type="number"
+        label="Anzahl"
+        placeholder="Number"
+        min="0"
+        v-model="state.leaf.quantity"
+        @input="
+          updateItem(
+            state.leaf,
+            state.leaf.article.dest.key,
+            node,
+            state.leaf.quantity,
+          )
+        "
+      >
+      </sl-input>
+    </div>
+     <div class="viur-shop-cart-leaf-unitprice">
       <div class="viur-shop-cart-leaf-label">Stückpreis</div>
-      {{ state.leaf.price.retail }} €
+        {{ state.leaf.price.retail }} €
     </div>
-
-    <div class="viur-shop-cart-leaf-availability">
-      <div class="viur-shop-cart-leaf-label">Verfügbarkeit</div>
-
-    </div>
-
     <div class="viur-shop-cart-leaf-price">
       <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
-      {{ state.leaf.price.retail * state.leaf.quantity }} €
+        {{ state.leaf.price.retail * state.leaf.quantity }} €
     </div>
   </sl-card>
 </template>
@@ -142,7 +138,6 @@ onBeforeMount(() => {
   &::part(group) {
     padding: var(--sl-spacing-small) 0;
   }
-
 }
 
 .viur-shop-cart-leaf-body-row {
@@ -150,40 +145,26 @@ onBeforeMount(() => {
   grid-template-columns: 1fr auto auto;
   gap: var(--sl-spacing-large);
   flex: 1;
-
-  @media (--ignt-mq-max-break-x-small) {
-      grid-template-columns: 1fr auto;
-    }
 }
 
 .viur-shop-cart-leaf-body-info {
   display: flex;
   flex-direction: column;
   height: 100%;
-
-  @media (--ignt-mq-max-break-x-small) {
-      grid-column: span 2;
-      order: 99;
-    }
-}
-
-.viur-shop-cart-leaf-body-amount{
-  @media (--ignt-mq-max-break-x-small) {
-      display: flex;
-    }
 }
 
 .viur-shop-cart-leaf-descr {
   margin-bottom: auto;
-
-  @media (--ignt-mq-max-break-x-small) {
-      display: none;
-    }
 }
 
+.viur-shop-cart-leaf-body-footer {
+  display: flex;
+  flex-direction: row;
+  gap: var(--sl-spacing-2x-small);
+  margin-top: var(--sl-spacing-large);
+}
 
-
-.viur-shop-cart-leaf-body-amount-input {
+.amount-input {
   width: 5em;
 }
 
@@ -207,9 +188,5 @@ onBeforeMount(() => {
   margin-bottom: 10px;
   font-size: 1em;
   margin-left: auto;
-
-  @media (--ignt-mq-max-break-x-small) {
-      display: none;
-    }
 }
 </style>

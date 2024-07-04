@@ -1,12 +1,13 @@
 <template>
   <div class="bind viur-shop-wrap">
     <sl-tab-group
-      class="viur-shop-order-tab"
+      class="viur-shop-order-tabgroup"
       noScrollControls
       @sl-tab-show="onTabChange"
       ref="tabGroup"
     >
       <sl-tab
+        class="viur-shop-order-tab"
         slot="nav"
         :panel="tab"
         v-for="(tab, index) in state.tabNames"
@@ -56,7 +57,9 @@
       </sl-tab-panel>
     </sl-tab-group>
 
-    <div class="viur-shop-sidebar" id="order_sidebar"></div>
+    <div class="viur-shop-sidebar-wrap">
+      <div class="viur-shop-sidebar" id="order_sidebar"></div>
+    </div>
   </div>
 
 </template>
@@ -124,50 +127,52 @@ function nextTab(tabName) {
 
 <style scoped>
 .viur-shop-wrap {
-  display: flex;
-  flex-direction: row;
-  gap: var(--sl-spacing-x-large);
-  align-items: flex-start;
+  --shop-sidebar-background: var(--sl-color-neutral-100);
+  --shop-sidebar-columns: 3;
+  --shop-main-columns: calc(var(--ignt-grid-columns) - var(--shop-sidebar-columns));
+  --shop-tab-color: var(--sl-color-neutral-400);
+  --shop-tab-color-active: var(--ignt-color-primary);
 
-  @media (--ignt-mq-max-break-small) {
-      flex-direction: column;
-    }
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+.viur-shop-sidebar-wrap {
+  grid-column: span var(--shop-sidebar-columns) / bind-end;
 }
 
 .viur-shop-sidebar {
   display: flex;
   flex-direction: column;
-  background-color: var(--sl-color-neutral-100);
+  background-color: var(--shop-sidebar-background);
   width: 100%;
   padding: var(--sl-spacing-medium);
   position: sticky;
   top: 0;
   margin-bottom: var(--sl-spacing-2x-large);
+}
 
-
-  @media (--ignt-mq-min-break-small) {
-      min-width: 300px;
-      width: 300px;
-    }
+.viur-shop-order-tabgroup {
+  grid-column: auto / span var(--shop-main-columns);
+  display: grid;
+  grid-template-columns: subgrid;
+  &::part(base) {
+    grid-column: auto / span var(--shop-main-columns);
+  }
+  &::part(nav),
+  &::part(body) {
+    grid-column: auto / span var(--shop-main-columns);
+  }
 }
 
 .viur-shop-order-tab {
-  sl-tab {
-    width: 25%;
-
-    &::part(base) {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      color: var(--sl-color-neutral-400);
-    }
-
-    &[aria-selected="true"]::part(base) {
-      color: var(--ignt-color-primary) !important;
-    }
+  width: 25%;
+  position: relative;
+  &::part(base) {
+    color: var(--shop-tab-color);
+  }
+  & [aria-selected="true"] {
+    --shop-tab-color: var(--shop-tab-color--active)
   }
 }
 
