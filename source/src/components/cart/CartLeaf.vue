@@ -11,12 +11,7 @@
     <h5 class="viur-shop-cart-leaf-artno">
       {{ state.leaf.shop_art_no_or_gtin }}
     </h5>
-    <div class="viur-shop-cart-leaf-description">
-      Version: 900x900x2000 <br />
-      Farbe: Chromoptik <br />
-      Glasart: Klar hell mit Edelglasbeschichtung<br />
-      Anschlag: Beidseitig variabel<br />
-      Griff: Stangengriff Exklusiv (56)
+    <div class="viur-shop-cart-leaf-description" v-html="state.leaf.shop_description">
     </div>
     <div class="viur-shop-cart-leaf-actions">
       <sl-button
@@ -121,11 +116,12 @@ onBeforeMount(() => {
   --shop-leaf-label-color: var(--ignt-color-primary);
   --shop-leaf-label-font-weight: 600;
   --shop-leaf-label-font-size: 1em;
+  --shop-leaf-price-font-size: 1.3em;
 
   grid-column: auto / span var(--shop-main-columns);
   display: grid;
   grid-template-columns: subgrid;
-  margin-bottom: var(--sl-spacing-x-large);
+  margin-bottom: var(--ignt-spacing-x-large);
   &::part(base) {
     grid-column: auto / span var(--shop-main-columns);
     display: grid;
@@ -180,7 +176,7 @@ onBeforeMount(() => {
 .viur-shop-cart-leaf-price {
   grid-column: span 2 / 8;
   text-align: right;
-  font-size: 1.3em;
+  font-size: var(--shop-leaf-price-font-size);
 }
 
 .viur-shop-cart-leaf-label,
