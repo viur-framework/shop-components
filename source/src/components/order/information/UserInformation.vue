@@ -142,16 +142,18 @@
   <!-- <div class="viur-shop-form-wrap"> -->
 
   <div>
+    test
     <h2 class="viur-shop-form-headline headline">Nutzterdaten</h2>
-    <template v-for="item in state.addSkel" :key="item[0]">
+    <template v-for="(value, key) in state.addSkel" :key="key">
+      {{ key }}
       <bone
-        :is="getBoneWidget(item[1].type)"
-        v-if="item[1].visible && item[1].params.group === 'Customer Info'"
-        :name="item[0]"
+        :is="getBoneWidget(value.type)"
+        v-if="value.visible && value.params.group === 'Customer Info'"
+        :name="key"
         :structure="structToDict(state.addSkel)"
-        :errors="state.errors[item[0]] ? state.errors[item[0]] : []"
+        :errors="state.errors[key] ? state.errors[key] : []"
         :skel="state.formValues"
-        @change="changeEvent(item[0], $event)"
+        @change="changeEvent(key, $event)"
         class="viur-shop-form-grid-w-2"
       >
       </bone>
@@ -159,30 +161,30 @@
   </div>
   <div>
     <h2 class="viur-shop-form-headline headline">Lieferadresse</h2>
-    <template v-for="item in state.addSkel" :key="item[0]">
+    <template v-for="(value, key) in state.addSkel" :key="key">
       <bone
-        :is="getBoneWidget(item[1].type)"
-        v-if="item[1].visible && item[1].params.group === 'Customer Address'"
-        :name="item[0]"
+        :is="getBoneWidget(value.type)"
+        v-if="value.visible && value.params.group === 'Customer Address'"
+        :name="key"
         :structure="structToDict(state.addSkel)"
-        :errors="state.errors[item[0]] ? state.errors[item[0]] : []"
+        :errors="state.errors[key] ? state.errors[key] : []"
         :skel="state.formValues"
-        @change="changeEvent(item[0], $event)"
+        @change="changeEvent(key, $event)"
       >
       </bone>
     </template>
   </div>
   <div v-if="state.isCustomAdress">
     <h2 class="viur-shop-form-headline headline">Rechnungsadresse</h2>
-    <template v-for="item in state.addSkel" :key="item[0]">
+    <template v-for="(value, key) in state.addSkel" :key="key">
       <bone
-        :is="getBoneWidget(item[1].type)"
-        v-if="item[1].visible && item[1].params.group === 'Customer Address'"
-        :name="item[0]"
+        :is="getBoneWidget(value.type)"
+        v-if="value.visible && value.params.group === 'Customer Address'"
+        :name="key"
         :structure="structToDict(state.addSkel)"
-        :errors="state.errors[item[0]] ? state.errors[item[0]] : []"
+        :errors="state.errors[key] ? state.errors[key] : []"
         :skel="state.formValues"
-        @change="changeEvent(item[0], $event)"
+        @change="changeEvent(key, $event)"
       >
       </bone>
     </template>
@@ -259,13 +261,17 @@ function changeEvent(boneName, ev) {
 function structToDict(structure) {
   let output = {};
 
+  if (!Array.isArray(structure)) {
+    return structure;
+  }
+
   structure.forEach((bone) => {
     let boneName = bone[0];
     let boneValues = bone[1];
 
     output[boneName] = boneValues;
   });
-
+  console.log("output", output);
   return output;
 }
 
@@ -291,12 +297,11 @@ watch(state.formValues, (newValues) => {
 
 onBeforeMount(async () => {
   await cartStore.getAdressStructure();
-  state.addSkel = cartStore.state.structure.address;
+  state.addSkel = structToDict(cartStore.state.structure.address);
 });
 </script>
 
 <style scoped>
-
 .viur-shop-form-adress-wrapper {
   display: flex;
   flex-direction: column;

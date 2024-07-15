@@ -215,9 +215,6 @@ const cartStore = useCartStore();
 const confirm = ref(null);
 
 const state = reactive({
-  cartIsInit: computed(() => {
-    return cartStore.state.basketRootNode ? true : false;
-  }),
   itemsIsInit: computed(() => {
     return true;
   }),
@@ -326,7 +323,7 @@ onBeforeMount(async () => {
     state.nodes.push(cartStore.state.basketRootNode);
   }
 
-  console.log("state.nodes", state.nodes);
+  console.log("state.nodes test", state.nodes);
 
   console.log("state.leaves", state.leaves);
 });
