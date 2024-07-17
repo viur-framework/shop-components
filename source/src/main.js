@@ -1,5 +1,27 @@
-// Import Vue
+import "vue"
+
+
+import {
+  setBasePath,
+  getBasePath,
+} from "@viur/shoelace/dist/utilities/base-path";
+import { registerIconLibrary } from "@viur/shoelace/dist/utilities/icon-library.js";
+
+if (import.meta.env.DEV) {
+  setBasePath(`/static/partnerbereich/shoelace`);
+} else {
+  setBasePath(`shoelace`);
+}
+
+// Register a custom icons repository for this app
+registerIconLibrary("hsk", {
+  resolver: (name) => `/static/partnerbereich/icons/${name}.svg`,
+  mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+});
+
 import { createApp } from "vue";
+import bone from "@viur/vue-utils/bones/edit/bone.vue";
+import Wrapper_nested from "@viur/vue-utils/bones/edit/wrapper_nested.vue";
 
 // Import all components from the components folder
 import CartView from "./components/cart/CartView.vue";
