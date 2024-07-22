@@ -17,6 +17,7 @@ export default defineConfig({
       name: "ViurShopComponents",
       fileName: (format) => `viur-shop-components.${format}.js`,
     },
+    cssCodeSplit: true,
     rollupOptions: {
       external: [
         "vue",
@@ -28,8 +29,12 @@ export default defineConfig({
         "vue-router",
         "@ckeditor/ckeditor5-vue",
         "@ckeditor/ckeditor5-build-classic",
+        "@viur/ckeditor5-build-classic",
       ],
       output: {
+        assetFileNames: (assetInfo) => {
+          return assetInfo.name;
+        },
         globals: {
           vue: "Vue",
           pinia: "Pinia",
@@ -40,6 +45,7 @@ export default defineConfig({
           "vue-router": "VueRouter",
           "@ckeditor/ckeditor5-vue": "CKEditor5Vue",
           "@ckeditor/ckeditor5-build-classic": "ClassicEditor",
+          "@viur/ckeditor5-build-classic": "ViurCkeditor",
         },
       },
     },
