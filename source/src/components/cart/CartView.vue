@@ -42,7 +42,7 @@
       <br />
 
       <div class="viur-shop-cart-sidebar-info-line">
-        <span>Zwischensumme</span> -->
+        <span>Zwischensumme</span>
         <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
         {{
           mode === "basket"
