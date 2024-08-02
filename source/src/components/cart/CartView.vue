@@ -31,15 +31,15 @@
       </template>
     </div>
 
-    <teleport to="#order_sidebar" v-if="sidebar">
+    <!-- <teleport to="#order_sidebar" v-if="sidebar"> -->
     <!-- <div v-if="sidebar"> -->
-      <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
+      <!-- <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
       <br />
 
       <sl-input label="Rabattcode eingeben"
                 class="viur-shop-cart-sidebar-coupon-input"
       ></sl-input>
-      <br />
+      <br /> -->
 
       <!-- <div class="viur-shop-cart-sidebar-info-line">
         <span>Zwischensumme</span> -->
@@ -68,14 +68,14 @@
         }}
         €
       </div> -->
-      <div class="viur-shop-cart-sidebar-btn-wrap">
+      <!-- <div class="viur-shop-cart-sidebar-btn-wrap">
         <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
         <sl-button size="medium" variant="info">
           <sl-icon name="paypal" slot="prefix"></sl-icon>
           Paypal
         </sl-button>
       </div>
-      </teleport>
+      </teleport> -->
 
       <div class="viur-shop-cart-mobile-footer">
         <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
