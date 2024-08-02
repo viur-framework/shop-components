@@ -65,7 +65,6 @@
         :value="leaf.price.retail"
       >
       </sl-format-number>
-      {{ leaf.price.retail }}
     </div>
     <div class="viur-shop-cart-leaf-price">
       <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
@@ -77,7 +76,6 @@
         :value="leaf.price.retail * leaf.quantity"
       >
       </sl-format-number>
-      {{ leaf.price.retail * leaf.quantity }}
     </div>
   </sl-card>
 </template>
