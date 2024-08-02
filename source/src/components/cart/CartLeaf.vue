@@ -59,7 +59,7 @@
                         lang="de"
                         type="currency"
                         currency="EUR"
-                        :value="state.leaf.price.retail"></sl-format-number>
+                        :value="leaf.price.retail"></sl-format-number>
     </div>
     <div class="viur-shop-cart-leaf-price">
       <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
@@ -67,7 +67,7 @@
                         lang="de"
                         type="currency"
                         currency="EUR"
-                        :value="state.leaf.price.retail * state.leaf.quantity"></sl-format-number>
+                        :value="leaf.price.retail * leaf.quantity"></sl-format-number>
     </div>
   </sl-card>
 </template>
