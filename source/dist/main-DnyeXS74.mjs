@@ -1,13 +1,12 @@
-var nt = Object.defineProperty;
-var at = (e, n, t) => n in e ? nt(e, n, { enumerable: !0, configurable: !0, writable: !0, value: t }) : e[n] = t;
-var Oe = (e, n, t) => at(e, typeof n != "symbol" ? n + "" : n, t);
-import { defineComponent as D, inject as C, reactive as w, openBlock as m, createElementBlock as h, normalizeClass as ye, createElementVNode as i, renderSlot as Ze, pushScopeId as M, popScopeId as z, Fragment as E, createCommentVNode as k, toDisplayString as B, onMounted as R, ref as F, readonly as st, getCurrentScope as lt, onScopeDispose as rt, unref as q, computed as S, watchEffect as ce, renderList as U, watch as ae, withDirectives as J, vModelText as le, getCurrentInstance as ot, resolveComponent as se, createBlock as T, vShow as ve, withModifiers as de, createTextVNode as O, shallowRef as G, provide as ie, onBeforeMount as ee, useCssVars as it, Transition as ut, withCtx as dt, createVNode as ct, Teleport as Je, resolveDynamicComponent as mt, mergeProps as ft } from "vue";
+var tt = Object.defineProperty;
+var nt = (e, n, t) => n in e ? tt(e, n, { enumerable: !0, configurable: !0, writable: !0, value: t }) : e[n] = t;
+var Ce = (e, n, t) => nt(e, typeof n != "symbol" ? n + "" : n, t);
+import { defineComponent as D, inject as O, reactive as w, openBlock as m, createElementBlock as h, normalizeClass as ye, createElementVNode as i, renderSlot as Ge, pushScopeId as M, popScopeId as z, Fragment as E, createCommentVNode as k, toDisplayString as B, onMounted as R, ref as F, readonly as at, getCurrentScope as st, onScopeDispose as lt, unref as q, computed as S, watchEffect as ce, renderList as U, watch as ae, withDirectives as J, vModelText as le, getCurrentInstance as rt, resolveComponent as se, createBlock as T, vShow as ve, withModifiers as de, createTextVNode as C, shallowRef as G, provide as ie, onBeforeMount as ee, useCssVars as ot, Transition as it, withCtx as ut, createVNode as dt, Teleport as Ze, resolveDynamicComponent as ct, mergeProps as mt } from "vue";
 import { defineStore as $e } from "pinia";
-import Ce from "@viur/ckeditor5-build-classic";
-import { Request as gt } from "@viur/vue-utils";
-import { ViURShopClient as ht } from "@viur/viur-shop-client";
-import { useRoute as bt, createRouter as vt, createWebHashHistory as pt } from "vue-router";
-const yt = D({
+import { Request as ft } from "@viur/vue-utils";
+import { ViURShopClient as gt } from "@viur/viur-shop-client";
+import { useRoute as ht, createRouter as bt, createWebHashHistory as vt } from "vue-router";
+const pt = D({
   props: {
     isDragging: Boolean,
     draggingLineBottom: Boolean,
@@ -16,7 +15,7 @@ const yt = D({
   components: {},
   emits: ["change", "delete", "handleDragStart", "handleDragEnd", "handleDragOver", "handleDrop"],
   setup(e, n) {
-    const t = C("boneState");
+    const t = O("boneState");
     return {
       state: w({
         isDraggable: !1
@@ -29,18 +28,18 @@ const yt = D({
   for (const [l, s] of n)
     t[l] = s;
   return t;
-}, Qe = (e) => (M("data-v-141aaf9b"), e = e(), z(), e), $t = ["draggable"], St = ["disabled"], _t = /* @__PURE__ */ Qe(() => /* @__PURE__ */ i("sl-icon", {
+}, Je = (e) => (M("data-v-141aaf9b"), e = e(), z(), e), yt = ["draggable"], $t = ["disabled"], St = /* @__PURE__ */ Je(() => /* @__PURE__ */ i("sl-icon", {
   slot: "prefix",
   name: "grip-vertical"
-}, null, -1)), kt = [
-  _t
-], wt = { class: "value" }, Et = ["disabled", "title"], At = /* @__PURE__ */ Qe(() => /* @__PURE__ */ i("sl-icon", {
+}, null, -1)), _t = [
+  St
+], kt = { class: "value" }, wt = ["disabled", "title"], Et = /* @__PURE__ */ Je(() => /* @__PURE__ */ i("sl-icon", {
   slot: "prefix",
   name: "x-lg"
-}, null, -1)), It = [
-  At
+}, null, -1)), At = [
+  Et
 ];
-function Ot(e, n, t, l, s, o) {
+function It(e, n, t, l, s, o) {
   return m(), h("div", {
     class: ye(["value-line", {
       "is-dragging": e.isDragging,
@@ -57,9 +56,9 @@ function Ot(e, n, t, l, s, o) {
       disabled: e.boneState.readonly,
       class: "drag-button",
       onMousedown: n[0] || (n[0] = (a) => e.state.isDraggable = !0)
-    }, kt, 40, St),
-    i("div", wt, [
-      Ze(e.$slots, "default", {}, void 0, !0)
+    }, _t, 40, $t),
+    i("div", kt, [
+      Ge(e.$slots, "default", {}, void 0, !0)
     ]),
     i("sl-button", {
       variant: "danger",
@@ -68,10 +67,10 @@ function Ot(e, n, t, l, s, o) {
       title: e.$t("bone.del"),
       class: "delete-btn",
       onClick: n[1] || (n[1] = (a) => e.$emit("delete"))
-    }, It, 8, Et)
-  ], 42, $t);
+    }, At, 8, wt)
+  ], 42, yt);
 }
-const Ct = /* @__PURE__ */ I(yt, [["render", Ot], ["__scopeId", "data-v-141aaf9b"]]), jt = D({
+const Ct = /* @__PURE__ */ I(pt, [["render", It], ["__scopeId", "data-v-141aaf9b"]]), Ot = D({
   props: {
     name: String,
     value: Object,
@@ -83,7 +82,7 @@ const Ct = /* @__PURE__ */ I(yt, [["render", Ot], ["__scopeId", "data-v-141aaf9b
   components: {},
   emits: ["change", "handleClick"],
   setup(e, n) {
-    const t = C("boneState");
+    const t = O("boneState");
     return {
       state: w({
         debug: !1
@@ -91,21 +90,21 @@ const Ct = /* @__PURE__ */ I(yt, [["render", Ot], ["__scopeId", "data-v-141aaf9b
       boneState: t
     };
   }
-}), Bt = { class: "bone-name" }, Dt = { key: 0 }, Vt = { class: "bone" };
-function Nt(e, n, t, l, s, o) {
+}), jt = { class: "bone-name" }, Bt = { key: 0 }, Dt = { class: "bone" };
+function Vt(e, n, t, l, s, o) {
   return m(), h(E, null, [
-    i("label", Bt, [
-      Ze(e.$slots, "default", {}, void 0, !0),
+    i("label", jt, [
+      Ge(e.$slots, "default", {}, void 0, !0),
       k("", !0)
     ]),
-    e.state.debug ? (m(), h("div", Dt, [
-      i("div", Vt, B(e.name), 1),
+    e.state.debug ? (m(), h("div", Bt, [
+      i("div", Dt, B(e.name), 1),
       i("pre", null, "    " + B(e.boneState) + `
     `, 1)
     ])) : k("", !0)
   ], 64);
 }
-const Rt = /* @__PURE__ */ I(jt, [["render", Nt], ["__scopeId", "data-v-b7149172"]]), Lt = D({
+const Nt = /* @__PURE__ */ I(Ot, [["render", Vt], ["__scopeId", "data-v-b7149172"]]), Rt = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -116,7 +115,7 @@ const Rt = /* @__PURE__ */ I(jt, [["render", Nt], ["__scopeId", "data-v-b7149172
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({});
+    const t = O("boneState"), l = w({});
     function s(o) {
       n.emit("change", e.name, o.target.value, e.lang, e.index);
     }
@@ -128,22 +127,22 @@ const Rt = /* @__PURE__ */ I(jt, [["render", Nt], ["__scopeId", "data-v-b7149172
       changeEvent: s
     };
   }
-}), Ut = ["disabled", "value"], Tt = ["disabled", "value"];
-function Pt(e, n, t, l, s, o) {
+}), Lt = ["disabled", "value"], Ut = ["disabled", "value"];
+function Tt(e, n, t, l, s, o) {
   var a, u;
   return e.boneState.bonestructure.type === "raw.json" ? (m(), h("sl-textarea", {
     key: 0,
     disabled: (a = e.boneState) == null ? void 0 : a.readonly,
     value: JSON.stringify(e.value),
     onInput: n[0] || (n[0] = (...r) => e.changeEvent && e.changeEvent(...r))
-  }, null, 40, Ut)) : (m(), h("sl-textarea", {
+  }, null, 40, Lt)) : (m(), h("sl-textarea", {
     key: 1,
     disabled: (u = e.boneState) == null ? void 0 : u.readonly,
     value: e.value,
     onInput: n[1] || (n[1] = (...r) => e.changeEvent && e.changeEvent(...r))
-  }, null, 40, Tt));
+  }, null, 40, Ut));
 }
-const pe = /* @__PURE__ */ I(Lt, [["render", Pt], ["__scopeId", "data-v-0ebe5f0b"]]), Mt = D({
+const pe = /* @__PURE__ */ I(Rt, [["render", Tt], ["__scopeId", "data-v-0ebe5f0b"]]), Pt = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -167,22 +166,22 @@ const pe = /* @__PURE__ */ I(Lt, [["render", Pt], ["__scopeId", "data-v-0ebe5f0b
       changeEvent: l
     };
   }
-}), zt = ["value"];
-function Wt(e, n, t, l, s, o) {
+}), Mt = ["value"];
+function zt(e, n, t, l, s, o) {
   return m(), h("sl-input", {
     disabled: "",
     value: e.value,
     onSlChange: n[0] || (n[0] = (...a) => e.changeEvent && e.changeEvent(...a))
-  }, null, 40, zt);
+  }, null, 40, Mt);
 }
-const je = /* @__PURE__ */ I(Mt, [["render", Wt], ["__scopeId", "data-v-b45a1311"]]);
+const Oe = /* @__PURE__ */ I(Pt, [["render", zt], ["__scopeId", "data-v-b45a1311"]]);
+function Wt(e) {
+  return st() ? (lt(e), !0) : !1;
+}
 function qt(e) {
-  return lt() ? (rt(e), !0) : !1;
-}
-function Ft(e) {
   return typeof e == "function" ? e() : q(e);
 }
-const Kt = typeof window < "u" && typeof document < "u";
+const Ft = typeof window < "u" && typeof document < "u";
 typeof WorkerGlobalScope < "u" && globalThis instanceof WorkerGlobalScope;
 function me(e, n, t = {}) {
   const {
@@ -198,15 +197,15 @@ function me(e, n, t = {}) {
   function r(...c) {
     a(), s.value = !0, o = setTimeout(() => {
       s.value = !1, o = null, e(...c);
-    }, Ft(n));
+    }, qt(n));
   }
-  return l && (s.value = !0, Kt && r()), qt(u), {
-    isPending: st(s),
+  return l && (s.value = !0, Ft && r()), Wt(u), {
+    isPending: at(s),
     start: r,
     stop: u
   };
 }
-class Ht {
+class Kt {
   static objectEmpty(n) {
     return Object.keys(n).length === 0 && n.constructor === Object;
   }
@@ -247,7 +246,7 @@ class Ht {
     return o.join(", ");
   }
 }
-const Gt = D({
+const Ht = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -259,7 +258,7 @@ const Gt = D({
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       value: S(() => e.value)
     }), s = F(null);
     function o(a) {
@@ -276,14 +275,14 @@ const Gt = D({
       n.emit("change", e.name, e.value, e.lang, e.index);
     }), {
       state: l,
-      Utils: Ht,
+      Utils: Kt,
       boneState: t,
       changeEvent: o,
       stringBone: s
     };
   }
-}), Zt = ["disabled", "value", "required"];
-function Jt(e, n, t, l, s, o) {
+}), Gt = ["disabled", "value", "required"];
+function Zt(e, n, t, l, s, o) {
   return m(), h("sl-input", {
     ref: "stringBone",
     disabled: e.boneState.readonly,
@@ -291,9 +290,9 @@ function Jt(e, n, t, l, s, o) {
     required: e.boneState.bonestructure.required,
     onSlChange: n[0] || (n[0] = (...a) => e.changeEvent && e.changeEvent(...a)),
     onKeyup: n[1] || (n[1] = (...a) => e.changeEvent && e.changeEvent(...a))
-  }, null, 40, Zt);
+  }, null, 40, Gt);
 }
-const Be = /* @__PURE__ */ I(Gt, [["render", Jt], ["__scopeId", "data-v-1ccbacc0"]]), Qt = D({
+const je = /* @__PURE__ */ I(Ht, [["render", Zt], ["__scopeId", "data-v-1ccbacc0"]]), Jt = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -305,7 +304,7 @@ const Be = /* @__PURE__ */ I(Gt, [["render", Jt], ["__scopeId", "data-v-1ccbacc0
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({}), s = F(null);
+    const t = O("boneState"), l = w({}), s = F(null);
     function o(a) {
       n.emit("change", e.name, a.target.value, e.lang, e.index);
     }
@@ -325,17 +324,17 @@ const Be = /* @__PURE__ */ I(Gt, [["render", Jt], ["__scopeId", "data-v-1ccbacc0
       emailBone: s
     };
   }
-}), Yt = ["disabled", "value"];
-function Xt(e, n, t, l, s, o) {
+}), Qt = ["disabled", "value"];
+function Yt(e, n, t, l, s, o) {
   return m(), h("sl-input", {
     ref: "emailBone",
     disabled: e.boneState.readonly,
     type: "email",
     value: e.value,
     onSlChange: n[0] || (n[0] = (...a) => e.changeEvent && e.changeEvent(...a))
-  }, null, 40, Yt);
+  }, null, 40, Qt);
 }
-const De = /* @__PURE__ */ I(Qt, [["render", Xt], ["__scopeId", "data-v-4328e024"]]), xt = D({
+const Be = /* @__PURE__ */ I(Jt, [["render", Yt], ["__scopeId", "data-v-4328e024"]]), Xt = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -346,7 +345,7 @@ const De = /* @__PURE__ */ I(Qt, [["render", Xt], ["__scopeId", "data-v-4328e024
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       value: S(() => {
         var a;
         let o = e.value;
@@ -368,16 +367,16 @@ const De = /* @__PURE__ */ I(Qt, [["render", Xt], ["__scopeId", "data-v-4328e024
       changeEvent: s
     };
   }
-}), en = ["disabled", "type", "value"];
-function tn(e, n, t, l, s, o) {
+}), xt = ["disabled", "type", "value"];
+function en(e, n, t, l, s, o) {
   return m(), h("sl-input", {
     disabled: e.boneState.readonly,
     type: e.state.typeString,
     value: e.state.value,
     onSlChange: n[0] || (n[0] = (...a) => e.changeEvent && e.changeEvent(...a))
-  }, null, 40, en);
+  }, null, 40, xt);
 }
-const Ve = /* @__PURE__ */ I(xt, [["render", tn], ["__scopeId", "data-v-f1b8af8c"]]), nn = D({
+const De = /* @__PURE__ */ I(Xt, [["render", en], ["__scopeId", "data-v-f1b8af8c"]]), tn = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -388,7 +387,7 @@ const Ve = /* @__PURE__ */ I(xt, [["render", tn], ["__scopeId", "data-v-f1b8af8c
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       value: S(() => {
         let a = e.value;
         return Array.isArray(e.value) ? (t.bonestructure.values instanceof Array ? a = a.filter((u) => t.bonestructure.values.map((r) => r[0].toString()).includes(u)) : a = a.filter(
@@ -418,8 +417,8 @@ const Ve = /* @__PURE__ */ I(xt, [["render", tn], ["__scopeId", "data-v-f1b8af8c
       convertObjToList: s
     };
   }
-}), an = ["disabled", "value", "multiple"], sn = ["value"];
-function ln(e, n, t, l, s, o) {
+}), nn = ["disabled", "value", "multiple"], an = ["value"];
+function sn(e, n, t, l, s, o) {
   return m(), h("sl-select", {
     disabled: e.boneState.readonly,
     value: e.state.value,
@@ -432,10 +431,10 @@ function ln(e, n, t, l, s, o) {
     (m(!0), h(E, null, U(e.convertObjToList(), (a) => (m(), h("sl-option", {
       key: a[0],
       value: a[0]
-    }, B(a[1]), 9, sn))), 128))
-  ], 40, an);
+    }, B(a[1]), 9, an))), 128))
+  ], 40, nn);
 }
-const Ne = /* @__PURE__ */ I(nn, [["render", ln], ["__scopeId", "data-v-5a38b97f"]]), rn = D({
+const Ve = /* @__PURE__ */ I(tn, [["render", sn], ["__scopeId", "data-v-5a38b97f"]]), ln = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -446,7 +445,7 @@ const Ne = /* @__PURE__ */ I(nn, [["render", ln], ["__scopeId", "data-v-5a38b97f
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       value: S(() => ![!1, null, void 0, ""].includes(e.value))
     });
     function s(o) {
@@ -461,15 +460,15 @@ const Ne = /* @__PURE__ */ I(nn, [["render", ln], ["__scopeId", "data-v-5a38b97f
       changeEvent: s
     };
   }
-}), on = ["disabled", "checked"];
-function un(e, n, t, l, s, o) {
+}), rn = ["disabled", "checked"];
+function on(e, n, t, l, s, o) {
   return m(), h("sl-switch", {
     disabled: e.boneState.readonly,
     checked: e.state.value,
     onSlChange: n[0] || (n[0] = (...a) => e.changeEvent && e.changeEvent(...a))
-  }, null, 40, on);
+  }, null, 40, rn);
 }
-const Re = /* @__PURE__ */ I(rn, [["render", un], ["__scopeId", "data-v-363598c8"]]), dn = D({
+const Ne = /* @__PURE__ */ I(ln, [["render", on], ["__scopeId", "data-v-363598c8"]]), un = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -481,7 +480,7 @@ const Re = /* @__PURE__ */ I(rn, [["render", un], ["__scopeId", "data-v-363598c8
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       value1: "",
       value2: null,
       equal: !1,
@@ -519,8 +518,8 @@ const Re = /* @__PURE__ */ I(rn, [["render", un], ["__scopeId", "data-v-363598c8
       passwordBone: s
     };
   }
-}), cn = ["disabled"], mn = ["name"], fn = ["name"], gn = { class: "errors" };
-function hn(e, n, t, l, s, o) {
+}), dn = ["disabled"], cn = ["name"], mn = ["name"], fn = { class: "errors" };
+function gn(e, n, t, l, s, o) {
   return m(), h(E, null, [
     J(i("sl-input", {
       ref: "passwordBone",
@@ -537,8 +536,8 @@ function hn(e, n, t, l, s, o) {
       i("sl-icon", {
         slot: "suffix",
         name: e.state.equal && e.state.value1.length ? "check" : "x"
-      }, null, 8, mn)
-    ], 42, cn), [
+      }, null, 8, cn)
+    ], 42, dn), [
       [le, e.state.value1]
     ]),
     e.boneState.readonly ? k("", !0) : J((m(), h("sl-input", {
@@ -555,11 +554,11 @@ function hn(e, n, t, l, s, o) {
       i("sl-icon", {
         slot: "suffix",
         name: e.state.equal && e.state.value1.length ? "check" : "x"
-      }, null, 8, fn)
+      }, null, 8, mn)
     ], 544)), [
       [le, e.state.value2]
     ]),
-    i("ul", gn, [
+    i("ul", fn, [
       (m(!0), h(E, null, U(e.state.passwordInfo, (a, u) => (m(), h("li", { key: u }, B(a), 1))), 128)),
       (m(!0), h(E, null, U(e.state.requiredPasswordInfo, (a, u) => (m(), h("li", {
         key: u,
@@ -568,7 +567,7 @@ function hn(e, n, t, l, s, o) {
     ])
   ], 64);
 }
-const Le = /* @__PURE__ */ I(dn, [["render", hn], ["__scopeId", "data-v-0ccf18c0"]]), bn = D({
+const Re = /* @__PURE__ */ I(un, [["render", gn], ["__scopeId", "data-v-0ccf18c0"]]), hn = D({
   props: {
     name: String,
     value: null,
@@ -579,7 +578,7 @@ const Le = /* @__PURE__ */ I(dn, [["render", hn], ["__scopeId", "data-v-0ccf18c0
   },
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       value: S(() => e.value),
       structure: S(() => a(t.bonestructure.using)),
       globalRegistration: !1,
@@ -613,7 +612,7 @@ const Le = /* @__PURE__ */ I(dn, [["render", hn], ["__scopeId", "data-v-0ccf18c0
       n.emit("change", u);
     }
     R(() => {
-      ot().appContext.components.Bone ? l.globalRegistration = !0 : l.globalRegistration = !1, n.emit("change", e.name, e.value, e.lang, e.index);
+      rt().appContext.components.Bone ? l.globalRegistration = !0 : l.globalRegistration = !1, n.emit("change", e.name, e.value, e.lang, e.index);
     });
     function o(u) {
       console.log(u);
@@ -636,17 +635,17 @@ const Le = /* @__PURE__ */ I(dn, [["render", hn], ["__scopeId", "data-v-0ccf18c0
       updateValue: o
     };
   }
-}), vn = {
+}), bn = {
   key: 0,
   open: "",
   variant: "danger"
-}, pn = {
+}, vn = {
   key: 1,
   class: "form"
-}, yn = ["summary", "open"];
-function $n(e, n, t, l, s, o) {
+}, pn = ["summary", "open"];
+function yn(e, n, t, l, s, o) {
   const a = se("bone");
-  return e.state.globalRegistration ? (m(), h("div", pn, [
+  return e.state.globalRegistration ? (m(), h("div", vn, [
     (m(!0), h(E, null, U(e.state.formGroups, (u, r) => J((m(), h("sl-details", {
       key: r,
       summary: u.name,
@@ -664,12 +663,12 @@ function $n(e, n, t, l, s, o) {
       }, null, 8, ["is", "name", "structure", "skel", "errors", "readonly", "onChangeInternal"])), [
         [ve, e.state.structure[c.boneName].visible]
       ])), 128))
-    ], 8, yn)), [
+    ], 8, pn)), [
       [ve, u.groupVisible]
     ])), 128))
-  ])) : (m(), h("sl-alert", vn, " In Order to use this Bone register the bone component globally in your main file "));
+  ])) : (m(), h("sl-alert", bn, " In Order to use this Bone register the bone component globally in your main file "));
 }
-const Ye = /* @__PURE__ */ I(bn, [["render", $n], ["__scopeId", "data-v-e6fcfbca"]]), Sn = D({
+const Qe = /* @__PURE__ */ I(hn, [["render", yn], ["__scopeId", "data-v-e6fcfbca"]]), $n = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -677,10 +676,10 @@ const Ye = /* @__PURE__ */ I(bn, [["render", $n], ["__scopeId", "data-v-e6fcfbca
     index: Number,
     lang: String
   },
-  components: { Wrapper_nested: Ye },
+  components: { Wrapper_nested: Qe },
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       value: {},
       index: S(() => e.index),
       lang: S(() => e.lang)
@@ -700,7 +699,7 @@ const Ye = /* @__PURE__ */ I(bn, [["render", $n], ["__scopeId", "data-v-e6fcfbca
     };
   }
 });
-function _n(e, n, t, l, s, o) {
+function Sn(e, n, t, l, s, o) {
   const a = se("Wrapper_nested");
   return m(), T(a, {
     value: e.value,
@@ -710,7 +709,7 @@ function _n(e, n, t, l, s, o) {
     onChange: e.changeEvent
   }, null, 8, ["value", "name", "index", "disabled", "onChange"]);
 }
-const Ue = /* @__PURE__ */ I(Sn, [["render", _n], ["__scopeId", "data-v-84a761ce"]]), kn = D({
+const Le = /* @__PURE__ */ I($n, [["render", Sn], ["__scopeId", "data-v-84a761ce"]]), _n = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -721,7 +720,7 @@ const Ue = /* @__PURE__ */ I(Sn, [["render", _n], ["__scopeId", "data-v-84a761ce
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({});
+    const t = O("boneState"), l = w({});
     function s(o) {
       n.emit("change", e.name, o.target.value, e.lang, e.index);
     }
@@ -733,15 +732,15 @@ const Ue = /* @__PURE__ */ I(Sn, [["render", _n], ["__scopeId", "data-v-84a761ce
       changeEvent: s
     };
   }
-}), wn = ["disabled", "value"];
-function En(e, n, t, l, s, o) {
+}), kn = ["disabled", "value"];
+function wn(e, n, t, l, s, o) {
   return m(), h("sl-color-picker", {
     disabled: e.boneState.readonly,
     value: e.value,
     onSlChange: n[0] || (n[0] = (...a) => e.changeEvent && e.changeEvent(...a))
-  }, null, 40, wn);
+  }, null, 40, kn);
 }
-const Te = /* @__PURE__ */ I(kn, [["render", En], ["__scopeId", "data-v-534b9149"]]), An = D({
+const Ue = /* @__PURE__ */ I(_n, [["render", wn], ["__scopeId", "data-v-534b9149"]]), En = D({
   inheritAttrs: !1,
   emits: { change: null },
   props: {
@@ -753,7 +752,7 @@ const Te = /* @__PURE__ */ I(kn, [["render", En], ["__scopeId", "data-v-534b9149
   },
   components: {},
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       minAmount: S(() => t.bonestructure.minAmount),
       maxAmount: S(() => t.bonestructure.maxAmount),
       precision: S(() => {
@@ -780,8 +779,8 @@ const Te = /* @__PURE__ */ I(kn, [["render", En], ["__scopeId", "data-v-534b9149
       numericBone: s
     };
   }
-}), In = ["disabled", "value", "min", "max", "step"], On = { class: "info" }, Cn = { key: 0 }, jn = { key: 1 }, Bn = { key: 2 };
-function Dn(e, n, t, l, s, o) {
+}), An = ["disabled", "value", "min", "max", "step"], In = { class: "info" }, Cn = { key: 0 }, On = { key: 1 }, jn = { key: 2 };
+function Bn(e, n, t, l, s, o) {
   return m(), h(E, null, [
     i("sl-input", {
       ref: "numericBone",
@@ -793,15 +792,15 @@ function Dn(e, n, t, l, s, o) {
       step: e.state.precision,
       onSlChange: n[0] || (n[0] = (...a) => e.changeEvent && e.changeEvent(...a)),
       onKeyup: n[1] || (n[1] = (...a) => e.changeEvent && e.changeEvent(...a))
-    }, null, 40, In),
-    i("ul", On, [
+    }, null, 40, An),
+    i("ul", In, [
       e.state.minAmount !== -9223372036854776e3 && e.state.minAmount ? (m(), h("li", Cn, B(e.$t("bones.numeric.min", { val: e.state.minAmount })), 1)) : k("", !0),
-      e.state.maxAmount !== 9223372036854776e3 && e.state.maxAmount ? (m(), h("li", jn, B(e.$t("bones.numeric.max", { val: e.state.maxAmount })), 1)) : k("", !0),
-      e.state.precision ? (m(), h("li", Bn, B(e.$t("bones.numeric.precision", { val: e.boneState.bonestructure.precision })), 1)) : k("", !0)
+      e.state.maxAmount !== 9223372036854776e3 && e.state.maxAmount ? (m(), h("li", On, B(e.$t("bones.numeric.max", { val: e.state.maxAmount })), 1)) : k("", !0),
+      e.state.precision ? (m(), h("li", jn, B(e.$t("bones.numeric.precision", { val: e.boneState.bonestructure.precision })), 1)) : k("", !0)
     ])
   ], 64);
 }
-const Pe = /* @__PURE__ */ I(An, [["render", Dn], ["__scopeId", "data-v-03d5b399"]]);
+const Te = /* @__PURE__ */ I(En, [["render", Bn], ["__scopeId", "data-v-03d5b399"]]);
 var N = { BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
 class ue extends Error {
   constructor(n, t, l, s) {
@@ -1033,7 +1032,7 @@ class j {
 }
 class re {
   constructor() {
-    Oe(this, "withCredentials", !0);
+    Ce(this, "withCredentials", !0);
   }
   static buildOptions(n, t = null, l = null, s = null, o = null) {
     let a = { method: n };
@@ -1080,8 +1079,8 @@ class re {
     return fetch(n, re.buildOptions("POST", t, s, o, a));
   }
 }
-var Vn = { BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
-const Nn = D({
+var Dn = { BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
+const Vn = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -1089,10 +1088,10 @@ const Nn = D({
     index: Number,
     lang: String
   },
-  components: { Wrapper_nested: Ye },
+  components: { Wrapper_nested: Qe },
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = C("formatString"), s = w({
+    const t = O("boneState"), l = O("formatString"), s = w({
       format: S(() => t == null ? void 0 : t.bonestructure.format),
       skellistdata: null,
       selection: null
@@ -1100,7 +1099,7 @@ const Nn = D({
     function o(r) {
       let c = "";
       return t.bonestructure.type === "relational.tree.leaf.file" ? c = "skelType=leaf&" : t.bonestructure.type === "relational.tree.node.file" && (c = "skelType=node&"), j.get(
-        `/${Vn.VITE_DEFAULT_RENDERER || "vi"}/${t.bonestructure.module}/list?${c}limit=99`
+        `/${Dn.VITE_DEFAULT_RENDERER || "vi"}/${t.bonestructure.module}/list?${c}limit=99`
       ).then(async (d) => {
         var p;
         const f = await d.json();
@@ -1130,28 +1129,28 @@ const Nn = D({
       getList: o
     };
   }
-}), Rn = (e) => (M("data-v-61dd72e0"), e = e(), z(), e), Ln = { class: "record" }, Un = { class: "single-entry" }, Tn = ["value"], Pn = ["disabled", "source"], Mn = ["title"], zn = /* @__PURE__ */ Rn(() => /* @__PURE__ */ i("sl-icon", {
+}), Nn = (e) => (M("data-v-61dd72e0"), e = e(), z(), e), Rn = { class: "record" }, Ln = { class: "single-entry" }, Un = ["value"], Tn = ["disabled", "source"], Pn = ["title"], Mn = /* @__PURE__ */ Nn(() => /* @__PURE__ */ i("sl-icon", {
   slot: "prefix",
   name: "x-lg"
-}, null, -1)), Wn = [
-  zn
+}, null, -1)), zn = [
+  Mn
 ];
-function qn(e, n, t, l, s, o) {
+function Wn(e, n, t, l, s, o) {
   var u, r;
   const a = se("Wrapper_nested");
-  return m(), h("div", Ln, [
-    i("div", Un, [
+  return m(), h("div", Rn, [
+    i("div", Ln, [
       e.state.selection ? (m(), h("sl-input", {
         key: 0,
         disabled: !0,
         value: e.value ? e.formatString(e.state.format, e.state.selection) : ""
-      }, null, 8, Tn)) : (m(), h("sl-combobox", {
+      }, null, 8, Un)) : (m(), h("sl-combobox", {
         key: 1,
         disabled: e.boneState.readonly,
         source: e.getList,
         hoist: "",
         onSlItemSelect: n[0] || (n[0] = (...c) => e.changeEvent && e.changeEvent(...c))
-      }, null, 40, Pn)),
+      }, null, 40, Tn)),
       !e.boneState.multiple && !e.boneState.isEmpty ? (m(), h("sl-button", {
         key: 2,
         variant: "danger",
@@ -1161,7 +1160,7 @@ function qn(e, n, t, l, s, o) {
         onClick: n[1] || (n[1] = () => {
           e.$emit("change", e.name, "", e.lang, e.index), e.state.selection = null;
         })
-      }, Wn, 8, Mn)) : k("", !0)
+      }, zn, 8, Pn)) : k("", !0)
     ]),
     (u = e.boneState) != null && u.bonestructure.using ? (m(), T(a, {
       key: 0,
@@ -1173,7 +1172,7 @@ function qn(e, n, t, l, s, o) {
     }, null, 8, ["value", "name", "index", "disabled", "onChange"])) : k("", !0)
   ]);
 }
-const Me = /* @__PURE__ */ I(Nn, [["render", qn], ["__scopeId", "data-v-61dd72e0"]]), Fn = D({
+const Pe = /* @__PURE__ */ I(Vn, [["render", Wn], ["__scopeId", "data-v-61dd72e0"]]), qn = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -1186,7 +1185,7 @@ const Me = /* @__PURE__ */ I(Nn, [["render", qn], ["__scopeId", "data-v-61dd72e0
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({});
+    const t = O("boneState"), l = w({});
     function s(o, a) {
       n.emit("change", e.name, o, e.lang, e.index);
     }
@@ -1198,13 +1197,13 @@ const Me = /* @__PURE__ */ I(Nn, [["render", qn], ["__scopeId", "data-v-61dd72e0
       changeEvent: s
     };
   }
-}), Kn = { class: "box" };
-function Hn(e, n, t, l, s, o) {
-  return m(), h("div", Kn, B(e.value), 1);
+}), Fn = { class: "box" };
+function Kn(e, n, t, l, s, o) {
+  return m(), h("div", Fn, B(e.value), 1);
 }
-const Gn = /* @__PURE__ */ I(Fn, [["render", Hn], ["__scopeId", "data-v-343aca69"]]);
-var ze = { BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
-const Zn = D({
+const Hn = /* @__PURE__ */ I(qn, [["render", Kn], ["__scopeId", "data-v-343aca69"]]);
+var Me = { BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
+const Gn = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -1215,7 +1214,7 @@ const Zn = D({
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = F(), s = w({
+    const t = O("boneState"), l = F(), s = w({
       loading: !1,
       droparea: !1,
       previewopen: !1
@@ -1236,7 +1235,7 @@ const Zn = D({
         size: d.size.toString()
       };
       return new Promise((p, v) => {
-        j.securePost(`/${ze.VITE_DEFAULT_RENDERER || "vi"}/file/getUploadURL`, { dataObj: f }).then(async (_) => {
+        j.securePost(`/${Me.VITE_DEFAULT_RENDERER || "vi"}/file/getUploadURL`, { dataObj: f }).then(async (_) => {
           let g = await _.json();
           fetch(g.values.uploadUrl, {
             body: d,
@@ -1248,7 +1247,7 @@ const Zn = D({
               node: void 0,
               skelType: "leaf"
             };
-            j.securePost(`/${ze.VITE_DEFAULT_RENDERER || "vi"}/file/add`, { dataObj: y }).then(async ($) => {
+            j.securePost(`/${Me.VITE_DEFAULT_RENDERER || "vi"}/file/add`, { dataObj: y }).then(async ($) => {
               let A = await $.json();
               A.action === "addSuccess" ? p(A.values) : v(A);
             }).catch(($) => {
@@ -1289,31 +1288,31 @@ const Zn = D({
       handleDrop: c
     };
   }
-}), fe = (e) => (M("data-v-91086308"), e = e(), z(), e), Jn = {
+}), fe = (e) => (M("data-v-91086308"), e = e(), z(), e), Zn = {
   key: 0,
   class: "loader"
-}, Qn = /* @__PURE__ */ fe(() => /* @__PURE__ */ i("sl-spinner", { slot: "suffix" }, null, -1)), Yn = [
-  Qn
-], Xn = {
+}, Jn = /* @__PURE__ */ fe(() => /* @__PURE__ */ i("sl-spinner", { slot: "suffix" }, null, -1)), Qn = [
+  Jn
+], Yn = {
   key: 1,
   class: "droparea"
-}, xn = ["title"], ea = /* @__PURE__ */ fe(() => /* @__PURE__ */ i("sl-icon", { name: "upload" }, null, -1)), ta = [
-  ea
-], na = ["multiple"], aa = ["title"], sa = /* @__PURE__ */ fe(() => /* @__PURE__ */ i("sl-icon", {
+}, Xn = ["title"], xn = /* @__PURE__ */ fe(() => /* @__PURE__ */ i("sl-icon", { name: "upload" }, null, -1)), ea = [
+  xn
+], ta = ["multiple"], na = ["title"], aa = /* @__PURE__ */ fe(() => /* @__PURE__ */ i("sl-icon", {
   slot: "prefix",
   name: "download"
-}, null, -1)), la = [
-  sa
-], ra = { class: "box" }, oa = ["src"], ia = ["label", "open"], ua = ["src"], da = {
+}, null, -1)), sa = [
+  aa
+], la = { class: "box" }, ra = ["src"], oa = ["label", "open"], ia = ["src"], ua = {
   key: 1,
   class: "preview"
-}, ca = {
+}, da = {
   key: 0,
   name: "file-earmark"
-}, ma = { key: 2 }, fa = ["title"], ga = /* @__PURE__ */ fe(() => /* @__PURE__ */ i("sl-icon", { name: "x-lg" }, null, -1)), ha = [
-  ga
+}, ca = { key: 2 }, ma = ["title"], fa = /* @__PURE__ */ fe(() => /* @__PURE__ */ i("sl-icon", { name: "x-lg" }, null, -1)), ga = [
+  fa
 ];
-function ba(e, n, t, l, s, o) {
+function ha(e, n, t, l, s, o) {
   var a, u, r, c, d, f, p, v, _, g;
   return m(), h("div", {
     class: "file-wrapper",
@@ -1321,28 +1320,28 @@ function ba(e, n, t, l, s, o) {
     onDragleave: n[6] || (n[6] = (b) => e.state.droparea = !1),
     onDrop: n[7] || (n[7] = de((...b) => e.handleDrop && e.handleDrop(...b), ["prevent"]))
   }, [
-    e.state.loading ? (m(), h("div", Jn, Yn)) : k("", !0),
-    e.state.droparea ? (m(), h("div", Xn, " Dateien hier hinziehen ")) : k("", !0),
+    e.state.loading ? (m(), h("div", Zn, Qn)) : k("", !0),
+    e.state.droparea ? (m(), h("div", Yn, " Dateien hier hinziehen ")) : k("", !0),
     !e.boneState.readonly && (!e.value || e.state.loading) ? (m(), h("sl-button", {
       key: 2,
       title: e.$t("bone.upload"),
       outline: "",
       class: "upload-btn",
       onClick: n[0] || (n[0] = (b) => e.uploadinput.click())
-    }, ta, 8, xn)) : k("", !0),
+    }, ea, 8, Xn)) : k("", !0),
     i("input", {
       ref: "uploadinput",
       hidden: "",
       type: "file",
       multiple: e.boneState.multiple,
       onChange: n[1] || (n[1] = (...b) => e.handleUpload && e.handleUpload(...b))
-    }, null, 40, na),
+    }, null, 40, ta),
     e.value ? (m(), h("sl-button", {
       key: 3,
       title: e.$t("bone.download"),
       onClick: n[2] || (n[2] = (...b) => e.downloadFile && e.downloadFile(...b))
-    }, la, 8, aa)) : k("", !0),
-    i("div", ra, [
+    }, sa, 8, na)) : k("", !0),
+    i("div", la, [
       (u = (a = e.value) == null ? void 0 : a.dest) != null && u.mimetype.includes("image") ? (m(), h("div", {
         key: 0,
         class: "preview has-preview",
@@ -1352,7 +1351,7 @@ function ba(e, n, t, l, s, o) {
           class: "preview-img",
           src: e.createBackgroundImage(),
           alt: ""
-        }, null, 8, oa),
+        }, null, 8, ra),
         i("sl-dialog", {
           label: decodeURIComponent((c = (r = e.value) == null ? void 0 : r.dest) == null ? void 0 : c.name),
           class: "preview-overlay",
@@ -1361,12 +1360,12 @@ function ba(e, n, t, l, s, o) {
           i("img", {
             src: e.createBackgroundImage(),
             alt: ""
-          }, null, 8, ua)
-        ], 8, ia)
-      ])) : (m(), h("div", da, [
-        (f = (d = e.value) == null ? void 0 : d.dest) != null && f.name ? (m(), h("sl-icon", ca)) : k("", !0)
+          }, null, 8, ia)
+        ], 8, oa)
+      ])) : (m(), h("div", ua, [
+        (f = (d = e.value) == null ? void 0 : d.dest) != null && f.name ? (m(), h("sl-icon", da)) : k("", !0)
       ])),
-      (v = (p = e.value) == null ? void 0 : p.dest) != null && v.name ? (m(), h("div", ma, B(decodeURIComponent((g = (_ = e.value) == null ? void 0 : _.dest) == null ? void 0 : g.name)), 1)) : k("", !0)
+      (v = (p = e.value) == null ? void 0 : p.dest) != null && v.name ? (m(), h("div", ca, B(decodeURIComponent((g = (_ = e.value) == null ? void 0 : _.dest) == null ? void 0 : g.name)), 1)) : k("", !0)
     ]),
     e.boneState.multiple ? k("", !0) : (m(), h("sl-button", {
       key: 4,
@@ -1375,10 +1374,10 @@ function ba(e, n, t, l, s, o) {
       title: e.$t("bone.del"),
       class: "delete-btn",
       onClick: n[4] || (n[4] = (b) => e.$emit("change", e.name, "", e.lang, e.index))
-    }, ha, 8, fa))
+    }, ga, 8, ma))
   ], 32);
 }
-const We = /* @__PURE__ */ I(Zn, [["render", ba], ["__scopeId", "data-v-91086308"]]), va = D({
+const ze = /* @__PURE__ */ I(Gn, [["render", ha], ["__scopeId", "data-v-91086308"]]), ba = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -1389,10 +1388,10 @@ const We = /* @__PURE__ */ I(Zn, [["render", ba], ["__scopeId", "data-v-91086308
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       value: "",
       editorConfig: {},
-      editor: S(() => Ce)
+      editor: S(() => ClassicEditor)
     });
     function s(u) {
       n.emit("change", e.name, l.value, e.lang, e.index);
@@ -1415,15 +1414,15 @@ const We = /* @__PURE__ */ I(Zn, [["render", ba], ["__scopeId", "data-v-91086308
       }
     ), {
       state: l,
-      ClassicEditor: Ce,
+      ClassicEditor,
       boneState: t,
       changeEvent: s,
       onReady: a,
       changeEventTextarea: o
     };
   }
-}), pa = ["disabled", "value"];
-function ya(e, n, t, l, s, o) {
+}), va = ["disabled", "value"];
+function pa(e, n, t, l, s, o) {
   var u, r, c, d;
   const a = se("ckeditor");
   return e.state.editor ? (m(), h(E, { key: 0 }, [
@@ -1441,10 +1440,10 @@ function ya(e, n, t, l, s, o) {
       disabled: (d = e.boneState) == null ? void 0 : d.readonly,
       value: e.value,
       onInput: n[1] || (n[1] = (...f) => e.changeEventTextarea && e.changeEventTextarea(...f))
-    }, null, 40, pa))
+    }, null, 40, va))
   ], 64)) : k("", !0);
 }
-const qe = /* @__PURE__ */ I(va, [["render", ya]]), $a = D({
+const We = /* @__PURE__ */ I(ba, [["render", pa]]), ya = D({
   inheritAttrs: !1,
   props: {
     name: String,
@@ -1455,7 +1454,7 @@ const qe = /* @__PURE__ */ I(va, [["render", ya]]), $a = D({
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       valueLat: null,
       valueLng: null
     });
@@ -1474,8 +1473,8 @@ const qe = /* @__PURE__ */ I(va, [["render", ya]]), $a = D({
       changeEvent: s
     };
   }
-}), Sa = ["name", "min", "max", "disabled"], _a = ["name", "min", "max", "disabled"];
-function ka(e, n, t, l, s, o) {
+}), $a = ["name", "min", "max", "disabled"], Sa = ["name", "min", "max", "disabled"];
+function _a(e, n, t, l, s, o) {
   return m(), h(E, null, [
     J(i("sl-input", {
       "onUpdate:modelValue": n[0] || (n[0] = (a) => e.state.valueLat = a),
@@ -1489,7 +1488,7 @@ function ka(e, n, t, l, s, o) {
       step: "0.000001",
       onSlChange: n[1] || (n[1] = (...a) => e.changeEvent && e.changeEvent(...a)),
       placeholder: "Lat"
-    }, null, 40, Sa), [
+    }, null, 40, $a), [
       [le, e.state.valueLat]
     ]),
     J(i("sl-input", {
@@ -1504,12 +1503,12 @@ function ka(e, n, t, l, s, o) {
       step: "0.000001",
       onSlChange: n[3] || (n[3] = (...a) => e.changeEvent && e.changeEvent(...a)),
       placeholder: "Long"
-    }, null, 40, _a), [
+    }, null, 40, Sa), [
       [le, e.state.valueLng]
     ])
   ], 64);
 }
-const Fe = /* @__PURE__ */ I($a, [["render", ka], ["__scopeId", "data-v-7bc31020"]]), wa = D({
+const qe = /* @__PURE__ */ I(ya, [["render", _a], ["__scopeId", "data-v-7bc31020"]]), ka = D({
   props: {
     name: String,
     value: Object,
@@ -1521,10 +1520,10 @@ const Fe = /* @__PURE__ */ I($a, [["render", ka], ["__scopeId", "data-v-7bc31020
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = w({
+    const t = O("boneState"), l = w({
       counter: 0,
       debounce: null
-    }), s = C("addMultipleEntry"), o = C("removeMultipleEntries");
+    }), s = O("addMultipleEntry"), o = O("removeMultipleEntries");
     function a() {
       l.counter += 1;
       let r = 200;
@@ -1550,17 +1549,17 @@ const Fe = /* @__PURE__ */ I($a, [["render", ka], ["__scopeId", "data-v-7bc31020
       removeMultipleEntries: o
     };
   }
-}), Xe = (e) => (M("data-v-63e75dee"), e = e(), z(), e), Ea = { class: "actionbar" }, Aa = ["title"], Ia = /* @__PURE__ */ Xe(() => /* @__PURE__ */ i("sl-icon", {
+}), Ye = (e) => (M("data-v-63e75dee"), e = e(), z(), e), wa = { class: "actionbar" }, Ea = ["title"], Aa = /* @__PURE__ */ Ye(() => /* @__PURE__ */ i("sl-icon", {
   slot: "prefix",
   name: "x-lg"
-}, null, -1)), Oa = [
-  Ia
-], Ca = ["title"], ja = /* @__PURE__ */ Xe(() => /* @__PURE__ */ i("sl-icon", {
+}, null, -1)), Ia = [
+  Aa
+], Ca = ["title"], Oa = /* @__PURE__ */ Ye(() => /* @__PURE__ */ i("sl-icon", {
   slot: "prefix",
   name: "plus-lg"
 }, null, -1));
-function Ba(e, n, t, l, s, o) {
-  return m(), h("div", Ea, [
+function ja(e, n, t, l, s, o) {
+  return m(), h("div", wa, [
     e.boneState.multiple && !e.readonly ? (m(), h("sl-button", {
       key: 0,
       variant: "danger",
@@ -1568,7 +1567,7 @@ function Ba(e, n, t, l, s, o) {
       outline: "",
       class: "delete-btn",
       onClick: n[0] || (n[0] = (a) => e.handleRemove(e.lang))
-    }, Oa, 8, Aa)) : k("", !0),
+    }, Ia, 8, Ea)) : k("", !0),
     e.boneState.multiple && !e.readonly ? (m(), h("sl-button", {
       key: 1,
       variant: "success",
@@ -1577,17 +1576,17 @@ function Ba(e, n, t, l, s, o) {
       class: "add-btn",
       onClick: n[1] || (n[1] = (a) => e.handleAdd(e.lang))
     }, [
-      ja,
-      O(" " + B(e.$t("bone.add")) + " ", 1),
+      Oa,
+      C(" " + B(e.$t("bone.add")) + " ", 1),
       e.state.counter > 1 ? (m(), h(E, { key: 0 }, [
-        O("(" + B(e.state.counter) + ")", 1)
+        C("(" + B(e.state.counter) + ")", 1)
       ], 64)) : k("", !0)
     ], 8, Ca)) : k("", !0)
   ]);
 }
-const Da = /* @__PURE__ */ I(wa, [["render", Ba], ["__scopeId", "data-v-63e75dee"]]);
-var Va = { BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
-const Na = D({
+const Ba = /* @__PURE__ */ I(ka, [["render", ja], ["__scopeId", "data-v-63e75dee"]]);
+var Da = { BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
+const Va = D({
   props: {
     name: String,
     value: Object,
@@ -1599,14 +1598,14 @@ const Na = D({
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = C("addMultipleEntry"), s = C("formatString"), o = null, a = w({
+    const t = O("boneState"), l = O("addMultipleEntry"), s = O("formatString"), o = null, a = w({
       skels: {},
       hasUsing: S(() => t == null ? void 0 : t.bonestructure.using)
     });
     function u(r) {
       let c = "";
       return t.bonestructure.type === "relational.tree.leaf.file" ? c = "skelType=leaf&" : t.bonestructure.type === "relational.tree.node.file" && (c = "skelType=node&"), j.get(
-        `/${Va.VITE_DEFAULT_RENDERER || "vi"}/${t.bonestructure.module}/list?${c}limit=99`
+        `/${Da.VITE_DEFAULT_RENDERER || "vi"}/${t.bonestructure.module}/list?${c}limit=99`
       ).then(async (d) => {
         var p;
         const f = await d.json();
@@ -1623,17 +1622,17 @@ const Na = D({
       getList: u
     };
   }
-}), xe = (e) => (M("data-v-eeea51c6"), e = e(), z(), e), Ra = { class: "actionbar" }, La = ["title"], Ua = /* @__PURE__ */ xe(() => /* @__PURE__ */ i("sl-icon", {
+}), Xe = (e) => (M("data-v-eeea51c6"), e = e(), z(), e), Na = { class: "actionbar" }, Ra = ["title"], La = /* @__PURE__ */ Xe(() => /* @__PURE__ */ i("sl-icon", {
   slot: "prefix",
   name: "x-lg"
-}, null, -1)), Ta = [
-  Ua
-], Pa = ["source"], Ma = ["title"], za = /* @__PURE__ */ xe(() => /* @__PURE__ */ i("sl-icon", {
+}, null, -1)), Ua = [
+  La
+], Ta = ["source"], Pa = ["title"], Ma = /* @__PURE__ */ Xe(() => /* @__PURE__ */ i("sl-icon", {
   slot: "prefix",
   name: "plus-lg"
 }, null, -1));
-function Wa(e, n, t, l, s, o) {
-  return m(), h("div", Ra, [
+function za(e, n, t, l, s, o) {
+  return m(), h("div", Na, [
     e.boneState.multiple && !e.readonly ? (m(), h("sl-button", {
       key: 0,
       variant: "danger",
@@ -1641,7 +1640,7 @@ function Wa(e, n, t, l, s, o) {
       outline: "",
       class: "delete-btn",
       onClick: n[0] || (n[0] = (a) => e.openSelector())
-    }, Ta, 8, La)) : k("", !0),
+    }, Ua, 8, Ra)) : k("", !0),
     i("sl-combobox", {
       source: e.getList,
       hoist: "",
@@ -1652,7 +1651,7 @@ function Wa(e, n, t, l, s, o) {
           rel: e.state.hasUsing ? void 0 : null
         });
       })
-    }, null, 40, Pa),
+    }, null, 40, Ta),
     e.boneState.multiple && !e.readonly ? (m(), h("sl-button", {
       key: 1,
       variant: "success",
@@ -1661,14 +1660,14 @@ function Wa(e, n, t, l, s, o) {
       class: "add-btn",
       onClick: n[2] || (n[2] = (a) => e.addMultipleEntry(e.lang))
     }, [
-      za,
-      O(" " + B(e.$t("bone.list")), 1)
-    ], 8, Ma)) : k("", !0)
+      Ma,
+      C(" " + B(e.$t("bone.list")), 1)
+    ], 8, Pa)) : k("", !0)
   ]);
 }
-const qa = /* @__PURE__ */ I(Na, [["render", Wa], ["__scopeId", "data-v-eeea51c6"]]);
-var Ke = { BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
-const Fa = D({
+const Wa = /* @__PURE__ */ I(Va, [["render", za], ["__scopeId", "data-v-eeea51c6"]]);
+var Fe = { BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
+const qa = D({
   props: {
     name: String,
     value: Object,
@@ -1680,8 +1679,8 @@ const Fa = D({
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = C("boneState"), l = C("addMultipleEntry");
-    C("formatString");
+    const t = O("boneState"), l = O("addMultipleEntry");
+    O("formatString");
     const s = null, o = F(), a = w({
       skels: {},
       uploadinput: null,
@@ -1696,7 +1695,7 @@ const Fa = D({
         size: d.size.toString()
       };
       return new Promise((p, v) => {
-        j.securePost(`/${Ke.VITE_DEFAULT_RENDERER || "vi"}/file/getUploadURL`, { dataObj: f }).then(async (_) => {
+        j.securePost(`/${Fe.VITE_DEFAULT_RENDERER || "vi"}/file/getUploadURL`, { dataObj: f }).then(async (_) => {
           let g = await _.json();
           fetch(g.values.uploadUrl, {
             body: d,
@@ -1708,7 +1707,7 @@ const Fa = D({
               node: void 0,
               skelType: "leaf"
             };
-            j.securePost(`/${Ke.VITE_DEFAULT_RENDERER || "vi"}/file/add`, { dataObj: y }).then(async ($) => {
+            j.securePost(`/${Fe.VITE_DEFAULT_RENDERER || "vi"}/file/add`, { dataObj: y }).then(async ($) => {
               let A = await $.json();
               A.action === "addSuccess" ? p(A.values) : v(A);
             }).catch(($) => {
@@ -1755,24 +1754,24 @@ const Fa = D({
       handleDrop: c
     };
   }
-}), Se = (e) => (M("data-v-9bac9f8a"), e = e(), z(), e), Ka = ["title"], Ha = /* @__PURE__ */ Se(() => /* @__PURE__ */ i("sl-icon", {
+}), Se = (e) => (M("data-v-9bac9f8a"), e = e(), z(), e), Fa = ["title"], Ka = /* @__PURE__ */ Se(() => /* @__PURE__ */ i("sl-icon", {
   slot: "prefix",
   name: "x-lg"
-}, null, -1)), Ga = [
-  Ha
-], Za = {
+}, null, -1)), Ha = [
+  Ka
+], Ga = {
   key: 1,
   class: "droparea"
-}, Ja = ["multiple"], Qa = ["title"], Ya = /* @__PURE__ */ Se(() => /* @__PURE__ */ i("sl-icon", {
+}, Za = ["multiple"], Ja = ["title"], Qa = /* @__PURE__ */ Se(() => /* @__PURE__ */ i("sl-icon", {
   slot: "prefix",
   name: "plus-lg"
-}, null, -1)), Xa = [
-  Ya
-], xa = ["title"], es = /* @__PURE__ */ Se(() => /* @__PURE__ */ i("sl-icon", { name: "upload" }, null, -1)), ts = {
+}, null, -1)), Ya = [
+  Qa
+], Xa = ["title"], xa = /* @__PURE__ */ Se(() => /* @__PURE__ */ i("sl-icon", { name: "upload" }, null, -1)), es = {
   key: 0,
   slot: "suffix"
 };
-function ns(e, n, t, l, s, o) {
+function ts(e, n, t, l, s, o) {
   return m(), h("div", {
     class: "actionbar",
     onDragover: n[4] || (n[4] = de((a) => e.state.droparea = !0, ["prevent"])),
@@ -1786,22 +1785,22 @@ function ns(e, n, t, l, s, o) {
       outline: "",
       class: "delete-btn",
       onClick: n[0] || (n[0] = (a) => e.openSelector())
-    }, Ga, 8, Ka)) : k("", !0),
-    e.state.droparea ? (m(), h("div", Za, " Dateien hier hinziehen ")) : k("", !0),
+    }, Ha, 8, Fa)) : k("", !0),
+    e.state.droparea ? (m(), h("div", Ga, " Dateien hier hinziehen ")) : k("", !0),
     i("input", {
       ref: "uploadinput",
       hidden: "",
       type: "file",
       multiple: e.boneState.multiple,
       onChange: n[1] || (n[1] = (...a) => e.handleUpload && e.handleUpload(...a))
-    }, null, 40, Ja),
+    }, null, 40, Za),
     e.boneState.multiple && !e.readonly ? (m(), h("sl-button", {
       key: 2,
       outline: "",
       title: e.$t("bone.list"),
       class: "add-btn",
       onClick: n[2] || (n[2] = (a) => e.addMultipleEntry(e.lang))
-    }, Xa, 8, Qa)) : k("", !0),
+    }, Ya, 8, Ja)) : k("", !0),
     e.boneState.multiple && !e.readonly ? (m(), h("sl-button", {
       key: 3,
       variant: "success",
@@ -1810,36 +1809,36 @@ function ns(e, n, t, l, s, o) {
       class: "upload-btn",
       onClick: n[3] || (n[3] = (a) => e.uploadinput.click())
     }, [
-      es,
-      O(" " + B(e.$t("bone.upload")) + " ", 1),
-      e.state.loading ? (m(), h("sl-spinner", ts)) : k("", !0)
-    ], 8, xa)) : k("", !0)
+      xa,
+      C(" " + B(e.$t("bone.upload")) + " ", 1),
+      e.state.loading ? (m(), h("sl-spinner", es)) : k("", !0)
+    ], 8, Xa)) : k("", !0)
   ], 32);
 }
-const as = /* @__PURE__ */ I(Fa, [["render", ns], ["__scopeId", "data-v-9bac9f8a"]]), _e = $e("boneStore", () => {
+const ns = /* @__PURE__ */ I(qa, [["render", ts], ["__scopeId", "data-v-9bac9f8a"]]), _e = $e("boneStore", () => {
   const e = w({
     additionalBones: G({}),
     defaultBones: G({
       rawBone: pe,
-      keyBone: je,
-      stringBone: Be,
-      emailBone: De,
-      dateBone: Ve,
-      booleanBone: Re,
-      selectBone: Ne,
-      passwordBone: Le,
-      recordBone: Ue,
-      numericBone: Pe,
-      colorBone: Te,
-      relationalBone: Me,
-      jsonBone: Gn,
-      fileBone: We,
-      textBone: qe,
-      spatialBone: Fe
+      keyBone: Oe,
+      stringBone: je,
+      emailBone: Be,
+      dateBone: De,
+      booleanBone: Ne,
+      selectBone: Ve,
+      passwordBone: Re,
+      recordBone: Le,
+      numericBone: Te,
+      colorBone: Ue,
+      relationalBone: Pe,
+      jsonBone: Hn,
+      fileBone: ze,
+      textBone: We,
+      spatialBone: qe
     }),
     actionbars: G({
-      "relational.tree.leaf.file.file": as,
-      "relational.": qa
+      "relational.tree.leaf.file.file": ns,
+      "relational.": Wa
     }),
     multibones: G(["select", "select."])
   });
@@ -1866,7 +1865,7 @@ const as = /* @__PURE__ */ I(Fa, [["render", ns], ["__scopeId", "data-v-9bac9f8a
             return e.additionalBones[c[0]];
       }
     }
-    return a === "date" ? Ve : a === "key" ? je : a === "str.email" ? De : a === "str" || a.startsWith("str.") ? Be : a === "select" || a.startsWith("select.") ? Ne : a === "bool" ? Re : a === "password" ? Le : a === "record" ? Ue : a === "numeric" || a.startsWith("numeric.") ? Pe : a === "relational.tree.leaf.file.file" ? We : a === "relational" || a.startsWith("relational.") ? Me : a === "color" ? Te : a === "text" ? qe : a === "spatial" ? Fe : pe;
+    return a === "date" ? De : a === "key" ? Oe : a === "str.email" ? Be : a === "str" || a.startsWith("str.") ? je : a === "select" || a.startsWith("select.") ? Ve : a === "bool" ? Ne : a === "password" ? Re : a === "record" ? Le : a === "numeric" || a.startsWith("numeric.") ? Te : a === "relational.tree.leaf.file.file" ? ze : a === "relational" || a.startsWith("relational.") ? Pe : a === "color" ? Ue : a === "text" ? We : a === "spatial" ? qe : pe;
   }
   function s(a, u) {
     e.actionbars[a] = u;
@@ -1885,7 +1884,7 @@ const as = /* @__PURE__ */ I(Fa, [["render", ns], ["__scopeId", "data-v-9bac9f8a
             return e.actionbars[c[0]];
       }
     }
-    return Da;
+    return Ba;
   }
   return {
     state: e,
@@ -1896,13 +1895,13 @@ const as = /* @__PURE__ */ I(Fa, [["render", ns], ["__scopeId", "data-v-9bac9f8a
     getBoneActionbar: o
   };
 });
-function ss(e) {
+function as(e) {
   return _e().getBoneActionbar(e);
 }
 function x(e) {
   return _e().getBoneWidget(e);
 }
-function ls(e) {
+function ss(e) {
   const n = _e();
   if (n.state.multibones.includes(e))
     return !0;
@@ -1924,7 +1923,7 @@ D({
   emits: ["change", "change-internal", "handleClick"],
   components: {
     wrapperMultiple: Ct,
-    BoneLabel: Rt
+    BoneLabel: Nt
   },
   props: {
     is: {
@@ -1992,7 +1991,7 @@ D({
       params: S(() => e.params ? e.params : t.bonestructure && Object.keys(t.bonestructure).includes("params") ? t.bonestructure.params : {}),
       actionbar: S(() => {
         var g;
-        return ss((g = t.bonestructure) == null ? void 0 : g.type);
+        return as((g = t.bonestructure) == null ? void 0 : g.type);
       }),
       isEmpty: S(() => {
         function g(b) {
@@ -2135,8 +2134,8 @@ D({
           if (ne.shift(), P && P !== "-" && Object.keys(P).includes(Y) && P[Y])
             if (Array.isArray(P[Y])) {
               let Ie = [];
-              for (let tt of P[Y])
-                Ie.push($(ne.join("."), tt));
+              for (let et of P[Y])
+                Ie.push($(ne.join("."), et));
               P = Ie.join(", ");
             } else
               P = P[Y];
@@ -2178,7 +2177,7 @@ D({
       addMultipleEntry: d,
       removeMultipleEntry: f,
       removeMultipleEntries: p,
-      BoneHasMultipleHandling: ls,
+      BoneHasMultipleHandling: ss,
       multipleBonePressEnter: v,
       handleDragStart: l,
       handleDragOver: s,
@@ -2217,8 +2216,8 @@ const ke = {
     });
     return { state: t };
   }
-}, He = () => {
-  it((e) => ({
+}, Ke = () => {
+  ot((e) => ({
     "93747d92": e.state.outerSize,
     "284424e5": e.state.shadow,
     "6485ca5e": e.state.logoSize,
@@ -2226,27 +2225,27 @@ const ke = {
     d5b3feca: e.color,
     "2050b700": e.state.trackWidth
   }));
-}, Ge = ke.setup;
-ke.setup = Ge ? (e, n) => (He(), Ge(e, n)) : He;
-const rs = (e) => (M("data-v-46c45785"), e = e(), z(), e), os = {
+}, He = ke.setup;
+ke.setup = He ? (e, n) => (Ke(), He(e, n)) : Ke;
+const ls = (e) => (M("data-v-46c45785"), e = e(), z(), e), rs = {
   key: 0,
   class: "loading"
-}, is = /* @__PURE__ */ rs(() => /* @__PURE__ */ i("sl-spinner", { class: "loader" }, null, -1)), us = { class: "logo" }, ds = ["src"];
-function cs(e, n, t, l, s, o) {
-  return m(), T(ut, null, {
-    default: dt(() => [
-      t.active ? (m(), h("div", os, [
-        is,
-        i("div", us, [
-          i("sl-icon", { src: t.logo }, null, 8, ds)
+}, os = /* @__PURE__ */ ls(() => /* @__PURE__ */ i("sl-spinner", { class: "loader" }, null, -1)), is = { class: "logo" }, us = ["src"];
+function ds(e, n, t, l, s, o) {
+  return m(), T(it, null, {
+    default: ut(() => [
+      t.active ? (m(), h("div", rs, [
+        os,
+        i("div", is, [
+          i("sl-icon", { src: t.logo }, null, 8, us)
         ])
       ])) : k("", !0)
     ]),
     _: 1
   });
 }
-const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785"]]), oe = $e("cartstore", () => {
-  const e = new ht({
+const cs = /* @__PURE__ */ I(ke, [["render", ds], ["__scopeId", "data-v-46c45785"]]), oe = $e("cartstore", () => {
+  const e = new gt({
     host_url: window.location.origin === "http://localhost:8081" ? "http://localhost:8080" : window.location.origin
   }), n = w({
     basketRootNode: {},
@@ -2309,7 +2308,7 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
     getAdressStructure: c,
     getChildren: l
   };
-}), fs = {
+}), ms = {
   __name: "CartNode",
   props: {
     node: { type: Object, required: !0 }
@@ -2317,10 +2316,10 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
   setup(e) {
     return w({}), (n, t) => (m(), h("pre", null, B(e.node.name), 1));
   }
-}, ge = (e) => (M("data-v-4b285730"), e = e(), z(), e), gs = {
+}, ge = (e) => (M("data-v-4b285730"), e = e(), z(), e), fs = {
   horizontal: "",
   class: "viur-shop-cart-leaf"
-}, hs = ["src"], bs = { class: "viur-shop-cart-leaf-headline headline" }, vs = { class: "viur-shop-cart-leaf-artno" }, ps = ["innerHTML"], ys = { class: "viur-shop-cart-leaf-actions" }, $s = /* @__PURE__ */ ge(() => /* @__PURE__ */ i("sl-button", {
+}, gs = ["src"], hs = { class: "viur-shop-cart-leaf-headline headline" }, bs = { class: "viur-shop-cart-leaf-artno" }, vs = ["innerHTML"], ps = { class: "viur-shop-cart-leaf-actions" }, ys = /* @__PURE__ */ ge(() => /* @__PURE__ */ i("sl-button", {
   size: "small",
   outline: "",
   class: "viur-shop-cart-leaf-add-to-favourites-btn",
@@ -2331,12 +2330,12 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
     name: "heart",
     slot: "prefix"
   })
-], -1)), Ss = /* @__PURE__ */ ge(() => /* @__PURE__ */ i("sl-icon", {
+], -1)), $s = /* @__PURE__ */ ge(() => /* @__PURE__ */ i("sl-icon", {
   name: "trash",
   slot: "prefix"
-}, null, -1)), _s = [
-  Ss
-], ks = { class: "viur-shop-cart-leaf-quantity" }, ws = { class: "viur-shop-cart-leaf-unitprice" }, Es = /* @__PURE__ */ ge(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-leaf-label" }, "Stückpreis", -1)), As = ["value"], Is = { class: "viur-shop-cart-leaf-price" }, Os = /* @__PURE__ */ ge(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-leaf-label" }, "Gesamtpreis", -1)), Cs = ["value"], js = {
+}, null, -1)), Ss = [
+  $s
+], _s = { class: "viur-shop-cart-leaf-quantity" }, ks = { class: "viur-shop-cart-leaf-unitprice" }, ws = /* @__PURE__ */ ge(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-leaf-label" }, "Stückpreis", -1)), Es = ["value"], As = { class: "viur-shop-cart-leaf-price" }, Is = /* @__PURE__ */ ge(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-leaf-label" }, "Gesamtpreis", -1)), Cs = ["value"], Os = {
   __name: "CartLeaf",
   props: {
     leaf: { type: Object, required: !0 },
@@ -2348,7 +2347,7 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
       leaf: {}
     });
     function o(r) {
-      return r !== void 0 ? gt.downloadUrlFor(r) : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
+      return r !== void 0 ? ft.downloadUrlFor(r) : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
     }
     function a(r, c, d, f) {
       l("updateItem", {
@@ -2363,20 +2362,20 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
     }
     return ee(() => {
       s.leaf = t.leaf;
-    }), (r, c) => (m(), h("sl-card", gs, [
+    }), (r, c) => (m(), h("sl-card", fs, [
       i("img", {
         class: "viur-shop-cart-leaf-image",
         slot: "image",
         src: o(s.leaf.shop_image ? s.leaf.shop_image : void 0)
-      }, null, 8, hs),
-      i("h4", bs, B(s.leaf.shop_name), 1),
-      i("h5", vs, B(s.leaf.shop_art_no_or_gtin), 1),
+      }, null, 8, gs),
+      i("h4", hs, B(s.leaf.shop_name), 1),
+      i("h5", bs, B(s.leaf.shop_art_no_or_gtin), 1),
       i("div", {
         class: "viur-shop-cart-leaf-description",
         innerHTML: s.leaf.shop_description
-      }, null, 8, ps),
-      i("div", ys, [
-        $s,
+      }, null, 8, vs),
+      i("div", ps, [
+        ys,
         i("sl-button", {
           size: "small",
           outline: "",
@@ -2384,9 +2383,9 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
           variant: "primary",
           title: "Remove from cart",
           onClick: c[0] || (c[0] = (d) => u(s.leaf, s.leaf.article.dest.key, e.node))
-        }, _s)
+        }, Ss)
       ]),
-      i("div", ks, [
+      i("div", _s, [
         J(i("sl-input", {
           class: "viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity",
           type: "number",
@@ -2404,18 +2403,18 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
           [le, s.leaf.quantity]
         ])
       ]),
-      i("div", ws, [
-        Es,
+      i("div", ks, [
+        ws,
         i("sl-format-number", {
           class: "viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice",
           lang: "de",
           type: "currency",
           currency: "EUR",
           value: s.leaf.price.retail
-        }, null, 8, As)
+        }, null, 8, Es)
       ]),
-      i("div", Is, [
-        Os,
+      i("div", As, [
+        Is,
         i("sl-format-number", {
           class: "viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price",
           lang: "de",
@@ -2426,19 +2425,19 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
       ])
     ]));
   }
-}, Bs = /* @__PURE__ */ I(js, [["__scopeId", "data-v-4b285730"]]), K = (e) => (M("data-v-d03d4f46"), e = e(), z(), e), Ds = { key: 0 }, Vs = /* @__PURE__ */ K(() => /* @__PURE__ */ i("p", null, "Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?", -1)), Ns = {
+}, js = /* @__PURE__ */ I(Os, [["__scopeId", "data-v-4b285730"]]), K = (e) => (M("data-v-2ad9f71a"), e = e(), z(), e), Bs = { key: 0 }, Ds = /* @__PURE__ */ K(() => /* @__PURE__ */ i("p", null, "Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?", -1)), Vs = {
   class: "footer-wrap",
   slot: "footer"
-}, Rs = { class: "viur-shop-cart-node" }, Ls = /* @__PURE__ */ K(() => /* @__PURE__ */ i("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Zusammenfassung", -1)), Us = /* @__PURE__ */ K(() => /* @__PURE__ */ i("br", null, null, -1)), Ts = /* @__PURE__ */ K(() => /* @__PURE__ */ i("sl-input", {
+}, Ns = { class: "viur-shop-cart-node" }, Rs = /* @__PURE__ */ K(() => /* @__PURE__ */ i("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Zusammenfassung", -1)), Ls = /* @__PURE__ */ K(() => /* @__PURE__ */ i("br", null, null, -1)), Us = /* @__PURE__ */ K(() => /* @__PURE__ */ i("sl-input", {
   label: "Rabattcode eingeben",
   class: "viur-shop-cart-sidebar-coupon-input"
-}, null, -1)), Ps = /* @__PURE__ */ K(() => /* @__PURE__ */ i("br", null, null, -1)), Ms = { class: "viur-shop-cart-sidebar-info-line" }, zs = /* @__PURE__ */ K(() => /* @__PURE__ */ i("span", null, "Zwischensumme", -1)), Ws = /* @__PURE__ */ K(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-sidebar-info-line" }, [
+}, null, -1)), Ts = /* @__PURE__ */ K(() => /* @__PURE__ */ i("br", null, null, -1)), Ps = { class: "viur-shop-cart-sidebar-info-line" }, Ms = /* @__PURE__ */ K(() => /* @__PURE__ */ i("span", null, "Zwischensumme", -1)), zs = /* @__PURE__ */ K(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-sidebar-info-line" }, [
   /* @__PURE__ */ i("span", null, "Rabatt"),
-  /* @__PURE__ */ O(" 0 € ")
-], -1)), qs = /* @__PURE__ */ K(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-sidebar-info-line" }, [
+  /* @__PURE__ */ C(" 0 € ")
+], -1)), Ws = /* @__PURE__ */ K(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-sidebar-info-line" }, [
   /* @__PURE__ */ i("span", null, "Versandkosten"),
-  /* @__PURE__ */ O(" 0 € ")
-], -1)), Fs = { class: "viur-shop-cart-sidebar-info-line total" }, Ks = /* @__PURE__ */ K(() => /* @__PURE__ */ i("span", null, "Gesamt:", -1)), Hs = /* @__PURE__ */ K(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-sidebar-btn-wrap" }, [
+  /* @__PURE__ */ C(" 0 € ")
+], -1)), qs = { class: "viur-shop-cart-sidebar-info-line total" }, Fs = /* @__PURE__ */ K(() => /* @__PURE__ */ i("span", null, "Gesamt:", -1)), Ks = /* @__PURE__ */ K(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-sidebar-btn-wrap" }, [
   /* @__PURE__ */ i("sl-button", {
     variant: "primary",
     size: "medium"
@@ -2451,14 +2450,14 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
       name: "paypal",
       slot: "prefix"
     }),
-    /* @__PURE__ */ O(" Paypal ")
+    /* @__PURE__ */ C(" Paypal ")
   ])
-], -1)), Gs = /* @__PURE__ */ K(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-mobile-footer" }, [
+], -1)), Hs = /* @__PURE__ */ K(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-mobile-footer" }, [
   /* @__PURE__ */ i("sl-button", {
     variant: "primary",
     size: "medium"
   }, " Jetzt Bestellen ")
-], -1)), Zs = {
+], -1)), Gs = {
   __name: "CartView",
   props: {
     mode: { type: String, default: "basket" },
@@ -2511,8 +2510,8 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
         ref: l,
         onSlHide: r
       }, [
-        Vs,
-        i("div", Ns, [
+        Ds,
+        i("div", Vs, [
           i("sl-button", {
             variant: "danger",
             onClick: p[0] || (p[0] = (v) => l.value.hide()),
@@ -2525,10 +2524,10 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
           }, " Aus Warenkorb entfernen ")
         ])
       ], 544),
-      (m(!0), h(E, null, U(s.nodes, (v) => (m(), h("div", Rs, [
+      (m(!0), h(E, null, U(s.nodes, (v) => (m(), h("div", Ns, [
         Object.keys(s.leaves).includes(v.key) ? (m(), h(E, { key: 0 }, [
-          ct(fs, { node: v }, null, 8, ["node"]),
-          (m(!0), h(E, null, U(s.leaves[v.key], (_) => (m(), T(Bs, {
+          dt(ms, { node: v }, null, 8, ["node"]),
+          (m(!0), h(E, null, U(s.leaves[v.key], (_) => (m(), T(js, {
             key: _.key,
             leaf: _,
             node: v,
@@ -2537,39 +2536,39 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
           }, null, 8, ["leaf", "node"]))), 128))
         ], 64)) : k("", !0)
       ]))), 256)),
-      e.sidebar ? (m(), T(Je, {
+      e.sidebar ? (m(), T(Ze, {
         key: 0,
         to: "#order_sidebar"
       }, [
+        Rs,
         Ls,
         Us,
         Ts,
-        Ps,
-        i("div", Ms, [
-          zs,
-          O(" --> " + B(e.mode === "basket" ? q(t).state.basketRootNode.total : q(t).state.whishlistRootNodes[e.cartKey].total) + " € ", 1)
+        i("div", Ps, [
+          Ms,
+          C(" " + B(e.mode === "basket" ? q(t).state.basketRootNode.total : q(t).state.whishlistRootNodes[e.cartKey].total) + " € ", 1)
         ]),
+        zs,
         Ws,
-        qs,
-        i("div", Fs, [
-          Ks,
-          O(" " + B(e.mode === "basket" ? q(t).state.basketRootNode.total : q(t).state.whishlistRootNodes[e.cartKey].total) + " € ", 1)
+        i("div", qs, [
+          Fs,
+          C(" " + B(e.mode === "basket" ? q(t).state.basketRootNode.total : q(t).state.whishlistRootNodes[e.cartKey].total) + " € ", 1)
         ]),
-        Hs
+        Ks
       ])) : k("", !0),
-      Gs
-    ], 64)) : (m(), h("sl-spinner", Ds));
+      Hs
+    ], 64)) : (m(), h("sl-spinner", Bs));
   }
-}, we = /* @__PURE__ */ I(Zs, [["__scopeId", "data-v-d03d4f46"]]), Js = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, we = /* @__PURE__ */ I(Gs, [["__scopeId", "data-v-2ad9f71a"]]), Zs = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: we
-}, Symbol.toStringTag, { value: "Module" })), Q = (e) => (M("data-v-b7b745be"), e = e(), z(), e), Qs = {
+}, Symbol.toStringTag, { value: "Module" })), Q = (e) => (M("data-v-b7b745be"), e = e(), z(), e), Js = {
   key: 1,
   class: "list"
-}, Ys = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("h2", { class: "viur-shop-cart-headline headline" }, "Bestellung prüfen", -1)), Xs = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("br", null, null, -1)), xs = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-address-wrap" }, [
+}, Qs = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("h2", { class: "viur-shop-cart-headline headline" }, "Bestellung prüfen", -1)), Ys = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("br", null, null, -1)), Xs = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-address-wrap" }, [
   /* @__PURE__ */ i("div", { class: "viur-shop-cart-address" }, [
     /* @__PURE__ */ i("div", { class: "viur-shop-cart-address-headline" }, [
-      /* @__PURE__ */ O(" Versandadresse "),
+      /* @__PURE__ */ C(" Versandadresse "),
       /* @__PURE__ */ i("sl-button", {
         outline: "",
         size: "small"
@@ -2580,20 +2579,20 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
         })
       ])
     ]),
-    /* @__PURE__ */ O(" Roland Brose"),
+    /* @__PURE__ */ C(" Roland Brose"),
     /* @__PURE__ */ i("br"),
-    /* @__PURE__ */ O(" Speicherstraße 33"),
+    /* @__PURE__ */ C(" Speicherstraße 33"),
     /* @__PURE__ */ i("br"),
-    /* @__PURE__ */ O(" 44147 Dortmund, DE"),
+    /* @__PURE__ */ C(" 44147 Dortmund, DE"),
     /* @__PURE__ */ i("br"),
     /* @__PURE__ */ i("br"),
-    /* @__PURE__ */ O(" rb@mausbrand.de"),
+    /* @__PURE__ */ C(" rb@mausbrand.de"),
     /* @__PURE__ */ i("br"),
-    /* @__PURE__ */ O(" 0231 21 34 68 90 ")
+    /* @__PURE__ */ C(" 0231 21 34 68 90 ")
   ]),
   /* @__PURE__ */ i("div", { class: "viur-shop-cart-address" }, [
     /* @__PURE__ */ i("div", { class: "viur-shop-cart-address-headline" }, [
-      /* @__PURE__ */ O(" Rechnungsadresse "),
+      /* @__PURE__ */ C(" Rechnungsadresse "),
       /* @__PURE__ */ i("sl-button", {
         outline: "",
         size: "small"
@@ -2604,21 +2603,21 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
         })
       ])
     ]),
-    /* @__PURE__ */ O(" Roland Brose"),
+    /* @__PURE__ */ C(" Roland Brose"),
     /* @__PURE__ */ i("br"),
-    /* @__PURE__ */ O(" Speicherstraße 33"),
+    /* @__PURE__ */ C(" Speicherstraße 33"),
     /* @__PURE__ */ i("br"),
-    /* @__PURE__ */ O(" 44147 Dortmund, DE"),
+    /* @__PURE__ */ C(" 44147 Dortmund, DE"),
     /* @__PURE__ */ i("br"),
     /* @__PURE__ */ i("br"),
-    /* @__PURE__ */ O(" rb@mausbrand.de"),
+    /* @__PURE__ */ C(" rb@mausbrand.de"),
     /* @__PURE__ */ i("br"),
-    /* @__PURE__ */ O(" 0231 21 34 68 90 ")
+    /* @__PURE__ */ C(" 0231 21 34 68 90 ")
   ])
-], -1)), el = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-payment" }, [
+], -1)), xs = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-payment" }, [
   /* @__PURE__ */ i("div", { class: "viur-shop-cart-payment-method" }, [
     /* @__PURE__ */ i("span", null, "Zahlungsmethode:"),
-    /* @__PURE__ */ O(" Paypal ")
+    /* @__PURE__ */ C(" Paypal ")
   ]),
   /* @__PURE__ */ i("sl-button", {
     outline: "",
@@ -2629,7 +2628,7 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
       slot: "prefix"
     })
   ])
-], -1)), tl = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("h2", { class: "viur-shop-cart-headline headline" }, "Warenkorb", -1)), nl = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("br", null, null, -1)), al = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Jetzt Bestellen", -1)), sl = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("br", null, null, -1)), ll = { class: "viur-shop-cart-sidebar-btn-wrap" }, rl = ["variant", "disabled"], ol = {
+], -1)), el = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("h2", { class: "viur-shop-cart-headline headline" }, "Warenkorb", -1)), tl = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("br", null, null, -1)), nl = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("h2", { class: "viur-shop-cart-sidebar-headline headline" }, "Jetzt Bestellen", -1)), al = /* @__PURE__ */ Q(() => /* @__PURE__ */ i("br", null, null, -1)), sl = { class: "viur-shop-cart-sidebar-btn-wrap" }, ll = ["variant", "disabled"], rl = {
   __name: "ConfirmView",
   setup(e) {
     const n = oe(), t = w({
@@ -2646,40 +2645,40 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
     }
     return ee(async () => {
       await n.init();
-    }), (s, o) => t.cartIsInit ? (m(), h("div", Qs, [
+    }), (s, o) => t.cartIsInit ? (m(), h("div", Js, [
+      Qs,
       Ys,
       Xs,
       xs,
       el,
       tl,
-      nl,
-      (m(), T(Je, { to: "#order_sidebar" }, [
+      (m(), T(Ze, { to: "#order_sidebar" }, [
+        nl,
         al,
-        sl,
         i("sl-checkbox", { onSlChange: l }, " Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen ", 32),
-        i("div", ll, [
+        i("div", sl, [
           i("sl-button", {
             variant: t.showOrderButton ? "info" : "disabled",
             size: "small",
             disabled: !t.showOrderButton
-          }, " Zahlungspflichtig bestellen ", 8, rl)
+          }, " Zahlungspflichtig bestellen ", 8, ll)
         ])
       ]))
-    ])) : (m(), T(ms, { key: 0 }));
+    ])) : (m(), T(cs, { key: 0 }));
   }
-}, Ee = /* @__PURE__ */ I(ol, [["__scopeId", "data-v-b7b745be"]]), il = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, Ee = /* @__PURE__ */ I(rl, [["__scopeId", "data-v-b7b745be"]]), ol = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: Ee
-}, Symbol.toStringTag, { value: "Module" })), ul = (e) => (M("data-v-0e63188d"), e = e(), z(), e), dl = { class: "bind viur-shop-wrap" }, cl = ["panel", "disabled"], ml = { class: "viur-shop-order-step" }, fl = ["name", "library"], gl = { class: "viur-shop-order-status-text" }, hl = {
+}, Symbol.toStringTag, { value: "Module" })), il = (e) => (M("data-v-0e63188d"), e = e(), z(), e), ul = { class: "bind viur-shop-wrap" }, dl = ["panel", "disabled"], cl = { class: "viur-shop-order-step" }, ml = ["name", "library"], fl = { class: "viur-shop-order-status-text" }, gl = {
   key: 0,
   name: "chevron-right",
   class: "viur-shop-order-tab-check"
-}, bl = ["name"], vl = ["onClick"], pl = ["onClick"], yl = /* @__PURE__ */ ul(() => /* @__PURE__ */ i("div", { class: "viur-shop-sidebar-wrap" }, [
+}, hl = ["name"], bl = ["onClick"], vl = ["onClick"], pl = /* @__PURE__ */ il(() => /* @__PURE__ */ i("div", { class: "viur-shop-sidebar-wrap" }, [
   /* @__PURE__ */ i("div", {
     class: "viur-shop-sidebar",
     id: "order_sidebar"
   })
-], -1)), $l = {
+], -1)), yl = {
   __name: "OrderView",
   props: {
     tabs: {
@@ -2710,7 +2709,7 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
     function c(d) {
       o.value.show(d);
     }
-    return (d, f) => (m(), h("div", dl, [
+    return (d, f) => (m(), h("div", ul, [
       i("sl-tab-group", {
         class: "viur-shop-order-tabgroup",
         noScrollControls: "",
@@ -2725,22 +2724,22 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
           key: p,
           disabled: e.tabs[p].disabled
         }, [
-          i("div", ml, [
+          i("div", cl, [
             i("sl-icon", {
               class: "viur-shop-order-step-icon",
               name: e.tabs[p].icon.name,
               library: e.tabs[p].icon.library
-            }, null, 8, fl),
-            i("div", gl, B(v + 1) + ". " + B(e.tabs[p].displayName), 1)
+            }, null, 8, ml),
+            i("div", fl, B(v + 1) + ". " + B(e.tabs[p].displayName), 1)
           ]),
-          v < s.tabNames.length - 1 ? (m(), h("sl-icon", hl)) : k("", !0)
-        ], 8, cl))), 128)),
+          v < s.tabNames.length - 1 ? (m(), h("sl-icon", gl)) : k("", !0)
+        ], 8, dl))), 128)),
         (m(!0), h(E, null, U(s.tabNames, (p, v) => (m(), h("sl-tab-panel", {
           class: "viur-shop-order-tab-panel",
           name: p,
           key: p
         }, [
-          (m(), T(mt(e.tabs[p].component), ft({ ref_for: !0 }, e.tabs[p].props ? e.tabs[p].props : ""), null, 16)),
+          (m(), T(ct(e.tabs[p].component), mt({ ref_for: !0 }, e.tabs[p].props ? e.tabs[p].props : ""), null, 16)),
           v !== s.tabNames.length - 1 ? (m(), h("div", {
             key: 0,
             class: ye(["viur-shop-form-footer", { "flex-end": s.isFirstTab(v) }])
@@ -2748,27 +2747,27 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
             J(i("sl-button", {
               type: "submit",
               onClick: (_) => r(s.tabNames[v - 1])
-            }, " Zurück ", 8, vl), [
+            }, " Zurück ", 8, bl), [
               [ve, v !== 0]
             ]),
             i("sl-button", {
               type: "submit",
               variant: "primary",
               onClick: (_) => c(s.tabNames[v + 1])
-            }, " Weiter ", 8, pl)
+            }, " Weiter ", 8, vl)
           ], 2)) : k("", !0)
-        ], 8, bl))), 128))
+        ], 8, hl))), 128))
       ], 544),
-      yl
+      pl
     ]));
   }
-}, Sl = /* @__PURE__ */ I($l, [["__scopeId", "data-v-0e63188d"]]), _l = {}, he = (e) => (M("data-v-36ccc280"), e = e(), z(), e), kl = { class: "bind" }, wl = /* @__PURE__ */ he(() => /* @__PURE__ */ i("h1", { class: "headline" }, "Vielen Dank für Ihre Bestellung", -1)), El = /* @__PURE__ */ he(() => /* @__PURE__ */ i("br", null, null, -1)), Al = /* @__PURE__ */ he(() => /* @__PURE__ */ i("p", { class: "paragraph" }, [
+}, $l = /* @__PURE__ */ I(yl, [["__scopeId", "data-v-0e63188d"]]), Sl = {}, he = (e) => (M("data-v-36ccc280"), e = e(), z(), e), _l = { class: "bind" }, kl = /* @__PURE__ */ he(() => /* @__PURE__ */ i("h1", { class: "headline" }, "Vielen Dank für Ihre Bestellung", -1)), wl = /* @__PURE__ */ he(() => /* @__PURE__ */ i("br", null, null, -1)), El = /* @__PURE__ */ he(() => /* @__PURE__ */ i("p", { class: "paragraph" }, [
   /* @__PURE__ */ i("strong", null, "Ihre Bestellnummer:"),
-  /* @__PURE__ */ O(" 123345670 ")
-], -1)), Il = /* @__PURE__ */ he(() => /* @__PURE__ */ i("p", { class: "paragraph" }, [
-  /* @__PURE__ */ O(" Wir haben Ihre Bestellung erhalten und werden diese schenllstmöglich bearbeiten."),
+  /* @__PURE__ */ C(" 123345670 ")
+], -1)), Al = /* @__PURE__ */ he(() => /* @__PURE__ */ i("p", { class: "paragraph" }, [
+  /* @__PURE__ */ C(" Wir haben Ihre Bestellung erhalten und werden diese schenllstmöglich bearbeiten."),
   /* @__PURE__ */ i("br"),
-  /* @__PURE__ */ O(" Sie erhalten in wenigen Minuten eine Bestätigung per E-Mail. "),
+  /* @__PURE__ */ C(" Sie erhalten in wenigen Minuten eine Bestätigung per E-Mail. "),
   /* @__PURE__ */ i("div", { class: "btn-wrap" }, [
     /* @__PURE__ */ i("sl-button", { size: "medium" }, " Zur Startseite "),
     /* @__PURE__ */ i("sl-button", {
@@ -2776,16 +2775,16 @@ const ms = /* @__PURE__ */ I(ke, [["render", cs], ["__scopeId", "data-v-46c45785
       size: "medium"
     }, " Weiter Einkaufen ")
   ])
-], -1)), Ol = [
+], -1)), Il = [
+  kl,
   wl,
   El,
-  Al,
-  Il
+  Al
 ];
 function Cl(e, n) {
-  return m(), h("div", kl, Ol);
+  return m(), h("div", _l, Il);
 }
-const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280"]]), Ae = (e) => (M("data-v-b68a2bfa"), e = e(), z(), e), Bl = /* @__PURE__ */ Ae(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Nutzterdaten", -1)), Dl = /* @__PURE__ */ Ae(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Lieferadresse", -1)), Vl = { key: 0 }, Nl = /* @__PURE__ */ Ae(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Rechnungsadresse", -1)), Rl = {
+const Ol = /* @__PURE__ */ I(Sl, [["render", Cl], ["__scopeId", "data-v-36ccc280"]]), Ae = (e) => (M("data-v-b68a2bfa"), e = e(), z(), e), jl = /* @__PURE__ */ Ae(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Nutzterdaten", -1)), Bl = /* @__PURE__ */ Ae(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Lieferadresse", -1)), Dl = { key: 0 }, Vl = /* @__PURE__ */ Ae(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Rechnungsadresse", -1)), Nl = {
   __name: "UserInformation",
   props: {
     mode: { type: String, default: "form" },
@@ -2828,10 +2827,10 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
       const r = se("bone");
       return m(), h(E, null, [
         i("div", null, [
-          O(" test "),
-          Bl,
+          C(" test "),
+          jl,
           (m(!0), h(E, null, U(t.addSkel, (c, d) => (m(), h(E, { key: d }, [
-            O(B(d) + " ", 1),
+            C(B(d) + " ", 1),
             c.visible && c.params.group === "Customer Info" ? (m(), T(r, {
               key: 0,
               is: q(x)(c.type),
@@ -2845,7 +2844,7 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
           ], 64))), 128))
         ]),
         i("div", null, [
-          Dl,
+          Bl,
           (m(!0), h(E, null, U(t.addSkel, (c, d) => (m(), h(E, { key: d }, [
             c.visible && c.params.group === "Customer Address" ? (m(), T(r, {
               key: 0,
@@ -2858,8 +2857,8 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
             }, null, 8, ["is", "name", "structure", "errors", "skel", "onChange"])) : k("", !0)
           ], 64))), 128))
         ]),
-        t.isCustomAdress ? (m(), h("div", Vl, [
-          Nl,
+        t.isCustomAdress ? (m(), h("div", Dl, [
+          Vl,
           (m(!0), h(E, null, U(t.addSkel, (c, d) => (m(), h(E, { key: d }, [
             c.visible && c.params.group === "Customer Address" ? (m(), T(r, {
               key: 0,
@@ -2879,18 +2878,18 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
       ], 64);
     };
   }
-}, Ll = /* @__PURE__ */ I(Rl, [["__scopeId", "data-v-b68a2bfa"]]), te = (e) => (M("data-v-a4accf28"), e = e(), z(), e), Ul = /* @__PURE__ */ te(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Nutzterdaten", -1)), Tl = /* @__PURE__ */ te(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Lieferadresse", -1)), Pl = ["onSlChange", "onSlClear", "label"], Ml = ["value"], zl = { key: 0 }, Wl = /* @__PURE__ */ te(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Rechnungsadresse", -1)), ql = /* @__PURE__ */ te(() => /* @__PURE__ */ i("sl-icon", {
+}, Rl = /* @__PURE__ */ I(Nl, [["__scopeId", "data-v-b68a2bfa"]]), te = (e) => (M("data-v-a4accf28"), e = e(), z(), e), Ll = /* @__PURE__ */ te(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Nutzterdaten", -1)), Ul = /* @__PURE__ */ te(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Lieferadresse", -1)), Tl = ["onSlChange", "onSlClear", "label"], Pl = ["value"], Ml = { key: 0 }, zl = /* @__PURE__ */ te(() => /* @__PURE__ */ i("h2", { class: "viur-shop-form-headline headline" }, "Rechnungsadresse", -1)), Wl = /* @__PURE__ */ te(() => /* @__PURE__ */ i("sl-icon", {
   name: "x-lg",
   slot: "prefix"
-}, null, -1)), Fl = [
-  ql
-], Kl = /* @__PURE__ */ te(() => /* @__PURE__ */ i("sl-icon", {
+}, null, -1)), ql = [
+  Wl
+], Fl = /* @__PURE__ */ te(() => /* @__PURE__ */ i("sl-icon", {
   name: "plus-lg",
   slot: "prefix"
-}, null, -1)), Hl = /* @__PURE__ */ te(() => /* @__PURE__ */ i("sl-icon", {
+}, null, -1)), Kl = /* @__PURE__ */ te(() => /* @__PURE__ */ i("sl-icon", {
   slot: "icon",
   name: "exclamation-triangle"
-}, null, -1)), Gl = /* @__PURE__ */ te(() => /* @__PURE__ */ i("br", null, null, -1)), Zl = {
+}, null, -1)), Hl = /* @__PURE__ */ te(() => /* @__PURE__ */ i("br", null, null, -1)), Gl = {
   __name: "UserInfoMulti",
   props: {
     mode: { type: String, default: "form" }
@@ -2964,7 +2963,7 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
       const _ = se("bone");
       return m(), h(E, null, [
         i("div", null, [
-          Ul,
+          Ll,
           (m(!0), h(E, null, U(t.addSkel, (g, b) => (m(), h(E, { key: b }, [
             g.visible && g.params.group === "Customer Info" ? (m(), T(_, {
               key: 0,
@@ -2978,7 +2977,7 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
             }, null, 8, ["is", "name", "structure", "errors", "skel", "onChange"])) : k("", !0)
           ], 64))), 128))
         ]),
-        Tl,
+        Ul,
         (m(!0), h(E, null, U(t.shippingAdressAmount, (g) => (m(), h("div", { key: g }, [
           i("sl-select", {
             clearable: "",
@@ -2990,8 +2989,8 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
             label: t.selectedItem[g] ? q(n).state.carts[t.selectedItem[g]].info.name : "Warenkorb für Adresse wählen.",
             class: "grid-w-4"
           }, [
-            (m(!0), h(E, null, U(q(n).state.carts, (b, y) => (m(), h("sl-option", { value: y }, B(b.info.name), 9, Ml))), 256))
-          ], 40, Pl),
+            (m(!0), h(E, null, U(q(n).state.carts, (b, y) => (m(), h("sl-option", { value: y }, B(b.info.name), 9, Pl))), 256))
+          ], 40, Tl),
           (m(!0), h(E, null, U(t.addSkel, (b, y) => (m(), h(E, { key: y }, [
             b.visible && b.params.group === "Customer Address" ? (m(), T(_, {
               key: 0,
@@ -3004,8 +3003,8 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
             }, null, 8, ["is", "name", "structure", "errors", "skel", "onChange"])) : k("", !0)
           ], 64))), 128))
         ]))), 128)),
-        t.isCustomAdress ? (m(), h("div", zl, [
-          Wl,
+        t.isCustomAdress ? (m(), h("div", Ml, [
+          zl,
           (m(!0), h(E, null, U(t.addSkel, (g, b) => (m(), h(E, { key: b }, [
             g.visible && g.params.group === "Customer Address" ? (m(), T(_, {
               key: 0,
@@ -3023,14 +3022,14 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
             size: "medium",
             onClick: r,
             title: "Lieferadresse entfernen"
-          }, Fl),
+          }, ql),
           i("sl-button", {
             size: "medium",
             variant: "primary",
             onClick: a
           }, [
-            Kl,
-            O(" Lieferadresse hinzufügen ")
+            Fl,
+            C(" Lieferadresse hinzufügen ")
           ])
         ]),
         i("sl-alert", {
@@ -3040,10 +3039,10 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
           ref: s,
           closable: ""
         }, [
-          Hl,
+          Kl,
           i("strong", null, B(t.amountAlert.title), 1),
-          Gl,
-          O(" " + B(t.amountAlert.msg), 1)
+          Hl,
+          C(" " + B(t.amountAlert.msg), 1)
         ], 512),
         i("sl-checkbox", {
           onSlChange: o,
@@ -3052,7 +3051,7 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
       ], 64);
     };
   }
-}, Jl = /* @__PURE__ */ I(Zl, [["__scopeId", "data-v-a4accf28"]]), et = {
+}, Zl = /* @__PURE__ */ I(Gl, [["__scopeId", "data-v-a4accf28"]]), xe = {
   __name: "ExampleUsage",
   setup(e) {
     const n = oe(), t = S(
@@ -3101,7 +3100,7 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
         //   atHide: null,
         // },
         orderComplete: {
-          component: G(jl),
+          component: G(Ol),
           props: {},
           displayName: "Bestellung Abgeschlossen",
           icon: { name: "order-confirmed", library: "hsk" },
@@ -3111,7 +3110,7 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
           atHide: null
         },
         userInfo: {
-          component: G(Ll),
+          component: G(Rl),
           props: {},
           displayName: "Daten Eingeben",
           icon: { name: "user", library: "hsk" },
@@ -3121,7 +3120,7 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
           atHide: null
         },
         userInfoMulti: {
-          component: G(Jl),
+          component: G(Zl),
           props: {},
           displayName: "Daten Eingeben (Multi)",
           icon: { name: "user", library: "hsk" },
@@ -3137,76 +3136,76 @@ const jl = /* @__PURE__ */ I(_l, [["render", Cl], ["__scopeId", "data-v-36ccc280
     }
     return ee(async () => {
       await n.init(), await n.getAdressStructure(), console.log("debug init exampleusage :", n.state.basketRootNode);
-    }), (o, a) => (m(), T(Sl, {
+    }), (o, a) => (m(), T($l, {
       tabs: l.tabs,
       onTabChange: s
     }, null, 8, ["tabs"]));
   }
-}, Ql = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, Jl = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: et
-}, Symbol.toStringTag, { value: "Module" })), Yl = D({
+  default: xe
+}, Symbol.toStringTag, { value: "Module" })), Ql = D({
   props: {},
   components: {},
   setup(e, n) {
-    const t = bt();
+    const t = ht();
     return { state: w({}), route: t };
   }
-}), Xl = { class: "home" };
-function xl(e, n, t, l, s, o) {
-  return m(), h("div", Xl, "View " + B(e.route.path) + " is missing.", 1);
+}), Yl = { class: "home" };
+function Xl(e, n, t, l, s, o) {
+  return m(), h("div", Yl, "View " + B(e.route.path) + " is missing.", 1);
 }
-const er = /* @__PURE__ */ I(Yl, [["render", xl]]), tr = [
+const xl = /* @__PURE__ */ I(Ql, [["render", Xl]]), er = [
   {
     path: "/:pathMatch(.*)*",
     name: "view_missing",
-    component: er
+    component: xl
   },
   {
     path: "/shop/category/:identifier",
     name: "CategoryView",
-    component: () => import("./CategoryView-C82ANveM.mjs")
+    component: () => import("./CategoryView-DpxefLik.mjs")
   },
   {
     path: "/shop/item/:item",
     name: "itemView",
-    component: () => import("./ItemView-BqdaEKGW.mjs")
+    component: () => import("./ItemView-BsVTaCcL.mjs")
   },
   {
     path: "/shop/cart/view",
     name: "CartView",
-    component: () => Promise.resolve().then(() => Js)
+    component: () => Promise.resolve().then(() => Zs)
   },
   {
     path: "/shop/order/",
     name: "OrderView",
-    component: () => Promise.resolve().then(() => Ql)
+    component: () => Promise.resolve().then(() => Jl)
   },
   {
     path: "/shop/order/confirm",
     name: "ConfirmView",
-    component: () => Promise.resolve().then(() => il)
+    component: () => Promise.resolve().then(() => ol)
   }
 ];
-function ur(e, n = !1) {
+function or(e, n = !1) {
   let t = [];
-  return n ? t = e : t = e.concat(tr), vt({
+  return n ? t = e : t = e.concat(er), bt({
     // @ts-ignore
-    history: pt("/"),
+    history: vt("/"),
     routes: t
   });
 }
-const dr = {
+const ir = {
   install(e) {
-    e.component("CartView", we), e.component("ExampleUsage", et), e.component("ConfirmView", Ee);
+    e.component("CartView", we), e.component("ExampleUsage", xe), e.component("ConfirmView", Ee);
   }
 };
 export {
   we as C,
-  dr as V,
+  ir as V,
   I as _,
-  et as a,
+  xe as a,
   Ee as b,
-  ur as c,
+  or as c,
   oe as u
 };

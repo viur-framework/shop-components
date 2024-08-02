@@ -1,6 +1,6 @@
 {
   "name": "@viur/shop-components",
-  "version": "0.0.1-dev.49",
+  "version": "0.0.1-dev.50",
   "description": "Frontend Vue components for the shop module of ViUR",
   "repository": {
     "type": "git",
@@ -50,10 +50,11 @@
     "vue-router": "^4.4.0"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "@viur/shop-components": "^0.0.1-dev.49",
     "postcss-custom-media": "^10.0.7",
     "postcss-nesting": "^12.1.5",
     "prettier": "^3.3.2",
-    "vite": "^5.3.3",
-    "@vitejs/plugin-vue": "^5.0.5"
+    "vite": "^5.3.3"
   }
 }
