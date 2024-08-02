@@ -33,7 +33,7 @@
 
     <!-- <teleport to="#order_sidebar" v-if="sidebar"> -->
     <!-- <div v-if="sidebar"> -->
-      <!-- <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
+    <!-- <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
       <br />
 
       <sl-input label="Rabattcode eingeben"
@@ -41,10 +41,10 @@
       ></sl-input>
       <br /> -->
 
-      <!-- <div class="viur-shop-cart-sidebar-info-line">
+    <!-- <div class="viur-shop-cart-sidebar-info-line">
         <span>Zwischensumme</span> -->
-        <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
-        <!-- {{
+    <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
+    <!-- {{
           mode === "basket"
             ? cartStore.state.basketRootNode.total
             : cartStore.state.whishlistRootNodes[cartKey].total
@@ -68,7 +68,7 @@
         }}
         €
       </div> -->
-      <!-- <div class="viur-shop-cart-sidebar-btn-wrap">
+    <!-- <div class="viur-shop-cart-sidebar-btn-wrap">
         <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
         <sl-button size="medium" variant="info">
           <sl-icon name="paypal" slot="prefix"></sl-icon>
@@ -77,9 +77,9 @@
       </div>
       </teleport> -->
 
-      <div class="viur-shop-cart-mobile-footer">
-        <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
-      </div>
+    <div class="viur-shop-cart-mobile-footer">
+      <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
+    </div>
     <!-- </div> -->
     <!-- <pre> {{ state.leaves }}</pre> -->
   </template>
@@ -145,11 +145,7 @@
                 <sl-icon
                   slot="prefix"
                   library="hsk"
-                  name="clone"
-                  class="primary-icon"
-                ></sl-icon>
-                Warenkorb kopieren
-              </sl-menu-item>
+                  name="clone"cartKey
               <sl-menu-item @click="saveCart" title="Warenkorb löschen">
                 <sl-icon
                   slot="prefix"
@@ -226,7 +222,9 @@ const state = reactive({
 });
 
 const currentCartKey = computed(() => {
-  return props.mode === "basket" ? cartStore.state.basket : props.cartKey;
+  return props.mode === "basket"
+    ? cartStore.state.basketRootNode.key
+    : props.cartKey;
 });
 
 // function getImage(item) {
@@ -395,9 +393,9 @@ sl-alert {
 }
 
 .viur-shop-cart-node {
-    grid-column: auto / span var(--shop-main-columns);
-    display: grid;
-    grid-template-columns: subgrid;
+  grid-column: auto / span var(--shop-main-columns);
+  display: grid;
+  grid-template-columns: subgrid;
 }
 
 .cart-wrap {
