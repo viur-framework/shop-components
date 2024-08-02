@@ -41,10 +41,10 @@
       ></sl-input>
       <br />
 
-      <div class="viur-shop-cart-sidebar-info-line">
-        <span>Zwischensumme</span>
+      <!-- <div class="viur-shop-cart-sidebar-info-line">
+        <span>Zwischensumme</span> -->
         <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
-        {{
+        <!-- {{
           mode === "basket"
             ? cartStore.state.basketRootNode.total
             : cartStore.state.whishlistRootNodes[cartKey].total
@@ -67,7 +67,7 @@
             : cartStore.state.whishlistRootNodes[cartKey].total
         }}
         €
-      </div>
+      </div> -->
       <div class="viur-shop-cart-sidebar-btn-wrap">
         <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
         <sl-button size="medium" variant="info">
