@@ -14,7 +14,7 @@
           Zur Startseite
         </sl-button>
 
-        <sl-button variant="primary"
+        <sl-button variant="primary" @click="goToShop()"
                    size="medium">
           Weiter Einkaufen
         </sl-button>
@@ -24,7 +24,18 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const props = defineProps({
+  redirectUrl: {
+    type: Object,
+    required: true,
+  },
+});
+
+function goToShop() {
+
+}
+</script>
 
 <style scoped>
 
