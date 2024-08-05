@@ -10,7 +10,7 @@ import ExampleUsage from "./components/order/process/ExampleUsage.vue";
 import ConfirmView from "./components/cart/ConfirmView.vue";
 import { useCartStore } from "./stores/cart";
 import createRouterInstance from "./router/index";
-
+import { createPinia } from 'pinia'
 // Export the components so they can be used in other projects
 export {
   CartView,
@@ -19,7 +19,7 @@ export {
   useCartStore,
   createRouterInstance,
 };
-
+const pinia = createPinia()
 // Optionally, you can create a plugin to install all components
 const ViurShopComponents = {
   install(app) {
@@ -28,6 +28,7 @@ const ViurShopComponents = {
     app.component("ExampleUsage", ExampleUsage);
     app.component("ConfirmView", ConfirmView);
     // Note: useCartStore is not a component, so it should not be registered as one
+    app.use(pinia)
   },
 };
 
