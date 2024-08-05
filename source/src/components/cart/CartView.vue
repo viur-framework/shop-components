@@ -19,6 +19,7 @@
         :key="node.key"
       >
         <CartNode :node="node"> </CartNode>
+        {{ state.leaves }}
         <CartLeaf
           v-for="leaf in state.leaves[node.key]"
           :key="leaf.key"
@@ -31,56 +32,57 @@
       </template>
     </div>
 
-    <!-- <teleport to="#order_sidebar" v-if="sidebar"> -->
-    <!-- <div v-if="sidebar"> -->
-    <!-- <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
-      <br />
+    <teleport to="#order_sidebar" v-if="sidebar">
+      <div v-if="sidebar">
+        <h2 class="viur-shop-cart-sidebar-headline headline">
+          Zusammenfassung
+        </h2>
+        <br />
 
-      <sl-input label="Rabattcode eingeben"
-                class="viur-shop-cart-sidebar-coupon-input"
-      ></sl-input>
-      <br /> -->
+        <sl-input
+          label="Rabattcode eingeben"
+          class="viur-shop-cart-sidebar-coupon-input"
+        ></sl-input>
+        <br />
 
-    <!-- <div class="viur-shop-cart-sidebar-info-line">
-        <span>Zwischensumme</span> -->
-    <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
-    <!-- {{
-          mode === "basket"
-            ? cartStore.state.basketRootNode.total
-            : cartStore.state.whishlistRootNodes[cartKey].total
-        }}
-        €
+        <div class="viur-shop-cart-sidebar-info-line">
+          <span>Zwischensumme</span>
+          <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
+          {{
+            mode === "basket"
+              ? cartStore.state.basketRootNode.total
+              : cartStore.state.whishlistRootNodes[cartKey].total
+          }}
+          €
+        </div>
+        <div class="viur-shop-cart-sidebar-info-line">
+          <span>Rabatt</span>
+          0 €
+        </div>
+        <div class="viur-shop-cart-sidebar-info-line">
+          <span>Versandkosten</span>
+          0 €
+        </div>
+        <div class="viur-shop-cart-sidebar-info-line total">
+          <span>Gesamt:</span>
+          {{ cartStore.state.basketRootNode }}
+          €
+        </div>
+        <div class="viur-shop-cart-sidebar-btn-wrap">
+          <sl-button variant="primary" size="medium">
+            Jetzt Bestellen
+          </sl-button>
+          <sl-button size="medium" variant="info">
+            <sl-icon name="paypal" slot="prefix"></sl-icon>
+            Paypal
+          </sl-button>
+        </div>
       </div>
-      <div class="viur-shop-cart-sidebar-info-line">
-        <span>Rabatt</span>
-        0 €
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line">
-        <span>Versandkosten</span>
-        0 €
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line total">
-        <span>Gesamt:</span>
-        {{
-          mode === "basket"
-            ? cartStore.state.basketRootNode.total
-            : cartStore.state.whishlistRootNodes[cartKey].total
-        }}
-        €
-      </div> -->
-    <!-- <div class="viur-shop-cart-sidebar-btn-wrap">
-        <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
-        <sl-button size="medium" variant="info">
-          <sl-icon name="paypal" slot="prefix"></sl-icon>
-          Paypal
-        </sl-button>
-      </div>
-      </teleport> -->
+    </teleport>
 
     <div class="viur-shop-cart-mobile-footer">
       <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
     </div>
-    <!-- </div> -->
     <!-- <pre> {{ state.leaves }}</pre> -->
   </template>
 
