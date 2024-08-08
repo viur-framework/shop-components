@@ -24,9 +24,9 @@
       "import": "./dist/viur-shop-components.es.js",
       "require": "./dist/viur-shop-components.umd.js"
     },
-    "./dist/main.css": {
-      "import": "./dist/main.css",
-      "require": "./dist/main.css"
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
     },
     "./dist/ItemView.css": {
       "import": "./dist/ItemView.css",

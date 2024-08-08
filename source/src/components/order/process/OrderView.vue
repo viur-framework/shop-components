@@ -214,7 +214,6 @@ function nextTab(tabName) {
 }
 
 .viur-shop-order-tab-panel {
-  &,
   &::part(base) {
     grid-column: auto / span var(--shop-main-columns);
     display: grid;

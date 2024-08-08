@@ -1,15 +1,11 @@
-import { C as p, b as u, a as C, c, V as f, u as n } from "./main.e72fe801.mjs";
+import { C as s, b as o, a as i, c as m, V as p, u } from "./main-BfTElxM2.mjs";
 import "vue";
 import "pinia";
-import "@viur/ckeditor5-build-classic";
-import "@viur/vue-utils";
-import "@viur/viur-shop-client";
-import "vue-router";
 export {
-  p as CartView,
-  u as ConfirmView,
-  C as ExampleUsage,
-  c as createRouterInstance,
-  f as default,
-  n as useCartStore
+  s as CartView,
+  o as ConfirmView,
+  i as ExampleUsage,
+  m as createRouterInstance,
+  p as default,
+  u as useCartStore
 };
