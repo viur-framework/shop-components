@@ -6,4 +6,4 @@ node_modules
 
 *_backup.vue
 
-./source/dist
+./source/dist/*
