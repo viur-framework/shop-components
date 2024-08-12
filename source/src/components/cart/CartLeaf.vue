@@ -15,27 +15,6 @@
       class="viur-shop-cart-leaf-description"
       v-html="state.leaf.shop_description"
     ></div>
-    <div class="viur-shop-cart-leaf-actions">
-      <sl-button
-        size="small"
-        outline
-        class="viur-shop-cart-leaf-add-to-favourites-btn"
-        variant="primary"
-        title="Add to favourites"
-      >
-        <sl-icon name="heart" slot="prefix"></sl-icon>
-      </sl-button>
-      <sl-button
-        size="small"
-        outline
-        class="viur-shop-cart-leaf-delete-btn"
-        variant="primary"
-        title="Remove from cart"
-        @click="removeItem(state.leaf, state.leaf.article.dest.key, node)"
-      >
-        <sl-icon name="trash" slot="prefix"></sl-icon>
-      </sl-button>
-    </div>
     <div class="viur-shop-cart-leaf-quantity">
       <sl-input
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
@@ -66,6 +45,29 @@
       >
       </sl-format-number>
     </div>
+
+    <div class="viur-shop-cart-leaf-actions">
+      <sl-button
+        size="small"
+        outline
+        class="viur-shop-cart-leaf-add-to-favourites-btn"
+        variant="primary"
+        title="Add to favourites"
+      >
+        <sl-icon name="heart" slot="prefix"></sl-icon>
+      </sl-button>
+      <sl-button
+        size="small"
+        outline
+        class="viur-shop-cart-leaf-delete-btn"
+        variant="primary"
+        title="Remove from cart"
+        @click="removeItem(state.leaf, state.leaf.article.dest.key, node)"
+      >
+        <sl-icon name="trash" slot="prefix"></sl-icon>
+      </sl-button>
+    </div>
+
     <div class="viur-shop-cart-leaf-price">
       <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
       <sl-format-number
@@ -124,16 +126,14 @@ onBeforeMount(() => {
   --shop-leaf-label-color: var(--ignt-color-primary);
   --shop-leaf-label-font-weight: 600;
   --shop-leaf-label-font-size: 1em;
-  --shop-leaf-price-font-size: 1.3em;
+  --shop-leaf-price-font-size: 1em;
+  --shop-leaf-headline-font-size: 1.3em;
 
-  grid-column: auto / span var(--shop-main-columns);
-  display: grid;
-  grid-template-columns: subgrid;
   margin-bottom: var(--ignt-spacing-x-large);
+
   &::part(base) {
-    grid-column: auto / span var(--shop-main-columns);
-    display: grid;
-    grid-template-columns: subgrid;
+    display: flex;
+    position: relative;
   }
 
   &::part(header) {
@@ -143,21 +143,34 @@ onBeforeMount(() => {
   }
 
   &::part(image) {
-    grid-column: auto / span 2;
+    aspect-ratio: 1;
   }
 
   &::part(body) {
-    grid-column: auto / span 7;
     display: grid;
-    grid-template-columns: subgrid;
-    padding: 0;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--sl-spacing-medium);
+    padding: var(--sl-spacing-large);
+    height: 100%;
   }
 
   &::part(group) {
     padding: 0;
-    grid-column: auto / span 7;
-    display: grid;
-    grid-template-columns: subgrid;
+  }
+
+  @media (max-width: 600px) {
+    &::part(body) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--sl-spacing-medium);
+      padding: var(--sl-spacing-large);
+      height: 100%;
+    }
+
+
+    &::part(image) {
+      border-radius: var(--border-radius);
+      align-self: baseline;
+    }
   }
 }
 
@@ -166,25 +179,75 @@ onBeforeMount(() => {
 }
 
 .viur-shop-cart-leaf-headline {
-  grid-column: 1 / span 3;
+  grid-column: 1 / span 4;
+  order: -2;
+  margin: 0;
+  font-size: var(--shop-leaf-headline-font-size);
+
+  @media (max-width: 600px) {
+    grid-column: 1 / span 2;
+  }
+}
+
+.viur-shop-cart-leaf-artno{
+  grid-column: 1 / span 5;
+  margin: 0;
+
+  @media (max-width: 600px) {
+    grid-column: 1 / span 2;
+  }
 }
 
 .viur-shop-cart-leaf-actions {
-  grid-column: 1;
   display: flex;
-  justify-content: space-between;
-  order: 10;
+  justify-content: start;
+  gap: var(--sl-spacing-x-small);
+
+  @media (min-width: 600px) {
+    grid-column: 5 / span 1;
+    order: -1;
+    justify-content: end;
+    align-items: end;
+  }
 }
 
 .viur-shop-cart-leaf-description {
-  grid-column: 1 / span 3;
+  grid-column: 1 / span 5;
   margin-bottom: var(--ignt-spacing-small);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  &:deep(*){
+    margin: 0;
+  }
+
+  @media (max-width: 600px) {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 500px) {
+    display: none;
+  }
 }
 
 .viur-shop-cart-leaf-price {
-  grid-column: span 2 / 8;
+  align-self: flex-end;
   text-align: right;
   font-size: var(--shop-leaf-price-font-size);
+}
+
+.viur-shop-cart-leaf-quantity{
+  align-self: flex-end;
+}
+
+.viur-shop-cart-leaf-unitprice{
+  align-self: flex-end;
+
+  @media (max-width: 600px) {
+    text-align: right;
+  }
 }
 
 .viur-shop-cart-leaf-label,

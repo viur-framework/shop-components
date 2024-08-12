@@ -135,23 +135,28 @@
 
   <div>
     <h2 class="viur-shop-form-headline headline">Nutzterdaten</h2>
-    <template v-for="(value, key) in state.addSkel" :key="key">
-      <bone
-        :is="getBoneWidget(value.type)"
-        v-if="value.visible && value.params.group === 'Customer Info'"
-        :name="key"
-        :structure="structToDict(state.addSkel)"
-        :errors="state.errors[key] ? state.errors[key] : []"
-        :skel="state.formValues"
-        @change="changeEvent(key, $event)"
-        class="viur-shop-form-grid-w-2"
-      >
-      </bone>
-    </template>
+    <div class="viur-shop-form-wrap">
+      <template v-for="(value, key) in state.addSkel" :key="key">
+        <div :class="'viur-shop-form-bone-' + key" v-if="value.visible && value.params.group === 'Customer Info'">
+          <bone
+            :is="getBoneWidget(value.type)"
+            v-if="value.visible && value.params.group === 'Customer Info'"
+            :name="key"
+            :structure="structToDict(state.addSkel)"
+            :errors="state.errors[key] ? state.errors[key] : []"
+            :skel="state.formValues"
+            @change="changeEvent(key, $event)"
+          >
+          </bone>
+        </div>
+      </template>
+    </div>
   </div>
 
   <h2 class="viur-shop-form-headline headline">Lieferadresse</h2>
-  <div v-for="a in state.shippingAdressAmount" :key="a">
+  <div class="viur-shop-form-wrap"
+        v-for="a in state.shippingAdressAmount"
+        :key="a">
     <sl-select
       clearable
       ref="itemSelection"
@@ -162,40 +167,46 @@
           ? cartStore.state.carts[state.selectedItem[a]].info.name
           : 'Warenkorb für Adresse wählen.'
       "
-      class="grid-w-4"
+      class="viur-shop-form-cart-select"
     >
       <sl-option v-for="(v, k) in cartStore.state.carts" :value="k">
         {{ v.info.name }}</sl-option
       >
     </sl-select>
     <template v-for="(value, key) in state.addSkel" :key="key">
-      <bone
-        :is="getBoneWidget(value.type)"
-        v-if="value.visible && value.params.group === 'Customer Address'"
-        :name="key"
-        :structure="structToDict(state.addSkel)"
-        :errors="state.errors[key] ? state.errors[key] : []"
-        :skel="state.formValues"
-        @change="changeEvent(key, $event)"
-      >
-      </bone>
+      <div :class="'viur-shop-form-bone-' + key" v-if="value.visible && value.params.group === 'Customer Address'">
+        <bone
+          :is="getBoneWidget(value.type)"
+          v-if="value.visible && value.params.group === 'Customer Address'"
+          :name="key"
+          :structure="structToDict(state.addSkel)"
+          :errors="state.errors[key] ? state.errors[key] : []"
+          :skel="state.formValues"
+          @change="changeEvent(key, $event)"
+        >
+        </bone>
+      </div>
     </template>
   </div>
 
   <div v-if="state.isCustomAdress">
     <h2 class="viur-shop-form-headline headline">Rechnungsadresse</h2>
-    <template v-for="(value, key) in state.addSkel" :key="key">
-      <bone
-        :is="getBoneWidget(value.type)"
-        v-if="value.visible && value.params.group === 'Customer Address'"
-        :name="key"
-        :structure="structToDict(state.addSkel)"
-        :errors="state.errors[key] ? state.errors[key] : []"
-        :skel="state.formValues"
-        @change="changeEvent(key, $event)"
-      >
-      </bone>
-    </template>
+    <div class="viur-shop-form-wrap">
+      <template v-for="(value, key) in state.addSkel" :key="key">
+        <div :class="'viur-shop-form-bone-' + key" v-if="value.visible && value.params.group === 'Customer Address'">
+          <bone
+            :is="getBoneWidget(value.type)"
+            v-if="value.visible && value.params.group === 'Customer Address'"
+            :name="key"
+            :structure="structToDict(state.addSkel)"
+            :errors="state.errors[key] ? state.errors[key] : []"
+            :skel="state.formValues"
+            @change="changeEvent(key, $event)"
+          >
+          </bone>
+        </div>
+      </template>
+    </div>
   </div>
 
   <div class="viur-shop-form-btn-wrap">
@@ -218,7 +229,7 @@
     {{ state.amountAlert.msg }}
   </sl-alert>
 
-  <sl-checkbox @sl-change="onCustomAdressChange" checked>
+  <sl-checkbox @sl-change="onCustomAdressChange" checked class="viur-shop-form-bill-check">
     Rechnungsadresse wie Lieferadresse
   </sl-checkbox>
 </template>
@@ -384,43 +395,8 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-.viur-shop-form-footer {
-  display: flex;
-  justify-content: space-between;
-  margin-top: var(--sl-spacing-large);
-}
-
-.viur-shop-form-adress-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  justify-content: space-around;
-  align-items: flex-start;
-}
-
-.viur-shop-form-adress-column {
-  align-self: flex-start;
-  flex-grow: 1;
-}
-
-.viur-shop-form-wrap {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0 var(--sl-spacing-medium);
-  margin: var(--sl-spacing-large) 0;
-}
-
-.viur-shop-form-grid-w-2 {
-  grid-column: span 2;
-}
-
-.viur-shop-form-grid-w-3 {
-  grid-column: span 3;
-}
-
-.viur-shop-form-grid-w-4 {
-  grid-column: span 4;
+:deep(.bone-name){
+  box-sizing: border-box;
 }
 
 .viur-shop-form-btn-wrap {
@@ -430,6 +406,20 @@ onBeforeMount(async () => {
   justify-content: space-between;
   width: 100%;
 
-  margin-top: var(--sl-spacing-x-large);
+  margin-top: var(--sl-spacing-medium);
 }
+
+.viur-shop-form-cart-select{
+  margin: var(--sl-spacing-medium) 0;
+}
+
+.viur-shop-form-bill-check{
+  margin: var(--sl-spacing-medium) 0;
+}
+
+.viur-shop-form-headline{
+  margin: 0 0 var(--sl-spacing-x-large) 0;
+  font-size: var(--shop-form-headline-size);
+}
+
 </style>

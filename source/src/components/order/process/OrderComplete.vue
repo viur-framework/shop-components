@@ -1,7 +1,6 @@
 <template>
   <div class="bind">
-    <h1 class="headline">Vielen Dank für Ihre Bestellung</h1>
-    <br>
+    <h1 class="viur-shop-success-headline headline">Vielen Dank für Ihre Bestellung</h1>
     <p class="paragraph">
       <strong>Ihre Bestellnummer:</strong> 123345670
     </p>
@@ -49,4 +48,8 @@ function goToShop() {
   margin-top: var(--sl-spacing-x-large);
 }
 
+.viur-shop-success-headline{
+  margin: 0 0 var(--sl-spacing-x-large) 0;
+  font-size: var(--shop-success-headline-size);
+}
 </style>

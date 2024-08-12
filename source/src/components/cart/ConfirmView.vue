@@ -4,8 +4,6 @@
   <template v-else>
       <div class="list">
         <h2 class="viur-shop-cart-headline headline">Bestellung prüfen</h2>
-        <br />
-
         <div class="viur-shop-cart-address-wrap">
           <div class="viur-shop-cart-address">
             <div class="viur-shop-cart-address-headline">
@@ -48,8 +46,6 @@
         </div>
 
         <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
-        <br />
-
         <!-- <sl-card
           horizontal
           class="viur-shop-cart-mini-card"
@@ -310,5 +306,10 @@ sl-menu-item {
   span {
     font-weight: 600;
   }
+}
+
+.viur-shop-cart-headline{
+  margin: 0 0 var(--sl-spacing-x-large) 0;
+  font-size: var(--shop-form-headline-size);
 }
 </style>

@@ -19,7 +19,7 @@
         :key="node.key"
       >
         <CartNode :node="node"> </CartNode>
-        {{ state.leaves }}
+        <!--{{ state.leaves }}-->
         <CartLeaf
           v-for="leaf in state.leaves[node.key]"
           :key="leaf.key"
@@ -33,7 +33,7 @@
     </div>
 
     <teleport to="#order_sidebar" v-if="sidebar">
-      <div v-if="sidebar">
+      <template v-if="sidebar">
         <h2 class="viur-shop-cart-sidebar-headline headline">
           Zusammenfassung
         </h2>
@@ -65,7 +65,7 @@
         </div>
         <div class="viur-shop-cart-sidebar-info-line total">
           <span>Gesamt:</span>
-          {{ cartStore.state.basketRootNode }}
+          <!--{{ cartStore.state.basketRootNode }}-->
           €
         </div>
         <div class="viur-shop-cart-sidebar-btn-wrap">
@@ -77,7 +77,7 @@
             Paypal
           </sl-button>
         </div>
-      </div>
+      </template>
     </teleport>
 
     <div class="viur-shop-cart-mobile-footer">
@@ -365,6 +365,10 @@ sl-alert {
   }
 }
 
+.viur-shop-cart-sidebar-headline {
+  margin: 0 0 var(--sl-spacing-large) 0;
+}
+
 .viur-shop-cart-button-list {
   display: flex;
   flex-direction: row;
@@ -395,9 +399,8 @@ sl-alert {
 }
 
 .viur-shop-cart-node {
-  grid-column: auto / span var(--shop-main-columns);
-  display: grid;
-  grid-template-columns: subgrid;
+  display: flex;
+  flex-direction: column;
 }
 
 .cart-wrap {
@@ -710,5 +713,9 @@ sl-menu-item {
   margin-bottom: 10px;
   font-size: 1em;
   margin-left: auto;
+}
+
+.viur-shop-cart-mobile-footer{
+  display: none;
 }
 </style>
