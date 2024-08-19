@@ -31,23 +31,17 @@
         </CartLeaf>
       </template>
     </div>
-
+<div id="order_sidebar"></div>
     <teleport to="#order_sidebar" v-if="sidebar">
       <template v-if="sidebar">
         <h2 class="viur-shop-cart-sidebar-headline headline">
           Zusammenfassung
         </h2>
-        <br />
+        <br/>
 
-        <sl-input
-          label="Rabattcode eingeben"
-          class="viur-shop-cart-sidebar-coupon-input"
-        ></sl-input>
-        <br />
 
         <div class="viur-shop-cart-sidebar-info-line">
           <span>Zwischensumme</span>
-          <!-- TODO: Preis in shop modul muss trotzdem ohne rabatt sein - extra feld für rabattierten preis und rabatt müssen ebenfalls hier sichtbar werden -->
           {{
             mode === "basket"
               ? cartStore.state.basketRootNode.total
@@ -57,7 +51,7 @@
         </div>
         <div class="viur-shop-cart-sidebar-info-line">
           <span>Rabatt</span>
-          0 €
+          {{cartStore.state.basketRootNode.total-cartStore.state.basketRootNode.total_discount_price}} €
         </div>
         <div class="viur-shop-cart-sidebar-info-line">
           <span>Versandkosten</span>
@@ -80,8 +74,9 @@
       </template>
     </teleport>
 
+    <Discount></Discount>
     <div class="viur-shop-cart-mobile-footer">
-      <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
+      <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
     </div>
     <!-- <pre> {{ state.leaves }}</pre> -->
   </template>
@@ -201,6 +196,7 @@ import Loader from "@viur/vue-utils/generic/Loader.vue";
 import { useCartStore } from "../../stores/cart.js";
 import CartNode from "./CartNode.vue";
 import CartLeaf from "./CartLeaf.vue";
+import Discount from "./Discount.vue";
 
 const props = defineProps({
   mode: { type: String, default: "basket" },

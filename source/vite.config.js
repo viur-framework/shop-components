@@ -17,7 +17,7 @@ export default defineConfig({
       name: "ViurShopComponents",
       fileName: (format) => `viur-shop-components.${format}.js`,
     },
-    cssCodeSplit: true,
+    cssCodeSplit: false,
     rollupOptions: {
       external: [
         "vue",
