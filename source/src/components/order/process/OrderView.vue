@@ -1,83 +1,87 @@
 <template>
-    <div class="bind viur-shop-wrap">
-      <sl-tab-group
-        class="viur-shop-order-tabgroup"
-        noScrollControls
-        @sl-tab-show="onTabChange"
-        ref="tabGroup"
+  <div class="bind viur-shop-wrap">
+    <sl-tab-group
+      class="viur-shop-order-tabgroup"
+      noScrollControls
+      @sl-tab-show="onTabChange"
+      ref="tabGroup"
+    >
+      <sl-tab
+        class="viur-shop-order-tab"
+        slot="nav"
+        :panel="tab"
+        v-for="(tab, index) in state.tabNames"
+        :key="tab"
+        :disabled="tabs[tab].disabled"
       >
-        <sl-tab
-          class="viur-shop-order-tab"
-          slot="nav"
-          :panel="tab"
-          v-for="(tab, index) in state.tabNames"
-          :key="tab"
-          :disabled="tabs[tab].disabled"
-        >
-          <div class="viur-shop-order-step">
-            <sl-icon
-              class="viur-shop-order-step-icon"
-              v-if="tabs[tab].icon?.name"
-              :name="tabs[tab].icon.name"
-              :library="tabs[tab].icon.library"
-            >
-            </sl-icon>
-            <div class="viur-shop-order-status-text">
-              {{ index + 1 }}.
-              <span class="viur-shop-order-status-span">{{
-                tabs[tab].displayName
-              }}</span>
-            </div>
-          </div>
+        <div class="viur-shop-order-step">
           <sl-icon
-            name="chevron-right"
-            class="viur-shop-order-tab-check"
-            v-if="index < state.tabNames.length - 1"
-          ></sl-icon>
-        </sl-tab>
-        <sl-tab-panel
-          class="viur-shop-order-tab-panel"
-          :name="tab"
-          v-for="(tab, index) in state.tabNames"
-          :key="tab"
+            class="viur-shop-order-step-icon"
+            v-if="tabs[tab].icon?.name"
+            :name="tabs[tab].icon.name"
+            :library="tabs[tab].icon.library"
+          >
+          </sl-icon>
+          <div class="viur-shop-order-status-text">
+            {{ index + 1 }}.
+            <span class="viur-shop-order-status-span">{{
+              tabs[tab].displayName
+            }}</span>
+          </div>
+        </div>
+        <sl-icon
+          name="chevron-right"
+          class="viur-shop-order-tab-check"
+          v-if="index < state.tabNames.length - 1"
+        ></sl-icon>
+      </sl-tab>
+      <sl-tab-panel
+        class="viur-shop-order-tab-panel"
+        :name="tab"
+        v-for="(tab, index) in state.tabNames"
+        :key="tab"
+      >
+        <component
+          :is="tabs[tab].component"
+          v-bind="tabs[tab].props ? tabs[tab].props : ''"
+          @goToStart="goToStart()"
         >
-          <component
-            :is="tabs[tab].component"
-            v-bind="tabs[tab].props ? tabs[tab].props : ''"
-          >
-          </component>
+        </component>
 
-          <div class="sidebar" v-if="sidebar && index !== state.tabNames.length - 1">
-            <OrderSidebar></OrderSidebar>
-          </div>
+        <div
+          class="sidebar"
+          v-if="sidebar && index !== state.tabNames.length - 1"
+        >
+          <OrderSidebar></OrderSidebar>
+        </div>
 
-          <div
-            class="viur-shop-form-footer"
-            :class="{ 'flex-end': state.isFirstTab(index) }"
-            v-if="index !== state.tabNames.length - 1"
+        <div
+          class="viur-shop-form-footer"
+          :class="{ 'flex-end': state.isFirstTab(index) }"
+          v-if="index !== state.tabNames.length - 1"
+        >
+          <sl-button
+            type="submit"
+            v-show="index !== 0"
+            @click="prevTab(state.tabNames[index - 1])"
           >
-            <sl-button
-              type="submit"
-              v-show="index !== 0"
-              @click="prevTab(state.tabNames[index - 1])"
-            >
-              Zurück
-            </sl-button>
-            <!-- :disabled="!state.requiredFieldsFilled" -->
-            <sl-button
-              type="submit"
-              variant="primary"
-              @click="nextTab(state.tabNames[index + 1])"
-            >
-              Weiter
-            </sl-button>
-          </div>
-        </sl-tab-panel>
-      </sl-tab-group>
-      <div class="viur-shop-sidebar-wrap">
-        <div class="viur-shop-sidebar" id="order_sidebar"></div>
-      </div>
+            Zurück
+          </sl-button>
+          <!-- :disabled="!state.requiredFieldsFilled" -->
+          <sl-button
+            type="submit"
+            variant="primary"
+            @click="nextTab(state.tabNames[index + 1])"
+          >
+            Weiter
+          </sl-button>
+        </div>
+      </sl-tab-panel>
+    </sl-tab-group>
+    <div class="viur-shop-sidebar-wrap">
+      <div class="viur-shop-sidebar" id="order_sidebar"></div>
     </div>
+  </div>
 </template>
 
 <script setup>
@@ -142,6 +146,10 @@ function prevTab(tabName) {
 
 function nextTab(tabName) {
   tabGroup.value.show(tabName);
+}
+
+function goToStart() {
+  tabGroup.value.show(state.tabNames[0]);
 }
 </script>
 

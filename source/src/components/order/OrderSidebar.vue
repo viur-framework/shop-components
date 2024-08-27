@@ -25,6 +25,12 @@
       €
     </div>
     <div class="viur-shop-cart-sidebar-btn-wrap">
+
+      <!-- TODO: Placement of discount? -->
+      <div class="viur-shop-discount-wrap">
+        <Discount></Discount>
+      </div>
+
       <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
       <sl-button size="medium" variant="info">
         <sl-icon name="paypal" slot="prefix"></sl-icon>
@@ -37,6 +43,8 @@
 <script setup>
 import { onBeforeMount } from "vue";
 import { useCartStore } from "../../stores/cart.js";
+import Discount from "../cart/Discount.vue";
+
 const cartStore = useCartStore();
 
 onBeforeMount(() => {

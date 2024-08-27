@@ -32,8 +32,7 @@
       </template>
     </div>
 
-    <!-- TODO: has to be moved to OrderView and optional or dynamic depanding on available vouchers -->
-    <Discount></Discount>
+
     <div class="viur-shop-cart-mobile-footer">
       <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
     </div>
@@ -155,7 +154,6 @@ import Loader from "@viur/vue-utils/generic/Loader.vue";
 import { useCartStore } from "../../stores/cart.js";
 import CartNode from "./CartNode.vue";
 import CartLeaf from "./CartLeaf.vue";
-import Discount from "./Discount.vue";
 
 const props = defineProps({
   mode: { type: String, default: "basket" },

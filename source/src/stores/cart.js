@@ -1,7 +1,7 @@
-import {reactive} from "vue";
-import {Request, ListRequest} from "@viur/vue-utils";
-import {defineStore} from "pinia";
-import {ViURShopClient} from "@viur/viur-shop-client";
+import { reactive } from "vue";
+import { Request, ListRequest } from "@viur/vue-utils";
+import { defineStore } from "pinia";
+import { ViURShopClient } from "@viur/viur-shop-client";
 
 export const useCartStore = defineStore("cartstore", () => {
   const shopClient = new ViURShopClient({
@@ -15,7 +15,7 @@ export const useCartStore = defineStore("cartstore", () => {
     basketRootNode: {},
     whishlistRootNodes: [],
     children: {},
-    structure: {address: {}, cart: {}},
+    structure: { address: {}, cart: {} },
   });
 
   async function init() {
@@ -23,7 +23,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getChildren(parentKey) {
-    return  await shopClient.cart_list({cart_key: parentKey});
+    return await shopClient.cart_list({ cart_key: parentKey });
   }
 
   async function getRootNodes() {
@@ -98,7 +98,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function addDiscount(code) {
-    await shopClient.discount_add({code});
+    await shopClient.discount_add({ code: code, discount_key: undefined });
   }
 
   return {

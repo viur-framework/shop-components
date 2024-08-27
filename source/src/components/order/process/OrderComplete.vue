@@ -9,7 +9,7 @@
       Sie erhalten in wenigen Minuten eine Bestätigung per E-Mail.
 
       <div class="btn-wrap">
-        <sl-button size="medium">
+        <sl-button size="medium" @click="goToStart()">
           Zur Startseite
         </sl-button>
 
@@ -26,14 +26,20 @@
 <script setup>
 const props = defineProps({
   redirectUrl: {
-    type: Object,
+    type: String,
     required: true,
   },
 });
+const emit = defineEmits(["goToStart"]);
+
+function goToStart() {
+  emit("goToStart");
+}
 
 function goToShop() {
-
+  window.location.href = props.redirectUrl
 }
+
 </script>
 
 <style scoped>

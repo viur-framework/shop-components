@@ -1,5 +1,5 @@
 <template>
-  <order-view :tabs="state.tabs" @tabChange="handleTabs" :sidebar="true"/>
+  <order-view :tabs="state.tabs" @tabChange="handleTabs" :sidebar="true" />
 </template>
 
 <script setup>
@@ -64,7 +64,7 @@ const state = reactive({
     // },
     orderComplete: {
       component: shallowRef(OrderComplete),
-      props: {},
+      props: { redirectUrl: "http://localhost:8081" },
       displayName: "Bestellung Abgeschlossen",
       icon: { name: "bag-check" },
       position: 6,
