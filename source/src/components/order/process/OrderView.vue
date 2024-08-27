@@ -1,6 +1,5 @@
 <template>
-  <div class="bind viur-shop-wrap">
-    <div class="cart-wrapper">
+    <div class="bind viur-shop-wrap">
       <sl-tab-group
         class="viur-shop-order-tabgroup"
         noScrollControls
@@ -47,36 +46,38 @@
             v-bind="tabs[tab].props ? tabs[tab].props : ''"
           >
           </component>
+
+          <div class="sidebar" v-if="sidebar && index !== state.tabNames.length - 1">
+            <OrderSidebar></OrderSidebar>
+          </div>
+
+          <div
+            class="viur-shop-form-footer"
+            :class="{ 'flex-end': state.isFirstTab(index) }"
+            v-if="index !== state.tabNames.length - 1"
+          >
+            <sl-button
+              type="submit"
+              v-show="index !== 0"
+              @click="prevTab(state.tabNames[index - 1])"
+            >
+              Zurück
+            </sl-button>
+            <!-- :disabled="!state.requiredFieldsFilled" -->
+            <sl-button
+              type="submit"
+              variant="primary"
+              @click="nextTab(state.tabNames[index + 1])"
+            >
+              Weiter
+            </sl-button>
+          </div>
         </sl-tab-panel>
       </sl-tab-group>
-
-      <div class="viur-shop-sidebar-wrap" v-if="sidebar">
-        <OrderSidebar></OrderSidebar>
-      </div>
-
-      <div
-        class="viur-shop-form-footer"
-        :class="{ 'flex-end': state.isFirstTab(index) }"
-        v-if="index !== state.tabNames.length - 1"
-      >
-        <sl-button
-          type="submit"
-          v-show="index !== 0"
-          @click="prevTab(state.tabNames[index - 1])"
-        >
-          Zurück
-        </sl-button>
-        <!-- :disabled="!state.requiredFieldsFilled" -->
-        <sl-button
-          type="submit"
-          variant="primary"
-          @click="nextTab(state.tabNames[index + 1])"
-        >
-          Weiter
-        </sl-button>
+      <div class="viur-shop-sidebar-wrap">
+        <div class="viur-shop-sidebar" id="order_sidebar"></div>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup>
@@ -171,10 +172,22 @@ function nextTab(tabName) {
   }
 }
 
-.viur-shop-order-tabgroup {
+.viur-shop-sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--shop-sidebar-background);
+  padding: var(--sl-spacing-medium);
+  overflow: hidden;
+  border-radius: var(--sl-border-radius-medium);
+
+  @media (min-width: 1024px) {
+    position: sticky;
+    top: 0;
+    margin-left: var(--sl-spacing-2x-large);
+  }
 }
 
-.cart-wrapper {
+.viur-shop-order-tabgroup {
   display: flex;
   flex-direction: column;
   grid-column: auto / span var(--shop-main-columns);
