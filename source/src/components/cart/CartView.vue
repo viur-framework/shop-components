@@ -31,49 +31,8 @@
         </CartLeaf>
       </template>
     </div>
-<div id="order_sidebar"></div>
-    <teleport to="#order_sidebar" v-if="sidebar">
-      <template v-if="sidebar">
-        <h2 class="viur-shop-cart-sidebar-headline headline">
-          Zusammenfassung
-        </h2>
-        <br/>
 
-
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Zwischensumme</span>
-          {{
-            mode === "basket"
-              ? cartStore.state.basketRootNode.total
-              : cartStore.state.whishlistRootNodes[cartKey].total
-          }}
-          €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Rabatt</span>
-          {{cartStore.state.basketRootNode.total-cartStore.state.basketRootNode.total_discount_price}} €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Versandkosten</span>
-          0 €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line total">
-          <span>Gesamt:</span>
-          <!--{{ cartStore.state.basketRootNode }}-->
-          €
-        </div>
-        <div class="viur-shop-cart-sidebar-btn-wrap">
-          <sl-button variant="primary" size="medium">
-            Jetzt Bestellen
-          </sl-button>
-          <sl-button size="medium" variant="info">
-            <sl-icon name="paypal" slot="prefix"></sl-icon>
-            Paypal
-          </sl-button>
-        </div>
-      </template>
-    </teleport>
-
+    <!-- TODO: has to be moved to OrderView and optional or dynamic depanding on available vouchers -->
     <Discount></Discount>
     <div class="viur-shop-cart-mobile-footer">
       <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
@@ -331,16 +290,6 @@ onBeforeMount(async () => {
   grid-template-columns: subgrid;
 }
 
-.viur-shop-cart-sidebar-btn-wrap {
-  display: flex;
-  flex-direction: column;
-  margin-top: var(--sl-spacing-large);
-
-  sl-button {
-    margin-bottom: var(--sl-spacing-x-small);
-  }
-}
-
 sl-alert {
   margin-top: var(--sl-spacing-medium);
   margin-bottom: var(--sl-spacing-medium);
@@ -359,10 +308,6 @@ sl-alert {
       margin-bottom: 0;
     }
   }
-}
-
-.viur-shop-cart-sidebar-headline {
-  margin: 0 0 var(--sl-spacing-large) 0;
 }
 
 .viur-shop-cart-button-list {
@@ -615,25 +560,6 @@ sl-menu-item {
   padding: 0.4em;
 }
 
-.viur-shop-cart-sidebar-info-line {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  margin: var(--sl-spacing-2x-small) 0;
-
-  &.total {
-    font-weight: 600;
-    border-top: 1px solid var(--sl-color-neutral-300);
-    border-bottom: 1px solid var(--sl-color-neutral-300);
-    padding: var(--sl-spacing-x-small) 0;
-    margin: var(--sl-spacing-small) 0;
-  }
-
-  span {
-    margin-right: auto;
-  }
-}
-
 .viur-shop-cart-card {
   margin-bottom: var(--sl-spacing-x-large);
 
@@ -711,7 +637,7 @@ sl-menu-item {
   margin-left: auto;
 }
 
-.viur-shop-cart-mobile-footer{
+.viur-shop-cart-mobile-footer {
   display: none;
 }
 </style>

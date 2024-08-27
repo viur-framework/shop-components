@@ -1,5 +1,5 @@
 <template>
-  <order-view :tabs="state.tabs" @tabChange="handleTabs" />
+  <order-view :tabs="state.tabs" @tabChange="handleTabs" :sidebar="true"/>
 </template>
 
 <script setup>
@@ -31,7 +31,7 @@ const state = reactive({
         cartKey: rootNode,
       }, // cartKey (on initial call has to be a root node) is a required prop, make sure that cartStore.init() is called before cart is mounted
       displayName: "Warenkorb",
-      icon: { name: "bag" },
+      // icon: { name: "bag" },
       position: 2,
       disabled: false,
       atShow: null,
@@ -41,7 +41,7 @@ const state = reactive({
       component: shallowRef(ConfirmView),
       props: {},
       displayName: "Bestellung prüfen",
-      icon: { name: "clipboard-check" },
+      // icon: { name: "clipboard-check" },
       position: 5,
       disabled: false,
       atShow: null,
