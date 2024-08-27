@@ -14,6 +14,7 @@ import OrderComplete from "./OrderComplete.vue";
 import UserInformation from "../information/UserInformation.vue";
 import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";
+import OrderTabHeader from "./OrderTabHeader.vue";
 
 const cartStore = useCartStore();
 
@@ -64,7 +65,27 @@ const state = reactive({
     // },
     orderComplete: {
       component: shallowRef(OrderComplete),
-      props: { redirectUrl: "http://localhost:8081" },
+      props: {
+        redirectUrl: "http://localhost:8081",
+        additionalComponents: [
+          {
+            component: shallowRef(OrderTabHeader),
+            props: {},
+          },
+          {
+            component: shallowRef(OrderTabHeader),
+            props: { a: "TERRT" },
+          },
+          {
+            component: shallowRef(CartView),
+            props: {
+              sidebar: true,
+              mode: "basket",
+              cartKey: rootNode,
+            },
+          },
+        ],
+      },
       displayName: "Bestellung Abgeschlossen",
       icon: { name: "bag-check" },
       position: 6,
