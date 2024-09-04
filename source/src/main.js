@@ -8,6 +8,10 @@ import Wrapper_nested from "@viur/vue-utils/bones/edit/wrapper_nested.vue";
 import CartView from "./components/cart/CartView.vue";
 import ExampleUsage from "./components/order/process/ExampleUsage.vue";
 import ConfirmView from "./components/cart/ConfirmView.vue";
+import OrderComplete from "./components/order/process/OrderComplete.vue";
+import UserInformation from "./components/order/information/UserInformation.vue";
+import OrderView from "./components/order/process/OrderView.vue";
+import SelectPaymentProvider from "./components/order/process/SelectPaymentProvider.vue";
 import { useCartStore } from "./stores/cart";
 import createRouterInstance from "./router/index";
 import { createPinia } from 'pinia'
@@ -16,6 +20,10 @@ export {
   CartView,
   ExampleUsage,
   ConfirmView,
+  OrderComplete,
+  UserInformation,
+  OrderView,
+  SelectPaymentProvider,
   useCartStore,
   createRouterInstance,
 };

@@ -16,6 +16,7 @@ export const useCartStore = defineStore("cartstore", () => {
     whishlistRootNodes: [],
     children: {},
     structure: {address: {}, cart: {}},
+    paymentProviders:{},
   });
 
   async function init() {
@@ -100,6 +101,13 @@ export const useCartStore = defineStore("cartstore", () => {
   async function addDiscount(code) {
     await shopClient.discount_add({code});
   }
+  async function payment_providers_list()
+  {
+    const paymentProvieders=await shopClient.payment_providers_list();
+    console.log(paymentProvieders);
+    state.paymentProviders=paymentProvieders;
+
+  }
 
   return {
     state,
@@ -111,5 +119,6 @@ export const useCartStore = defineStore("cartstore", () => {
     getAdressStructure,
     getChildren,
     addDiscount,
+    payment_providers_list,
   };
 });
