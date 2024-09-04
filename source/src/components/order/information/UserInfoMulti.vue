@@ -389,8 +389,9 @@ watch(state.formValues, (newValues) => {
 });
 
 onBeforeMount(async () => {
-  await cartStore.getAdressStructure();
+  await cartStore.getAddressStructure();
   state.addSkel = structToDict(cartStore.state.structure.address);
+
 });
 </script>
 
