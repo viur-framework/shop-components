@@ -104,7 +104,7 @@ function handleTabs(e) {
 
 onBeforeMount(async () => {
   await cartStore.init();
-  await cartStore.getAdressStructure();
+  await cartStore.getAddressStructure();
 
   console.log("debug init exampleusage :", cartStore.state.basketRootNode);
 });
