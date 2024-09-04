@@ -208,14 +208,14 @@
 </template>
 
 <script setup>
-import { getBoneWidget } from "@viur/vue-utils/bones/edit/index";
+import {getBoneWidget} from "@viur/vue-utils/bones/edit/index";
 
-import { reactive, computed, watch, onBeforeMount } from "vue";
-import { useCartStore } from "../../../stores/cart";
+import {reactive, computed, watch, onBeforeMount} from "vue";
+import {useCartStore} from "../../../stores/cart";
 
 const props = defineProps({
-  mode: { type: String, default: "form" },
-  conditions: { type: Function },
+  mode: {type: String, default: "form"},
+  conditions: {type: Function},
 });
 
 const cartStore = useCartStore();
@@ -258,8 +258,7 @@ function sendData(e) {
 }
 
 function onCustomAdressChange(e) {
-  if (e.target.checked) state.isCustomAdress = false;
-  if (!e.target.checked) state.isCustomAdress = true;
+  state.isCustomAdress = !e.target.checked;
 }
 
 function changeEvent(boneName, ev) {
@@ -306,21 +305,24 @@ watch(state.formValues, (newValues) => {
 });
 
 onBeforeMount(async () => {
-  await cartStore.getAdressStructure();
+  await cartStore.getAddressStructure();
+  await cartStore.getAddress()
   state.addSkel = structToDict(cartStore.state.structure.address);
+  state.formValues=cartStore.state.shippingAddress;
+
 });
 </script>
 
 <style scoped>
-:deep(.bone-name){
+:deep(.bone-name) {
   box-sizing: border-box;
 }
 
-.viur-shop-form-bill-check{
+.viur-shop-form-bill-check {
   margin: var(--sl-spacing-medium) 0;
 }
 
-.viur-shop-form-headline{
+.viur-shop-form-headline {
   margin: 0 0 var(--sl-spacing-x-large) 0;
   font-size: var(--shop-form-headline-size);
 }

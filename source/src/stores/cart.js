@@ -17,6 +17,9 @@ export const useCartStore = defineStore("cartstore", () => {
     children: {},
     structure: {address: {}, cart: {}},
     paymentProviders:{},
+    billingAddress:{},
+    shippingAddress:{}
+
   });
 
   async function init() {
@@ -84,18 +87,24 @@ export const useCartStore = defineStore("cartstore", () => {
   //   await getChildren(cartKey);
   // }
 
-  async function getAdressStructure() {
-    let addSkel = await shopClient.address_structure();
-    state.structure.address = addSkel.addSkel;
+  async function getAddressStructure() {
+    const structure = await shopClient.address_structure();
+    state.structure.address = structure.addSkel;
 
-    console.log("adress add", state.structure.address);
-
-    // Request.getStructure("shop.address").then(async (resp) => {
-    //   let data = await resp.json();
-    //   state.structure.address = data.addSkel;
-
-    //   console.log("adress add", state.structure.address);
-    // });
+  }
+  async function getAddress() {
+    const addressList = await shopClient.address_list();
+    for(const address of addressList)
+    {
+      if(address.address_type==="billing")
+      {
+        state.billingAddress=address;
+      }
+      if(address.address_type==="shipping")
+      {
+        state.shippingAddress=address;
+      }
+    }
   }
 
   async function addDiscount(code) {
@@ -116,9 +125,11 @@ export const useCartStore = defineStore("cartstore", () => {
     removeItem,
     updateItem,
     init,
-    getAdressStructure,
+    getAddressStructure,
     getChildren,
     addDiscount,
     payment_providers_list,
+    getAddress
+
   };
 });

@@ -1,8 +1,8 @@
 import { reactive as se, onBeforeMount as ie, openBlock as re, createElementBlock as oe, Fragment as ne, createElementVNode as g, toDisplayString as dt, withModifiers as ae, createTextVNode as Ht, createVNode as le, pushScopeId as ce, popScopeId as he } from "vue";
 import { Request as ut } from "@viur/vue-utils";
 import { useRoute as de } from "vue-router";
-import { I as ue } from "./ItemCard.c5357afb.mjs";
-import { _ as pe } from "./main.985870b8.mjs";
+import { I as ue } from "./ItemCard.fbbf3add.mjs";
+import { _ as pe } from "./main.e8180cb9.mjs";
 import "pinia";
 import "@viur/ckeditor5-build-classic";
 import "@viur/viur-shop-client";
