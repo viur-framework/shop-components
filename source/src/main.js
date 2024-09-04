@@ -1,4 +1,6 @@
 // import "vue"
+import { useCartStore } from "./stores/cart";
+import { createPinia } from "pinia";
 
 // import { createApp } from "vue";
 import bone from "@viur/vue-utils/bones/edit/bone.vue";
@@ -11,12 +13,8 @@ import OrderView from "./components/order/process/OrderView.vue";
 import ConfirmView from "./components/cart/ConfirmView.vue";
 import OrderComplete from "./components/order/process/OrderComplete.vue";
 import UserInformation from "./components/order/information/UserInformation.vue";
-import { useCartStore } from "./stores/cart";
-import createRouterInstance from "./router/index";
-import { createPinia } from "pinia";
-import OrderComplete from "./components/order/process/OrderComplete.vue";
 import UserInfoMulti from "./components/order/information/UserInfoMulti.vue";
-import UserInformation from "./components/order/information/UserInformation.vue";
+import createRouterInstance from "./router/index";
 
 // Export the components so they can be used in other projects
 export  {

@@ -1,18 +1,8 @@
 import { reactive as p, computed as m, onMounted as f, openBlock as a, createElementBlock as i, createElementVNode as o, toDisplayString as g, renderSlot as _, createTextVNode as h, createCommentVNode as k, Fragment as y, renderList as v, createBlock as w, pushScopeId as I, popScopeId as S } from "vue";
-<<<<<<<< HEAD:source/dist/CategoryView-nJDwLgRu.mjs
-import { _ as C, u as b } from "./main-vmty-lkE.mjs";
+import { _ as C, u as b } from "./main-BdklbDSE.mjs";
 import { useRoute as x } from "vue-router";
 import "@viur/vue-utils";
-import { I as L } from "./ItemCard-CNrjb8dd.mjs";
-========
-import { _ as C, u as b } from "./main.2112cca4.mjs";
-import { useRoute as x } from "vue-router";
-import "@viur/vue-utils";
-import { I as L } from "./ItemCard.357a3cca.mjs";
-import "pinia";
-import "@viur/ckeditor5-build-classic";
-import "@viur/viur-shop-client";
->>>>>>>> 3950c689a016d3f85d9f6281cf6439067c21ab0b:source/dist/CategoryView.21b12699.mjs
+import { I as L } from "./ItemCard-Bar-h53G.mjs";
 const V = (t) => (I("data-v-532e5cf3"), t = t(), S(), t), B = {
   key: 0,
   class: "viur-shop-loading-wrap"
@@ -64,7 +54,7 @@ const V = (t) => (I("data-v-532e5cf3"), t = t(), S(), t), B = {
       }, " Mehr anzeigen ", 8, A)
     ]));
   }
-}, K = /* @__PURE__ */ C(j, [["__scopeId", "data-v-532e5cf3"]]);
+}, $ = /* @__PURE__ */ C(j, [["__scopeId", "data-v-532e5cf3"]]);
 export {
-  K as default
+  $ as default
 };

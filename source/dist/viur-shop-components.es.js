@@ -1,19 +1,14 @@
-import { C as t, b as o, a as i, d as m, O as n, U as f, e as p, c as u, V as C, u as d } from "./main-vmty-lkE.mjs";
-import "vue";
+import { C as t, b as o, a as i, O as m, d as n, U as p, c as C, V as d, u as f } from "./main-BdklbDSE.mjs";
 import "pinia";
-import "@viur/ckeditor5-build-classic";
-import "@viur/vue-utils";
-import "@viur/viur-shop-client";
-import "vue-router";
+import "vue";
 export {
   t as CartView,
   o as ConfirmView,
   i as ExampleUsage,
   m as OrderComplete,
   n as OrderView,
-  f as UserInfoMulti,
   p as UserInformation,
-  u as createRouterInstance,
-  C as default,
-  d as useCartStore
+  C as createRouterInstance,
+  d as default,
+  f as useCartStore
 };
