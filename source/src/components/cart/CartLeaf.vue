@@ -1,11 +1,12 @@
 <template>
+  {{ state.leaf.shop_image }}
+
   <sl-card horizontal class="viur-shop-cart-leaf">
     <img
       class="viur-shop-cart-leaf-image"
       slot="image"
       :src="getImage(state.leaf.shop_image ? state.leaf.shop_image : undefined)"
     />
-    {{ state.leaf.shop_image }}
     <h4 class="viur-shop-cart-leaf-headline headline">
       {{ state.leaf.shop_name }}
     </h4>

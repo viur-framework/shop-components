@@ -2328,7 +2328,7 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
   setup(e) {
     return w({}), (n, t) => (m(), f("pre", null, O(e.node.name), 1));
   }
-}, he = (e) => (z("data-v-4af59b39"), e = e(), q(), e), ha = {
+}, he = (e) => (z("data-v-fb19a918"), e = e(), q(), e), ha = {
   horizontal: "",
   class: "viur-shop-cart-leaf"
 }, ba = ["src"], pa = { class: "viur-shop-cart-leaf-headline headline" }, va = { class: "viur-shop-cart-leaf-artno" }, ya = ["innerHTML"], $a = { class: "viur-shop-cart-leaf-quantity" }, Sa = { class: "viur-shop-cart-leaf-unitprice" }, _a = /* @__PURE__ */ he(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-leaf-label" }, "Stückpreis", -1)), ka = ["value"], wa = { class: "viur-shop-cart-leaf-actions" }, Ea = /* @__PURE__ */ he(() => /* @__PURE__ */ i("sl-button", {
@@ -2374,71 +2374,73 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
     }
     return ee(() => {
       a.leaf = t.leaf;
-    }), (r, d) => (m(), f("sl-card", ha, [
-      i("img", {
-        class: "viur-shop-cart-leaf-image",
-        slot: "image",
-        src: o(a.leaf.shop_image ? a.leaf.shop_image : void 0)
-      }, null, 8, ba),
-      C(" " + O(a.leaf.shop_image) + " ", 1),
-      i("h4", pa, O(a.leaf.shop_name), 1),
-      i("h5", va, O(a.leaf.shop_art_no_or_gtin), 1),
-      i("div", {
-        class: "viur-shop-cart-leaf-description",
-        innerHTML: a.leaf.shop_description
-      }, null, 8, ya),
-      i("div", $a, [
-        Q(i("sl-input", {
-          class: "viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity",
-          type: "number",
-          label: "Anzahl",
-          placeholder: "Number",
-          min: "0",
-          "onUpdate:modelValue": d[0] || (d[0] = (c) => a.leaf.quantity = c),
-          onInput: d[1] || (d[1] = (c) => s(
-            a.leaf,
-            a.leaf.article.dest.key,
-            e.node,
-            a.leaf.quantity
-          ))
-        }, null, 544), [
-          [oe, a.leaf.quantity]
+    }), (r, d) => (m(), f(E, null, [
+      C(O(a.leaf.shop_image) + " ", 1),
+      i("sl-card", ha, [
+        i("img", {
+          class: "viur-shop-cart-leaf-image",
+          slot: "image",
+          src: o(a.leaf.shop_image ? a.leaf.shop_image : void 0)
+        }, null, 8, ba),
+        i("h4", pa, O(a.leaf.shop_name), 1),
+        i("h5", va, O(a.leaf.shop_art_no_or_gtin), 1),
+        i("div", {
+          class: "viur-shop-cart-leaf-description",
+          innerHTML: a.leaf.shop_description
+        }, null, 8, ya),
+        i("div", $a, [
+          Q(i("sl-input", {
+            class: "viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity",
+            type: "number",
+            label: "Anzahl",
+            placeholder: "Number",
+            min: "0",
+            "onUpdate:modelValue": d[0] || (d[0] = (c) => a.leaf.quantity = c),
+            onInput: d[1] || (d[1] = (c) => s(
+              a.leaf,
+              a.leaf.article.dest.key,
+              e.node,
+              a.leaf.quantity
+            ))
+          }, null, 544), [
+            [oe, a.leaf.quantity]
+          ])
+        ]),
+        i("div", Sa, [
+          _a,
+          i("sl-format-number", {
+            class: "viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice",
+            lang: "de",
+            type: "currency",
+            currency: "EUR",
+            value: e.leaf.price.retail
+          }, null, 8, ka)
+        ]),
+        i("div", wa, [
+          Ea,
+          i("sl-button", {
+            size: "small",
+            outline: "",
+            class: "viur-shop-cart-leaf-delete-btn",
+            variant: "primary",
+            title: "Remove from cart",
+            onClick: d[2] || (d[2] = (c) => u(a.leaf, a.leaf.article.dest.key, e.node))
+          }, Ia)
+        ]),
+        i("div", Ca, [
+          Oa,
+          i("sl-format-number", {
+            class: "viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price",
+            lang: "de",
+            type: "currency",
+            currency: "EUR",
+            value: e.leaf.price.retail * e.leaf.quantity
+          }, null, 8, ja)
         ])
-      ]),
-      i("div", Sa, [
-        _a,
-        i("sl-format-number", {
-          class: "viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice",
-          lang: "de",
-          type: "currency",
-          currency: "EUR",
-          value: e.leaf.price.retail
-        }, null, 8, ka)
-      ]),
-      i("div", wa, [
-        Ea,
-        i("sl-button", {
-          size: "small",
-          outline: "",
-          class: "viur-shop-cart-leaf-delete-btn",
-          variant: "primary",
-          title: "Remove from cart",
-          onClick: d[2] || (d[2] = (c) => u(a.leaf, a.leaf.article.dest.key, e.node))
-        }, Ia)
-      ]),
-      i("div", Ca, [
-        Oa,
-        i("sl-format-number", {
-          class: "viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price",
-          lang: "de",
-          type: "currency",
-          currency: "EUR",
-          value: e.leaf.price.retail * e.leaf.quantity
-        }, null, 8, ja)
       ])
-    ]));
+    ], 64));
   }
-}, Da = /* @__PURE__ */ I(Ba, [["__scopeId", "data-v-4af59b39"]]), Va = /* @__PURE__ */ i("sl-icon", {
+}, Da = /* @__PURE__ */ I(Ba, [["__scopeId", "data-v-fb19a918"]]), Va = /* @__PURE__ */ i("sl-icon", {
   slot: "icon",
   name: "info-circle"
 }, null, -1), Na = { key: 0 }, Ra = { key: 0 }, La = { key: 1 }, Ua = {
@@ -3274,12 +3276,12 @@ const ir = /* @__PURE__ */ I(lr, [["render", or]]), ur = [
   {
     path: "/shop/category/:identifier",
     name: "CategoryView",
-    component: () => import("./CategoryView-BiVIJOXD.mjs")
+    component: () => import("./CategoryView-DjiWOtDv.mjs")
   },
   {
     path: "/shop/item/:item",
     name: "itemView",
-    component: () => import("./ItemView-mnJ_kfqo.mjs")
+    component: () => import("./ItemView-D09PSXXy.mjs")
   },
   {
     path: "/shop/cart/view",
