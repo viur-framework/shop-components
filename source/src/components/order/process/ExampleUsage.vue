@@ -1,5 +1,5 @@
 <template>
-  <order-view :tabs="state.tabs" @tabChange="handleTabs" />
+  <order-view :tabs="state.tabs" @tabChange="handleTabs" :sidebar="true" />
 </template>
 
 <script setup>
@@ -14,6 +14,7 @@ import OrderComplete from "./OrderComplete.vue";
 import UserInformation from "../information/UserInformation.vue";
 import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";
+import OrderTabHeader from "./OrderTabHeader.vue";
 
 const cartStore = useCartStore();
 
@@ -31,7 +32,7 @@ const state = reactive({
         cartKey: rootNode,
       }, // cartKey (on initial call has to be a root node) is a required prop, make sure that cartStore.init() is called before cart is mounted
       displayName: "Warenkorb",
-      icon: { name: "bag" },
+      // icon: { name: "bag" },
       position: 2,
       disabled: false,
       atShow: null,
@@ -41,7 +42,7 @@ const state = reactive({
       component: shallowRef(ConfirmView),
       props: {},
       displayName: "Bestellung prüfen",
-      icon: { name: "clipboard-check" },
+      // icon: { name: "clipboard-check" },
       position: 5,
       disabled: false,
       atShow: null,
@@ -64,7 +65,27 @@ const state = reactive({
     // },
     orderComplete: {
       component: shallowRef(OrderComplete),
-      props: {},
+      props: {
+        redirectUrl: "http://localhost:8081",
+        additionalComponents: [
+          {
+            component: shallowRef(OrderTabHeader),
+            props: {},
+          },
+          {
+            component: shallowRef(OrderTabHeader),
+            props: { a: "TERRT" },
+          },
+          {
+            component: shallowRef(CartView),
+            props: {
+              sidebar: true,
+              mode: "basket",
+              cartKey: rootNode,
+            },
+          },
+        ],
+      },
       displayName: "Bestellung Abgeschlossen",
       icon: { name: "bag-check" },
       position: 6,
