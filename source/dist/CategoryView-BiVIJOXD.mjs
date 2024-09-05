@@ -1,8 +1,8 @@
 import { reactive as p, computed as m, onMounted as f, openBlock as a, createElementBlock as i, createElementVNode as o, toDisplayString as g, renderSlot as _, createTextVNode as h, createCommentVNode as k, Fragment as y, renderList as v, createBlock as w, pushScopeId as I, popScopeId as S } from "vue";
-import { _ as C, u as b } from "./main-BdklbDSE.mjs";
+import { _ as C, u as b } from "./main-BaPaI0ko.mjs";
 import { useRoute as x } from "vue-router";
 import "@viur/vue-utils";
-import { I as L } from "./ItemCard-Bar-h53G.mjs";
+import { I as L } from "./ItemCard-Ct6xSA_T.mjs";
 const V = (t) => (I("data-v-532e5cf3"), t = t(), S(), t), B = {
   key: 0,
   class: "viur-shop-loading-wrap"

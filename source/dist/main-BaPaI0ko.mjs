@@ -1,7 +1,7 @@
 var st = Object.defineProperty;
 var at = (e, n, t) => n in e ? st(e, n, { enumerable: !0, configurable: !0, writable: !0, value: t }) : e[n] = t;
 var Ce = (e, n, t) => at(e, typeof n != "symbol" ? n + "" : n, t);
-import { reactive as w, defineComponent as D, inject as O, openBlock as m, createElementBlock as f, normalizeClass as Z, createElementVNode as i, renderSlot as Ze, pushScopeId as z, popScopeId as q, Fragment as E, createCommentVNode as _, toDisplayString as j, onMounted as R, ref as F, readonly as lt, getCurrentScope as rt, onScopeDispose as ot, unref as U, computed as k, watchEffect as me, renderList as T, watch as se, withDirectives as Q, vModelText as oe, getCurrentInstance as it, resolveComponent as ae, createBlock as P, vShow as ve, withModifiers as ce, createTextVNode as C, shallowRef as G, provide as ue, onBeforeMount as ee, useCssVars as ut, Transition as dt, withCtx as ct, createVNode as Oe, Teleport as Je, resolveDynamicComponent as mt, mergeProps as ft } from "vue";
+import { reactive as w, defineComponent as D, inject as j, openBlock as m, createElementBlock as f, normalizeClass as Z, createElementVNode as i, renderSlot as Ze, pushScopeId as z, popScopeId as q, Fragment as E, createCommentVNode as _, toDisplayString as O, onMounted as R, ref as F, readonly as lt, getCurrentScope as rt, onScopeDispose as ot, unref as U, computed as k, watchEffect as me, renderList as T, watch as se, withDirectives as Q, vModelText as oe, getCurrentInstance as it, resolveComponent as ae, createBlock as P, vShow as ve, withModifiers as ce, createTextVNode as C, shallowRef as G, provide as ue, onBeforeMount as ee, useCssVars as ut, Transition as dt, withCtx as ct, createVNode as Oe, Teleport as Je, resolveDynamicComponent as mt, mergeProps as ft } from "vue";
 import { Request as gt } from "@viur/vue-utils";
 import { defineStore as $e, createPinia as ht } from "pinia";
 import { ViURShopClient as bt } from "@viur/viur-shop-client";
@@ -91,7 +91,7 @@ const le = $e("cartstore", () => {
   components: {},
   emits: ["change", "delete", "handleDragStart", "handleDragEnd", "handleDragOver", "handleDrop"],
   setup(e, n) {
-    const t = O("boneState");
+    const t = j("boneState");
     return {
       state: w({
         isDraggable: !1
@@ -158,7 +158,7 @@ const jt = /* @__PURE__ */ I($t, [["render", Ot], ["__scopeId", "data-v-141aaf9b
   components: {},
   emits: ["change", "handleClick"],
   setup(e, n) {
-    const t = O("boneState");
+    const t = j("boneState");
     return {
       state: w({
         debug: !1
@@ -174,8 +174,8 @@ function Rt(e, n, t, l, a, o) {
       _("", !0)
     ]),
     e.state.debug ? (m(), f("div", Vt, [
-      i("div", Nt, j(e.name), 1),
-      i("pre", null, "    " + j(e.boneState) + `
+      i("div", Nt, O(e.name), 1),
+      i("pre", null, "    " + O(e.boneState) + `
     `, 1)
     ])) : _("", !0)
   ], 64);
@@ -191,7 +191,7 @@ const Lt = /* @__PURE__ */ I(Bt, [["render", Rt], ["__scopeId", "data-v-b7149172
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({});
+    const t = j("boneState"), l = w({});
     function a(o) {
       n.emit("change", e.name, o.target.value, e.lang, e.index);
     }
@@ -334,7 +334,7 @@ const Zt = D({
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       value: k(() => e.value)
     }), a = F(null);
     function o(s) {
@@ -380,7 +380,7 @@ const Be = /* @__PURE__ */ I(Zt, [["render", Qt], ["__scopeId", "data-v-1ccbacc0
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({}), a = F(null);
+    const t = j("boneState"), l = w({}), a = F(null);
     function o(s) {
       n.emit("change", e.name, s.target.value, e.lang, e.index);
     }
@@ -421,7 +421,7 @@ const De = /* @__PURE__ */ I(Yt, [["render", xt], ["__scopeId", "data-v-4328e024
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       value: k(() => {
         var s;
         let o = e.value;
@@ -463,7 +463,7 @@ const Ve = /* @__PURE__ */ I(en, [["render", nn], ["__scopeId", "data-v-f1b8af8c
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       value: k(() => {
         let s = e.value;
         return Array.isArray(e.value) ? (t.bonestructure.values instanceof Array ? s = s.filter((u) => t.bonestructure.values.map((r) => r[0].toString()).includes(u)) : s = s.filter(
@@ -507,7 +507,7 @@ function rn(e, n, t, l, a, o) {
     (m(!0), f(E, null, T(e.convertObjToList(), (s) => (m(), f("sl-option", {
       key: s[0],
       value: s[0]
-    }, j(s[1]), 9, ln))), 128))
+    }, O(s[1]), 9, ln))), 128))
   ], 40, an);
 }
 const Ne = /* @__PURE__ */ I(sn, [["render", rn], ["__scopeId", "data-v-5a38b97f"]]), on = D({
@@ -521,7 +521,7 @@ const Ne = /* @__PURE__ */ I(sn, [["render", rn], ["__scopeId", "data-v-5a38b97f
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       value: k(() => ![!1, null, void 0, ""].includes(e.value))
     });
     function a(o) {
@@ -556,7 +556,7 @@ const Re = /* @__PURE__ */ I(on, [["render", dn], ["__scopeId", "data-v-363598c8
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       value1: "",
       value2: null,
       equal: !1,
@@ -635,11 +635,11 @@ function bn(e, n, t, l, a, o) {
       [oe, e.state.value2]
     ]),
     i("ul", hn, [
-      (m(!0), f(E, null, T(e.state.passwordInfo, (s, u) => (m(), f("li", { key: u }, j(s), 1))), 128)),
+      (m(!0), f(E, null, T(e.state.passwordInfo, (s, u) => (m(), f("li", { key: u }, O(s), 1))), 128)),
       (m(!0), f(E, null, T(e.state.requiredPasswordInfo, (s, u) => (m(), f("li", {
         key: u,
         class: "requiredInfo"
-      }, j(s), 1))), 128))
+      }, O(s), 1))), 128))
     ])
   ], 64);
 }
@@ -654,7 +654,7 @@ const Le = /* @__PURE__ */ I(cn, [["render", bn], ["__scopeId", "data-v-0ccf18c0
   },
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       value: k(() => e.value),
       structure: k(() => s(t.bonestructure.using)),
       globalRegistration: !1,
@@ -755,7 +755,7 @@ const Ye = /* @__PURE__ */ I(pn, [["render", Sn], ["__scopeId", "data-v-e6fcfbca
   components: { Wrapper_nested: Ye },
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       value: {},
       index: k(() => e.index),
       lang: k(() => e.lang)
@@ -796,7 +796,7 @@ const Ue = /* @__PURE__ */ I(_n, [["render", kn], ["__scopeId", "data-v-84a761ce
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({});
+    const t = j("boneState"), l = w({});
     function a(o) {
       n.emit("change", e.name, o.target.value, e.lang, e.index);
     }
@@ -828,7 +828,7 @@ const Te = /* @__PURE__ */ I(wn, [["render", An], ["__scopeId", "data-v-534b9149
   },
   components: {},
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       minAmount: k(() => t.bonestructure.minAmount),
       maxAmount: k(() => t.bonestructure.maxAmount),
       precision: k(() => {
@@ -870,9 +870,9 @@ function Vn(e, n, t, l, a, o) {
       onKeyup: n[1] || (n[1] = (...s) => e.changeEvent && e.changeEvent(...s))
     }, null, 40, Cn),
     i("ul", On, [
-      e.state.minAmount !== -9223372036854776e3 && e.state.minAmount ? (m(), f("li", jn, j(e.$t("bones.numeric.min", { val: e.state.minAmount })), 1)) : _("", !0),
-      e.state.maxAmount !== 9223372036854776e3 && e.state.maxAmount ? (m(), f("li", Bn, j(e.$t("bones.numeric.max", { val: e.state.maxAmount })), 1)) : _("", !0),
-      e.state.precision ? (m(), f("li", Dn, j(e.$t("bones.numeric.precision", { val: e.boneState.bonestructure.precision })), 1)) : _("", !0)
+      e.state.minAmount !== -9223372036854776e3 && e.state.minAmount ? (m(), f("li", jn, O(e.$t("bones.numeric.min", { val: e.state.minAmount })), 1)) : _("", !0),
+      e.state.maxAmount !== 9223372036854776e3 && e.state.maxAmount ? (m(), f("li", Bn, O(e.$t("bones.numeric.max", { val: e.state.maxAmount })), 1)) : _("", !0),
+      e.state.precision ? (m(), f("li", Dn, O(e.$t("bones.numeric.precision", { val: e.boneState.bonestructure.precision })), 1)) : _("", !0)
     ])
   ], 64);
 }
@@ -1167,7 +1167,7 @@ const Rn = D({
   components: { Wrapper_nested: Ye },
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = O("formatString"), a = w({
+    const t = j("boneState"), l = j("formatString"), a = w({
       format: k(() => t == null ? void 0 : t.bonestructure.format),
       skellistdata: null,
       selection: null
@@ -1261,7 +1261,7 @@ const Me = /* @__PURE__ */ I(Rn, [["render", Fn], ["__scopeId", "data-v-61dd72e0
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({});
+    const t = j("boneState"), l = w({});
     function a(o, s) {
       n.emit("change", e.name, o, e.lang, e.index);
     }
@@ -1275,7 +1275,7 @@ const Me = /* @__PURE__ */ I(Rn, [["render", Fn], ["__scopeId", "data-v-61dd72e0
   }
 }), Hn = { class: "box" };
 function Gn(e, n, t, l, a, o) {
-  return m(), f("div", Hn, j(e.value), 1);
+  return m(), f("div", Hn, O(e.value), 1);
 }
 const Zn = /* @__PURE__ */ I(Kn, [["render", Gn], ["__scopeId", "data-v-343aca69"]]);
 var We = { BASE_URL: "/", MODE: "production", DEV: !1, PROD: !0, SSR: !1 };
@@ -1290,7 +1290,7 @@ const Jn = D({
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = F(), a = w({
+    const t = j("boneState"), l = F(), a = w({
       loading: !1,
       droparea: !1,
       previewopen: !1
@@ -1441,7 +1441,7 @@ function ps(e, n, t, l, a, o) {
       ])) : (m(), f("div", cs, [
         (h = (c = e.value) == null ? void 0 : c.dest) != null && h.name ? (m(), f("sl-icon", ms)) : _("", !0)
       ])),
-      (b = (v = e.value) == null ? void 0 : v.dest) != null && b.name ? (m(), f("div", fs, j(decodeURIComponent((g = ($ = e.value) == null ? void 0 : $.dest) == null ? void 0 : g.name)), 1)) : _("", !0)
+      (b = (v = e.value) == null ? void 0 : v.dest) != null && b.name ? (m(), f("div", fs, O(decodeURIComponent((g = ($ = e.value) == null ? void 0 : $.dest) == null ? void 0 : g.name)), 1)) : _("", !0)
     ]),
     e.boneState.multiple ? _("", !0) : (m(), f("sl-button", {
       key: 4,
@@ -1464,7 +1464,7 @@ const ze = /* @__PURE__ */ I(Jn, [["render", ps], ["__scopeId", "data-v-91086308
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       value: "",
       editorConfig: {},
       editor: k(() => ClassicEditor)
@@ -1530,7 +1530,7 @@ const qe = /* @__PURE__ */ I(vs, [["render", $s]]), Ss = D({
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       valueLat: null,
       valueLng: null
     });
@@ -1596,10 +1596,10 @@ const Fe = /* @__PURE__ */ I(Ss, [["render", ws], ["__scopeId", "data-v-7bc31020
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = w({
+    const t = j("boneState"), l = w({
       counter: 0,
       debounce: null
-    }), a = O("addMultipleEntry"), o = O("removeMultipleEntries");
+    }), a = j("addMultipleEntry"), o = j("removeMultipleEntries");
     function s() {
       l.counter += 1;
       let r = 200;
@@ -1653,9 +1653,9 @@ function Ds(e, n, t, l, a, o) {
       onClick: n[1] || (n[1] = (s) => e.handleAdd(e.lang))
     }, [
       Bs,
-      C(" " + j(e.$t("bone.add")) + " ", 1),
+      C(" " + O(e.$t("bone.add")) + " ", 1),
       e.state.counter > 1 ? (m(), f(E, { key: 0 }, [
-        C("(" + j(e.state.counter) + ")", 1)
+        C("(" + O(e.state.counter) + ")", 1)
       ], 64)) : _("", !0)
     ], 8, js)) : _("", !0)
   ]);
@@ -1674,7 +1674,7 @@ const Rs = D({
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = O("addMultipleEntry"), a = O("formatString"), o = null, s = w({
+    const t = j("boneState"), l = j("addMultipleEntry"), a = j("formatString"), o = null, s = w({
       skels: {},
       hasUsing: k(() => t == null ? void 0 : t.bonestructure.using)
     });
@@ -1737,7 +1737,7 @@ function qs(e, n, t, l, a, o) {
       onClick: n[2] || (n[2] = (s) => e.addMultipleEntry(e.lang))
     }, [
       zs,
-      C(" " + j(e.$t("bone.list")), 1)
+      C(" " + O(e.$t("bone.list")), 1)
     ], 8, Ws)) : _("", !0)
   ]);
 }
@@ -1755,8 +1755,8 @@ const Ks = D({
   components: {},
   emits: ["change"],
   setup(e, n) {
-    const t = O("boneState"), l = O("addMultipleEntry");
-    O("formatString");
+    const t = j("boneState"), l = j("addMultipleEntry");
+    j("formatString");
     const a = null, o = F(), s = w({
       skels: {},
       uploadinput: null,
@@ -1886,7 +1886,7 @@ function sa(e, n, t, l, a, o) {
       onClick: n[3] || (n[3] = (s) => e.uploadinput.click())
     }, [
       ta,
-      C(" " + j(e.$t("bone.upload")) + " ", 1),
+      C(" " + O(e.$t("bone.upload")) + " ", 1),
       e.state.loading ? (m(), f("sl-spinner", na)) : _("", !0)
     ], 8, ea)) : _("", !0)
   ], 32);
@@ -2326,9 +2326,9 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
     node: { type: Object, required: !0 }
   },
   setup(e) {
-    return w({}), (n, t) => (m(), f("pre", null, j(e.node.name), 1));
+    return w({}), (n, t) => (m(), f("pre", null, O(e.node.name), 1));
   }
-}, he = (e) => (z("data-v-d313b580"), e = e(), q(), e), ha = {
+}, he = (e) => (z("data-v-4af59b39"), e = e(), q(), e), ha = {
   horizontal: "",
   class: "viur-shop-cart-leaf"
 }, ba = ["src"], pa = { class: "viur-shop-cart-leaf-headline headline" }, va = { class: "viur-shop-cart-leaf-artno" }, ya = ["innerHTML"], $a = { class: "viur-shop-cart-leaf-quantity" }, Sa = { class: "viur-shop-cart-leaf-unitprice" }, _a = /* @__PURE__ */ he(() => /* @__PURE__ */ i("div", { class: "viur-shop-cart-leaf-label" }, "Stückpreis", -1)), ka = ["value"], wa = { class: "viur-shop-cart-leaf-actions" }, Ea = /* @__PURE__ */ he(() => /* @__PURE__ */ i("sl-button", {
@@ -2380,8 +2380,9 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
         slot: "image",
         src: o(a.leaf.shop_image ? a.leaf.shop_image : void 0)
       }, null, 8, ba),
-      i("h4", pa, j(a.leaf.shop_name), 1),
-      i("h5", va, j(a.leaf.shop_art_no_or_gtin), 1),
+      C(" " + O(a.leaf.shop_image) + " ", 1),
+      i("h4", pa, O(a.leaf.shop_name), 1),
+      i("h5", va, O(a.leaf.shop_art_no_or_gtin), 1),
       i("div", {
         class: "viur-shop-cart-leaf-description",
         innerHTML: a.leaf.shop_description
@@ -2437,7 +2438,7 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
       ])
     ]));
   }
-}, Da = /* @__PURE__ */ I(Ba, [["__scopeId", "data-v-d313b580"]]), Va = /* @__PURE__ */ i("sl-icon", {
+}, Da = /* @__PURE__ */ I(Ba, [["__scopeId", "data-v-4af59b39"]]), Va = /* @__PURE__ */ i("sl-icon", {
   slot: "icon",
   name: "info-circle"
 }, null, -1), Na = { key: 0 }, Ra = { key: 0 }, La = { key: 1 }, Ua = {
@@ -2468,13 +2469,13 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
           ref: l
         }, [
           Va,
-          C(" " + j(a.errorMessage), 1)
+          C(" " + O(a.errorMessage), 1)
         ], 512)
       ]),
       i("div", null, [
         U(n).state.basketRootNode.discount ? (m(), f("div", Na, [
-          U(n).state.basketRootNode.discount.dest.discount_type === "absolute" ? (m(), f("span", Ra, " Sie haben einen Rabattcode im Wert von " + j(U(n).state.basketRootNode.discount.dest.absolute) + " € eingegeben ", 1)) : _("", !0),
-          U(n).state.basketRootNode.discount.dest.discount_type === "percentage" ? (m(), f("span", La, " Sie haben einen Rabattcode im Wert von " + j(U(n).state.basketRootNode.discount.dest.percentage) + " % eingegeben ", 1)) : _("", !0)
+          U(n).state.basketRootNode.discount.dest.discount_type === "absolute" ? (m(), f("span", Ra, " Sie haben einen Rabattcode im Wert von " + O(U(n).state.basketRootNode.discount.dest.absolute) + " € eingegeben ", 1)) : _("", !0),
+          U(n).state.basketRootNode.discount.dest.discount_type === "percentage" ? (m(), f("span", La, " Sie haben einen Rabattcode im Wert von " + O(U(n).state.basketRootNode.discount.dest.percentage) + " % eingegeben ", 1)) : _("", !0)
         ])) : _("", !0)
       ])
     ], 64));
@@ -2597,11 +2598,11 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
           Fa,
           i("div", Ka, [
             Ha,
-            C(" " + j(e.mode === "basket" ? U(t).state.basketRootNode.total : U(t).state.whishlistRootNodes[e.cartKey].total) + " € ", 1)
+            C(" " + O(e.mode === "basket" ? U(t).state.basketRootNode.total : U(t).state.whishlistRootNodes[e.cartKey].total) + " € ", 1)
           ]),
           i("div", Ga, [
             Za,
-            C(" " + j(U(t).state.basketRootNode.total - U(t).state.basketRootNode.total_discount_price) + " € ", 1)
+            C(" " + O(U(t).state.basketRootNode.total - U(t).state.basketRootNode.total_discount_price) + " € ", 1)
           ]),
           Ja,
           Qa,
@@ -2785,8 +2786,8 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
                 library: e.tabs[v].icon.library
               }, null, 8, bl)) : _("", !0),
               i("div", pl, [
-                C(j(b + 1) + ". ", 1),
-                i("span", vl, j(e.tabs[v].displayName), 1)
+                C(O(b + 1) + ". ", 1),
+                i("span", vl, O(e.tabs[v].displayName), 1)
               ])
             ]),
             b < a.tabNames.length - 1 ? (m(), f("sl-icon", yl)) : _("", !0)
@@ -3085,7 +3086,7 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
             label: t.selectedItem[g] ? U(n).state.carts[t.selectedItem[g]].info.name : "Warenkorb für Adresse wählen.",
             class: "viur-shop-form-cart-select"
           }, [
-            (m(!0), f(E, null, T(U(n).state.carts, (p, y) => (m(), f("sl-option", { value: y }, j(p.info.name), 9, Gl))), 256))
+            (m(!0), f(E, null, T(U(n).state.carts, (p, y) => (m(), f("sl-option", { value: y }, O(p.info.name), 9, Gl))), 256))
           ], 40, Hl),
           (m(!0), f(E, null, T(t.addSkel, (p, y) => (m(), f(E, { key: y }, [
             p.visible && p.params.group === "Customer Address" ? (m(), f("div", {
@@ -3148,9 +3149,9 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
           closable: ""
         }, [
           er,
-          i("strong", null, j(t.amountAlert.title), 1),
+          i("strong", null, O(t.amountAlert.title), 1),
           tr,
-          C(" " + j(t.amountAlert.msg), 1)
+          C(" " + O(t.amountAlert.msg), 1)
         ], 512),
         i("sl-checkbox", {
           onSlChange: o,
@@ -3262,7 +3263,7 @@ const fa = /* @__PURE__ */ I(ke, [["render", ma], ["__scopeId", "data-v-46c45785
   }
 }), rr = { class: "home" };
 function or(e, n, t, l, a, o) {
-  return m(), f("div", rr, "View " + j(e.route.path) + " is missing.", 1);
+  return m(), f("div", rr, "View " + O(e.route.path) + " is missing.", 1);
 }
 const ir = /* @__PURE__ */ I(lr, [["render", or]]), ur = [
   {
@@ -3273,12 +3274,12 @@ const ir = /* @__PURE__ */ I(lr, [["render", or]]), ur = [
   {
     path: "/shop/category/:identifier",
     name: "CategoryView",
-    component: () => import("./CategoryView-DEgldx2G.mjs")
+    component: () => import("./CategoryView-BiVIJOXD.mjs")
   },
   {
     path: "/shop/item/:item",
     name: "itemView",
-    component: () => import("./ItemView-BOMBUw51.mjs")
+    component: () => import("./ItemView-mnJ_kfqo.mjs")
   },
   {
     path: "/shop/cart/view",

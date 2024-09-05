@@ -5,6 +5,7 @@
       slot="image"
       :src="getImage(state.leaf.shop_image ? state.leaf.shop_image : undefined)"
     />
+    {{ state.leaf.shop_image }}
     <h4 class="viur-shop-cart-leaf-headline headline">
       {{ state.leaf.shop_name }}
     </h4>
@@ -166,7 +167,6 @@ onBeforeMount(() => {
       height: 100%;
     }
 
-
     &::part(image) {
       border-radius: var(--border-radius);
       align-self: baseline;
@@ -189,7 +189,7 @@ onBeforeMount(() => {
   }
 }
 
-.viur-shop-cart-leaf-artno{
+.viur-shop-cart-leaf-artno {
   grid-column: 1 / span 5;
   margin: 0;
 
@@ -219,7 +219,7 @@ onBeforeMount(() => {
   -webkit-box-orient: vertical;
   overflow: hidden;
 
-  &:deep(*){
+  &:deep(*) {
     margin: 0;
   }
 
@@ -238,11 +238,11 @@ onBeforeMount(() => {
   font-size: var(--shop-leaf-price-font-size);
 }
 
-.viur-shop-cart-leaf-quantity{
+.viur-shop-cart-leaf-quantity {
   align-self: flex-end;
 }
 
-.viur-shop-cart-leaf-unitprice{
+.viur-shop-cart-leaf-unitprice {
   align-self: flex-end;
 
   @media (max-width: 600px) {
