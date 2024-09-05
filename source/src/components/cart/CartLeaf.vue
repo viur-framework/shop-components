@@ -1,5 +1,6 @@
 <template>
-  <!-- <pre>{{ state.leaf }}</pre> -->
+  <pre>{{ state.leaf.key }}</pre>
+  <pre>{{ state.leaf.article }}</pre>
 
   <sl-card horizontal class="viur-shop-cart-leaf">
     <img
