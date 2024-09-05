@@ -1,11 +1,17 @@
 <template>
-  {{ state.leaf.shop_image }}
+  <!-- <pre>{{ state.leaf }}</pre> -->
 
   <sl-card horizontal class="viur-shop-cart-leaf">
     <img
       class="viur-shop-cart-leaf-image"
       slot="image"
-      :src="getImage(state.leaf.shop_image ? state.leaf.shop_image : undefined)"
+      :src="
+        getImage(
+          state.leaf.article.dest.shop_image
+            ? state.leaf.article.dest.shop_image
+            : undefined,
+        )
+      "
     />
     <h4 class="viur-shop-cart-leaf-headline headline">
       {{ state.leaf.shop_name }}
@@ -91,6 +97,7 @@ import { Request } from "@viur/vue-utils";
 const props = defineProps({
   leaf: { type: Object, required: true },
   node: { type: Object, required: true },
+  placeholder: { type: String, required: true },
 });
 
 const emit = defineEmits(["updateItem", "removeItem"]);
@@ -102,7 +109,7 @@ const state = reactive({
 function getImage(image) {
   if (image !== undefined) return Request.downloadUrlFor(image);
 
-  return "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
+  return props.placeholder;
 }
 
 function updateItem(item, articleKey, node, quantity) {

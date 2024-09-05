@@ -25,13 +25,13 @@
           :key="leaf.key"
           :leaf="leaf"
           :node="node"
+          :placeholder="placeholder"
           @removeItem="removeItem"
           @updateItem="updateItem"
         >
         </CartLeaf>
       </template>
     </div>
-
 
     <div class="viur-shop-cart-mobile-footer">
       <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
@@ -159,6 +159,7 @@ const props = defineProps({
   mode: { type: String, default: "basket" },
   cartKey: { type: String, required: true },
   sidebar: { type: Boolean, default: true },
+  placeholder: { type: String, required: true },
 });
 
 const cartStore = useCartStore();

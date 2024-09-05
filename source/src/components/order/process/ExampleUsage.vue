@@ -30,6 +30,7 @@ const state = reactive({
         sidebar: true,
         mode: "basket",
         cartKey: rootNode,
+        placeholder: "/static/partnerbereich/img/placeholder.svg",
       }, // cartKey (on initial call has to be a root node) is a required prop, make sure that cartStore.init() is called before cart is mounted
       displayName: "Warenkorb",
       // icon: { name: "bag" },
