@@ -1,6 +1,6 @@
 <template>
-  <pre>{{ state.leaf.key }}</pre>
-  <pre>{{ state.leaf.article }}</pre>
+  <pre>{{ state.leaf.article.dest.key }}</pre>
+  <pre>{{ state.leaf.article.dest.article }}</pre>
 
   <sl-card horizontal class="viur-shop-cart-leaf">
     <img
@@ -15,14 +15,15 @@
       "
     />
     <h4 class="viur-shop-cart-leaf-headline headline">
-      {{ state.leaf.shop_name }}
+      {{ state.leaf.article.dest.shop_name }}
     </h4>
     <h5 class="viur-shop-cart-leaf-artno">
-      {{ state.leaf.shop_art_no_or_gtin }}
+      {{ state.leaf.article.dest.shop_art_no_or_gtin }}
     </h5>
+    hier drunter ---
     <div
       class="viur-shop-cart-leaf-description"
-      v-html="state.leaf.shop_description"
+      v-html="state.leaf.article.dest.shop_description"
     ></div>
     <div class="viur-shop-cart-leaf-quantity">
       <sl-input
@@ -43,17 +44,17 @@
       >
       </sl-input>
     </div>
-    <div class="viur-shop-cart-leaf-unitprice">
+    <!-- <div class="viur-shop-cart-leaf-unitprice">
       <div class="viur-shop-cart-leaf-label">Stückpreis</div>
       <sl-format-number
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice"
         lang="de"
         type="currency"
         currency="EUR"
-        :value="leaf.price.retail"
+        :value="state.leaf.article.dest.shop_price.retail"
       >
       </sl-format-number>
-    </div>
+    </div> -->
 
     <div class="viur-shop-cart-leaf-actions">
       <sl-button
@@ -77,17 +78,17 @@
       </sl-button>
     </div>
 
-    <div class="viur-shop-cart-leaf-price">
+    <!-- <div class="viur-shop-cart-leaf-price">
       <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
       <sl-format-number
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price"
         lang="de"
         type="currency"
         currency="EUR"
-        :value="leaf.price.retail * leaf.quantity"
+        :value="state.leaf.shop_price.retail * leaf.quantity"
       >
       </sl-format-number>
-    </div>
+    </div> -->
   </sl-card>
 </template>
 

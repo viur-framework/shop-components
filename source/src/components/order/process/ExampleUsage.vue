@@ -1,16 +1,15 @@
 <template>
-  <order-view :tabs="state.tabs" @tabChange="handleTabs" :sidebar="true" />
+  <shop-order-stepper :tabs="state.tabs" @tabChange="handleTabs" :sidebar="true" />
 </template>
 
 <script setup>
 import { onBeforeMount, reactive, shallowRef, computed } from "vue";
 import { ListRequest } from "@viur/vue-utils";
-
+import ShopOrderStepper from "../../ShopOrderStepper.vue"
 import CartView from "../../cart/CartView.vue";
 import ConfirmView from "../../cart/ConfirmView.vue";
-import OrderView from "./OrderView.vue";
 import CategoryView from "../category/CategoryView.vue";
-import OrderComplete from "./OrderComplete.vue";
+import OrderComplete from "../../ShopOrderComplete.vue";
 import UserInformation from "../information/UserInformation.vue";
 import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";
