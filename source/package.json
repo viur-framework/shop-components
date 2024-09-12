@@ -43,7 +43,7 @@
   "dependencies": {
     "@viur/ignite": "^5.1.2",
     "@viur/shoelace": "^1.0.6-v2.15.1",
-    "@viur/viur-shop-client": "^0.1.0",
+    "@viur/viur-shop-client": "file:../../sources/viur-shop-client/src",
     "@viur/vue-utils": "^1.4.10",
     "pinia": "^2.1.7",
     "vue": "^3.4.31",

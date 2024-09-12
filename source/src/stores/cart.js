@@ -1,5 +1,4 @@
 import {reactive} from "vue";
-import {Request, ListRequest} from "@viur/vue-utils";
 import {defineStore} from "pinia";
 import {ViURShopClient} from "@viur/viur-shop-client";
 
@@ -16,8 +15,8 @@ export const useCartStore = defineStore("cartstore", () => {
     whishlistRootNodes: [],
     children: {},
     structure: {address: {}, cart: {}},
-    billingAddress:{},
-    shippingAddress:{}
+    billingAddress: {},
+    shippingAddress: {}
   });
 
   async function init() {
@@ -25,7 +24,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getChildren(parentKey) {
-    return  await shopClient.cart_list({cart_key: parentKey});
+    return await shopClient.cart_list({cart_key: parentKey});
   }
 
   async function getRootNodes() {
@@ -90,23 +89,26 @@ export const useCartStore = defineStore("cartstore", () => {
     state.structure.address = structure.addSkel;
 
   }
+
   async function getAddress() {
     const addressList = await shopClient.address_list();
-    for(const address of addressList)
-    {
-      if(address.address_type==="billing")
-      {
-        state.billingAddress=address;
+    for (const address of addressList) {
+      if (address.address_type === "billing") {
+        state.billingAddress = address;
       }
-      if(address.address_type==="shipping")
-      {
-        state.shippingAddress=address;
+      if (address.address_type === "shipping") {
+        state.shippingAddress = address;
       }
     }
   }
 
   async function addDiscount(code) {
     await shopClient.discount_add({code});
+  }
+
+  async function getShippingData() {
+    return await shopClient.shippingData({cart_key: state.basketRootNode.key});
+
   }
 
   return {
@@ -119,6 +121,7 @@ export const useCartStore = defineStore("cartstore", () => {
     getAddressStructure,
     getChildren,
     addDiscount,
-    getAddress
+    getAddress,
+    getShippingData
   };
 });
