@@ -20,7 +20,6 @@
     <h5 class="viur-shop-cart-leaf-artno">
       {{ state.leaf.article.dest.shop_art_no_or_gtin }}
     </h5>
-    hier drunter ---
     <div
       class="viur-shop-cart-leaf-description"
       v-html="state.leaf.article.dest.shop_description"
@@ -44,17 +43,17 @@
       >
       </sl-input>
     </div>
-    <!-- <div class="viur-shop-cart-leaf-unitprice">
+    <div class="viur-shop-cart-leaf-unitprice">
       <div class="viur-shop-cart-leaf-label">Stückpreis</div>
       <sl-format-number
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice"
         lang="de"
         type="currency"
         currency="EUR"
-        :value="state.leaf.article.dest.shop_price.retail"
+        :value="leaf.shop_price_retail"
       >
       </sl-format-number>
-    </div> -->
+    </div>
 
     <div class="viur-shop-cart-leaf-actions">
       <sl-button
@@ -78,17 +77,17 @@
       </sl-button>
     </div>
 
-    <!-- <div class="viur-shop-cart-leaf-price">
+    <div class="viur-shop-cart-leaf-price">
       <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
       <sl-format-number
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price"
         lang="de"
         type="currency"
         currency="EUR"
-        :value="state.leaf.shop_price.retail * leaf.quantity"
+        :value="leaf.shop_price_retail * leaf.quantity"
       >
       </sl-format-number>
-    </div> -->
+    </div>
   </sl-card>
 </template>
 

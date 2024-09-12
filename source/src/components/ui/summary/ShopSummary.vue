@@ -8,7 +8,7 @@
       <span>Zwischensumme</span>
       {{ state.basketRootNode.total }} €
       <sl-format-number
-        lang="de_DE"
+        lang="de"
         type="currency"
         currency="EUR"
         :value="state.basketRootNode.total"
