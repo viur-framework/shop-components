@@ -2,51 +2,52 @@
   <Loader v-if="!state.cartIsInit"></Loader>
 
   <template v-else>
-      <div class="list">
-        <h2 class="viur-shop-cart-headline headline">Bestellung prüfen</h2>
-        <div class="viur-shop-cart-address-wrap">
-          <div class="viur-shop-cart-address">
-            <div class="viur-shop-cart-address-headline">
-              Versandadresse
-              <sl-button outline size="small">
-                <sl-icon name="pencil" slot="prefix"></sl-icon>
-              </sl-button>
-            </div>
-            Roland Brose<br />
-            Speicherstraße 33<br />
-            44147 Dortmund, DE<br />
-            <br />
-            rb@mausbrand.de<br />
-            0231 21 34 68 90
+    <div class="list">
+      <h2 class="viur-shop-cart-headline headline">Bestellung prüfen</h2>
+      <div class="viur-shop-cart-address-wrap">
+        <div class="viur-shop-cart-address">
+          <div class="viur-shop-cart-address-headline">
+            Versandadresse
+            <sl-button outline size="small">
+              <sl-icon name="pencil" slot="prefix"></sl-icon>
+            </sl-button>
           </div>
-          <div class="viur-shop-cart-address">
-            <div class="viur-shop-cart-address-headline">
-              Rechnungsadresse
-              <sl-button outline size="small">
-                <sl-icon name="pencil" slot="prefix"></sl-icon>
-              </sl-button>
-            </div>
-            Roland Brose<br />
-            Speicherstraße 33<br />
-            44147 Dortmund, DE<br />
-            <br />
-            rb@mausbrand.de<br />
-            0231 21 34 68 90
-          </div>
+          Roland Brose<br />
+          Speicherstraße 33<br />
+          44147 Dortmund, DE<br />
+          <br />
+          rb@mausbrand.de<br />
+          0231 21 34 68 90
         </div>
-
-        <div class="viur-shop-cart-payment">
-          <div class="viur-shop-cart-payment-method">
-            <span>Zahlungsmethode:</span>
-            Paypal
+        <div class="viur-shop-cart-address">
+          <div class="viur-shop-cart-address-headline">
+            Rechnungsadresse
+            <sl-button outline size="small">
+              <sl-icon name="pencil" slot="prefix"></sl-icon>
+            </sl-button>
           </div>
-          <sl-button outline size="small">
-            <sl-icon name="pencil" slot="prefix"></sl-icon>
-          </sl-button>
+          Roland Brose<br />
+          Speicherstraße 33<br />
+          44147 Dortmund, DE<br />
+          <br />
+          rb@mausbrand.de<br />
+          0231 21 34 68 90
         </div>
+      </div>
 
-        <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
-        <!-- <sl-card
+      <div class="viur-shop-cart-payment">
+        <div class="viur-shop-cart-payment-method">
+          <span>Zahlungsmethode:</span>
+          Paypal
+        </div>
+        <sl-button outline size="small">
+          <sl-icon name="pencil" slot="prefix"></sl-icon>
+        </sl-button>
+      </div>
+
+      <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
+      <ArticleList> </ArticleList>
+      <!-- <sl-card
           horizontal
           class="viur-shop-cart-mini-card"
           v-for="item in cartStore.state.carts[cartStore.state.basket].items"
@@ -77,7 +78,9 @@
         </sl-card> -->
 
       <teleport to="#order_sidebar">
-        <h2 class="viur-shop-cart-sidebar-headline headline">Jetzt Bestellen</h2>
+        <h2 class="viur-shop-cart-sidebar-headline headline">
+          Jetzt Bestellen
+        </h2>
         <br />
         <!-- <div class="viur-shop-cart-sidebar-info-line">
           <span>Zwischensumme</span>
@@ -119,13 +122,13 @@ import { reactive, onBeforeMount, computed } from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
 import { useCartStore } from "../../stores/cart.js";
 import { Request } from "@viur/vue-utils";
-
+import ArticleList from "../ui/confirm/ArticleList.vue";
 const cartStore = useCartStore();
 
 // const searchWarning = ref()
 const state = reactive({
   cartIsInit: computed(() => {
-    return true
+    return true;
   }),
   itemsIsInit: computed(() => {
     return cartStore.state?.carts[cartStore.state.basket].items ? true : false;
@@ -161,7 +164,6 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-
 .viur-shop-cart-sidebar-btn-wrap {
   display: flex;
   flex-direction: column;
@@ -308,7 +310,7 @@ sl-menu-item {
   }
 }
 
-.viur-shop-cart-headline{
+.viur-shop-cart-headline {
   margin: 0 0 var(--sl-spacing-x-large) 0;
   font-size: var(--shop-form-headline-size);
 }

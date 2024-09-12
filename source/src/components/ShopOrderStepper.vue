@@ -1,53 +1,59 @@
 <template>
-  <div class="bind">
-    <slot>
-      <div class="viur-shop-wrap">
-        <div class="viur-shop-stepper-wrap">
-          <sl-tab-group
-            class="viur-shop-order-tabgroup"
-            noScrollControls
-            @sl-tab-show="onTabChange($event)"
-            ref="tabGroup"
-          >
-            <StepperTab
-              v-for="(tab, index) in state.tabNames"
-              :key="tab"
-              :tab="tab"
-              :tabs="tabs"
-              :tabIdx="index"
-              :stepperLength="state.tabNames.length"
-            >
-            </StepperTab>
-
-            <StepperItem
-              v-for="tab in state.tabNames"
-              :tab="tab"
-              :tabs="tabs"
-              :key="tab"
-              @goToStart="goToStart()"
-            >
-            </StepperItem>
-          </sl-tab-group>
-
-          <div
-            class="viur-shop-form-footer"
-            :class="{ 'flex-end': state.isFirstTab(index) }"
-            v-if="state.tabIdx !== state.tabNames.length - 1"
-          >
-            <StepperTrigger
-              :index="state.tabIdx"
-              @prevTab="prevTab"
-              @nextTab="nextTab"
-            >
-            </StepperTrigger>
-          </div>
-        </div>
-        <div
-          class="viur-shop-sidebar-wrap"
-          v-if="sidebar && state.tabIdx < state.tabNames.length - 1"
+  <div class="bind viur-shop-wrap">
+    <div
+      class="viur-shop-stepper-wrap"
+      :class="{ 'full-width': sidebarBottom }"
+    >
+      <slot name="main">
+        <sl-tab-group
+          class="viur-shop-order-tabgroup"
+          noScrollControls
+          @sl-tab-show="onTabChange($event)"
+          ref="tabGroup"
         >
-          <ShopSummary > </ShopSummary>
+          <StepperTab
+            v-for="(tab, index) in state.tabNames"
+            :key="tab"
+            :tab="tab"
+            :tabs="tabs"
+            :tabIdx="index"
+            :stepperLength="state.tabNames.length"
+          >
+          </StepperTab>
+
+          <StepperItem
+            v-for="tab in state.tabNames"
+            :tab="tab"
+            :tabs="tabs"
+            :key="tab"
+            @goToStart="goToStart()"
+          >
+          </StepperItem>
+        </sl-tab-group>
+      </slot>
+
+      <slot name="trigger" v-if="trigger">
+        <div
+          class="viur-shop-form-footer"
+          :class="{ 'flex-end': state.tabIdx === 0, 'last-row': sidebarBottom }"
+          v-if="state.tabIdx !== state.tabNames.length - 1"
+        >
+          <StepperTrigger
+            :index="state.tabIdx"
+            @prevTab="prevTab"
+            @nextTab="nextTab"
+          >
+          </StepperTrigger>
         </div>
+      </slot>
+    </div>
+
+    <slot
+      name="sidebar"
+      v-if="sidebar && state.tabIdx < state.tabNames.length - 1"
+    >
+      <div class="viur-shop-sidebar-wrap" :class="{ bottom: sidebarBottom }">
+        <ShopSummary> </ShopSummary>
       </div>
     </slot>
   </div>
@@ -70,18 +76,22 @@ const props = defineProps({
     default: true,
     required: false,
   },
+  trigger: {
+    type: Boolean,
+    default: true,
+    required: false,
+  },
+  sidebarBottom: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
 });
 
 const emit = defineEmits(["tabChange"]);
 
 const state = reactive({
   tabNames: computed(() => sortTabs(props.tabs)),
-  isFirstTab: (index) => {
-    if (index === 0) {
-      return true;
-    }
-    return false;
-  },
   tabIdx: 0,
   currentTab: "",
 });
@@ -175,6 +185,7 @@ onBeforeMount(() => {
   height: min-content;
   margin-top: 3em;
   @media (min-width: 1024px) {
+    position: -webkit-sticky;
     position: sticky;
     top: 2rem;
     margin-left: var(--sl-spacing-2x-large);
@@ -196,13 +207,31 @@ onBeforeMount(() => {
   }
 }
 
+.viur-shop-form-footer {
+  height: fit-content;
+
+  /* TODO: sticky Trigger yes no? */
+  /* position: -webkit-sticky;
+  position: sticky;
+  bottom: 2rem; */
+}
+
 :deep(.viur-shop-form-footer) {
   display: flex;
   justify-content: space-between;
   margin-top: var(--sl-spacing-large);
 }
-
 .flex-end {
   justify-content: flex-end;
+}
+.bottom {
+  grid-column: auto / span 12;
+  grid-row-start: 2;
+}
+.full-width {
+  grid-column: auto / span 12;
+}
+.last-row {
+  grid-row-start: 3;
 }
 </style>

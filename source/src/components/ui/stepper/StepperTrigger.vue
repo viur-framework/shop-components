@@ -1,10 +1,12 @@
 <template>
   <sl-button type="submit" v-show="index !== 0" @click="prevTab()">
     Zurück
+    <!-- TODO: $t(i18n referenz) -->
   </sl-button>
-  <!-- :disabled="!state.requiredFieldsFilled" -->
+
   <sl-button type="submit" variant="primary" @click="nextTab()">
     Weiter
+    <!-- TODO: $t(i18n referenz) -->
   </sl-button>
 </template>
 
@@ -15,7 +17,7 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(["nextTab", "prevTab"]);
+const emit = defineEmits({prevTab: null, nextTab: null});
 
 function prevTab() {
   emit("prevTab");
@@ -26,4 +28,8 @@ function nextTab() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.sticky {
+  position: sticky;
+}
+</style>

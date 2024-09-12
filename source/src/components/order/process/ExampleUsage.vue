@@ -1,19 +1,25 @@
 <template>
-  <shop-order-stepper :tabs="state.tabs" @tabChange="handleTabs" :sidebar="true" />
+  <shop-order-stepper
+    :tabs="state.tabs"
+    @tabChange="handleTabs"
+    :sidebar="true"
+  >
+    <!-- customize slots -->
+    <!-- <template #main> The Order Stepper </template> -->
+    <!-- <template #trigger> Buttons for Stepper control </template> -->
+    <!-- <template #sidebar> the side/bottom bar </template> -->
+  </shop-order-stepper>
 </template>
 
 <script setup>
 import { onBeforeMount, reactive, shallowRef, computed } from "vue";
-import { ListRequest } from "@viur/vue-utils";
-import ShopOrderStepper from "../../ShopOrderStepper.vue"
+import ShopOrderStepper from "../../ShopOrderStepper.vue";
 import CartView from "../../cart/CartView.vue";
 import ConfirmView from "../../cart/ConfirmView.vue";
-import CategoryView from "../category/CategoryView.vue";
 import OrderComplete from "../../ShopOrderComplete.vue";
 import UserInformation from "../information/UserInformation.vue";
 import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";
-import OrderTabHeader from "./OrderTabHeader.vue";
 
 const cartStore = useCartStore();
 
@@ -35,8 +41,7 @@ const state = reactive({
       // icon: { name: "bag" },
       position: 2,
       disabled: false,
-      atShow: null,
-      atHide: null,
+
     },
     confirm: {
       component: shallowRef(ConfirmView),
@@ -45,37 +50,13 @@ const state = reactive({
       // icon: { name: "clipboard-check" },
       position: 5,
       disabled: false,
-      atShow: null,
-      atHide: null,
+
     },
-    // order: {
-    //   component: shallowRef(CategoryView),
-    //   props: {
-    //     listHandler: ListRequest("categorystore", {
-    //       module: "variante",
-    //       params: { type: "dk", limit: 99 },
-    //     }),
-    //   },
-    //   displayName: "Artikel Bestellen",
-    //   icon: { name: "cart-add", library: "hsk" },
-    //   position: 1,
-    //   disabled: false,
-    //   atShow: null,
-    //   atHide: null,
-    // },
     orderComplete: {
       component: shallowRef(OrderComplete),
       props: {
         redirectUrl: "http://localhost:8081",
         additionalComponents: [
-          {
-            component: shallowRef(OrderTabHeader),
-            props: {},
-          },
-          {
-            component: shallowRef(OrderTabHeader),
-            props: { a: "TERRT" },
-          },
           {
             component: shallowRef(CartView),
             props: {
@@ -90,8 +71,7 @@ const state = reactive({
       icon: { name: "bag-check" },
       position: 6,
       disabled: true,
-      atShow: null,
-      atHide: null,
+
     },
     userInfo: {
       component: shallowRef(UserInformation),
@@ -100,8 +80,7 @@ const state = reactive({
       icon: { name: "card-list" },
       position: 3,
       disabled: false,
-      atShow: null,
-      atHide: null,
+
     },
     userInfoMulti: {
       component: shallowRef(UserInfoMulti),
@@ -110,8 +89,7 @@ const state = reactive({
       icon: { name: "card-list" },
       position: 4,
       disabled: false,
-      atShow: null,
-      atHide: null,
+
     },
   },
 });

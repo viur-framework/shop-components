@@ -15,9 +15,10 @@
         )
       "
     />
-    <h4 class="viur-shop-cart-leaf-headline headline">
-      {{ state.leaf.article.dest.shop_name }}
-    </h4>
+    <h4
+      class="viur-shop-cart-leaf-headline headline"
+      v-html="state.leaf.article.dest.shop_name"
+    ></h4>
     <h5 class="viur-shop-cart-leaf-artno">
       {{ state.leaf.article.dest.shop_art_no_or_gtin }}
     </h5>

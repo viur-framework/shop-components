@@ -200,13 +200,14 @@ const currentCartKey = computed(() => {
 // }
 
 async function onConfirm() {
+  confirm.value.hide();
+
   await cartStore.updateItem(
     state.currentItem.article.dest.key,
     state.currentNode.key,
     0,
   );
   await updateCart();
-  confirm.value.hide();
 }
 
 async function updateItem(e) {
