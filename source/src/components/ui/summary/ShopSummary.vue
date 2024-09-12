@@ -17,19 +17,42 @@
     </div>
     <div class="viur-shop-cart-sidebar-info-line">
       <span>Rabatt</span>
-      {{
-        state.basketRootNode.total - state.basketRootNode.total_discount_price
-      }}
-      €
+
+      <sl-format-number
+        lang="de"
+        type="currency"
+        currency="EUR"
+        :value="
+          state.basketRootNode?.discount ? state.basketRootNode.discount : 0
+        "
+      >
+      </sl-format-number>
     </div>
     <div class="viur-shop-cart-sidebar-info-line">
       <span>Versandkosten</span>
-      0 €
+      <sl-format-number
+        lang="de"
+        type="currency"
+        currency="EUR"
+        :value="
+          state.basketRootNode?.shipping ? state.basketRootNode.shipping : 0
+        "
+      >
+      </sl-format-number>
     </div>
     <div class="viur-shop-cart-sidebar-info-line total">
       <span>Gesamt:</span>
-      <!--{{ cartStore.state.basketRootNode }}-->
-      €
+      <sl-format-number
+        lang="de"
+        type="currency"
+        currency="EUR"
+        :value="
+          state.basketRootNode.total +
+          state.basketRootNode?.shipping -
+          state.basketRootNode.discount
+        "
+      >
+      </sl-format-number>
     </div>
     <div class="viur-shop-cart-sidebar-btn-wrap">
       <!-- TODO: Placement of discount? -->
@@ -97,5 +120,4 @@ onBeforeMount(async () => {
 .viur-shop-cart-sidebar-headline {
   margin: 0 0 var(--sl-spacing-large) 0;
 }
-
 </style>
