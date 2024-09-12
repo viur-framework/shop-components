@@ -6,7 +6,6 @@
     <br />
     <div class="viur-shop-cart-sidebar-info-line">
       <span>Zwischensumme</span>
-      {{ state.basketRootNode.total }} €
       <sl-format-number
         lang="de"
         type="currency"
@@ -55,6 +54,10 @@ import Discount from "../../cart/Discount.vue";
 const cartStore = useCartStore();
 const state = reactive({ basketRootNode: {}, loading: true });
 
+// function getCurrentPrice(leaf) {
+//   if(leaf)
+// }
+
 onBeforeMount(async () => {
   await cartStore.init();
   state.basketRootNode = cartStore.state.basketRootNode;
@@ -94,4 +97,5 @@ onBeforeMount(async () => {
 .viur-shop-cart-sidebar-headline {
   margin: 0 0 var(--sl-spacing-large) 0;
 }
+
 </style>

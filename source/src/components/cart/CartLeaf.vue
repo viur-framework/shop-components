@@ -1,6 +1,7 @@
 <template>
-  <pre>{{ state.leaf.article.dest.key }}</pre>
-  <pre>{{ state.leaf.article.dest.article }}</pre>
+  <!-- Debugging -->
+  <!-- <pre>{{ state.leaf.article.dest.key }}</pre>
+  <pre>{{ state.leaf.article.dest.article }}</pre> -->
 
   <sl-card horizontal class="viur-shop-cart-leaf">
     <img

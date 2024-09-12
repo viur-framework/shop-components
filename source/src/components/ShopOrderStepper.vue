@@ -171,10 +171,12 @@ onBeforeMount(() => {
   overflow: hidden;
   border-radius: var(--sl-border-radius-medium);
   grid-column: auto / span var(--shop-sidebar-columns);
-
+  /* height has to be set or sidebar grows until infinity... */
+  height: min-content;
+  margin-top: 3em;
   @media (min-width: 1024px) {
     position: sticky;
-    top: 0;
+    top: 2rem;
     margin-left: var(--sl-spacing-2x-large);
   }
 }
