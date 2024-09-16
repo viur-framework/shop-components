@@ -53,7 +53,7 @@
       v-if="sidebar && state.tabIdx < state.tabNames.length - 1"
     >
       <div class="viur-shop-sidebar-wrap" :class="{ bottom: sidebarBottom }">
-        <ShopSummary> </ShopSummary>
+        <ShopSummary :node="cartStore.state.basketRootNode"> </ShopSummary>
       </div>
     </slot>
   </div>
@@ -65,6 +65,9 @@ import StepperTab from "./ui/stepper/StepperTab.vue";
 import StepperItem from "./ui/stepper/StepperItem.vue";
 import StepperTrigger from "./ui/stepper/StepperTrigger.vue";
 import ShopSummary from "./ui/summary/ShopSummary.vue";
+import { useCartStore } from "../stores/cart";
+
+const cartStore = useCartStore();
 
 const props = defineProps({
   tabs: {
@@ -145,6 +148,7 @@ function goToStart() {
 }
 
 onBeforeMount(() => {
+  // await cartStore.init();
   const tabNames = sortTabs(props.tabs);
   state.currentTab = tabNames[0];
 });

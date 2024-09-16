@@ -15,7 +15,7 @@ export const useCartStore = defineStore("cartstore", () => {
     basketRootNode: {},
     whishlistRootNodes: [],
     children: {},
-    structure: {address: {}, cart: {}},
+    structure: { address: {}, cart: {} },
     paymentProviders: {},
     billingAddress: {},
     shippingAddress: {},
@@ -27,7 +27,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getChildren(parentKey) {
-    return await shopClient.cart_list({cart_key: parentKey});
+    return await shopClient.cart_list({ cart_key: parentKey });
   }
 
   async function getRootNodes() {
@@ -90,7 +90,6 @@ export const useCartStore = defineStore("cartstore", () => {
   async function getAddressStructure() {
     const structure = await shopClient.address_structure();
     state.structure.address = structure.addSkel;
-
   }
 
   async function getAddress() {
@@ -106,9 +105,8 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function addDiscount(code) {
-    await shopClient.discount_add({code});
+    await shopClient.discount_add({ code });
   }
-
 
   async function addNodes(
     parentCart,
@@ -119,7 +117,7 @@ export const useCartStore = defineStore("cartstore", () => {
     cartType = "whishlist",
     comment = "",
   ) {
-    await shopClient.cart_add({
+    return await shopClient.cart_add({
       parent_cart_key: parentCart,
       cart_type: cartType, // "basket" for main cart, "whishlist" for everything else
       name: name,
@@ -128,12 +126,14 @@ export const useCartStore = defineStore("cartstore", () => {
       shipping_key: shippingKey,
       discount_key: discount,
     });
+  }
 
-  async function payment_providers_list() {
-    const paymentProvieders = await shopClient.payment_providers_list();
-    state.paymentProviders = paymentProvieders;
+  async function getPaymentProviders() {
+    const paymentProviders = await shopClient.payment_providers_list();
+    state.paymentProviders = paymentProviders;
     //select first paymentprovider as default
-    state.selectedPaymentProvider = paymentProvieders[Object.keys(paymentProvieders)[0]]
+    state.selectedPaymentProvider =
+      paymentProviders[Object.keys(paymentProviders)[0]];
   }
 
   return {
@@ -146,8 +146,8 @@ export const useCartStore = defineStore("cartstore", () => {
     getAddressStructure,
     getChildren,
     addDiscount,
-    payment_providers_list,
-    getAddress
-
+    getPaymentProviders,
+    getAddress,
+    addNodes,
   };
 });

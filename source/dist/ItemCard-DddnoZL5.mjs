@@ -1,6 +1,6 @@
 import { openBlock as l, createElementBlock as n, createElementVNode as e, toDisplayString as o, withModifiers as m, unref as a, createTextVNode as c } from "vue";
 import { Request as u } from "@viur/vue-utils";
-import { _ as p, u as f } from "./main-S28xq-1k.mjs";
+import { _ as p, u as f } from "./main-CnAUiE6B.mjs";
 const h = { class: "viur-shop-item-card-card" }, v = ["src", "alt"], b = { class: "viur-shop-item-card-headline" }, g = { class: "viur-shop-item-card-price" }, _ = {
   class: "viur-shop-item-card-footer",
   slot: "footer"

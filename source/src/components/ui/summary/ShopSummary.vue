@@ -1,7 +1,6 @@
 ,
 <template>
-  <sl-spinner v-if="state.loading"> </sl-spinner>
-  <div v-else>
+
     <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
     <br />
     <div class="viur-shop-cart-sidebar-info-line">
@@ -10,7 +9,7 @@
         lang="de"
         type="currency"
         currency="EUR"
-        :value="state.basketRootNode.total"
+        :value="node.total"
       >
       </sl-format-number>
       <br />
@@ -23,7 +22,7 @@
         type="currency"
         currency="EUR"
         :value="
-          state.basketRootNode?.discount ? state.basketRootNode.discount : 0
+          node?.discount ? node.discount : 0
         "
       >
       </sl-format-number>
@@ -35,7 +34,7 @@
         type="currency"
         currency="EUR"
         :value="
-          state.basketRootNode?.shipping ? state.basketRootNode.shipping : 0
+          node?.shipping ? node.shipping : 0
         "
       >
       </sl-format-number>
@@ -47,9 +46,9 @@
         type="currency"
         currency="EUR"
         :value="
-          state.basketRootNode.total +
-          state.basketRootNode?.shipping -
-          state.basketRootNode.discount
+          node.total +
+          node?.shipping -
+          node.discount
         "
       >
       </sl-format-number>
@@ -66,25 +65,13 @@
         Paypal
       </sl-button>
     </div>
-  </div>
 </template>
 
 <script setup>
-import { reactive, onBeforeMount } from "vue";
-import { useCartStore } from "../../../stores/cart";
 import Discount from "../../cart/Discount.vue";
 
-const cartStore = useCartStore();
-const state = reactive({ basketRootNode: {}, loading: true });
-
-// function getCurrentPrice(leaf) {
-//   if(leaf)
-// }
-
-onBeforeMount(async () => {
-  await cartStore.init();
-  state.basketRootNode = cartStore.state.basketRootNode;
-  state.loading = false;
+const props = defineProps({
+  node: { type: Object, required: true },
 });
 </script>
 

@@ -12,11 +12,11 @@
               <sl-icon name="pencil" slot="prefix"></sl-icon>
             </sl-button>
           </div>
-          Roland Brose<br/>
-          Speicherstraße 33<br/>
-          44147 Dortmund, DE<br/>
-          <br/>
-          rb@mausbrand.de<br/>
+          Roland Brose<br />
+          Speicherstraße 33<br />
+          44147 Dortmund, DE<br />
+          <br />
+          rb@mausbrand.de<br />
           0231 21 34 68 90
         </div>
         <div class="viur-shop-cart-address">
@@ -26,11 +26,11 @@
               <sl-icon name="pencil" slot="prefix"></sl-icon>
             </sl-button>
           </div>
-          Roland Brose<br/>
-          Speicherstraße 33<br/>
-          44147 Dortmund, DE<br/>
-          <br/>
-          rb@mausbrand.de<br/>
+          Roland Brose<br />
+          Speicherstraße 33<br />
+          44147 Dortmund, DE<br />
+          <br />
+          rb@mausbrand.de<br />
           0231 21 34 68 90
         </div>
       </div>
@@ -38,7 +38,7 @@
       <div class="viur-shop-cart-payment">
         <div class="viur-shop-cart-payment-method">
           <span>Zahlungsmethode:</span>
-          {{state.selectedPaymentProvider}}
+          {{ state.selectedPaymentProvider }}
         </div>
         <sl-button outline size="small">
           <sl-icon name="pencil" slot="prefix"></sl-icon>
@@ -75,75 +75,39 @@
           </div>
         </div>
       </sl-card> -->
-
-      <teleport to="#order_sidebar">
-        <h2 class="viur-shop-cart-sidebar-headline headline">Jetzt Bestellen</h2>
-        <br/>
-        <!-- <div class="viur-shop-cart-sidebar-info-line">
-          <span>Zwischensumme</span>
-          {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00,00" }} €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Rabatt</span>
-          0 €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Versandkosten</span>
-          0 €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line total">
-          <span>Gesamt:</span>
-          {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00" }} €
-        </div> -->
-
-        <sl-checkbox @sl-change="onTosAccept">
-          Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen
-        </sl-checkbox>
-
-        <div class="viur-shop-cart-sidebar-btn-wrap">
-          <sl-button
-            :variant="state.showOrderButton ? 'info' : 'disabled'"
-            size="small"
-            :disabled="!state.showOrderButton"
-          >
-            Zahlungspflichtig bestellen
-          </sl-button>
-        </div>
-      </teleport>
+      <ArticleList />
     </div>
   </template>
 </template>
 
 <script setup>
-import {reactive, onBeforeMount, computed} from "vue";
+import { reactive, onBeforeMount, computed } from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
-import {useCartStore} from "../../../stores/cart.js";
-import {Request} from "@viur/vue-utils";
+import { useCartStore } from "../../../stores/cart.js";
+import { Request } from "@viur/vue-utils";
+import ArticleList from "../../ui/confirm/ArticleList.vue";
 
 const cartStore = useCartStore();
 
 // const searchWarning = ref()
 const state = reactive({
   cartIsInit: computed(() => {
-    return true
+    return true;
   }),
   itemsIsInit: computed(() => {
     return !!cartStore.state?.carts[cartStore.state.basket].items;
   }),
-  selectedPaymentProvider:computed(()=>{
+  selectedPaymentProvider: computed(() => {
     /* fixme  this compute generates an error
       Uncaught (in promise) TypeError: Cannot set properties of null (setting '__vnode')
       but the value is correct.
      */
     return cartStore.state?.selectedPaymentProvider.title;
-
-
   }),
   images: {},
   showOrderButton: false,
-
 });
-console.log("se",state.selectedPaymentProvider)
+console.log("se", state.selectedPaymentProvider);
 function getImage(item) {
   Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
     let data = await resp.json();
@@ -171,7 +135,6 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-
 .viur-shop-cart-sidebar-btn-wrap {
   display: flex;
   flex-direction: column;
