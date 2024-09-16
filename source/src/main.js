@@ -20,17 +20,6 @@ export { default as UserInformation } from "./components/order/information/UserI
 export { default as UserInfoMulti } from "./components/order/information/UserInfoMulti.vue";
 export { default as SelectPaymentProvider } from "./components/order/process/SelectPaymentProvider.vue";
 
-// Export the components so they can be used in other projects
-export {
-  CartView,
-  ExampleUsage,
-  ConfirmView,
-  useCartStore,
-  createRouterInstance,
-  OrderComplete,
-  UserInformation,
-  OrderView,
-};
 const pinia = createPinia();
 // Optionally, you can create a plugin to install all components
 const ViurShopComponents = {

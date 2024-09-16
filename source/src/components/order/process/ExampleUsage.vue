@@ -16,9 +16,7 @@ import { onBeforeMount, reactive, shallowRef, computed } from "vue";
 import ShopOrderStepper from "../../ShopOrderStepper.vue";
 import CartView from "../../cart/CartView.vue";
 import ConfirmView from "./ConfirmView.vue";
-import OrderView from "./OrderView.vue";
-import CategoryView from "../category/CategoryView.vue";
-import OrderComplete from "./OrderComplete.vue";
+import ShopOrderComplete from "../../ShopOrderComplete.vue";
 import UserInformation from "../information/UserInformation.vue";
 import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";
@@ -43,7 +41,6 @@ const state = reactive({
       // icon: { name: "bag" },
       position: 2,
       disabled: false,
-
     },
     confirm: {
       component: shallowRef(ConfirmView),
@@ -52,10 +49,9 @@ const state = reactive({
       // icon: { name: "clipboard-check" },
       position: 5,
       disabled: false,
-
     },
     orderComplete: {
-      component: shallowRef(OrderComplete),
+      component: shallowRef(ShopOrderComplete),
       props: {
         redirectUrl: "http://localhost:8081",
         additionalComponents: [
@@ -73,7 +69,6 @@ const state = reactive({
       icon: { name: "bag-check" },
       position: 6,
       disabled: true,
-
     },
     userInfo: {
       component: shallowRef(UserInformation),
@@ -82,7 +77,6 @@ const state = reactive({
       icon: { name: "card-list" },
       position: 3,
       disabled: false,
-
     },
     userInfoMulti: {
       component: shallowRef(UserInfoMulti),
@@ -91,7 +85,6 @@ const state = reactive({
       icon: { name: "card-list" },
       position: 4,
       disabled: false,
-
     },
   },
 });
