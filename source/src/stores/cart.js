@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import { Request, ListRequest } from "@viur/vue-utils";
+// import { Request, ListRequest } from "@viur/vue-utils";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "@viur/viur-shop-client";
 
@@ -108,6 +108,26 @@ export const useCartStore = defineStore("cartstore", () => {
   async function addDiscount(code) {
     await shopClient.discount_add({code});
   }
+
+
+  async function addNodes(
+    parentCart,
+    name,
+    shippingAddressKey,
+    shippingKey,
+    discount,
+    cartType = "whishlist",
+    comment = "",
+  ) {
+    await shopClient.cart_add({
+      parent_cart_key: parentCart,
+      cart_type: cartType, // "basket" for main cart, "whishlist" for everything else
+      name: name,
+      customer_comment: comment,
+      shipping_address_key: shippingAddressKey,
+      shipping_key: shippingKey,
+      discount_key: discount,
+    });
 
   async function payment_providers_list() {
     const paymentProvieders = await shopClient.payment_providers_list();
