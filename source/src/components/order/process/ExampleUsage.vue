@@ -15,8 +15,10 @@
 import { onBeforeMount, reactive, shallowRef, computed } from "vue";
 import ShopOrderStepper from "../../ShopOrderStepper.vue";
 import CartView from "../../cart/CartView.vue";
-import ConfirmView from "../../cart/ConfirmView.vue";
-import OrderComplete from "../../ShopOrderComplete.vue";
+import ConfirmView from "./ConfirmView.vue";
+import OrderView from "./OrderView.vue";
+import CategoryView from "../category/CategoryView.vue";
+import OrderComplete from "./OrderComplete.vue";
 import UserInformation from "../information/UserInformation.vue";
 import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";

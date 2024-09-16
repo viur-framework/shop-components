@@ -14,12 +14,23 @@ export { useCartStore, createRouterInstance };
 export { default as ShopOrderStepper } from "./components/ShopOrderStepper.vue";
 export { default as CartView } from "./components/cart/CartView.vue";
 export { default as ExampleUsage } from "./components/order/process/ExampleUsage.vue";
-export { default as ConfirmView } from "./components/cart/ConfirmView.vue";
+export { default as ConfirmView } from "./components/order/process/ConfirmView.vue";
 export { default as OrderComplete } from "./components/ShopOrderComplete.vue";
 export { default as UserInformation } from "./components/order/information/UserInformation.vue";
 export { default as UserInfoMulti } from "./components/order/information/UserInfoMulti.vue";
+export { default as SelectPaymentProvider } from "./components/order/process/SelectPaymentProvider.vue";
 
 // Export the components so they can be used in other projects
+export {
+  CartView,
+  ExampleUsage,
+  ConfirmView,
+  useCartStore,
+  createRouterInstance,
+  OrderComplete,
+  UserInformation,
+  OrderView,
+};
 const pinia = createPinia();
 // Optionally, you can create a plugin to install all components
 const ViurShopComponents = {
