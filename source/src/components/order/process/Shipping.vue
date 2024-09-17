@@ -1,12 +1,11 @@
 <template>
   <div v-if="state.isShipping">
-    Versandkosten: {{ convertToCurrency(state.cheapestShipping.dest.shipping_cost) }}
+    Versandkosten: <sl-format-number type="currency" currency="EUR" :value="state.cheapestShipping.dest.shipping_cost" lang="de"></sl-format-number>
   </div>
 </template>
 <script setup>
 import {useCartStore} from "../../../stores/cart";
 import {computed, onBeforeMount, reactive} from "vue";
-import {convertToCurrency} from "../../../utils";
 
 const cartStore = useCartStore();
 
@@ -30,6 +29,7 @@ async function getShipping() {
   //last element is cheapest shipping after sorting
   state.cheapestShipping = state.shippingData[state.shippingData.length - 1];
   state.isShipping = true;
+  console.log("cheapestShipping",state.cheapestShipping)
 }
 
 defineExpose({getShipping})

@@ -42,28 +42,24 @@
 
         <div class="viur-shop-cart-sidebar-info-line">
           <span>Zwischensumme</span>
-          {{
-            convertToCurrency(
-              mode === "basket"
-                ? cartStore.state.basketRootNode.total
-                : cartStore.state.whishlistRootNodes[currentCartKey].total)
-          }}
+          <sl-format-number type="currency" currency="EUR" :value='cartStore.state.basketRootNode.total'></sl-format-number>
+
 
         </div>
         <div class="viur-shop-cart-sidebar-info-line">
           <span>Rabatt</span>
-          {{
-            convertToCurrency(cartStore.state.basketRootNode.total - cartStore.state.basketRootNode.total_discount_price)
-          }}
+          <sl-format-number type="currency" currency="EUR" :value='
+            cartStore.state.basketRootNode.total - cartStore.state.basketRootNode.total_discount_price
+          ' lang="de"></sl-format-number>
         </div>
         <div class="viur-shop-cart-sidebar-info-line">
           <span>Versandkosten</span>
-          {{ convertToCurrency(0) }}
+          <sl-format-number type="currency" currency="EUR" :value='0' lang="de"></sl-format-number>
         </div>
         <div class="viur-shop-cart-sidebar-info-line total">
           <span>Gesamt:</span>
           <!--{{ cartStore.state.basketRootNode }}-->
-          {{ convertToCurrency(0) }}
+          <sl-format-number type="currency" currency="EUR" :value='0' lang="de"></sl-format-number>
         </div>
         <div class="viur-shop-cart-sidebar-btn-wrap">
           <sl-button variant="primary" size="medium">
@@ -202,7 +198,6 @@ import CartNode from "./CartNode.vue";
 import CartLeaf from "./CartLeaf.vue";
 import Discount from "./Discount.vue";
 import Shipping from "../order/process/Shipping.vue";
-import {convertToCurrency} from "../../utils";
 
 const props = defineProps({
   mode: {type: String, default: "basket"},

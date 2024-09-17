@@ -107,7 +107,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getShippingData() {
-    return await shopClient.shippingData({cart_key: state.basketRootNode.key});
+    return await shopClient.shipping_list({cart_key: state.basketRootNode.key});
 
   }
 
