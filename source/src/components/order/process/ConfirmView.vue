@@ -2,83 +2,83 @@
   <Loader v-if="!state.cartIsInit"></Loader>
 
   <template v-else>
-      <div class="list">
-        <h2 class="viur-shop-cart-headline headline">Bestellung prüfen</h2>
-        <div class="viur-shop-cart-address-wrap">
-          <div class="viur-shop-cart-address">
-            <div class="viur-shop-cart-address-headline">
-              Versandadresse
-              <sl-button outline size="small">
-                <sl-icon name="pencil" slot="prefix"></sl-icon>
-              </sl-button>
-            </div>
-            Roland Brose<br />
-            Speicherstraße 33<br />
-            44147 Dortmund, DE<br />
-            <br />
-            rb@mausbrand.de<br />
-            0231 21 34 68 90
+    <div class="list">
+      <h2 class="viur-shop-cart-headline headline">Bestellung prüfen</h2>
+      <div class="viur-shop-cart-address-wrap">
+        <div class="viur-shop-cart-address">
+          <div class="viur-shop-cart-address-headline">
+            Versandadresse
+            <sl-button outline size="small">
+              <sl-icon name="pencil" slot="prefix"></sl-icon>
+            </sl-button>
           </div>
-          <div class="viur-shop-cart-address">
-            <div class="viur-shop-cart-address-headline">
-              Rechnungsadresse
-              <sl-button outline size="small">
-                <sl-icon name="pencil" slot="prefix"></sl-icon>
-              </sl-button>
-            </div>
-            Roland Brose<br />
-            Speicherstraße 33<br />
-            44147 Dortmund, DE<br />
-            <br />
-            rb@mausbrand.de<br />
-            0231 21 34 68 90
-          </div>
+          Roland Brose<br/>
+          Speicherstraße 33<br/>
+          44147 Dortmund, DE<br/>
+          <br/>
+          rb@mausbrand.de<br/>
+          0231 21 34 68 90
         </div>
-
-        <div class="viur-shop-cart-payment">
-          <div class="viur-shop-cart-payment-method">
-            <span>Zahlungsmethode:</span>
-            Paypal
+        <div class="viur-shop-cart-address">
+          <div class="viur-shop-cart-address-headline">
+            Rechnungsadresse
+            <sl-button outline size="small">
+              <sl-icon name="pencil" slot="prefix"></sl-icon>
+            </sl-button>
           </div>
-          <sl-button outline size="small">
-            <sl-icon name="pencil" slot="prefix"></sl-icon>
-          </sl-button>
+          Roland Brose<br/>
+          Speicherstraße 33<br/>
+          44147 Dortmund, DE<br/>
+          <br/>
+          rb@mausbrand.de<br/>
+          0231 21 34 68 90
         </div>
+      </div>
 
-        <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
-        <!-- <sl-card
-          horizontal
-          class="viur-shop-cart-mini-card"
-          v-for="item in cartStore.state.carts[cartStore.state.basket].items"
-        >
-          <img
-            class="viur-shop-cart-mini-card-img"
-            slot="image"
-            :src="getImage(item.article.dest.key)"
-          />
+      <div class="viur-shop-cart-payment">
+        <div class="viur-shop-cart-payment-method">
+          <span>Zahlungsmethode:</span>
+          {{state.selectedPaymentProvider}}
+        </div>
+        <sl-button outline size="small">
+          <sl-icon name="pencil" slot="prefix"></sl-icon>
+        </sl-button>
+      </div>
 
-          <div class="viur-shop-cart-mini-cart-header" slot="header">
-            <h4 class="viur-shop-cart-mini-headline headline">{{ item.article.dest.shop_name }} | 425018</h4>
-          </div>
-          <div class="viur-shop-cart-mini-card-body-row">
-            <div class="viur-shop-cart-mini-card-body-info">
-              <div class="viur-shop-cart-mini-card-info-wrap">
-                <div class="viur-shop-cart-mini-card-info">
-                  <span>Anzahl: </span>
-                  1
-                </div>
-                <div class="viur-shop-cart-mini-card-info">
-                  <span>Preis: </span>
-                  {{ item.article.dest.shop_price_recommended }} €
-                </div>
+      <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
+      <!-- <sl-card
+        horizontal
+        class="viur-shop-cart-mini-card"
+        v-for="item in cartStore.state.carts[cartStore.state.basket].items"
+      >
+        <img
+          class="viur-shop-cart-mini-card-img"
+          slot="image"
+          :src="getImage(item.article.dest.key)"
+        />
+
+        <div class="viur-shop-cart-mini-cart-header" slot="header">
+          <h4 class="viur-shop-cart-mini-headline headline">{{ item.article.dest.shop_name }} | 425018</h4>
+        </div>
+        <div class="viur-shop-cart-mini-card-body-row">
+          <div class="viur-shop-cart-mini-card-body-info">
+            <div class="viur-shop-cart-mini-card-info-wrap">
+              <div class="viur-shop-cart-mini-card-info">
+                <span>Anzahl: </span>
+                1
+              </div>
+              <div class="viur-shop-cart-mini-card-info">
+                <span>Preis: </span>
+                {{ item.article.dest.shop_price_recommended }} €
               </div>
             </div>
           </div>
-        </sl-card> -->
+        </div>
+      </sl-card> -->
 
       <teleport to="#order_sidebar">
         <h2 class="viur-shop-cart-sidebar-headline headline">Jetzt Bestellen</h2>
-        <br />
+        <br/>
         <!-- <div class="viur-shop-cart-sidebar-info-line">
           <span>Zwischensumme</span>
           {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00,00" }} €
@@ -115,10 +115,10 @@
 </template>
 
 <script setup>
-import { reactive, onBeforeMount, computed } from "vue";
+import {reactive, onBeforeMount, computed} from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
-import { useCartStore } from "../../stores/cart.js";
-import { Request } from "@viur/vue-utils";
+import {useCartStore} from "../../../stores/cart.js";
+import {Request} from "@viur/vue-utils";
 
 const cartStore = useCartStore();
 
@@ -128,12 +128,22 @@ const state = reactive({
     return true
   }),
   itemsIsInit: computed(() => {
-    return cartStore.state?.carts[cartStore.state.basket].items ? true : false;
+    return !!cartStore.state?.carts[cartStore.state.basket].items;
+  }),
+  selectedPaymentProvider:computed(()=>{
+    /* fixme  this compute generates an error
+      Uncaught (in promise) TypeError: Cannot set properties of null (setting '__vnode')
+      but the value is correct.
+     */
+    return cartStore.state?.selectedPaymentProvider.title;
+
+
   }),
   images: {},
   showOrderButton: false,
-});
 
+});
+console.log("se",state.selectedPaymentProvider)
 function getImage(item) {
   Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
     let data = await resp.json();
@@ -308,7 +318,7 @@ sl-menu-item {
   }
 }
 
-.viur-shop-cart-headline{
+.viur-shop-cart-headline {
   margin: 0 0 var(--sl-spacing-x-large) 0;
   font-size: var(--shop-form-headline-size);
 }

@@ -15,8 +15,10 @@ export const useCartStore = defineStore("cartstore", () => {
     whishlistRootNodes: [],
     children: {},
     structure: {address: {}, cart: {}},
+    paymentProviders: {},
     billingAddress: {},
-    shippingAddress: {}
+    shippingAddress: {},
+    selectedPaymentProvider: {}
   });
 
   async function init() {
@@ -106,8 +108,17 @@ export const useCartStore = defineStore("cartstore", () => {
     await shopClient.discount_add({code});
   }
 
+
   async function getShippingData() {
     return await shopClient.shipping_list({cart_key: state.basketRootNode.key});
+
+  }
+
+  async function payment_providers_list() {
+    const paymentProvieders = await shopClient.payment_providers_list();
+    state.paymentProviders = paymentProvieders;
+    //select first paymentprovider as default
+    state.selectedPaymentProvider = paymentProvieders[Object.keys(paymentProvieders)[0]]
 
   }
 
@@ -122,6 +133,9 @@ export const useCartStore = defineStore("cartstore", () => {
     getChildren,
     addDiscount,
     getAddress,
-    getShippingData
-  };
+    getShippingData,
+    payment_providers_list,
+
+  }
+    ;
 });

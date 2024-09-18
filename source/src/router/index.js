@@ -31,7 +31,7 @@ const default_routes = [
   {
     path: "/shop/order/confirm",
     name: "ConfirmView",
-    component: () => import("../components/cart/ConfirmView.vue"),
+    component: () => import("../components/order/process/ConfirmView.vue"),
   },
 ];4
 

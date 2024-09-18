@@ -7,7 +7,7 @@ import { onBeforeMount, reactive, shallowRef, computed } from "vue";
 import { ListRequest } from "@viur/vue-utils";
 
 import CartView from "../../cart/CartView.vue";
-import ConfirmView from "../../cart/ConfirmView.vue";
+import ConfirmView from "./ConfirmView.vue";
 import OrderView from "./OrderView.vue";
 import CategoryView from "../category/CategoryView.vue";
 import OrderComplete from "./OrderComplete.vue";

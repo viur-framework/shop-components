@@ -61,23 +61,22 @@
           <!--{{ cartStore.state.basketRootNode }}-->
           <sl-format-number type="currency" currency="EUR" :value='0' lang="de"></sl-format-number>
         </div>
-        <div class="viur-shop-cart-sidebar-btn-wrap">
+        <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!props.inOrderView">
           <sl-button variant="primary" size="medium">
             Jetzt Bestellen
           </sl-button>
-          <sl-button size="medium" variant="info">
-            <sl-icon name="paypal" slot="prefix"></sl-icon>
-            Paypal
-          </sl-button>
+
         </div>
       </template>
     </teleport>
 
     <Discount></Discount>
+
     <Shipping ref="shipping"></Shipping>
     <div class="viur-shop-cart-mobile-footer">
       <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
     </div>
+
     <!-- <pre> {{ state.leaves }}</pre> -->
   </template>
 
@@ -200,9 +199,11 @@ import Discount from "./Discount.vue";
 import Shipping from "../order/process/Shipping.vue";
 
 const props = defineProps({
-  mode: {type: String, default: "basket"},
-  cartKey: {type: String, required: true},
-  sidebar: {type: Boolean, default: true},
+  mode: { type: String, default: "basket" },
+  cartKey: { type: String, required: true },
+  sidebar: { type: Boolean, default: true },
+  inOrderView:{type:Boolean,default:false},
+
 });
 
 const cartStore = useCartStore();
