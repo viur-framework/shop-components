@@ -1,4 +1,5 @@
 <template>
+
   <sl-spinner v-if="!cartKey.length"></sl-spinner>
   <template v-else>
     <sl-dialog ref="confirm" @sl-hide="onDialogHide">

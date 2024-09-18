@@ -3,6 +3,7 @@
   <!-- <pre>{{ state.leaf.article.dest.key }}</pre>
   <pre>{{ state.leaf.article.dest.article }}</pre> -->
 
+
   <sl-card horizontal class="viur-shop-cart-leaf">
     <img
       class="viur-shop-cart-leaf-image"
@@ -96,6 +97,7 @@
 <script setup>
 import { computed, onBeforeMount, reactive } from "vue";
 import { Request } from "@viur/vue-utils";
+import ShopPriceFormatter from "../ui/generic/ShopPriceFormatter.vue";
 
 const props = defineProps({
   leaf: { type: Object, required: true },

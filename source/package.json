@@ -17,25 +17,7 @@
     "url": "https://github.com/viur-framework/shop-components/issues"
   },
   "homepage": "https://github.com/viur-framework/shop-components#readme",
-  "main": "dist/viur-shop-components.umd.js",
-  "module": "dist/viur-shop-components.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/viur-shop-components.es.js",
-      "require": "./dist/viur-shop-components.umd.js"
-    },
-    "./dist/style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
-    },
-    "./dist/ItemView.css": {
-      "import": "./dist/ItemView.css",
-      "require": "./dist/ItemView.css"
-    }
-  },
-  "files": [
-    "dist"
-  ],
+  "main": "src/main.js",
   "scripts": {
     "build": "vite build",
     "watch": "vite build --watch"

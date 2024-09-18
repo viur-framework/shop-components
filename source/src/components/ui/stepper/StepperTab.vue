@@ -10,7 +10,7 @@
         class="viur-shop-order-step-icon"
         v-if="tabs[tab].icon?.name"
         :name="tabs[tab].icon.name"
-        :library="tabs[tab].icon.library"
+        :library="tabs[tab].icon.library ? tabs[tab].icon.library : 'default'"
       >
       </sl-icon>
 

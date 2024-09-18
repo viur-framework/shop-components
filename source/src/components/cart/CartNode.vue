@@ -1,5 +1,7 @@
 <template>
-  <pre>{{ node.name }}</pre>
+  <h1 class="viur-shop-cart-headline" v-if="!node.cart_type === 'basket'">
+    {{ node.name }}
+  </h1>
 </template>
 
 <script setup>
@@ -11,3 +13,9 @@ const props = defineProps({
 
 const state = reactive({});
 </script>
+
+<style scoped>
+.viur-shop-cart-headline {
+  font-size: 2rem;
+}
+</style>

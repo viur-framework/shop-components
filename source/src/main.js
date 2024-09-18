@@ -14,7 +14,7 @@ export { useCartStore, createRouterInstance };
 export { default as ShopOrderStepper } from "./components/ShopOrderStepper.vue";
 export { default as CartView } from "./components/cart/CartView.vue";
 export { default as ExampleUsage } from "./components/order/process/ExampleUsage.vue";
-export { default as ConfirmView } from "./components/order/process/ConfirmView.vue";
+export { default as ConfirmView } from "./components/ShopOrderConfirm.vue";
 export { default as OrderComplete } from "./components/ShopOrderComplete.vue";
 export { default as UserInformation } from "./components/order/information/UserInformation.vue";
 export { default as UserInfoMulti } from "./components/order/information/UserInfoMulti.vue";

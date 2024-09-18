@@ -75,7 +75,6 @@
           </div>
         </div>
       </sl-card> -->
-      <ArticleList />
     </div>
   </template>
 </template>
@@ -83,9 +82,8 @@
 <script setup>
 import { reactive, onBeforeMount, computed } from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
-import { useCartStore } from "../../../stores/cart.js";
+import { useCartStore } from "../stores/cart.js";
 import { Request } from "@viur/vue-utils";
-import ArticleList from "../../ui/confirm/ArticleList.vue";
 
 const cartStore = useCartStore();
 

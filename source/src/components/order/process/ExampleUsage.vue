@@ -3,6 +3,8 @@
     :tabs="state.tabs"
     @tabChange="handleTabs"
     :sidebar="true"
+    :sidebar-bottom="false"
+    :show-discount="false"
   >
     <!-- customize slots -->
     <!-- <template #main> The Order Stepper </template> -->
@@ -15,7 +17,7 @@
 import { onBeforeMount, reactive, shallowRef, computed } from "vue";
 import ShopOrderStepper from "../../ShopOrderStepper.vue";
 import CartView from "../../cart/CartView.vue";
-import ConfirmView from "./ConfirmView.vue";
+import ConfirmView from "../../ShopOrderConfirm.vue";
 import ShopOrderComplete from "../../ShopOrderComplete.vue";
 import UserInformation from "../information/UserInformation.vue";
 import UserInfoMulti from "../information/UserInfoMulti.vue";
@@ -38,7 +40,7 @@ const state = reactive({
         placeholder: "/static/partnerbereich/img/placeholder.svg",
       }, // cartKey (on initial call has to be a root node) is a required prop, make sure that cartStore.init() is called before cart is mounted
       displayName: "Warenkorb",
-      // icon: { name: "bag" },
+      icon: { name: "bag" },
       position: 2,
       disabled: false,
     },
@@ -46,7 +48,7 @@ const state = reactive({
       component: shallowRef(ConfirmView),
       props: {},
       displayName: "Bestellung prüfen",
-      // icon: { name: "clipboard-check" },
+      icon: { name: "clipboard-check" },
       position: 5,
       disabled: false,
     },
@@ -90,7 +92,6 @@ const state = reactive({
 });
 
 function handleTabs(e) {
-  // console.dir("hier", e.target)
   if (e?.detail.name === "confirm") {
     state.tabs.orderComplete.disabled = false;
   }
