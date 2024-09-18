@@ -1,59 +1,56 @@
 <template>
-  <div
-    v-for="(providerData, providerName, i) in cartStore.state.paymentProviders"
-  >
-    <sl-card
-      selectable
-      :id="'povider__' + providerName"
-      @sl-change="providerChanged"
-      :selected="i === 0"
-    >
+
+  <div v-for="(providerData,providerName,i) in cartStore.state.paymentProviders">
+    <sl-card selectable :id="'povider__'+providerName" @sl-change="providerChanged" :selected="i===0">
       <img
         slot="image"
         src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
         alt="A kitten sits patiently between a terracotta pot and decorative grasses."
       />
       <div slot="footer">
-        {{ providerData["title"] }}
-        <br />
-        {{ providerData["descr"] }}
+        {{ providerData?.title }}
+        <br>
+        {{ providerData?.descr }}
       </div>
     </sl-card>
   </div>
+
 </template>
 
 <script setup>
 //todo styling
 // set image
 
-import { onBeforeMount, reactive } from "vue";
-import { useCartStore } from "../../../stores/cart";
+import {onBeforeMount, reactive} from "vue";
+import {useCartStore} from "../../../stores/cart";
 
 const cartStore = useCartStore();
 
 function providerChanged(e) {
   if (e.target.selected) {
-    console.log("a", cartStore.state.selectedPaymentProvider);
-    console.log("b", cartStore.state.paymentProviders);
+    console.log( "a",cartStore.state.selectedPaymentProvider)
+    console.log( "b",cartStore.state.paymentProviders)
 
-    cartStore.state.selectedPaymentProvider =
-      cartStore.state.paymentProviders[e.target.id.replace("povider__", "")];
-    console.log(cartStore.state.selectedPaymentProvider);
+
+    cartStore.state.selectedPaymentProvider = cartStore.state.paymentProviders[e.target.id.replace("povider__", "")]
+    console.log(cartStore.state.selectedPaymentProvider)
     document.querySelectorAll("sl-card").forEach((card) => {
+
       if (card !== e.target) {
         card.selected = false;
       }
-    });
-  } else {
-    //can't deselect now
+    })
+
+  } else {//can't deselect now
     e.target.selected = true;
+
   }
-  console.log("provider changed", e);
+  console.log("provider changed", e)
 }
 
 onBeforeMount(async () => {
-  await cartStore.getPaymentProviders();
-});
+  await cartStore.payment_providers_list();
+})
 </script>
 
 <style scoped>

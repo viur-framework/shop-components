@@ -1,5 +1,4 @@
 import { reactive } from "vue";
-// import { Request, ListRequest } from "@viur/vue-utils";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "@viur/viur-shop-client";
 
@@ -128,12 +127,18 @@ export const useCartStore = defineStore("cartstore", () => {
     });
   }
 
-  async function getPaymentProviders() {
-    const paymentProviders = await shopClient.payment_providers_list();
-    state.paymentProviders = paymentProviders;
+  async function getShippingData() {
+    return await shopClient.shipping_list({
+      cart_key: state.basketRootNode.key,
+    });
+  }
+
+  async function payment_providers_list() {
+    const paymentProvieders = await shopClient.payment_providers_list();
+    state.paymentProviders = paymentProvieders;
     //select first paymentprovider as default
     state.selectedPaymentProvider =
-      paymentProviders[Object.keys(paymentProviders)[0]];
+      paymentProvieders[Object.keys(paymentProvieders)[0]];
   }
 
   return {
@@ -148,6 +153,10 @@ export const useCartStore = defineStore("cartstore", () => {
     addDiscount,
     getPaymentProviders,
     getAddress,
-    addNodes,
-  };
+    addNodes,,
+    getShippingData,
+    payment_providers_list,
+
+  }
+    ;
 });
