@@ -12,12 +12,13 @@
                 <sl-icon name="pencil" slot="prefix"></sl-icon>
               </sl-button>
             </div>
-            Roland Brose<br />
-            Speicherstraße 33<br />
-            44147 Dortmund, DE<br />
+            {{ cartStore.state.shippingAddress.firstname }} {{ cartStore.state.shippingAddress.lastname }}<br />
+            {{ cartStore.state.shippingAddress.street_name }} {{ cartStore.state.shippingAddress.street_number }}<br />
+            {{ cartStore.state.shippingAddress.zip_code }} {{ cartStore.state.shippingAddress.city }} {{ cartStore.state.shippingAddress.country }}<br />
+
             <br />
-            rb@mausbrand.de<br />
-            0231 21 34 68 90
+              ##TODO MAIL<br />
+            ##TODO Phone
           </div>
           <div class="viur-shop-cart-address">
             <div class="viur-shop-cart-address-headline">
@@ -26,12 +27,12 @@
                 <sl-icon name="pencil" slot="prefix"></sl-icon>
               </sl-button>
             </div>
-            Roland Brose<br />
-            Speicherstraße 33<br />
-            44147 Dortmund, DE<br />
+           {{ cartStore.state.billingAddress.firstname }} {{ cartStore.state.billingAddress.lastname }}<br />
+            {{ cartStore.state.billingAddress.street_name }} {{ cartStore.state.billingAddress.street_number }}<br />
+            {{ cartStore.state.billingAddress.zip_code }} {{ cartStore.state.billingAddress.city }} {{ cartStore.state.billingAddress.country }}<br />
             <br />
-            rb@mausbrand.de<br />
-            0231 21 34 68 90
+            ##TODO MAIL<br />
+            ##TODO Phone
           </div>
         </div>
 
@@ -133,7 +134,6 @@ const state = reactive({
   images: {},
   showOrderButton: false,
 });
-
 function getImage(item) {
   Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
     let data = await resp.json();
