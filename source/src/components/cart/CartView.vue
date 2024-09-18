@@ -59,25 +59,20 @@
         </div>
         <div class="viur-shop-cart-sidebar-info-line total">
           <span>Gesamt:</span>
-          <!--{{ cartStore.state.basketRootNode }}-->
+          {{ cartStore.state.basketRootNode.total }}
           €
         </div>
-        <div class="viur-shop-cart-sidebar-btn-wrap">
+        <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!props.inOrderView">
           <sl-button variant="primary" size="medium">
             Jetzt Bestellen
           </sl-button>
-          <sl-button size="medium" variant="info">
-            <sl-icon name="paypal" slot="prefix"></sl-icon>
-            Paypal
-          </sl-button>
+
         </div>
       </template>
     </teleport>
 
     <Discount></Discount>
-    <div class="viur-shop-cart-mobile-footer">
-      <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
-    </div>
+
     <!-- <pre> {{ state.leaves }}</pre> -->
   </template>
 
@@ -202,6 +197,7 @@ const props = defineProps({
   mode: { type: String, default: "basket" },
   cartKey: { type: String, required: true },
   sidebar: { type: Boolean, default: true },
+  inOrderView:{type:Boolean,default:false},
 });
 
 const cartStore = useCartStore();

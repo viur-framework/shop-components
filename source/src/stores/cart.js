@@ -16,8 +16,10 @@ export const useCartStore = defineStore("cartstore", () => {
     whishlistRootNodes: [],
     children: {},
     structure: {address: {}, cart: {}},
-    billingAddress:{},
-    shippingAddress:{}
+    paymentProviders: {},
+    billingAddress: {},
+    shippingAddress: {},
+    selectedPaymentProvider: {},
   });
 
   async function init() {
@@ -25,7 +27,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getChildren(parentKey) {
-    return  await shopClient.cart_list({cart_key: parentKey});
+    return await shopClient.cart_list({cart_key: parentKey});
   }
 
   async function getRootNodes() {
@@ -90,23 +92,28 @@ export const useCartStore = defineStore("cartstore", () => {
     state.structure.address = structure.addSkel;
 
   }
+
   async function getAddress() {
     const addressList = await shopClient.address_list();
-    for(const address of addressList)
-    {
-      if(address.address_type==="billing")
-      {
-        state.billingAddress=address;
+    for (const address of addressList) {
+      if (address.address_type === "billing") {
+        state.billingAddress = address;
       }
-      if(address.address_type==="shipping")
-      {
-        state.shippingAddress=address;
+      if (address.address_type === "shipping") {
+        state.shippingAddress = address;
       }
     }
   }
 
   async function addDiscount(code) {
     await shopClient.discount_add({code});
+  }
+
+  async function payment_providers_list() {
+    const paymentProvieders = await shopClient.payment_providers_list();
+    state.paymentProviders = paymentProvieders;
+    //select first paymentprovider as default
+    state.selectedPaymentProvider = paymentProvieders[Object.keys(paymentProvieders)[0]]
   }
 
   return {
@@ -119,6 +126,8 @@ export const useCartStore = defineStore("cartstore", () => {
     getAddressStructure,
     getChildren,
     addDiscount,
+    payment_providers_list,
     getAddress
+
   };
 });
