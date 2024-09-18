@@ -1,6 +1,10 @@
 <template>
-  <div v-if="state.isShipping">
-    Versandkosten: <sl-format-number type="currency" currency="EUR" :value="state.cheapestShipping.dest.shipping_cost" lang="de"></sl-format-number>
+  <div class="viur-shop-cart-sidebar-info-line" v-if="state.isShipping">
+
+    <span>Versandkosten:</span>
+    <sl-format-number type="currency" currency="EUR" :value="state.cheapestShipping.dest.shipping_cost"
+                      lang="de"></sl-format-number>
+
   </div>
 </template>
 <script setup>
@@ -15,7 +19,7 @@ const state = reactive({
   isShipping: false,
 })
 
-async function getShipping() {
+async function updateShipping() {
   state.shippingData = await cartStore.getShippingData();
   state.shippingData.sort((a, b) => {
     if (a["dest"]["shipping_cost"] < a["dest"]["shipping_cost"]) {
@@ -29,18 +33,37 @@ async function getShipping() {
   //last element is cheapest shipping after sorting
   state.cheapestShipping = state.shippingData[state.shippingData.length - 1];
   state.isShipping = true;
-  console.log("cheapestShipping",state.cheapestShipping)
+
+}
+function getShippingCost()
+{
+  if(state.isShipping)
+  {
+    return  state.cheapestShipping.dest.shipping_cost
+  }
+  return 0;
 }
 
-defineExpose({getShipping})
+defineExpose({updateShipping,getShippingCost})
 
 onBeforeMount(async () => {
   await cartStore.init();
-  await getShipping()
+  await updateShipping()
 });
 
 </script>
 
 <style scoped>
+.viur-shop-cart-sidebar-info-line {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin: var(--sl-spacing-2x-small) 0;
 
+
+
+  span {
+    margin-right: auto;
+  }
+}
 </style>

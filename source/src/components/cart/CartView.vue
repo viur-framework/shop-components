@@ -42,7 +42,8 @@
 
         <div class="viur-shop-cart-sidebar-info-line">
           <span>Zwischensumme</span>
-          <sl-format-number type="currency" currency="EUR" :value='cartStore.state.basketRootNode.total'></sl-format-number>
+          <sl-format-number type="currency" currency="EUR"
+                            :value='cartStore.state.basketRootNode.total'></sl-format-number>
 
 
         </div>
@@ -53,13 +54,12 @@
           ' lang="de"></sl-format-number>
         </div>
         <div class="viur-shop-cart-sidebar-info-line">
-          <span>Versandkosten</span>
-          <sl-format-number type="currency" currency="EUR" :value='0' lang="de"></sl-format-number>
+
+          <Shipping ref="shipping"></Shipping>
         </div>
         <div class="viur-shop-cart-sidebar-info-line total">
           <span>Gesamt:</span>
-          <!--{{ cartStore.state.basketRootNode }}-->
-          <sl-format-number type="currency" currency="EUR" :value='0' lang="de"></sl-format-number>
+          <sl-format-number type="currency" currency="EUR" :value='state.totalPrice' lang="de"></sl-format-number>
         </div>
         <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!props.inOrderView">
           <sl-button variant="primary" size="medium">
@@ -72,7 +72,7 @@
 
     <Discount></Discount>
 
-    <Shipping ref="shipping"></Shipping>
+
     <div class="viur-shop-cart-mobile-footer">
       <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
     </div>
@@ -199,10 +199,10 @@ import Discount from "./Discount.vue";
 import Shipping from "../order/process/Shipping.vue";
 
 const props = defineProps({
-  mode: { type: String, default: "basket" },
-  cartKey: { type: String, required: true },
-  sidebar: { type: Boolean, default: true },
-  inOrderView:{type:Boolean,default:false},
+  mode: {type: String, default: "basket"},
+  cartKey: {type: String, required: true},
+  sidebar: {type: Boolean, default: true},
+  inOrderView: {type: Boolean, default: false},
 
 });
 
@@ -214,6 +214,13 @@ const shipping = ref(null);
 const state = reactive({
   itemsIsInit: computed(() => {
     return true;
+  }),
+  totalPrice: computed(() => {
+    if (shipping.value) {
+      return cartStore.state.basketRootNode.total + shipping.value.getShippingCost();
+    }
+    return 0;
+
   }),
   images: {},
   currentItem: {},
@@ -267,8 +274,8 @@ async function updateItem(e) {
     await cartStore.init();
   }
 
-  console.log("shipping", shipping);
-  shipping.value.getShipping();
+  await shipping.value.updateShipping();
+
 }
 
 function removeItem(e) {
@@ -330,6 +337,7 @@ onBeforeMount(async () => {
 
   console.log("state.leaves", state.leaves);
 });
+
 </script>
 
 <style scoped>

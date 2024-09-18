@@ -1,5 +1,7 @@
 <template>
   <div>
+    <span>Haben Sie noch ein Gutschein?</span><br>
+    <span v-if="cartStore.state.basketRootNode.discount">Es befindet sich noch kein Gutschein im Warenkorb.</span>
     <sl-input label="Rabatt Code" ref="codeInput"></sl-input>
     <sl-button @click="addDiscountCode">Einlösen</sl-button>
     <sl-alert ref="errorMessageContainer">

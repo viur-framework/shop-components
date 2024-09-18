@@ -106,7 +106,7 @@
         Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen
       </sl-checkbox>
 
-      <div class="viur-shop-cart-sidebar-btn-wrap">
+      <div class="viur-shop-cart-sidebar-btn-wrap" v-if="state.showOrderButton">
         <sl-button
           :variant="state.showOrderButton ? 'info' : 'disabled'"
           size="small"

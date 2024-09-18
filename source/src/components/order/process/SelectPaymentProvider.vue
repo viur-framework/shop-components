@@ -8,9 +8,9 @@
         alt="A kitten sits patiently between a terracotta pot and decorative grasses."
       />
       <div slot="footer">
-        {{ providerData["title"] }}
+        {{ providerData?.title }}
         <br>
-        {{ providerData["descr"] }}
+        {{ providerData?.descr }}
       </div>
     </sl-card>
   </div>

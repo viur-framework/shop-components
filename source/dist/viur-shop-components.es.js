@@ -1,4 +1,4 @@
-import { C as p, b as n, a as d, O as C, c, S as f, U as l, d as u, V, u as w } from "./main.aec080ac.mjs";
+import { C as p, b as n, a as d, O as C, c, S as f, U as l, d as u, V, u as w } from "./main.5549e1ff.mjs";
 import "vue";
 import "pinia";
 import "@viur/ckeditor5-build-classic";
