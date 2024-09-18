@@ -2,6 +2,7 @@
   <Loader v-if="!state.cartIsInit"></Loader>
 
   <template v-else>
+
     <div class="list">
       <h2 class="viur-shop-cart-headline headline">Bestellung prüfen</h2>
       <div class="viur-shop-cart-address-wrap">
@@ -12,12 +13,14 @@
               <sl-icon name="pencil" slot="prefix"></sl-icon>
             </sl-button>
           </div>
-          Roland Brose<br/>
-          Speicherstraße 33<br/>
-          44147 Dortmund, DE<br/>
+          {{ cartStore.state.shippingAddress.firstname }} {{ cartStore.state.shippingAddress.lastname }}<br/>
+          {{ cartStore.state.shippingAddress.street_name }} {{ cartStore.state.shippingAddress.street_number }}<br/>
+          {{ cartStore.state.shippingAddress.zip_code }} {{ cartStore.state.shippingAddress.city }}
+          {{ cartStore.state.shippingAddress.country }}<br/>
+
           <br/>
-          rb@mausbrand.de<br/>
-          0231 21 34 68 90
+          ##TODO MAIL<br/>
+          ##TODO Phone
         </div>
         <div class="viur-shop-cart-address">
           <div class="viur-shop-cart-address-headline">
@@ -26,90 +29,93 @@
               <sl-icon name="pencil" slot="prefix"></sl-icon>
             </sl-button>
           </div>
-          Roland Brose<br/>
-          Speicherstraße 33<br/>
-          44147 Dortmund, DE<br/>
+          {{ cartStore.state.billingAddress.firstname }} {{ cartStore.state.billingAddress.lastname }}<br/>
+          {{ cartStore.state.billingAddress.street_name }} {{ cartStore.state.billingAddress.street_number }}<br/>
+          {{ cartStore.state.billingAddress.zip_code }} {{ cartStore.state.billingAddress.city }}
+          {{ cartStore.state.billingAddress.country }}<br/>
           <br/>
-          rb@mausbrand.de<br/>
-          0231 21 34 68 90
+          ##TODO MAIL<br/>
+          ##TODO Phone
+
         </div>
+
+    </div>
+
+    <div class="viur-shop-cart-payment">
+      <div class="viur-shop-cart-payment-method">
+        <span>Zahlungsmethode:</span>
+        {{ state.selectedPaymentProvider }}
       </div>
+      <sl-button outline size="small">
+        <sl-icon name="pencil" slot="prefix"></sl-icon>
+      </sl-button>
+    </div>
 
-      <div class="viur-shop-cart-payment">
-        <div class="viur-shop-cart-payment-method">
-          <span>Zahlungsmethode:</span>
-          {{state.selectedPaymentProvider}}
-        </div>
-        <sl-button outline size="small">
-          <sl-icon name="pencil" slot="prefix"></sl-icon>
-        </sl-button>
+    <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
+    <!-- <sl-card
+      horizontal
+      class="viur-shop-cart-mini-card"
+      v-for="item in cartStore.state.carts[cartStore.state.basket].items"
+    >
+      <img
+        class="viur-shop-cart-mini-card-img"
+        slot="image"
+        :src="getImage(item.article.dest.key)"
+      />
+
+      <div class="viur-shop-cart-mini-cart-header" slot="header">
+        <h4 class="viur-shop-cart-mini-headline headline">{{ item.article.dest.shop_name }} | 425018</h4>
       </div>
-
-      <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
-      <!-- <sl-card
-        horizontal
-        class="viur-shop-cart-mini-card"
-        v-for="item in cartStore.state.carts[cartStore.state.basket].items"
-      >
-        <img
-          class="viur-shop-cart-mini-card-img"
-          slot="image"
-          :src="getImage(item.article.dest.key)"
-        />
-
-        <div class="viur-shop-cart-mini-cart-header" slot="header">
-          <h4 class="viur-shop-cart-mini-headline headline">{{ item.article.dest.shop_name }} | 425018</h4>
-        </div>
-        <div class="viur-shop-cart-mini-card-body-row">
-          <div class="viur-shop-cart-mini-card-body-info">
-            <div class="viur-shop-cart-mini-card-info-wrap">
-              <div class="viur-shop-cart-mini-card-info">
-                <span>Anzahl: </span>
-                1
-              </div>
-              <div class="viur-shop-cart-mini-card-info">
-                <span>Preis: </span>
-                {{ item.article.dest.shop_price_recommended }} €
-              </div>
+      <div class="viur-shop-cart-mini-card-body-row">
+        <div class="viur-shop-cart-mini-card-body-info">
+          <div class="viur-shop-cart-mini-card-info-wrap">
+            <div class="viur-shop-cart-mini-card-info">
+              <span>Anzahl: </span>
+              1
+            </div>
+            <div class="viur-shop-cart-mini-card-info">
+              <span>Preis: </span>
+              {{ item.article.dest.shop_price_recommended }} €
             </div>
           </div>
         </div>
-      </sl-card> -->
+      </div>
+    </sl-card> -->
 
-      <teleport to="#order_sidebar">
-        <h2 class="viur-shop-cart-sidebar-headline headline">Jetzt Bestellen</h2>
-        <br/>
-        <!-- <div class="viur-shop-cart-sidebar-info-line">
-          <span>Zwischensumme</span>
-          {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00,00" }} €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Rabatt</span>
-          0 €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Versandkosten</span>
-          0 €
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line total">
-          <span>Gesamt:</span>
-          {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00" }} €
-        </div> -->
+    <teleport to="#order_sidebar">
+      <h2 class="viur-shop-cart-sidebar-headline headline">Jetzt Bestellen</h2>
+      <br/>
+      <!-- <div class="viur-shop-cart-sidebar-info-line">
+        <span>Zwischensumme</span>
+        {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00,00" }} €
+      </div>
+      <div class="viur-shop-cart-sidebar-info-line">
+        <span>Rabatt</span>
+        0 €
+      </div>
+      <div class="viur-shop-cart-sidebar-info-line">
+        <span>Versandkosten</span>
+        0 €
+      </div>
+      <div class="viur-shop-cart-sidebar-info-line total">
+        <span>Gesamt:</span>
+        {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00" }} €
+      </div> -->
 
-        <sl-checkbox @sl-change="onTosAccept">
-          Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen
-        </sl-checkbox>
+      <sl-checkbox @sl-change="onTosAccept">
+        Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen
+      </sl-checkbox>
 
-        <div class="viur-shop-cart-sidebar-btn-wrap">
-          <sl-button
-            :variant="state.showOrderButton ? 'info' : 'disabled'"
-            size="small"
-            :disabled="!state.showOrderButton"
-          >
-            Zahlungspflichtig bestellen
-          </sl-button>
-        </div>
-      </teleport>
+      <div class="viur-shop-cart-sidebar-btn-wrap">
+        <sl-button
+          :variant="state.showOrderButton ? 'info' : 'disabled'"
+          size="small"
+          :disabled="!state.showOrderButton"
+        >
+          Zahlungspflichtig bestellen
+        </sl-button>
+      </div>
+    </teleport>
     </div>
   </template>
 </template>
@@ -130,7 +136,7 @@ const state = reactive({
   itemsIsInit: computed(() => {
     return !!cartStore.state?.carts[cartStore.state.basket].items;
   }),
-  selectedPaymentProvider:computed(()=>{
+  selectedPaymentProvider: computed(() => {
     /* fixme  this compute generates an error
       Uncaught (in promise) TypeError: Cannot set properties of null (setting '__vnode')
       but the value is correct.
@@ -142,8 +148,9 @@ const state = reactive({
   images: {},
   showOrderButton: false,
 
-});
-console.log("se",state.selectedPaymentProvider)
+  });
+
+
 function getImage(item) {
   Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
     let data = await resp.json();
