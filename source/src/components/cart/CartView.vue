@@ -32,50 +32,52 @@
         </CartLeaf>
       </template>
     </div>
-    <div id="order_sidebar"></div>
-    <teleport to="#order_sidebar" v-if="sidebar">
-      <template v-if="sidebar">
-        <h2 class="viur-shop-cart-sidebar-headline headline">
-          Zusammenfassung
-        </h2>
-        <br/>
+    <div id="order_sidebar" v-if="standalone">
+      <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
+      <br />
 
+      <div class="viur-shop-cart-sidebar-info-line">
+        <span>Zwischensumme</span>
+        <sl-format-number
+          type="currency"
+          currency="EUR"
+          :value="cartStore.state.basketRootNode.total"
+        ></sl-format-number>
+      </div>
+      <div class="viur-shop-cart-sidebar-info-line">
+        <span>Rabatt</span>
+        <sl-format-number
+          type="currency"
+          currency="EUR"
+          :value="
+            cartStore.state.basketRootNode.total -
+            cartStore.state.basketRootNode.total_discount_price
+          "
+          lang="de"
+        ></sl-format-number>
+      </div>
+      <div class="viur-shop-cart-sidebar-info-line">
+        <Shipping ref="shipping"></Shipping>
+      </div>
+      <div class="viur-shop-cart-sidebar-info-line total">
+        <span>Gesamt:</span>
+        <sl-format-number
+          type="currency"
+          currency="EUR"
+          :value="state.totalPrice"
+          lang="de"
+        ></sl-format-number>
+      </div>
+      <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!props.inOrderView">
+        <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
+        <Discount></Discount>
 
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Zwischensumme</span>
-          <sl-format-number type="currency" currency="EUR"
-                            :value='cartStore.state.basketRootNode.total'></sl-format-number>
-
-
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line">
-          <span>Rabatt</span>
-          <sl-format-number type="currency" currency="EUR" :value='
-            cartStore.state.basketRootNode.total - cartStore.state.basketRootNode.total_discount_price
-          ' lang="de"></sl-format-number>
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line">
-
-          <Shipping ref="shipping"></Shipping>
-        </div>
-        <div class="viur-shop-cart-sidebar-info-line total">
-          <span>Gesamt:</span>
-          <sl-format-number type="currency" currency="EUR" :value='state.totalPrice' lang="de"></sl-format-number>
-        </div>
-        <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!props.inOrderView">
+        <div class="viur-shop-cart-mobile-footer">
           <sl-button variant="primary" size="medium">
-            Jetzt Bestellen
-          </sl-button>
-
+            Jetzt Bestellen</sl-button
+          >
         </div>
-      </template>
-    </teleport>
-
-    <Discount></Discount>
-
-
-    <div class="viur-shop-cart-mobile-footer">
-      <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
+      </div>
     </div>
 
     <!-- <pre> {{ state.leaves }}</pre> -->
@@ -191,20 +193,18 @@
 </template>
 
 <script setup>
-import {reactive, computed, onBeforeMount, ref} from "vue";
-import Loader from "@viur/vue-utils/generic/Loader.vue";
-import {useCartStore} from "../../stores/cart.js";
+import { reactive, computed, onBeforeMount, ref } from "vue";
+import { useCartStore } from "../../stores/cart.js";
 import CartNode from "./CartNode.vue";
 import CartLeaf from "./CartLeaf.vue";
 import Shipping from "../order/process/Shipping.vue";
 
 const props = defineProps({
-  mode: {type: String, default: "basket"},
-  cartKey: {type: String, required: true},
-  sidebar: {type: Boolean, default: true},
-  inOrderView: {type: Boolean, default: false},
+  mode: { type: String, default: "basket" },
+  cartKey: { type: String, required: true },
+  sidebar: { type: Boolean, default: true },
+  standalone: { type: Boolean, default: true },
   placeholder: { type: String, required: true },
-
 });
 
 const cartStore = useCartStore();
@@ -218,10 +218,11 @@ const state = reactive({
   }),
   totalPrice: computed(() => {
     if (shipping.value) {
-      return cartStore.state.basketRootNode.total + shipping.value.getShippingCost();
+      return (
+        cartStore.state.basketRootNode.total + shipping.value.getShippingCost()
+      );
     }
     return 0;
-
   }),
   images: {},
   currentItem: {},
@@ -277,7 +278,6 @@ async function updateItem(e) {
   }
 
   await shipping.value.updateShipping();
-
 }
 
 function removeItem(e) {
@@ -309,7 +309,7 @@ async function updateCart() {
 }
 
 async function getChildren(parentKey = currentCartKey) {
-  parentKey = parentKey.value
+  parentKey = parentKey.value;
   console.log("debug getChildren parentKey from comp: ", parentKey);
   const children = await cartStore.getChildren(parentKey);
   console.log("getChildren children: ", children);
@@ -339,7 +339,6 @@ onBeforeMount(async () => {
 
   console.log("state.leaves", state.leaves);
 });
-
 </script>
 
 <style scoped>

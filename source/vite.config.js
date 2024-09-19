@@ -22,7 +22,6 @@ export default defineConfig({
       external: [
         "vue",
         "pinia",
-        "@viur/vue-utils",
         "@viur/shoelace",
         "@viur/ignite",
         "@viur/viur-shop-client",
@@ -38,7 +37,6 @@ export default defineConfig({
         globals: {
           vue: "Vue",
           pinia: "Pinia",
-          "@viur/vue-utils": "ViurVueUtils",
           "@viur/shoelace": "ViurShoelace",
           "@viur/ignite": "ViurIgnite",
           "@viur/viur-shop-client": "ViurShopClient",

@@ -23,6 +23,7 @@ export const useCartStore = defineStore("cartstore", () => {
 
   async function init() {
     await getRootNodes();
+    await getAddress();
   }
 
   async function getChildren(parentKey) {
@@ -44,6 +45,9 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function addToCart(articleKey, cartKey) {
+    console.log("hier2", cartKey);
+    console.log("hier2", articleKey);
+
     let resp = await shopClient.article_add({
       article_key: articleKey,
       parent_cart_key: cartKey,
@@ -133,7 +137,7 @@ export const useCartStore = defineStore("cartstore", () => {
     });
   }
 
-  async function payment_providers_list() {
+  async function getPaymentProviders() {
     const paymentProvieders = await shopClient.payment_providers_list();
     state.paymentProviders = paymentProvieders;
     //select first paymentprovider as default
@@ -153,10 +157,7 @@ export const useCartStore = defineStore("cartstore", () => {
     addDiscount,
     getPaymentProviders,
     getAddress,
-    addNodes,,
+    addNodes,
     getShippingData,
-    payment_providers_list,
-
-  }
-    ;
+  };
 });

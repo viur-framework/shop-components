@@ -19,6 +19,7 @@ import ShopOrderStepper from "../../ShopOrderStepper.vue";
 import CartView from "../../cart/CartView.vue";
 import ConfirmView from "../../ShopOrderConfirm.vue";
 import ShopOrderComplete from "../../ShopOrderComplete.vue";
+import UserDataForm from "../../ui/userdata/AddForm.vue";
 import UserInformation from "../information/UserInformation.vue";
 import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";
@@ -36,9 +37,10 @@ const state = reactive({
       props: {
         sidebar: true,
         mode: "basket",
-        cartKey: rootNode,
+        cartKey: rootNode, // cartKey (on initial call has to be a root node) is a required prop, make sure that cartStore.init() is called before cart is mounted
         placeholder: "/static/partnerbereich/img/placeholder.svg",
-      }, // cartKey (on initial call has to be a root node) is a required prop, make sure that cartStore.init() is called before cart is mounted
+        standalone: false,
+      },
       displayName: "Warenkorb",
       icon: { name: "bag" },
       position: 2,
@@ -46,7 +48,9 @@ const state = reactive({
     },
     confirm: {
       component: shallowRef(ConfirmView),
-      props: {},
+      props: {
+        tabName: "userInfo",
+      },
       displayName: "Bestellung prüfen",
       icon: { name: "clipboard-check" },
       position: 5,
@@ -73,7 +77,7 @@ const state = reactive({
       disabled: true,
     },
     userInfo: {
-      component: shallowRef(UserInformation),
+      component: shallowRef(UserDataForm),
       props: {},
       displayName: "Daten Eingeben",
       icon: { name: "card-list" },

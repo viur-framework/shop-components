@@ -49,7 +49,7 @@ function providerChanged(e) {
 }
 
 onBeforeMount(async () => {
-  await cartStore.payment_providers_list();
+  await cartStore.getPaymentProviders();
 })
 </script>
 

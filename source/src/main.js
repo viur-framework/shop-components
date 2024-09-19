@@ -1,5 +1,10 @@
 // imports
 import { createPinia } from "pinia";
+import { createI18n } from "vue-i18n";
+import {
+  de_translations,
+  en_translations,
+} from "@viur/vue-components/translations/translations";
 
 import { useCartStore } from "./stores/cart";
 import createRouterInstance from "./router/index";
@@ -20,8 +25,18 @@ export { default as UserInformation } from "./components/order/information/UserI
 export { default as UserInfoMulti } from "./components/order/information/UserInfoMulti.vue";
 export { default as SelectPaymentProvider } from "./components/order/process/SelectPaymentProvider.vue";
 
+
 const pinia = createPinia();
-// Optionally, you can create a plugin to install all components
+const i18n = createI18n({
+  locale: "de",
+  fallbackLocale: "en",
+  messages: {
+    en: { ...en_translations },
+    de: { ...de_translations },
+  },
+});
+
+// Create a plugin to install all components
 const ViurShopComponents = {
   install(app) {
     // Register each component globally
@@ -31,6 +46,7 @@ const ViurShopComponents = {
     // app.component("OrderView", OrderView);
     // Note: useCartStore is not a component, so it should not be registered as one
     app.use(pinia);
+    app.use(i18n);
   },
 };
 
