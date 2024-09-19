@@ -8,11 +8,11 @@
         <div class="viur-shop-cart-address">
           <div class="viur-shop-cart-address-headline">
             Versandadresse
-            <sl-button outline size="small">
+            <sl-button outline size="small" @click="editShippingAddress(tabName)">
               <sl-icon
                 name="pencil"
                 slot="prefix"
-                @click="editShippingAddress(tabName)"
+
               ></sl-icon>
             </sl-button>
           </div>
@@ -88,46 +88,6 @@
         </div>
       </div>
     </sl-card> -->
-
-      <teleport to="#order_sidebar">
-        <h2 class="viur-shop-cart-sidebar-headline headline">
-          Jetzt Bestellen
-        </h2>
-        <br />
-        <!-- <div class="viur-shop-cart-sidebar-info-line">
-        <span>Zwischensumme</span>
-        {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00,00" }} €
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line">
-        <span>Rabatt</span>
-        0 €
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line">
-        <span>Versandkosten</span>
-        0 €
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line total">
-        <span>Gesamt:</span>
-        {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00" }} €
-      </div> -->
-
-        <sl-checkbox @sl-change="onTosAccept">
-          Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen
-        </sl-checkbox>
-
-        <div
-          class="viur-shop-cart-sidebar-btn-wrap"
-          v-if="state.showOrderButton"
-        >
-          <sl-button
-            :variant="state.showOrderButton ? 'info' : 'disabled'"
-            size="small"
-            :disabled="!state.showOrderButton"
-          >
-            Zahlungspflichtig bestellen
-          </sl-button>
-        </div>
-      </teleport>
     </div>
   </template>
 </template>
@@ -137,6 +97,8 @@ import { reactive, onBeforeMount, computed } from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
 import { useCartStore } from "../stores/cart.js";
 import { Request } from "@viur/vue-utils";
+
+const emit = defineEmits(["editAddress"]);
 
 const props = defineProps({
   tabName: { type: String, required: true },
@@ -163,20 +125,9 @@ const state = reactive({
   showOrderButton: false,
 });
 
-function getImage(item) {
-  Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
-    let data = await resp.json();
-
-    data = data.values;
-
-    let imageUrl = data.dk_artikel.dest.image
-      ? Request.downloadUrlFor(data.dk_artikel.dest.image)
-      : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-
-    state.images[item] = imageUrl;
-  });
-
-  return state.images[item];
+function editShippingAddress(e) {
+  console.log("runde1", e)
+  emit("editAddress", e);
 }
 
 function onTosAccept(e) {

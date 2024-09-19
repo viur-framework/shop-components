@@ -79,6 +79,7 @@ sl-input {
     &::part(base) {
       border-top-right-radius: 0;
       border-bottom-left-radius: var(--sl-border-radius-medium);
+      width: 100%;
     }
   }
 }

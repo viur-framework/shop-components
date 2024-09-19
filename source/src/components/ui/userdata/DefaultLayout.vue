@@ -2,62 +2,73 @@
   <sl-card v-if="Object.keys(formState.structure).length > 0">
     <h2 class="headline">Persönliche Angaben</h2>
     <slot
-        boneName="salutation"
-        :widget="getBoneWidget(formState.structure['salutation']['type'])"
-        label="top"
-      >
-      </slot>
-    <div class="wrapper-name">
-      <slot
-        boneName="firstname"
-        :widget="getBoneWidget(formState.structure['firstname']['type'])"
-      >
-      </slot>
-
-      <slot
-        boneName="lastname"
-        :widget="getBoneWidget(formState.structure['lastname']['type'])"
-      >
-      </slot>
-    </div>
-
-    <slot
-      boneName="street_name"
-      :widget="getBoneWidget(formState.structure['street_name']['type'])"
+      boneName="salutation"
+      :widget="getBoneWidget(formState.structure['salutation']['type'])"
     >
     </slot>
     <div class="wrapper-name">
+      <slot boneName="firstname" :widget="CustomStringBone" label="hide">
+      </slot>
+
+      <slot boneName="lastname" :widget="CustomStringBone" label="hide"> </slot>
+    </div>
+    <div class="wrapper-name">
+      <slot boneName="street_name" :widget="CustomStringBone" label="hide"> </slot>
       <slot
         boneName="street_number"
-        :widget="getBoneWidget(formState.structure['street_number']['type'])"
+        :widget="CustomStringBone"
+        label="hide"
+
+      >
+      </slot>
+    </div>
+    <div class="wrapper-name">
+      <slot
+        boneName="city"
+        :widget="CustomStringBone"
+        label="hide"
       >
       </slot>
 
       <slot
         boneName="zip_code"
-        :widget="getBoneWidget(formState.structure['zip_code']['type'])"
+        :widget="CustomStringBone"
+        placeholder="PLZ"
+        label="hide"
+
       >
       </slot>
-
     </div>
     <slot
-        boneName="address_type"
-        :widget="getBoneWidget(formState.structure['address_type']['type'])"
-      >
-      </slot>
+      boneName="country"
+      :widget="getBoneWidget(formState.structure['country']['type'])"
+    >
+    </slot>
+    <slot
+      boneName="address_type"
+      :widget="getBoneWidget(formState.structure['address_type']['type'])"
+    >
+    </slot>
   </sl-card>
 </template>
 <script setup>
 import { inject } from "vue";
 import { getBoneWidget } from "@viur/vue-utils/bones/edit";
-// import CustomStringBone from "./CustomStringBone.vue";
+import CustomStringBone from "./CustomStringBone.vue";
 const formState = inject("formState");
 const formUpdate = inject("formUpdate");
 </script>
 <style scoped>
 .wrapper-name {
   display: flex;
+  flex-direction: row;
   gap: 20px;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  & sl-input::part(base) {
+    width: 100%;
+  }
 }
 
 :deep(.bone-wrapper) {

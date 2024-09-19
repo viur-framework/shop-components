@@ -38,7 +38,6 @@
   "devDependencies": {
     "@faker-js/faker": "^9.0.1",
     "@vitejs/plugin-vue": "^5.1.4",
-    "@viur/shop-components": "^0.0.1-dev.58",
     "postcss-custom-media": "^11.0.1",
     "postcss-nesting": "^13.0.0",
     "prettier": "^3.3.3",

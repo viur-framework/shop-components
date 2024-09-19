@@ -5,8 +5,9 @@
     module="shop/address"
     action="add"
     :useCategories="false"
-    v-show="state.isLoading === false"
     :layout="layout ? layout : DefaultLayout"
+    :skel="setSkelValues({ address_type: 'shipping' })"
+    :structure="cartStore.state.structure.address"
   >
   </ViForm>
   <sl-bar>
@@ -20,7 +21,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, watchEffect } from "vue";
+import { onMounted, reactive, ref, watchEffect } from "vue";
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import DefaultLayout from "./DefaultLayout.vue";
 import { useCartStore } from "../../../stores/cart";
@@ -36,6 +37,23 @@ const state = reactive({
   isSending: false,
   wasSuccess: false,
 });
+
+function setSkelValues(dict) {
+  let structure = cartStore.state.structure.address;
+  let skel = {};
+
+  Object.keys(structure).forEach((boneName) => {
+    skel[boneName] = null;
+  });
+
+  Object.entries(dict).forEach(([boneName, boneValue]) => {
+    console.log("hier", boneName);
+    console.log("hier", boneValue);
+    skel[boneName] = boneValue;
+  });
+  console.log("hier", skel);
+  return skel;
+}
 
 function sendForm() {
   if (addForm.value.state.skel.address_type === "shipping") {
@@ -65,6 +83,10 @@ watchEffect(() => {
 
     start();
   }
+});
+
+onMounted(() => {
+  setSkelValues({ address_type: "shipping" });
 });
 </script>
 

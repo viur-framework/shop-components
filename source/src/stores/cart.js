@@ -111,7 +111,7 @@ export const useCartStore = defineStore("cartstore", () => {
     await shopClient.discount_add({ code });
   }
 
-  async function addNodes(
+  async function addNode(
     parentCart,
     name,
     shippingAddressKey,
@@ -157,7 +157,7 @@ export const useCartStore = defineStore("cartstore", () => {
     addDiscount,
     getPaymentProviders,
     getAddress,
-    addNodes,
+    addNode,
     getShippingData,
   };
 });

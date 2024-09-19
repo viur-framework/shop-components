@@ -4,6 +4,7 @@
       :is="tabs[tab].component"
       v-bind="tabs[tab].props ? tabs[tab].props : ''"
       @goToStart="goToStart()"
+      @editAddress="goToUserData"
     >
     </component>
   </sl-tab-panel>
@@ -21,12 +22,16 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["tabChange"]);
+const emit = defineEmits(["goToStart", "editAddress"]);
 
-function goToStart(){
+function goToStart() {
   emit("goToStart");
 }
 
+function goToUserData(e) {
+  console.log("runde2", e)
+  emit("editAddress", e);
+}
 </script>
 
 <style scoped>

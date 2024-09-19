@@ -27,6 +27,7 @@
             :tabs="tabs"
             :key="tab"
             @goToStart="goToStart()"
+            @editAddress="editAddress"
           >
           </StepperItem>
         </sl-tab-group>
@@ -153,6 +154,10 @@ function nextTab() {
 
 function goToStart() {
   tabGroup.value.show(state.tabNames[0]);
+}
+
+function editAddress(e) {
+  tabGroup.value.show(e);
 }
 
 onBeforeMount(() => {
