@@ -1,5 +1,5 @@
 <template>
-  <sl-spinner v-show="state.isLoading"></sl-spinner>
+  <sl-spinner v-if="state.isLoading"></sl-spinner>
   <ViForm
     ref="addForm"
     module="shop/address"
@@ -11,17 +11,20 @@
   >
   </ViForm>
   <sl-bar>
-    <div slot="right">
-      <sl-button variant="success" @click="sendForm" :loading="state.sending">
+    <div slot="left">
+      <!-- BUTTON NUR PLATZHALTER FÜR TESTS -->
+      <sl-button variant="success" @click="sendForm" :loading="state.isSending">
         <sl-icon name="floppy2" slot="prefix"></sl-icon>
-        Senden
+        {{
+          $t("actions.add").charAt(0).toUpperCase() + $t("actions.add").slice(1)
+        }}
       </sl-button>
     </div>
   </sl-bar>
 </template>
 
 <script setup>
-import { onMounted, reactive, ref, watchEffect } from "vue";
+import { reactive, ref, watchEffect } from "vue";
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import DefaultLayout from "./DefaultLayout.vue";
 import { useCartStore } from "../../../stores/cart";
@@ -78,15 +81,11 @@ function sendForm() {
 watchEffect(() => {
   if (addForm.value && addForm.value !== null && addForm !== null) {
     const { start } = useTimeoutFn(() => {
-      state.isLoading = false;
+      state.isLoading = addForm.value.state.loading;
     }, 1000);
 
     start();
   }
-});
-
-onMounted(() => {
-  setSkelValues({ address_type: "shipping" });
 });
 </script>
 

@@ -19,7 +19,7 @@ import ShopOrderStepper from "../../ShopOrderStepper.vue";
 import CartView from "../../cart/CartView.vue";
 import ConfirmView from "../../ShopOrderConfirm.vue";
 import ShopOrderComplete from "../../ShopOrderComplete.vue";
-import UserDataForm from "../../ui/userdata/AddForm.vue";
+import ShopUserData from "../../ShopUserData.vue";
 import UserInformation from "../information/UserInformation.vue";
 import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";
@@ -77,21 +77,21 @@ const state = reactive({
       disabled: true,
     },
     userInfo: {
-      component: shallowRef(UserDataForm),
+      component: shallowRef(ShopUserData),
       props: {},
       displayName: "Daten Eingeben",
       icon: { name: "card-list" },
       position: 3,
       disabled: false,
     },
-    userInfoMulti: {
-      component: shallowRef(UserInfoMulti),
-      props: {},
-      displayName: "Daten Eingeben (Multi)",
-      icon: { name: "card-list" },
-      position: 4,
-      disabled: false,
-    },
+    // userInfoMulti: {
+    //   component: shallowRef(UserInfoMulti),
+    //   props: {},
+    //   displayName: "Daten Eingeben (Multi)",
+    //   icon: { name: "card-list" },
+    //   position: 4,
+    //   disabled: false,
+    // },
   },
 });
 

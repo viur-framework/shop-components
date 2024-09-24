@@ -3,7 +3,9 @@
     <h2 class="headline">Persönliche Angaben</h2>
     <slot
       boneName="salutation"
-      :widget="getBoneWidget(formState.structure['salutation']['type'])"
+      :widget="CustomSelectBone"
+      label="hide"
+
     >
     </slot>
     <div class="wrapper-name">
@@ -13,40 +15,32 @@
       <slot boneName="lastname" :widget="CustomStringBone" label="hide"> </slot>
     </div>
     <div class="wrapper-name">
-      <slot boneName="street_name" :widget="CustomStringBone" label="hide"> </slot>
-      <slot
-        boneName="street_number"
-        :widget="CustomStringBone"
-        label="hide"
-
-      >
+      <slot boneName="street_name" :widget="CustomStringBone" label="hide">
+      </slot>
+      <slot boneName="street_number" :widget="CustomStringBone" label="hide">
       </slot>
     </div>
     <div class="wrapper-name">
-      <slot
-        boneName="city"
-        :widget="CustomStringBone"
-        label="hide"
-      >
-      </slot>
+      <slot boneName="city" :widget="CustomStringBone" label="hide"> </slot>
 
       <slot
         boneName="zip_code"
         :widget="CustomStringBone"
         placeholder="PLZ"
         label="hide"
-
       >
       </slot>
     </div>
     <slot
       boneName="country"
-      :widget="getBoneWidget(formState.structure['country']['type'])"
+      :widget="CustomSelectBone"
+      label="hide"
     >
     </slot>
     <slot
       boneName="address_type"
-      :widget="getBoneWidget(formState.structure['address_type']['type'])"
+      :widget="CustomSelectBone"
+      :label="'hide'"
     >
     </slot>
   </sl-card>
@@ -55,6 +49,8 @@
 import { inject } from "vue";
 import { getBoneWidget } from "@viur/vue-utils/bones/edit";
 import CustomStringBone from "./CustomStringBone.vue";
+import CustomSelectBone from './CustomSelectBone.vue';
+
 const formState = inject("formState");
 const formUpdate = inject("formUpdate");
 </script>
