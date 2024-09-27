@@ -6,14 +6,18 @@
     action="add"
     :useCategories="false"
     :layout="layout ? layout : DefaultLayout"
-    :skel="setSkelValues({ address_type: 'shipping' })"
+    :skel="state.skel"
     :structure="cartStore.state.structure.address"
   >
   </ViForm>
   <sl-bar>
     <div slot="left">
       <!-- BUTTON NUR PLATZHALTER FÜR TESTS -->
-      <sl-button variant="success" @click="sendForm" :loading="state.isSending">
+      <sl-button
+        variant="success"
+        @click.stop.prevent="sendForm"
+        :loading="state.isSending"
+      >
         <sl-icon name="floppy2" slot="prefix"></sl-icon>
         {{
           $t("actions.add").charAt(0).toUpperCase() + $t("actions.add").slice(1)
@@ -24,21 +28,26 @@
 </template>
 
 <script setup>
-import { reactive, ref, watchEffect } from "vue";
+import { onBeforeMount, reactive, ref, watchEffect } from "vue";
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import DefaultLayout from "./DefaultLayout.vue";
 import { useCartStore } from "../../../stores/cart";
 import { useTimeoutFn } from "@vueuse/core";
+import { useUserStore } from "@viur/vue-utils/login/stores/user";
 
+const userStore = useUserStore();
 const props = defineProps({
   layout: { required: false },
 });
+const emits = defineEmits(["addSuccess"]);
 const cartStore = useCartStore();
 const addForm = ref(null);
 const state = reactive({
   isLoading: true,
   isSending: false,
   wasSuccess: false,
+  user: {},
+  skel: {},
 });
 
 function setSkelValues(dict) {
@@ -46,15 +55,17 @@ function setSkelValues(dict) {
   let skel = {};
 
   Object.keys(structure).forEach((boneName) => {
+    if (boneName === "customer") {
+      skel[boneName] = state.user.key;
+      return;
+    }
     skel[boneName] = null;
   });
 
   Object.entries(dict).forEach(([boneName, boneValue]) => {
-    console.log("hier", boneName);
-    console.log("hier", boneValue);
     skel[boneName] = boneValue;
   });
-  console.log("hier", skel);
+
   return skel;
 }
 
@@ -71,9 +82,12 @@ function sendForm() {
     let data = await resp.json();
     state.isSending = false;
     if (data["action"] === "addSuccess") {
-      state.wasSuccess = true;
-      // addForm.value.state.skel = {} // clears form
-      //window.location.href = "/todo/add?style=success"
+      emits("addSuccess", {
+        show: true,
+        msg: "Erfolg!",
+        variant: "success",
+        icon: "check2-circle",
+      });
     }
   });
 }
@@ -86,6 +100,15 @@ watchEffect(() => {
 
     start();
   }
+});
+
+onBeforeMount(() => {
+  userStore.updateUser().then(async (resp) => {
+    if (resp.ok) state.user = userStore.state.user;
+    else return;
+  });
+
+  state.skel = setSkelValues({ address_type: "shipping" });
 });
 </script>
 

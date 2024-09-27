@@ -1,9 +1,10 @@
 <template>
   <sl-select
-    @sl-change="handleSelect"
+    v-model="state.allCarts"
     multiple="true"
-    @sl-clear="reset"
+    @sl-change="handleSelect"
     clearable
+    @sl-clear="reset"
   >
     <sl-option v-for="cart in carts" :key="cart.key" :value="cart.key">
       Warenkorb {{ cart.name }}
@@ -11,12 +12,16 @@
   </sl-select>
 </template>
 <script setup>
-import { ref } from "vue";
+import { onBeforeMount, reactive } from "vue";
 
 const props = defineProps({
   carts: { type: Array, required: true },
 });
 const emit = defineEmits(["cartSelected", "onReset"]);
+
+const state = reactive({
+  selectedCarts: [],
+});
 
 function handleSelect(e) {
   emit("cartSelected", e.target.value);
@@ -25,5 +30,11 @@ function handleSelect(e) {
 function reset() {
   emit("onReset");
 }
+
+onBeforeMount(() => {
+  props.carts.forEach((cart) => {
+    state.selectedCarts.push(cart.key);
+  });
+});
 </script>
 <style scoped></style>

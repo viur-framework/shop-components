@@ -92,7 +92,8 @@ export const useCartStore = defineStore("cartstore", () => {
 
   async function getAddressStructure() {
     const structure = await shopClient.address_structure();
-    state.structure.address = structure.addSkel;
+    console.log("hier komme")
+    state.structure.address = struct2dict(structure.addSkel);
   }
 
   async function getAddress() {
@@ -143,6 +144,15 @@ export const useCartStore = defineStore("cartstore", () => {
     //select first paymentprovider as default
     state.selectedPaymentProvider =
       paymentProvieders[Object.keys(paymentProvieders)[0]];
+  }
+
+  function struct2dict(structure) {
+    if (!typeof structure === "array") return structure;
+
+    let result = {};
+    structure.forEach((bone) => (result[bone[0]] = bone[1]));
+
+    return result;
   }
 
   return {

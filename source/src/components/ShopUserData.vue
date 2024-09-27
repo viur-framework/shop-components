@@ -20,11 +20,14 @@
           @cart-selected="onCartSelect($event, n)"
         >
         </CartSelection>
+        <h3>Lieferadresse</h3>
+        <UserDataForm
+          @add-success="state.alert = $event"
+        >
+        </UserDataForm>
 
-        <UserDataForm v-if="state.mixed['grp' + n]"></UserDataForm>
-        <div class="viur-shop-custom-billing-address-wrap" v-else>
-          <UserDataForm></UserDataForm>
-          <UserDataForm></UserDataForm>
+        <div class="viur-shop-multi-user-data-billing">
+          <h3>Rechnungsadresse</h3>
         </div>
 
         <sl-checkbox
@@ -39,7 +42,7 @@
           v-model="state.mixed['grp' + n]"
           class="viur-shop-form-bill-check"
         >
-          Rechnungsadresse wie Lieferadresse
+          Lieferadresse wie Rechnungsadresse
         </sl-checkbox>
       </div>
 
@@ -57,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref, useTemplateRef, reactive, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import UserDataForm from "./ui/userdata/AddForm.vue";
 import CartSelection from "./ui/userdata/multi/CartSelection.vue";
 import ActionBar from "./ui/userdata/multi/ActionBar.vue";
