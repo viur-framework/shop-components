@@ -9,7 +9,7 @@
 </template>
 <script setup>
 import {useCartStore} from "../../../stores/cart";
-import {computed, onBeforeMount, reactive} from "vue";
+import {onBeforeMount, reactive} from "vue";
 
 const cartStore = useCartStore();
 
@@ -22,10 +22,10 @@ const state = reactive({
 async function updateShipping() {
   state.shippingData = await cartStore.getShippingData();
   state.shippingData.sort((a, b) => {
-    if (a["dest"]["shipping_cost"] < a["dest"]["shipping_cost"]) {
+    if (a["dest"]["shipping_cost"] < b["dest"]["shipping_cost"]) {
       return -1;
     }
-    if (a["dest"]["shipping_cost"] > a["dest"]["shipping_cost"]) {
+    if (a["dest"]["shipping_cost"] > b["dest"]["shipping_cost"]) {
       return 1;
     }
     return 0;
