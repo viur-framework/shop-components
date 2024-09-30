@@ -1,0 +1,92 @@
+<template>
+  <div style="width: 100%">
+    {{ customer.firstname }} {{ customer.lastname }}<br />
+    Phone: {{ customer.phone }} <br />
+    E-Mail : {{ customer.name }}<br />
+    Debitor: {{ customer.debitornr }}<br />
+  </div>
+
+  <slot name="cart-selection"></slot>
+
+  <div class="viur-shop-cart-address-wrap">
+    <div class="viur-shop-cart-address">
+      <br />
+      <div class="viur-shop-cart-address-headline">
+        Versandadresse
+        <sl-button
+          outline
+          size="small"
+          @click="editShipping"
+          v-if="customAddress"
+        >
+          <sl-icon name="pencil" slot="prefix"></sl-icon>
+        </sl-button>
+      </div>
+      <slot name="shipping-address" v-if="customAddress">
+        <address-box
+          :address-selection="true && customAddress"
+          :mode="'shipping'"
+        ></address-box>
+      </slot>
+      <slot name="shipping-address" v-else>
+        <address-box
+          :address-selection="true && customAddress"
+          :mode="'billing'"
+        ></address-box>
+      </slot>
+    </div>
+    <div class="viur-shop-cart-address">
+      <div class="viur-shop-cart-address-headline">
+        Rechnungsadresse
+        <sl-button outline size="small" @click="editBilling">
+          <sl-icon name="pencil" slot="prefix"></sl-icon>
+        </sl-button>
+      </div>
+      <slot name="billing-address">
+        <address-box :address-selection="true" :mode="'billing'"></address-box>
+      </slot>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { reactive } from "vue";
+import { useCartStore } from "../../../stores/cart";
+import AddressBox from "./AddressBox.vue";
+
+const props = defineProps({
+  customer: { type: Object, required: true },
+  customAddress: { type: Boolean, default: false },
+});
+
+const emit = defineEmits(["editBilling", "editShipping"]);
+const state = reactive({ editBilling: false, editShipping: false });
+
+function editBilling() {
+  state.editBilling = !state.editBilling;
+  emit("editBilling", state.editBilling);
+}
+
+function editShipping() {
+  state.editShipping = !state.editShipping;
+  emit("editShipping", state.editShipping);
+}
+</script>
+
+<style scoped>
+.viur-shop-cart-address-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sl-spacing-x-large);
+  margin-bottom: var(--sl-spacing-x-large);
+}
+
+.viur-shop-cart-address-headline {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+}
+</style>

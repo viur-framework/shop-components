@@ -1,7 +1,6 @@
 <template>
-  <sl-card v-if="Object.keys(formState.structure).length > 0">
-    <h2 class="headline">Persönliche Angaben</h2>
-    <slot
+  <div v-if="Object.keys(formState.structure).length > 0">
+    <!-- <slot
       boneName="salutation"
       :widget="CustomSelectBone"
       label="hide"
@@ -13,7 +12,7 @@
       </slot>
 
       <slot boneName="lastname" :widget="CustomStringBone" label="hide"> </slot>
-    </div>
+    </div> -->
     <div class="wrapper-name">
       <slot boneName="street_name" :widget="CustomStringBone" label="hide">
       </slot>
@@ -31,25 +30,22 @@
       >
       </slot>
     </div>
-    <slot
-      boneName="country"
-      :widget="CustomSelectBone"
-      label="hide"
-    >
+    <slot boneName="country" :widget="CustomSelectBone" label="hide"> </slot>
+    <slot boneName="address_type" :widget="CustomSelectBone" :label="'hide'">
     </slot>
     <slot
-      boneName="address_type"
-      :widget="CustomSelectBone"
-      :label="'hide'"
+      boneName="is_default"
+      :widget="booleanBone"
     >
     </slot>
-  </sl-card>
+  </div>
 </template>
 <script setup>
 import { inject } from "vue";
 import { getBoneWidget } from "@viur/vue-utils/bones/edit";
 import CustomStringBone from "./CustomStringBone.vue";
-import CustomSelectBone from './CustomSelectBone.vue';
+import CustomSelectBone from "./CustomSelectBone.vue";
+import booleanBone from '@viur/vue-utils/bones/edit/default/booleanBone.vue';
 
 const formState = inject("formState");
 const formUpdate = inject("formUpdate");

@@ -15,34 +15,59 @@
         v-for="n in state.amount"
         :key="n"
       >
-        <CartSelection
-          :carts="reduce(carts, n)"
-          @cart-selected="onCartSelect($event, n)"
+        <BaseLayout
+          :customer="state.customer"
+          :custom-address="!state.customAddress['grp' + n]"
+          @edit-billing="state.editBilling = $event"
+          @edit-shipping="state.editShipping = $event"
         >
-        </CartSelection>
-        <h3>Lieferadresse</h3>
-        <UserDataForm
-          @add-success="state.alert = $event"
-        >
-        </UserDataForm>
-
-        <div class="viur-shop-multi-user-data-billing">
-          <h3>Rechnungsadresse</h3>
-        </div>
-
+          <template #cart-selection>
+            <CartSelection
+              :carts="reduce(carts, n)"
+              @cart-selected="onCartSelect($event, n)"
+            >
+            </CartSelection>
+          </template>
+          <template
+            #shipping-address
+            v-if="
+              (state.editShipping && !state.customAddress['grp' + n]) ||
+              (!state.hasShippingAddress && !state.customAddress['grp' + n])
+            "
+          >
+            <UserDataForm
+              :customer="state.customer"
+              v-model="cartStore.state.activeShippingAddress"
+              @add-success="state.alert = $event"
+            >
+            </UserDataForm>
+          </template>
+          <template
+            #billing-address
+            v-if="state.editBilling || !state.hasBillingAddress"
+          >
+            <UserDataForm
+              :customer="state.customer"
+              :mode="'billing'"
+              v-model="cartStore.state.activeBillingAddress"
+              @add-success="state.alert = $event"
+            >
+            </UserDataForm>
+          </template>
+        </BaseLayout>
         <sl-checkbox
-          @sl-change="onCustomBillingAddress($event, n)"
-          checked
+          :checked="state.hasBillingAddress"
           :ref="
             (el) => {
               if (el === null) return;
-              state.mixed['grp' + n] = el.checked;
+
+              state.customAddress['grp' + n] = el.checked;
             }
           "
-          v-model="state.mixed['grp' + n]"
+          @sl-change="onCustomBillingAddress($event, n)"
           class="viur-shop-form-bill-check"
         >
-          Lieferadresse wie Rechnungsadresse
+          Versandadresse wie Rechnungsadresse
         </sl-checkbox>
       </div>
 
@@ -60,14 +85,26 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, onBeforeMount, watch } from "vue";
 import UserDataForm from "./ui/userdata/AddForm.vue";
 import CartSelection from "./ui/userdata/multi/CartSelection.vue";
 import ActionBar from "./ui/userdata/multi/ActionBar.vue";
 import ShopAlert from "./ui/generic/alerts/ShopAlert.vue";
+import { useCartStore } from "../stores/cart";
+import BaseLayout from "./ui/userdata/BaseLayout.vue";
+
+const props = defineProps({
+  multiMode: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const cartStore = useCartStore();
 
 const state = reactive({
   selection: {},
+  customer: computed(() => cartStore.state.customer),
   alert: {
     show: false,
     msg: "",
@@ -84,7 +121,17 @@ const state = reactive({
     });
     return result;
   }),
-  mixed: {},
+  customAddress: {},
+  hasBillingAddress: computed(() =>
+    cartStore.state.billingAddressList.length ? true : false,
+  ),
+  hasShippingAddress: computed(() =>
+    cartStore.state.shippingAddressList.length ? true : false,
+  ),
+  editBilling: false,
+  editShipping: false,
+  billingData: {},
+  shippingData: {},
 });
 
 const carts = ref([
@@ -135,8 +182,8 @@ function removeAddress() {
   if (Object.keys(state.selection).includes("grp" + state.amount)) {
     delete state.selection["grp" + state.amount];
   }
-  if (Object.keys(state.mixed).includes("grp" + state.amount)) {
-    delete state.mixed["grp" + state.amount];
+  if (Object.keys(state.customAddress).includes("grp" + state.amount)) {
+    delete state.customAddress["grp" + state.amount];
   }
   state.amount -= 1;
 }
@@ -155,19 +202,8 @@ function reduce(arr, grp) {
 }
 
 function onCustomBillingAddress(e, grp) {
-  state.mixed["grp" + grp] = e.target.checked;
+  state.customAddress["grp" + grp] = e.target.checked;
 }
-
-function log(e) {
-  console.log("log funktion shopuserdata", e);
-}
-
-const props = defineProps({
-  multiMode: {
-    type: Boolean,
-    default: true,
-  },
-});
 </script>
 <style scoped>
 .viur-shop-form-bill-check {
@@ -177,5 +213,11 @@ const props = defineProps({
 .viur-shop-custom-billing-address-wrap {
   display: flex;
   flex-direction: row;
+}
+.viur-shop-cart-address-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sl-spacing-x-large);
+  margin-bottom: var(--sl-spacing-x-large);
 }
 </style>

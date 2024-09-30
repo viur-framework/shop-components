@@ -1,9 +1,9 @@
 <template>
   <sl-select
-    v-model="state.allCarts"
+    :value="state.selectedCarts"
     multiple="true"
-    @sl-change="handleSelect"
     clearable
+    @sl-change="handleSelect"
     @sl-clear="reset"
   >
     <sl-option v-for="cart in carts" :key="cart.key" :value="cart.key">
@@ -24,10 +24,12 @@ const state = reactive({
 });
 
 function handleSelect(e) {
+  state.selectedCarts = e.target.value;
   emit("cartSelected", e.target.value);
 }
 
 function reset() {
+  console.log("ja");
   emit("onReset");
 }
 
@@ -35,6 +37,7 @@ onBeforeMount(() => {
   props.carts.forEach((cart) => {
     state.selectedCarts.push(cart.key);
   });
+  emit("cartSelected", state.selectedCarts);
 });
 </script>
 <style scoped></style>

@@ -16,13 +16,13 @@
               ></sl-icon>
             </sl-button>
           </div>
-          {{ cartStore.state.shippingAddress.firstname }}
-          {{ cartStore.state.shippingAddress.lastname }}<br />
-          {{ cartStore.state.shippingAddress.street_name }}
-          {{ cartStore.state.shippingAddress.street_number }}<br />
-          {{ cartStore.state.shippingAddress.zip_code }}
-          {{ cartStore.state.shippingAddress.city }}
-          {{ cartStore.state.shippingAddress.country }}<br />
+          {{ cartStore.state.activeShippingAddress.firstname }}
+          {{ cartStore.state.activeShippingAddress.lastname }}<br />
+          {{ cartStore.state.activeShippingAddress.street_name }}
+          {{ cartStore.state.activeShippingAddress.street_number }}<br />
+          {{ cartStore.state.activeShippingAddress.zip_code }}
+          {{ cartStore.state.activeShippingAddress.city }}
+          {{ cartStore.state.activeShippingAddress.country }}<br />
 
           <br />
           ##TODO MAIL<br />
@@ -35,13 +35,13 @@
               <sl-icon name="pencil" slot="prefix"></sl-icon>
             </sl-button>
           </div>
-          {{ cartStore.state.billingAddress.firstname }}
-          {{ cartStore.state.billingAddress.lastname }}<br />
-          {{ cartStore.state.billingAddress.street_name }}
-          {{ cartStore.state.billingAddress.street_number }}<br />
-          {{ cartStore.state.billingAddress.zip_code }}
-          {{ cartStore.state.billingAddress.city }}
-          {{ cartStore.state.billingAddress.country }}<br />
+          {{ cartStore.state.activeBillingAddress.firstname }}
+          {{ cartStore.state.activeBillingAddress.lastname }}<br />
+          {{ cartStore.state.activeBillingAddress.street_name }}
+          {{ cartStore.state.activeBillingAddress.street_number }}<br />
+          {{ cartStore.state.activeBillingAddress.zip_code }}
+          {{ cartStore.state.activeBillingAddress.city }}
+          {{ cartStore.state.activeBillingAddress.country }}<br />
           <br />
           ##TODO MAIL<br />
           ##TODO Phone

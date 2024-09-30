@@ -6,8 +6,14 @@
     action="add"
     :useCategories="false"
     :layout="layout ? layout : DefaultLayout"
-    :skel="state.skel"
+    :values="modelValue"
+    :skel="
+      mode === 'shipping'
+        ? cartStore.state.activeShippingAddress
+        : cartStore.state.activeBillingAddress
+    "
     :structure="cartStore.state.structure.address"
+    @change="updateValues"
   >
   </ViForm>
   <sl-bar>
@@ -28,29 +34,55 @@
 </template>
 
 <script setup>
-import { onBeforeMount, reactive, ref, watchEffect } from "vue";
+import { onBeforeMount, reactive, ref, computed, onMounted } from "vue";
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import DefaultLayout from "./DefaultLayout.vue";
 import { useCartStore } from "../../../stores/cart";
 import { useTimeoutFn } from "@vueuse/core";
-import { useUserStore } from "@viur/vue-utils/login/stores/user";
 
-const userStore = useUserStore();
 const props = defineProps({
   layout: { required: false },
+  customer: { type: Object, required: true },
+  mode: { type: String, default: "shipping" },
+  modelValue: { type: Object },
 });
-const emits = defineEmits(["addSuccess"]);
+const emit = defineEmits(["update:modelValue", "addSuccess"]);
 const cartStore = useCartStore();
 const addForm = ref(null);
 const state = reactive({
-  isLoading: true,
+  isLoading: computed(() => (addForm.value ? addForm.value.loading : true)),
   isSending: false,
   wasSuccess: false,
   user: {},
-  skel: {},
+  skel: computed(() => {
+    if (props.mode === "shipping") return cartStore.state.activeShippingAddress;
+    else return cartStore.state.activeBillingAddress;
+  }),
 });
 
-function setSkelValues(dict) {
+function sendForm() {
+  if (props.mode === "shipping") {
+    cartStore.state.activeShippingAddress = addForm.value.state.skel.key;
+  } else {
+    cartStore.state.activeBillingAddress = addForm.value.state.skel.key;
+  }
+  console.log("se", addForm.value.state.skel);
+  state.isSending = true;
+  addForm.value.sendData().then(async (resp) => {
+    let data = await resp.json();
+    state.isSending = false;
+    if (data["action"] === "addSuccess") {
+      emit("addSuccess", {
+        show: true,
+        msg: "Erfolg!",
+        variant: "success",
+        icon: "check2-circle",
+      });
+    }
+  });
+}
+
+function setSkelValues(dict = {}) {
   let structure = cartStore.state.structure.address;
   let skel = {};
 
@@ -69,46 +101,26 @@ function setSkelValues(dict) {
   return skel;
 }
 
-function sendForm() {
-  if (addForm.value.state.skel.address_type === "shipping") {
-    cartStore.state.shippingAddress = addForm.value.state.skel;
-    cartStore.state.billingAddress = addForm.value.state.skel;
-  } else {
-    cartStore.state.billingAddress = addForm.value.state.skel;
-  }
-  console.log("se", addForm.value.state.skel);
-  state.isSending = true;
-  addForm.value.sendData().then(async (resp) => {
-    let data = await resp.json();
-    state.isSending = false;
-    if (data["action"] === "addSuccess") {
-      emits("addSuccess", {
-        show: true,
-        msg: "Erfolg!",
-        variant: "success",
-        icon: "check2-circle",
-      });
-    }
-  });
+function updateValues() {
+  console.log("hier man", addForm.value.state.skel);
+  emit("update:modelValue", addForm.value.state.skel);
 }
 
-watchEffect(() => {
-  if (addForm.value && addForm.value !== null && addForm !== null) {
-    const { start } = useTimeoutFn(() => {
-      state.isLoading = addForm.value.state.loading;
-    }, 1000);
+// onBeforeMount(() => {
+//   cartStore.getAddressStructure();
 
-    start();
-  }
-});
-
-onBeforeMount(() => {
-  userStore.updateUser().then(async (resp) => {
-    if (resp.ok) state.user = userStore.state.user;
-    else return;
-  });
-
-  state.skel = setSkelValues({ address_type: "shipping" });
+//   // state.skel = setSkelValues({
+//   //   address_type: "shipping",
+//   //   customer: props.customer.key,
+//   // });
+// });
+onMounted(() => {
+  cartStore.getAddressStructure();
+  // updateValues();
+  // state.skel = setSkelValues({
+  //   address_type: "shipping",
+  //   customer: props.customer.key,
+  // });
 });
 </script>
 

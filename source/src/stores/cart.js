@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import { reactive, computed, watch } from "vue";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "@viur/viur-shop-client";
 
@@ -16,14 +16,24 @@ export const useCartStore = defineStore("cartstore", () => {
     children: {},
     structure: { address: {}, cart: {} },
     paymentProviders: {},
-    billingAddress: {},
-    shippingAddress: {},
+    billingAddressList: [],
+    shippingAddressList: [],
+    activeBillingAddress: {},
+    activeShippingAddress: {},
     selectedPaymentProvider: {},
+    customer: {},
   });
 
   async function init() {
     await getRootNodes();
     await getAddress();
+    await getCustomer();
+  }
+
+  async function getCustomer() {
+    let resp = await shopClient.user_view();
+    state.customer = resp;
+    console.log("passiert", state.customer);
   }
 
   async function getChildren(parentKey) {
@@ -92,20 +102,38 @@ export const useCartStore = defineStore("cartstore", () => {
 
   async function getAddressStructure() {
     const structure = await shopClient.address_structure();
-    console.log("hier komme")
+    console.log("hier komme");
     state.structure.address = struct2dict(structure.addSkel);
   }
 
+  function getDefaultAddress() {
+    state.billingAddressList.forEach((address) => {
+      if (address.is_default) {
+        state.activeBillingAddress = address;
+      }
+    });
+    state.shippingAddressList.forEach((address) => {
+      if (address.is_default) {
+        state.activeShippingAddress = address;
+      }
+    });
+  }
+
   async function getAddress() {
+    state.billingAddressList = [];
+    state.shippingAddressList = [];
     const addressList = await shopClient.address_list();
+
     for (const address of addressList) {
       if (address.address_type === "billing") {
-        state.billingAddress = address;
+        state.billingAddressList.push(address);
       }
       if (address.address_type === "shipping") {
-        state.shippingAddress = address;
+        state.shippingAddressList.push(address);
       }
     }
+
+    getDefaultAddress();
   }
 
   async function addDiscount(code) {
@@ -155,6 +183,32 @@ export const useCartStore = defineStore("cartstore", () => {
     return result;
   }
 
+  watch(
+    () => state.activeBillingAddress,
+    (newValue, oldValue) => {
+      if (oldValue) {
+        const isAddress = (address) => address.key === newValue.key;
+
+        let index = state.billingAddressList.findIndex(isAddress);
+
+        state.billingAddressList[index] = newValue;
+      }
+    },
+  );
+
+  watch(
+    () => state.activeShippingAddress,
+    (newValue, oldValue) => {
+      if (oldValue) {
+        const isAddress = (address) => address.key === newValue.key;
+
+        let index = state.shippingAddressList.findIndex(isAddress);
+
+        state.shippingAddressList[index] = newValue;
+      }
+    },
+  );
+
   return {
     state,
     addToCart,
@@ -169,5 +223,6 @@ export const useCartStore = defineStore("cartstore", () => {
     getAddress,
     addNode,
     getShippingData,
+    getDefaultAddress,
   };
 });

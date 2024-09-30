@@ -71,6 +71,8 @@ sl-input {
   width: 100%;
 
   &::part(base) {
+    border: 0;
+    border-bottom: 1px solid;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
