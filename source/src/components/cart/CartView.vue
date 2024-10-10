@@ -217,7 +217,7 @@ const state = reactive({
   }),
   totalPrice: computed(() => {
     if (shipping.value) {
-      return cartStore.state.basketRootNode.total + shipping.value.getShippingCost();
+      return cartStore.state.basketRootNode.total_discount_price + shipping.value.getShippingCost();
     }
     return 0;
 

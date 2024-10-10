@@ -105,7 +105,10 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function addDiscount(code) {
-    await shopClient.discount_add({code});
+    return await shopClient.discount_add({code});
+  }
+  async function removeDiscount(discount_key) {
+    return await shopClient.discount_remove({discount_key:discount_key});
   }
 
 
@@ -135,6 +138,7 @@ export const useCartStore = defineStore("cartstore", () => {
     getAddress,
     getShippingData,
     payment_providers_list,
+    removeDiscount
 
   }
     ;
