@@ -175,7 +175,9 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   function struct2dict(structure) {
-    if (!typeof structure === "array") return structure;
+    if (!Array.isArray(structure)) {
+      return structure;
+    }
 
     let result = {};
     structure.forEach((bone) => (result[bone[0]] = bone[1]));
