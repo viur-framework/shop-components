@@ -58,9 +58,13 @@ const state = reactive({
 
 function getDefaultAddress() {
   if (props.mode === "billing") {
-    state.activeAddress = cartStore.state.activeBillingAddress.key;
+    state.activeAddress = cartStore.state.activeBillingAddress.key
+      ? cartStore.state.activeBillingAddress.key
+      : "";
   } else {
-    state.activeAddress = cartStore.state.activeShippingAddress.key;
+    state.activeAddress = cartStore.state.activeShippingAddress.key
+      ? cartStore.state.activeShippingAddress.key
+      : "";
   }
 }
 
