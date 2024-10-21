@@ -26,21 +26,21 @@
     "@tanstack/vue-table": "^8.20.5",
     "@viur/ignite": "^5.1.2",
     "@viur/shoelace": "^1.0.8-v2.17.1",
-    "@viur/viur-shop-client": "^0.2.0",
-    "@viur/vue-components": "^1.7.5",
-    "@viur/vue-utils": "^1.7.12",
+    "@viur/viur-shop-client": "^0.3.0",
+    "@viur/vue-components": "^1.7.12",
+    "@viur/vue-utils": "^1.7.17",
     "@vueuse/core": "^11.1.0",
-    "pinia": "^2.2.2",
-    "vue": "^3.5.10",
-    "vue-i18n": "^10.0.3",
+    "pinia": "^2.2.4",
+    "vue": "^3.5.12",
+    "vue-i18n": "^10.0.4",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.0.3",
     "@vitejs/plugin-vue": "^5.1.4",
-    "postcss-custom-media": "^11.0.1",
+    "postcss-custom-media": "^11.0.3",
     "postcss-nesting": "^13.0.0",
     "prettier": "^3.3.3",
-    "vite": "^5.4.8"
+    "vite": "^5.4.9"
   }
 }
