@@ -12,10 +12,11 @@
         ? cartStore.state.activeShippingAddress
         : cartStore.state.activeBillingAddress
     "
-    :structure="cartStore.state.structure.address"
     @change="updateValues"
   >
   </ViForm>
+
+
   <sl-bar>
     <div slot="left">
       <!-- BUTTON NUR PLATZHALTER FÜR TESTS -->
@@ -62,11 +63,11 @@ const state = reactive({
 
 function sendForm() {
   if (props.mode === "shipping") {
-    cartStore.state.activeShippingAddress = addForm.value.state.skel.key;
+    cartStore.state.activeShippingAddress = addForm.value.state.skel;
   } else {
-    cartStore.state.activeBillingAddress = addForm.value.state.skel.key;
+    cartStore.state.activeBillingAddress = addForm.value.state.skel;
   }
-  console.log("se", addForm.value.state.skel);
+
   state.isSending = true;
   addForm.value.sendData().then(async (resp) => {
     let data = await resp.json();

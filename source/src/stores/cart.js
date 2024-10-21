@@ -107,16 +107,43 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   function getDefaultAddress() {
-    state.billingAddressList.forEach((address) => {
-      if (address.is_default) {
-        state.activeBillingAddress = address;
+    if (state.billingAddressList.length) {
+      state.billingAddressList.forEach((address) => {
+        if (address.is_default) {
+          state.activeBillingAddress = address;
+        }
+      });
+    }
+    else {
+      state.activeBillingAddress = setAddressValues("billing");
+    }
+    if (state.shippingAddressList.length) {
+      state.shippingAddressList.forEach((address) => {
+        if (address.is_default) {
+          state.activeShippingAddress = address;
+        }
+      });
+    }
+    else {
+      state.activeShippingAddress = setAddressValues("shipping");
+    }
+  }
+
+  function setAddressValues(mode) {
+    let structure = state.structure.address;
+    let skel = {};
+
+    Object.entries(structure).forEach(([boneName, boneValue]) => {
+      if (boneName === "customer") {
+        skel[boneName] = state.customer.key;
+      } else if (boneName === "address_type") {
+        skel[boneName] = mode;
+      } else {
+        skel[boneName] = boneValue.emptyValue;
       }
     });
-    state.shippingAddressList.forEach((address) => {
-      if (address.is_default) {
-        state.activeShippingAddress = address;
-      }
-    });
+
+    return skel;
   }
 
   async function getAddress() {
