@@ -131,6 +131,7 @@ export const useCartStore = defineStore("cartstore", () => {
 
   function setAddressValues(mode) {
     let structure = state.structure.address;
+    console.log("HIER", structure);
     let skel = {};
 
     Object.entries(structure).forEach(([boneName, boneValue]) => {
@@ -139,7 +140,7 @@ export const useCartStore = defineStore("cartstore", () => {
       } else if (boneName === "address_type") {
         skel[boneName] = mode;
       } else {
-        skel[boneName] = boneValue.emptyValue;
+        skel[boneName] = boneValue.emptyvalue;
       }
     });
 

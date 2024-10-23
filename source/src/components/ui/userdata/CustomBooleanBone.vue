@@ -1,0 +1,58 @@
+<template>
+  <sl-checkbox
+    class="widget-bone widget-bone-boolean widget-bone-boolean-default"
+    :class="([`widget-bone-boolean-${name}`])"
+    :disabled="boneState.readonly"
+    :checked="state.value"
+    @sl-change="changeEvent"
+  >
+    {{ boneState.bonestructure.descr }}
+  </sl-checkbox>
+</template>
+
+<script lang="ts">
+//@ts-nocheck
+import { reactive, defineComponent, onMounted, inject, computed } from "vue"
+
+export default defineComponent({
+  inheritAttrs: false,
+  props: {
+    name: String,
+    value: [Object, String, Number, Boolean, Array],
+    index: Number,
+    lang: String
+  },
+  components: {},
+  emits: ["change"],
+  setup(props, context) {
+    const boneState = inject("boneState")
+    const state = reactive({
+      value: computed(() => {
+        return ![false, null, undefined, ""].includes(props.value)
+      })
+    })
+
+    function changeEvent(event) {
+      context.emit("change", props.name, event.target.checked, props.lang, props.index)
+    }
+
+    onMounted(() => {
+      let val = props.value
+      if (!val) {
+        val = false
+      }
+      context.emit("change", props.name, val, props.lang, props.index) //init
+    })
+
+    return {
+      state,
+      boneState,
+      changeEvent
+    }
+  }
+})
+</script>
+
+<style scoped>
+
+</style>

@@ -10,7 +10,18 @@
 
   <div class="viur-shop-cart-address-wrap">
     <div class="viur-shop-cart-address">
-      <br />
+      <div class="viur-shop-cart-address-headline">
+        Rechnungsadresse
+        <sl-button outline size="small" @click="editBilling">
+          <sl-icon name="pencil" slot="prefix"></sl-icon>
+        </sl-button>
+      </div>
+      <slot name="billing-address">
+        <address-box :address-selection="true" :mode="'billing'"></address-box>
+      </slot>
+    </div>
+
+    <div class="viur-shop-cart-address" v-if="customAddress">
       <div class="viur-shop-cart-address-headline">
         Versandadresse
         <sl-button
@@ -35,17 +46,7 @@
         ></address-box>
       </slot>
     </div>
-    <div class="viur-shop-cart-address">
-      <div class="viur-shop-cart-address-headline">
-        Rechnungsadresse
-        <sl-button outline size="small" @click="editBilling">
-          <sl-icon name="pencil" slot="prefix"></sl-icon>
-        </sl-button>
-      </div>
-      <slot name="billing-address">
-        <address-box :address-selection="true" :mode="'billing'"></address-box>
-      </slot>
-    </div>
+
   </div>
 </template>
 
@@ -75,10 +76,10 @@ function editShipping() {
 
 <style scoped>
 .viur-shop-cart-address-wrap {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: var(--sl-spacing-x-large);
-  margin-bottom: var(--sl-spacing-x-large);
+  margin-top: var(--sl-spacing-large);
 }
 
 .viur-shop-cart-address-headline {
@@ -88,5 +89,6 @@ function editShipping() {
   align-items: center;
   justify-content: space-between;
   font-weight: 600;
+  margin-bottom: var(--sl-spacing-medium);
 }
 </style>
