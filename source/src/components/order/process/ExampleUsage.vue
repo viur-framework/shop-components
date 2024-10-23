@@ -1,5 +1,5 @@
 <template>
-  <shop-order-stepper
+  A<shop-order-stepper
     :tabs="state.tabs"
     @tabChange="handleTabs"
     :sidebar="true"
@@ -10,7 +10,7 @@
     <!-- <template #main> The Order Stepper </template> -->
     <!-- <template #trigger> Buttons for Stepper control </template> -->
     <!-- <template #sidebar> the side/bottom bar </template> -->
-  </shop-order-stepper>
+  </shop-order-stepper>B
 </template>
 
 <script setup>

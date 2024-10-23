@@ -19,7 +19,6 @@
         :key="node.key"
       >
         <CartNode :node="node"></CartNode>
-        <!--{{ state.leaves }}-->
         <CartLeaf
           v-for="leaf in state.leaves[node.key]"
           :key="leaf.key"
@@ -308,13 +307,11 @@ async function updateCart() {
   await getChildren();
 }
 
-async function getChildren(parentKey = currentCartKey) {
-  parentKey = parentKey.value;
-  console.log("debug getChildren parentKey from comp: ", parentKey);
+async function getChildren(parentKey = currentCartKey.value) {
   const children = await cartStore.getChildren(parentKey);
-  console.log("getChildren children: ", children);
 
   children.forEach(async (child) => {
+    console.error("child", child);
     if (child.skel_type === "node") {
       state.nodes.push(child);
       await getChildren(child.key);

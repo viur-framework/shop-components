@@ -8,7 +8,8 @@ import {
 
 import { useCartStore } from "./stores/cart";
 import createRouterInstance from "./router/index";
-
+import CartNode from "./components/cart/CartNode.vue";
+import CartLeaf from "./components/cart/CartLeaf.vue";
 // import { createApp } from "vue";
 // import bone from "@viur/vue-utils/bones/edit/bone.vue";
 // import Wrapper_nested from "@viur/vue-utils/bones/edit/wrapper_nested.vue";
@@ -25,7 +26,6 @@ export { default as UserInformation } from "./components/order/information/UserI
 export { default as UserInfoMulti } from "./components/order/information/UserInfoMulti.vue";
 export { default as SelectPaymentProvider } from "./components/order/process/SelectPaymentProvider.vue";
 
-
 const pinia = createPinia();
 const i18n = createI18n({
   locale: "de",
@@ -39,12 +39,8 @@ const i18n = createI18n({
 // Create a plugin to install all components
 const ViurShopComponents = {
   install(app) {
-    // Register each component globally
-    // app.component("CartView", CartView);
-    // app.component("ExampleUsage", ExampleUsage);
-    // app.component("ConfirmView", ConfirmView);
-    // app.component("OrderView", OrderView);
-    // Note: useCartStore is not a component, so it should not be registered as one
+    app.component("CartNode", CartNode);
+    app.component("CartLeaf", CartLeaf);
     app.use(pinia);
     app.use(i18n);
   },
