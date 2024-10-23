@@ -10,11 +10,12 @@
     <!-- {{ mode === "billing" ? cartStore.state.activeBillingAddress : "" }} -->
     <!-- {{ mode === "billing" ? "" : cartStore.state.activeShippingAddress }} -->
     <!-- <pre>{{ customer }}</pre> -->
-    {{ state.address?.street_name }}, {{ state.address?.street_number }}<br />
-    {{ state.address?.zip_code }} {{ state.address?.city }}
-    <br />
-    {{ state.address?.country }}<br />
-    Default:{{ state.address?.is_default }}
+    <div class="viur-shop-address-box-preview" v-if="state.address">
+      {{ state.address?.street_name }} {{ state.address?.street_number }}<br />
+      {{ state.address?.zip_code }} {{ state.address?.city }}
+      <br />
+      {{ state.address?.country }}<br />
+    </div>
   </div>
 </template>
 
@@ -102,3 +103,9 @@ onUpdated(() => {
   getDefaultAddress();
 });
 </script>
+
+<style scoped>
+.viur-shop-address-box-preview{
+  margin: var(--sl-spacing-medium) 0;
+}
+</style>

@@ -1,48 +1,72 @@
 <template>
-  <div v-if="Object.keys(formState.structure).length > 0">
-    <!-- <slot
+  <div class="vi-shop-cart-form-wrap" v-if="Object.keys(formState.structure).length > 0">
+    <slot
       boneName="salutation"
       :widget="CustomSelectBone"
       label="hide"
-
     >
     </slot>
-    <div class="wrapper-name">
-      <slot boneName="firstname" :widget="CustomStringBone" label="hide">
-      </slot>
 
-      <slot boneName="lastname" :widget="CustomStringBone" label="hide"> </slot>
-    </div> -->
-    <div class="wrapper-name">
-      <slot boneName="street_name" :widget="CustomStringBone" label="hide">
-      </slot>
-      <slot boneName="street_number" :widget="CustomStringBone" label="hide">
-      </slot>
-    </div>
-    <div class="wrapper-name">
-      <slot boneName="city" :widget="CustomStringBone" label="hide"> </slot>
+    <slot boneName="firstname"
+        :widget="CustomStringBone"
+        label="hide">
+    </slot>
 
-      <slot
+    <slot boneName="lastname"
+          :widget="CustomStringBone"
+          label="hide">
+    </slot>
+
+    <slot boneName="street_name"
+          :widget="CustomStringBone"
+          label="hide">
+    </slot>
+
+    <slot boneName="street_number"
+          :widget="CustomStringBone"
+          label="hide">
+    </slot>
+
+    <slot
         boneName="zip_code"
         :widget="CustomStringBone"
         placeholder="PLZ"
         label="hide"
-      >
-      </slot>
-    </div>
-    <slot boneName="country" :widget="CustomSelectBone" label="hide"> </slot>
-    <slot boneName="address_type" :widget="CustomSelectBone" :label="'hide'">
-    </slot>
-    <slot
-      boneName="is_default"
-      :widget="booleanBone"
     >
     </slot>
+
+    <slot boneName="city"
+          :widget="CustomStringBone"
+          label="hide">
+    </slot>
+
+
+  <slot boneName="country"
+        :widget="CustomSelectBone"
+        label="hide">
+  </slot>
+
+  <!--<slot boneName="address_type"
+        :widget="CustomSelectBone"
+        label="hide">
+  </slot>-->
+
+  <slot
+    boneName="is_default"
+    :widget="CustomBooleanBone"
+    label="hide"
+  >
+  </slot>
+
+
   </div>
+
+
 </template>
 <script setup>
 import { inject } from "vue";
 import { getBoneWidget } from "@viur/vue-utils/bones/edit";
+import CustomBooleanBone from "./CustomBooleanBone.vue";
 import CustomStringBone from "./CustomStringBone.vue";
 import CustomSelectBone from "./CustomSelectBone.vue";
 import booleanBone from '@viur/vue-utils/bones/edit/default/booleanBone.vue';
@@ -51,29 +75,52 @@ const formState = inject("formState");
 const formUpdate = inject("formUpdate");
 </script>
 <style scoped>
-.wrapper-name {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
-  & sl-input::part(base) {
-    width: 100%;
-  }
+
+.vi-shop-cart-form-wrap{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sl-spacing-small);
+  margin-bottom: var(--sl-spacing-medium);
 }
 
-:deep(.bone-wrapper) {
-  & sl-input::part(base) {
-    border-radius: var(--sl-input-border-radius-medium);
-  }
-
-  & sl-select::part(combobox) {
-    border-radius: var(--sl-input-border-radius-medium);
-  }
+:deep(.bone-wrapper){
+  margin: 0;
 }
 
-:deep(.bone-wrapper:last-child) {
-  margin-bottom: 0;
+:deep(.wrapper-bone-firstname){
+  grid-column: 1 / span 2;
 }
+
+:deep(.wrapper-bone-lastname){
+  grid-column: 3 / span 2;
+}
+
+:deep(.wrapper-bone-street_name){
+  grid-column: 1 / span 3;
+}
+
+:deep(.wrapper-bone-street_number){
+  grid-column: 4 / span 1;
+}
+
+:deep(.wrapper-bone-zip_code){
+  grid-column: 1 / span 2;
+}
+
+:deep(.wrapper-bone-city){
+  grid-column: 3 / span 2;
+}
+
+:deep(.wrapper-bone-country){
+  grid-column: 1 / span 4;
+}
+
+:deep(.wrapper-bone-is_default){
+  padding: var(--sl-spacing-x-small) 0;
+  grid-column: 1 / span 4;
+}
+
+
+
+
 </style>
