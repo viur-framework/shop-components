@@ -7,7 +7,6 @@
     :useCategories="false"
     :layout="layout ? layout : DefaultLayout"
     :values="modelValue"
-    :structure="cartStore.state.structure.address"
     :skel="
       mode === 'shipping'
         ? cartStore.state.activeShippingAddress

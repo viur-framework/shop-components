@@ -1,16 +1,16 @@
 <template>
-  A<shop-order-stepper
+  <shop-order-stepper
     :tabs="state.tabs"
     @tabChange="handleTabs"
     :sidebar="true"
-    :sidebar-bottom="false"
+    :sidebar-bottom="true"
     :show-discount="false"
   >
     <!-- customize slots -->
     <!-- <template #main> The Order Stepper </template> -->
     <!-- <template #trigger> Buttons for Stepper control </template> -->
     <!-- <template #sidebar> the side/bottom bar </template> -->
-  </shop-order-stepper>B
+  </shop-order-stepper>
 </template>
 
 <script setup>
