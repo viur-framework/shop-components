@@ -136,138 +136,141 @@ onBeforeMount(() => {
 </script>
 
 <style scoped>
-.viur-shop-cart-leaf {
-  --shop-leaf-label-color: var(--ignt-color-primary);
-  --shop-leaf-label-font-weight: 600;
-  --shop-leaf-label-font-size: 1em;
-  --shop-leaf-price-font-size: 1em;
-  --shop-leaf-headline-font-size: 1.3em;
+@layer foundation.shop {
+  .viur-shop-cart-leaf {
+    --shop-leaf-label-color: var(--ignt-color-primary);
+    --shop-leaf-label-font-weight: 600;
+    --shop-leaf-label-font-size: 1em;
+    --shop-leaf-price-font-size: 1em;
+    --shop-leaf-headline-font-size: 1.3em;
 
-  margin-bottom: var(--ignt-spacing-x-large);
+    margin-bottom: var(--ignt-spacing-x-large);
 
-  &::part(base) {
-    display: flex;
-    position: relative;
-  }
+    &::part(base) {
+      display: flex;
+      position: relative;
+    }
 
-  &::part(header) {
-    border-bottom: none;
-    padding-top: 0;
-    padding-right: 0;
-  }
+    &::part(header) {
+      border-bottom: none;
+      padding-top: 0;
+      padding-right: 0;
+    }
 
-  &::part(image) {
-    aspect-ratio: 1;
-  }
+    &::part(image) {
+      aspect-ratio: 1;
+    }
 
-  &::part(body) {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: var(--sl-spacing-medium);
-    padding: var(--sl-spacing-large);
-    height: 100%;
-  }
-
-  &::part(group) {
-    padding: 0;
-  }
-
-  @media (max-width: 600px) {
     &::part(body) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: var(--sl-spacing-medium);
       padding: var(--sl-spacing-large);
       height: 100%;
     }
 
-    &::part(image) {
-      border-radius: var(--border-radius);
-      align-self: baseline;
+    &::part(group) {
+      padding: 0;
+    }
+
+    @media (max-width: 600px) {
+      &::part(body) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--sl-spacing-medium);
+        padding: var(--sl-spacing-large);
+        height: 100%;
+      }
+
+      &::part(image) {
+        border-radius: var(--border-radius);
+        align-self: baseline;
+      }
     }
   }
-}
 
-.viur-shop-cart-leaf-image {
-  aspect-ratio: 1;
-}
-
-.viur-shop-cart-leaf-headline {
-  grid-column: 1 / span 4;
-  order: -2;
-  margin: 0;
-  font-size: var(--shop-leaf-headline-font-size);
-
-  @media (max-width: 600px) {
-    grid-column: 1 / span 2;
+  .viur-shop-cart-leaf-image {
+    aspect-ratio: 1;
   }
-}
 
-.viur-shop-cart-leaf-artno {
-  grid-column: 1 / span 5;
-  margin: 0;
-
-  @media (max-width: 600px) {
-    grid-column: 1 / span 2;
-  }
-}
-
-.viur-shop-cart-leaf-actions {
-  display: flex;
-  justify-content: start;
-  gap: var(--sl-spacing-x-small);
-
-  @media (min-width: 600px) {
-    grid-column: 5 / span 1;
-    order: -1;
-    justify-content: end;
-    align-items: end;
-  }
-}
-
-.viur-shop-cart-leaf-description {
-  grid-column: 1 / span 5;
-  margin-bottom: var(--ignt-spacing-small);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-
-  &:deep(*) {
+  .viur-shop-cart-leaf-headline {
+    grid-column: 1 / span 4;
+    order: -2;
     margin: 0;
+    font-size: var(--shop-leaf-headline-font-size);
+
+    @media (max-width: 600px) {
+      grid-column: 1 / span 2;
+    }
   }
 
-  @media (max-width: 600px) {
-    grid-column: span 2;
+  .viur-shop-cart-leaf-artno {
+    grid-column: 1 / span 5;
+    margin: 0;
+
+    @media (max-width: 600px) {
+      grid-column: 1 / span 2;
+    }
   }
 
-  @media (max-width: 500px) {
-    display: none;
+  .viur-shop-cart-leaf-actions {
+    display: flex;
+    justify-content: start;
+    gap: var(--sl-spacing-x-small);
+
+    @media (min-width: 600px) {
+      grid-column: 5 / span 1;
+      order: -1;
+      justify-content: end;
+      align-items: end;
+    }
   }
-}
 
-.viur-shop-cart-leaf-price {
-  align-self: flex-end;
-  text-align: right;
-  font-size: var(--shop-leaf-price-font-size);
-}
+  .viur-shop-cart-leaf-description {
+    grid-column: 1 / span 5;
+    margin-bottom: var(--ignt-spacing-small);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 
-.viur-shop-cart-leaf-quantity {
-  align-self: flex-end;
-}
+    &:deep(*) {
+      margin: 0;
+    }
 
-.viur-shop-cart-leaf-unitprice {
-  align-self: flex-end;
+    @media (max-width: 600px) {
+      grid-column: span 2;
+    }
 
-  @media (max-width: 600px) {
+    @media (max-width: 500px) {
+      display: none;
+    }
+  }
+
+  .viur-shop-cart-leaf-price {
+    align-self: flex-end;
     text-align: right;
+    font-size: var(--shop-leaf-price-font-size);
+  }
+
+  .viur-shop-cart-leaf-quantity {
+    align-self: flex-end;
+  }
+
+  .viur-shop-cart-leaf-unitprice {
+    align-self: flex-end;
+
+    @media (max-width: 600px) {
+      text-align: right;
+    }
+  }
+
+  .viur-shop-cart-leaf-label,
+  .viur-shop-cart-leaf-value--quantity::part(form-control-label) {
+    color: var(--shop-leaf-label-color);
+    font-weight: var(--shop-leaf-label-font-weight);
+    font-size: var(--shop-leaf-label-font-size);
+    margin-bottom: var(--ignt-spacing-x-small);
   }
 }
 
-.viur-shop-cart-leaf-label,
-.viur-shop-cart-leaf-value--quantity::part(form-control-label) {
-  color: var(--shop-leaf-label-color);
-  font-weight: var(--shop-leaf-label-font-weight);
-  font-size: var(--shop-leaf-label-font-size);
-  margin-bottom: var(--ignt-spacing-x-small);
-}
 </style>
