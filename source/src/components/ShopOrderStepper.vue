@@ -185,6 +185,7 @@ onBeforeMount(() => {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   grid-template-rows: 1fr max-content;
+  grid-gap: var(--ignt-spacing-2x-large);
 
   width: 100%;
   border: 0px white solid;
@@ -200,12 +201,10 @@ onBeforeMount(() => {
   grid-column: auto / span var(--shop-sidebar-columns);
   /* height has to be set or sidebar grows until infinity... */
   height: min-content;
-  margin-top: 3em;
   @media (min-width: 1024px) {
     position: -webkit-sticky;
     position: sticky;
     top: 2rem;
-    margin-left: var(--sl-spacing-2x-large);
   }
 }
 .viur-shop-stepper-wrap {
