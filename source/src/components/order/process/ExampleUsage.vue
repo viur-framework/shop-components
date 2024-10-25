@@ -3,7 +3,7 @@
     :tabs="state.tabs"
     @tabChange="handleTabs"
     :sidebar="true"
-    :sidebar-bottom="true"
+    :sidebar-bottom="false"
     :show-discount="false"
   >
     <!-- customize slots -->
