@@ -3,8 +3,12 @@
 
     <span>Haben Sie noch ein Gutschein?</span><br>
     <span v-if="!cartStore.state.basketRootNode.discount">Es befindet sich noch kein Gutschein im Warenkorb.</span>
-    <sl-input label="Rabatt Code" ref="codeInput"></sl-input>
-    <sl-button @click="addDiscountCode">Einlösen</sl-button>
+    <sl-button-group>
+      <sl-input placeholder="Rabatt Code" ref="codeInput">
+
+      </sl-input>
+      <sl-button @click="addDiscountCode">Einlösen</sl-button>
+    </sl-button-group>
     <sl-alert ref="errorMessageContainer">
       <sl-icon slot="icon" name="info-circle"></sl-icon>
       {{ state.errorMessage }}
