@@ -188,66 +188,72 @@ onBeforeMount(() => {
   grid-gap: var(--ignt-spacing-2x-large);
 
   width: 100%;
-  border: 0px white solid;
+  border: 0 white solid;
 }
 
-.viur-shop-sidebar-wrap {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--shop-sidebar-background);
-  padding: var(--sl-spacing-medium);
-  overflow: hidden;
-  border-radius: var(--sl-border-radius-medium);
-  grid-column: auto / span var(--shop-sidebar-columns);
-  /* height has to be set or sidebar grows until infinity... */
-  height: min-content;
-  @media (min-width: 1024px) {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 2rem;
+@layer foundation.shop {
+
+  .viur-shop-sidebar-wrap {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--shop-sidebar-background);
+    padding: var(--sl-spacing-medium);
+    overflow: hidden;
+    border-radius: var(--sl-border-radius-medium);
+    grid-column: auto / span var(--shop-sidebar-columns);
+    /* height has to be set or sidebar grows until infinity... */
+    height: min-content;
+    @media (min-width: 1024px) {
+      position: sticky;
+      top: 2rem;
+    }
   }
-}
-.viur-shop-stepper-wrap {
-  display: flex;
-  flex-direction: column;
-  grid-column: auto / span var(--shop-main-columns);
 
-  @media (max-width: 1024px) {
+  .viur-shop-stepper-wrap {
+    display: flex;
+    flex-direction: column;
+    grid-column: auto / span var(--shop-main-columns);
+
+    @media (max-width: 1024px) {
+      grid-column: auto / span 12;
+    }
+
+    @media (max-width: 600px) {
+      &::part(active-tab-indicator) {
+        display: none;
+      }
+    }
+  }
+
+  .viur-shop-form-footer {
+    height: fit-content;
+
+    /* TODO: sticky Trigger yes no? */
+    /* position: sticky;
+    bottom: 2rem; */
+  }
+
+  :deep(.viur-shop-form-footer) {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--sl-spacing-large);
+  }
+
+  .flex-end {
+    justify-content: flex-end;
+  }
+
+  .bottom {
+    grid-column: auto / span 12;
+    grid-row-start: 2;
+  }
+
+  .full-width {
     grid-column: auto / span 12;
   }
 
-  @media (max-width: 600px) {
-    &::part(active-tab-indicator) {
-      display: none;
-    }
+  .last-row {
+    grid-row-start: 3;
   }
-}
-
-.viur-shop-form-footer {
-  height: fit-content;
-
-  /* TODO: sticky Trigger yes no? */
-  /* position: -webkit-sticky;
-  position: sticky;
-  bottom: 2rem; */
-}
-
-:deep(.viur-shop-form-footer) {
-  display: flex;
-  justify-content: space-between;
-  margin-top: var(--sl-spacing-large);
-}
-.flex-end {
-  justify-content: flex-end;
-}
-.bottom {
-  grid-column: auto / span 12;
-  grid-row-start: 2;
-}
-.full-width {
-  grid-column: auto / span 12;
-}
-.last-row {
-  grid-row-start: 3;
 }
 </style>

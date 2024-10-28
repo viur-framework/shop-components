@@ -26,6 +26,7 @@
   </div>
   <div class="viur-shop-cart-sidebar-info-line">
     <span>Versandkosten</span>
+    <!-- TODO: Some customer needs a link to their shipping details page here — do we just use the translations? -->
     <sl-format-number
       lang="de"
       type="currency"
@@ -56,6 +57,7 @@
       Paypal
     </sl-button>
   </div>
+  <!-- TODO: Delivery time estimate, perhaps slot? -->
 </template>
 
 <script setup>
