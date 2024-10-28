@@ -32,6 +32,7 @@ function providerChanged(e) {
     console.log( "b",cartStore.state.paymentProviders)
 
 
+    cartStore.state.selectedPaymentProviderName = e.target.id.replace("povider__", "")
     cartStore.state.selectedPaymentProvider = cartStore.state.paymentProviders[e.target.id.replace("povider__", "")]
     console.log(cartStore.state.selectedPaymentProvider)
     document.querySelectorAll("sl-card").forEach((card) => {

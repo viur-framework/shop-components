@@ -76,7 +76,14 @@
             Jetzt Bestellen</sl-button
           >
         </div>
-      </div>
+      </template>
+    </teleport>
+
+    <Discount v-if="!props.inOrderConfirm"></Discount>
+
+
+    <div class="viur-shop-cart-mobile-footer">
+      <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
     </div>
 
     <!-- <pre> {{ state.leaves }}</pre> -->
@@ -199,11 +206,13 @@ import CartLeaf from "./CartLeaf.vue";
 import Shipping from "../order/process/Shipping.vue";
 
 const props = defineProps({
-  mode: { type: String, default: "basket" },
-  cartKey: { type: String, required: true },
-  sidebar: { type: Boolean, default: true },
-  standalone: { type: Boolean, default: true },
-  placeholder: { type: String, required: true },
+  mode: {type: String, default: "basket"},
+  cartKey: {type: String},
+  sidebar: {type: Boolean, default: true},
+  inOrderView: {type: Boolean, default: false},
+  inOrderConfirm: {type: Boolean, default: false},
+
+
 });
 
 const cartStore = useCartStore();
@@ -217,9 +226,7 @@ const state = reactive({
   }),
   totalPrice: computed(() => {
     if (shipping.value) {
-      return (
-        cartStore.state.basketRootNode.total + shipping.value.getShippingCost()
-      );
+      return cartStore.state.basketRootNode.total_discount_price + shipping.value.getShippingCost();
     }
     return 0;
   }),
