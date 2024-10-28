@@ -70,7 +70,7 @@
       </template>
     </teleport>
 
-    <Discount></Discount>
+    <Discount v-if="!props.inOrderConfirm"></Discount>
 
 
     <div class="viur-shop-cart-mobile-footer">
@@ -200,9 +200,11 @@ import Shipping from "../order/process/Shipping.vue";
 
 const props = defineProps({
   mode: {type: String, default: "basket"},
-  cartKey: {type: String, required: true},
+  cartKey: {type: String},
   sidebar: {type: Boolean, default: true},
   inOrderView: {type: Boolean, default: false},
+  inOrderConfirm: {type: Boolean, default: false},
+
 
 });
 

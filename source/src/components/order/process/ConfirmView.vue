@@ -39,83 +39,58 @@
 
         </div>
 
-    </div>
-
-    <div class="viur-shop-cart-payment">
-      <div class="viur-shop-cart-payment-method">
-        <span>Zahlungsmethode:</span>
-        {{ state.selectedPaymentProvider }}
       </div>
-      <sl-button outline size="small">
-        <sl-icon name="pencil" slot="prefix"></sl-icon>
-      </sl-button>
-    </div>
 
-    <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
-    <!-- <sl-card
-      horizontal
-      class="viur-shop-cart-mini-card"
-      v-for="item in cartStore.state.carts[cartStore.state.basket].items"
-    >
-      <img
-        class="viur-shop-cart-mini-card-img"
-        slot="image"
-        :src="getImage(item.article.dest.key)"
-      />
-
-      <div class="viur-shop-cart-mini-cart-header" slot="header">
-        <h4 class="viur-shop-cart-mini-headline headline">{{ item.article.dest.shop_name }} | 425018</h4>
-      </div>
-      <div class="viur-shop-cart-mini-card-body-row">
-        <div class="viur-shop-cart-mini-card-body-info">
-          <div class="viur-shop-cart-mini-card-info-wrap">
-            <div class="viur-shop-cart-mini-card-info">
-              <span>Anzahl: </span>
-              1
-            </div>
-            <div class="viur-shop-cart-mini-card-info">
-              <span>Preis: </span>
-              {{ item.article.dest.shop_price_recommended }} €
-            </div>
-          </div>
+      <div class="viur-shop-cart-payment">
+        <div class="viur-shop-cart-payment-method">
+          <span>Zahlungsmethode:</span>
+          {{ state.selectedPaymentProvider }}
         </div>
-      </div>
-    </sl-card> -->
-
-    <teleport to="#order_sidebar">
-      <h2 class="viur-shop-cart-sidebar-headline headline">Jetzt Bestellen</h2>
-      <br/>
-      <!-- <div class="viur-shop-cart-sidebar-info-line">
-        <span>Zwischensumme</span>
-        {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00,00" }} €
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line">
-        <span>Rabatt</span>
-        0 €
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line">
-        <span>Versandkosten</span>
-        0 €
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line total">
-        <span>Gesamt:</span>
-        {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00" }} €
-      </div> -->
-
-      <sl-checkbox @sl-change="onTosAccept">
-        Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen
-      </sl-checkbox>
-
-      <div class="viur-shop-cart-sidebar-btn-wrap" v-if="state.showOrderButton">
-        <sl-button
-          :variant="state.showOrderButton ? 'info' : 'disabled'"
-          size="small"
-          :disabled="!state.showOrderButton"
-        >
-          Zahlungspflichtig bestellen
+        <sl-button outline size="small">
+          <sl-icon name="pencil" slot="prefix"></sl-icon>
         </sl-button>
       </div>
-    </teleport>
+
+      <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
+
+      <CartView :in-order-confirm="true"></CartView>
+
+ <sl-checkbox @sl-change="onTosAccept">
+          Ich akzeptiere die geltenden AGBs und Datenschutzbestimmungen
+        </sl-checkbox>
+
+        <div class="viur-shop-cart-sidebar-btn-wrap" v-if="state.showOrderButton">
+          <sl-button
+            :variant="state.showOrderButton ? 'info' : 'disabled'"
+            size="small"
+            :disabled="!state.showOrderButton"
+            @click="addOrder"
+          >
+            Zahlungspflichtig bestellen
+          </sl-button>
+        </div>
+      <teleport to="#order_sidebar" v-show="false"><!--TOO-->
+        <h2 class="viur-shop-cart-sidebar-headline headline">Jetzt Bestellen</h2>
+        <br/>
+        <!-- <div class="viur-shop-cart-sidebar-info-line">
+          <span>Zwischensumme</span>
+          {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00,00" }} €
+        </div>
+        <div class="viur-shop-cart-sidebar-info-line">
+          <span>Rabatt</span>
+          0 €
+        </div>
+        <div class="viur-shop-cart-sidebar-info-line">
+          <span>Versandkosten</span>
+          0 €
+        </div>
+        <div class="viur-shop-cart-sidebar-info-line total">
+          <span>Gesamt:</span>
+          {{ cartStore.state?.basket ? cartStore.state.carts[cartStore.state.basket].info.total : "00" }} €
+        </div> -->
+
+
+      </teleport>
     </div>
   </template>
 </template>
@@ -125,6 +100,7 @@ import {reactive, onBeforeMount, computed} from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
 import {useCartStore} from "../../../stores/cart.js";
 import {Request} from "@viur/vue-utils";
+import CartView from "../../cart/CartView.vue";
 
 const cartStore = useCartStore();
 
@@ -148,7 +124,7 @@ const state = reactive({
   images: {},
   showOrderButton: false,
 
-  });
+});
 
 
 function getImage(item) {
@@ -168,8 +144,12 @@ function getImage(item) {
 }
 
 function onTosAccept(e) {
-  if (e.target.checked) state.showOrderButton = true;
-  if (!e.target.checked) state.showOrderButton = false;
+  state.showOrderButton = e.target.checked;
+}
+function addOrder()
+{
+  console.log("start order add");
+  cartStore.orderAdd();
 }
 
 onBeforeMount(async () => {

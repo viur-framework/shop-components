@@ -1,13 +1,13 @@
 import {reactive} from "vue";
 import {defineStore} from "pinia";
 import {ViURShopClient} from "@viur/viur-shop-client";
-
-export const useCartStore = defineStore("cartstore", () => {
-  const shopClient = new ViURShopClient({
-    host_url:
+const host_url=
       window.location.origin === "http://localhost:8081"
         ? "http://localhost:8080"
-        : window.location.origin,
+        : window.location.origin;
+export const useCartStore = defineStore("cartstore", () => {
+  const shopClient = new ViURShopClient({
+host_url:host_url
   });
 
   const state = reactive({
@@ -18,11 +18,14 @@ export const useCartStore = defineStore("cartstore", () => {
     paymentProviders: {},
     billingAddress: {},
     shippingAddress: {},
-    selectedPaymentProvider: {}
+    selectedPaymentProvider: {},
+    selectedPaymentProviderName:"",
+    user:{}
   });
 
   async function init() {
     await getRootNodes();
+    getCurrentUser();
   }
 
   async function getChildren(parentKey) {
@@ -121,8 +124,27 @@ export const useCartStore = defineStore("cartstore", () => {
     const paymentProvieders = await shopClient.payment_providers_list();
     state.paymentProviders = paymentProvieders;
     //select first paymentprovider as default
+    state.selectedPaymentProviderName = Object.keys(paymentProvieders)[0]
     state.selectedPaymentProvider = paymentProvieders[Object.keys(paymentProvieders)[0]]
 
+  }
+  async function getCurrentUser()
+  {
+    state.user = await shopClient.user_view();
+  }
+  async function orderAdd()
+  {
+    const order= await shopClient.order_add(
+      {
+        cart_key: state.basketRootNode.key,
+        payment_provider:state.selectedPaymentProviderName,
+        billing_address_key:state.billingAddress["key"],
+        email:state.user.name,
+        customer_key:state.user.key
+
+
+      }
+    )
   }
 
   return {
@@ -138,7 +160,8 @@ export const useCartStore = defineStore("cartstore", () => {
     getAddress,
     getShippingData,
     payment_providers_list,
-    removeDiscount
+    removeDiscount,
+    orderAdd
 
   }
     ;
