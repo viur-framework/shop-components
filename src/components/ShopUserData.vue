@@ -20,6 +20,7 @@
           <CartSelection
             :carts="reduce(carts, n)"
             @cart-selected="onCartSelect($event, n)"
+            v-if="multiMode"
           >
           </CartSelection>
         </template>
@@ -68,7 +69,11 @@
       </BaseLayout>
     </div>
 
-    <ActionBar @on-address-add="addAddress" @on-address-remove="removeAddress">
+    <ActionBar
+      @on-address-add="addAddress"
+      @on-address-remove="removeAddress"
+      v-if="multiMode"
+    >
     </ActionBar>
   </div>
 </template>

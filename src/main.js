@@ -1,7 +1,6 @@
 // imports
 import { createPinia } from "pinia";
 import { createI18n } from "vue-i18n";
-import PrimeVue from "primevue/config";
 import {
   de_translations,
   en_translations,
@@ -30,20 +29,20 @@ export { default as OrderComplete } from "./components/ShopOrderComplete.vue";
 export { default as SelectPaymentProvider } from "./components/order/process/SelectPaymentProvider.vue";
 
 const pinia = createPinia();
-// const i18n = createI18n({
-//   locale: "de",
-//   fallbackLocale: "en",
-//   messages: {
-//     en: { ...en_translations },
-//     de: { ...de_translations },
-//   },
-// });
+const i18n = createI18n({
+  locale: "de",
+  fallbackLocale: "en",
+  messages: {
+    en: { ...en_translations },
+    de: { ...de_translations },
+  },
+});
 
 // Create a plugin to install all components
 const ViurShopComponents = {
   install(app) {
     app.use(pinia);
-    // app.use(i18n);
+    app.use(i18n);
   },
 };
 
