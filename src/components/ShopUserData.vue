@@ -8,79 +8,68 @@
     <template #alertMsg> {{ state.alert.msg }} </template>
   </shop-alert>
 
-  <template v-if="multiMode">
-    <div class="viur-shop-multi-address-wrap">
-      <div
-        class="viur-shop-multi-adress-box"
-        v-for="n in state.amount"
-        :key="n"
+  <div class="viur-shop-multi-address-wrap">
+    <div class="viur-shop-multi-adress-box" v-for="n in state.amount" :key="n">
+      <BaseLayout
+        :customer="state.customer"
+        :custom-address="!state.customAddress['grp' + n]"
+        @edit-billing="state.editBilling = $event"
+        @edit-shipping="state.editShipping = $event"
       >
-        <BaseLayout
-          :customer="state.customer"
-          :custom-address="!state.customAddress['grp' + n]"
-          @edit-billing="state.editBilling = $event"
-          @edit-shipping="state.editShipping = $event"
-        >
-          <template #cart-selection>
-            <CartSelection
-              :carts="reduce(carts, n)"
-              @cart-selected="onCartSelect($event, n)"
-            >
-            </CartSelection>
-          </template>
-          <template
-            #shipping-address
-            v-if="
-              (state.editShipping && !state.customAddress['grp' + n]) ||
-              (!state.hasShippingAddress && !state.customAddress['grp' + n])
+        <template #cart-selection>
+          <CartSelection
+            :carts="reduce(carts, n)"
+            @cart-selected="onCartSelect($event, n)"
+          >
+          </CartSelection>
+        </template>
+        <template #mode-switch>
+          <sl-checkbox
+            :checked="state.hasBillingAddress"
+            :ref="
+              (el) => {
+                if (el === null) return;
+
+                state.customAddress['grp' + n] = el.checked;
+              }
             "
+            @sl-change="onCustomBillingAddress($event, n)"
+            class="viur-shop-form-bill-check"
           >
-            <UserDataForm
-              :customer="state.customer"
-              v-model="cartStore.state.activeShippingAddress"
-              @add-success="state.alert = $event"
-            >
-            </UserDataForm>
-          </template>
-          <template
-            #billing-address
-            v-if="state.editBilling || !state.hasBillingAddress"
-          >
-            <UserDataForm
-              :customer="state.customer"
-              :mode="'billing'"
-              v-model="cartStore.state.activeBillingAddress"
-              @add-success="state.alert = $event"
-            >
-            </UserDataForm>
-          </template>
-        </BaseLayout>
-        <sl-checkbox
-          :checked="state.hasBillingAddress"
-          :ref="
-            (el) => {
-              if (el === null) return;
-
-              state.customAddress['grp' + n] = el.checked;
-            }
-          "
-          @sl-change="onCustomBillingAddress($event, n)"
-          class="viur-shop-form-bill-check"
+            Versandadresse wie Rechnungsadresse
+          </sl-checkbox></template
         >
-          Versandadresse wie Rechnungsadresse
-        </sl-checkbox>
-      </div>
-
-      <ActionBar
-        @on-address-add="addAddress"
-        @on-address-remove="removeAddress"
-      >
-      </ActionBar>
+        <template
+          #shipping-address
+          v-if="
+            (state.editShipping && !state.customAddress['grp' + n]) ||
+            (!state.hasShippingAddress && !state.customAddress['grp' + n])
+          "
+        >
+          <UserDataForm
+            :customer="state.customer"
+            v-model="cartStore.state.activeShippingAddress"
+            @add-success="state.alert = $event"
+          >
+          </UserDataForm>
+        </template>
+        <template
+          #billing-address
+          v-if="state.editBilling || !state.hasBillingAddress"
+        >
+          <UserDataForm
+            :customer="state.customer"
+            :mode="'billing'"
+            v-model="cartStore.state.activeBillingAddress"
+            @add-success="state.alert = $event"
+          >
+          </UserDataForm>
+        </template>
+      </BaseLayout>
     </div>
-  </template>
 
-  <div v-else>
-    <UserDataForm></UserDataForm>
+    <ActionBar @on-address-add="addAddress" @on-address-remove="removeAddress">
+    </ActionBar>
   </div>
 </template>
 

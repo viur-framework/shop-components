@@ -16,7 +16,6 @@
   >
   </ViForm>
 
-
   <sl-bar>
     <div slot="left">
       <!-- BUTTON NUR PLATZHALTER FÜR TESTS -->
@@ -32,15 +31,13 @@
       </sl-button>
     </div>
   </sl-bar>
-
 </template>
 
 <script setup>
-import { onBeforeMount, reactive, ref, computed, onMounted } from "vue";
+import { reactive, ref, computed, onMounted } from "vue";
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import DefaultLayout from "./DefaultLayout.vue";
 import { useCartStore } from "../../../stores/cart";
-import { useTimeoutFn } from "@vueuse/core";
 
 const props = defineProps({
   layout: { required: false },

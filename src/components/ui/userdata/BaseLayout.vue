@@ -20,7 +20,7 @@
         <address-box :address-selection="true" :mode="'billing'"></address-box>
       </slot>
     </div>
-
+    <slot name="mode-switch"></slot>
     <div class="viur-shop-cart-address" v-if="customAddress">
       <div class="viur-shop-cart-address-headline">
         Versandadresse
@@ -46,7 +46,6 @@
         ></address-box>
       </slot>
     </div>
-
   </div>
 </template>
 
