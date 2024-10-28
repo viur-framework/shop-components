@@ -91,6 +91,7 @@
       >
       </sl-format-number>
     </div>
+    <!-- TODO: Some customer needs an availability indicator ("in stock" etc.) here -->
   </sl-card>
 </template>
 
