@@ -1,16 +1,16 @@
 <template>
   <sl-spinner v-if="!currentCartKey"></sl-spinner>
   <template v-else>
-    <sl-dialog ref="confirm" @sl-hide="onDialogHide">
+    <sl-dialog no-header ref="confirm" @sl-hide="onDialogHide">
       <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
-      <div class="footer-wrap" slot="footer">
-        <sl-button variant="danger" @click="confirm.hide()" size="medium">
+      <sl-bar>
+        <sl-button slot="left" variant="danger" @click="confirm.hide()" size="medium">
           Abbrechen
         </sl-button>
-        <sl-button variant="success" @click="onConfirm" size="medium">
+        <sl-button slot="right" variant="success" @click="onConfirm" size="medium">
           Aus Warenkorb entfernen
         </sl-button>
-      </div>
+      </sl-bar>
     </sl-dialog>
 
     <div class="viur-shop-cart-node" v-for="node in state.nodes">
