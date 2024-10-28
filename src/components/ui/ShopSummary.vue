@@ -26,6 +26,7 @@
   </div>
   <div class="viur-shop-cart-sidebar-info-line">
     <span>Versandkosten</span>
+    <!-- TODO: Some customer needs a link to their shipping details page here — do we just use the translations? Yes. -->
     <sl-format-number
       lang="de"
       type="currency"
@@ -43,6 +44,7 @@
       :value="node.total + node?.shipping - node.discount"
     >
     </sl-format-number>
+    <!-- TODO: Some project needs "VAT included" here -->
   </div>
   <div class="viur-shop-cart-sidebar-btn-wrap">
     <!-- TODO: Placement of discount? -->
@@ -56,6 +58,7 @@
       Paypal
     </sl-button>
   </div>
+  <!-- TODO: Delivery time estimate: slot -->
 </template>
 
 <script setup>

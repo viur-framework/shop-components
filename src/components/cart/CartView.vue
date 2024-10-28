@@ -1,16 +1,16 @@
 <template>
   <sl-spinner v-if="!currentCartKey"></sl-spinner>
   <template v-else>
-    <sl-dialog ref="confirm" @sl-hide="onDialogHide">
+    <sl-dialog no-header ref="confirm" @sl-hide="onDialogHide">
       <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
-      <div class="footer-wrap" slot="footer">
-        <sl-button variant="danger" @click="confirm.hide()" size="medium">
+      <sl-bar>
+        <sl-button slot="left" variant="danger" @click="confirm.hide()" size="medium">
           Abbrechen
         </sl-button>
-        <sl-button variant="success" @click="onConfirm" size="medium">
+        <sl-button slot="right" variant="success" @click="onConfirm" size="medium">
           Aus Warenkorb entfernen
         </sl-button>
-      </div>
+      </sl-bar>
     </sl-dialog>
 
     <div class="viur-shop-cart-node" v-for="node in state.nodes">
@@ -77,6 +77,11 @@
           >
         </div>
       </div>
+    </div>
+    <Discount v-if="!props.inOrderConfirm"></Discount>
+
+    <div class="viur-shop-cart-mobile-footer">
+      <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
     </div>
 
     <!-- <pre> {{ state.leaves }}</pre> -->
@@ -200,10 +205,10 @@ import Shipping from "../order/process/Shipping.vue";
 
 const props = defineProps({
   mode: { type: String, default: "basket" },
-  cartKey: { type: String, required: true },
+  cartKey: { type: String },
   sidebar: { type: Boolean, default: true },
-  standalone: { type: Boolean, default: true },
-  placeholder: { type: String, required: true },
+  inOrderView: { type: Boolean, default: false },
+  inOrderConfirm: { type: Boolean, default: false },
 });
 
 const cartStore = useCartStore();
@@ -218,7 +223,8 @@ const state = reactive({
   totalPrice: computed(() => {
     if (shipping.value) {
       return (
-        cartStore.state.basketRootNode.total + shipping.value.getShippingCost()
+        cartStore.state.basketRootNode.total_discount_price +
+        shipping.value.getShippingCost()
       );
     }
     return 0;
