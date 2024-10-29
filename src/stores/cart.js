@@ -1,7 +1,7 @@
 import { reactive, computed, watch } from "vue";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "@viur/viur-shop-client";
-
+// import { Utils } from "../components/lib/utils";
 export const useCartStore = defineStore("cartstore", () => {
   const shopClient = new ViURShopClient({
     host_url:
@@ -28,6 +28,11 @@ export const useCartStore = defineStore("cartstore", () => {
     await getRootNodes();
     await getAddress();
     await getCustomer();
+    // const testData = await Utils.getAllNodes(state.basketRootNode)
+    // console.log("hier kadir 222", testData);
+
+    // const test = await Utils.buildTree(testData);
+    // console.log("hier kadir 111", test);
   }
 
   async function getCustomer() {
@@ -113,8 +118,7 @@ export const useCartStore = defineStore("cartstore", () => {
           state.activeBillingAddress = address;
         }
       });
-    }
-    else {
+    } else {
       state.activeBillingAddress = setAddressValues("billing");
     }
     if (state.shippingAddressList.length) {
@@ -123,8 +127,7 @@ export const useCartStore = defineStore("cartstore", () => {
           state.activeShippingAddress = address;
         }
       });
-    }
-    else {
+    } else {
       state.activeShippingAddress = setAddressValues("shipping");
     }
   }

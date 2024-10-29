@@ -51,6 +51,7 @@
             :customer="state.customer"
             v-model="cartStore.state.activeShippingAddress"
             @add-success="state.alert = $event"
+            :layout="layout"
           >
           </UserDataForm>
         </template>
@@ -63,6 +64,7 @@
             :mode="'billing'"
             v-model="cartStore.state.activeBillingAddress"
             @add-success="state.alert = $event"
+            :layout="layout"
           >
           </UserDataForm>
         </template>
@@ -91,6 +93,9 @@ const props = defineProps({
   multiMode: {
     type: Boolean,
     default: true,
+  },
+  layout: {
+    default: null,
   },
 });
 
