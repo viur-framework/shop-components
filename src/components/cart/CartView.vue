@@ -2,13 +2,13 @@
   <sl-spinner v-if="!currentCartKey"></sl-spinner>
   <template v-else>
     <sl-dialog no-header ref="confirm" @sl-hide="onDialogHide">
-      <p>{{ $t("viur.shop.cart_view.delete_item.hint")}}</p>
+      <p>{{ $t("viur.shop.cart.delete_item.hint")}}</p>
       <sl-bar>
         <sl-button slot="left" variant="secondary" outline @click="confirm.hide()" size="medium">
-          {{ $t("viur.shop.cart_view.delete_item.cancel") }}
+          {{ $t("viur.shop.cart.delete_item.cancel") }}
         </sl-button>
         <sl-button slot="right" variant="danger" @click="onConfirm" size="medium">
-         {{ $t("viur.shop.cart_view.delete_item.proceed") }}
+         {{ $t("viur.shop.cart.delete_item.proceed") }}
         </sl-button>
       </sl-bar>
     </sl-dialog>
