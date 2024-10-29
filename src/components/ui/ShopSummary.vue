@@ -1,9 +1,9 @@
 ,
 <template>
-  <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
+  <h2 class="viur-shop-cart-sidebar-headline headline">{{ $t("viur.shop.summary.headline") }}</h2>
   <br />
   <div class="viur-shop-cart-sidebar-info-line">
-    <span>Zwischensumme</span>
+    <span>{{ $t("viur.shop.summary.subtotal") }}</span>
     <sl-format-number
       lang="de"
       type="currency"
@@ -14,7 +14,7 @@
     <br />
   </div>
   <div class="viur-shop-cart-sidebar-info-line">
-    <span>Rabatt</span>
+    <span>{{ $t("viur.shop.summary.discount")}}</span>
 
     <sl-format-number
       lang="de"
@@ -25,7 +25,7 @@
     </sl-format-number>
   </div>
   <div class="viur-shop-cart-sidebar-info-line">
-    <span>Versandkosten</span>
+    <span>{{ $t("viur.shop.summary.shipping_cost") }}</span>
     <!-- TODO: Some customer needs a link to their shipping details page here — do we just use the translations? Yes. -->
     <sl-format-number
       lang="de"
@@ -36,7 +36,7 @@
     </sl-format-number>
   </div>
   <div class="viur-shop-cart-sidebar-info-line total">
-    <span>Gesamt:</span>
+    <span>{{ $t("viur.shop.summary.total") }}</span>
     <sl-format-number
       lang="de"
       type="currency"
@@ -52,7 +52,7 @@
       <Discount></Discount>
     </div>
 
-    <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
+    <sl-button variant="primary" size="medium">{{ $t("viur.shop.summary.checkout") }}</sl-button>
     <sl-button size="medium" variant="info">
       <sl-icon name="paypal" slot="prefix"></sl-icon>
       Paypal

@@ -2,13 +2,13 @@
   <sl-spinner v-if="!currentCartKey"></sl-spinner>
   <template v-else>
     <sl-dialog no-header ref="confirm" @sl-hide="onDialogHide">
-      <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
+      <p>{{ $t("viur.shop.cart_view.delete_item.hint")}}</p>
       <sl-bar>
-        <sl-button slot="left" variant="danger" @click="confirm.hide()" size="medium">
-          Abbrechen
+        <sl-button slot="left" variant="secondary" outline @click="confirm.hide()" size="medium">
+          {{ $t("viur.shop.cart_view.delete_item.cancel") }}
         </sl-button>
-        <sl-button slot="right" variant="success" @click="onConfirm" size="medium">
-          Aus Warenkorb entfernen
+        <sl-button slot="right" variant="danger" @click="onConfirm" size="medium">
+         {{ $t("viur.shop.cart_view.delete_item.proceed") }}
         </sl-button>
       </sl-bar>
     </sl-dialog>
@@ -44,7 +44,7 @@
         ></sl-format-number>
       </div>
       <div class="viur-shop-cart-sidebar-info-line">
-        <span>Rabatt</span>
+        <span>{{ $t("viur.shop.module.discount") }}</span>
         <sl-format-number
           type="currency"
           currency="EUR"

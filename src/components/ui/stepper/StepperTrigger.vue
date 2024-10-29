@@ -1,12 +1,10 @@
 <template>
   <sl-button type="submit" v-show="index !== 0" @click="prevTab()">
-    Zurück
-    <!-- TODO: $t(i18n referenz) -->
+    {{$t("viur.shop.stepper.previous")}}
   </sl-button>
 
   <sl-button type="submit" variant="primary" @click="nextTab()">
-    Weiter
-    <!-- TODO: $t(i18n referenz) -->
+    {{$t("viur.shop.stepper.next")}}
   </sl-button>
 </template>
 

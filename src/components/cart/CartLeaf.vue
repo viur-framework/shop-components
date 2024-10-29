@@ -31,7 +31,7 @@
       <sl-input
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
         type="number"
-        label="Anzahl"
+        :label="$t('viur.shop.cart_leaf.quantity')"
         placeholder="Number"
         min="0"
         v-model="state.leaf.quantity"
@@ -47,7 +47,7 @@
       </sl-input>
     </div>
     <div class="viur-shop-cart-leaf-unitprice">
-      <div class="viur-shop-cart-leaf-label">Stückpreis</div>
+      <div class="viur-shop-cart-leaf-label">{{ $t("viur.shop.cart_leaf.unit_price") }}</div>
       <sl-format-number
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice"
         lang="de"
@@ -81,7 +81,7 @@
     </div>
 
     <div class="viur-shop-cart-leaf-price">
-      <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
+      <div class="viur-shop-cart-leaf-label">{{ $t("viur.shop.cart_leaf.price") }}</div>
       <sl-format-number
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price"
         lang="de"
@@ -248,17 +248,17 @@ onBeforeMount(() => {
   }
 
   .viur-shop-cart-leaf-price {
-    align-self: flex-end;
+    align-self: flex-start;
     text-align: right;
     font-size: var(--shop-leaf-price-font-size);
   }
 
   .viur-shop-cart-leaf-quantity {
-    align-self: flex-end;
+    align-self: flex-start;
   }
 
   .viur-shop-cart-leaf-unitprice {
-    align-self: flex-end;
+    align-self: flex-start;
 
     @media (max-width: 600px) {
       text-align: right;
