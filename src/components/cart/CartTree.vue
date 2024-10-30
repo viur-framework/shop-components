@@ -1,45 +1,32 @@
 <template>
-  <sl-spinner v-if="state.loading"></sl-spinner>
-  <template v-else>
-    <template
-      v-for="child in modelValue.children"
-      v-if="modelValue.is_root_node || modelValue.skel_type === 'node'"
-    >
-      <CartNode :node="child" v-if="child.children.length && child?.skel_type === 'node'">
-      </CartNode>
-
-      <CartLeaf :leaf="child" v-else />
-      <!-- <CartLeaf :leaf="modelValue" v-else /> -->
-    </template>
-  </template>
-
-  <!--
-    <template
-      v-for="child in modelValue.children"
-      v-if="modelValue.is_root_node || modelValue.skel_type === 'node'"
-    >
-      <CartTree
-        :modelValue="child"
-        v-if="child.children.length && child.skel_type === 'node'"
-      />
-      <CartLeaf :leaf="child" v-else />
-    </template>
-    <CartLeaf :leaf="modelValue" v-else /> -->
-
-  <!-- <pre>{{ modelValue }}</pre> -->
+  <CartTreeWrapper :tree="state.tree"></CartTreeWrapper>
 </template>
 <script setup>
-import { computed, reactive } from "vue";
-import CartLeaf from "./CartLeaf.vue";
-import CartNode from "./CartNode.vue";
+import { reactive, watch, computed } from "vue";
+import CartTreeWrapper from "./CartTreeWrapper.vue";
 
 const props = defineProps({
-  modelValue: { type: Object },
+  modelValue: { type: Set, required: true },
 });
+
+const arrayToTree = (arr, parent = null) =>
+  arr
+    .filter((item) => item.parententry === parent)
+    .map((child) => ({ ...child, children: arrayToTree(arr, child.key) }));
 
 const state = reactive({
   loading: computed(() => {
     return props.modelValue ? false : true;
   }),
+  tree: computed(() => {
+    let temp = props.modelValue ? arrayToTree([...props.modelValue]) : [""];
+    return temp[0];
+  }),
 });
+
+// watch(() => props.modelValue,
+//  (oldVal, newVal) => {
+//   if(oldVal === )
+//  }
+//  );
 </script>

@@ -1,9 +1,17 @@
 <template>
-  <CartTree :modelValue="buildTree()"></CartTree>
+  <sl-spinner v-if="state.loading"></sl-spinner>
+  <CartTree v-model="state.data" v-else></CartTree>
 </template>
 
 <script setup>
-import { reactive, computed, onBeforeMount, ref } from "vue";
+import {
+  reactive,
+  computed,
+  onBeforeMount,
+  ref,
+  watch,
+  watchEffect,
+} from "vue";
 import { useCartStore } from "../stores/cart.js";
 import CartTree from "./cart/CartTree.vue";
 
@@ -33,14 +41,10 @@ const state = reactive({
     }
     return 0;
   }),
-  images: {},
   currentItem: {},
   currentNode: {},
-  nodes: [],
-  leaves: {},
-  // tree: computed(() => {
-  //   return buildTree();
-  // }),
+  data: new Set(),
+  loading: true,
 });
 
 const currentCartKey = computed(() => {
@@ -104,41 +108,48 @@ async function getChildren(parentKey = currentCartKey.value) {
   const children = await cartStore.getChildren(parentKey);
 
   children.forEach(async (child) => {
-
     if (child.skel_type === "node") {
-      state.nodes.push(child);
+      state.data.add(child);
       await getChildren(child.key);
     } else {
-      if (!Object.keys(state.leaves).includes(parentKey)) {
-        state.leaves[parentKey] = [];
-      }
-      state.leaves[parentKey].push(child);
+      state.data.add(child);
     }
   });
 }
 
-function buildTree() {
-  let tempArray = state.nodes;
+// function buildTree() {
+//   let tempArray = state.nodes;
 
-  state.nodes.forEach((node) => {
-    tempArray.push(...state.leaves[node.key]);
-  });
+//   state.nodes.forEach((node) => {
+//     tempArray.push(...state.leaves[node.key]);
+//   });
 
-  const arrayToTree = (arr, parent = null) =>
-    arr
-      .filter((item) => item.parententry === parent)
-      .map((child) => ({ ...child, children: arrayToTree(arr, child.key) }));
+//   const arrayToTree = (arr, parent = null) =>
+//     arr
+//       .filter((item) => item.parententry === parent)
+//       .map((child) => ({ ...child, children: arrayToTree(arr, child.key) }));
 
-  let result = arrayToTree(tempArray);
-  return result[0];
-}
+//   let result = arrayToTree(tempArray);
+//   return result[0];
+// }
+
+watch(
+  () => state.data,
+  (oldVal, newVal) => {
+    console.log("oldVal", oldVal);
+    if (oldVal.size === newVal.size) {
+      state.loading = false;
+    }
+  },
+  { deep: true },
+);
 
 onBeforeMount(async () => {
   await cartStore.init();
   await getChildren();
 
   if (props.mode === "basket") {
-    state.nodes.push(cartStore.state.basketRootNode);
+    state.data.add(cartStore.state.basketRootNode);
   }
 });
 </script>

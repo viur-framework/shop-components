@@ -317,7 +317,6 @@ async function getChildren(parentKey = currentCartKey.value) {
   const children = await cartStore.getChildren(parentKey);
 
   children.forEach(async (child) => {
-    console.error("child", child);
     if (child.skel_type === "node") {
       state.nodes.push(child);
       await getChildren(child.key);

@@ -22,9 +22,10 @@ export const useCartStore = defineStore("cartstore", () => {
     activeShippingAddress: {},
     selectedPaymentProvider: {},
     customer: {},
+    placeholder:"",
   });
 
-  async function init() {
+  async function init(placeholder = "") {
     await getRootNodes();
     await getAddress();
     await getCustomer();
