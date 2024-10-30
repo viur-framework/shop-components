@@ -29,7 +29,6 @@ function handleSelect(e) {
 }
 
 function reset() {
-  console.log("ja");
   emit("onReset");
 }
 

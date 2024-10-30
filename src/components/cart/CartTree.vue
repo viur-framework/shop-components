@@ -1,10 +1,21 @@
 <template>
-  <span v-if="state.loading">loading...</span>
+  <sl-spinner v-if="state.loading"></sl-spinner>
   <template v-else>
-    <CartNode :node="modelValue" v-if="modelValue?.skel_type === 'node'">
-    </CartNode>
     <template
-      v-for="child in modelValue.children.reverse()"
+      v-for="child in modelValue.children"
+      v-if="modelValue.is_root_node || modelValue.skel_type === 'node'"
+    >
+      <CartNode :node="child" v-if="child.children.length && child?.skel_type === 'node'">
+      </CartNode>
+
+      <CartLeaf :leaf="child" v-else />
+      <!-- <CartLeaf :leaf="modelValue" v-else /> -->
+    </template>
+  </template>
+
+  <!--
+    <template
+      v-for="child in modelValue.children"
       v-if="modelValue.is_root_node || modelValue.skel_type === 'node'"
     >
       <CartTree
@@ -13,8 +24,7 @@
       />
       <CartLeaf :leaf="child" v-else />
     </template>
-    <CartLeaf :leaf="modelValue" v-else />
-  </template>
+    <CartLeaf :leaf="modelValue" v-else /> -->
 
   <!-- <pre>{{ modelValue }}</pre> -->
 </template>

@@ -101,7 +101,6 @@ function setSkelValues(dict = {}) {
 }
 
 function updateValues() {
-  console.log("hier man", addForm.value.state.skel);
   emit("update:modelValue", addForm.value.state.skel);
 }
 

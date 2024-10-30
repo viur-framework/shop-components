@@ -21,8 +21,6 @@ import ShopCart from "../../ShopCart.vue";
 import ConfirmView from "../../ShopOrderConfirm.vue";
 import ShopOrderComplete from "../../ShopOrderComplete.vue";
 import ShopUserData from "../../ShopUserData.vue";
-import UserInformation from "../information/UserInformation.vue";
-import UserInfoMulti from "../information/UserInfoMulti.vue";
 import { useCartStore } from "../../../stores/cart";
 
 const cartStore = useCartStore();
@@ -112,6 +110,5 @@ onBeforeMount(async () => {
   await cartStore.init();
   await cartStore.getAddressStructure();
 
-  console.log("debug init exampleusage :", cartStore.state.basketRootNode);
 });
 </script>

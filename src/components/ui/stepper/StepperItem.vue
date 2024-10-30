@@ -29,7 +29,6 @@ function goToStart() {
 }
 
 function goToUserData(e) {
-  console.log("runde2", e)
   emit("editAddress", e);
 }
 </script>

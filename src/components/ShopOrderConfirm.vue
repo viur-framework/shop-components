@@ -126,7 +126,6 @@ const state = reactive({
 });
 
 function editShippingAddress(e) {
-  console.log("runde1", e)
   emit("editAddress", e);
 }
 

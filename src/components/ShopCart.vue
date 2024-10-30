@@ -61,8 +61,6 @@ async function onConfirm() {
 }
 
 async function updateItem(e) {
-  console.log("updateItem :", e);
-
   if (e.quantity === 0) {
     confirm.value.show();
     state.currentItem = e.item;
@@ -77,8 +75,6 @@ async function updateItem(e) {
 }
 
 function removeItem(e) {
-  console.log("removeItem :", e);
-
   confirm.value.show();
   state.currentItem = e.item;
   state.currentNode = e.node;
@@ -108,7 +104,7 @@ async function getChildren(parentKey = currentCartKey.value) {
   const children = await cartStore.getChildren(parentKey);
 
   children.forEach(async (child) => {
-    console.error("child", child);
+
     if (child.skel_type === "node") {
       state.nodes.push(child);
       await getChildren(child.key);
@@ -123,22 +119,16 @@ async function getChildren(parentKey = currentCartKey.value) {
 
 function buildTree() {
   let tempArray = state.nodes;
-  console.log("fucked up", state.leaves);
 
   state.nodes.forEach((node) => {
     tempArray.push(...state.leaves[node.key]);
   });
 
-  console.log("tempArray", tempArray);
-
   const arrayToTree = (arr, parent = null) =>
     arr
       .filter((item) => item.parententry === parent)
       .map((child) => ({ ...child, children: arrayToTree(arr, child.key) }));
-  console.log("arrayToTree", arrayToTree(tempArray));
-  console.log("state.nodes", state.nodes);
 
-  console.log("state.leaves", state.leaves);
   let result = arrayToTree(tempArray);
   return result[0];
 }

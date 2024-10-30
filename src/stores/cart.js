@@ -33,7 +33,6 @@ export const useCartStore = defineStore("cartstore", () => {
   async function getCustomer() {
     let resp = await shopClient.user_view();
     state.customer = resp;
-    console.log("passiert", state.customer);
   }
 
   async function getChildren(parentKey) {
@@ -55,9 +54,6 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function addToCart(articleKey, cartKey) {
-    console.log("hier2", cartKey);
-    console.log("hier2", articleKey);
-
     let resp = await shopClient.article_add({
       article_key: articleKey,
       parent_cart_key: cartKey,
@@ -102,7 +98,6 @@ export const useCartStore = defineStore("cartstore", () => {
 
   async function getAddressStructure() {
     const structure = await shopClient.address_structure();
-    console.log("hier komme");
     state.structure.address = struct2dict(structure.addSkel);
   }
 
@@ -129,7 +124,6 @@ export const useCartStore = defineStore("cartstore", () => {
 
   function setAddressValues(mode) {
     let structure = state.structure.address;
-    console.log("HIER", structure);
     let skel = {};
 
     Object.entries(structure).forEach(([boneName, boneValue]) => {
