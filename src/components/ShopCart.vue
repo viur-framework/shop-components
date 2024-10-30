@@ -68,7 +68,7 @@
         ></sl-format-number>
       </div>
       <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!props.inOrderView">
-        <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
+        <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
         <Discount></Discount>
 
         <div class="viur-shop-cart-mobile-footer">

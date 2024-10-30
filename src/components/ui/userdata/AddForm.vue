@@ -34,16 +34,16 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, onMounted } from "vue";
+import {reactive, ref, computed, onMounted} from "vue";
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import DefaultLayout from "./DefaultLayout.vue";
-import { useCartStore } from "../../../stores/cart";
+import {useCartStore} from "../../../stores/cart";
 
 const props = defineProps({
-  layout: { required: false },
-  customer: { type: Object, required: true },
-  mode: { type: String, default: "shipping" },
-  modelValue: { type: Object },
+  layout: {required: false},
+  customer: {type: Object, required: true},
+  mode: {type: String, default: "shipping"},
+  modelValue: {type: Object},
 });
 const emit = defineEmits(["update:modelValue", "addSuccess"]);
 const cartStore = useCartStore();
@@ -101,8 +101,14 @@ function setSkelValues(dict = {}) {
 }
 
 function updateValues() {
-  console.log("hier man", addForm.value.state.skel);
-  emit("update:modelValue", addForm.value.state.skel);
+  if (!state.isLoading && addForm.value) {
+    console.log(state.isLoading);
+    console.log("update value", addForm.value);
+    console.log(addForm.value.state);
+    console.log("hier man", addForm.value.state.skel);
+    emit("update:modelValue", addForm.value.state.skel);
+  }
+
 }
 
 // onBeforeMount(() => {

@@ -25,15 +25,7 @@
     </sl-format-number>
   </div>
   <div class="viur-shop-cart-sidebar-info-line">
-    <span>Versandkosten</span>
-    <!-- TODO: Some customer needs a link to their shipping details page here — do we just use the translations? Yes. -->
-    <sl-format-number
-      lang="de"
-      type="currency"
-      currency="EUR"
-      :value="node?.shipping ? node.shipping : 0"
-    >
-    </sl-format-number>
+   <Shipping ref="shipping"></Shipping>
   </div>
   <div class="viur-shop-cart-sidebar-info-line total">
     <span>Gesamt:</span>
@@ -52,7 +44,7 @@
       <Discount></Discount>
     </div>
 
-    <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
+    <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
     <sl-button size="medium" variant="info">
       <sl-icon name="paypal" slot="prefix"></sl-icon>
       Paypal
@@ -63,7 +55,9 @@
 
 <script setup>
 import Discount from "../cart/Discount.vue";
-
+import Shipping from "../order/process/Shipping.vue";
+import {ref} from "vue";
+const shipping= ref(null);
 const props = defineProps({
   node: { type: Object, required: true },
   showDiscount: { type: Boolean, default: true },

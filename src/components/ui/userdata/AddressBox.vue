@@ -6,15 +6,21 @@
       v-model="state.activeAddress"
     >
     </select-address>
+    {{state.addressList.length}}
+    <br>
+    {{cartStore.state.billingAddressList.length}}
     <!-- debugging -->
     <!-- {{ mode === "billing" ? cartStore.state.activeBillingAddress : "" }} -->
     <!-- {{ mode === "billing" ? "" : cartStore.state.activeShippingAddress }} -->
     <!-- <pre>{{ customer }}</pre> -->
     <div class="viur-shop-address-box-preview" v-if="state.address">
+      <span>Ausgewählte Adresse :</span>
+      <br>
       {{ state.address?.street_name }} {{ state.address?.street_number }}<br />
       {{ state.address?.zip_code }} {{ state.address?.city }}
       <br />
-      {{ state.address?.country }}<br />
+      {{ state.address?.country }}
+      <br />
     </div>
   </div>
 </template>

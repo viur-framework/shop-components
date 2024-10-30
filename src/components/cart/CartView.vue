@@ -237,6 +237,7 @@ const state = reactive({
 });
 
 const currentCartKey = computed(() => {
+  console.log("compute current cartkey")
   return props.mode === "basket"
     ? cartStore.state.basketRootNode.key
     : props.cartKey;
@@ -317,7 +318,7 @@ async function getChildren(parentKey = currentCartKey.value) {
   const children = await cartStore.getChildren(parentKey);
 
   children.forEach(async (child) => {
-    console.error("child", child);
+    console.log("child", child);
     if (child.skel_type === "node") {
       state.nodes.push(child);
       await getChildren(child.key);
