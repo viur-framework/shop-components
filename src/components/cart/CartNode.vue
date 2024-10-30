@@ -1,5 +1,5 @@
 <template>
-  <h1 class="viur-shop-cart-headline" v-if="!node.cart_type === 'basket'">
+  <h1 class="viur-shop-cart-headline">
     {{ node.name }}
   </h1>
 </template>

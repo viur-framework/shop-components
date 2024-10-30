@@ -1,7 +1,7 @@
 import { reactive, computed, watch } from "vue";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "@viur/viur-shop-client";
-// import { Utils } from "../components/lib/utils";
+
 export const useCartStore = defineStore("cartstore", () => {
   const shopClient = new ViURShopClient({
     host_url:
@@ -13,7 +13,7 @@ export const useCartStore = defineStore("cartstore", () => {
   const state = reactive({
     basketRootNode: {},
     whishlistRootNodes: [],
-    children: {},
+    childrenByNode: {},
     structure: { address: {}, cart: {} },
     paymentProviders: {},
     billingAddressList: [],
@@ -28,11 +28,6 @@ export const useCartStore = defineStore("cartstore", () => {
     await getRootNodes();
     await getAddress();
     await getCustomer();
-    // const testData = await Utils.getAllNodes(state.basketRootNode)
-    // console.log("hier kadir 222", testData);
-
-    // const test = await Utils.buildTree(testData);
-    // console.log("hier kadir 111", test);
   }
 
   async function getCustomer() {
@@ -173,21 +168,21 @@ export const useCartStore = defineStore("cartstore", () => {
 
   async function addNode(
     parentCart,
-    name,
-    shippingAddressKey,
-    shippingKey,
-    discount,
     cartType = "whishlist",
-    comment = "",
+    cartssssssssssssssssssssssssssssssssssssssName = undefined,
+    comment = undefined,
+    shipping_key = undefined,
+    shipping_address_key = undefined,
+    discount_key = undefined,
   ) {
     return await shopClient.cart_add({
       parent_cart_key: parentCart,
       cart_type: cartType, // "basket" for main cart, "whishlist" for everything else
-      name: name,
       customer_comment: comment,
-      shipping_address_key: shippingAddressKey,
-      shipping_key: shippingKey,
-      discount_key: discount,
+      name: cartName,
+      shipping_address_key: shipping_address_key,
+      shipping_key: shipping_key,
+      discount_key: discount_key,
     });
   }
 

@@ -17,6 +17,7 @@
 import { onBeforeMount, reactive, shallowRef, computed } from "vue";
 import ShopOrderStepper from "../../ShopOrderStepper.vue";
 import CartView from "../../cart/CartView.vue";
+import ShopCart from "../../ShopCart.vue";
 import ConfirmView from "../../ShopOrderConfirm.vue";
 import ShopOrderComplete from "../../ShopOrderComplete.vue";
 import ShopUserData from "../../ShopUserData.vue";
@@ -84,14 +85,20 @@ const state = reactive({
       position: 3,
       disabled: false,
     },
-    // userInfoMulti: {
-    //   component: shallowRef(UserInfoMulti),
-    //   props: {},
-    //   displayName: "Daten Eingeben (Multi)",
-    //   icon: { name: "card-list" },
-    //   position: 4,
-    //   disabled: false,
-    // },
+    cartTest: {
+      component: shallowRef(ShopCart),
+      props: {
+        sidebar: true,
+        mode: "basket",
+        cartKey: rootNode, // cartKey (on initial call has to be a root node) is a required prop, make sure that cartStore.init() is called before cart is mounted
+        placeholder: "/static/partnerbereich/img/placeholder.svg",
+        standalone: false,
+      },
+      displayName: "neuer Korb",
+      icon: { name: "bag" },
+      position: 1,
+      disabled: false,
+    },
   },
 });
 

@@ -59,7 +59,7 @@
     </div>
 
     <div class="viur-shop-cart-leaf-actions">
-      <sl-button
+      <!-- <sl-button
         size="small"
         outline
         class="viur-shop-cart-leaf-add-to-favourites-btn"
@@ -67,7 +67,7 @@
         title="Add to favourites"
       >
         <sl-icon name="heart" slot="prefix"></sl-icon>
-      </sl-button>
+      </sl-button> -->
       <sl-button
         size="small"
         outline
