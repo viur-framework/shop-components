@@ -16,11 +16,10 @@
         @edit-billing="state.editBilling = $event"
         @edit-shipping="state.editShipping = $event"
       >
-        <template #cart-selection>
+        <template #cart-selection v-if="multiMode">
           <CartSelection
             :carts="reduce(carts, n)"
             @cart-selected="onCartSelect($event, n)"
-            v-if="multiMode"
           >
           </CartSelection>
         </template>
@@ -115,18 +114,14 @@ const state = reactive({
     return state.remainingCarts.length;
   }),
   remainingCarts: computed(() => {
-    let result = carts.value.filter((cart) => {
+    const r=  carts.value.filter((cart) => {
       return !selection().includes(cart.key);
     });
-    return result;
+    return r;
   }),
   customAddress: {},
-  hasBillingAddress: computed(() =>
-    cartStore.state.billingAddressList.length ? true : false,
-  ),
-  hasShippingAddress: computed(() =>
-    cartStore.state.shippingAddressList.length ? true : false,
-  ),
+  hasBillingAddress: computed(() =>  !!cartStore.state.billingAddressList.length),
+  hasShippingAddress: computed(() =>  !!cartStore.state.shippingAddressList.length),
   editBilling: false,
   editShipping: false,
   billingData: {},
@@ -135,9 +130,6 @@ const state = reactive({
 
 const carts = ref([
   { name: 1, key: "6437" },
-  { name: 2, key: "534534" },
-  { name: 3, key: "5465424556" },
-  { name: 4, key: "123123" },
 ]);
 
 function selection() {

@@ -237,6 +237,7 @@ const state = reactive({
 });
 
 const currentCartKey = computed(() => {
+  console.log("compute current cartkey")
   return props.mode === "basket"
     ? cartStore.state.basketRootNode.key
     : props.cartKey;

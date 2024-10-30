@@ -9,7 +9,9 @@ export const useCartStore = defineStore("cartstore", () => {
         ? "http://localhost:8080"
         : window.location.origin,
   });
-
+  let isFetching = false;
+  const waitForFetching = [];
+  const waitForFetchingResolver = [];
   const state = reactive({
     basketRootNode: {},
     whishlistRootNodes: [],
@@ -21,14 +23,32 @@ export const useCartStore = defineStore("cartstore", () => {
     activeBillingAddress: {},
     activeShippingAddress: {},
     selectedPaymentProvider: {},
+    selectedPaymentProviderName: "",
     customer: {},
     placeholder:"",
   });
 
   async function init(placeholder = "") {
-    await getRootNodes();
-    await getAddress();
-    await getCustomer();
+    if (!isFetching) {
+      isFetching = true;
+      await getRootNodes();
+      await getAddress();
+      await getCustomer();
+      isFetching = false;
+      for (const waiter of waitForFetchingResolver) {
+        waiter();
+      }
+      waitForFetchingResolver.splice(0,waitForFetchingResolver.length);
+      waitForFetching.splice(0,waitForFetchingResolver.length);
+    } else {
+      const p = new Promise((resolve,reject)=>{
+        waitForFetchingResolver.push(resolve)
+      });
+      waitForFetching.push(p)
+      return p;
+    }
+    state.placeholder = placeholder
+
   }
 
   async function getCustomer() {
@@ -37,7 +57,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getChildren(parentKey) {
-    return await shopClient.cart_list({ cart_key: parentKey });
+    return await shopClient.cart_list({cart_key: parentKey});
   }
 
   async function getRootNodes() {
@@ -103,7 +123,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   function getDefaultAddress() {
-    if (state.billingAddressList.length) {
+    if (!!state.billingAddressList) {
       state.billingAddressList.forEach((address) => {
         if (address.is_default) {
           state.activeBillingAddress = address;
@@ -112,7 +132,7 @@ export const useCartStore = defineStore("cartstore", () => {
     } else {
       state.activeBillingAddress = setAddressValues("billing");
     }
-    if (state.shippingAddressList.length) {
+    if (!!state.shippingAddressList) {
       state.shippingAddressList.forEach((address) => {
         if (address.is_default) {
           state.activeShippingAddress = address;
@@ -141,12 +161,14 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getAddress() {
+
+    const addressList = await shopClient.address_list();
     state.billingAddressList = [];
     state.shippingAddressList = [];
-    const addressList = await shopClient.address_list();
 
     for (const address of addressList) {
       if (address.address_type === "billing") {
+        console.log("add to bill address ?", address)
         state.billingAddressList.push(address);
       }
       if (address.address_type === "shipping") {
@@ -158,7 +180,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function addDiscount(code) {
-    await shopClient.discount_add({ code });
+    await shopClient.discount_add({code});
   }
 
   async function addNode(
@@ -191,8 +213,8 @@ export const useCartStore = defineStore("cartstore", () => {
     const paymentProvieders = await shopClient.payment_providers_list();
     state.paymentProviders = paymentProvieders;
     //select first paymentprovider as default
-    state.selectedPaymentProvider =
-      paymentProvieders[Object.keys(paymentProvieders)[0]];
+    state.selectedPaymentProvider = paymentProvieders[Object.keys(paymentProvieders)[0]];
+    state.selectedPaymentProviderName = Object.keys(paymentProvieders)[0]
   }
 
   function struct2dict(structure) {
@@ -204,6 +226,18 @@ export const useCartStore = defineStore("cartstore", () => {
     structure.forEach((bone) => (result[bone[0]] = bone[1]));
 
     return result;
+  }
+
+  async function orderAdd() {
+    const order = await shopClient.order_add(
+      {
+        cart_key: state.basketRootNode.key,
+        payment_provider: state.selectedPaymentProviderName,
+        billing_address_key: state.activeBillingAddress["key"],
+        customer_key: state.customer["key"]
+      }
+    )
+    return order;
   }
 
   watch(
@@ -247,5 +281,6 @@ export const useCartStore = defineStore("cartstore", () => {
     addNode,
     getShippingData,
     getDefaultAddress,
+    orderAdd,
   };
 });

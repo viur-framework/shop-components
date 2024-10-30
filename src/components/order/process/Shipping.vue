@@ -1,7 +1,7 @@
 <template>
   <div class="viur-shop-cart-sidebar-info-line" v-if="state.isShipping">
 
-    <span>Versandkosten:</span>
+    <span>Versandkosten :</span>
     <sl-format-number type="currency" currency="EUR" :value="state.cheapestShipping.dest.shipping_cost"
                       lang="de"></sl-format-number>
 

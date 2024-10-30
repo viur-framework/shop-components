@@ -17,15 +17,15 @@
             </sl-button>
           </div>
           {{ cartStore.state.activeShippingAddress.firstname }}
-          {{ cartStore.state.activeShippingAddress.lastname }}<br />
+          {{ cartStore.state.activeShippingAddress.lastname }}<br/>
           {{ cartStore.state.activeShippingAddress.street_name }}
-          {{ cartStore.state.activeShippingAddress.street_number }}<br />
+          {{ cartStore.state.activeShippingAddress.street_number }}<br/>
           {{ cartStore.state.activeShippingAddress.zip_code }}
           {{ cartStore.state.activeShippingAddress.city }}
-          {{ cartStore.state.activeShippingAddress.country }}<br />
+          {{ cartStore.state.activeShippingAddress.country }}<br/>
 
-          <br />
-          ##TODO MAIL<br />
+          <br/>
+          ##TODO MAIL<br/>
           ##TODO Phone
         </div>
         <div class="viur-shop-cart-address">
@@ -36,14 +36,14 @@
             </sl-button>
           </div>
           {{ cartStore.state.activeBillingAddress.firstname }}
-          {{ cartStore.state.activeBillingAddress.lastname }}<br />
+          {{ cartStore.state.activeBillingAddress.lastname }}<br/>
           {{ cartStore.state.activeBillingAddress.street_name }}
-          {{ cartStore.state.activeBillingAddress.street_number }}<br />
+          {{ cartStore.state.activeBillingAddress.street_number }}<br/>
           {{ cartStore.state.activeBillingAddress.zip_code }}
           {{ cartStore.state.activeBillingAddress.city }}
-          {{ cartStore.state.activeBillingAddress.country }}<br />
-          <br />
-          ##TODO MAIL<br />
+          {{ cartStore.state.activeBillingAddress.country }}<br/>
+          <br/>
+          ##TODO MAIL<br/>
           ##TODO Phone
         </div>
       </div>
@@ -59,6 +59,13 @@
       </div>
 
       <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
+      <CartView :in-order-confirm="true"></CartView>
+      <sl-button
+        size="small"
+        @click="addOrder"
+      >
+        Zahlungspflichtig bestellen
+      </sl-button>
       <!-- <sl-card
       horizontal
       class="viur-shop-cart-mini-card"
@@ -93,15 +100,16 @@
 </template>
 
 <script setup>
-import { reactive, onBeforeMount, computed } from "vue";
+import {reactive, onBeforeMount, computed} from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
-import { useCartStore } from "../stores/cart.js";
-import { Request } from "@viur/vue-utils";
+import {useCartStore} from "../stores/cart.js";
+import {Request} from "@viur/vue-utils";
+import CartView from "./cart/CartView.vue";
 
 const emit = defineEmits(["editAddress"]);
 
 const props = defineProps({
-  tabName: { type: String, required: true },
+  tabName: {type: String, required: true},
 });
 
 const cartStore = useCartStore();
@@ -129,9 +137,9 @@ function editShippingAddress(e) {
   emit("editAddress", e);
 }
 
-function onTosAccept(e) {
-  if (e.target.checked) state.showOrderButton = true;
-  if (!e.target.checked) state.showOrderButton = false;
+function addOrder() {
+  console.log("start order add");
+  cartStore.orderAdd();
 }
 
 onBeforeMount(async () => {
