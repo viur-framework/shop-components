@@ -7,7 +7,7 @@
     @sl-clear="reset"
   >
     <sl-option v-for="cart in carts" :key="cart.key" :value="cart.key">
-      Warenkorb {{ cart.name }}
+       {{ cart.name }}
     </sl-option>
   </sl-select>
 </template>

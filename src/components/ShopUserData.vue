@@ -114,23 +114,35 @@ const state = reactive({
     return state.remainingCarts.length;
   }),
   remainingCarts: computed(() => {
-    const r=  carts.value.filter((cart) => {
+    const r = carts.value.filter((cart) => {
       return !selection().includes(cart.key);
     });
     return r;
   }),
   customAddress: {},
-  hasBillingAddress: computed(() =>  !!cartStore.state.billingAddressList.length),
-  hasShippingAddress: computed(() =>  !!cartStore.state.shippingAddressList.length),
+  hasBillingAddress: computed(
+    () => !!cartStore.state.billingAddressList.length,
+  ),
+  hasShippingAddress: computed(
+    () => !!cartStore.state.shippingAddressList.length,
+  ),
   editBilling: false,
   editShipping: false,
   billingData: {},
   shippingData: {},
 });
 
-const carts = ref([
-  { name: 1, key: "6437" },
-]);
+const carts = ref(
+
+  cartStore.state.childrenByNode?.[cartStore.state.basketRootNode.key]
+    ? cartStore.state.childrenByNode?.[
+        cartStore.state.basketRootNode.key
+      ].filter((cart) => cart.skel_type === "node")
+    : [
+        { name: "Warenkorb1", key: "213123123123" },
+        { name: "Warenkorb2", key: "2131231232131233123" },
+      ],
+);
 
 function selection() {
   let result = [];
@@ -195,7 +207,10 @@ function reduce(arr, grp) {
 function onCustomBillingAddress(e, grp) {
   state.customAddress["grp" + grp] = e.target.checked;
 }
+
+onBeforeMount(() => {});
 </script>
+
 <style scoped>
 .viur-shop-form-bill-check {
   margin: var(--sl-spacing-medium) 0;

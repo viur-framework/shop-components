@@ -42,7 +42,7 @@ const i18n = createI18n({
 const ViurShopComponents = {
   install(app) {
     app.use(pinia);
-    //app.use(i18n);
+    app.use(i18n);
   },
 };
 

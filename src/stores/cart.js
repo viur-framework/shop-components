@@ -25,7 +25,7 @@ export const useCartStore = defineStore("cartstore", () => {
     selectedPaymentProvider: {},
     selectedPaymentProviderName: "",
     customer: {},
-    placeholder:"",
+    placeholder: "",
   });
 
   async function init(placeholder = "") {
@@ -34,21 +34,21 @@ export const useCartStore = defineStore("cartstore", () => {
       await getRootNodes();
       await getAddress();
       await getCustomer();
+
       isFetching = false;
       for (const waiter of waitForFetchingResolver) {
         waiter();
       }
-      waitForFetchingResolver.splice(0,waitForFetchingResolver.length);
-      waitForFetching.splice(0,waitForFetchingResolver.length);
+      waitForFetchingResolver.splice(0, waitForFetchingResolver.length);
+      waitForFetching.splice(0, waitForFetchingResolver.length);
     } else {
-      const p = new Promise((resolve,reject)=>{
-        waitForFetchingResolver.push(resolve)
+      const p = new Promise((resolve, reject) => {
+        waitForFetchingResolver.push(resolve);
       });
-      waitForFetching.push(p)
+      waitForFetching.push(p);
       return p;
     }
-    state.placeholder = placeholder
-
+    state.placeholder = placeholder;
   }
 
   async function getCustomer() {
@@ -57,16 +57,18 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getChildren(parentKey) {
-    return await shopClient.cart_list({cart_key: parentKey});
+    return await shopClient.cart_list({ cart_key: parentKey });
   }
 
   async function getRootNodes() {
     let resp = await shopClient.cart_list();
 
-    resp.forEach((rootNode) => {
+    resp.forEach(async (rootNode) => {
       if (rootNode.is_root_node) {
         if (rootNode.cart_type === "basket") {
           state.basketRootNode = rootNode;
+          const rootChildren = await getChildren(rootNode.key);
+          state.childrenByNode[rootNode.key] = rootChildren;
         } else {
           state.whishlistRootNodes.push(rootNode);
         }
@@ -161,14 +163,13 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getAddress() {
-
     const addressList = await shopClient.address_list();
     state.billingAddressList = [];
     state.shippingAddressList = [];
 
     for (const address of addressList) {
       if (address.address_type === "billing") {
-        console.log("add to bill address ?", address)
+        console.log("add to bill address ?", address);
         state.billingAddressList.push(address);
       }
       if (address.address_type === "shipping") {
@@ -180,7 +181,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function addDiscount(code) {
-    await shopClient.discount_add({code});
+    await shopClient.discount_add({ code });
   }
 
   async function addNode(
@@ -213,8 +214,9 @@ export const useCartStore = defineStore("cartstore", () => {
     const paymentProvieders = await shopClient.payment_providers_list();
     state.paymentProviders = paymentProvieders;
     //select first paymentprovider as default
-    state.selectedPaymentProvider = paymentProvieders[Object.keys(paymentProvieders)[0]];
-    state.selectedPaymentProviderName = Object.keys(paymentProvieders)[0]
+    state.selectedPaymentProvider =
+      paymentProvieders[Object.keys(paymentProvieders)[0]];
+    state.selectedPaymentProviderName = Object.keys(paymentProvieders)[0];
   }
 
   function struct2dict(structure) {
@@ -229,14 +231,12 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function orderAdd() {
-    const order = await shopClient.order_add(
-      {
-        cart_key: state.basketRootNode.key,
-        payment_provider: state.selectedPaymentProviderName,
-        billing_address_key: state.activeBillingAddress["key"],
-        customer_key: state.customer["key"]
-      }
-    )
+    const order = await shopClient.order_add({
+      cart_key: state.basketRootNode.key,
+      payment_provider: state.selectedPaymentProviderName,
+      billing_address_key: state.activeBillingAddress["key"],
+      customer_key: state.customer["key"],
+    });
     return order;
   }
 

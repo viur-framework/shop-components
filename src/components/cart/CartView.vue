@@ -18,7 +18,7 @@
         v-if="Object.keys(state.leaves).includes(node.key)"
         :key="node.key"
       >
-        <CartNode :node="node"></CartNode>
+        <!-- <CartNode :node="node"></CartNode> -->
         <CartLeaf
           v-for="leaf in state.leaves[node.key]"
           :key="leaf.key"
