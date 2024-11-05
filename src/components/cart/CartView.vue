@@ -1,14 +1,25 @@
 <template>
   <sl-spinner v-if="!currentCartKey"></sl-spinner>
-   <h2 v-else-if="state.cartIsEmpty">Keine Artikel im Warenkorb vorhanden</h2><!--todo translations-->
+  <h2 v-else-if="state.cartIsEmpty">Keine Artikel im Warenkorb vorhanden</h2>
+  <!--todo translations-->
   <template v-else>
     <sl-dialog no-header ref="confirm" @sl-hide="onDialogHide">
       <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
       <sl-bar>
-        <sl-button slot="left" variant="danger" @click="confirm.hide()" size="medium">
+        <sl-button
+          slot="left"
+          variant="danger"
+          @click="confirm.hide()"
+          size="medium"
+        >
           Abbrechen
         </sl-button>
-        <sl-button slot="right" variant="success" @click="onConfirm" size="medium">
+        <sl-button
+          slot="right"
+          variant="success"
+          @click="onConfirm"
+          size="medium"
+        >
           Aus Warenkorb entfernen
         </sl-button>
       </sl-bar>
@@ -87,7 +98,11 @@
 
     <!-- <pre> {{ state.leaves }}</pre> -->
   </template>
-
+  <shop-summary v-if="sidebar">
+    <template #custom v-if="customComponent">
+      <component :is="customComponent"></component>
+    </template>
+  </shop-summary>
   <!-- <CartNode></CartNode>
   <CartLeaf></CartLeaf> -->
   <!-- <template v-else>
@@ -203,6 +218,7 @@ import { useCartStore } from "../../stores/cart.js";
 import CartNode from "./CartNode.vue";
 import CartLeaf from "./CartLeaf.vue";
 import Shipping from "../order/process/Shipping.vue";
+import ShopSummary from "../ui/ShopSummary.vue";
 
 const props = defineProps({
   mode: { type: String, default: "basket" },
@@ -210,6 +226,7 @@ const props = defineProps({
   sidebar: { type: Boolean, default: true },
   inOrderView: { type: Boolean, default: false },
   inOrderConfirm: { type: Boolean, default: false },
+  customComponent: { default: undefined },
 });
 
 const cartStore = useCartStore();
@@ -221,8 +238,8 @@ const state = reactive({
   itemsIsInit: computed(() => {
     return true;
   }),
-  cartIsEmpty:computed(()=>{
-    return currentCartKey && !state.leaves.length
+  cartIsEmpty: computed(() => {
+    return currentCartKey && !state.leaves.length;
   }),
   totalPrice: computed(() => {
     if (shipping.value) {
@@ -241,7 +258,7 @@ const state = reactive({
 });
 
 const currentCartKey = computed(() => {
-  console.log("compute current cartkey")
+  console.log("compute current cartkey");
   return props.mode === "basket"
     ? cartStore.state.basketRootNode.key
     : props.cartKey;
