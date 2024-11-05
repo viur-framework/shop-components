@@ -1,6 +1,7 @@
 <template>
   <sl-spinner v-if="!currentCartKey"></sl-spinner>
   <template v-else>
+
     <sl-dialog ref="confirm" @sl-hide="onDialogHide">
       <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
       <div class="footer-wrap" slot="footer">
@@ -12,7 +13,6 @@
         </sl-button>
       </div>
     </sl-dialog>
-
     <div class="viur-shop-cart-node" v-for="node in state.nodes">
       <template
         v-if="Object.keys(state.leaves).includes(node.key)"

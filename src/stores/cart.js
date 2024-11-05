@@ -14,6 +14,7 @@ export const useCartStore = defineStore("cartstore", () => {
   const waitForFetchingResolver = [];
   const state = reactive({
     basketRootNode: {},
+    basket: [],
     whishlistRootNodes: [],
     children: {},
     structure: {address: {}, cart: {}},
@@ -25,6 +26,7 @@ export const useCartStore = defineStore("cartstore", () => {
     selectedPaymentProvider: {},
     selectedPaymentProviderName: "",
     customer: {},
+    isLoggedIn:false,
 
 
   });
@@ -33,8 +35,9 @@ export const useCartStore = defineStore("cartstore", () => {
     if (!isFetching) {
       isFetching = true;
       await getRootNodes();
-      await getAddress();
       await getCustomer();
+      await getAddress();
+      await getBasket();
       isFetching = false;
       for (const waiter of waitForFetchingResolver) {
         waiter();
@@ -58,9 +61,21 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getCustomer() {
-    let resp = await shopClient.user_view();
+    try{
+      const resp = await shopClient.user_view();
     state.customer = resp;
+    state.isLoggedIn=true;
+    }
+    catch (e)
+    {
+      state.isLoggedIn=false;
+    }
+
     console.log("passiert", state.customer);
+  }
+   async function getBasket() {
+  state.basket =await shopClient.basket_list();
+
   }
 
   async function getChildren(parentKey) {
@@ -113,7 +128,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function updateItem(articleKey, cartKey, quantity) {
-    let resp = await shopClient.article_update({
+    const resp = await shopClient.article_update({
       article_key: articleKey,
       parent_cart_key: cartKey,
       quantity: quantity,
@@ -173,8 +188,19 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getAddress() {
+    if(!state.isLoggedIn)
+    {
+      return
+    }
+    try{
+       const addressList = await shopClient.address_list();
+    }
+    catch (e)
+    {
+      console.log("error",e)
+      return
+    }
 
-    const addressList = await shopClient.address_list();
     state.billingAddressList = [];
     state.shippingAddressList = [];
 
@@ -220,6 +246,9 @@ export const useCartStore = defineStore("cartstore", () => {
       cart_key: state.basketRootNode.key,
     });
   }
+  async function setShiping() {
+    return await shopClient.shipping_set();
+  }
 
   async function getPaymentProviders() {
     const paymentProvieders = await shopClient.payment_providers_list();
@@ -250,6 +279,9 @@ export const useCartStore = defineStore("cartstore", () => {
       }
     )
     return order;
+  }
+  async function setShipping(){
+    const shipping_skel = shopClient
   }
 
   watch(
@@ -294,5 +326,7 @@ export const useCartStore = defineStore("cartstore", () => {
     getShippingData,
     getDefaultAddress,
     orderAdd,
+    getBasket,
+    setShiping
   };
 });

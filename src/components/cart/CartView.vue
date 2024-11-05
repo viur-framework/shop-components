@@ -1,5 +1,6 @@
 <template>
   <sl-spinner v-if="!currentCartKey"></sl-spinner>
+   <h2 v-else-if="state.cartIsEmpty">Keine Artikel im Warenkorb vorhanden</h2><!--todo translations-->
   <template v-else>
     <sl-dialog no-header ref="confirm" @sl-hide="onDialogHide">
       <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
@@ -219,6 +220,9 @@ const shipping = ref(null);
 const state = reactive({
   itemsIsInit: computed(() => {
     return true;
+  }),
+  cartIsEmpty:computed(()=>{
+    return currentCartKey && !state.leaves.length
   }),
   totalPrice: computed(() => {
     if (shipping.value) {
