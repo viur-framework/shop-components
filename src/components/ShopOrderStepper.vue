@@ -54,12 +54,10 @@
       v-if="sidebar && state.tabIdx < state.tabNames.length - 1"
     >
       <div class="viur-shop-sidebar-wrap" :class="{ bottom: sidebarBottom }">
-        <ShopSummary
-          :showDiscount="showDiscount"
-        >
-          <template #custom v-if="customComponent"
-            ><component :is="customComponent"></component
-          ></template>
+        <ShopSummary :showDiscount="showDiscount">
+          <template #custom v-if="customComponent">
+            <component :is="customComponent"></component>
+          </template>
         </ShopSummary>
       </div>
     </slot>
@@ -165,7 +163,7 @@ function editAddress(e) {
 
 onBeforeMount(async () => {
   await cartStore.init();
-  console.log("init node ")
+  console.log("init node ");
   const tabNames = sortTabs(props.tabs);
   state.currentTab = tabNames[0];
 });

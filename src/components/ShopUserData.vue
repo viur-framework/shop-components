@@ -25,7 +25,7 @@
         </template>
         <template #mode-switch>
           <sl-checkbox
-            :checked="state.hasBillingAddress"
+            :checked="true"
             :ref="
               (el) => {
                 if (el === null) return;
@@ -43,7 +43,8 @@
           #shipping-address
           v-if="
             (state.editShipping && !state.customAddress['grp' + n]) ||
-            (!state.hasShippingAddress && !state.customAddress['grp' + n])
+            (!state.hasShippingAddress && !state.customAddress['grp' + n]) ||
+            cartStore.state.billingAddressList.length === 1
           "
         >
           <UserDataForm
@@ -56,7 +57,11 @@
         </template>
         <template
           #billing-address
-          v-if="state.editBilling || !state.hasBillingAddress"
+          v-if="
+            state.editBilling ||
+            !state.hasBillingAddress ||
+            cartStore.state.billingAddressList.length === 1
+          "
         >
           <UserDataForm
             :customer="state.customer"
@@ -120,11 +125,9 @@ const state = reactive({
     return r;
   }),
   customAddress: {},
-  hasBillingAddress: computed(
-    () => !!cartStore.state.billingAddressList.length,
-  ),
+  hasBillingAddress: computed(() => cartStore.state.billingAddressList.length),
   hasShippingAddress: computed(
-    () => !!cartStore.state.shippingAddressList.length,
+    () => cartStore.state.shippingAddressList.length,
   ),
   editBilling: false,
   editShipping: false,
@@ -133,7 +136,6 @@ const state = reactive({
 });
 
 const carts = ref(
-
   cartStore.state.childrenByNode?.[cartStore.state.basketRootNode.key]
     ? cartStore.state.childrenByNode?.[
         cartStore.state.basketRootNode.key

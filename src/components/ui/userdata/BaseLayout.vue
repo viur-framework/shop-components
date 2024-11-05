@@ -1,10 +1,10 @@
 <template>
-  <div style="width: 100%">
+  <!-- <div style="width: 100%">
     {{ customer.firstname }} {{ customer.lastname }}<br />
     Phone: {{ customer.phone }} <br />
     E-Mail : {{ customer.name }}<br />
     Debitor: {{ customer.debitornr }}<br />
-  </div>
+  </div> -->
 
   <slot name="cart-selection"></slot>
 
@@ -43,7 +43,8 @@
         <address-box
           :address-selection="true && customAddress"
           :mode="'billing'"
-        ></address-box>
+        >
+        </address-box>
       </slot>
     </div>
   </div>
