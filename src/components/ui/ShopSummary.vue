@@ -51,6 +51,7 @@
     </sl-button>
   </div>
   <!-- TODO: Delivery time estimate: slot -->
+   <slot name="custom"></slot>
 </template>
 
 <script setup>
