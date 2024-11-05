@@ -35,11 +35,10 @@
             "
             @sl-change="onCustomBillingAddress($event, n)"
             class="viur-shop-form-bill-check"
-            :v-html="$t('viur.shop.userdata.shipping_to_billaddress')"
+            v-html="$t('viur.shop.userdata.shipping_to_billaddress')"
           >
-            Versandadresse wie Rechnungsadresse
-          </sl-checkbox></template
-        >
+          </sl-checkbox>
+        </template>
         <template
           #shipping-address
           v-if="
