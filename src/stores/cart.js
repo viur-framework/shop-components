@@ -27,8 +27,6 @@ export const useCartStore = defineStore("cartstore", () => {
     selectedPaymentProviderName: "",
     customer: {},
     isLoggedIn:false,
-
-
     placeholder: "",
   });
 

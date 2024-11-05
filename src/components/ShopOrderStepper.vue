@@ -55,7 +55,6 @@
     >
       <div class="viur-shop-sidebar-wrap" :class="{ bottom: sidebarBottom }">
         <ShopSummary
-          :node="cartStore.state.basketRootNode"
           :showDiscount="showDiscount"
         >
         </ShopSummary>
@@ -160,8 +159,9 @@ function editAddress(e) {
   tabGroup.value.show(e);
 }
 
-onBeforeMount(() => {
-  // await cartStore.init();
+onBeforeMount(async () => {
+  await cartStore.init();
+  console.log("init node ")
   const tabNames = sortTabs(props.tabs);
   state.currentTab = tabNames[0];
 });
