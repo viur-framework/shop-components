@@ -33,7 +33,7 @@
       lang="de"
       type="currency"
       currency="EUR"
-      :value="node.total + node?.shipping - node.discount"
+      :value="totalPrice"
     >
     </sl-format-number>
     <!-- TODO: Some project needs "VAT included" here -->
@@ -57,12 +57,37 @@
 <script setup>
 import Discount from "../cart/Discount.vue";
 import Shipping from "../order/process/Shipping.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import { useCartStore } from "../../stores/cart";
+
+const cartStore = useCartStore();
+
 const shipping= ref(null);
 const props = defineProps({
   node: { type: Object, required: true },
   showDiscount: { type: Boolean, default: true },
 });
+console.log("node",props.node);
+console.log("store",cartStore.state);
+const totalPrice=computed(()=>{
+  if(props.node?.shipping)
+  {
+    console.log("total pirce her ",shipping)
+      return props.node.total + props.node?.shipping.dest.shipping_cost - props.node.discount;
+  }
+else {// use shippingprice formbasket
+  console.log(cartStore.state.basket)
+if( cartStore.state.basket.length===1)
+{
+    return props.node.total + cartStore.state.basket.shipping.dest.shipping_cost - props.node.discount;
+}
+else
+{
+  return props.node.total + 0 - props.node.discount; //kein shipping
+}
+
+  }
+})
 </script>
 
 <style>

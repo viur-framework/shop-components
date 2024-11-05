@@ -59,7 +59,7 @@
     </div>
 
     <div class="viur-shop-cart-leaf-actions">
-      <!-- <sl-button
+      <!--<sl-button
         size="small"
         outline
         class="viur-shop-cart-leaf-add-to-favourites-btn"
@@ -67,13 +67,13 @@
         title="Add to favourites"
       >
         <sl-icon name="heart" slot="prefix"></sl-icon>
-      </sl-button> -->
+      </sl-button>-->
       <sl-button
         size="small"
         outline
         class="viur-shop-cart-leaf-delete-btn"
-        variant="primary"
-        title="Remove from cart"
+        variant="default"
+        :title="$t('viur.shop.cart_leaf.delete')"
         @click="removeItem(state.leaf, state.leaf.article.dest.key, node)"
       >
         <sl-icon name="trash" slot="prefix"></sl-icon>
