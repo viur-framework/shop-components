@@ -58,6 +58,9 @@
           :node="cartStore.state.basketRootNode"
           :showDiscount="showDiscount"
         >
+          <template #custom v-if="customComponent"
+            ><component :is="customComponent"></component
+          ></template>
         </ShopSummary>
       </div>
     </slot>
@@ -98,6 +101,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  customComponent: { default: undefined },
 });
 
 const emit = defineEmits(["tabChange"]);
@@ -192,7 +196,6 @@ onBeforeMount(() => {
 }
 
 @layer foundation.shop {
-
   .viur-shop-sidebar-wrap {
     display: flex;
     flex-direction: column;
