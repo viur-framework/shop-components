@@ -11,7 +11,7 @@
   <div class="viur-shop-cart-address-wrap">
     <div class="viur-shop-cart-address">
       <div class="viur-shop-cart-address-headline">
-        Rechnungsadresse
+        {{ $t("skeleton.address.address_type.billing") }}
         <sl-button outline size="small" @click="editBilling">
           <sl-icon name="pencil" slot="prefix"></sl-icon>
         </sl-button>
@@ -23,7 +23,7 @@
     <slot name="mode-switch"></slot>
     <div class="viur-shop-cart-address" v-if="customAddress">
       <div class="viur-shop-cart-address-headline">
-        Versandadresse
+        {{ $t("skeleton.address.address_type.shipping") }}
         <sl-button
           outline
           size="small"
