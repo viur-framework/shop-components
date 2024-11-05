@@ -239,7 +239,7 @@ const state = reactive({
     return true;
   }),
   cartIsEmpty: computed(() => {
-    return currentCartKey && !state.leaves.length;
+    return currentCartKey && state.leaves.length===0;
   }),
   totalPrice: computed(() => {
     if (shipping.value) {
