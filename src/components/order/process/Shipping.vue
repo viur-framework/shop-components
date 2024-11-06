@@ -1,54 +1,31 @@
 <template>
-  <div class="viur-shop-cart-sidebar-info-line" v-if="state.isShipping">
+  <div class="viur-shop-cart-sidebar-info-line">
 
-    <span>Versandkosten :</span>
-    <sl-format-number type="currency" currency="EUR" :value="state.cheapestShipping?.dest.shipping_cost"
-                      lang="de"></sl-format-number>
+    <span>Versandkosten </span>
+    <sl-format-number
+      type="currency"
+      currency="EUR"
+      :value="shippingCost"
+      lang="de">
+    </sl-format-number>
 
   </div>
+  <div class="viur-shop-cart-sidebar-info-line">
+  <slot name="custom"></slot>
+  </div>
+
 </template>
 <script setup>
 import {useCartStore} from "../../../stores/cart";
-import {onBeforeMount, reactive} from "vue";
+import {onBeforeMount, reactive,computed} from "vue";
 
 const cartStore = useCartStore();
-
-const state = reactive({
-  shippingData: [],
-  cheapestShipping: {},
-  isShipping: false,
+const shippingCost = computed(() => {
+  return cartStore.state.basketRootNode?.shipping?.dest.shipping_cost ? cartStore.state.basketRootNode?.shipping.dest.shipping_cost : 0
 })
-
-async function updateShipping() {
-  state.shippingData = await cartStore.getShippingData();
-  state.shippingData.sort((a, b) => {
-    if (a["dest"]["shipping_cost"] < b["dest"]["shipping_cost"]) {
-      return -1;
-    }
-    if (a["dest"]["shipping_cost"] > b["dest"]["shipping_cost"]) {
-      return 1;
-    }
-    return 0;
-  })
-  //last element is cheapest shipping after sorting
-  state.cheapestShipping = state.shippingData[state.shippingData.length - 1];
-  state.isShipping = true;
-
-}
-function getShippingCost()
-{
-  if(state.isShipping)
-  {
-    return  state.cheapestShipping.dest.shipping_cost
-  }
-  return 0;
-}
-
-defineExpose({updateShipping,getShippingCost})
-
 onBeforeMount(async () => {
   await cartStore.init();
-  await updateShipping()
+  console.log("has shipping ? ",cartStore.state.basketRootNode.shipping);
 });
 
 </script>

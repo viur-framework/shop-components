@@ -75,7 +75,6 @@ async function updateItem(e) {
     await cartStore.init();
   }
 
-  await shipping.value.updateShipping();
 }
 
 function removeItem(e) {

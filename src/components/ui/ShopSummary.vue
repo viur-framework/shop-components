@@ -4,11 +4,12 @@
   <br/>
   <div class="viur-shop-cart-sidebar-info-line">
     <span>Zwischensumme</span>
+
     <sl-format-number
       lang="de"
       type="currency"
       currency="EUR"
-      :value="node?.total"
+      :value="state.node?.total"
     >
     </sl-format-number>
     <br/>
@@ -20,12 +21,16 @@
       lang="de"
       type="currency"
       currency="EUR"
-      :value="node?.discount ? node.discount : 0"
+      :value="state.node?.discount ? state.node.discount : 0"
     >
     </sl-format-number>
   </div>
   <div class="viur-shop-cart-sidebar-info-line">
-    <Shipping ref="shipping"></Shipping>
+    <Shipping ref="shipping">
+      <template #custom v-if="customShippingComponent">
+            <component :is="customShippingComponent"></component>
+          </template>
+    </Shipping>
   </div>
   <div class="viur-shop-cart-sidebar-info-line total">
     <span>Gesamt:</span>
@@ -65,7 +70,9 @@ const cartStore = useCartStore();
 const shipping = ref(null);
 const props = defineProps({
   showDiscount: {type: Boolean, default: true},
+  customShippingComponent:{type:Object,default:undefined},
 });
+console.log("csc",props.customShippingComponent)
 const state=reactive({
   node:{}
 })
@@ -87,6 +94,7 @@ const totalPrice = computed(() => {
 onBeforeMount(async ()=>{
   await cartStore.init();
   state.node  = cartStore.state.basketRootNode;
+  console.log("get node",state.node)
 })
 </script>
 
