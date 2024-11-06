@@ -71,7 +71,7 @@
         <Shipping ref="shipping"></Shipping>
       </div>
       <div class="viur-shop-cart-sidebar-info-line total">
-        <span>Gesamt:</span>
+        <span>Gesamt :</span>
         <sl-format-number
           type="currency"
           currency="EUR"
@@ -98,7 +98,7 @@
 
     <!-- <pre> {{ state.leaves }}</pre> -->
   </template>
-  <shop-summary v-if="sidebar">
+  <shop-summary v-if="!props.sidebar">
     <template #custom v-if="customComponent">
       <component :is="customComponent"></component>
     </template>
@@ -229,6 +229,7 @@ const props = defineProps({
   customComponent: { default: undefined },
 });
 
+console.log("inor",props.inOrderView)
 const cartStore = useCartStore();
 
 const confirm = ref(null);
@@ -303,8 +304,6 @@ async function updateItem(e) {
 
     await cartStore.init();
   }
-
-  await shipping.value.updateShipping();
 }
 
 function removeItem(e) {

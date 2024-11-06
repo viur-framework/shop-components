@@ -54,7 +54,10 @@
       v-if="sidebar && state.tabIdx < state.tabNames.length - 1"
     >
       <div class="viur-shop-sidebar-wrap" :class="{ bottom: sidebarBottom }">
-        <ShopSummary :showDiscount="showDiscount">
+        <ShopSummary
+          :showDiscount="showDiscount"
+          :customShippingComponent="customShippingComponent"
+        >
           <template #custom v-if="customComponent">
             <component :is="customComponent"></component>
           </template>
@@ -99,6 +102,7 @@ const props = defineProps({
     default: true,
   },
   customComponent: { default: undefined },
+  customShippingComponent: { default: undefined },
 });
 
 const emit = defineEmits(["tabChange"]);
