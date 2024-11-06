@@ -208,6 +208,7 @@ function reduce(arr, grp) {
 
 function onCustomBillingAddress(e, grp) {
   state.customAddress["grp" + grp] = e.target.checked;
+  cartStore.state.cloneBilling = e.target.checked;
 }
 
 onBeforeMount(() => {});

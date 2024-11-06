@@ -15,18 +15,19 @@ export const useCartStore = defineStore("cartstore", () => {
   const state = reactive({
     basketRootNode: {},
     basket: [],
-    whishlistRootNodes: [],
+    wishlistRootNodes: [],
     childrenByNode: {},
     structure: { address: {}, cart: {} },
     paymentProviders: {},
     billingAddressList: [],
     shippingAddressList: [],
+    cloneBilling: true,
     activeBillingAddress: {},
     activeShippingAddress: {},
     selectedPaymentProvider: {},
     selectedPaymentProviderName: "",
     customer: {},
-    isLoggedIn:false,
+    isLoggedIn: false,
     placeholder: "",
   });
 
@@ -55,21 +56,18 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getCustomer() {
-    try{
+    try {
       const resp = await shopClient.user_view();
-    state.customer = resp;
-    state.isLoggedIn=true;
-    }
-    catch (e)
-    {
-      state.isLoggedIn=false;
+      state.customer = resp;
+      state.isLoggedIn = true;
+    } catch (e) {
+      state.isLoggedIn = false;
     }
 
     console.log("passiert", state.customer);
   }
-   async function getBasket() {
-  state.basket =await shopClient.basket_list();
-
+  async function getBasket() {
+    state.basket = await shopClient.basket_list();
   }
 
   async function getChildren(parentKey) {
@@ -128,8 +126,6 @@ export const useCartStore = defineStore("cartstore", () => {
       quantity_mode: "replace",
     });
 
-
-
     console.log("update Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
@@ -154,12 +150,16 @@ export const useCartStore = defineStore("cartstore", () => {
     }
     if (!!state.shippingAddressList) {
       state.shippingAddressList.forEach((address) => {
-        if (address.is_default) {
+        if (address.is_default && !state.cloneBilling) {
           state.activeShippingAddress = address;
         }
       });
     } else {
-      state.activeShippingAddress = setAddressValues("shipping");
+      if (state.cloneBilling) {
+        state.activeShippingAddress = { ...state.activeBillingAddress };
+      } else {
+        state.activeShippingAddress = setAddressValues("shipping");
+      }
     }
   }
 
@@ -181,17 +181,14 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getAddress() {
-    if(!state.isLoggedIn)
-    {
-      return
+    if (!state.isLoggedIn) {
+      return;
     }
-    try{
-       const addressList = await shopClient.address_list();
-    }
-    catch (e)
-    {
-      console.log("error",e)
-      return
+    try {
+      const addressList = await shopClient.address_list();
+    } catch (e) {
+      console.log("error", e);
+      return;
     }
 
     const addressList = await shopClient.address_list();
@@ -273,8 +270,8 @@ export const useCartStore = defineStore("cartstore", () => {
     });
     return order;
   }
-  async function setShipping(){
-    const shipping_skel = shopClient
+  async function setShipping() {
+    const shipping_skel = shopClient;
   }
 
   watch(
@@ -286,6 +283,9 @@ export const useCartStore = defineStore("cartstore", () => {
         let index = state.billingAddressList.findIndex(isAddress);
 
         state.billingAddressList[index] = newValue;
+      }
+      if (state.cloneBilling) {
+        state.activeShippingAddress = newValue;
       }
     },
   );
@@ -299,6 +299,17 @@ export const useCartStore = defineStore("cartstore", () => {
         let index = state.shippingAddressList.findIndex(isAddress);
 
         state.shippingAddressList[index] = newValue;
+      }
+    },
+  );
+
+  watch(
+    () => state.cloneBilling,
+    (newValue, oldValue) => {
+      if (newValue) {
+        let temp = { ...state.activeBillingAddress };
+        temp.address_type = "shipping";
+        state.activeShippingAddress = { ...temp };
       }
     },
   );
@@ -320,6 +331,6 @@ export const useCartStore = defineStore("cartstore", () => {
     getDefaultAddress,
     orderAdd,
     getBasket,
-    setShiping
+    setShiping,
   };
 });

@@ -8,25 +8,21 @@
         <div class="viur-shop-cart-address">
           <div class="viur-shop-cart-address-headline">
             Versandadresse
-            <sl-button outline size="small" @click="editShippingAddress(tabName)">
-              <sl-icon
-                name="pencil"
-                slot="prefix"
-
-              ></sl-icon>
+            <sl-button
+              outline
+              size="small"
+              @click="editShippingAddress(tabName)"
+            >
+              <sl-icon name="pencil" slot="prefix"></sl-icon>
             </sl-button>
           </div>
           {{ cartStore.state.activeShippingAddress.firstname }}
-          {{ cartStore.state.activeShippingAddress.lastname }}<br/>
+          {{ cartStore.state.activeShippingAddress.lastname }}<br />
           {{ cartStore.state.activeShippingAddress.street_name }}
-          {{ cartStore.state.activeShippingAddress.street_number }}<br/>
+          {{ cartStore.state.activeShippingAddress.street_number }}<br />
           {{ cartStore.state.activeShippingAddress.zip_code }}
           {{ cartStore.state.activeShippingAddress.city }}
-          {{ cartStore.state.activeShippingAddress.country }}<br/>
-
-          <br/>
-          ##TODO MAIL<br/>
-          ##TODO Phone
+          {{ cartStore.state.activeShippingAddress.country }}<br />
         </div>
         <div class="viur-shop-cart-address">
           <div class="viur-shop-cart-address-headline">
@@ -36,15 +32,12 @@
             </sl-button>
           </div>
           {{ cartStore.state.activeBillingAddress.firstname }}
-          {{ cartStore.state.activeBillingAddress.lastname }}<br/>
+          {{ cartStore.state.activeBillingAddress.lastname }}<br />
           {{ cartStore.state.activeBillingAddress.street_name }}
-          {{ cartStore.state.activeBillingAddress.street_number }}<br/>
+          {{ cartStore.state.activeBillingAddress.street_number }}<br />
           {{ cartStore.state.activeBillingAddress.zip_code }}
           {{ cartStore.state.activeBillingAddress.city }}
-          {{ cartStore.state.activeBillingAddress.country }}<br/>
-          <br/>
-          ##TODO MAIL<br/>
-          ##TODO Phone
+          {{ cartStore.state.activeBillingAddress.country }}<br />
         </div>
       </div>
 
@@ -60,10 +53,7 @@
 
       <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
       <CartView :in-order-confirm="true"></CartView>
-      <sl-button
-        size="small"
-        @click="addOrder"
-      >
+      <sl-button size="small" @click="addOrder">
         Zahlungspflichtig bestellen
       </sl-button>
       <!-- <sl-card
@@ -100,16 +90,16 @@
 </template>
 
 <script setup>
-import {reactive, onBeforeMount, computed} from "vue";
+import { reactive, onBeforeMount, computed } from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
-import {useCartStore} from "../stores/cart.js";
-import {Request} from "@viur/vue-utils";
+import { useCartStore } from "../stores/cart.js";
+import { Request } from "@viur/vue-utils";
 import CartView from "./cart/CartView.vue";
 
 const emit = defineEmits(["editAddress"]);
 
 const props = defineProps({
-  tabName: {type: String, required: true},
+  tabName: { type: String, required: true },
 });
 
 const cartStore = useCartStore();
