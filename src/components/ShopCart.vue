@@ -43,7 +43,7 @@ const state = reactive({
   }),
   currentItem: {},
   currentNode: {},
-  data: new Set(),
+  data: [],
   loading: true,
 });
 
@@ -109,10 +109,10 @@ async function getChildren(parentKey = currentCartKey.value) {
 
   children.forEach(async (child) => {
     if (child.skel_type === "node") {
-      state.data.add(child);
+      state.data.push(child);
       await getChildren(child.key);
     } else {
-      state.data.add(child);
+      state.data.push(child);
     }
   });
 }
@@ -137,7 +137,7 @@ watch(
   () => state.data,
   (oldVal, newVal) => {
     console.log("oldVal", oldVal);
-    if (oldVal.size === newVal.size) {
+    if (oldVal.length === newVal.length) {
       state.loading = false;
     }
   },
@@ -149,7 +149,7 @@ onBeforeMount(async () => {
   await getChildren();
 
   if (props.mode === "basket") {
-    state.data.add(cartStore.state.basketRootNode);
+    state.data.push(cartStore.state.basketRootNode);
   }
 });
 </script>

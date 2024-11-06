@@ -2,7 +2,7 @@
   <div v-if="state.loading">keine Einträge im Warenkorb</div>
 
   <template v-else-if="tree.is_root_node">
-    <template v-for="child in tree.children">
+    <template v-for="child in tree.children" :key="child.key">
       <CartLeafModel
         :modelValue="child"
         v-if="child.skel_type === 'leaf'"
@@ -13,7 +13,7 @@
         :node="child"
         v-else-if="child.children.length && child?.skel_type === 'node'"
       >
-        <template v-for="item in child.children">
+        <template v-for="item in child.children" :key="item.key">
           <CartLeafModel
             :modelValue="item"
             v-if="item.skel_type === 'leaf'"
@@ -32,7 +32,7 @@
   </template>
 
   <CartNode :node="tree" v-else-if="tree.skel_type === 'node'">
-    <template v-for="item in tree.children">
+    <template v-for="item in tree.children" :key="item.key">
       <CartLeafModel
         :modelValue="item"
         @update:modelValue="handleChange"

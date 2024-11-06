@@ -128,6 +128,8 @@ export const useCartStore = defineStore("cartstore", () => {
       quantity_mode: "replace",
     });
 
+
+
     console.log("update Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
@@ -216,7 +218,7 @@ export const useCartStore = defineStore("cartstore", () => {
   async function addNode(
     parentCart,
     cartType = "whishlist",
-    cartssssssssssssssssssssssssssssssssssssssName = undefined,
+    cartName = undefined,
     comment = undefined,
     shipping_key = undefined,
     shipping_address_key = undefined,
@@ -224,12 +226,12 @@ export const useCartStore = defineStore("cartstore", () => {
   ) {
     return await shopClient.cart_add({
       parent_cart_key: parentCart,
-      cart_type: cartType, // "basket" for main cart, "whishlist" for everything else
-      customer_comment: comment,
-      name: cartName,
-      shipping_address_key: shipping_address_key,
-      shipping_key: shipping_key,
-      discount_key: discount_key,
+      // cart_type: cartType, // "basket" for main cart, "whishlist" for everything else
+      // name: cartName,
+      // customer_comment: comment,
+      // shipping_address_key: shipping_address_key,
+      // shipping_key: shipping_key,
+      // discount_key: discount_key,
     });
   }
 

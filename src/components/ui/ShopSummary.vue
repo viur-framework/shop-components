@@ -1,7 +1,7 @@
 ,
 <template>
   <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
-  <br/>
+  <br />
   <div class="viur-shop-cart-sidebar-info-line">
     <span>Zwischensumme</span>
     <sl-format-number
@@ -11,7 +11,7 @@
       :value="node?.total"
     >
     </sl-format-number>
-    <br/>
+    <br />
   </div>
   <div class="viur-shop-cart-sidebar-info-line">
     <span>Rabatt</span>
@@ -38,56 +38,67 @@
     </sl-format-number>
     <!-- TODO: Some project needs "VAT included" here -->
   </div>
-  <div class="viur-shop-cart-sidebar-btn-wrap">
-    <!-- TODO: Placement of discount? -->
-    <div class="viur-shop-discount-wrap" v-if="showDiscount">
-      <Discount></Discount>
-    </div>
+  <slot name="action-buttons">
+    HIER KANN DEIN BUTTON REIN
+    <div class="viur-shop-cart-sidebar-btn-wrap">
+      <!-- TODO: Placement of discount? -->
+      <div class="viur-shop-discount-wrap" v-if="showDiscount">
+        <Discount></Discount>
+      </div>
 
-    <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
-    <sl-button size="medium" variant="info">
-      <sl-icon name="paypal" slot="prefix"></sl-icon>
-      Paypal
-    </sl-button>
-  </div>
-  <!-- TODO: Delivery time estimate: slot -->
+      <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
+      <sl-button size="medium" variant="info">
+        <sl-icon name="paypal" slot="prefix"></sl-icon>
+        Paypal
+      </sl-button>
+    </div>
+    <!-- TODO: Delivery time estimate: slot -->
+  </slot>
   <slot name="custom"></slot>
 </template>
 
 <script setup>
 import Discount from "../cart/Discount.vue";
 import Shipping from "../order/process/Shipping.vue";
-import {computed, onBeforeMount, reactive, ref} from "vue";
-import {useCartStore} from "../../stores/cart";
+import { computed, onBeforeMount, reactive, ref } from "vue";
+import { useCartStore } from "../../stores/cart";
 
 const cartStore = useCartStore();
 
 const shipping = ref(null);
 const props = defineProps({
-  showDiscount: {type: Boolean, default: true},
+  showDiscount: { type: Boolean, default: true },
 });
-const state=reactive({
-  node:{}
-})
+const state = reactive({
+  node: {},
+});
 
 const totalPrice = computed(() => {
   if (state.node?.shipping) {
-    return state.node.total + state.node?.shipping?.dest.shipping_cost - state.node.discount;
-  } else {// use shippingprice formbasket
-    console.log(cartStore.state.basket)
+    return (
+      state.node.total +
+      state.node?.shipping?.dest.shipping_cost -
+      state.node.discount
+    );
+  } else {
+    // use shippingprice formbasket
+    console.log(cartStore.state.basket);
 
     if (cartStore.state.basket.length === 1) {
-      return state.node?.total + cartStore.state.basket.shipping?.dest.shipping_cost - state.node.discount;
+      return (
+        state.node?.total +
+        cartStore.state.basket.shipping?.dest.shipping_cost -
+        state.node.discount
+      );
     } else {
       return state.node.total + 0 - state.node.discount; //kein shipping
     }
-
   }
-})
-onBeforeMount(async ()=>{
+});
+onBeforeMount(async () => {
   await cartStore.init();
-  state.node  = cartStore.state.basketRootNode;
-})
+  state.node = cartStore.state.basketRootNode;
+});
 </script>
 
 <style>

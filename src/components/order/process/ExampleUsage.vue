@@ -77,7 +77,7 @@ const state = reactive({
     },
     userInfo: {
       component: shallowRef(ShopUserData),
-      props: { multiMode: true },
+      props: { multiMode: false },
       displayName: "Daten Eingeben",
       icon: { name: "card-list" },
       position: 3,

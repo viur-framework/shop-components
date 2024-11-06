@@ -7,7 +7,7 @@ import { reactive, watch, computed } from "vue";
 import CartTreeWrapper from "./CartTreeWrapper.vue";
 
 const props = defineProps({
-  modelValue: { type: Set, required: true },
+  modelValue: { type: Array, required: true },
 });
 
 const emits = defineEmits(["update:modelValue"]);
@@ -22,21 +22,27 @@ const state = reactive({
     return props.modelValue ? false : true;
   }),
   tree: computed(() => {
+    // ! NOTE: it is very important to unpack the prop (copy the array) at this point to avoid prop mutation!!!
     let temp = props.modelValue ? arrayToTree([...props.modelValue]) : [""];
+
     return temp[0];
   }),
 });
 
 function handleChange(e) {
-  let temp = props.modelValue;
-  temp.forEach((item) => {
+  // ! NOTE: it is very important to unpack the prop (copy the array) at this point to avoid prop mutation!!!
+  let temp = [...props.modelValue];
+
+  temp.forEach((item, index) => {
     if (item.key === e.key) {
-      temp.delete(item);
+      if (e.quantity < 1) {
+        temp.splice(index, 1);
+      } else {
+        temp[index] = e;
+      }
     }
   });
-  if (e.quantity > 0) {
-    temp.add(e);
-  }
+
   emits("update:modelValue", temp);
 }
 

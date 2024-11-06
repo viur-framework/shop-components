@@ -58,7 +58,7 @@
         placeholder="Number"
         min="0"
         :value="modelValue.quantity"
-        @input="updateItem"
+        @sl-change="updateItem"
       >
       </sl-input>
     </div>
@@ -122,7 +122,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 const cartStore = useCartStore();
 const confirm = ref(null);
-const isConfirmed = ref(false)
+const isConfirmed = ref(false);
 
 function getImage(image) {
   if (image !== undefined) return Request.downloadUrlFor(image);
@@ -131,8 +131,10 @@ function getImage(image) {
 }
 
 function updateItem(ev) {
-  let newEvent = props.modelValue;
+  let newEvent = { ...props.modelValue };
+
   newEvent.quantity = ev.target.value;
+
   console.log("update", newEvent.quantity);
   if (newEvent.quantity < 1) {
     confirm.value.show();
@@ -142,21 +144,21 @@ function updateItem(ev) {
 }
 
 function removeItem() {
-  let newEvent = props.modelValue;
+  let newEvent = { ...props.modelValue };
   newEvent.quantity = 0;
   emit("update:modelValue", newEvent);
 }
 
 function resetItem() {
   if (!isConfirmed.value) {
-    let newEvent = props.modelValue;
+    let newEvent = { ...props.modelValue };
     newEvent.quantity = 1;
     emit("update:modelValue", newEvent);
   }
 }
 
 async function onConfirm() {
-  isConfirmed.value = true
+  isConfirmed.value = true;
   confirm.value.hide();
   removeItem();
 }
