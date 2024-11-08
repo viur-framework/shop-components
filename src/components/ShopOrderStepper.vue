@@ -261,4 +261,11 @@ onBeforeMount(async () => {
     grid-row-start: 3;
   }
 }
+
+.viur-shop-order-tabgroup{
+  &::part(body){
+    margin-top: var(--sl-spacing-large);
+    overflow-x: hidden;
+  }
+}
 </style>
