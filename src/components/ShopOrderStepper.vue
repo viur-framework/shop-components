@@ -39,8 +39,10 @@
           :class="{ 'flex-end': state.tabIdx === 0, 'last-row': sidebarBottom }"
           v-if="state.tabIdx !== state.tabNames.length - 1"
         >
+
           <StepperTrigger
             :index="state.tabIdx"
+            :currentTab="state.currentTabObj"
             @prevTab="prevTab"
             @nextTab="nextTab"
           >
@@ -109,6 +111,7 @@ const emit = defineEmits(["tabChange"]);
 
 const state = reactive({
   tabNames: computed(() => sortTabs(props.tabs)),
+  currentTabObj: computed(() => props.tabs[state.tabNames[state.tabIdx]]),
   tabIdx: 0,
   currentTab: "",
 });
@@ -116,8 +119,8 @@ const state = reactive({
 const tabGroup = ref(null);
 
 function sortTabs(tabs) {
-  let sortedArray = [];
-  let outputArray = [];
+  const sortedArray = [];
+  const outputArray = [];
 
   for (const tab in tabs) {
     if (tabs[tab].position) {
@@ -134,7 +137,6 @@ function sortTabs(tabs) {
   sortedArray.forEach((tab) => {
     outputArray.push(tab[0]);
   });
-
   return outputArray;
 }
 
