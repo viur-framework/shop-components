@@ -15,13 +15,13 @@
 
 <script setup>
 import { onBeforeMount, reactive, shallowRef, computed } from "vue";
-import ShopOrderStepper from "../../ShopOrderStepper.vue";
-import CartView from "../../cart/CartView.vue";
-import ShopCart from "../../ShopCart.vue";
-import ConfirmView from "../../ShopOrderConfirm.vue";
-import ShopOrderComplete from "../../ShopOrderComplete.vue";
-import ShopUserData from "../../ShopUserData.vue";
-import { useCartStore } from "../../../stores/cart";
+import ShopOrderStepper from "./ShopOrderStepper.vue";
+import CartView from "./cart/CartView.vue";
+import ShopCart from "./ShopCart.vue";
+import ConfirmView from "./ShopOrderConfirm.vue";
+import ShopOrderComplete from "./ShopOrderComplete.vue";
+import ShopUserData from "./ShopUserData.vue";
+import { useCartStore } from "../stores/cart";
 
 const cartStore = useCartStore();
 

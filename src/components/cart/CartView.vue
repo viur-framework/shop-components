@@ -1,5 +1,5 @@
 <template>
-  <sl-spinner v-if="!currentCartKey"></sl-spinner>
+  <sl-spinner v-if="!currentCartKey || !state.cartLoaded"></sl-spinner>
   <h2 v-else-if="state.cartIsEmpty">Keine Artikel im Warenkorb vorhanden</h2>
   <!--todo translations-->
   <template v-else>
@@ -213,12 +213,12 @@
 </template>
 
 <script setup>
-import { reactive, computed, onBeforeMount, ref } from "vue";
+import { reactive, computed, onBeforeMount, ref, watch } from "vue";
 import { useCartStore } from "../../stores/cart.js";
 import CartNode from "./CartNode.vue";
 import CartLeaf from "./CartLeaf.vue";
 import Shipping from "../order/process/Shipping.vue";
-import ShopSummary from "../ui/ShopSummary.vue";
+import ShopSummary from "../ShopSummary.vue";
 
 const props = defineProps({
   mode: { type: String, default: "basket" },
@@ -240,7 +240,7 @@ const state = reactive({
     return true;
   }),
   cartIsEmpty: computed(() => {
-    return currentCartKey && state.leaves.length===0;
+    return currentCartKey && Object.keys(state.leaves).length===0;
   }),
   totalPrice: computed(() => {
     if (shipping.value) {
@@ -256,6 +256,7 @@ const state = reactive({
   currentNode: {},
   nodes: [],
   leaves: {},
+  cartLoaded:false
 });
 
 const currentCartKey = computed(() => {
@@ -330,37 +331,40 @@ async function updateCart() {
   state.nodes = [];
   state.leaves = {};
 
-  await cartStore.init();
+  await cartStore.init(true);
   await getChildren();
 }
 
 async function getChildren(parentKey = currentCartKey.value) {
+  state.cartLoaded=false
   const children = await cartStore.getChildren(parentKey);
-
-  children.forEach(async (child) => {
+  for(const child of children){
     if (child.skel_type === "node") {
       state.nodes.push(child);
       await getChildren(child.key);
     } else {
+      if (child.is_root_node){
+        continue
+      }
       if (!Object.keys(state.leaves).includes(parentKey)) {
         state.leaves[parentKey] = [];
       }
       state.leaves[parentKey].push(child);
     }
-  });
+  }
+  state.cartLoaded=true
 }
 
-onBeforeMount(async () => {
-  await cartStore.init();
+watch( ()=>cartStore.state.isReady, async(newVal, oldVal)=>{
   await getChildren();
 
   if (props.mode === "basket") {
     state.nodes.push(cartStore.state.basketRootNode);
   }
+})
 
-  console.log("state.nodes test", state.nodes);
-
-  console.log("state.leaves", state.leaves);
+onBeforeMount(async () => {
+  await cartStore.init();
 });
 </script>
 

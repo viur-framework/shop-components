@@ -2,7 +2,7 @@
   <sl-spinner v-if="state.isLoading"></sl-spinner>
   <ViForm
     ref="addForm"
-    module="shop/address"
+    :module="`${cartStore.state.shopModuleName}/address`"
     action="add"
     :useCategories="false"
     :layout="layout ? layout : DefaultLayout"

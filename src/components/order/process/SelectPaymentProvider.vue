@@ -1,10 +1,10 @@
 <template>
-
+  <h2>Zahlungsart auswählen:</h2>
   <div v-for="(providerData,providerName,i) in cartStore.state.paymentProviders">
     <sl-card selectable :id="'povider__'+providerName" @sl-change="providerChanged" :selected="i===0">
       <img
         slot="image"
-        src="https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+        :src="providerData['image_path']"
         alt="A kitten sits patiently between a terracotta pot and decorative grasses."
       />
       <div slot="footer">

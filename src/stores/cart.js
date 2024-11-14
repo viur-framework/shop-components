@@ -1,18 +1,13 @@
 import { reactive, computed, watch } from "vue";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "@viur/viur-shop-client";
+import { Request } from '@viur/vue-utils'
 
 export const useCartStore = defineStore("cartstore", () => {
-  const shopClient = new ViURShopClient({
-    host_url:
-      window.location.origin === "http://localhost:8081"
-        ? "http://localhost:8080"
-        : window.location.origin,
-  });
-  let isFetching = false;
-  const waitForFetching = [];
-  const waitForFetchingResolver = [];
+  let shopClient = null;
+
   const state = reactive({
+    shopModuleName:"shop",
     basketRootNode: {},
     basket: [],
     wishlistRootNodes: [],
@@ -28,46 +23,73 @@ export const useCartStore = defineStore("cartstore", () => {
     selectedPaymentProviderName: "",
     customer: {},
     isLoggedIn: false,
+    isReady: false,
+    isFetching:false,
     placeholder: "",
   });
 
-  async function init(placeholder = "") {
-    if (!isFetching) {
-      isFetching = true;
-      await getRootNodes();
-      await getCustomer();
-      await getAddress();
-      await getBasket();
+  function setConfig({shopModuleName = "shop", placeholder = ""} = {}){
+    /* function set set initial states */
+    state.shopModuleName = shopModuleName; //change default module shop to something else
+    state.placeholder = placeholder // define image placeholder for missing images
+    shopClient = new ViURShopClient({
+      host_url: import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL : window.location.origin, //use vite config, because all utils requests are using this.
+      shop_module: state.shopModuleName //change default module shop to something else
+    });
+  }
 
-      isFetching = false;
-      for (const waiter of waitForFetchingResolver) {
-        waiter();
-      }
-      waitForFetchingResolver.splice(0, waitForFetchingResolver.length);
-      waitForFetching.splice(0, waitForFetchingResolver.length);
-    } else {
-      const p = new Promise((resolve, reject) => {
-        waitForFetchingResolver.push(resolve);
-      });
-      waitForFetching.push(p);
-      return p;
+  async function init(update=false) {
+    console.log("Init Shop")
+    if (state.isFetching){
+      return false // currently we fetch data
     }
-    state.placeholder = placeholder;
+    state.isFetching = true
+    if (state.isReady && !update){
+      //block datafetching if shop is ready and no forced update is needed
+      return true
+    }
+
+    try{
+      const customer = await getCustomer()
+      const shopRequests = await Promise.all([
+        getRootNodes(),
+        getAddress(),
+        getBasket()
+      ])
+      
+      state.isReady = true
+      console.log("%c Shopdata is ready", 'color:lime')
+    }catch(error){
+      state.isReady = false
+      console.error("Error: Cant Init because of Error in a essential Shoprequest", error)
+    }
+    state.isFetching = false
   }
 
   async function getCustomer() {
-    try {
-      const resp = await shopClient.user_view();
-      state.customer = resp;
-      state.isLoggedIn = true;
-    } catch (e) {
-      state.isLoggedIn = false;
-    }
-
-    console.log("passiert", state.customer);
+    return new Promise(async (resolve, reject)=>{
+      try {
+        const resp = await shopClient.user_view();
+        state.customer = resp;
+        state.isLoggedIn = true;
+        resolve(resp)
+      } catch (error) {
+        state.isLoggedIn = false;
+        state.customer = {}
+        reject(error)
+      }
+    })
   }
   async function getBasket() {
-    state.basket = await shopClient.basket_list();
+    return new Promise(async (resolve, reject)=>{
+      try{
+        state.basket = await shopClient.basket_list();
+        resolve(state.basket)
+      }catch(error){
+        state.basket = [] //reset basket on error
+        reject(error)
+      }
+    })
   }
 
   async function getChildren(parentKey) {
@@ -75,19 +97,35 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getRootNodes() {
-    let resp = await shopClient.cart_list();
-
-    resp.forEach(async (rootNode) => {
-      if (rootNode.is_root_node) {
-        if (rootNode.cart_type === "basket") {
-          state.basketRootNode = rootNode;
-          const rootChildren = await getChildren(rootNode.key);
-          state.childrenByNode[rootNode.key] = rootChildren;
-        } else {
-          state.whishlistRootNodes.push(rootNode);
-        }
+    return new Promise(async (resolve, reject)=>{
+      let resp = []
+      try{
+        resp = await shopClient.cart_list()
+      }catch(error){
+        state.basketRootNode = {}
+        state.childrenByNode = {}
+        state.whishlistRootNodes = []
+        reject(error)
       }
-    });
+
+      resp.forEach(async (rootNode) => {
+        if (rootNode.is_root_node) {
+          if (rootNode.cart_type === "basket") {
+            state.basketRootNode = rootNode;
+            let rootChildren = []
+            try{
+              rootChildren = await getChildren(rootNode.key);
+            }catch(error){
+              reject(error)
+            }
+            state.childrenByNode[rootNode.key] = rootChildren;
+          } else {
+            state.whishlistRootNodes.push(rootNode);
+          }
+        }
+      });
+      resolve(resp)
+    })
   }
 
   async function addToCart(articleKey, cartKey) {
@@ -181,31 +219,32 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getAddress() {
-    if (!state.isLoggedIn) {
-      return;
-    }
-    try {
-      const addressList = await shopClient.address_list();
-    } catch (e) {
-      console.log("error", e);
-      return;
-    }
-
-    const addressList = await shopClient.address_list();
-    state.billingAddressList = [];
-    state.shippingAddressList = [];
-
-    for (const address of addressList) {
-      if (address.address_type === "billing") {
-        console.log("add to bill address ?", address);
-        state.billingAddressList.push(address);
+    return new Promise(async (resolve, reject)=>{
+      if (!state.isLoggedIn) {
+        reject("not logged in")
       }
-      if (address.address_type === "shipping") {
-        state.shippingAddressList.push(address);
+      let addressList = []
+      try {
+        addressList = await shopClient.address_list();
+      } catch (error) {
+        reject(error)
       }
-    }
 
-    getDefaultAddress();
+      state.billingAddressList = [];
+      state.shippingAddressList = [];
+
+      for (const address of addressList) {
+        if (address.address_type === "billing") {
+          state.billingAddressList.push(address);
+        }
+        if (address.address_type === "shipping") {
+          state.shippingAddressList.push(address);
+        }
+      }
+
+      getDefaultAddress();
+      resolve([state.activeBillingAddress,state.activeShippingAddress])
+    })
   }
 
   async function addDiscount(code) {
@@ -316,6 +355,7 @@ export const useCartStore = defineStore("cartstore", () => {
 
   return {
     state,
+    setConfig,
     addToCart,
     getArticleView,
     removeItem,
