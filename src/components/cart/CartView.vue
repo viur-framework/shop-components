@@ -1,5 +1,5 @@
 <template>
-  <sl-spinner v-if="!currentCartKey"></sl-spinner>
+  <sl-spinner v-if="!currentCartKey || !state.cartLoaded"></sl-spinner>
   <h2 v-else-if="state.cartIsEmpty">Keine Artikel im Warenkorb vorhanden</h2>
   <!--todo translations-->
   <template v-else>
@@ -256,6 +256,7 @@ const state = reactive({
   currentNode: {},
   nodes: [],
   leaves: {},
+  cartLoaded:false
 });
 
 const currentCartKey = computed(() => {
@@ -330,11 +331,12 @@ async function updateCart() {
   state.nodes = [];
   state.leaves = {};
 
-  await cartStore.init();
+  await cartStore.init(true);
   await getChildren();
 }
 
 async function getChildren(parentKey = currentCartKey.value) {
+  state.cartLoaded=false
   const children = await cartStore.getChildren(parentKey);
   for(const child of children){
     if (child.skel_type === "node") {
@@ -350,6 +352,7 @@ async function getChildren(parentKey = currentCartKey.value) {
       state.leaves[parentKey].push(child);
     }
   }
+  state.cartLoaded=true
 }
 
 watch( ()=>cartStore.state.isReady, async(newVal, oldVal)=>{
@@ -358,10 +361,6 @@ watch( ()=>cartStore.state.isReady, async(newVal, oldVal)=>{
   if (props.mode === "basket") {
     state.nodes.push(cartStore.state.basketRootNode);
   }
-
-  console.log("state.nodes test", state.nodes);
-
-  console.log("state.leaves", state.leaves);
 })
 
 onBeforeMount(async () => {
