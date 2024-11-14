@@ -1,13 +1,19 @@
 import { reactive, computed, watch } from "vue";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "@viur/viur-shop-client";
-import { Request } from '@viur/vue-utils'
+import { Request } from "@viur/vue-utils";
 
+/*
+TODO:
+Error Handling. A UI Component (../components/generic/alerts/ShopAlert.vue)
+should be triggered when state.errors has an entry.
+Every Error in this store should be routed into state.errors
+ */
 export const useCartStore = defineStore("cartstore", () => {
   let shopClient = null;
 
   const state = reactive({
-    shopModuleName:"shop",
+    shopModuleName: "shop",
     basketRootNode: {},
     basket: [],
     wishlistRootNodes: [],
@@ -24,72 +30,78 @@ export const useCartStore = defineStore("cartstore", () => {
     customer: {},
     isLoggedIn: false,
     isReady: false,
-    isFetching:false,
+    isFetching: false,
     placeholder: "",
+    errors: {},
   });
 
-  function setConfig({shopModuleName = "shop", placeholder = ""} = {}){
+  function setConfig({ shopModuleName = "shop", placeholder = "" } = {}) {
     /* function set set initial states */
     state.shopModuleName = shopModuleName; //change default module shop to something else
-    state.placeholder = placeholder // define image placeholder for missing images
+    state.placeholder = placeholder; // define image placeholder for missing images
     shopClient = new ViURShopClient({
-      host_url: import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL : window.location.origin, //use vite config, because all utils requests are using this.
-      shop_module: state.shopModuleName //change default module shop to something else
+      host_url: import.meta.env.VITE_API_URL
+        ? import.meta.env.VITE_API_URL
+        : window.location.origin, //use vite config, because all utils requests are using this.
+      shop_module: state.shopModuleName, //change default module shop to something else
     });
   }
 
-  async function init(update=false) {
-    console.log("Init Shop")
-    if (state.isFetching){
-      return false // currently we fetch data
+  async function init(update = false) {
+    console.log("Init Shop");
+    if (state.isFetching) {
+      return false; // currently we fetch data
     }
-    state.isFetching = true
-    if (state.isReady && !update){
+    state.isFetching = true;
+    if (state.isReady && !update) {
       //block datafetching if shop is ready and no forced update is needed
-      return true
+      return true;
     }
 
-    try{
-      const customer = await getCustomer()
+    try {
+      const customer = await getCustomer();
       const shopRequests = await Promise.all([
         getRootNodes(),
         getAddress(),
-        getBasket()
-      ])
-      
-      state.isReady = true
-      console.log("%c Shopdata is ready", 'color:lime')
-    }catch(error){
-      state.isReady = false
-      console.error("Error: Cant Init because of Error in a essential Shoprequest", error)
+        getBasket(),
+      ]);
+
+      state.isReady = true;
+      console.log("%c Shopdata is ready", "color:lime");
+    } catch (error) {
+      state.isReady = false;
+      console.error(
+        "Error: Cant Init because of Error in a essential Shoprequest",
+        error,
+      );
     }
-    state.isFetching = false
+    state.isFetching = false;
   }
 
   async function getCustomer() {
-    return new Promise(async (resolve, reject)=>{
+    return new Promise(async (resolve, reject) => {
       try {
         const resp = await shopClient.user_view();
         state.customer = resp;
         state.isLoggedIn = true;
-        resolve(resp)
+        resolve(resp);
       } catch (error) {
         state.isLoggedIn = false;
-        state.customer = {}
-        reject(error)
+        state.customer = {};
+        reject(error);
       }
-    })
+    });
   }
   async function getBasket() {
-    return new Promise(async (resolve, reject)=>{
-      try{
+    return new Promise(async (resolve, reject) => {
+      try {
         state.basket = await shopClient.basket_list();
-        resolve(state.basket)
-      }catch(error){
-        state.basket = [] //reset basket on error
-        reject(error)
+        resolve(state.basket);
+      } catch (error) {
+        state.basket = []; //reset basket on error
+        reject(error);
       }
-    })
+    });
   }
 
   async function getChildren(parentKey) {
@@ -97,26 +109,26 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getRootNodes() {
-    return new Promise(async (resolve, reject)=>{
-      let resp = []
-      try{
-        resp = await shopClient.cart_list()
-      }catch(error){
-        state.basketRootNode = {}
-        state.childrenByNode = {}
-        state.whishlistRootNodes = []
-        reject(error)
+    return new Promise(async (resolve, reject) => {
+      let resp = [];
+      try {
+        resp = await shopClient.cart_list();
+      } catch (error) {
+        state.basketRootNode = {};
+        state.childrenByNode = {};
+        state.whishlistRootNodes = [];
+        reject(error);
       }
 
       resp.forEach(async (rootNode) => {
         if (rootNode.is_root_node) {
           if (rootNode.cart_type === "basket") {
             state.basketRootNode = rootNode;
-            let rootChildren = []
-            try{
+            let rootChildren = [];
+            try {
               rootChildren = await getChildren(rootNode.key);
-            }catch(error){
-              reject(error)
+            } catch (error) {
+              reject(error);
             }
             state.childrenByNode[rootNode.key] = rootChildren;
           } else {
@@ -124,8 +136,8 @@ export const useCartStore = defineStore("cartstore", () => {
           }
         }
       });
-      resolve(resp)
-    })
+      resolve(resp);
+    });
   }
 
   async function addToCart(articleKey, cartKey) {
@@ -219,15 +231,16 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getAddress() {
-    return new Promise(async (resolve, reject)=>{
+    return new Promise(async (resolve, reject) => {
+      console.log("hier komme rein");
       if (!state.isLoggedIn) {
-        reject("not logged in")
+        reject("not logged in");
       }
-      let addressList = []
+      let addressList = [];
       try {
         addressList = await shopClient.address_list();
       } catch (error) {
-        reject(error)
+        reject(error);
       }
 
       state.billingAddressList = [];
@@ -243,14 +256,15 @@ export const useCartStore = defineStore("cartstore", () => {
       }
 
       getDefaultAddress();
-      resolve([state.activeBillingAddress,state.activeShippingAddress])
-    })
+      resolve([state.activeBillingAddress, state.activeShippingAddress]);
+    });
   }
 
   async function addDiscount(code) {
     await shopClient.discount_add({ code });
   }
 
+  // core rc2 needed to work with all parameters
   async function addNode(
     parentCart,
     cartType = "whishlist",

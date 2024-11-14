@@ -107,6 +107,7 @@ function handleTabs(e) {
 }
 
 onBeforeMount(async () => {
+  await cartStore.setConfig();
   await cartStore.init("/static/partnerbereich/img/placeholder.svg");
   await cartStore.getAddressStructure();
 });

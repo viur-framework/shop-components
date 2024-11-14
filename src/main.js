@@ -17,7 +17,7 @@ export { default as ShopOrderStepper } from "./components/ShopOrderStepper.vue";
 export { default as ShopUserData } from "./components/ShopUserData.vue";
 
 export { default as CartView } from "./components/cart/CartView.vue";
-export { default as ExampleUsage } from "./components/order/process/ExampleUsage.vue";
+export { default as ExampleUsage } from "./components/ExampleUsage.vue";
 export { default as ConfirmView } from "./components/ShopOrderConfirm.vue";
 export { default as OrderComplete } from "./components/ShopOrderComplete.vue";
 // export { default as UserInformation } from "./components/order/information/UserInformation.vue";
