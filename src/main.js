@@ -1,10 +1,7 @@
 // imports
 import { createPinia } from "pinia";
 import { createI18n } from "vue-i18n";
-import {
-  de_translations,
-  en_translations,
-} from "@viur/vue-components/translations/translations";
+import { de_translations , en_translations } from "@viur/vue-utils";
 
 import { useCartStore } from "./stores/cart";
 import CartNode from "./components/cart/CartNode.vue";
