@@ -223,7 +223,7 @@ export const useCartStore = defineStore("cartstore", () => {
   ) {
     return await shopClient.cart_add({
       parent_cart_key: parentCart,
-      // cart_type: cartType, // "basket" for main cart, "whishlist" for everything else
+      cart_type: cartType, // "basket" for main cart, "whishlist" for everything else
       // name: cartName,
       // customer_comment: comment,
       // shipping_address_key: shipping_address_key,

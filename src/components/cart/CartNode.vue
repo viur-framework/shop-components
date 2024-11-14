@@ -1,4 +1,5 @@
 <template>
+
   <sl-details v-if="node.children" :summary="node.name">
     <slot></slot>
   </sl-details>
