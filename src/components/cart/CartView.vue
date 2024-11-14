@@ -240,7 +240,7 @@ const state = reactive({
     return true;
   }),
   cartIsEmpty: computed(() => {
-    return currentCartKey && state.leaves.length===0;
+    return currentCartKey && Object.keys(state.leaves).length===0;
   }),
   totalPrice: computed(() => {
     if (shipping.value) {
@@ -336,18 +336,20 @@ async function updateCart() {
 
 async function getChildren(parentKey = currentCartKey.value) {
   const children = await cartStore.getChildren(parentKey);
-
-  children.forEach(async (child) => {
+  for(const child of children){
     if (child.skel_type === "node") {
       state.nodes.push(child);
       await getChildren(child.key);
     } else {
+      if (child.is_root_node){
+        continue
+      }
       if (!Object.keys(state.leaves).includes(parentKey)) {
         state.leaves[parentKey] = [];
       }
       state.leaves[parentKey].push(child);
     }
-  });
+  }
 }
 
 onBeforeMount(async () => {
