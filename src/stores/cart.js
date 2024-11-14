@@ -41,12 +41,12 @@ export const useCartStore = defineStore("cartstore", () => {
   async function init(update=false) {
     console.log("Init Shop")
     if (state.isFetching){
-      return // currently we fetch data
+      return false // currently we fetch data
     }
     state.isFetching = true
     if (state.isReady && !update){
       //block datafetching if shop is ready and no forced update is needed
-      return 
+      return true
     }
 
     try{
