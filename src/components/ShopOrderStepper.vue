@@ -74,7 +74,7 @@ import { reactive, computed, ref, onBeforeMount } from "vue";
 import StepperTab from "./ui/stepper/StepperTab.vue";
 import StepperItem from "./ui/stepper/StepperItem.vue";
 import StepperTrigger from "./ui/stepper/StepperTrigger.vue";
-import ShopSummary from "./ui/ShopSummary.vue";
+import ShopSummary from "./ShopSummary.vue";
 import { useCartStore } from "../stores/cart";
 
 const cartStore = useCartStore();

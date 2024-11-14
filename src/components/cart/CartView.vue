@@ -218,7 +218,7 @@ import { useCartStore } from "../../stores/cart.js";
 import CartNode from "./CartNode.vue";
 import CartLeaf from "./CartLeaf.vue";
 import Shipping from "../order/process/Shipping.vue";
-import ShopSummary from "../ui/ShopSummary.vue";
+import ShopSummary from "../ShopSummary.vue";
 
 const props = defineProps({
   mode: { type: String, default: "basket" },
