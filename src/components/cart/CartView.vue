@@ -213,7 +213,7 @@
 </template>
 
 <script setup>
-import { reactive, computed, onBeforeMount, ref } from "vue";
+import { reactive, computed, onBeforeMount, ref, watch } from "vue";
 import { useCartStore } from "../../stores/cart.js";
 import CartNode from "./CartNode.vue";
 import CartLeaf from "./CartLeaf.vue";
@@ -352,8 +352,7 @@ async function getChildren(parentKey = currentCartKey.value) {
   }
 }
 
-onBeforeMount(async () => {
-  await cartStore.init();
+watch( ()=>cartStore.state.isReady, async(newVal, oldVal)=>{
   await getChildren();
 
   if (props.mode === "basket") {
@@ -363,6 +362,10 @@ onBeforeMount(async () => {
   console.log("state.nodes test", state.nodes);
 
   console.log("state.leaves", state.leaves);
+})
+
+onBeforeMount(async () => {
+  await cartStore.init();
 });
 </script>
 
