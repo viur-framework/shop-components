@@ -1,4 +1,15 @@
 <template>
+  <template v-for="msg in messageStore.state.errors">
+    <shop-alert
+      v-if="!messageStore.state.blacklist.includes(msg.id)"
+      :msg="msg.msg"
+      :variant="msg.variant"
+      :iconName="msg.iconName"
+      :key="msg.id"
+      @sl-hide="messageStore.state.blacklist.push(msg.id)"
+    >
+    </shop-alert>
+  </template>
   <div class="bind viur-shop-wrap">
     <div
       class="viur-shop-stepper-wrap"
@@ -39,7 +50,6 @@
           :class="{ 'flex-end': state.tabIdx === 0, 'last-row': sidebarBottom }"
           v-if="state.tabIdx !== state.tabNames.length - 1"
         >
-
           <StepperTrigger
             :index="state.tabIdx"
             :currentTab="state.currentTabObj"
@@ -75,9 +85,12 @@ import StepperTab from "./ui/stepper/StepperTab.vue";
 import StepperItem from "./ui/stepper/StepperItem.vue";
 import StepperTrigger from "./ui/stepper/StepperTrigger.vue";
 import ShopSummary from "./ShopSummary.vue";
+import ShopAlert from "./ui/generic/alerts/ShopAlert.vue";
 import { useCartStore } from "../stores/cart";
+import { useMessageStore } from "../stores/message";
 
 const cartStore = useCartStore();
+const messageStore = useMessageStore();
 
 const props = defineProps({
   tabs: {

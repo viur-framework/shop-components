@@ -2,21 +2,40 @@ import { reactive, computed, watch } from "vue";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "@viur/viur-shop-client";
 import { Request } from "@viur/vue-utils";
+import { useMessageStore } from "./message";
+import { uuid } from "../lib/utils";
 
 /*
-TODO:
-Error Handling. A UI Component (../components/generic/alerts/ShopAlert.vue)
-should be triggered when state.errors has an entry.
-Every Error in this store should be routed into state.errors
- */
-export const useCartStore = defineStore("cartstore", () => {
+? Error Handling:
+
+? A UI Component (../components/generic/alerts/ShopAlert.vue)
+? should be triggered when messageStore.state.errors has an entry.
+? Every Error in this store should be added
+? into messageStore with addError() if u want a feedback for the user
+? otherwise use console.error()
+*/
+
+export const useCartStore = defineStore("shop-cart", () => {
+  const messageStore = useMessageStore();
   let shopClient = null;
+
+  const addError = (
+    msg = "Alert!",
+    iconName = "exclamation-octagon",
+    variant = "danger",
+  ) => {
+    messageStore.state.errors.push({
+      id: uuid(),
+      msg: msg,
+      iconName: iconName,
+      variant: variant,
+    });
+  };
 
   const state = reactive({
     shopModuleName: "shop",
-    basketRootNode: {},
+    basketRootNode: {}, // TODO: rename to session cart at a later point
     basket: [],
-    wishlistRootNodes: [],
     childrenByNode: {},
     structure: { address: {}, cart: {} },
     paymentProviders: {},
@@ -32,7 +51,6 @@ export const useCartStore = defineStore("cartstore", () => {
     isReady: false,
     isFetching: false,
     placeholder: "",
-    errors: {},
   });
 
   function setConfig({ shopModuleName = "shop", placeholder = "" } = {}) {
@@ -47,97 +65,102 @@ export const useCartStore = defineStore("cartstore", () => {
     });
   }
 
-  async function init(update = false) {
+  async function init(update = false, onlyUser = true) {
+    // update flag for example for rerendering
     console.log("Init Shop");
+
     if (state.isFetching) {
       return false; // currently we fetch data
     }
+
     state.isFetching = true;
+
     if (state.isReady && !update) {
       //block datafetching if shop is ready and no forced update is needed
       return true;
     }
 
-    try {
-      const customer = await getCustomer();
-      const shopRequests = await Promise.all([
-        getRootNodes(),
-        getAddress(),
-        getBasket(),
-      ]);
+    Promise.all([
+      await getCustomer(),
+      await getAddress(onlyUser),
+      await getSessionCart(),
+      //getBasket(),  // TODO: why? cart_list shows all carts basket_list doesnt render anything at all if not logged in
+    ]);
 
+    if (Object.keys(state.basketRootNode).length) {
       state.isReady = true;
-      console.log("%c Shopdata is ready", "color:lime");
-    } catch (error) {
+      console.log("%c Shopata is ready", "color:lime");
+    } else {
       state.isReady = false;
       console.error(
         "Error: Cant Init because of Error in a essential Shoprequest",
         error,
       );
     }
+
     state.isFetching = false;
   }
 
   async function getCustomer() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const resp = await shopClient.user_view();
+    try {
+      const resp = await shopClient.user_view();
+
+      if (resp.name) {
         state.customer = resp;
         state.isLoggedIn = true;
-        resolve(resp);
-      } catch (error) {
-        state.isLoggedIn = false;
-        state.customer = {};
-        reject(error);
+        return resp;
+      } else {
+        throw resp;
       }
-    });
-  }
-  async function getBasket() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        state.basket = await shopClient.basket_list();
-        resolve(state.basket);
-      } catch (error) {
-        state.basket = []; //reset basket on error
-        reject(error);
-      }
-    });
+    } catch (error) {
+      state.isLoggedIn = false;
+      state.customer = {};
+      addError("Nicht Eingelogged!");
+    }
   }
 
   async function getChildren(parentKey) {
-    return await shopClient.cart_list({ cart_key: parentKey });
+    try {
+      const resp = await shopClient.cart_list({ cart_key: parentKey });
+      if (Array.isArray(resp) && resp.length) {
+        return resp;
+      } else {
+        throw resp;
+      }
+    } catch (error) {
+      return error;
+    }
   }
 
-  async function getRootNodes() {
-    return new Promise(async (resolve, reject) => {
-      let resp = [];
-      try {
-        resp = await shopClient.cart_list();
-      } catch (error) {
-        state.basketRootNode = {};
-        state.childrenByNode = {};
-        state.whishlistRootNodes = [];
-        reject(error);
-      }
-
-      resp.forEach(async (rootNode) => {
-        if (rootNode.is_root_node) {
-          if (rootNode.cart_type === "basket") {
+  async function getSessionCart() {
+    try {
+      const resp = await shopClient.cart_list();
+      if (Array.isArray(resp)) {
+        resp.forEach(async (rootNode) => {
+          if (rootNode.is_root_node) {
             state.basketRootNode = rootNode;
-            let rootChildren = [];
-            try {
-              rootChildren = await getChildren(rootNode.key);
-            } catch (error) {
-              reject(error);
+
+            const rootChildren = await getChildren(rootNode.key);
+
+            if (Array.isArray(rootChildren)) {
+              state.childrenByNode[rootNode.key] = rootChildren;
+            } else {
+              state.childrenByNode[rootNode.key] = [];
             }
-            state.childrenByNode[rootNode.key] = rootChildren;
-          } else {
-            state.whishlistRootNodes.push(rootNode);
           }
-        }
-      });
-      resolve(resp);
-    });
+        });
+      } else {
+        throw resp;
+      }
+    } catch (error) {
+      state.basketRootNode = {};
+      state.childrenByNode = {};
+      console.error(
+        "Error: Cant Init because of Error in a essential Shoprequest",
+        error,
+      );
+      addError("Konnte Warenkorb nicht laden");
+    }
   }
 
   async function addToCart(articleKey, cartKey) {
@@ -146,17 +169,7 @@ export const useCartStore = defineStore("cartstore", () => {
       parent_cart_key: cartKey,
     });
 
-    // await updateCart(cartKey);
     console.log("addToCart", resp); //TODO: Errorhandling as soon as shop module works again
-  }
-
-  async function getArticleView(articleKey, cartKey) {
-    let article = await shopClient.article_view({
-      article_key: articleKey,
-      parent_cart_key: cartKey,
-    });
-
-    console.log("getArticleView", article); // ? Talk about necessarity
   }
 
   async function removeItem(articleKey, cartKey) {
@@ -230,34 +243,35 @@ export const useCartStore = defineStore("cartstore", () => {
     return skel;
   }
 
-  async function getAddress() {
-    return new Promise(async (resolve, reject) => {
-      console.log("hier komme rein");
-      if (!state.isLoggedIn) {
-        reject("not logged in");
-      }
-      let addressList = [];
-      try {
-        addressList = await shopClient.address_list();
-      } catch (error) {
-        reject(error);
-      }
+  async function getAddress(onlyUser) {
+    if (!state.isLoggedIn && onlyUser === true) {
+      throw "not logged in";
+    }
+    try {
+      const addressList = await shopClient.address_list();
 
-      state.billingAddressList = [];
-      state.shippingAddressList = [];
-
-      for (const address of addressList) {
-        if (address.address_type === "billing") {
-          state.billingAddressList.push(address);
+      if (Array.isArray(addressList)) {
+        for (const address of addressList) {
+          if (address.address_type === "billing") {
+            state.billingAddressList.push(address);
+          }
+          if (address.address_type === "shipping") {
+            state.shippingAddressList.push(address);
+          }
         }
-        if (address.address_type === "shipping") {
-          state.shippingAddressList.push(address);
+        if (
+          state.billingAddressList.length ||
+          state.shippingAddressList.length
+        ) {
+          getDefaultAddress();
         }
+        return [state.billingAddressList, state.shippingAddressList];
+      } else {
+        throw addressList;
       }
-
-      getDefaultAddress();
-      resolve([state.activeBillingAddress, state.activeShippingAddress]);
-    });
+    } catch (error) {
+      return error;
+    }
   }
 
   async function addDiscount(code) {
@@ -267,7 +281,7 @@ export const useCartStore = defineStore("cartstore", () => {
   // core rc2 needed to work with all parameters
   async function addNode(
     parentCart,
-    cartType = "whishlist",
+    cartType = "wishlist",
     cartName = undefined,
     comment = undefined,
     shipping_key = undefined,
@@ -371,7 +385,7 @@ export const useCartStore = defineStore("cartstore", () => {
     state,
     setConfig,
     addToCart,
-    getArticleView,
+    // getArticleView,
     removeItem,
     updateItem,
     init,
@@ -384,7 +398,7 @@ export const useCartStore = defineStore("cartstore", () => {
     getShippingData,
     getDefaultAddress,
     orderAdd,
-    getBasket,
+    // getBasket,
     setShiping,
   };
 });
