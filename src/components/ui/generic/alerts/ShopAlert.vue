@@ -3,7 +3,7 @@
       <slot name="icon">
           <sl-icon slot="icon" :name="iconName"></sl-icon>
       </slot>
-    <slot name="alertMsg">ALERT!</slot>
+    <slot name="alertMsg">{{ msg }}</slot>
   </sl-alert>
 </template>
 
@@ -18,7 +18,8 @@ const props = defineProps({
   duration:{
     type: [Number, String],
     default: 3000 // use "Infinity" for fix message
-  }
+  },
+  msg: { type: String, default: "ALERT!" },
 });
 
 const emit = defineEmits(["onHide"]);

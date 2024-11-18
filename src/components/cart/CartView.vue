@@ -1,5 +1,5 @@
 <template>
-  <sl-spinner v-if="!currentCartKey || !state.cartLoaded"></sl-spinner>
+  <sl-spinner v-if="!state.cartLoaded"></sl-spinner>
   <h2 v-else-if="state.cartIsEmpty">Keine Artikel im Warenkorb vorhanden</h2>
   <!--todo translations-->
   <template v-else>
@@ -229,18 +229,14 @@ const props = defineProps({
   customComponent: { default: undefined },
 });
 
-console.log("inor",props.inOrderView)
 const cartStore = useCartStore();
 
 const confirm = ref(null);
 const shipping = ref(null);
 
 const state = reactive({
-  itemsIsInit: computed(() => {
-    return true;
-  }),
   cartIsEmpty: computed(() => {
-    return currentCartKey && Object.keys(state.leaves).length===0;
+    return currentCartKey && Object.keys(state.leaves).length === 0;
   }),
   totalPrice: computed(() => {
     if (shipping.value) {
@@ -251,36 +247,17 @@ const state = reactive({
     }
     return 0;
   }),
-  images: {},
   currentItem: {},
   currentNode: {},
   nodes: [],
   leaves: {},
-  cartLoaded:false
+  cartLoaded: false,
 });
 
 const currentCartKey = computed(() => {
   console.log("compute current cartkey");
-  return props.mode === "basket"
-    ? cartStore.state.basketRootNode.key
-    : props.cartKey;
+  return props.cartKey;
 });
-
-// function getImage(item) {
-//   Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
-//     let data = await resp.json();
-
-//     data = data.values;
-
-//     let imageUrl = data.dk_artikel.dest.image
-//       ? Request.downloadUrlFor(data.dk_artikel.dest.image)
-//       : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-
-//     state.images[item] = imageUrl;
-//   });
-
-//   return state.images[item];
-// }
 
 async function onConfirm() {
   confirm.value.hide();
@@ -336,15 +313,16 @@ async function updateCart() {
 }
 
 async function getChildren(parentKey = currentCartKey.value) {
-  state.cartLoaded=false
+  state.cartLoaded = false;
+
   const children = await cartStore.getChildren(parentKey);
-  for(const child of children){
+  for (const child of children) {
     if (child.skel_type === "node") {
       state.nodes.push(child);
       await getChildren(child.key);
     } else {
-      if (child.is_root_node){
-        continue
+      if (child.is_root_node) {
+        continue;
       }
       if (!Object.keys(state.leaves).includes(parentKey)) {
         state.leaves[parentKey] = [];
@@ -352,20 +330,22 @@ async function getChildren(parentKey = currentCartKey.value) {
       state.leaves[parentKey].push(child);
     }
   }
-  state.cartLoaded=true
+  state.cartLoaded = true;
 }
 
-watch( ()=>cartStore.state.isReady, async(newVal, oldVal)=>{
-  await getChildren();
+watch(
+  () => cartStore.state.isReady,
+  async (newVal, oldVal) => {
+    if (newVal) {
+      await getChildren();
+      state.nodes.push(cartStore.state.basketRootNode);
+    }
+  },
+);
 
-  if (props.mode === "basket") {
-    state.nodes.push(cartStore.state.basketRootNode);
-  }
-})
-
-onBeforeMount(async () => {
-  await cartStore.init();
-});
+// onBeforeMount(async () => {
+//   await cartStore.init(false, false);
+// });
 </script>
 
 <style scoped>
