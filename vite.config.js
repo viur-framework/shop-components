@@ -24,7 +24,6 @@ export default defineConfig({
         "pinia",
         "@viur/shoelace",
         "@viur/ignite",
-        "@viur/viur-shop-client",
         "@viur/vue-utils",
         "vue-router",
         "@ckeditor/ckeditor5-vue",

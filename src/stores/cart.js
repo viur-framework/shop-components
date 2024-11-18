@@ -1,6 +1,6 @@
 import { reactive, computed, watch } from "vue";
 import { defineStore } from "pinia";
-import { ViURShopClient } from "@viur/viur-shop-client";
+import { ViURShopClient } from "../client";
 import { Request } from "@viur/vue-utils";
 
 /*
