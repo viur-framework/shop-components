@@ -1,6 +1,10 @@
 <template>
-  <sl-button @click="requestShippingData">Reset Tests</sl-button>
-  <loading-handler  :isLoading="state.isLoading" :isUpdating="state.isUpdating" :hasError="state.hasError" :errorMessage="state.errorMessage">
+  {{ shippingStore.state.selectedShippingMethod }}
+  <loading-handler :isLoading="shippingStore.state.isLoading" 
+                  :isUpdating="shippingStore.state.isUpdating" 
+                  :hasError="shippingStore.state.hasError" 
+                  :errorMessage="shippingStore.state.errorMessage">
+                  
     <card-selector :options="shippingStore.state.shippingData" v-model:selection="state.shippingSelection">
       <template v-slot="{option, index}">
           <img slot="image">
@@ -30,30 +34,11 @@ const props = defineProps({
 })
 
 const state = reactive({
-  isLoading:false,
-  isUpdating:false,
-  hasError:false,
-  errorMessage:"",
   shippingSelection:null
 })
 
 async function requestShippingData(){
-  state.shippingSelection = null
-  state.isLoading = true
-  state.isUpdating = false
-  state.hasError = false
-  try{
-      await shippingStore.getShippingData()
-      state.isLoading = false
-      if(shippingStore.state.shippingData.length===0){
-        state.hasError = true
-        state.errorMessage = "Keine gültige Versandart gefunden."
-      }
-  } catch (error) {
-      state.isLoading = false
-      state.hasError = true
-      state.errorMessage = "Keine gültige Versandart gefunden."
-  }
+  await shippingStore.getShippingData()
 }
 
 watch(()=>cartStore.state.isReady, async(newVal, oldVal)=>{
