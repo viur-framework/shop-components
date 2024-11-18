@@ -37,8 +37,8 @@ const state = reactive({
   shippingSelection:null
 })
 
-
 async function requestShippingData(){
+  state.shippingSelection = null
   state.isLoading = true
   state.isUpdating = false
   state.hasError = false
@@ -60,6 +60,10 @@ watch(()=>cartStore.state.isReady, async(newVal, oldVal)=>{
   if (props.init){
     await requestShippingData() // auto fetch if shop is ready
   }
+})
+
+watch(()=>state.shippingSelection,(newVal,oldVal)=>{
+  shippingStore.state.selectedShippingMethod = state.shippingSelection
 })
 
 onBeforeMount(async () => {

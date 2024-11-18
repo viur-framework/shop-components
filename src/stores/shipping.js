@@ -8,7 +8,7 @@ export const useShippingStore = defineStore("shippingStore", () => {
   
     const state = reactive({
         shippingData: [], //shippingoptions
-        shipping    
+        selectedShippingMethod:null    
     })
 
     async function getShippingData() {
