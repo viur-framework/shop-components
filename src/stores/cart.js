@@ -10,9 +10,8 @@ should be triggered when state.errors has an entry.
 Every Error in this store should be routed into state.errors
  */
 export const useCartStore = defineStore("cartstore", () => {
-  let shopClient = null;
-
   const state = reactive({
+    shopClient:null,
     shopModuleName: "shop",
     basketRootNode: {},
     basket: [],
@@ -39,7 +38,7 @@ export const useCartStore = defineStore("cartstore", () => {
     /* function set set initial states */
     state.shopModuleName = shopModuleName; //change default module shop to something else
     state.placeholder = placeholder; // define image placeholder for missing images
-    shopClient = new ViURShopClient({
+    state.shopClient = new ViURShopClient({
       host_url: import.meta.env.VITE_API_URL
         ? import.meta.env.VITE_API_URL
         : window.location.origin, //use vite config, because all utils requests are using this.
@@ -67,6 +66,7 @@ export const useCartStore = defineStore("cartstore", () => {
       ]);
 
       state.isReady = true;
+      console.log(state.shopClient)
       console.log("%c Shopdata is ready", "color:lime");
     } catch (error) {
       state.isReady = false;
@@ -81,7 +81,7 @@ export const useCartStore = defineStore("cartstore", () => {
   async function getCustomer() {
     return new Promise(async (resolve, reject) => {
       try {
-        const resp = await shopClient.user_view();
+        const resp = await state.shopClient.user_view();
         state.customer = resp;
         state.isLoggedIn = true;
         resolve(resp);
@@ -95,7 +95,7 @@ export const useCartStore = defineStore("cartstore", () => {
   async function getBasket() {
     return new Promise(async (resolve, reject) => {
       try {
-        state.basket = await shopClient.basket_list();
+        state.basket = await state.shopClient.basket_list();
         resolve(state.basket);
       } catch (error) {
         state.basket = []; //reset basket on error
@@ -105,14 +105,14 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function getChildren(parentKey) {
-    return await shopClient.cart_list({ cart_key: parentKey });
+    return await state.shopClient.cart_list({ cart_key: parentKey });
   }
 
   async function getRootNodes() {
     return new Promise(async (resolve, reject) => {
       let resp = [];
       try {
-        resp = await shopClient.cart_list();
+        resp = await state.shopClient.cart_list();
       } catch (error) {
         state.basketRootNode = {};
         state.childrenByNode = {};
@@ -141,17 +141,15 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function addToCart(articleKey, cartKey) {
-    let resp = await shopClient.article_add({
+    let resp = await state.shopClient.article_add({
       article_key: articleKey,
       parent_cart_key: cartKey,
     });
-
-    // await updateCart(cartKey);
-    console.log("addToCart", resp); //TODO: Errorhandling as soon as shop module works again
+    state.basket = await getChildren(cartKey)
   }
 
   async function getArticleView(articleKey, cartKey) {
-    let article = await shopClient.article_view({
+    let article = await state.shopClient.article_view({
       article_key: articleKey,
       parent_cart_key: cartKey,
     });
@@ -160,7 +158,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function removeItem(articleKey, cartKey) {
-    let resp = await shopClient.article_remove({
+    let resp = await state.shopClient.article_remove({
       article_key: articleKey,
       parent_cart_key: cartKey,
     });
@@ -169,7 +167,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function updateItem(articleKey, cartKey, quantity) {
-    const resp = await shopClient.article_update({
+    const resp = await state.shopClient.article_update({
       article_key: articleKey,
       parent_cart_key: cartKey,
       quantity: quantity,
@@ -184,7 +182,7 @@ export const useCartStore = defineStore("cartstore", () => {
   // }
 
   async function getAddressStructure() {
-    const structure = await shopClient.address_structure();
+    const structure = await state.shopClient.address_structure();
     state.structure.address = struct2dict(structure.addSkel);
   }
 
@@ -238,7 +236,7 @@ export const useCartStore = defineStore("cartstore", () => {
       }
       let addressList = [];
       try {
-        addressList = await shopClient.address_list();
+        addressList = await state.shopClient.address_list();
       } catch (error) {
         reject(error);
       }
@@ -261,7 +259,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function addDiscount(code) {
-    await shopClient.discount_add({ code });
+    await state.shopClient.discount_add({ code });
   }
 
   // core rc2 needed to work with all parameters
@@ -274,7 +272,7 @@ export const useCartStore = defineStore("cartstore", () => {
     shipping_address_key = undefined,
     discount_key = undefined,
   ) {
-    return await shopClient.cart_add({
+    return await state.shopClient.cart_add({
       parent_cart_key: parentCart,
       cart_type: cartType, // "basket" for main cart, "whishlist" for everything else
       // name: cartName,
@@ -285,17 +283,8 @@ export const useCartStore = defineStore("cartstore", () => {
     });
   }
 
-  async function getShippingData() {
-    return await shopClient.shipping_list({
-      cart_key: state.basketRootNode.key,
-    });
-  }
-  async function setShiping() {
-    return await shopClient.shipping_set();
-  }
-
   async function getPaymentProviders() {
-    const paymentProvieders = await shopClient.payment_providers_list();
+    const paymentProvieders = await state.shopClient.payment_providers_list();
     state.paymentProviders = paymentProvieders;
     //select first paymentprovider as default
     state.selectedPaymentProvider =
@@ -315,7 +304,7 @@ export const useCartStore = defineStore("cartstore", () => {
   }
 
   async function orderAdd() {
-    const order = await shopClient.order_add({
+    const order = await state.shopClient.order_add({
       cart_key: state.basketRootNode.key,
       payment_provider: state.selectedPaymentProviderName,
       billing_address_key: state.activeBillingAddress["key"],
@@ -324,7 +313,7 @@ export const useCartStore = defineStore("cartstore", () => {
     return order;
   }
   async function setShipping() {
-    const shipping_skel = shopClient;
+    const shipping_skel = state.shopClient;
   }
 
   watch(
@@ -381,10 +370,8 @@ export const useCartStore = defineStore("cartstore", () => {
     getPaymentProviders,
     getAddress,
     addNode,
-    getShippingData,
     getDefaultAddress,
     orderAdd,
-    getBasket,
-    setShiping,
+    getBasket
   };
 });
