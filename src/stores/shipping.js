@@ -34,11 +34,6 @@ export const useShippingStore = defineStore("shippingStore", () => {
             state.hasError = true
             state.errorMessage = "Keine gültige Versandart gefunden."
         }
-
-
-
-        /*Fetch possible Shipping types*/
-        
     }
 
     return {

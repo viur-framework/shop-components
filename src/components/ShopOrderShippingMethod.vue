@@ -1,11 +1,10 @@
 <template>
-  {{ shippingStore.state.selectedShippingMethod }}
   <loading-handler :isLoading="shippingStore.state.isLoading" 
                   :isUpdating="shippingStore.state.isUpdating" 
                   :hasError="shippingStore.state.hasError" 
                   :errorMessage="shippingStore.state.errorMessage">
-                  
-    <card-selector :options="shippingStore.state.shippingData" v-model:selection="state.shippingSelection">
+
+    <card-selector :options="shippingStore.state.shippingData" v-model:selection="shippingStore.state.selectedShippingMethod">
       <template v-slot="{option, index}">
           <img slot="image">
           {{ option['dest']['name'] }}
@@ -34,7 +33,6 @@ const props = defineProps({
 })
 
 const state = reactive({
-  shippingSelection:null
 })
 
 async function requestShippingData(){
@@ -45,10 +43,6 @@ watch(()=>cartStore.state.isReady, async(newVal, oldVal)=>{
   if (props.init){
     await requestShippingData() // auto fetch if shop is ready
   }
-})
-
-watch(()=>state.shippingSelection,(newVal,oldVal)=>{
-  shippingStore.state.selectedShippingMethod = state.shippingSelection
 })
 
 onBeforeMount(async () => {

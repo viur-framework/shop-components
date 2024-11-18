@@ -23,7 +23,7 @@ const props = defineProps({
 })
 
 const state = reactive({
-    currentSelection:0
+    currentSelection:null
 })
 
 function changeSelection(i){
