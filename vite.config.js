@@ -39,7 +39,6 @@ export default defineConfig({
           pinia: "Pinia",
           "@viur/shoelace": "ViurShoelace",
           "@viur/ignite": "ViurIgnite",
-          "@viur/viur-shop-client": "ViurShopClient",
           "vue-router": "VueRouter",
           "@ckeditor/ckeditor5-vue": "CKEditor5Vue",
           "@ckeditor/ckeditor5-build-classic": "ClassicEditor",
