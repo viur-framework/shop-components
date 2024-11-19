@@ -136,9 +136,9 @@ const state = reactive({
 });
 
 const carts = ref(
-  cartStore.state.childrenByNode?.[cartStore.state.basketRootNode.key]
+  cartStore.state.childrenByNode?.[cartStore.state.basket.key]
     ? cartStore.state.childrenByNode?.[
-        cartStore.state.basketRootNode.key
+        cartStore.state.basket.key
       ].filter((cart) => cart.skel_type === "node")
     : [
         { name: "Warenkorb1", key: "213123123123" },

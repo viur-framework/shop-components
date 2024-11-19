@@ -104,7 +104,7 @@ const totalPrice = computed(() => {
 });
 onBeforeMount(async () => {
   await cartStore.init();
-  state.node  = cartStore.state.basketRootNode;
+  state.node  = cartStore.state.basket;
   console.log("get node",state.node)
 })
 </script>

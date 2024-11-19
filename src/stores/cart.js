@@ -87,7 +87,7 @@ export const useCartStore = defineStore("shop-cart", () => {
   async function getBasket() {
     return new Promise(async (resolve, reject) => {
       try {
-        const resp = await state.shopClient.basket_list();
+        const resp = await state.shopClient.cart_list();
         state.basket = resp[0];
         resolve(state.basket);
       } catch (error) {
@@ -109,13 +109,14 @@ export const useCartStore = defineStore("shop-cart", () => {
     state.basket = await getChildren(cartKey);
   }
 
-
   async function removeItem(articleKey, cartKey) {
     let resp = await state.shopClient.article_remove({
       article_key: articleKey,
       parent_cart_key: cartKey,
     });
-
+    if (resp) {
+      updateCart();
+    }
     console.log("remove Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
@@ -126,6 +127,10 @@ export const useCartStore = defineStore("shop-cart", () => {
       quantity: quantity,
       quantity_mode: "replace",
     });
+
+    if (resp) {
+      updateCart();
+    }
 
     console.log("update Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
@@ -179,6 +184,11 @@ export const useCartStore = defineStore("shop-cart", () => {
     });
 
     return skel;
+  }
+
+  function updateCart() {
+    state.basket = {};
+    getBasket();
   }
 
   async function getAddress() {
@@ -258,7 +268,7 @@ export const useCartStore = defineStore("shop-cart", () => {
 
   async function orderAdd() {
     const order = await state.shopClient.order_add({
-      cart_key: state.basketRootNode.key,
+      cart_key: state.basket.key,
       payment_provider: state.selectedPaymentProviderName,
       billing_address_key: state.activeBillingAddress["key"],
       customer_key: state.customer["key"],
@@ -313,7 +323,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     state,
     setConfig,
     addToCart,
-    getArticleView,
     removeItem,
     updateItem,
     init,

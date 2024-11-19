@@ -1,187 +1,74 @@
 <template>
-  <sl-spinner v-if="!state.cartLoaded"></sl-spinner>
-  <h2 v-else-if="state.cartIsEmpty">Keine Artikel im Warenkorb vorhanden</h2>
-  <!--todo translations-->
+  <div v-if="state.loading">keine Einträge im Warenkorb</div>
   <template v-else>
-    <sl-dialog no-header ref="confirm" @sl-hide="onDialogHide">
-      <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
-      <sl-bar>
-        <sl-button
-          slot="left"
-          variant="danger"
-          @click="confirm.hide()"
-          size="medium"
-        >
-          Abbrechen
-        </sl-button>
-        <sl-button
-          slot="right"
-          variant="success"
-          @click="onConfirm"
-          size="medium"
-        >
-          Aus Warenkorb entfernen
-        </sl-button>
-      </sl-bar>
-    </sl-dialog>
-
-    <div class="viur-shop-cart-node" v-for="node in state.nodes">
-      <template
-        v-if="Object.keys(state.leaves).includes(node.key)"
-        :key="node.key"
-      >
-        <!-- <CartNode :node="node"></CartNode> -->
-        <CartLeaf
-          v-for="leaf in state.leaves[node.key]"
-          :key="leaf.key"
-          :leaf="leaf"
-          :node="node"
-          :placeholder="placeholder"
-          @removeItem="removeItem"
-          @updateItem="updateItem"
-        >
-        </CartLeaf>
-      </template>
+    <div
+      class="viur-shop-cart-node"
+      v-for="entry in modelValue"
+      :key="entry.key"
+    >
+      <CartLeafModel
+        :modelValue="entry"
+        v-if="entry.skel_type === 'leaf'"
+        @update:modelValue="handleChange"
+      />
     </div>
   </template>
 
-  <shop-summary v-if="!props.sidebar">
+  <shop-summary v-if="props.standalone">
     <template #custom v-if="customComponent">
       <component :is="customComponent"></component>
     </template>
   </shop-summary>
 </template>
-
 <script setup>
-import { reactive, computed, onBeforeMount, ref, watch } from "vue";
-import { useCartStore } from "../../stores/cart.js";
-import CartLeaf from "./CartLeaf.vue";
-import ShopSummary from "../ShopSummary.vue";
+import { reactive, computed } from "vue";
+import CartLeafModel from "./CartLeafModel.vue";
+import { useCartStore } from "../../stores/cart";
 
 const props = defineProps({
-  mode: { type: String, default: "basket" },
-  cartKey: { type: String },
-  sidebar: { type: Boolean, default: true },
-  customComponent: { default: undefined },
+  modelValue: { type: Array, required: true },
+  standalone: { type: Boolean, default: true },
+  customComponent: { default: null },
 });
+
+const emits = defineEmits(["update:modelValue"]);
 
 const cartStore = useCartStore();
 
-const confirm = ref(null);
-const shipping = ref(null);
-
 const state = reactive({
-  cartIsEmpty: computed(() => {
-    return currentCartKey && Object.keys(state.leaves).length === 0;
+  loading: computed(() => {
+    return props.modelValue ? false : true;
   }),
-  totalPrice: computed(() => {
-    if (shipping.value) {
-      return (
-        cartStore.state.basketRootNode.total_discount_price +
-        shipping.value.getShippingCost()
-      );
-    }
-    return 0;
-  }),
-  currentItem: {},
-  currentNode: {},
-  nodes: [],
-  leaves: {},
-  cartLoaded: false,
 });
 
-const currentCartKey = computed(() => {
-  console.log("compute current cartkey");
-  return props.cartKey;
-});
-
-async function onConfirm() {
-  confirm.value.hide();
-
-  await cartStore.updateItem(
-    state.currentItem.article.dest.key,
-    state.currentNode.key,
-    0,
-  );
-  await updateCart();
-}
-
-async function updateItem(e) {
-  console.log("updateItem :", e);
-
-  if (e.quantity === 0) {
-    confirm.value.show();
-    state.currentItem = e.item;
-    state.currentNode = e.node;
-  } else {
-    await cartStore.updateItem(e.articleKey, e.node.key, e.quantity);
-
-    await cartStore.init();
-  }
-}
-
-function removeItem(e) {
-  console.log("removeItem :", e);
-
-  confirm.value.show();
-  state.currentItem = e.item;
-  state.currentNode = e.node;
-}
-
-async function onDialogHide() {
-  // TODO: console error when removing items
-  state.leaves[state.currentNode.key].forEach((item) => {
-    if (item.key === state.currentItem.key) {
-      item.quantity = 1;
+async function handleChange(e) {
+  // ! NOTE: it is very important to unpack the prop (copy the array) at this point to avoid prop mutation!!!
+  let temp = [...props.modelValue];
+  console.log("update cartview", e);
+  temp.forEach(async (item, index) => {
+    if (item.key === e.key) {
+      if (e.quantity < 1) {
+        await cartStore.removeItem(e.article.dest.key, e.parententry);
+        // temp.splice(index, 1);
+      } else {
+        await cartStore.updateItem(
+          e.article.dest.key,
+          e.parententry,
+          e.quantity,
+        );
+        // temp[index] = e;
+      }
     }
   });
 
-  state.currentItem = {};
-  state.currentNode = {};
+  emits("update:modelValue", temp);
 }
 
-async function updateCart() {
-  state.nodes = [];
-  state.leaves = {};
-
-  await cartStore.init(true);
-  await getChildren();
-}
-
-async function getChildren(parentKey = currentCartKey.value) {
-  state.cartLoaded = false;
-
-  const children = await cartStore.getChildren(parentKey);
-  for (const child of children) {
-    if (child.skel_type === "node") {
-      state.nodes.push(child);
-      await getChildren(child.key);
-    } else {
-      if (child.is_root_node) {
-        continue;
-      }
-      if (!Object.keys(state.leaves).includes(parentKey)) {
-        state.leaves[parentKey] = [];
-      }
-      state.leaves[parentKey].push(child);
-    }
-  }
-  state.cartLoaded = true;
-}
-
-watch(
-  () => cartStore.state.isReady,
-  async (newVal, oldVal) => {
-    if (newVal) {
-      await getChildren();
-      state.nodes.push(cartStore.state.basketRootNode);
-    }
-  },
-);
-
-// onBeforeMount(async () => {
-//   await cartStore.init(false, false);
-// });
+// watch(() => props.modelValue,
+//  (oldVal, newVal) => {
+//   if(oldVal === )
+//  }
+//  );
 </script>
 
 <style scoped>

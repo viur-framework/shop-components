@@ -26,6 +26,7 @@ export { default as OrderComplete } from "./components/ShopOrderComplete.vue";
 // export { default as UserInformation } from "./components/order/information/UserInformation.vue";
 // export { default as UserInfoMulti } from "./components/order/information/UserInfoMulti.vue";
 export { default as SelectPaymentProvider } from "./components/order/process/SelectPaymentProvider.vue";
+export { default as ShopCart } from "./components/ShopCart.vue";
 
 const pinia = createPinia();
 const i18n = createI18n({

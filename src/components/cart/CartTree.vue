@@ -5,7 +5,7 @@
   <sl-button
     @click="
       cartStore.addNode(
-        cartStore.state.basketRootNode.key,
+        cartStore.state.basket.key,
         (cartType = 'basket'),
       )
     "

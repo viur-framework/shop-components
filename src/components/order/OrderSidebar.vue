@@ -10,8 +10,8 @@
     <div class="viur-shop-cart-sidebar-info-line">
       <span>Rabatt</span>
       {{
-        cartStore.state.basketRootNode.total -
-        cartStore.state.basketRootNode.total_discount_price
+        cartStore.state.basket.total -
+        cartStore.state.basket.total_discount_price
       }}
       €
     </div>
@@ -21,7 +21,7 @@
     </div>
     <div class="viur-shop-cart-sidebar-info-line total">
       <span>Gesamt:</span>
-      <!--{{ cartStore.state.basketRootNode }}-->
+      <!--{{ cartStore.state.basket }}-->
       €
     </div>
     <div class="viur-shop-cart-sidebar-btn-wrap">

@@ -21,11 +21,11 @@ import {onBeforeMount, reactive,computed} from "vue";
 
 const cartStore = useCartStore();
 const shippingCost = computed(() => {
-  return cartStore.state.basketRootNode?.shipping?.dest.shipping_cost ? cartStore.state.basketRootNode?.shipping.dest.shipping_cost : 0
+  return cartStore.state.basket?.shipping?.dest.shipping_cost ? cartStore.state.basket?.shipping.dest.shipping_cost : 0
 })
 onBeforeMount(async () => {
   await cartStore.init();
-  console.log("has shipping ? ",cartStore.state.basketRootNode.shipping);
+  console.log("has shipping ? ",cartStore.state.basket.shipping);
 });
 
 </script>

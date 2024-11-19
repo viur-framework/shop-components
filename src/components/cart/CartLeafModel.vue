@@ -115,6 +115,7 @@
 import { computed, onBeforeMount, reactive, ref } from "vue";
 import { Request } from "@viur/vue-utils";
 import { useCartStore } from "../../stores/cart";
+import { useDebounceFn } from "@vueuse/core";
 // import ShopPriceFormatter from "../ui/generic/ShopPriceFormatter.vue";
 
 const props = defineProps(["modelValue"]);
@@ -130,18 +131,23 @@ function getImage(image) {
   return cartStore.state.placeholder;
 }
 
-function updateItem(ev) {
-  let newEvent = { ...props.modelValue };
+const updateItem = useDebounceFn(
+  (ev) => {
+    console.log(ev);
+    let newEvent = { ...props.modelValue };
 
-  newEvent.quantity = ev.target.value;
+    newEvent.quantity = ev.target.value;
 
-  console.log("update", newEvent.quantity);
-  if (newEvent.quantity < 1) {
-    confirm.value.show();
-  } else {
-    emit("update:modelValue", newEvent);
-  }
-}
+    console.log("update", newEvent.quantity);
+    if (newEvent.quantity < 1) {
+      confirm.value.show();
+    } else {
+      emit("update:modelValue", newEvent);
+    }
+  },
+  1500,
+  { maxWait: 10000 },
+);
 
 function removeItem() {
   let newEvent = { ...props.modelValue };

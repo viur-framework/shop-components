@@ -2,7 +2,7 @@
   <div>
 
     <span>Haben Sie noch ein Gutschein?</span><br>
-    <span v-if="!cartStore.state.basketRootNode.discount">Es befindet sich noch kein Gutschein im Warenkorb.</span>
+    <span v-if="!cartStore.state.basket.discount">Es befindet sich noch kein Gutschein im Warenkorb.</span>
     <sl-button-group>
       <sl-input placeholder="Rabatt Code" ref="codeInput">
 
@@ -15,17 +15,17 @@
     </sl-alert>
   </div>
   <div>
-    <div v-if="cartStore.state.basketRootNode.discount">
+    <div v-if="cartStore.state.basket.discount">
       <!--Todo bessere texte und translations??-->
-      <div v-if="cartStore.state.basketRootNode.discount.dest.discount_type==='absolute'">
+      <div v-if="cartStore.state.basket.discount.dest.discount_type==='absolute'">
       <span>
-        Sie haben einen Rabattcode im Wert von {{ cartStore.state.basketRootNode.discount.dest.absolute }} € eingegeben
+        Sie haben einen Rabattcode im Wert von {{ cartStore.state.basket.discount.dest.absolute }} € eingegeben
       </span>
         <sl-icon-button name="x-lg" label="Löschen" @click="removeDiscountCode"></sl-icon-button>
       </div>
-      <div v-if="cartStore.state.basketRootNode.discount.dest.discount_type==='percentage'">
+      <div v-if="cartStore.state.basket.discount.dest.discount_type==='percentage'">
       <span>
-        Sie haben einen Rabattcode im Wert von {{ cartStore.state.basketRootNode.discount.dest.percentage }} % eingegeben
+        Sie haben einen Rabattcode im Wert von {{ cartStore.state.basket.discount.dest.percentage }} % eingegeben
       </span>
         <sl-icon-button name="x-lg" label="Löschen" @click="removeDiscountCode"></sl-icon-button>
       </div>
@@ -72,8 +72,8 @@ async function removeDiscountCode() {
 
   errorMessageContainer.value.hide();
   state.isFetching = true;
-  console.log("code ", cartStore.state.basketRootNode.discount.dest.key)
-  cartStore.removeDiscount(cartStore.state.basketRootNode.discount.dest.key).then((res) => {
+  console.log("code ", cartStore.state.basket.discount.dest.key)
+  cartStore.removeDiscount(cartStore.state.basket.discount.dest.key).then((res) => {
     cartStore.init();//TODO muss man alles neuladen ??
     state.isFetching = false;
 

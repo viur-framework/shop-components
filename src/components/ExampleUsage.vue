@@ -26,7 +26,7 @@ import { useCartStore } from "../stores/cart";
 const cartStore = useCartStore();
 
 const rootNode = computed(() =>
-  cartStore.state.basketRootNode.key ? cartStore.state.basketRootNode.key : "",
+  cartStore.state.basket.key ? cartStore.state.basket.key : "",
 );
 const state = reactive({
   rootNode: {},
