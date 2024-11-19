@@ -19,21 +19,22 @@
 <script setup>
 import { onBeforeMount, reactive, shallowRef, computed } from "vue";
 
-import { ShopCart } from "@viur/shop-components";
-import { ConfirmView } from "@viur/shop-components";
-import { ShopOrderStepper } from "@viur/shop-components";
-import { OrderComplete } from "@viur/shop-components";
-import { ShopUserData } from "@viur/shop-components";
-import { SelectPaymentProvider } from "@viur/shop-components";
+import ShopCart from "./ShopCart.vue";
+import ShopOrderConfirm from "./ShopOrderConfirm.vue";
+import ShopOrderStepper from "./ShopOrderStepper.vue";
+import ShopOrderComplete from "./ShopOrderComplete.vue";
+import ShopUserData from "./ShopUserData.vue";
+import SelectPaymentProvider from "./order/process/SelectPaymentProvider.vue";
 
-import { useCartStore } from "@viur/shop-components";
-import { useOrderStore } from "@viur/shop-components";
-
+import { useCartStore } from "../stores/cart";
+import { useOrderStore } from "../stores/order";
 
 const cartStore = useCartStore();
 const orderStore = useOrderStore();
 
-const rootNode = computed(() => (cartStore.state.basket.key ? cartStore.state.basket.key : ""));
+const rootNode = computed(() =>
+  cartStore.state.basket.key ? cartStore.state.basket.key : "",
+);
 
 const state = reactive({
   // customShipping: shallowRef(CustomShipping),
@@ -58,7 +59,9 @@ const state = reactive({
       props: {
         multiMode: false,
         action: () => {
-          orderStore.update({ billing_address_key: cartStore.state.activeBillingAddress.key });
+          orderStore.update({
+            billing_address_key: cartStore.state.activeBillingAddress.key,
+          });
         },
       },
       displayName: "Daten Eingeben",
@@ -75,7 +78,7 @@ const state = reactive({
       disabled: false,
     },
     confirm: {
-      component: shallowRef(ConfirmView),
+      component: shallowRef(ShopOrderConfirm),
       props: {},
       displayName: "Bestellung prüfen",
       icon: { name: "clipboard-check" },
@@ -86,7 +89,7 @@ const state = reactive({
     },
 
     orderComplete: {
-      component: shallowRef(OrderComplete),
+      component: shallowRef(ShopOrderComplete),
       props: {},
       displayName: "Bestellung Abgeschlossen",
       icon: { name: "bag-check" },

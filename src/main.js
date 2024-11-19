@@ -21,12 +21,13 @@ export { default as ShopUserData } from "./components/ShopUserData.vue";
 
 export { default as CartView } from "./components/cart/CartView.vue";
 export { default as ExampleUsage } from "./components/ExampleUsage.vue";
-export { default as ConfirmView } from "./components/ShopOrderConfirm.vue";
+export { default as ShopOrderConfirm } from "./components/ShopOrderConfirm.vue";
 export { default as OrderComplete } from "./components/ShopOrderComplete.vue";
 // export { default as UserInformation } from "./components/order/information/UserInformation.vue";
 // export { default as UserInfoMulti } from "./components/order/information/UserInfoMulti.vue";
 export { default as SelectPaymentProvider } from "./components/order/process/SelectPaymentProvider.vue";
 export { default as ShopCart } from "./components/ShopCart.vue";
+export { default as ShopOrderComplete } from "./components/ShopOrderComplete.vue";
 
 const pinia = createPinia();
 const i18n = createI18n({
