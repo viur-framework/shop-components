@@ -114,7 +114,7 @@ export const useCartStore = defineStore("shop-cart", () => {
       article_key: articleKey,
       parent_cart_key: cartKey,
     });
-    if (resp) {
+    if (resp === null) {
       updateCart();
     }
     console.log("remove Resp", resp); //TODO: Errorhandling as soon as shop module works again
