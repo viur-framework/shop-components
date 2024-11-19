@@ -12,9 +12,7 @@ export const useCartStore = defineStore("shop-cart", () => {
   const state = reactive({
     shopClient: null,
     shopModuleName: "shop",
-    basketRootNode: {},
-    basket: [],
-    wishlistRootNodes: [],
+    basket: {},
     childrenByNode: {},
     structure: { address: {}, cart: {} },
     paymentProviders: {},
@@ -30,7 +28,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     isReady: false,
     isFetching: false,
     placeholder: "",
-    errors: {},
   });
 
   function setConfig({ shopModuleName = "shop", placeholder = "" } = {}) {
@@ -58,11 +55,7 @@ export const useCartStore = defineStore("shop-cart", () => {
 
     try {
       const customer = await getCustomer();
-      const shopRequests = await Promise.all([
-        getRootNodes(),
-        getAddress(),
-        getBasket(),
-      ]);
+      const shopRequests = await Promise.all([getAddress(), getBasket()]);
 
       state.isReady = true;
       console.log(state.shopClient);
@@ -94,7 +87,8 @@ export const useCartStore = defineStore("shop-cart", () => {
   async function getBasket() {
     return new Promise(async (resolve, reject) => {
       try {
-        state.basket = await state.shopClient.basket_list();
+        const resp = await state.shopClient.basket_list();
+        state.basket = resp[0];
         resolve(state.basket);
       } catch (error) {
         state.basket = []; //reset basket on error
@@ -107,38 +101,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     return await state.shopClient.cart_list({ cart_key: parentKey });
   }
 
-  async function getRootNodes() {
-    return new Promise(async (resolve, reject) => {
-      let resp = [];
-      try {
-        resp = await state.shopClient.cart_list();
-      } catch (error) {
-        state.basketRootNode = {};
-        state.childrenByNode = {};
-        state.whishlistRootNodes = [];
-        reject(error);
-      }
-
-      resp.forEach(async (rootNode) => {
-        if (rootNode.is_root_node) {
-          if (rootNode.cart_type === "basket") {
-            state.basketRootNode = rootNode;
-            let rootChildren = [];
-            try {
-              rootChildren = await getChildren(rootNode.key);
-            } catch (error) {
-              reject(error);
-            }
-            state.childrenByNode[rootNode.key] = rootChildren;
-          } else {
-            state.whishlistRootNodes.push(rootNode);
-          }
-        }
-      });
-      resolve(resp);
-    });
-  }
-
   async function addToCart(articleKey, cartKey) {
     let resp = await state.shopClient.article_add({
       article_key: articleKey,
@@ -147,14 +109,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     state.basket = await getChildren(cartKey);
   }
 
-  async function getArticleView(articleKey, cartKey) {
-    let article = await state.shopClient.article_view({
-      article_key: articleKey,
-      parent_cart_key: cartKey,
-    });
-
-    console.log("getArticleView", article); // ? Talk about necessarity
-  }
 
   async function removeItem(articleKey, cartKey) {
     let resp = await state.shopClient.article_remove({

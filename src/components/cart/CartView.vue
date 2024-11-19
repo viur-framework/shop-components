@@ -43,189 +43,25 @@
         </CartLeaf>
       </template>
     </div>
-    <div id="order_sidebar" v-if="standalone">
-      <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
-      <br />
-
-      <div class="viur-shop-cart-sidebar-info-line">
-        <span>Zwischensumme</span>
-        <sl-format-number
-          type="currency"
-          currency="EUR"
-          :value="cartStore.state.basketRootNode.total"
-        ></sl-format-number>
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line">
-        <span>Rabatt</span>
-        <sl-format-number
-          type="currency"
-          currency="EUR"
-          :value="
-            cartStore.state.basketRootNode.total -
-            cartStore.state.basketRootNode.total_discount_price
-          "
-          lang="de"
-        ></sl-format-number>
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line">
-        <Shipping ref="shipping"></Shipping>
-      </div>
-      <div class="viur-shop-cart-sidebar-info-line total">
-        <span>Gesamt :</span>
-        <sl-format-number
-          type="currency"
-          currency="EUR"
-          :value="state.totalPrice"
-          lang="de"
-        ></sl-format-number>
-      </div>
-      <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!props.inOrderView">
-        <sl-button variant="primary" size="medium"> Jetzt Bestellen </sl-button>
-        <Discount></Discount>
-
-        <div class="viur-shop-cart-mobile-footer">
-          <sl-button variant="primary" size="medium">
-            Jetzt Bestellen</sl-button
-          >
-        </div>
-      </div>
-    </div>
-    <Discount v-if="!props.inOrderConfirm"></Discount>
-
-    <div class="viur-shop-cart-mobile-footer">
-      <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
-    </div>
-
-    <!-- <pre> {{ state.leaves }}</pre> -->
   </template>
+
   <shop-summary v-if="!props.sidebar">
     <template #custom v-if="customComponent">
       <component :is="customComponent"></component>
     </template>
   </shop-summary>
-  <!-- <CartNode></CartNode>
-  <CartLeaf></CartLeaf> -->
-  <!-- <template v-else>
-    <div class="bind viur-shop-cart-wrap">
-      <sl-dialog ref="confirm" @sl-hide="onDialogHide">
-        <p>Möchten Sie den Artikel wirklich aus dem Warenkorb entfernen?</p>
-        <div class="footer-wrap" slot="footer">
-          <sl-button variant="danger" @click="confirm.hide()" size="medium">
-            Abbrechen
-          </sl-button>
-          <sl-button variant="success" @click="onConfirm" size="medium">
-            Aus Warenkorb entfernen
-          </sl-button>
-        </div>
-      </sl-dialog>
-
-      <div class="viur-shop-cart-list">
-        <div class="viur-shop-cart-controlbar" v-if="mode !== 'basket'">
-          <div class="viur-shop-cart-button-list left">
-            <sl-input
-              ref="cartNameField"
-              name="cart-name"
-              placeholder="Warenkorbname"
-              v-model="cartStore.state.carts[cartStore.state.basket].info.name"
-              required="true"
-              inputmode="text"
-              class="viur-shop-cart-headline"
-            >
-              <sl-icon library="hsk" name="pen" slot="suffix"></sl-icon>
-            </sl-input>
-          </div>
-          <sl-dropdown distance="10">
-            <sl-icon
-              class="dots"
-              name="dots"
-              library="hsk"
-              slot="trigger"
-            ></sl-icon>
-            <sl-menu>
-              <sl-menu-item @click="saveCart" title="Warenkorb speichern">
-                <sl-icon
-                  slot="prefix"
-                  library="hsk"
-                  name="save"
-                  class="primary-icon"
-                ></sl-icon>
-                Warenkorb speichern
-              </sl-menu-item>
-              <sl-menu-item @click="saveCart" title="Zu Projekt hinzufügen">
-                <sl-icon
-                  slot="prefix"
-                  library="hsk"
-                  name="project"
-                  class="primary-icon"
-                ></sl-icon>
-                Zu Projekt hinzufügen
-              </sl-menu-item>
-              <sl-menu-item @click="saveCart" title="Warenkorb kopieren">
-                <sl-icon
-                  slot="prefix"
-                  library="hsk"
-                  name="clone"cartKey
-              <sl-menu-item @click="saveCart" title="Warenkorb löschen">
-                <sl-icon
-                  slot="prefix"
-                  library="hsk"
-                  name="delete"
-                  class="delete-icon"
-                ></sl-icon>
-                Warenkorb löschen
-              </sl-menu-item>
-            </sl-menu>
-          </sl-dropdown>
-        </div>
-        <sl-input
-          v-if="mode !== 'basket'"
-          name="cart-internalCartNo"
-          placeholder="Freifeld (Kommission)"
-          v-model="
-            cartStore.state.carts[cartStore.state.basket].info.customer_comment
-          "
-          inputmode="text"
-          class="viur-shop-cart-descr"
-        >
-          <sl-icon library="hsk" name="pen" slot="suffix"></sl-icon>
-        </sl-input>
-        <br />
-        <sl-alert
-          ref="cartActionInfo"
-          variant="primary"
-          duration="3000"
-          closable
-        >
-          <sl-icon slot="icon" name="check"></sl-icon>
-          <strong>Warenkorb gespeichert!</strong><br />
-        </sl-alert>
-        <sl-alert ref="cartErrorInfo" variant="danger" duration="3000" closable>
-          <sl-icon slot="icon" name="error"></sl-icon>
-          <strong>Warenkorb nicht gespeichert!</strong><br />
-        </sl-alert>
-
-
-      </div>
-
-
-    </div>
-  </template> -->
 </template>
 
 <script setup>
 import { reactive, computed, onBeforeMount, ref, watch } from "vue";
 import { useCartStore } from "../../stores/cart.js";
-import CartNode from "./CartNode.vue";
 import CartLeaf from "./CartLeaf.vue";
-import Shipping from "../order/process/Shipping.vue";
 import ShopSummary from "../ShopSummary.vue";
 
 const props = defineProps({
   mode: { type: String, default: "basket" },
   cartKey: { type: String },
   sidebar: { type: Boolean, default: true },
-  inOrderView: { type: Boolean, default: false },
-  inOrderConfirm: { type: Boolean, default: false },
   customComponent: { default: undefined },
 });
 

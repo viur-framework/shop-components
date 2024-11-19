@@ -107,6 +107,10 @@ async function getChildren(parentKey = currentCartKey.value) {
 
   children.forEach(async (child) => {
     if (child.skel_type === "node") {
+      if (!Object.keys(cartStore.state.childrenByNode.includes(parentKey))) {
+        cartStore.state.childrenByNode[parentKey] = [];
+      }
+      cartStore.state.childrenByNode[parentKey].push(child);
       state.data.push(child);
       await getChildren(child.key);
     } else {
@@ -114,22 +118,6 @@ async function getChildren(parentKey = currentCartKey.value) {
     }
   });
 }
-
-// function buildTree() {
-//   let tempArray = state.nodes;
-
-//   state.nodes.forEach((node) => {
-//     tempArray.push(...state.leaves[node.key]);
-//   });
-
-//   const arrayToTree = (arr, parent = null) =>
-//     arr
-//       .filter((item) => item.parententry === parent)
-//       .map((child) => ({ ...child, children: arrayToTree(arr, child.key) }));
-
-//   let result = arrayToTree(tempArray);
-//   return result[0];
-// }
 
 watch(
   () => state.data,
