@@ -74,7 +74,6 @@ async function updateItem(e) {
 
     await cartStore.init();
   }
-
 }
 
 function removeItem(e) {
@@ -135,7 +134,6 @@ async function getChildren(parentKey = currentCartKey.value) {
 watch(
   () => state.data,
   (oldVal, newVal) => {
-    console.log("oldVal", oldVal);
     if (oldVal.length === newVal.length) {
       state.loading = false;
     }

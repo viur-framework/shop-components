@@ -32,15 +32,16 @@
           >
           </StepperTab>
 
-          <StepperItem
-            v-for="tab in state.tabNames"
-            :tab="tab"
-            :tabs="tabs"
-            :key="tab"
-            @goToStart="goToStart()"
-            @editAddress="editAddress"
-          >
-          </StepperItem>
+          <template v-for="tab in state.tabNames" :key="tab">
+            <StepperItem
+              :tab="tab"
+              :currentTab="state.currentTab"
+              :currentTabObj="state.currentTabObj"
+              @goToStart="goToStart()"
+              @editAddress="editAddress"
+            >
+            </StepperItem>
+          </template>
         </sl-tab-group>
       </slot>
 
@@ -86,10 +87,8 @@ import StepperItem from "./ui/stepper/StepperItem.vue";
 import StepperTrigger from "./ui/stepper/StepperTrigger.vue";
 import ShopSummary from "./ShopSummary.vue";
 import ShopAlert from "./ui/generic/alerts/ShopAlert.vue";
-import { useCartStore } from "../stores/cart";
 import { useMessageStore } from "../stores/message";
 
-const cartStore = useCartStore();
 const messageStore = useMessageStore();
 
 const props = defineProps({
@@ -167,6 +166,9 @@ function prevTab() {
 }
 
 function nextTab() {
+  if (state.currentTabObj.props.action) {
+    state.currentTabObj.props.action();
+  }
   if (state.tabIdx < state.tabNames.length - 1) {
     tabGroup.value.show(state.tabNames[state.tabIdx + 1]);
   }
@@ -180,9 +182,7 @@ function editAddress(e) {
   tabGroup.value.show(e);
 }
 
-onBeforeMount(async () => {
-  await cartStore.init();
-  console.log("init node ");
+onBeforeMount(() => {
   const tabNames = sortTabs(props.tabs);
   state.currentTab = tabNames[0];
 });

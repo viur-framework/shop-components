@@ -3,16 +3,16 @@ import { defineStore } from "pinia";
 import { Request } from "@viur/vue-utils";
 import {useCartStore} from "./cart";
 
-export const useShippingStore = defineStore("shippingStore", () => {
+export const useShippingStore = defineStore("shop-shipping", () => {
     const cartStore = useCartStore()
-  
+
     const state = reactive({
         shippingData: [], //shippingoptions
         selectedShippingMethod:null,
         isLoading:false,
         isUpdating:false,
         hasError:false,
-        errorMessage:"",    
+        errorMessage:"",
     })
 
     async function getShippingData() {

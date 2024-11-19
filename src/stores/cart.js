@@ -1,7 +1,6 @@
-import { reactive, computed, watch } from "vue";
+import { reactive, computed, watch, provide } from "vue";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "../client";
-import { Request } from "@viur/vue-utils";
 
 /*
 TODO:
@@ -9,9 +8,9 @@ Error Handling. A UI Component (../components/generic/alerts/ShopAlert.vue)
 should be triggered when state.errors has an entry.
 Every Error in this store should be routed into state.errors
  */
-export const useCartStore = defineStore("cartstore", () => {
+export const useCartStore = defineStore("shop-cart", () => {
   const state = reactive({
-    shopClient:null,
+    shopClient: null,
     shopModuleName: "shop",
     basketRootNode: {},
     basket: [],
@@ -66,7 +65,7 @@ export const useCartStore = defineStore("cartstore", () => {
       ]);
 
       state.isReady = true;
-      console.log(state.shopClient)
+      console.log(state.shopClient);
       console.log("%c Shopdata is ready", "color:lime");
     } catch (error) {
       state.isReady = false;
@@ -145,7 +144,7 @@ export const useCartStore = defineStore("cartstore", () => {
       article_key: articleKey,
       parent_cart_key: cartKey,
     });
-    state.basket = await getChildren(cartKey)
+    state.basket = await getChildren(cartKey);
   }
 
   async function getArticleView(articleKey, cartKey) {
@@ -372,6 +371,6 @@ export const useCartStore = defineStore("cartstore", () => {
     addNode,
     getDefaultAddress,
     orderAdd,
-    getBasket
+    getBasket,
   };
 });

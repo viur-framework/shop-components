@@ -1,9 +1,11 @@
 // imports
 import { createPinia } from "pinia";
 import { createI18n } from "vue-i18n";
-import { de_translations , en_translations } from "@viur/vue-utils";
+import { de_translations, en_translations } from "@viur/vue-utils";
 
 import { useCartStore } from "./stores/cart";
+import { useOrderStore } from "./stores/order";
+
 import CartNode from "./components/cart/CartNode.vue";
 import CartLeaf from "./components/cart/CartLeaf.vue";
 // import { createApp } from "vue";
@@ -11,6 +13,7 @@ import CartLeaf from "./components/cart/CartLeaf.vue";
 // import Wrapper_nested from "@viur/vue-utils/bones/edit/wrapper_nested.vue";
 
 export { useCartStore };
+export { useOrderStore };
 
 // export all main components
 export { default as ShopOrderStepper } from "./components/ShopOrderStepper.vue";
