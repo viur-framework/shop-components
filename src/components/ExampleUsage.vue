@@ -24,7 +24,7 @@ import ShopOrderConfirm from "./ShopOrderConfirm.vue";
 import ShopOrderStepper from "./ShopOrderStepper.vue";
 import ShopOrderComplete from "./ShopOrderComplete.vue";
 import ShopUserData from "./ShopUserData.vue";
-import SelectPaymentProvider from "./order/process/SelectPaymentProvider.vue";
+import ShopPaymentProvider from "./ShopPaymentProvider.vue";
 
 import { useCartStore } from "../stores/cart";
 import { useOrderStore } from "../stores/order";
@@ -70,7 +70,7 @@ const state = reactive({
       disabled: false,
     },
     selectPaymentProvider: {
-      component: shallowRef(SelectPaymentProvider),
+      component: shallowRef(ShopPaymentProvider),
       props: {},
       displayName: "Zahlungsart auswählen",
       icon: { name: "card-list" },

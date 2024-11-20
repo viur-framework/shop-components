@@ -38,16 +38,5 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-.viur-shop-cart-sidebar-info-line {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  margin: var(--sl-spacing-2x-small) 0;
 
-
-
-  span {
-    margin-right: auto;
-  }
-}
 </style>

@@ -246,14 +246,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     });
   }
 
-  async function getPaymentProviders() {
-    const paymentProvieders = await state.shopClient.payment_providers_list();
-    state.paymentProviders = paymentProvieders;
-    //select first paymentprovider as default
-    state.selectedPaymentProvider =
-      paymentProvieders[Object.keys(paymentProvieders)[0]];
-    state.selectedPaymentProviderName = Object.keys(paymentProvieders)[0];
-  }
 
   function struct2dict(structure) {
     if (!Array.isArray(structure)) {
@@ -329,7 +321,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     getAddressStructure,
     getChildren,
     addDiscount,
-    getPaymentProviders,
     getAddress,
     addNode,
     getDefaultAddress,

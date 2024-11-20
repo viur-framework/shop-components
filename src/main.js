@@ -24,10 +24,10 @@ export { default as CartView } from "./components/cart/CartView.vue";
 export { default as ExampleUsage } from "./components/ExampleUsage.vue";
 export { default as ShopOrderConfirm } from "./components/ShopOrderConfirm.vue";
 export { default as OrderComplete } from "./components/ShopOrderComplete.vue";
-export { default as ShopShippingMethod } from "./components/ShopOrderShippingMethod.vue";
+export { default as ShopShippingMethod } from "./components/ShopShippingMethod.vue";
+export { default as ShopPaymentProvider } from "./components/ShopPaymentProvider.vue";
 // export { default as UserInformation } from "./components/order/information/UserInformation.vue";
 // export { default as UserInfoMulti } from "./components/order/information/UserInfoMulti.vue";
-export { default as SelectPaymentProvider } from "./components/order/process/SelectPaymentProvider.vue";
 export { default as ShopCart } from "./components/ShopCart.vue";
 export { default as ShopOrderComplete } from "./components/ShopOrderComplete.vue";
 
