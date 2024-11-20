@@ -26,27 +26,13 @@ const cartStore = useCartStore();
 const shippingStore = useShippingStore()
 
 const props = defineProps({
-  init:{
-    type:Boolean,
-    default:true
-  }
 })
 
 const state = reactive({
 })
 
-async function requestShippingData(){
-  await shippingStore.getShippingData()
-}
-
-watch(()=>cartStore.state.isReady, async(newVal, oldVal)=>{
-  if (props.init){
-    await requestShippingData() // auto fetch if shop is ready
-  }
-})
-
 onBeforeMount(async () => {
-  await cartStore.init();
+  await shippingStore.initShipping()
 });
 
 </script>

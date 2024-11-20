@@ -13,6 +13,7 @@ export const useShippingStore = defineStore("shop-shipping", () => {
         isUpdating:false,
         hasError:false,
         errorMessage:"",
+        init:true //fetch onMount or store is ready
     })
 
     async function getShippingData() {
@@ -36,8 +37,26 @@ export const useShippingStore = defineStore("shop-shipping", () => {
         }
     }
 
+    async function initShipping(){
+        if (! state.init) return false
+
+        await cartStore.init() // ensure store config starts loading
+        if (cartStore.state.isReady){
+            await getShippingData() // request shipping data based on current cart
+        }
+
+        return true
+    }
+
+    watch(()=>cartStore.state.isReady, async(newVal, oldVal)=>{
+        if (state.init){
+            await getShippingData() // auto fetch if shop is ready
+        }
+    })
+
     return {
         state,
-        getShippingData
+        getShippingData,
+        initShipping
     }
 })
