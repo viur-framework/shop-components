@@ -4,7 +4,10 @@
                   :hasError="shippingStore.state.hasError" 
                   :errorMessage="shippingStore.state.errorMessage">
 
-    <card-selector :options="shippingStore.state.shippingData" v-model:selection="shippingStore.state.selectedShippingMethod">
+    <card-selector :options="shippingStore.state.shippingData" 
+                    v-model:selection="shippingStore.state.selectedShippingMethod"
+                    @change="updateShippingMethod"
+    >
       <template v-slot="{option, index}">
           <img slot="image">
           {{ option['dest']['name'] }}
@@ -24,44 +27,26 @@ import CardSelector from "./ui/generic/CardSelector.vue"
 
 const cartStore = useCartStore();
 const shippingStore = useShippingStore()
-
+const emits = defineEmits(['valid'])
 const props = defineProps({
-  init:{
-    type:Boolean,
-    default:true
-  }
 })
 
 const state = reactive({
 })
 
-async function requestShippingData(){
-  await shippingStore.getShippingData()
-}
-
-watch(()=>cartStore.state.isReady, async(newVal, oldVal)=>{
-  if (props.init){
-    await requestShippingData() // auto fetch if shop is ready
-  }
-})
-
 onBeforeMount(async () => {
-  await cartStore.init();
+  await shippingStore.initShipping()
 });
+
+async function updateShippingMethod(selection){
+  let update = await shippingStore.updateCart()
+  if (update){
+    emits("valid")
+  }
+}
 
 </script>
 
 <style scoped>
-.viur-shop-cart-sidebar-info-line {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  margin: var(--sl-spacing-2x-small) 0;
 
-
-
-  span {
-    margin-right: auto;
-  }
-}
 </style>

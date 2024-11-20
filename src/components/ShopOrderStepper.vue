@@ -5,6 +5,8 @@
       :msg="msg.msg"
       :variant="msg.variant"
       :iconName="msg.iconName"
+      :duration="msg?.duration?msg.duration:3000"
+      :closeable="msg.closeable"
       :key="msg.id"
       @sl-hide="messageStore.state.blacklist.push(msg.id)"
     >
@@ -26,7 +28,8 @@
             v-for="(tab, index) in state.tabNames"
             :key="tab"
             :tab="tab"
-            :tabs="tabs"
+            :currentTab="state.currentTab"
+            :tabs="state.tabs"
             :tabIdx="index"
             :stepperLength="state.tabNames.length"
           >
@@ -36,7 +39,8 @@
             <StepperItem
               :tab="tab"
               :currentTab="state.currentTab"
-              :currentTabObj="state.currentTabObj"
+              :tabs="state.tabs"
+              @valid="stepIsValid"
               @goToStart="goToStart()"
               @editAddress="editAddress"
             >
@@ -53,7 +57,8 @@
         >
           <StepperTrigger
             :index="state.tabIdx"
-            :currentTab="state.currentTabObj"
+            :tab="state.currentTab"
+            :tabs="state.tabs"
             @prevTab="prevTab"
             @nextTab="nextTab"
           >
@@ -81,7 +86,7 @@
 </template>
 
 <script setup>
-import { reactive, computed, ref, onBeforeMount } from "vue";
+import { reactive, computed, ref, onBeforeMount, provide } from "vue";
 import StepperTab from "./ui/stepper/StepperTab.vue";
 import StepperItem from "./ui/stepper/StepperItem.vue";
 import StepperTrigger from "./ui/stepper/StepperTrigger.vue";
@@ -122,11 +127,13 @@ const props = defineProps({
 const emit = defineEmits(["tabChange"]);
 
 const state = reactive({
-  tabNames: computed(() => sortTabs(props.tabs)),
-  currentTabObj: computed(() => props.tabs[state.tabNames[state.tabIdx]]),
+  tabNames: computed(() => sortTabs(state.tabs)),
+  currentTabObj: computed(() => state.tabs[state.tabNames[state.tabIdx]]), //dont use as prop, cause of multiple rerenderings
   tabIdx: 0,
   currentTab: "",
+  tabs: {}
 });
+provide("stepperState",state)
 
 const tabGroup = ref(null);
 
@@ -182,8 +189,14 @@ function editAddress(e) {
   tabGroup.value.show(e);
 }
 
+function stepIsValid(tab){
+  tab['valid'] = true
+}
+
+
 onBeforeMount(() => {
-  const tabNames = sortTabs(props.tabs);
+  state.tabs = props.tabs //make reactive so we can save states to tabs
+  const tabNames = sortTabs(state.tabs);
   state.currentTab = tabNames[0];
 });
 </script>

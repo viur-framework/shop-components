@@ -1,6 +1,7 @@
 import { reactive, computed, watch, provide } from "vue";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "../client";
+import { useMessageStore} from "./message"
 
 /*
 TODO:
@@ -9,6 +10,8 @@ should be triggered when state.errors has an entry.
 Every Error in this store should be routed into state.errors
  */
 export const useCartStore = defineStore("shop-cart", () => {
+  const messageStore = useMessageStore()
+
   const state = reactive({
     shopClient: null,
     shopModuleName: "shop",
@@ -27,6 +30,7 @@ export const useCartStore = defineStore("shop-cart", () => {
     isLoggedIn: false,
     isReady: false,
     isFetching: false,
+    hasError:false,
     placeholder: "",
   });
 
@@ -62,10 +66,20 @@ export const useCartStore = defineStore("shop-cart", () => {
       console.log("%c Shopdata is ready", "color:lime");
     } catch (error) {
       state.isReady = false;
+      state.hasError = true;
       console.error(
         "Error: Cant Init because of Error in a essential Shoprequest",
         error,
       );
+      messageStore.state.errors.push({
+        msg: error.message,
+        variant:"danger",
+        iconName:"x-lg",
+        id:new Date().getTime(),
+        duration:"Infinity",
+        closeable:false
+      })
+
     }
     state.isFetching = false;
   }
@@ -246,14 +260,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     });
   }
 
-  async function getPaymentProviders() {
-    const paymentProvieders = await state.shopClient.payment_providers_list();
-    state.paymentProviders = paymentProvieders;
-    //select first paymentprovider as default
-    state.selectedPaymentProvider =
-      paymentProvieders[Object.keys(paymentProvieders)[0]];
-    state.selectedPaymentProviderName = Object.keys(paymentProvieders)[0];
-  }
 
   function struct2dict(structure) {
     if (!Array.isArray(structure)) {
@@ -329,7 +335,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     getAddressStructure,
     getChildren,
     addDiscount,
-    getPaymentProviders,
     getAddress,
     addNode,
     getDefaultAddress,
