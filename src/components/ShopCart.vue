@@ -39,6 +39,7 @@ const state = reactive({
 // }
 
 async function getChildren(parentKey = props.cartKey) {
+  state.loading = true
   const children = await cartStore.getChildren(parentKey);
 
   children.forEach(async (child) => {
@@ -53,16 +54,19 @@ async function getChildren(parentKey = props.cartKey) {
       state.data.push(child);
     }
   });
+  state.loading = false
+}
+
+async function getCart(){
+  await getChildren();
+  state.data.push(cartStore.state.basket);
 }
 
 watch(
-  () => state.data,
-  (oldVal, newVal) => {
-    if (oldVal.length === newVal.length) {
-      state.loading = false;
-    }
-  },
-  { deep: true },
+  () => props.cartKey,
+  async (oldVal, newVal) => {
+    getCart()
+  }
 );
 
 onBeforeMount(async () => {
