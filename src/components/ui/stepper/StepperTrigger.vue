@@ -13,6 +13,7 @@
     variant="primary"
     @click="nextTab()"
     v-show="state.showNext"
+    :disabled="!tabs[tab]['valid']"
   >
     Weiter
     <!-- TODO: $t(i18n referenz) -->
@@ -27,21 +28,25 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  currentTab: {
+  tab: {
+    type: String,
+    required: true,
+  },
+  tabs: {
     type: Object,
-    default: undefined,
+    required: true,
   },
 });
 const state = reactive({
   showPrev: computed(() => {
-    if (props.currentTab["showPrev"] !== undefined) {
-      return !!props.currentTab["showPrev"];
+    if (props.tabs[props.tab]["showPrev"] !== undefined) {
+      return !!props.tabs[props.tab]["showPrev"];
     }
     return true;
   }),
   showNext: computed(() => {
-    if (props.currentTab["showNext"] !== undefined) {
-      return !!props.currentTab["showNext"];
+    if (props.tabs[props.tab]["showNext"] !== undefined) {
+      return !!props.tabs[props.tab]["showNext"];
     }
     return true;
   }),

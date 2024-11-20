@@ -4,6 +4,7 @@
     <component
       :is="tabs[tab].component"
       v-bind="tabs[tab].props ? tabs[tab].props : ''"
+      @valid="emit('valid',tabs[tab])"
       v-else
     >
     </component>
@@ -28,7 +29,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["goToStart", "editAddress"]);
+const emit = defineEmits(["goToStart", "editAddress", 'valid']);
 
 function goToStart() {
   emit("goToStart");

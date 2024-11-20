@@ -13,7 +13,7 @@ import {reactive} from 'vue'
 
 const selection = defineModel("selection")
 
-const emits = defineEmits()
+const emits = defineEmits(['change'])
 
 const props = defineProps({
     options:{
@@ -34,6 +34,7 @@ function changeSelection(i){
         state.currentSelection = i
         selection.value = props.options[i]
     }   
+    emits("change", selection.value)
 }
 
 

@@ -32,6 +32,8 @@
 </template>
 
 <script setup>
+import {watch, onBeforeMount, inject} from 'vue'
+
 const props = defineProps({
   tab: {
     type: String,
@@ -49,7 +51,29 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  currentTab: {
+    type: String,
+    required: true,
+  },
 });
+
+const stepperState = inject("stepperState")
+
+watch(()=>props.tabs[props.tab]['valid'],(newVal, oldVal)=>{
+  let nextTab = stepperState.tabNames?.[props.tabIdx+1]
+  if (!nextTab) return
+  
+  props.tabs[nextTab]['disabled'] = false //enable nextTab
+})
+
+onBeforeMount(()=>{
+  props.tabs[props.tab]['disabled'] = true //default all tabs disabled
+  
+  if (props.currentTab === props.tab){
+    props.tabs[props.tab]['disabled'] = false //activate the first one
+  }
+
+})
 </script>
 
 <style scoped>
