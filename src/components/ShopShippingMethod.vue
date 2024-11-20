@@ -27,7 +27,7 @@ import CardSelector from "./ui/generic/CardSelector.vue"
 
 const cartStore = useCartStore();
 const shippingStore = useShippingStore()
-
+const emits = defineEmits(['valid'])
 const props = defineProps({
 })
 
@@ -38,8 +38,11 @@ onBeforeMount(async () => {
   await shippingStore.initShipping()
 });
 
-function updateShippingMethod(selection){
-  shippingStore.updateCart()
+async function updateShippingMethod(selection){
+  let update = await shippingStore.updateCart()
+  if (update){
+    emits("valid")
+  }
 }
 
 </script>

@@ -24,7 +24,7 @@ import CardSelector from "./ui/generic/CardSelector.vue"
 
 const cartStore = useCartStore();
 const paymentStore = usePaymentStore()
-
+const emits = defineEmits(['valid'])
 const props = defineProps({
 })
 

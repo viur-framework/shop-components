@@ -38,11 +38,14 @@ export const useShippingStore = defineStore("shop-shipping", () => {
     }
 
     async function updateCart(){
-        console.log(state.selectedShippingMethod)
-        await cartStore.state.shopClient.cart_update({
+        let result = await cartStore.state.shopClient.cart_update({
             cart_key: cartStore.state.basket.key,
             shipping_key: state.selectedShippingMethod['dest']['key']
         })
+        if (!result?.['shipping']){
+            return false
+        }
+        return true
     }
 
 
