@@ -4,7 +4,10 @@
                   :hasError="shippingStore.state.hasError" 
                   :errorMessage="shippingStore.state.errorMessage">
 
-    <card-selector :options="shippingStore.state.shippingData" v-model:selection="shippingStore.state.selectedShippingMethod">
+    <card-selector :options="shippingStore.state.shippingData" 
+                    v-model:selection="shippingStore.state.selectedShippingMethod"
+                    @change="updateShippingMethod"
+    >
       <template v-slot="{option, index}">
           <img slot="image">
           {{ option['dest']['name'] }}
@@ -34,6 +37,10 @@ const state = reactive({
 onBeforeMount(async () => {
   await shippingStore.initShipping()
 });
+
+function updateShippingMethod(selection){
+  shippingStore.updateCart()
+}
 
 </script>
 
