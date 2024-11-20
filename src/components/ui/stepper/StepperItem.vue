@@ -1,6 +1,6 @@
 <template>
   <sl-tab-panel class="viur-shop-order-tab-panel" :name="tab">
-    <div v-if="!tabs[tab]?.['loaded']">c</div>
+    <div v-if="!tabs[tab]?.['loaded']"></div>
     <component
       :is="tabs[tab].component"
       v-bind="tabs[tab].props ? tabs[tab].props : ''"
