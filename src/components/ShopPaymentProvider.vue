@@ -31,6 +31,14 @@ const props = defineProps({
 const state = reactive({
 })
 
+
+async function updatePaymentProvider(selection){
+  let update = await shippingStore.updateCart()
+  if (update){
+    emits("valid")
+  }
+}
+
 onBeforeMount(async () => {
   await paymentStore.initPayment()
 });

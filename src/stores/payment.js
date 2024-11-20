@@ -1,13 +1,16 @@
 import { reactive, computed, watch } from "vue";
 import { defineStore } from "pinia";
 import { Request } from "@viur/vue-utils";
-import {useCartStore} from "./cart";
+import { useCartStore } from "./cart";
+import { useOrderStore } from './order'
 
 export const usePaymentStore = defineStore("payment-shipping", () => {
     const cartStore = useCartStore()
+    const orderStore = useOrderStore()
 
     const state = reactive({
         paymentProviders: [], //payment options
+        paymentInstances:[],
         paymentSelection:null,
         isLoading:false,
         isUpdating:false,
@@ -39,24 +42,38 @@ export const usePaymentStore = defineStore("payment-shipping", () => {
 
     async function initPayment(){
         if (!state.init) return false
+        if (!orderStore.state.currentOrder || Object.keys(orderStore.state.currentOrder).length===0){
+            state.hasError = true
+            state.errorMessage = "Keine gültige Bestellung gefunden"
+            return false 
+        } // we need a valid order
 
         await cartStore.init() // ensure store config starts loading
         if (cartStore.state.isReady){
             await getPaymentProviders() // request Payment data based on current cart
         }
+        return true
+    }
 
+    async function updateOrder(){
+        let result = await cartStore.state.shopClient.order_update({
+            cart_key: cartStore.state.basket.key,
+            shipping_key: state.selectedShippingMethod['dest']['key']
+        })
+        if (!result?.['shipping']){
+            return false
+        }
         return true
     }
 
     watch(()=>cartStore.state.isReady, async(newVal, oldVal)=>{
-        if (state.init){
-            await getPaymentProviders() // auto fetch if shop is ready
-        }
+        await initPayment() // auto fetch if shop is ready
     })
 
     return {
         state,
         getPaymentProviders,
-        initPayment
+        initPayment,
+        updateOrder
     }
 })
