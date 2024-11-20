@@ -26,7 +26,7 @@
             v-for="(tab, index) in state.tabNames"
             :key="tab"
             :tab="tab"
-            :tabs="tabs"
+            :tabs="state.tabs"
             :tabIdx="index"
             :stepperLength="state.tabNames.length"
           >
@@ -36,7 +36,7 @@
             <StepperItem
               :tab="tab"
               :currentTab="state.currentTab"
-              :currentTabObj="state.currentTabObj"
+              :tabs="state.tabs"
               @goToStart="goToStart()"
               @editAddress="editAddress"
             >
@@ -81,7 +81,7 @@
 </template>
 
 <script setup>
-import { reactive, computed, ref, onBeforeMount } from "vue";
+import { reactive, computed, ref, onBeforeMount, provide } from "vue";
 import StepperTab from "./ui/stepper/StepperTab.vue";
 import StepperItem from "./ui/stepper/StepperItem.vue";
 import StepperTrigger from "./ui/stepper/StepperTrigger.vue";
@@ -122,10 +122,11 @@ const props = defineProps({
 const emit = defineEmits(["tabChange"]);
 
 const state = reactive({
-  tabNames: computed(() => sortTabs(props.tabs)),
-  currentTabObj: computed(() => props.tabs[state.tabNames[state.tabIdx]]),
+  tabNames: computed(() => sortTabs(state.tabs)),
+  currentTabObj: computed(() => state.tabs[state.tabNames[state.tabIdx]]),
   tabIdx: 0,
   currentTab: "",
+  tabs: {}
 });
 
 const tabGroup = ref(null);
@@ -183,7 +184,8 @@ function editAddress(e) {
 }
 
 onBeforeMount(() => {
-  const tabNames = sortTabs(props.tabs);
+  state.tabs = props.tabs //make reactive so we can save states to tabs
+  const tabNames = sortTabs(state.tabs);
   state.currentTab = tabNames[0];
 });
 </script>

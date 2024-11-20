@@ -1,14 +1,9 @@
 <template>
   <sl-tab-panel class="viur-shop-order-tab-panel" :name="tab">
-    <!-- EXPERIMENTAL
-     Render empty div to avoid pre rendering of components
-      which are not necessary to be mounted yet-->
-    <div v-if="!currentTab === tab"></div>
+    <div v-if="!tabs[tab]?.['loaded']">c</div>
     <component
-      :is="currentTabObj.component"
-      v-bind="currentTabObj.props ? currentTabObj.props : ''"
-      @goToStart="goToStart()"
-      @editAddress="goToUserData"
+      :is="tabs[tab].component"
+      v-bind="tabs[tab].props ? tabs[tab].props : ''"
       v-else
     >
     </component>
@@ -16,12 +11,14 @@
 </template>
 
 <script setup>
+import {watch, onBeforeMount} from 'vue'
+
 const props = defineProps({
   tab: {
     type: String,
     required: true,
   },
-  currentTabObj: {
+  tabs: {
     type: Object,
     required: true,
   },
@@ -40,6 +37,19 @@ function goToStart() {
 function goToUserData(e) {
   emit("editAddress", e);
 }
+
+watch(()=>props.currentTab === props.tab, (newVal,oldVal)=>{
+  if (newVal){
+    props.tabs[props.tab]['loaded'] = true
+  }
+})
+
+onBeforeMount(()=>{
+  if (props.currentTab === props.tab){
+    props.tabs[props.tab]['loaded'] = true
+  }
+})
+
 </script>
 
 <style scoped>
