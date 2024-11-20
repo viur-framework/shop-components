@@ -5,6 +5,8 @@
       :msg="msg.msg"
       :variant="msg.variant"
       :iconName="msg.iconName"
+      :duration="msg?.duration?msg.duration:3000"
+      :closeable="msg.closeable"
       :key="msg.id"
       @sl-hide="messageStore.state.blacklist.push(msg.id)"
     >
