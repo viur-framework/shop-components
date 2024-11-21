@@ -16,14 +16,13 @@ import { useCartStore } from "../stores/cart.js";
 import CartTree from "./cart/CartTree.vue";
 import CartView from "./cart/CartView.vue";
 
-const emits = defineEmits(["valid", "invalid"]);
-
 const props = defineProps({
   tree: { type: Boolean, default: false },
   cartKey: { type: String },
   standalone: { type: Boolean, default: true },
   customComponent: { default: undefined },
 });
+const emits = defineEmits(["valid", "invalid"]);
 
 const cartStore = useCartStore();
 
@@ -33,12 +32,6 @@ const state = reactive({
   data: [],
   loading: true,
 });
-
-// async function updateCart() {
-//   state.data = [];
-//   state.data.push(cartStore.state.basket);
-//   await getChildren();
-// }
 
 async function getChildren(parentKey = props.cartKey) {
   state.loading = true;
@@ -64,30 +57,20 @@ async function getCart() {
   await getChildren();
   if (state.data.length) {
     state.data.push(cartStore.state.basket);
+    emits("valid", true);
+  } else {
+    emits("valid", false);
   }
 }
 
-watch(
-  () => props.cartKey,
-  async (oldVal, newVal) => {
-    if (newVal) {
-      await getCart();
-    }
-  },
-);
-
-watch(
-  () => state.data,
-  (oldVal, newVal) => {
-    if (newVal.length > 0 && oldVal !== newVal) {
-      emits("valid");
-    }
-    if (newVal.length === 0) {
-      emits("invalid");
-    }
-  },
-  { deep: true },
-);
+// watch(
+//   () => props.cartKey,
+//   async (oldVal, newVal) => {
+//     if (newVal) {
+//       await getCart();
+//     }
+//   },
+// );
 
 onBeforeMount(async () => {
   if (!props.standalone) {

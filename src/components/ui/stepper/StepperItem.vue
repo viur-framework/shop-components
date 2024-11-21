@@ -4,7 +4,7 @@
     <component
       :is="tabs[tab].component"
       v-bind="tabs[tab].props ? tabs[tab].props : ''"
-      @valid="emit('valid',tabs[tab])"
+      @valid="emit('valid', $event)"
       v-else
     >
     </component>

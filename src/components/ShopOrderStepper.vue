@@ -75,9 +75,6 @@
               :currentTab="state.currentTab"
               :tabs="state.tabs"
               @valid="stepIsValid"
-              @isInvalid="stepIsInvalid"
-              @goToStart="goToStart()"
-              @editAddress="editAddress"
             >
             </StepperItem>
           </template>
@@ -240,17 +237,13 @@ function editAddress(e) {
   tabGroup.value.show(e);
 }
 
-function stepIsValid() {
-  console.log("stepIsValid");
+function stepIsValid(e) {
+  console.log("stepIsValid", e);
 
-  state.tabs[state.currentTab].valid = true;
+  state.tabs[state.currentTab].valid = e;
   if (cartStore.state.freeze) {
     orderStore.handler();
   }
-}
-
-function stepIsInvalid() {
-  state.tabs[state.currentTab].valid = false;
 }
 
 onBeforeMount(() => {
