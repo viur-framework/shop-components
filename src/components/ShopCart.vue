@@ -16,7 +16,7 @@ import { useCartStore } from "../stores/cart.js";
 import CartTree from "./cart/CartTree.vue";
 import CartView from "./cart/CartView.vue";
 
-const emits = defineEmits(["valid"]);
+const emits = defineEmits(["valid", "invalid"]);
 
 const props = defineProps({
   tree: { type: Boolean, default: false },
@@ -60,9 +60,9 @@ async function getChildren(parentKey = props.cartKey) {
 }
 
 async function getCart() {
+  state.data = [];
   await getChildren();
   if (state.data.length) {
-    emits("valid");
     state.data.push(cartStore.state.basket);
   }
 }
@@ -71,17 +71,30 @@ watch(
   () => props.cartKey,
   async (oldVal, newVal) => {
     if (newVal) {
-      getCart();
+      await getCart();
     }
   },
 );
 
+watch(
+  () => state.data,
+  (oldVal, newVal) => {
+    if (newVal.length > 0 && oldVal !== newVal) {
+      emits("valid");
+    }
+    if (newVal.length === 0) {
+      emits("invalid");
+    }
+  },
+  { deep: true },
+);
+
 onBeforeMount(async () => {
   if (!props.standalone) {
-    getCart();
+    await getCart();
   }
   if (props.cartKey && props.standalone) {
-    getCart();
+    await getCart();
   }
 });
 </script>

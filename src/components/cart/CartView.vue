@@ -44,18 +44,22 @@ const state = reactive({
 async function handleChange(e) {
   // ! NOTE: it is very important to unpack the prop (copy the array) at this point to avoid prop mutation!!!
   let temp = [...props.modelValue];
+
   temp.forEach(async (item, index) => {
     if (item.key === e.key) {
+      if (item.quantity === e.quantity) {
+        return; //return if value has no changes so if value is 0 or remove button is clicked no request will be fired
+      }
       if (e.quantity < 1) {
         await cartStore.removeItem(e.article.dest.key, e.parententry);
-        // temp.splice(index, 1);
+        temp.splice(index, 1);
       } else {
         await cartStore.updateItem(
           e.article.dest.key,
           e.parententry,
           e.quantity,
         );
-        // temp[index] = e;
+        temp[index] = e;
       }
     }
   });

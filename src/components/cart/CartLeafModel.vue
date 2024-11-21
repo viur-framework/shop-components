@@ -60,6 +60,7 @@
         :value="modelValue.quantity"
         @sl-change="updateItem"
         :disabled="cartStore.state.freeze"
+        ref="itemCount"
       >
       </sl-input>
     </div>
@@ -126,6 +127,7 @@ const emit = defineEmits(["update:modelValue"]);
 const cartStore = useCartStore();
 const confirm = ref(null);
 const isConfirmed = ref(false);
+const itemCount = ref(null);
 
 function getImage(image) {
   if (image !== undefined) return Request.downloadUrlFor(image);
@@ -148,7 +150,7 @@ const updateItem = useDebounceFn(
     }
   },
   1500,
-  { maxWait: 10000 },
+  { maxWait: 5000 },
 );
 
 function removeItem() {
@@ -159,16 +161,14 @@ function removeItem() {
 
 function resetItem() {
   if (!isConfirmed.value) {
-    let newEvent = { ...props.modelValue };
-    newEvent.quantity = 1;
-    emit("update:modelValue", newEvent);
+    itemCount.value.value = props.modelValue.quantity;
   }
 }
 
 async function onConfirm() {
   isConfirmed.value = true;
-  confirm.value.hide();
   removeItem();
+  confirm.value.hide();
 }
 </script>
 

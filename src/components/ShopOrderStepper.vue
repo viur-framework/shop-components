@@ -75,6 +75,7 @@
               :currentTab="state.currentTab"
               :tabs="state.tabs"
               @valid="stepIsValid"
+              @isInvalid="stepIsInvalid"
               @goToStart="goToStart()"
               @editAddress="editAddress"
             >
@@ -239,11 +240,17 @@ function editAddress(e) {
   tabGroup.value.show(e);
 }
 
-function stepIsValid(params = {}) {
+function stepIsValid() {
+  console.log("stepIsValid");
+
   state.tabs[state.currentTab].valid = true;
   if (cartStore.state.freeze) {
-    orderStore.handler(params);
+    orderStore.handler();
   }
+}
+
+function stepIsInvalid() {
+  state.tabs[state.currentTab].valid = false;
 }
 
 onBeforeMount(() => {

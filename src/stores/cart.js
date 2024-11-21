@@ -36,7 +36,7 @@ export const useCartStore = defineStore("shop-cart", () => {
     isFetching: false,
     hasError: false,
     placeholder: "",
-    freeze: false
+    freeze: false,
   });
 
   function setConfig({ shopModuleName = "shop", placeholder = "" } = {}) {
@@ -128,14 +128,19 @@ export const useCartStore = defineStore("shop-cart", () => {
   }
 
   async function removeItem(articleKey, cartKey) {
-    let resp = await state.shopClient.article_remove({
-      article_key: articleKey,
-      parent_cart_key: cartKey,
-    });
-    if (resp === null) {
-      updateCart();
+    try {
+      let resp = await state.shopClient.article_remove({
+        article_key: articleKey,
+        parent_cart_key: cartKey,
+      });
+      if (resp === null) {
+        updateCart();
+      } else {
+        throw resp;
+      }
+    } catch (error) {
+      console.log("remove Resp", error); //TODO: Errorhandling as soon as shop module works again
     }
-    console.log("remove Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
   async function updateItem(articleKey, cartKey, quantity) {

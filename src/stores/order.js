@@ -107,10 +107,7 @@ export const useOrderStore = defineStore("shop-order", () => {
       console.log(state.checkout)
       console.dir(error)
     }
-    
-    
   }
-
 
   return {
     state,
