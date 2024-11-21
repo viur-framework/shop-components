@@ -42,13 +42,15 @@ export const usePaymentStore = defineStore("payment-shipping", () => {
 
     async function initPayment(){
         if (!state.init) return false
+        await cartStore.init() // ensure store config starts loading
         if (!orderStore.state.currentOrder || Object.keys(orderStore.state.currentOrder).length===0){
+            /*
             state.hasError = true
             state.errorMessage = "Keine gültige Bestellung gefunden"
-            return false 
+            return false */
         } // we need a valid order
 
-        await cartStore.init() // ensure store config starts loading
+        
         if (cartStore.state.isReady){
             await getPaymentProviders() // request Payment data based on current cart
         }
@@ -56,13 +58,11 @@ export const usePaymentStore = defineStore("payment-shipping", () => {
     }
 
     async function updateOrder(){
-        let result = await cartStore.state.shopClient.order_update({
-            cart_key: cartStore.state.basket.key,
-            shipping_key: state.selectedShippingMethod['dest']['key']
+        console.log(orderStore.state.currentOrder)
+        await orderStore.handler({
+            order_key: orderStore.state.currentOrder["key"],
+            payment_provider: state.paymentSelection[0]
         })
-        if (!result?.['shipping']){
-            return false
-        }
         return true
     }
 

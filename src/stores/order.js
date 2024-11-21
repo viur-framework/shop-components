@@ -10,7 +10,8 @@ export const useOrderStore = defineStore("shop-order", () => {
   const state = reactive({
     currentOrder: null,
     shopClient: undefined,
-    checkoutState: "",
+    checkoutState: null, // null "prepare","start", ...
+    checkout:null
   });
 
   function add(obj) {
@@ -19,7 +20,7 @@ export const useOrderStore = defineStore("shop-order", () => {
         .order_add(obj)
         .then(async (resp) => {
           let data = await resp;
-          state.currentOrder = data.values;
+          state.currentOrder = data;
           cartStore.state.freeze = true;
           resolve(data);
         })
@@ -47,7 +48,7 @@ export const useOrderStore = defineStore("shop-order", () => {
         .order_update(obj)
         .then(async (resp) => {
           let data = await resp;
-          state.currentOrder = data.values;
+          state.currentOrder = data;
           resolve(data);
         })
         .catch((error) => {
@@ -99,8 +100,21 @@ export const useOrderStore = defineStore("shop-order", () => {
     }
   }
 
+  async function checkout_start(){
+    try{
+      state.checkout = await state.shopClient.order_checkout_start({order_key: state.currentOrder.key})
+    } catch (error){
+      console.log(state.checkout)
+      console.dir(error)
+    }
+    
+    
+  }
+
+
   return {
     state,
     handler,
+    checkout_start
   };
 });
