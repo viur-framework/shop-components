@@ -120,12 +120,14 @@ export const useAddressStore = defineStore("shop-address", () => {
   watch(
     () => state.activeShippingAddress,
     (newValue, oldValue) => {
-      if (oldValue) {
+      if (newValue) {
         const isAddress = (address) => address.key === newValue.key;
 
         let index = state.shippingAddressList.findIndex(isAddress);
 
         state.shippingAddressList[index] = newValue;
+      } else {
+        state.activeShippingAddress = setValues("shipping");
       }
     },
   );

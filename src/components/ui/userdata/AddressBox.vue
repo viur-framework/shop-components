@@ -3,17 +3,20 @@
     <select-address
       v-if="addressSelection"
       :address-list="state.addressList"
-      @valid="emit('valid', $event)"
-      v-model="state.activeAddress"
+      :modelValue="
+        mode === 'billing'
+          ? addressStore.state.activeBillingAddress.key
+          : addressStore.state.activeShippingAddress.key
+      "
+      @update:modelValue="handleSelection"
     >
     </select-address>
-    {{ state.addressList.length }}
-    <br />
-    {{ addressStore.state.billingAddressList.length }}
+
     <!-- debugging -->
     <!-- {{ mode === "billing" ? addressStore.state.activeBillingAddress : "" }} -->
     <!-- {{ mode === "billing" ? "" : addressStore.state.activeShippingAddress }} -->
     <!-- <pre>{{ customer }}</pre> -->
+
     <div class="viur-shop-address-box-preview" v-if="state.address">
       <span>Ausgewählte Adresse :</span>
       <br />
@@ -49,69 +52,48 @@ const state = reactive({
       ? addressStore.state.billingAddressList
       : addressStore.state.shippingAddressList,
   ),
-  activeAddress: "",
   address: computed(() => {
-    if (!state.activeAddress) return {};
-
-    return state.addressList.filter(
-      (address) => address.key === state.activeAddress,
-    )[0];
+    return props.mode === "billing"
+      ? addressStore.state.activeBillingAddress
+      : addressStore.state.activeShippingAddress;
   }),
 });
 
 function getDefaultAddress() {
   if (props.mode === "billing") {
     if (addressStore.state.activeBillingAddress.key) {
-      state.activeAddress = addressStore.state.activeBillingAddress.key;
-
       orderStore.updateParams({
         billing_address_key: addressStore.state.activeBillingAddress.key,
       });
       emit("valid", true);
     } else {
-      state.activeAddress = "";
+      emit("valid", false);
     }
   } else {
-    state.activeAddress = addressStore.state.activeShippingAddress.key
-      ? addressStore.state.activeShippingAddress.key
-      : "";
+    if (addressStore.state.activeShippingAddress.key) {
+      // orderStore.updateParams({
+      //   billing_address_key: addressStore.state.activeBillingAddress.key,
+      // });
+      emit("valid", true);
+    } else {
+      emit("valid", false);
+    }
   }
 }
 
-watch(
-  () => state.address,
-  (newAddress) => {
-    if (props.mode === "billing") {
-      addressStore.state.activeBillingAddress = newAddress;
-    } else addressStore.state.activeShippingAddress = newAddress;
-  },
-);
-
-watch(
-  () => addressStore.state.activeBillingAddress,
-  (newValue, oldValue) => {
-    state.activeAddress = newValue.key;
-  },
-);
-
-watch(
-  () => addressStore.state.activeShippingAddress,
-  (newValue, oldValue) => {
-    state.activeAddress = newValue.key;
-  },
-);
-
-watch(
-  () => state.activeAddress,
-  (newValue, oldValue) => {
-    if (newValue !== oldValue) {
-      orderStore.updateParams({
-        billing_address_key: newValue,
-      });
-      emit("valid", true);
-    }
-  },
-);
+function handleSelection(e) {
+  if (props.mode === "billing") {
+    let billingAddress = addressStore.state.billingAddressList.filter(
+      (address) => address.key === e,
+    );
+    addressStore.state.activeBillingAddress = billingAddress[0];
+  } else {
+    let shippingAddress = addressStore.state.shippingAddressList.filter(
+      (address) => address.key === e,
+    );
+    addressStore.state.activeShippingAddress = shippingAddress[0];
+  }
+}
 
 onBeforeMount(() => {
   getDefaultAddress();
