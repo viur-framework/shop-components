@@ -5,7 +5,7 @@
       :msg="msg.msg"
       :variant="msg.variant"
       :iconName="msg.iconName"
-      :duration="msg?.duration?msg.duration:3000"
+      :duration="msg?.duration ? msg.duration : 3000"
       :closeable="msg.closeable"
       :key="msg.id"
       @sl-hide="messageStore.state.blacklist.push(msg.id)"
@@ -32,6 +32,9 @@
             :tabs="state.tabs"
             :tabIdx="index"
             :stepperLength="state.tabNames.length"
+            :disabled="
+              index === 0 ? false : !state.tabs[state.tabNames[index - 1]].valid
+            "
           >
           </StepperTab>
 
@@ -93,8 +96,10 @@ import StepperTrigger from "./ui/stepper/StepperTrigger.vue";
 import ShopSummary from "./ShopSummary.vue";
 import ShopAlert from "./ui/generic/alerts/ShopAlert.vue";
 import { useMessageStore } from "../stores/message";
+import { useOrderStore } from "../stores/order";
 
 const messageStore = useMessageStore();
+const orderStore = useOrderStore();
 
 const props = defineProps({
   tabs: {
@@ -131,9 +136,9 @@ const state = reactive({
   currentTabObj: computed(() => state.tabs[state.tabNames[state.tabIdx]]), //dont use as prop, cause of multiple rerenderings
   tabIdx: 0,
   currentTab: "",
-  tabs: {}
+  tabs: {},
 });
-provide("stepperState",state)
+provide("stepperState", state);
 
 const tabGroup = ref(null);
 
@@ -189,13 +194,14 @@ function editAddress(e) {
   tabGroup.value.show(e);
 }
 
-function stepIsValid(tab){
-  tab['valid'] = true
+function stepIsValid(params = {}) {
+  state.tabs[state.currentTab].valid = true;
+  orderStore.checkoutHandler(params);
 }
 
-
 onBeforeMount(() => {
-  state.tabs = props.tabs //make reactive so we can save states to tabs
+  state.tabs = { ...props.tabs }; //make reactive so we can save states to tabs
+
   const tabNames = sortTabs(state.tabs);
   state.currentTab = tabNames[0];
 });

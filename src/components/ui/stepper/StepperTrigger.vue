@@ -13,7 +13,7 @@
     variant="primary"
     @click="nextTab()"
     v-show="state.showNext"
-    :disabled="!tabs[tab]['valid']"
+    :disabled="!tabs[tab].valid"
   >
     Weiter
     <!-- TODO: $t(i18n referenz) -->

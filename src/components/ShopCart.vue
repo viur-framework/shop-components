@@ -3,9 +3,9 @@
   <CartTree v-model="state.data" v-else-if="!state.loading && tree"></CartTree>
   <CartView
     :modelValue="state.data"
-    v-else
     :standalone="standalone"
     :customComponent="customComponent"
+    v-else
   >
   </CartView>
 </template>
@@ -16,7 +16,7 @@ import { useCartStore } from "../stores/cart.js";
 import CartTree from "./cart/CartTree.vue";
 import CartView from "./cart/CartView.vue";
 
-const emits = defineEmits(['valid'])
+const emits = defineEmits(["valid"]);
 
 const props = defineProps({
   tree: { type: Boolean, default: false },
@@ -41,7 +41,7 @@ const state = reactive({
 // }
 
 async function getChildren(parentKey = props.cartKey) {
-  state.loading = true
+  state.loading = true;
   const children = await cartStore.getChildren(parentKey);
 
   children.forEach(async (child) => {
@@ -56,25 +56,32 @@ async function getChildren(parentKey = props.cartKey) {
       state.data.push(child);
     }
   });
-  state.loading = false
+  state.loading = false;
 }
 
-async function getCart(){
+async function getCart() {
   await getChildren();
-  state.data.push(cartStore.state.basket);
-  emits("valid")
+  if (state.data.length) {
+    emits("valid");
+    state.data.push(cartStore.state.basket);
+  }
 }
 
 watch(
   () => props.cartKey,
   async (oldVal, newVal) => {
-    getCart()
-  }
+    if (newVal) {
+      getCart();
+    }
+  },
 );
 
 onBeforeMount(async () => {
-  if (props.cartKey) {
-    getCart()
+  if (!props.standalone) {
+    getCart();
+  }
+  if (props.cartKey && props.standalone) {
+    getCart();
   }
 });
 </script>

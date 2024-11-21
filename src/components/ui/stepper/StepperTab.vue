@@ -3,7 +3,7 @@
     class="viur-shop-order-tab"
     slot="nav"
     :panel="tab"
-    :disabled="tabs[tab].disabled"
+    :disabled="tabIdx === 0 ? false : disabled"
   >
     <div class="viur-shop-order-step">
       <sl-icon
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import {watch, onBeforeMount, inject} from 'vue'
+import { watch, onBeforeMount, inject } from "vue";
 
 const props = defineProps({
   tab: {
@@ -55,25 +55,29 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  disabled: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-const stepperState = inject("stepperState")
+const stepperState = inject("stepperState");
 
-watch(()=>props.tabs[props.tab]['valid'],(newVal, oldVal)=>{
-  let nextTab = stepperState.tabNames?.[props.tabIdx+1]
-  if (!nextTab) return
-  
-  props.tabs[nextTab]['disabled'] = false //enable nextTab
-})
+// watch(()=>props.tabs[props.tab]['valid'],(newVal, oldVal)=>{
+//   let nextTab = stepperState.tabNames?.[props.tabIdx+1]
+//   if (!nextTab) return
 
-onBeforeMount(()=>{
-  props.tabs[props.tab]['disabled'] = true //default all tabs disabled
-  
-  if (props.currentTab === props.tab){
-    props.tabs[props.tab]['disabled'] = false //activate the first one
-  }
+//   props.tabs[nextTab]['disabled'] = false //enable nextTab
+// })
 
-})
+// onBeforeMount(()=>{
+//   props.tabs[props.tab]['disabled'] = true //default all tabs disabled
+
+//   if (props.currentTab === props.tab){
+//     props.tabs[props.tab]['disabled'] = false //activate the first one
+//   }
+
+// })
 </script>
 
 <style scoped>

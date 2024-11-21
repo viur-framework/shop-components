@@ -1,7 +1,9 @@
 import { reactive, computed, watch, provide } from "vue";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "../client";
-import { useMessageStore} from "./message"
+import { useMessageStore } from "./message";
+import { useOrderStore } from "./order";
+// import { useAddressStore } from "./address";
 
 /*
 TODO:
@@ -10,7 +12,9 @@ should be triggered when state.errors has an entry.
 Every Error in this store should be routed into state.errors
  */
 export const useCartStore = defineStore("shop-cart", () => {
-  const messageStore = useMessageStore()
+  const messageStore = useMessageStore();
+  const orderStore = useOrderStore();
+  // const addressStore = useAddressStore();
 
   const state = reactive({
     shopClient: null,
@@ -30,7 +34,7 @@ export const useCartStore = defineStore("shop-cart", () => {
     isLoggedIn: false,
     isReady: false,
     isFetching: false,
-    hasError:false,
+    hasError: false,
     placeholder: "",
   });
 
@@ -38,7 +42,7 @@ export const useCartStore = defineStore("shop-cart", () => {
     /* function set set initial states */
     state.shopModuleName = shopModuleName; //change default module shop to something else
     state.placeholder = placeholder; // define image placeholder for missing images
-    state.shopClient = new ViURShopClient({
+    state.shopClient = orderStore.state.shopClient = new ViURShopClient({
       host_url: import.meta.env.VITE_API_URL
         ? import.meta.env.VITE_API_URL
         : window.location.origin, //use vite config, because all utils requests are using this.
@@ -73,13 +77,12 @@ export const useCartStore = defineStore("shop-cart", () => {
       );
       messageStore.state.errors.push({
         msg: error.message,
-        variant:"danger",
-        iconName:"x-lg",
-        id:new Date().getTime(),
-        duration:"Infinity",
-        closeable:false
-      })
-
+        variant: "danger",
+        iconName: "x-lg",
+        id: new Date().getTime(),
+        duration: "Infinity",
+        closeable: false,
+      });
     }
     state.isFetching = false;
   }
@@ -259,7 +262,6 @@ export const useCartStore = defineStore("shop-cart", () => {
       // discount_key: discount_key,
     });
   }
-
 
   function struct2dict(structure) {
     if (!Array.isArray(structure)) {

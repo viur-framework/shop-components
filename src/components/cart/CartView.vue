@@ -37,14 +37,13 @@ const cartStore = useCartStore();
 
 const state = reactive({
   loading: computed(() => {
-    return props.modelValue ? false : true;
+    return props.modelValue.length ? false : true;
   }),
 });
 
 async function handleChange(e) {
   // ! NOTE: it is very important to unpack the prop (copy the array) at this point to avoid prop mutation!!!
   let temp = [...props.modelValue];
-  console.log("update cartview", e);
   temp.forEach(async (item, index) => {
     if (item.key === e.key) {
       if (e.quantity < 1) {
