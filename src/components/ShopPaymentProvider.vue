@@ -1,7 +1,7 @@
 <template>
-<loading-handler :isLoading="paymentStore.state.isLoading" 
-                  :isUpdating="paymentStore.state.isUpdating" 
-                  :hasError="paymentStore.state.hasError" 
+<loading-handler :isLoading="paymentStore.state.isLoading"
+                  :isUpdating="paymentStore.state.isUpdating"
+                  :hasError="paymentStore.state.hasError"
                   :errorMessage="paymentStore.state.errorMessage">
 
     <card-selector :options="paymentStore.state.paymentProviders" v-model:selection="paymentStore.state.paymentSelection" @change="updatePaymentProvider">
@@ -40,9 +40,9 @@ const state = reactive({
 
 
 async function updatePaymentProvider(selection){
-  let update = await paymentStore.updateOrder()
+  let update = paymentStore.updateOrder()
   if (update){
-    emits("valid")
+    emits("valid", true)
   }
 }
 

@@ -118,7 +118,6 @@ export const useOrderStore = defineStore("shop-order", () => {
       add(state.updateParams);
     } else {
       if (state.paramsChanged) {
-        console.log("update order");
         update();
       }
     }

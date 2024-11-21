@@ -50,17 +50,16 @@ export const usePaymentStore = defineStore("payment-shipping", () => {
             return false */
         } // we need a valid order
 
-        
+
         if (cartStore.state.isReady){
             await getPaymentProviders() // request Payment data based on current cart
         }
         return true
     }
 
-    async function updateOrder(){
-        console.log(orderStore.state.currentOrder)
-        await orderStore.handler({
-            order_key: orderStore.state.currentOrder["key"],
+    function updateOrder(){
+        console.log("updateOrder payment", orderStore.state.currentOrder)
+        orderStore.updateParams({
             payment_provider: state.paymentSelection[0]
         })
         return true
