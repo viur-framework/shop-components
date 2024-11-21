@@ -6,3 +6,14 @@ export function uuid() {
     ).toString(16),
   );
 }
+
+export function struct2dict(structure) {
+  if (!Array.isArray(structure)) {
+    return structure;
+  }
+
+  let result = {};
+  structure.forEach((bone) => (result[bone[0]] = bone[1]));
+
+  return result;
+}

@@ -44,12 +44,12 @@
           v-if="
             (state.editShipping && !state.customAddress['grp' + n]) ||
             (!state.hasShippingAddress && !state.customAddress['grp' + n]) ||
-            cartStore.state.billingAddressList.length === 1
+            addressStore.state.billingAddressList.length === 1
           "
         >
           <UserDataForm
             :customer="state.customer"
-            v-model="cartStore.state.activeShippingAddress"
+            v-model="addressStore.state.activeShippingAddress"
             @add-success="state.alert = $event"
             :layout="layout"
           >
@@ -60,13 +60,13 @@
           v-if="
             state.editBilling ||
             !state.hasBillingAddress ||
-            cartStore.state.billingAddressList.length === 1
+            addressStore.state.billingAddressList.length === 1
           "
         >
           <UserDataForm
             :customer="state.customer"
             :mode="'billing'"
-            v-model="cartStore.state.activeBillingAddress"
+            v-model="addressStore.state.activeBillingAddress"
             @add-success="state.alert = $event"
             :layout="layout"
           >
@@ -85,12 +85,18 @@
 </template>
 
 <script setup>
+// Functions
 import { ref, reactive, computed, onBeforeMount, watch } from "vue";
-import UserDataForm from "./ui/userdata/AddForm.vue";
+
+// Stores
+import { useCartStore } from "../stores/cart";
+import { useAddressStore } from "../stores/address";
+
+// Components
 import CartSelection from "./ui/userdata/multi/CartSelection.vue";
+import UserDataForm from "./ui/userdata/AddForm.vue";
 import ActionBar from "./ui/userdata/multi/ActionBar.vue";
 import ShopAlert from "./ui/generic/alerts/ShopAlert.vue";
-import { useCartStore } from "../stores/cart";
 import BaseLayout from "./ui/userdata/BaseLayout.vue";
 
 const props = defineProps({
@@ -104,6 +110,7 @@ const props = defineProps({
 });
 
 const cartStore = useCartStore();
+const addressStore = useAddressStore();
 
 const state = reactive({
   selection: {},
@@ -125,9 +132,9 @@ const state = reactive({
     return r;
   }),
   customAddress: {},
-  hasBillingAddress: computed(() => cartStore.state.billingAddressList.length),
+  hasBillingAddress: computed(() => addressStore.state.billingAddressList.length),
   hasShippingAddress: computed(
-    () => cartStore.state.shippingAddressList.length,
+    () => addressStore.state.shippingAddressList.length,
   ),
   editBilling: false,
   editShipping: false,
@@ -137,9 +144,9 @@ const state = reactive({
 
 const carts = ref(
   cartStore.state.childrenByNode?.[cartStore.state.basket.key]
-    ? cartStore.state.childrenByNode?.[
-        cartStore.state.basket.key
-      ].filter((cart) => cart.skel_type === "node")
+    ? cartStore.state.childrenByNode?.[cartStore.state.basket.key].filter(
+        (cart) => cart.skel_type === "node",
+      )
     : [
         { name: "Warenkorb1", key: "213123123123" },
         { name: "Warenkorb2", key: "2131231232131233123" },
@@ -208,7 +215,7 @@ function reduce(arr, grp) {
 
 function onCustomBillingAddress(e, grp) {
   state.customAddress["grp" + grp] = e.target.checked;
-  cartStore.state.cloneBilling = e.target.checked;
+  addressStore.state.cloneBilling = e.target.checked;
 }
 
 onBeforeMount(() => {});

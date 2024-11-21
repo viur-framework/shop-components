@@ -9,8 +9,8 @@
     :values="modelValue"
     :skel="
       mode === 'shipping'
-        ? cartStore.state.activeShippingAddress
-        : cartStore.state.activeBillingAddress
+        ? addressStore.state.activeShippingAddress
+        : addressStore.state.activeBillingAddress
     "
     @change="updateValues"
   >
@@ -38,6 +38,7 @@ import { reactive, ref, computed, onMounted } from "vue";
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import DefaultLayout from "./DefaultLayout.vue";
 import { useCartStore } from "../../../stores/cart";
+import { useAddressStore } from "../../../stores/address";
 
 const props = defineProps({
   layout: { required: false },
@@ -45,25 +46,30 @@ const props = defineProps({
   mode: { type: String, default: "shipping" },
   modelValue: { type: Object },
 });
+
 const emit = defineEmits(["update:modelValue", "addSuccess"]);
+
 const cartStore = useCartStore();
+const addressStore = useAddressStore();
+
 const addForm = ref(null);
+
 const state = reactive({
   isLoading: computed(() => (addForm.value ? addForm.value.loading : true)),
   isSending: false,
   wasSuccess: false,
   user: {},
   skel: computed(() => {
-    if (props.mode === "shipping") return cartStore.state.activeShippingAddress;
-    else return cartStore.state.activeBillingAddress;
+    if (props.mode === "shipping") return addressStore.state.activeShippingAddress;
+    else return addressStore.state.activeBillingAddress;
   }),
 });
 
 function sendForm() {
   if (props.mode === "shipping") {
-    cartStore.state.activeShippingAddress = addForm.value.state.skel;
+    addressStore.state.activeShippingAddress = addForm.value.state.skel;
   } else {
-    cartStore.state.activeBillingAddress = addForm.value.state.skel;
+    addressStore.state.activeBillingAddress = addForm.value.state.skel;
   }
 
   state.isSending = true;
@@ -81,45 +87,34 @@ function sendForm() {
   });
 }
 
-function setSkelValues(dict = {}) {
-  let structure = cartStore.state.structure.address;
-  let skel = {};
+// function setSkelValues(dict = {}) {
+//   let structure = addressStore.state.structure;
+//   let skel = {};
 
-  Object.keys(structure).forEach((boneName) => {
-    if (boneName === "customer") {
-      skel[boneName] = state.user.key;
-      return;
-    }
-    skel[boneName] = null;
-  });
+//   Object.keys(structure).forEach((boneName) => {
+//     if (boneName === "customer") {
+//       skel[boneName] = state.user.key;
+//       return;
+//     }
+//     skel[boneName] = null;
+//   });
 
-  Object.entries(dict).forEach(([boneName, boneValue]) => {
-    skel[boneName] = boneValue;
-  });
+//   Object.entries(dict).forEach(([boneName, boneValue]) => {
+//     skel[boneName] = boneValue;
+//   });
 
-  return skel;
-}
+//   return skel;
+// }
 
-function updateValues() {
-  emit("update:modelValue", addForm.value.state.skel);
-}
+// function updateValues() {
+//   emit("update:modelValue", addForm.value.state.skel);
+// }
 
-// onBeforeMount(() => {
-//   cartStore.getAddressStructure();
 
-//   // state.skel = setSkelValues({
-//   //   address_type: "shipping",
-//   //   customer: props.customer.key,
-//   // });
-// });
 onMounted(() => {
-  cartStore.getAddressStructure();
-  // updateValues();
-  // state.skel = setSkelValues({
-  //   address_type: "shipping",
-  //   customer: props.customer.key,
-  // });
+  addressStore.getStructure();
 });
+
 </script>
 
 <style scoped></style>

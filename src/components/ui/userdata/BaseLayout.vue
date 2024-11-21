@@ -52,7 +52,6 @@
 
 <script setup>
 import { reactive } from "vue";
-import { useCartStore } from "../../../stores/cart";
 import AddressBox from "./AddressBox.vue";
 
 const props = defineProps({

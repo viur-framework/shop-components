@@ -299,7 +299,7 @@ export class ViURShopClient {
     }
 
     address_structure() {
-        return request(`${this.getStructure_url}/${this.shop_module}.address`, {
+        return request(`${this.shop_json_url}/address/structure`, {
             method: 'GET',
         })
             .then(req => req.json());

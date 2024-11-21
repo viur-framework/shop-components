@@ -8,10 +8,10 @@
     </select-address>
     {{state.addressList.length}}
     <br>
-    {{cartStore.state.billingAddressList.length}}
+    {{addressStore.state.billingAddressList.length}}
     <!-- debugging -->
-    <!-- {{ mode === "billing" ? cartStore.state.activeBillingAddress : "" }} -->
-    <!-- {{ mode === "billing" ? "" : cartStore.state.activeShippingAddress }} -->
+    <!-- {{ mode === "billing" ? addressStore.state.activeBillingAddress : "" }} -->
+    <!-- {{ mode === "billing" ? "" : addressStore.state.activeShippingAddress }} -->
     <!-- <pre>{{ customer }}</pre> -->
     <div class="viur-shop-address-box-preview" v-if="state.address">
       <span>Ausgewählte Adresse :</span>
@@ -34,7 +34,7 @@ import {
   onUpdated,
   onUnmounted,
 } from "vue";
-import { useCartStore } from "../../../stores/cart";
+import { useAddressStore } from '../../../stores/address';
 import SelectAddress from "./SelectAddress.vue";
 
 const props = defineProps({
@@ -45,13 +45,13 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue"]);
 
-const cartStore = useCartStore();
+const addressStore = useAddressStore()
 
 const state = reactive({
   addressList: computed(() =>
     props.mode === "billing"
-      ? cartStore.state.billingAddressList
-      : cartStore.state.shippingAddressList,
+      ? addressStore.state.billingAddressList
+      : addressStore.state.shippingAddressList,
   ),
   activeAddress: "",
   address: computed(() => {
@@ -65,12 +65,12 @@ const state = reactive({
 
 function getDefaultAddress() {
   if (props.mode === "billing") {
-    state.activeAddress = cartStore.state.activeBillingAddress.key
-      ? cartStore.state.activeBillingAddress.key
+    state.activeAddress = addressStore.state.activeBillingAddress.key
+      ? addressStore.state.activeBillingAddress.key
       : "";
   } else {
-    state.activeAddress = cartStore.state.activeShippingAddress.key
-      ? cartStore.state.activeShippingAddress.key
+    state.activeAddress = addressStore.state.activeShippingAddress.key
+      ? addressStore.state.activeShippingAddress.key
       : "";
   }
 }
@@ -79,20 +79,20 @@ watch(
   () => state.address,
   (newAddress) => {
     if (props.mode === "billing") {
-      cartStore.state.activeBillingAddress = newAddress;
-    } else cartStore.state.activeShippingAddress = newAddress;
+      addressStore.state.activeBillingAddress = newAddress;
+    } else addressStore.state.activeShippingAddress = newAddress;
   },
 );
 
 watch(
-  () => cartStore.state.activeBillingAddress,
+  () => addressStore.state.activeBillingAddress,
   (newValue, oldValue) => {
     state.activeAddress = newValue.key;
   },
 );
 
 watch(
-  () => cartStore.state.activeShippingAddress,
+  () => addressStore.state.activeShippingAddress,
   (newValue, oldValue) => {
     state.activeAddress = newValue.key;
   },

@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { ViURShopClient } from "../client";
 import { useMessageStore } from "./message";
 import { useOrderStore } from "./order";
-// import { useAddressStore } from "./address";
+import { useAddressStore } from "./address";
 
 /*
 TODO:
@@ -14,20 +14,14 @@ Every Error in this store should be routed into state.errors
 export const useCartStore = defineStore("shop-cart", () => {
   const messageStore = useMessageStore();
   const orderStore = useOrderStore();
-  // const addressStore = useAddressStore();
+  const addressStore = useAddressStore();
 
   const state = reactive({
     shopClient: null,
     shopModuleName: "shop",
     basket: {},
     childrenByNode: {},
-    structure: { address: {}, cart: {} },
     paymentProviders: {},
-    billingAddressList: [],
-    shippingAddressList: [],
-    cloneBilling: true,
-    activeBillingAddress: {},
-    activeShippingAddress: {},
     selectedPaymentProvider: {},
     selectedPaymentProviderName: "",
     customer: {},
@@ -43,12 +37,15 @@ export const useCartStore = defineStore("shop-cart", () => {
     /* function set set initial states */
     state.shopModuleName = shopModuleName; //change default module shop to something else
     state.placeholder = placeholder; // define image placeholder for missing images
-    state.shopClient = orderStore.state.shopClient = new ViURShopClient({
-      host_url: import.meta.env.VITE_API_URL
-        ? import.meta.env.VITE_API_URL
-        : window.location.origin, //use vite config, because all utils requests are using this.
-      shop_module: state.shopModuleName, //change default module shop to something else
-    });
+    state.shopClient =
+      addressStore.state.shopClient =
+      orderStore.state.shopClient =
+        new ViURShopClient({
+          host_url: import.meta.env.VITE_API_URL
+            ? import.meta.env.VITE_API_URL
+            : window.location.origin, //use vite config, because all utils requests are using this.
+          shop_module: state.shopModuleName, //change default module shop to something else
+        });
   }
 
   async function init(update = false) {
@@ -64,10 +61,12 @@ export const useCartStore = defineStore("shop-cart", () => {
 
     try {
       const customer = await getCustomer();
-      const shopRequests = await Promise.all([getAddress(), getBasket()]);
+      const shopRequests = await Promise.all([
+        addressStore.init(),
+        getBasket(),
+      ]);
 
       state.isReady = true;
-      console.log(state.shopClient);
       console.log("%c Shopdata is ready", "color:lime");
     } catch (error) {
       state.isReady = false;
@@ -77,7 +76,7 @@ export const useCartStore = defineStore("shop-cart", () => {
         error,
       );
       messageStore.state.errors.push({
-        msg: error.message,
+        msg: error,
         variant: "danger",
         iconName: "x-lg",
         id: new Date().getTime(),
@@ -162,88 +161,6 @@ export const useCartStore = defineStore("shop-cart", () => {
   //   await getChildren(cartKey);
   // }
 
-  async function getAddressStructure() {
-    const structure = await state.shopClient.address_structure();
-    state.structure.address = struct2dict(structure.addSkel);
-  }
-
-  function getDefaultAddress() {
-    if (!!state.billingAddressList) {
-      state.billingAddressList.forEach((address) => {
-        if (address.is_default) {
-          state.activeBillingAddress = address;
-        }
-      });
-    } else {
-      state.activeBillingAddress = setAddressValues("billing");
-    }
-    if (!!state.shippingAddressList) {
-      state.shippingAddressList.forEach((address) => {
-        if (address.is_default && !state.cloneBilling) {
-          state.activeShippingAddress = address;
-        }
-      });
-    } else {
-      if (state.cloneBilling) {
-        state.activeShippingAddress = { ...state.activeBillingAddress };
-      } else {
-        state.activeShippingAddress = setAddressValues("shipping");
-      }
-    }
-  }
-
-  function setAddressValues(mode) {
-    let structure = state.structure.address;
-    let skel = {};
-
-    Object.entries(structure).forEach(([boneName, boneValue]) => {
-      if (boneName === "customer") {
-        skel[boneName] = state.customer.key;
-      } else if (boneName === "address_type") {
-        skel[boneName] = mode;
-      } else {
-        skel[boneName] = boneValue.emptyvalue;
-      }
-    });
-
-    return skel;
-  }
-
-  function updateCart() {
-    state.basket = {};
-    getBasket();
-  }
-
-  async function getAddress() {
-    return new Promise(async (resolve, reject) => {
-      console.log("hier komme rein");
-      if (!state.isLoggedIn) {
-        reject("not logged in");
-      }
-      let addressList = [];
-      try {
-        addressList = await state.shopClient.address_list();
-      } catch (error) {
-        reject(error);
-      }
-
-      state.billingAddressList = [];
-      state.shippingAddressList = [];
-
-      for (const address of addressList) {
-        if (address.address_type === "billing") {
-          state.billingAddressList.push(address);
-        }
-        if (address.address_type === "shipping") {
-          state.shippingAddressList.push(address);
-        }
-      }
-
-      getDefaultAddress();
-      resolve([state.activeBillingAddress, state.activeShippingAddress]);
-    });
-  }
-
   async function addDiscount(code) {
     await state.shopClient.discount_add({ code });
   }
@@ -269,17 +186,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     });
   }
 
-  function struct2dict(structure) {
-    if (!Array.isArray(structure)) {
-      return structure;
-    }
-
-    let result = {};
-    structure.forEach((bone) => (result[bone[0]] = bone[1]));
-
-    return result;
-  }
-
   async function orderAdd() {
     const order = await state.shopClient.order_add({
       cart_key: state.basket.key,
@@ -293,46 +199,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     const shipping_skel = state.shopClient;
   }
 
-  watch(
-    () => state.activeBillingAddress,
-    (newValue, oldValue) => {
-      if (oldValue) {
-        const isAddress = (address) => address.key === newValue.key;
-
-        let index = state.billingAddressList.findIndex(isAddress);
-
-        state.billingAddressList[index] = newValue;
-      }
-      if (state.cloneBilling) {
-        state.activeShippingAddress = newValue;
-      }
-    },
-  );
-
-  watch(
-    () => state.activeShippingAddress,
-    (newValue, oldValue) => {
-      if (oldValue) {
-        const isAddress = (address) => address.key === newValue.key;
-
-        let index = state.shippingAddressList.findIndex(isAddress);
-
-        state.shippingAddressList[index] = newValue;
-      }
-    },
-  );
-
-  watch(
-    () => state.cloneBilling,
-    (newValue, oldValue) => {
-      if (newValue) {
-        let temp = { ...state.activeBillingAddress };
-        temp.address_type = "shipping";
-        state.activeShippingAddress = { ...temp };
-      }
-    },
-  );
-
   return {
     state,
     setConfig,
@@ -340,13 +206,9 @@ export const useCartStore = defineStore("shop-cart", () => {
     removeItem,
     updateItem,
     init,
-    getAddressStructure,
     getChildren,
     addDiscount,
-    getAddress,
     addNode,
-    getDefaultAddress,
-    orderAdd,
     getBasket,
   };
 });
