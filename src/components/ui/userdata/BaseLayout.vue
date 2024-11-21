@@ -17,7 +17,12 @@
         </sl-button>
       </div>
       <slot name="billing-address">
-        <address-box :address-selection="true" :mode="'billing'"></address-box>
+        <address-box
+          :address-selection="true"
+          :mode="'billing'"
+          @valid="emit('valid', $event)"
+        >
+        </address-box>
       </slot>
     </div>
     <slot name="mode-switch"></slot>
@@ -37,12 +42,15 @@
         <address-box
           :address-selection="true && customAddress"
           :mode="'shipping'"
-        ></address-box>
+          @valid="emit('valid', $event)"
+        >
+        </address-box>
       </slot>
       <slot name="shipping-address" v-else>
         <address-box
           :address-selection="true && customAddress"
           :mode="'billing'"
+          @valid="emit('valid', $event)"
         >
         </address-box>
       </slot>
@@ -59,7 +67,7 @@ const props = defineProps({
   customAddress: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(["editBilling", "editShipping"]);
+const emit = defineEmits(["editBilling", "editShipping", "valid"]);
 const state = reactive({ editBilling: false, editShipping: false });
 
 function editBilling() {

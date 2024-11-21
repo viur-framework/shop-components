@@ -3,19 +3,20 @@
     <select-address
       v-if="addressSelection"
       :address-list="state.addressList"
+      @valid="emit('valid', $event)"
       v-model="state.activeAddress"
     >
     </select-address>
-    {{state.addressList.length}}
-    <br>
-    {{addressStore.state.billingAddressList.length}}
+    {{ state.addressList.length }}
+    <br />
+    {{ addressStore.state.billingAddressList.length }}
     <!-- debugging -->
     <!-- {{ mode === "billing" ? addressStore.state.activeBillingAddress : "" }} -->
     <!-- {{ mode === "billing" ? "" : addressStore.state.activeShippingAddress }} -->
     <!-- <pre>{{ customer }}</pre> -->
     <div class="viur-shop-address-box-preview" v-if="state.address">
       <span>Ausgewählte Adresse :</span>
-      <br>
+      <br />
       {{ state.address?.street_name }} {{ state.address?.street_number }}<br />
       {{ state.address?.zip_code }} {{ state.address?.city }}
       <br />
@@ -26,15 +27,9 @@
 </template>
 
 <script setup>
-import {
-  reactive,
-  computed,
-  onBeforeMount,
-  watch,
-  onUpdated,
-  onUnmounted,
-} from "vue";
-import { useAddressStore } from '../../../stores/address';
+import { reactive, computed, onBeforeMount, watch } from "vue";
+import { useAddressStore } from "../../../stores/address";
+import { useOrderStore } from "../../../stores/order";
 import SelectAddress from "./SelectAddress.vue";
 
 const props = defineProps({
@@ -43,9 +38,10 @@ const props = defineProps({
   modelValue: { type: Object },
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "valid"]);
 
-const addressStore = useAddressStore()
+const addressStore = useAddressStore();
+const orderStore = useOrderStore();
 
 const state = reactive({
   addressList: computed(() =>
@@ -65,9 +61,16 @@ const state = reactive({
 
 function getDefaultAddress() {
   if (props.mode === "billing") {
-    state.activeAddress = addressStore.state.activeBillingAddress.key
-      ? addressStore.state.activeBillingAddress.key
-      : "";
+    if (addressStore.state.activeBillingAddress.key) {
+      state.activeAddress = addressStore.state.activeBillingAddress.key;
+
+      orderStore.updateParams({
+        billing_address_key: addressStore.state.activeBillingAddress.key,
+      });
+      emit("valid", true);
+    } else {
+      state.activeAddress = "";
+    }
   } else {
     state.activeAddress = addressStore.state.activeShippingAddress.key
       ? addressStore.state.activeShippingAddress.key
@@ -97,21 +100,14 @@ watch(
     state.activeAddress = newValue.key;
   },
 );
+
 onBeforeMount(() => {
-  getDefaultAddress();
-});
-
-onUnmounted(() => {
-  state.activeAddress = "";
-});
-
-onUpdated(() => {
   getDefaultAddress();
 });
 </script>
 
 <style scoped>
-.viur-shop-address-box-preview{
+.viur-shop-address-box-preview {
   margin: var(--sl-spacing-medium) 0;
 }
 </style>

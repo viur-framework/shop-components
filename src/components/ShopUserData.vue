@@ -13,6 +13,7 @@
       <BaseLayout
         :customer="state.customer"
         :custom-address="!state.customAddress['grp' + n]"
+        @valid="emit('valid', $event)"
         @edit-billing="state.editBilling = $event"
         @edit-shipping="state.editShipping = $event"
       >
