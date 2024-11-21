@@ -101,6 +101,18 @@ watch(
   },
 );
 
+watch(
+  () => state.activeAddress,
+  (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+      orderStore.updateParams({
+        billing_address_key: newValue,
+      });
+      emit("valid", true);
+    }
+  },
+);
+
 onBeforeMount(() => {
   getDefaultAddress();
 });
