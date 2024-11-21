@@ -105,7 +105,7 @@ function initUnzerForm(){
 }
 
 function submitFormToUnzer(){
-    //send to unzer 
+    //send to unzer
     return 0 //WIP
     state.unzer['handler'].createResource().then((result)=>{
         request(`/shop/pp_unzer_card/save_type/`, {
@@ -131,7 +131,7 @@ function submitFormToUnzer(){
 
 
 async function initPayment(){
-    await orderStore.checkout_start()
+    await orderStore.startCheckout()
     initUnzerForm()
 }
 

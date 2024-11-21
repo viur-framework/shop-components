@@ -10,8 +10,10 @@ export const useOrderStore = defineStore("shop-order", () => {
   const state = reactive({
     currentOrder: null,
     shopClient: undefined,
+    updateParams: {},
+    paramsChanged: false,
     checkoutState: null, // null "prepare","start", ...
-    checkout:null
+    checkout: null,
   });
 
   function add(obj) {
@@ -21,7 +23,6 @@ export const useOrderStore = defineStore("shop-order", () => {
         .then(async (resp) => {
           let data = await resp;
           state.currentOrder = data;
-          cartStore.state.freeze = true;
           resolve(data);
         })
         .catch((error) => {
@@ -38,17 +39,18 @@ export const useOrderStore = defineStore("shop-order", () => {
     });
   }
 
-  function update(obj) {
-    Object.assign(obj, {
+  function update() {
+    Object.assign(state.updateParams, {
       order_key: state.currentOrder.key,
     });
 
     return new Promise((resolve, reject) => {
       state.shopClient
-        .order_update(obj)
+        .order_update(state.updateParams)
         .then(async (resp) => {
           let data = await resp;
           state.currentOrder = data;
+          state.paramsChanged = false;
           resolve(data);
         })
         .catch((error) => {
@@ -69,7 +71,21 @@ export const useOrderStore = defineStore("shop-order", () => {
     // needs clarification
   }
 
-  function handler(params = {}) {
+  function updateParams(obj = {}) {
+    if (!Object.keys(obj).length) {
+      return;
+    }
+
+    for (let [k, v] of Object.entries(obj)) {
+      if (state.updateParams?.[k] !== v) {
+        Object.assign(state.updateParams, obj);
+        state.paramsChanged = true;
+        return;
+      }
+    }
+  }
+
+  function handler() {
     /* Accepted Parameters
       (*** required fields; only 1 of the required fields need to be set)
       obj = {
@@ -83,35 +99,47 @@ export const useOrderStore = defineStore("shop-order", () => {
         state_rts: "state",
       }; */
 
-    if (!(params && (params.email || params.customer_key))) {
-      params.customer_key = cartStore.state.customer.key;
+    if (
+      !(
+        state.updateParams &&
+        (state.updateParams.email || state.updateParams.customer_key)
+      )
+    ) {
+      state.updateParams.customer_key = cartStore.state.customer.key;
     }
 
     if (!state.currentOrder) {
       // TODO: getExistingOrder().then(state.currentOrder = value).error(add(params)...)
 
-      if (!params.cart_key) {
-        params.cart_key = cartStore.state.basket.key;
+      if (!state.updateParams.cart_key) {
+        state.updateParams.cart_key = cartStore.state.basket.key;
       }
 
-      add(params);
+      add(state.updateParams);
     } else {
-      update(params);
+      if (state.paramsChanged) {
+        console.log("update order");
+        update();
+      }
     }
   }
 
-  async function checkout_start(){
-    try{
-      state.checkout = await state.shopClient.order_checkout_start({order_key: state.currentOrder.key})
-    } catch (error){
-      console.log(state.checkout)
-      console.dir(error)
+  async function startCheckout() {
+    try {
+      state.checkout = await state.shopClient.order_checkout_start({
+        order_key: state.currentOrder.key,
+      });
+      cartStore.state.freeze = true;
+    } catch (error) {
+      console.log(state.checkout);
+      console.dir(error);
     }
   }
 
   return {
     state,
     handler,
-    checkout_start
+    startCheckout,
+    updateParams,
   };
 });

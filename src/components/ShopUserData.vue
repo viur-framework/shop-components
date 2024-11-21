@@ -51,6 +51,7 @@
             :customer="state.customer"
             v-model="addressStore.state.activeShippingAddress"
             @add-success="state.alert = $event"
+            @valid="emit('valid', $event)"
             :layout="layout"
           >
           </UserDataForm>
@@ -68,6 +69,7 @@
             :mode="'billing'"
             v-model="addressStore.state.activeBillingAddress"
             @add-success="state.alert = $event"
+            @valid="emit('valid', $event)"
             :layout="layout"
           >
           </UserDataForm>
@@ -98,6 +100,8 @@ import UserDataForm from "./ui/userdata/AddForm.vue";
 import ActionBar from "./ui/userdata/multi/ActionBar.vue";
 import ShopAlert from "./ui/generic/alerts/ShopAlert.vue";
 import BaseLayout from "./ui/userdata/BaseLayout.vue";
+
+const emit = defineEmits(["valid"]);
 
 const props = defineProps({
   multiMode: {
@@ -132,7 +136,9 @@ const state = reactive({
     return r;
   }),
   customAddress: {},
-  hasBillingAddress: computed(() => addressStore.state.billingAddressList.length),
+  hasBillingAddress: computed(
+    () => addressStore.state.billingAddressList.length,
+  ),
   hasShippingAddress: computed(
     () => addressStore.state.shippingAddressList.length,
   ),
