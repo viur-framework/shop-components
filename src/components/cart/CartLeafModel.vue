@@ -59,6 +59,7 @@
         min="0"
         :value="modelValue.quantity"
         @sl-change="updateItem"
+        :disabled="cartStore.state.freeze"
       >
       </sl-input>
     </div>
@@ -91,6 +92,7 @@
         variant="primary"
         title="Remove from cart"
         @click="confirm.show()"
+        v-if="!cartStore.state.freeze"
       >
         <sl-icon name="trash" slot="prefix"></sl-icon>
       </sl-button>

@@ -2,7 +2,6 @@ import { reactive } from "vue";
 import { defineStore } from "pinia";
 import { useCartStore } from "./cart";
 import { useMessageStore } from "./message";
-import { ViURShopClient } from "../client";
 
 export const useOrderStore = defineStore("shop-order", () => {
   const cartStore = useCartStore();
@@ -11,17 +10,30 @@ export const useOrderStore = defineStore("shop-order", () => {
   const state = reactive({
     currentOrder: null,
     shopClient: undefined,
+    checkoutState: "",
   });
 
   function add(obj) {
     return new Promise((resolve, reject) => {
       state.shopClient
         .order_add(obj)
-        .then((resp) => {
-          let data = resp.json();
+        .then(async (resp) => {
+          let data = await resp;
+          state.currentOrder = data.values;
+          cartStore.state.freeze = true;
           resolve(data);
         })
-        .catch((error) => reject(error));
+        .catch((error) => {
+          messageStore.state.errors.push({
+            msg: error,
+            variant: "danger",
+            iconName: "x-lg",
+            id: new Date().getTime(),
+            duration: "Infinity",
+            closeable: false,
+          });
+          reject(error);
+        });
     });
   }
 
@@ -34,10 +46,21 @@ export const useOrderStore = defineStore("shop-order", () => {
       state.shopClient
         .order_update(obj)
         .then(async (resp) => {
-          let data = await resp.json();
+          let data = await resp;
+          state.currentOrder = data.values;
           resolve(data);
         })
-        .catch((error) => reject(error));
+        .catch((error) => {
+          messageStore.state.errors.push({
+            msg: error,
+            variant: "danger",
+            iconName: "x-lg",
+            id: new Date().getTime(),
+            duration: "Infinity",
+            closeable: false,
+          });
+          reject(error);
+        });
     });
   }
 
@@ -45,7 +68,7 @@ export const useOrderStore = defineStore("shop-order", () => {
     // needs clarification
   }
 
-  function checkoutHandler(params = {}) {
+  function handler(params = {}) {
     /* Accepted Parameters
       (*** required fields; only 1 of the required fields need to be set)
       obj = {
@@ -58,7 +81,6 @@ export const useOrderStore = defineStore("shop-order", () => {
         state_paid: "state",
         state_rts: "state",
       }; */
-    let resp = null;
 
     if (!(params && (params.email || params.customer_key))) {
       params.customer_key = cartStore.state.customer.key;
@@ -71,44 +93,14 @@ export const useOrderStore = defineStore("shop-order", () => {
         params.cart_key = cartStore.state.basket.key;
       }
 
-      add(params)
-        .then(async (resp) => {
-          let data = await resp.json();
-          state.currentOrder = data.values;
-        })
-        .catch((error) => {
-          console.log("warum")
-          messageStore.state.errors.push({
-            msg: error,
-            variant: "danger",
-            iconName: "x-lg",
-            id: new Date().getTime(),
-            duration: "Infinity",
-            closeable: false,
-          });
-        });
+      add(params);
     } else {
-      update(params)
-        .then(async (resp) => {
-          let data = await resp.json();
-
-          state.currentOrder = data.values;
-        })
-        .catch((error) => {
-          messageStore.state.errors.push({
-            msg: error,
-            variant: "danger",
-            iconName: "x-lg",
-            id: new Date().getTime(),
-            duration: "Infinity",
-            closeable: false,
-          });
-        });
+      update(params);
     }
   }
 
   return {
     state,
-    checkoutHandler,
+    handler,
   };
 });

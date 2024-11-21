@@ -12,6 +12,36 @@
     >
     </shop-alert>
   </template>
+
+  <sl-dialog
+    no-header
+    ref="freezeCart"
+    @sl-hide="
+      cartStore.state.freeze ? () => {} : tabGroup.show(state.tabNames[0])
+    "
+  >
+    <p>Wollen sie fortfahren?</p>
+    <i>*Der Warenkorb kann nicht mehr verändert werden bei Bestätigung</i>
+    <sl-bar>
+      <sl-button
+        slot="left"
+        variant="danger"
+        @click="freezeCart.hide()"
+        size="medium"
+      >
+        Abbrechen
+      </sl-button>
+      <sl-button
+        slot="right"
+        variant="success"
+        @click="onFreezeCart"
+        size="medium"
+      >
+        Bestätigen
+      </sl-button>
+    </sl-bar>
+  </sl-dialog>
+
   <div class="bind viur-shop-wrap">
     <div
       class="viur-shop-stepper-wrap"
@@ -21,7 +51,8 @@
         <sl-tab-group
           class="viur-shop-order-tabgroup"
           noScrollControls
-          @sl-tab-show="onTabChange($event)"
+          @sl-tab-hide="onTabHide"
+          @sl-tab-show="onTabChange"
           ref="tabGroup"
         >
           <StepperTab
@@ -97,9 +128,11 @@ import ShopSummary from "./ShopSummary.vue";
 import ShopAlert from "./ui/generic/alerts/ShopAlert.vue";
 import { useMessageStore } from "../stores/message";
 import { useOrderStore } from "../stores/order";
+import { useCartStore } from "../stores/cart";
 
 const messageStore = useMessageStore();
 const orderStore = useOrderStore();
+const cartStore = useCartStore();
 
 const props = defineProps({
   tabs: {
@@ -141,6 +174,7 @@ const state = reactive({
 provide("stepperState", state);
 
 const tabGroup = ref(null);
+const freezeCart = ref(null);
 
 function sortTabs(tabs) {
   const sortedArray = [];
@@ -165,10 +199,24 @@ function sortTabs(tabs) {
 }
 
 function onTabChange(e) {
-  state.currentTab = e?.detail.name;
-  state.tabIdx = state.tabNames.indexOf(state.currentTab);
+  let tab = e?.detail.name;
+
+  state.currentTab = tab;
+  state.tabIdx = state.tabNames.indexOf(tab);
 
   emit("tabChange", e);
+}
+
+function onTabHide(e) {
+  if (state.tabIdx === 0 && !cartStore.state.freeze) {
+    freezeCart.value.show();
+  }
+}
+
+function onFreezeCart() {
+  cartStore.state.freeze = true;
+  orderStore.handler();
+  freezeCart.value.hide();
 }
 
 function prevTab() {
@@ -178,9 +226,6 @@ function prevTab() {
 }
 
 function nextTab() {
-  if (state.currentTabObj.props.action) {
-    state.currentTabObj.props.action();
-  }
   if (state.tabIdx < state.tabNames.length - 1) {
     tabGroup.value.show(state.tabNames[state.tabIdx + 1]);
   }
@@ -196,7 +241,9 @@ function editAddress(e) {
 
 function stepIsValid(params = {}) {
   state.tabs[state.currentTab].valid = true;
-  orderStore.checkoutHandler(params);
+  if (cartStore.state.freeze) {
+    orderStore.handler(params);
+  }
 }
 
 onBeforeMount(() => {

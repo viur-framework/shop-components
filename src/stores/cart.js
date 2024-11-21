@@ -36,6 +36,7 @@ export const useCartStore = defineStore("shop-cart", () => {
     isFetching: false,
     hasError: false,
     placeholder: "",
+    freeze: false
   });
 
   function setConfig({ shopModuleName = "shop", placeholder = "" } = {}) {
