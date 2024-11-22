@@ -2,7 +2,7 @@
   <sl-spinner v-if="state.loading"></sl-spinner>
   <CartTree v-model="state.data" v-else-if="!state.loading && tree"></CartTree>
   <CartView
-    :modelValue="state.data"
+    v-model="state.data"
     :standalone="standalone"
     :customComponent="customComponent"
     v-else

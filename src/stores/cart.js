@@ -133,7 +133,7 @@ export const useCartStore = defineStore("shop-cart", () => {
         parent_cart_key: cartKey,
       });
       if (resp === null) {
-        updateCart();
+        await updateCart();
       } else {
         throw resp;
       }
@@ -151,15 +151,16 @@ export const useCartStore = defineStore("shop-cart", () => {
     });
 
     if (resp) {
-      updateCart();
+       await updateCart();
     }
 
     console.log("update Resp", resp); //TODO: Errorhandling as soon as shop module works again
   }
 
-  // async function updateCart(cartKey) {
-  //   await getChildren(cartKey);
-  // }
+  async function updateCart() {
+    state.basket = {};
+    await getBasket();
+  }
 
   async function addDiscount(code) {
     await state.shopClient.discount_add({ code });

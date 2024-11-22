@@ -1,142 +1,102 @@
 <template>
-  <Loader v-if="!state.cartIsInit"></Loader>
-
-  <template v-else>
-    <div class="list">
-      <h2 class="viur-shop-cart-headline headline">Bestellung prüfen</h2>
-      <div class="viur-shop-cart-address-wrap">
-        <div class="viur-shop-cart-address">
-          <div class="viur-shop-cart-address-headline">
-            Versandadresse
-            <sl-button
+  <div class="list">
+    <h2 class="viur-shop-cart-headline headline">Bestellung prüfen</h2>
+    <div class="viur-shop-cart-address-wrap">
+      <div class="viur-shop-cart-address">
+        <div class="viur-shop-cart-address-headline">
+          Versandadresse
+          <!-- <sl-button
               outline
               size="small"
               @click="editShippingAddress(tabName)"
             >
               <sl-icon name="pencil" slot="prefix"></sl-icon>
-            </sl-button>
-          </div>
-          {{ cartStore.state.activeShippingAddress.firstname }}
-          {{ cartStore.state.activeShippingAddress.lastname }}<br/>
-          {{ cartStore.state.activeShippingAddress.street_name }}
-          {{ cartStore.state.activeShippingAddress.street_number }}<br/>
-          {{ cartStore.state.activeShippingAddress.zip_code }}
-          {{ cartStore.state.activeShippingAddress.city }}<br>
-          {{ getCountryName(cartStore.state.activeShippingAddress.country) }}<br/>
+            </sl-button> -->
         </div>
-        <div class="viur-shop-cart-address">
-          <div class="viur-shop-cart-address-headline">
-            Rechnungsadresse
-            <sl-button outline size="small">
-              <sl-icon name="pencil" slot="prefix"></sl-icon>
-            </sl-button>
-          </div>
-          {{ cartStore.state.activeBillingAddress.firstname }}
-          {{ cartStore.state.activeBillingAddress.lastname }}<br/>
-          {{ cartStore.state.activeBillingAddress.street_name }}
-          {{ cartStore.state.activeBillingAddress.street_number }}<br/>
-          {{ cartStore.state.activeBillingAddress.zip_code }}
-          {{ cartStore.state.activeBillingAddress.city }}<br>
-          {{ getCountryName(cartStore.state.activeBillingAddress.country) }}<br/>
+        {{ addressStore.state.active.shipping.firstname }}
+        {{ addressStore.state.active.shipping.lastname }}<br />
+        {{ addressStore.state.active.shipping.street_name }}
+        {{ addressStore.state.active.shipping.street_number }}<br />
+        {{ addressStore.state.active.shipping.zip_code }}
+        {{ addressStore.state.active.shipping.city }}<br />
+        {{ getCountryName(addressStore.state.active.shipping.country) }}<br />
+      </div>
+      <div class="viur-shop-cart-address">
+        <div class="viur-shop-cart-address-headline">
+          Rechnungsadresse
+          <sl-button outline size="small">
+            <sl-icon name="pencil" slot="prefix"></sl-icon>
+          </sl-button>
         </div>
+        {{ addressStore.state.active.billing.firstname }}
+        {{ addressStore.state.active.billing.lastname }}<br />
+        {{ addressStore.state.active.billing.street_name }}
+        {{ addressStore.state.active.billing.street_number }}<br />
+        {{ addressStore.state.active.billing.zip_code }}
+        {{ addressStore.state.active.billing.city }}<br />
+        {{ getCountryName(addressStore.state.active.billing.country) }}<br />
       </div>
-
-      <div class="viur-shop-cart-payment">
-        <div class="viur-shop-cart-payment-method">
-          <span>Zahlungsmethode:</span>
-          {{ state.selectedPaymentProvider }}
-        </div>
-        <sl-button outline size="small">
-          <sl-icon name="pencil" slot="prefix"></sl-icon>
-        </sl-button>
-      </div>
-
-      <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
-      <CartView :in-order-confirm="true"></CartView>
-      <sl-button size="small" @click="addOrder">
-        Zahlungspflichtig bestellen
-      </sl-button>
-      <!-- <sl-card
-      horizontal
-      class="viur-shop-cart-mini-card"
-      v-for="item in cartStore.state.carts[cartStore.state.basket].items"
-    >
-      <img
-        class="viur-shop-cart-mini-card-img"
-        slot="image"
-        :src="getImage(item.article.dest.key)"
-      />
-
-      <div class="viur-shop-cart-mini-cart-header" slot="header">
-        <h4 class="viur-shop-cart-mini-headline headline">{{ item.article.dest.shop_name }} | 425018</h4>
-      </div>
-      <div class="viur-shop-cart-mini-card-body-row">
-        <div class="viur-shop-cart-mini-card-body-info">
-          <div class="viur-shop-cart-mini-card-info-wrap">
-            <div class="viur-shop-cart-mini-card-info">
-              <span>Anzahl: </span>
-              1
-            </div>
-            <div class="viur-shop-cart-mini-card-info">
-              <span>Preis: </span>
-              {{ item.article.dest.shop_price_recommended }} €
-            </div>
-          </div>
-        </div>
-      </div>
-    </sl-card> -->
     </div>
-  </template>
+
+    <div class="viur-shop-cart-payment">
+      <div class="viur-shop-cart-payment-method">
+        <span>Zahlungsmethode:</span>
+        <img :src="state.selectedPaymentProvider[1].image_path" style="width: 100px;" />
+      </div>
+      <sl-button outline size="small">
+        <sl-icon name="pencil" slot="prefix"></sl-icon>
+      </sl-button>
+    </div>
+
+    <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
+
+    <sl-spinner v-if="state.loading"></sl-spinner>
+    <CartList :list="state.data" v-else></CartList>
+    <sl-button size="small" @click=""> Zahlungspflichtig bestellen </sl-button>
+  </div>
 </template>
 
 <script setup>
-import {computed, onBeforeMount, reactive} from "vue";
-import Loader from "@viur/vue-utils/generic/Loader.vue";
-import {useCartStore} from "../stores/cart.js";
-import CartView from "./cart/CartView.vue";
+import { computed, onBeforeMount, reactive } from "vue";
+import CartList from "./ui/generic/CartList.vue";
+import { usePaymentStore } from "../stores/payment.js";
+import { useAddressStore } from "../stores/address.js";
+import { useOrderStore } from "../stores/order.js";
+import { useCartStore } from "../stores/cart.js";
 
 const emit = defineEmits(["editAddress"]);
 
-const props = defineProps({
-  tabName: {type: String, required: true},
-});
+const props = defineProps({});
 
 const cartStore = useCartStore();
+const paymentStore = usePaymentStore();
+const addressStore = useAddressStore();
+const orderStore = useOrderStore();
 
 // const searchWarning = ref()
 const state = reactive({
-  cartIsInit: computed(() => {
-    return true;
-  }),
-  itemsIsInit: computed(() => {
-    return !!cartStore.state?.carts[cartStore.state.basket].items;
-  }),
+  loading: true,
   selectedPaymentProvider: computed(() => {
     /* fixme  this compute generates an error
       Uncaught (in promise) TypeError: Cannot set properties of null (setting '__vnode')
       but the value is correct.
      */
-    return cartStore.state?.selectedPaymentProvider.title;
+    return paymentStore.state.paymentSelection;
   }),
   images: {},
   showOrderButton: false,
+  data: [],
 });
 
 function editShippingAddress(e) {
   emit("editAddress", e);
 }
 
-function addOrder() {
-  console.log("start order add");
-  cartStore.orderAdd();
-}
-
 function getCountryName(val) {
-  if(!cartStore.state.structure.address || !val)
-  {
-    return val
+  if (!addressStore.state.structure || !val) {
+    return val;
   }
-  for (const country of cartStore.state.structure.address["country"].values) {
+  for (const country of addressStore.state.structure.country.values) {
     if (val === country[0]) {
       return country[1];
     }
@@ -144,9 +104,29 @@ function getCountryName(val) {
   return val;
 }
 
+async function getOrderCart(
+  parentKey = orderStore.state.currentOrder.cart.dest.key,
+) {
+  state.loading = true;
+  const children = await cartStore.getChildren(parentKey);
+
+  children.forEach(async (child) => {
+    if (child.skel_type === "node") {
+      if (!Object.keys(cartStore.state.childrenByNode.includes(parentKey))) {
+        cartStore.state.childrenByNode[parentKey] = [];
+      }
+      cartStore.state.childrenByNode[parentKey].push(child);
+      state.data.push(child);
+      await getChildren(child.key);
+    } else {
+      state.data.push(child);
+    }
+  });
+  state.loading = false;
+}
+
 onBeforeMount(async () => {
-  await cartStore.init();
-  console.log("country",)
+  await getOrderCart();
 });
 </script>
 
