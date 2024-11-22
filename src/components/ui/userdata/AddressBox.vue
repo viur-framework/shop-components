@@ -70,7 +70,9 @@ function isValid() {
 
       if (addressStore.state.clone) {
         cartStore.update({
-          key: orderStore.state.currentOrder.cart.dest.key,
+          key: orderStore.state.currentOrder
+            ? orderStore.state.currentOrder.cart.dest.key
+            : cartStore.state.basket.key,
           shippingAddress: addressStore.state.active.shipping.key,
         });
       }
