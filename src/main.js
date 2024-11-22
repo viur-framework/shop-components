@@ -3,11 +3,21 @@ import { createPinia } from "pinia";
 import { createI18n } from "vue-i18n";
 import { de_translations, en_translations } from "@viur/vue-utils";
 
+import { useAddressStore } from "./stores/address";
 import { useCartStore } from "./stores/cart";
+import { useMessageStore } from "./stores/message";
 import { useOrderStore } from "./stores/order";
+import { usePaymentStore } from "./stores/payment";
 import { useShippingStore } from "./stores/shipping";
 
-export { useCartStore, useOrderStore, useShippingStore };
+export {
+  useAddressStore,
+  useCartStore,
+  useMessageStore,
+  useOrderStore,
+  usePaymentStore,
+  useShippingStore,
+};
 
 // export all main components
 export { default as ShopCart } from "./components/ShopCart.vue";
