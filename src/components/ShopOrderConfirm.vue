@@ -41,7 +41,10 @@
     <div class="viur-shop-cart-payment">
       <div class="viur-shop-cart-payment-method">
         <span>Zahlungsmethode:</span>
-        <img :src="state.selectedPaymentProvider[1].image_path" style="width: 100px;" />
+        <img
+          :src="state.selectedPaymentProvider[1].image_path"
+          style="width: 100px"
+        />
       </div>
       <sl-button outline size="small">
         <sl-icon name="pencil" slot="prefix"></sl-icon>
@@ -51,7 +54,7 @@
     <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
 
     <sl-spinner v-if="state.loading"></sl-spinner>
-    <CartList :list="state.data" v-else></CartList>
+    <CartList :list="state.data" :limit="5" v-else></CartList>
     <sl-button size="small" @click=""> Zahlungspflichtig bestellen </sl-button>
   </div>
 </template>
