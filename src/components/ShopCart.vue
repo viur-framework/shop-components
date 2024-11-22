@@ -63,14 +63,14 @@ async function getCart() {
   }
 }
 
-// watch(
-//   () => props.cartKey,
-//   async (oldVal, newVal) => {
-//     if (newVal) {
-//       await getCart();
-//     }
-//   },
-// );
+ watch(
+  () => props.cartKey,
+   async (newVal, oldVal) => {
+     if (newVal) {
+      await getCart();
+    }
+  },
+);
 
 onBeforeMount(async () => {
   if (!props.standalone) {
