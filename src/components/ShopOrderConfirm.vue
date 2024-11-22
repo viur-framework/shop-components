@@ -54,12 +54,19 @@
     <div class="viur-shop-cart-payment">
       <div class="viur-shop-cart-payment-method">
         <span>Versandart:</span>
-        <pre> {{ shippingStore.state.selectedShippingMethod.dest.name }} </pre>
-        <pre
-          >{{
-            shippingStore.state.selectedShippingMethod.dest.shipping_cost
-          }} </pre
-        >
+        <p>
+          {{ shippingStore.state.selectedShippingMethod.dest.name }}
+          -
+          <sl-format-number
+            type="currency"
+            currency="EUR"
+            :value="
+              shippingStore.state.selectedShippingMethod.dest.shipping_cost
+            "
+            lang="de"
+          >
+          </sl-format-number>
+        </p>
       </div>
       <sl-button outline size="small">
         <sl-icon name="pencil" slot="prefix"></sl-icon>
