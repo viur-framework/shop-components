@@ -2,9 +2,11 @@ import { reactive, computed, watch } from "vue";
 import { defineStore } from "pinia";
 import { Request } from "@viur/vue-utils";
 import {useCartStore} from "./cart";
+import { useOrderStore } from './order';
 
 export const useShippingStore = defineStore("shop-shipping", () => {
     const cartStore = useCartStore()
+    const orderStore = useOrderStore()
 
     const state = reactive({
         shippingData: [], //shippingoptions
@@ -40,7 +42,7 @@ export const useShippingStore = defineStore("shop-shipping", () => {
     async function updateCart(){
         if (!state.selectedShippingMethod) return false
         let result = await cartStore.state.shopClient.cart_update({
-            cart_key: cartStore.state.basket.key,
+            cart_key: orderStore.state.currentOrder.cart.dest.key,
             shipping_key: state.selectedShippingMethod['dest']['key']
         })
         if (!result?.['shipping']){

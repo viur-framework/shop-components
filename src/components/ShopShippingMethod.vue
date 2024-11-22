@@ -1,10 +1,10 @@
 <template>
-  <loading-handler :isLoading="shippingStore.state.isLoading" 
-                  :isUpdating="shippingStore.state.isUpdating" 
-                  :hasError="shippingStore.state.hasError" 
+  <loading-handler :isLoading="shippingStore.state.isLoading"
+                  :isUpdating="shippingStore.state.isUpdating"
+                  :hasError="shippingStore.state.hasError"
                   :errorMessage="shippingStore.state.errorMessage">
 
-    <card-selector :options="shippingStore.state.shippingData" 
+    <card-selector :options="shippingStore.state.shippingData"
                     v-model:selection="shippingStore.state.selectedShippingMethod"
                     @change="updateShippingMethod"
     >
@@ -41,7 +41,7 @@ onBeforeMount(async () => {
 async function updateShippingMethod(selection){
   let update = await shippingStore.updateCart()
   if (update){
-    emits("valid")
+    emits("valid", true)
   }
 }
 
