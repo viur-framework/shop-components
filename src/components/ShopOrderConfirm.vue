@@ -51,6 +51,21 @@
       </sl-button>
     </div>
 
+    <div class="viur-shop-cart-payment">
+      <div class="viur-shop-cart-payment-method">
+        <span>Versandart:</span>
+        <pre> {{ shippingStore.state.selectedShippingMethod.dest.name }} </pre>
+        <pre
+          >{{
+            shippingStore.state.selectedShippingMethod.dest.shipping_cost
+          }} </pre
+        >
+      </div>
+      <sl-button outline size="small">
+        <sl-icon name="pencil" slot="prefix"></sl-icon>
+      </sl-button>
+    </div>
+
     <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
 
     <sl-spinner v-if="state.loading"></sl-spinner>
@@ -66,6 +81,7 @@ import { usePaymentStore } from "../stores/payment.js";
 import { useAddressStore } from "../stores/address.js";
 import { useOrderStore } from "../stores/order.js";
 import { useCartStore } from "../stores/cart.js";
+import { useShippingStore } from "../stores/shipping.js";
 
 const emit = defineEmits(["editAddress"]);
 
@@ -75,6 +91,7 @@ const cartStore = useCartStore();
 const paymentStore = usePaymentStore();
 const addressStore = useAddressStore();
 const orderStore = useOrderStore();
+const shippingStore = useShippingStore();
 
 // const searchWarning = ref()
 const state = reactive({
