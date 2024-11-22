@@ -12,78 +12,58 @@
     <div class="viur-shop-multi-adress-box" v-for="n in state.amount" :key="n">
       <BaseLayout
         :customer="state.customer"
-        :custom-address="!state.customAddress['grp' + n]"
+        :custom-address="!addressStore.state.clone"
         @valid="emit('valid', $event)"
-        @edit-billing="state.editBilling = $event"
-        @edit-shipping="state.editShipping = $event"
       >
-        <template #cart-selection v-if="multiMode">
+        <!-- <template #cart-selection v-if="multiMode">
           <CartSelection
             :carts="reduce(carts, n)"
             @cart-selected="onCartSelect($event, n)"
           >
           </CartSelection>
+        </template> -->
+
+        <template #billing-address v-if="state.billingList.length <= 1">
+          <AddForm
+            :customer="state.customer"
+            :layout="layout"
+            v-model="addressStore.state.active.billing"
+            @add-success="state.alert = $event"
+            @valid="emit('valid', $event)"
+          >
+          </AddForm>
         </template>
+
+        <template #shipping-address v-if="state.shippingList.length <= 1">
+          <AddForm
+            :customer="state.customer"
+            :type="'shipping'"
+            :layout="layout"
+            v-model="addressStore.state.active.shipping"
+            @add-success="state.alert = $event"
+            @valid="emit('valid', $event)"
+          >
+          </AddForm>
+        </template>
+
         <template #mode-switch>
           <sl-checkbox
-            :checked="true"
-            :ref="
-              (el) => {
-                if (el === null) return;
-
-                state.customAddress['grp' + n] = el.checked;
-              }
-            "
-            @sl-change="onCustomBillingAddress($event, n)"
+            :checked="addressStore.state.clone"
             class="viur-shop-form-bill-check"
             v-html="$t('viur.shop.userdata.shipping_to_billaddress')"
+            @sl-change="onCustomShipping"
           >
           </sl-checkbox>
-        </template>
-        <template
-          #shipping-address
-          v-if="
-            (state.editShipping && !state.customAddress['grp' + n]) ||
-            (!state.hasShippingAddress && !state.customAddress['grp' + n]) ||
-            addressStore.state.billingAddressList.length === 1
-          "
-        >
-          <UserDataForm
-            :customer="state.customer"
-            v-model="addressStore.state.activeShippingAddress"
-            @add-success="state.alert = $event"
-            @valid="emit('valid', $event)"
-            :layout="layout"
-          >
-          </UserDataForm>
-        </template>
-        <template
-          #billing-address
-          v-if="
-            state.editBilling ||
-            !state.hasBillingAddress ||
-            addressStore.state.billingAddressList.length === 1
-          "
-        >
-          <UserDataForm
-            :customer="state.customer"
-            :mode="'billing'"
-            v-model="addressStore.state.activeBillingAddress"
-            @add-success="state.alert = $event"
-            @valid="emit('valid', $event)"
-            :layout="layout"
-          >
-          </UserDataForm>
         </template>
       </BaseLayout>
     </div>
 
-    <ActionBar
+    <!-- <ActionBar
       @on-address-add="addAddress"
       @on-address-remove="removeAddress"
       v-if="multiMode"
     >
-    </ActionBar>
+    </ActionBar> -->
   </div>
 </template>
 
@@ -97,7 +77,7 @@ import { useAddressStore } from "../stores/address";
 
 // Components
 import CartSelection from "./ui/userdata/multi/CartSelection.vue";
-import UserDataForm from "./ui/userdata/AddForm.vue";
+import AddForm from "./ui/userdata/AddForm.vue";
 import ActionBar from "./ui/userdata/multi/ActionBar.vue";
 import ShopAlert from "./ui/generic/alerts/ShopAlert.vue";
 import BaseLayout from "./ui/userdata/BaseLayout.vue";
@@ -137,16 +117,8 @@ const state = reactive({
     return r;
   }),
   customAddress: {},
-  hasBillingAddress: computed(
-    () => addressStore.state.billingAddressList.length,
-  ),
-  hasShippingAddress: computed(
-    () => addressStore.state.shippingAddressList.length,
-  ),
-  editBilling: false,
-  editShipping: false,
-  billingData: {},
-  shippingData: {},
+  billingList: computed(() => addressStore.getList()),
+  shippingList: computed(() => addressStore.getList("shipping")),
 });
 
 const carts = ref(
@@ -220,9 +192,9 @@ function reduce(arr, grp) {
   return result;
 }
 
-function onCustomBillingAddress(e, grp) {
-  state.customAddress["grp" + grp] = e.target.checked;
-  addressStore.state.cloneBilling = e.target.checked;
+function onCustomShipping(e, grp) {
+  // state.customAddress["grp" + grp] = e.target.checked;
+  addressStore.state.clone = e.target.checked;
 }
 
 onBeforeMount(() => {});

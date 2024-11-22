@@ -1,4 +1,4 @@
-import { reactive, computed, watch, provide } from "vue";
+import { reactive } from "vue";
 import { defineStore } from "pinia";
 import { ViURShopClient } from "../client";
 import { useMessageStore } from "./message";
@@ -165,6 +165,41 @@ export const useCartStore = defineStore("shop-cart", () => {
     await state.shopClient.discount_add({ code });
   }
 
+  async function update({
+    key,
+    type,
+    name,
+    customerComment,
+    shippingAddress,
+    shipping,
+    discount,
+  } = {}) {
+    if (!key) {
+      key = state.basket.key;
+    }
+
+    let params = {
+      cart_key: key,
+      cart_type: type,
+      name: name,
+      customer_comment: customerComment,
+      shipping_address_key: shippingAddress,
+      shipping_key: shipping,
+      discount_key: discount,
+    };
+
+    try {
+      const resp = await state.shopClient.cart_update(params);
+      if (resp) {
+        console.log("cart update resp", resp);
+      } else {
+        throw resp;
+      }
+    } catch (error) {
+      console.error("cart.update error", error);
+    }
+  }
+
   // core rc2 needed to work with all parameters
   async function addNode(
     parentCart,
@@ -178,25 +213,12 @@ export const useCartStore = defineStore("shop-cart", () => {
     return await state.shopClient.cart_add({
       parent_cart_key: parentCart,
       cart_type: cartType, // "basket" for main cart, "whishlist" for everything else
-      // name: cartName,
-      // customer_comment: comment,
-      // shipping_address_key: shipping_address_key,
-      // shipping_key: shipping_key,
-      // discount_key: discount_key,
+      name: cartName,
+      customer_comment: comment,
+      shipping_address_key: shipping_address_key,
+      shipping_key: shipping_key,
+      discount_key: discount_key,
     });
-  }
-
-  async function orderAdd() {
-    const order = await state.shopClient.order_add({
-      cart_key: state.basket.key,
-      payment_provider: state.selectedPaymentProviderName,
-      billing_address_key: state.activeBillingAddress["key"],
-      customer_key: state.customer["key"],
-    });
-    return order;
-  }
-  async function setShipping() {
-    const shipping_skel = state.shopClient;
   }
 
   return {
@@ -210,5 +232,6 @@ export const useCartStore = defineStore("shop-cart", () => {
     addDiscount,
     addNode,
     getBasket,
+    update,
   };
 });

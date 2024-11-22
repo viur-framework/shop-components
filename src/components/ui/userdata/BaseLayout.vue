@@ -12,44 +12,29 @@
     <div class="viur-shop-cart-address">
       <div class="viur-shop-cart-address-headline">
         {{ $t("skeleton.address.address_type.billing") }}
-        <sl-button outline size="small" @click="editBilling">
-          <sl-icon name="pencil" slot="prefix"></sl-icon>
-        </sl-button>
       </div>
+
       <slot name="billing-address">
         <address-box
           :address-selection="true"
-          :mode="'billing'"
+          :type="'billing'"
           @valid="emit('valid', $event)"
         >
         </address-box>
       </slot>
     </div>
+
     <slot name="mode-switch"></slot>
+
     <div class="viur-shop-cart-address" v-if="customAddress">
       <div class="viur-shop-cart-address-headline">
         {{ $t("skeleton.address.address_type.shipping") }}
-        <sl-button
-          outline
-          size="small"
-          @click="editShipping"
-          v-if="customAddress"
-        >
-          <sl-icon name="pencil" slot="prefix"></sl-icon>
-        </sl-button>
       </div>
+
       <slot name="shipping-address" v-if="customAddress">
         <address-box
-          :address-selection="true && customAddress"
-          :mode="'shipping'"
-          @valid="emit('valid', $event)"
-        >
-        </address-box>
-      </slot>
-      <slot name="shipping-address" v-else>
-        <address-box
-          :address-selection="true && customAddress"
-          :mode="'billing'"
+          :address-selection="customAddress"
+          :type="'shipping'"
           @valid="emit('valid', $event)"
         >
         </address-box>
@@ -67,18 +52,9 @@ const props = defineProps({
   customAddress: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(["editBilling", "editShipping", "valid"]);
-const state = reactive({ editBilling: false, editShipping: false });
+const emit = defineEmits(["valid"]);
 
-function editBilling() {
-  state.editBilling = !state.editBilling;
-  emit("editBilling", state.editBilling);
-}
-
-function editShipping() {
-  state.editShipping = !state.editShipping;
-  emit("editShipping", state.editShipping);
-}
+const state = reactive({ });
 </script>
 
 <style scoped>

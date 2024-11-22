@@ -8,9 +8,9 @@
     :layout="layout ? layout : DefaultLayout"
     :values="modelValue"
     :skel="
-      mode === 'shipping'
-        ? addressStore.state.activeShippingAddress
-        : addressStore.state.activeBillingAddress
+      type === 'billing'
+        ? addressStore.state.active.billing
+        : addressStore.state.active.shipping
     "
     @change="updateValues"
   >
@@ -44,7 +44,7 @@ import { useOrderStore } from "../../../main";
 const props = defineProps({
   layout: { required: false },
   customer: { type: Object, required: true },
-  mode: { type: String, default: "shipping" },
+  type: { type: String, default: "billing" },
   modelValue: { type: Object },
 });
 
@@ -61,33 +61,43 @@ const state = reactive({
   isSending: false,
   wasSuccess: false,
   user: {},
-  skel: computed(() => {
-    if (props.mode === "shipping")
-      return addressStore.state.activeShippingAddress;
-    else return addressStore.state.activeBillingAddress;
-  }),
 });
 
 function sendForm() {
-  if (props.mode === "shipping") {
-    addressStore.state.activeShippingAddress = addForm.value.state.skel;
-  } else {
-    addressStore.state.activeBillingAddress = addForm.value.state.skel;
-  }
-
   const isValid = validate(addForm.value.state.skel);
 
   if (isValid) {
     state.isSending = true;
+
     addForm.value.sendData().then(async (resp) => {
       let data = await resp.json();
+
       state.isSending = false;
+
       if (data["action"] === "addSuccess") {
         addForm.value.state.skel = data.values;
 
-        orderStore.updateParams({
-          billing_address_key: addressStore.state.activeBillingAddress.key,
-        });
+        if (props.type === "billing") {
+          addressStore.state.active.billing = addForm.value.state.skel;
+
+          orderStore.updateParams({
+            billing_address_key: addressStore.state.active.billing.key,
+          });
+
+          if (addressStore.state.clone) {
+            cartStore.update({
+              key: orderStore.state.currentOrder.cart.dest.key,
+              shippingAddress: addressStore.state.active.shipping.key,
+            });
+          }
+        } else {
+          addressStore.state.active.shipping = addForm.value.state.skel;
+
+          cartStore.update({
+            key: orderStore.state.currentOrder.cart.dest.key,
+            shippingAddress: addressStore.state.active.shipping.key,
+          });
+        }
 
         emit("addSuccess", {
           show: true,
@@ -97,6 +107,8 @@ function sendForm() {
         });
 
         emit("valid", true);
+      } else {
+        emit("valid", false);
       }
     });
   }
@@ -135,25 +147,6 @@ function validate(formData) {
 
   return false;
 }
-
-// function setSkelValues(dict = {}) {
-//   let structure = addressStore.state.structure;
-//   let skel = {};
-
-//   Object.keys(structure).forEach((boneName) => {
-//     if (boneName === "customer") {
-//       skel[boneName] = state.user.key;
-//       return;
-//     }
-//     skel[boneName] = null;
-//   });
-
-//   Object.entries(dict).forEach(([boneName, boneValue]) => {
-//     skel[boneName] = boneValue;
-//   });
-
-//   return skel;
-// }
 
 function updateValues() {
   emit("update:modelValue", addForm.value.state.skel);

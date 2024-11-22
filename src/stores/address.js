@@ -7,14 +7,19 @@ export const useAddressStore = defineStore("shop-address", () => {
 
   const state = reactive({
     shopClient: null,
-    adressList: [],
-    activeBillingAddress: {},
-    activeShippingAddress: {},
+    addressList: [],
+    active: {
+      billing: {},
+      shipping: {},
+    },
+    default: { billing: {}, shipping: {} },
     structure: {},
-    cloneBilling: true,
-    billingAddressList: [],
-    shippingAddressList: [],
+    clone: true,
   });
+
+  const listByType = (type) => {
+    return state.addressList.filter((address) => address.address_type === type);
+  };
 
   async function getStructure() {
     try {
@@ -38,61 +43,49 @@ export const useAddressStore = defineStore("shop-address", () => {
       let addressList = [];
       try {
         addressList = await state.shopClient.address_list();
+        state.addressList = addressList;
+        await getStructure();
+        getDefault();
+        resolve([state.active.billing, state.active.shipping]);
       } catch (error) {
         reject(error);
       }
-
-      state.billingAddressList = [];
-      state.shippingAddressList = [];
-
-      for (const address of addressList) {
-        if (address.address_type === "billing") {
-          state.billingAddressList.push(address);
-        }
-        if (address.address_type === "shipping") {
-          state.shippingAddressList.push(address);
-        }
-      }
-
-      getDefault();
-      resolve([state.activeBillingAddress, state.activeShippingAddress]);
     });
   }
 
-  function getDefault() {
-    if (state.billingAddressList) {
-      state.billingAddressList.forEach((address) => {
-        if (address.is_default) {
-          state.activeBillingAddress = address;
+  function getDefault(type = "billing") {
+    let list = listByType(type);
+
+    list.forEach((address) => {
+      if (address.is_default) {
+        state.default[type] = address;
+        state.active[type] = address;
+
+        if (state.clone) {
+          let temp = { ...address };
+          temp.address_type = "shipping";
+          state.active.shipping = temp;
         }
-      });
-    } else {
-      state.activeBillingAddress = setValues("billing");
-    }
-    if (state.shippingAddressList) {
-      state.shippingAddressList.forEach((address) => {
-        if (address.is_default && !state.cloneBilling) {
-          state.activeShippingAddress = address;
-        }
-      });
-    } else {
-      if (state.cloneBilling) {
-        state.activeShippingAddress = { ...state.activeBillingAddress };
-      } else {
-        state.activeShippingAddress = setValues("shipping");
+      }
+    });
+
+    if (!Object.keys(state.default[type]).length) {
+      state.active[type] = setValues(type);
+      if (state.clone) {
+        state.active.shipping = setValues("shipping");
       }
     }
   }
 
-  function setValues(mode) {
-    let structure = state.structure.address;
+  function setValues(type) {
+    let structure = state.structure;
     let skel = {};
 
     Object.entries(structure).forEach(([boneName, boneValue]) => {
       if (boneName === "customer") {
-        skel[boneName] = state.customer.key;
+        skel[boneName] = cartStore.state.customer.key;
       } else if (boneName === "address_type") {
-        skel[boneName] = mode;
+        skel[boneName] = type;
       } else {
         skel[boneName] = boneValue.emptyvalue;
       }
@@ -101,44 +94,19 @@ export const useAddressStore = defineStore("shop-address", () => {
     return skel;
   }
 
-  watch(
-    () => state.activeBillingAddress,
-    (newValue, oldValue) => {
-      if (oldValue) {
-        const isAddress = (address) => address.key === newValue.key;
-
-        let index = state.billingAddressList.findIndex(isAddress);
-
-        state.billingAddressList[index] = newValue;
-      }
-      if (state.cloneBilling) {
-        state.activeShippingAddress = newValue;
-      }
-    },
-  );
+  function getList(type = "billing") {
+    return listByType(type);
+  }
 
   watch(
-    () => state.activeShippingAddress,
+    () => state.clone,
     (newValue, oldValue) => {
       if (newValue) {
-        const isAddress = (address) => address.key === newValue.key;
-
-        let index = state.shippingAddressList.findIndex(isAddress);
-
-        state.shippingAddressList[index] = newValue;
-      } else {
-        state.activeShippingAddress = setValues("shipping");
-      }
-    },
-  );
-
-  watch(
-    () => state.cloneBilling,
-    (newValue, oldValue) => {
-      if (newValue) {
-        let temp = { ...state.activeBillingAddress };
+        let temp = { ...state.active.billing };
         temp.address_type = "shipping";
-        state.activeShippingAddress = { ...temp };
+        state.active.shipping = { ...temp };
+      } else {
+        getDefault("shipping");
       }
     },
   );
@@ -149,5 +117,6 @@ export const useAddressStore = defineStore("shop-address", () => {
     setValues,
     getDefault,
     getStructure,
+    getList,
   };
 });

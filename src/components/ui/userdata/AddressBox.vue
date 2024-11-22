@@ -4,9 +4,9 @@
       v-if="addressSelection"
       :address-list="state.addressList"
       :modelValue="
-        mode === 'billing'
-          ? addressStore.state.activeBillingAddress.key
-          : addressStore.state.activeShippingAddress.key
+        type === 'billing'
+          ? addressStore.state.active.billing.key
+          : addressStore.state.active.shipping.key
       "
       @update:modelValue="handleSelection"
     >
@@ -33,10 +33,11 @@
 import { reactive, computed, onBeforeMount, watch } from "vue";
 import { useAddressStore } from "../../../stores/address";
 import { useOrderStore } from "../../../stores/order";
+import { useCartStore } from "../../../stores/cart";
 import SelectAddress from "./SelectAddress.vue";
 
 const props = defineProps({
-  mode: { type: String, default: "billing" },
+  type: { type: String, default: "billing" },
   addressSelection: { type: Boolean, default: false },
   modelValue: { type: Object },
 });
@@ -45,35 +46,46 @@ const emit = defineEmits(["update:modelValue", "valid"]);
 
 const addressStore = useAddressStore();
 const orderStore = useOrderStore();
+const cartStore = useCartStore();
 
 const state = reactive({
   addressList: computed(() =>
-    props.mode === "billing"
-      ? addressStore.state.billingAddressList
-      : addressStore.state.shippingAddressList,
+    props.type === "billing"
+      ? addressStore.getList()
+      : addressStore.getList("shipping"),
   ),
   address: computed(() => {
-    return props.mode === "billing"
-      ? addressStore.state.activeBillingAddress
-      : addressStore.state.activeShippingAddress;
+    return props.type === "billing"
+      ? addressStore.state.active.billing
+      : addressStore.state.active.shipping;
   }),
 });
 
-function getDefaultAddress() {
-  if (props.mode === "billing") {
-    if (addressStore.state.activeBillingAddress.key) {
+function isValid() {
+  if (props.type === "billing") {
+    if (addressStore.state.active.billing.key) {
       orderStore.updateParams({
-        billing_address_key: addressStore.state.activeBillingAddress.key,
+        billing_address_key: addressStore.state.active.billing.key,
       });
+
+      if (addressStore.state.clone) {
+        cartStore.update({
+          key: orderStore.state.currentOrder.cart.dest.key,
+          shippingAddress: addressStore.state.active.shipping.key,
+        });
+      }
+
       emit("valid", true);
     } else {
       emit("valid", false);
     }
   } else {
-    if (addressStore.state.activeShippingAddress.key) {
-      // orderStore.updateParams({
-      //   billing_address_key: addressStore.state.activeBillingAddress.key,
-      // });
+    if (addressStore.state.active.shipping.key) {
+      cartStore.update({
+        key: orderStore.state.currentOrder.cart.dest.key,
+        shippingAddress: addressStore.state.active.shipping.key,
+      });
+
       emit("valid", true);
     } else {
       emit("valid", false);
@@ -82,21 +94,37 @@ function getDefaultAddress() {
 }
 
 function handleSelection(e) {
-  if (props.mode === "billing") {
-    let billingAddress = addressStore.state.billingAddressList.filter(
-      (address) => address.key === e,
-    );
-    addressStore.state.activeBillingAddress = billingAddress[0];
+  let address = state.addressList.filter((address) => address.key === e);
+
+  if (props.type === "billing") {
+    addressStore.state.active.billing = address[0];
+
+    orderStore.updateParams({
+      billing_address_key: addressStore.state.active.billing.key,
+    });
+
+    if (addressStore.state.clone) {
+      cartStore.update({
+        key: orderStore.state.currentOrder.cart.dest.key,
+        shippingAddress: addressStore.state.active.shipping.key,
+      });
+    }
+
+    emit("valid", true);
   } else {
-    let shippingAddress = addressStore.state.shippingAddressList.filter(
-      (address) => address.key === e,
-    );
-    addressStore.state.activeShippingAddress = shippingAddress[0];
+    addressStore.state.active.shipping = address[0];
+
+    cartStore.update({
+      key: orderStore.state.currentOrder.cart.dest.key,
+      shippingAddress: addressStore.state.active.shipping.key,
+    });
+
+    emit("valid", true);
   }
 }
 
 onBeforeMount(() => {
-  getDefaultAddress();
+  isValid();
 });
 </script>
 
