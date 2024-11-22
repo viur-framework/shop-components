@@ -1,4 +1,3 @@
-,
 <template>
   <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
   <br />
