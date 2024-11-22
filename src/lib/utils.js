@@ -1,3 +1,5 @@
+import {Request} from '@viur/vue-utils'
+
 export function uuid() {
   return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
     (
@@ -17,3 +19,19 @@ export function struct2dict(structure) {
 
   return result;
 }
+
+export async function getTranslations(languages=["de"]){
+  // fetch translations from server
+  let retVal = languages.reduce((acc,item)=>{acc[item]={}; return acc;},{})
+  try {
+    let translations = await Request.get("/json/_translation/get_public",{dataObj:{
+        languages:languages
+      }})
+    const data = await translations.json()
+    retVal = data
+  }catch(error){
+    console.log("No Translation from server", error)
+  }
+  return retVal
+}
+

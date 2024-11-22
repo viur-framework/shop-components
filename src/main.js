@@ -1,7 +1,14 @@
 // imports
 import { createPinia } from "pinia";
 import { createI18n } from "vue-i18n";
+import { getTranslations } from "./lib/utils";
 import { de_translations, en_translations } from "@viur/vue-utils";
+import en from "./translations/en"
+import de from "./translations/de"
+// fetch translations from server
+let data = await getTranslations(['de','en'])
+let de_viur = data["de"]
+let en_viur = data["en"]
 
 import { useAddressStore } from "./stores/address";
 import { useCartStore } from "./stores/cart";
@@ -35,12 +42,13 @@ export { default as ExampleUsage } from "./components/ExampleUsage.vue";
 // Plugin registration
 const pinia = createPinia();
 
+// server_translations will be overwritten by utils. Both are overwritten by local shop translations
 const i18n = createI18n({
   locale: "de",
   fallbackLocale: "en",
   messages: {
-    en: { ...en_translations },
-    de: { ...de_translations },
+    en: {...en_viur, ...en_translations, ...en  },
+    de: {...de_viur, ...de_translations, ...de  },
   },
 });
 
