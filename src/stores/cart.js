@@ -31,12 +31,18 @@ export const useCartStore = defineStore("shop-cart", () => {
     hasError: false,
     placeholder: "",
     freeze: false,
+    onlyUser: true,
   });
 
-  function setConfig({ shopModuleName = "shop", placeholder = "" } = {}) {
+  function setConfig({
+    shopModuleName = "shop",
+    placeholder = "",
+    onlyUser = true,
+  } = {}) {
     /* function set set initial states */
-    state.shopModuleName = shopModuleName; //change default module shop to something else
+    state.shopModuleName = shopModuleName; // change default module shop to something else
     state.placeholder = placeholder; // define image placeholder for missing images
+    state.onlyUser = onlyUser; // define order with or without userAccount
     state.shopClient =
       addressStore.state.shopClient =
       orderStore.state.shopClient =
@@ -114,6 +120,10 @@ export const useCartStore = defineStore("shop-cart", () => {
     });
   }
 
+  async function getOrderCart(){
+
+  }
+
   async function getChildren(parentKey) {
     return await state.shopClient.cart_list({ cart_key: parentKey });
   }
@@ -151,7 +161,7 @@ export const useCartStore = defineStore("shop-cart", () => {
     });
 
     if (resp) {
-       await updateCart();
+      await updateCart();
     }
 
     console.log("update Resp", resp); //TODO: Errorhandling as soon as shop module works again

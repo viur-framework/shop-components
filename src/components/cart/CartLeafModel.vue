@@ -33,8 +33,8 @@
       slot="image"
       :src="
         getImage(
-          modelValue.article.dest.shop_image
-            ? modelValue.article.dest.shop_image
+          modelValue?.shop_image
+            ? modelValue.shop_image
             : undefined,
         )
       "

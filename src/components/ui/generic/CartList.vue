@@ -21,7 +21,7 @@
                 :src="Request.downloadUrlFor(item.shop_image)"
                 alt=""
                 style="width: 50px; height: 50px; object-fit: cover"
-                v-if="item.shop_image"
+                v-if="item?.shop_image"
               />
               <img
                 :src="cartStore.state.placeholder"

@@ -76,7 +76,7 @@
     <h2 class="viur-shop-cart-headline headline">Warenkorb</h2>
 
     <sl-spinner v-if="state.loading"></sl-spinner>
-    <CartList :list="state.data" :limit="5" v-else></CartList>
+    <CartList :list="state.data" :limit="1" v-else></CartList>
     <sl-button size="small" @click=""> Zahlungspflichtig bestellen </sl-button>
   </div>
 </template>
