@@ -25,67 +25,56 @@ import ShopOrderStepper from "./ShopOrderStepper.vue";
 import ShopOrderComplete from "./ShopOrderComplete.vue";
 import ShopUserData from "./ShopUserData.vue";
 import ShopPaymentProvider from "./ShopPaymentProvider.vue";
+import ShopShippingMethod from "./ShopShippingMethod.vue";
 
 import { useCartStore } from "../stores/cart";
-import { useOrderStore } from "../stores/order";
 
 const cartStore = useCartStore();
-const orderStore = useOrderStore();
 
 const rootNode = computed(() =>
   cartStore.state.basket.key ? cartStore.state.basket.key : "",
 );
 
 const state = reactive({
-  // customShipping: shallowRef(CustomShipping),
   tabs: {
     cart: {
       component: shallowRef(ShopCart),
+      displayName: "Warenkorb",
       props: {
         standalone: false,
         cartKey: rootNode,
-        action: () => {
-          orderStore.add(rootNode.value);
-        },
-        // customComponent: shallowRef(CustomShipping),
       },
-      displayName: "Warenkorb",
       icon: { name: "bag" },
       position: 1,
-      disabled: false,
     },
-    userInfo: {
+    userData: {
       component: shallowRef(ShopUserData),
       props: {
         multiMode: false,
-        action: () => {
-          orderStore.update({
-            billing_address_key: cartStore.state.activeBillingAddress.key,
-          });
-        },
       },
       displayName: "Daten Eingeben",
       icon: { name: "card-list" },
       position: 2, //reihfolge ändern
-      disabled: false,
+    },
+    selectShippingMethod: {
+      component: shallowRef(ShopShippingMethod),
+      displayName: "Versandart wählen",
+      icon: { name: "truck" },
+      position: 3,
     },
     selectPaymentProvider: {
       component: shallowRef(ShopPaymentProvider),
       props: {},
       displayName: "Zahlungsart auswählen",
       icon: { name: "card-list" },
-      position: 3, //reihfolge ändern
-      disabled: false,
+      position: 4, //reihfolge ändern
     },
-    confirm: {
+    orderConfirm: {
       component: shallowRef(ShopOrderConfirm),
       props: {},
       displayName: "Bestellung prüfen",
       icon: { name: "clipboard-check" },
-      position: 4,
-      disabled: true,
-
-      showNext: false,
+      position: 5,
     },
 
     orderComplete: {
@@ -94,31 +83,13 @@ const state = reactive({
       displayName: "Bestellung Abgeschlossen",
       icon: { name: "bag-check" },
       position: 6,
-      disabled: true,
-
       showNext: false,
     },
   },
 });
 
-function handleTabs(e) {
-  if (e?.detail.name === "confirm") {
-    state.tabs.orderComplete.disabled = false;
-  }
-}
-
-// watch(
-//   () => cartStore.state.basketRootNode,
-//   (newValue, oldValue) => {
-//     console.log("guckste", newValue.key);
-//     if (newValue && cartStore.state.childrenByNode[newValue.key].length) {
-//       state.tabs.userInfo.disabled = false;
-//     }
-//   },
-// );
-
 onBeforeMount(async () => {
-  await cartStore.setConfig();
+  await cartStore.setConfig("shop", "path/to/placeholder");
   await cartStore.init(false, false);
 });
 </script>
