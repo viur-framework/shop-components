@@ -26,11 +26,11 @@
     </sl-format-number>
   </div>
   <div class="viur-shop-cart-sidebar-info-line">
-    <Shipping ref="shipping">
+    <shipping-info ref="shipping">
       <template #custom v-if="customShippingComponent">
-            <component :is="customShippingComponent"></component>
-          </template>
-    </Shipping>
+        <component :is="customShippingComponent"></component>
+      </template>
+    </shipping-info>
   </div>
   <div class="viur-shop-cart-sidebar-info-line total">
     <span>Gesamt:</span>
@@ -43,58 +43,57 @@
     </sl-format-number>
     <!-- TODO: Some project needs "VAT included" here -->
   </div>
-  <slot name="action-buttons">
-    HIER KANN DEIN BUTTON REIN
-    <div class="viur-shop-cart-sidebar-btn-wrap">
-      <!-- TODO: Placement of discount? -->
-      <div class="viur-shop-discount-wrap" v-if="showDiscount">
-        <Discount></Discount>
-      </div>
+  <!-- TODO: Placement of discount? -->
+  <div class="viur-shop-discount-wrap" v-if="showDiscount">
+    <Discount></Discount>
+  </div>
 
+  <slot name="action-buttons">
+    <div class="viur-shop-cart-sidebar-btn-wrap">
       <sl-button variant="primary" size="medium"> Jetzt Bestellen</sl-button>
       <sl-button size="medium" variant="info">
         <sl-icon name="paypal" slot="prefix"></sl-icon>
         Paypal
       </sl-button>
     </div>
-    <!-- TODO: Delivery time estimate: slot -->
   </slot>
-  <slot name="custom"></slot>
 </template>
 
 <script setup>
 import Discount from "./cart/Discount.vue";
-import Shipping from "./order/process/Shipping.vue";
+import ShippingInfo from "./ui/generic/ShippingInfo.vue";
 import { computed, onBeforeMount, reactive, ref } from "vue";
 import { useCartStore } from "../stores/cart";
+import { useShippingStore } from "../stores/shipping";
+import { useOrderStore } from "../stores/order";
+
+const props = defineProps({
+  showDiscount: { type: Boolean, default: true },
+  customShippingComponent: { type: Object, default: undefined },
+});
 
 const cartStore = useCartStore();
+const shippingStore = useShippingStore();
+const orderStore = useOrderStore();
 
 const shipping = ref(null);
-const props = defineProps({
-  showDiscount: {type: Boolean, default: true},
-  customShippingComponent:{type:Object,default:undefined},
+
+const state = reactive({
+  node: computed(() => cartStore.state.basket),
 });
-console.log("csc",props.customShippingComponent)
-const state=reactive({
-  node:{}
-})
 
 const totalPrice = computed(() => {
-  if (state.node?.shipping) {
+  if (shippingStore.state.selectedShippingMethod) {
     return (
       state.node.total +
-      state.node?.shipping?.dest.shipping_cost -
+      shippingStore.state.selectedShippingMethod?.dest.shipping_cost -
       state.node.discount
     );
   } else {
-    // use shippingprice formbasket
-    console.log(cartStore.state.basket);
-
-    if (cartStore.state.basket.length === 1) {
+    if (Object.keys(cartStore.state.childrenByNode).includes(state.node.key)) {
       return (
         state.node?.total +
-        cartStore.state.basket.shipping?.dest.shipping_cost -
+        shippingStore.state.selectedShippingMethod?.dest.shipping_cost -
         state.node.discount
       );
     } else {
@@ -102,11 +101,6 @@ const totalPrice = computed(() => {
     }
   }
 });
-onBeforeMount(async () => {
-  await cartStore.init();
-  state.node  = cartStore.state.basket;
-  console.log("get node",state.node)
-})
 </script>
 
 <style>

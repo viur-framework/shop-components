@@ -111,6 +111,9 @@
           <template #custom v-if="customComponent">
             <component :is="customComponent"></component>
           </template>
+          <template #action-buttons>
+            <slot name="action-buttons"></slot>
+          </template>
         </ShopSummary>
       </div>
     </slot>
