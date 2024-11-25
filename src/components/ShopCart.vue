@@ -37,8 +37,7 @@ const state = reactive({
 
 async function getChildren(parentKey = props.cartKey) {
   state.loading = true;
-
-  if (orderStore.state.currentbasketKey!==props.cartKey){
+  if (orderStore.state.currentbasketKey && orderStore.state.currentbasketKey!==props.cartKey){
     parentKey = orderStore.state.currentbasketKey
   }
 
