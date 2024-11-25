@@ -2,12 +2,15 @@ import { reactive } from "vue";
 import { defineStore } from "pinia";
 import { useCartStore } from "./cart";
 import { useMessageStore } from "./message";
+import { Request } from '@viur/vue-utils'
+import { useUrlSearchParams } from '@vueuse/core'
 
 export const useOrderStore = defineStore("shop-order", () => {
   const cartStore = useCartStore();
   const messageStore = useMessageStore();
 
   const state = reactive({
+    currentOrderkey:null,
     currentOrder: null,
     shopClient: undefined,
     updateParams: {},
@@ -16,6 +19,22 @@ export const useOrderStore = defineStore("shop-order", () => {
     checkout: null,
   });
 
+  function getOrder(){
+    return new Promise(async (resolve, reject) => {
+      try{
+        const  response = await Request.get(state.shopClient.shop_json_url+"/order/view/",{dataObj:{
+          "key": state.currentOrderkey
+        }})
+        const data = await response.json()
+        state.currentOrder = data['values']
+        resolve()
+      } catch(error){
+        reject(error)
+      }
+     
+    })
+  }
+
   function add(obj) {
     return new Promise((resolve, reject) => {
       state.shopClient
@@ -23,6 +42,9 @@ export const useOrderStore = defineStore("shop-order", () => {
         .then(async (resp) => {
           let data = await resp;
           state.currentOrder = data;
+          state.currentOrderkey = data["key"]
+          const params = useUrlSearchParams('hash')
+          params['order'] = state.currentOrderkey
           resolve(data);
         })
         .catch((error) => {
@@ -50,6 +72,7 @@ export const useOrderStore = defineStore("shop-order", () => {
         .then(async (resp) => {
           let data = await resp;
           state.currentOrder = data;
+          state.currentOrderkey = data["key"]
           state.paramsChanged = false;
           resolve(data);
         })
@@ -140,5 +163,6 @@ export const useOrderStore = defineStore("shop-order", () => {
     handler,
     startCheckout,
     updateParams,
+    getOrder,
   };
 });

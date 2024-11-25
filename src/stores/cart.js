@@ -1,4 +1,5 @@
 import { reactive } from "vue";
+import { useUrlSearchParams } from '@vueuse/core'
 import { defineStore } from "pinia";
 import { ViURShopClient } from "../client";
 import { useMessageStore } from "./message";
@@ -19,6 +20,7 @@ export const useCartStore = defineStore("shop-cart", () => {
   const state = reactive({
     shopClient: null,
     shopModuleName: "shop",
+    currentbasketKey:null,
     basket: {},
     childrenByNode: {},
     paymentProviders: {},
@@ -52,6 +54,12 @@ export const useCartStore = defineStore("shop-cart", () => {
             : window.location.origin, //use vite config, because all utils requests are using this.
           shop_module: state.shopModuleName, //change default module shop to something else
         });
+
+    //get Orderkey from url, to continue orderprozess after reload
+    const params = useUrlSearchParams('hash')
+    if (Object.keys(params).includes('order')){
+      orderStore.state.currentOrderkey = params['order']
+    }    
   }
 
   async function init(update = false) {
@@ -67,9 +75,10 @@ export const useCartStore = defineStore("shop-cart", () => {
 
     try {
       const customer = await getCustomer();
+      const loadOrder = await orderStore.getOrder();
       const shopRequests = await Promise.all([
         addressStore.init(),
-        getBasket(),
+        getBasket()
       ]);
 
       state.isReady = true;
@@ -107,11 +116,16 @@ export const useCartStore = defineStore("shop-cart", () => {
       }
     });
   }
-  async function getBasket() {
+  async function getBasket(key=null) {
     return new Promise(async (resolve, reject) => {
+      if (!key && orderStore.state.currentOrder?.['cart']?.['dest']?.['key']){
+        key = orderStore.state.currentOrder['cart']['dest']['key']
+        state.freeze=true
+      }
       try {
-        const resp = await state.shopClient.cart_list();
+        const resp = await state.shopClient.cart_list({ cart_key: key });
         state.basket = resp[0];
+        state.currentbasketKey = state.basket['parentrepo']
         resolve(state.basket);
       } catch (error) {
         state.basket = []; //reset basket on error
@@ -134,6 +148,7 @@ export const useCartStore = defineStore("shop-cart", () => {
       parent_cart_key: cartKey,
     });
     state.basket = await getChildren(cartKey);
+    state.currentbasketKey = state.basket['parentrepo']
   }
 
   async function removeItem(articleKey, cartKey) {
@@ -231,6 +246,7 @@ export const useCartStore = defineStore("shop-cart", () => {
       discount_key: discount_key,
     });
   }
+
 
   return {
     state,

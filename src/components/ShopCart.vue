@@ -13,6 +13,7 @@
 <script setup>
 import { reactive, onBeforeMount, watch } from "vue";
 import { useCartStore } from "../stores/cart.js";
+import { useOrderStore } from "../stores/order.js";
 import CartTree from "./cart/CartTree.vue";
 import CartView from "./cart/CartView.vue";
 
@@ -25,6 +26,7 @@ const props = defineProps({
 const emits = defineEmits(["valid", "invalid"]);
 
 const cartStore = useCartStore();
+const orderStore = useOrderStore();
 
 const state = reactive({
   currentItem: {},
@@ -35,6 +37,11 @@ const state = reactive({
 
 async function getChildren(parentKey = props.cartKey) {
   state.loading = true;
+
+  if (orderStore.state.currentbasketKey!==props.cartKey){
+    parentKey = orderStore.state.currentbasketKey
+  }
+
   const children = await cartStore.getChildren(parentKey);
 
   children.forEach(async (child) => {

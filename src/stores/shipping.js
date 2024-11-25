@@ -25,7 +25,7 @@ export const useShippingStore = defineStore("shop-shipping", () => {
         state.hasError = false
         try{
             state.shippingData = await cartStore.state.shopClient.shipping_list({
-                cart_key: cartStore.state.basket.key,
+                cart_key: cartStore.state.currentbasketKey,
             })
             state.isLoading = false
             if(state.shippingData.length===0){
