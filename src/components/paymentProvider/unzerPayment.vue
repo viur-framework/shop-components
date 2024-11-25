@@ -1,7 +1,7 @@
 <template>
 
     <form id="payment-form" class="unzerUI form" novalidate
-          @submit="submitFormToUnzer"
+          @submit.prevent="submitFormToUnzer"
     >
         <template v-if="paymentStore.state.paymentSelection[0] === 'unzer-card'">
             <div class="field">
@@ -37,7 +37,6 @@
 
         <div class="field">
             <button
-                id="submit-button"
                 class="unzerUI primary button fluid"
                 type="submit">
                 Pay
@@ -51,14 +50,14 @@
 import {reactive, computed, onBeforeMount,watch} from 'vue'
 import {usePaymentStore} from "../../stores/payment"
 import {useOrderStore} from '../../stores/order'
-
+import { Request } from '@viur/vue-utils'
 const paymentStore = usePaymentStore()
 const orderStore = useOrderStore()
 
 const state = reactive({
     unzer: computed(()=>{
         //if (!orderStore.state.checkout) return null
-        return new unzer('s-pub-2a109pymjkhrxmNIxPrXwxubWNfH9kPe', {locale: 'de-DE'})
+
         return new unzer(orderStore.state.checkout.payment.public_key, {locale: 'de-DE'})
     }),
 })
@@ -106,26 +105,23 @@ function initUnzerForm(){
 
 function submitFormToUnzer(){
     //send to unzer
+    console.log("FFFF")
     return 0 //WIP
     state.unzer['handler'].createResource().then((result)=>{
-        request(`/shop/pp_unzer_card/save_type/`, {
+        Request.get(`/shop/pp_unzer_card/save_type/`, {
             method: 'POST',
             params: {
-                order_key: self.order_key,
+                order_key: orderStore.state.currentOrderkey,
                 type_id: result.id,
             },
+        }).then(async (resp)=>{
+            let data = resp.json()
+        }).catch(error => {
+            console.log(error)
         })
-            .then(req => req.json())
-            .then(res => {
-                // TODO: Show final summary page
-            })
-            .catch(e => {
-                console.log(e)
-            })
-    }).catch(function (error) {
+    }).catch((error)=> {
         // handle errors
         console.error(error)
-        document.getElementById('error-holder').innerText = error.customerMessage || error.message || 'Error';
     })
 }
 
