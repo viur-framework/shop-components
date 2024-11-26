@@ -21,6 +21,9 @@ export const useOrderStore = defineStore("shop-order", () => {
 
   function getOrder(){
     return new Promise(async (resolve, reject) => {
+      if (!state.currentOrderkey){
+        resolve()
+      }
       try{
         const  response = await Request.get(state.shopClient.shop_json_url+"/order/view/",{dataObj:{
           "key": state.currentOrderkey
