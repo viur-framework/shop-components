@@ -82,40 +82,38 @@ function initUnzerForm(){
             onlyIframe: false,
         });
 
-        state.unzer['handler'] = card;
+        state.handler = card
     } else if (paymentStore.state.paymentSelection[0] === 'unzer-paypal') {
         // Creating a PayPal instance
         const paypal = state.unzer.Paypal()
         // Rendering input field
-        // paypal.create('email', {
+        //paypal.create('email', {
         //     containerId: 'paypal-element',
-        // });
-        state.unzer['handler'] = paypal;
+        //});
+        state.handler = paypal;
     } else if (paymentStore.state.paymentSelection[0] === 'unzer-sofort') {
         const sofort = state.unzer.Sofort()
-        state.unzer['handler'] = sofort;
+        state.handler= sofort;
     } else if (paymentStore.state.paymentSelection[0] === 'unzer-ideal') {
         const ideal = state.unzer.Ideal()
         ideal.create('ideal', {
             containerId: 'ideal-element',
         });
-        state.unzer['handler'] = ideal;
+        state.handler = ideal;
     }
 }
 
 function submitFormToUnzer(){
+    let paymenttarget = paymentStore.state.paymentSelection[0].split("-")[1]
     //send to unzer
-    console.log("FFFF")
-    return 0 //WIP
-    state.unzer['handler'].createResource().then((result)=>{
-        Request.get(`/shop/pp_unzer_card/save_type/`, {
-            method: 'POST',
-            params: {
-                order_key: orderStore.state.currentOrderkey,
-                type_id: result.id,
-            },
-        }).then(async (resp)=>{
-            let data = resp.json()
+    state.handler.createResource().then((result)=>{
+        Request.post(`/${orderStore.state.shopClient.shop_module}/pp_unzer_${paymenttarget}/save_type`, {dataObj:{
+            order_key: orderStore.state.currentOrderkey,
+            type_id: result.id,
+        }}).then(async (resp)=>{
+            let data = await resp.json()
+            orderStore.state.currentOrder = data
+            await orderStore.startCheckout()
         }).catch(error => {
             console.log(error)
         })
@@ -127,7 +125,6 @@ function submitFormToUnzer(){
 
 
 async function initPayment(){
-    await orderStore.startCheckout()
     initUnzerForm()
 }
 
