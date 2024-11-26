@@ -1,57 +1,14 @@
 <template>
-  {{ paymentStore.state.paymentSelection }}
-  <sl-radio-group :value="state.selection">
-    <sl-details-group>
-      <sl-details class="simple" @sl-show="state.selection='prepayment'" >
-        <div slot="summary" class="payment-selection">
-          <div class="start">
-            <sl-icon name="currency-euro"></sl-icon>
-            Vorkasse
-          </div>
-          <sl-radio value="prepayment"></sl-radio>
-        </div>
-        Einfach Bezahlen über Vorkasse
-        <div slot="expand-icon"></div>
-        <div slot="collapse-icon"></div>
-      </sl-details>
-      <sl-details @sl-show="state.selection='prepayment2'">
-        <div slot="summary">
-          <sl-icon name="credit-card-2-back-fill"></sl-icon>
-            Karte
-            <sl-radio value="prepayment2"></sl-radio>
-        </div>
-        
-        Bezahlen mit Kreditkarte über Unzer
-      </sl-details>
-      <sl-details @sl-show="state.selection='prepayment3'">
-        <div slot="summary">
-          <sl-icon name="paypal"></sl-icon>
-            Paypal<sl-radio value="prepayment3"></sl-radio>
-        </div>
-        Bezahlen mit Paypal über Unzer
-      </sl-details>
-  </sl-details-group>
-</sl-radio-group>
 
   <loading-handler :isLoading="paymentStore.state.isLoading"
                   :isUpdating="paymentStore.state.isUpdating"
                   :hasError="paymentStore.state.hasError"
                   :errorMessage="paymentStore.state.errorMessage">
 
-    <card-selector :options="paymentStore.state.paymentProviders" v-model:selection="paymentStore.state.paymentSelection" @change="updatePaymentProvider">
-      <template v-slot="{option, index}">
+      <PaymentSelector :options="state.options" @valid="checkPaymentIsValid">
 
-          <img slot="image" :src="option[1].image_path">
+      </PaymentSelector>
 
-          {{ option[1]['title'] }}
-
-          <div slot="footer">
-            {{ option[1]['descr'] }}
-          </div>
-          
-      </template>
-    </card-selector>
-  
   </loading-handler>
 
   <div v-if="paymentStore.state.paymentSelection?.[0].startsWith('unzer-')">
@@ -66,14 +23,57 @@ import LoadingHandler from "./generic/loadinghandler.vue"
 import CardSelector from "./ui/generic/CardSelector.vue"
 import unzerPayment from './paymentProvider/unzerPayment.vue'
 
+import PaymentSelector from "./ui/payment/PaymentSelector.vue";
+
+
 const cartStore = useCartStore();
 const paymentStore = usePaymentStore()
 const emits = defineEmits(['valid'])
 const props = defineProps({
 })
 
+
+  let iconMap = {
+    'prepayment':'currency-euro',
+    'unzer-card':'credit-card-2-back-fill',
+    'unzer-paypal':'paypal'
+  }
+
+  let simpleProviders = [
+    'prepayment',
+      'unzer-paypal'
+  ]
+
 const state = reactive({
-  selection:null
+  selection:null,
+  selectionValid:false,
+  options:computed(()=>{
+    let options = []
+    let option = {
+      paymenttype:null,
+      widget:"default",
+      name:null,
+      description:null,
+      icon:null
+
+    }
+
+    for (const provider of paymentStore.state.paymentProviders){
+      let currentOption = {...option}
+      currentOption.paymenttype = provider[0]
+      currentOption.name = provider[1]['title']
+      currentOption.description = provider[1]['descr']
+      currentOption.icon = iconMap[provider[0]]
+      if (simpleProviders.includes(provider[0])){
+        currentOption.widget = "simple"
+      }
+
+      options.push(currentOption)
+    }
+
+
+    return options
+  })
 })
 
 
@@ -85,6 +85,11 @@ async function updatePaymentProvider(selection){
   if (update){
     emits("valid", true)
   }
+}
+
+function checkPaymentIsValid(selection) {
+  console.log(selection)
+  state.selectionValid = selection
 }
 
 
@@ -101,24 +106,5 @@ onBeforeMount(async () => {
 </script>
 
 <style scoped>
-.payment-selection{
-  display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: center;
-    justify-content: space-between;
-    width: 100%;
 
-    .start{
-      display: flex;
-      align-items: center;
-      flex-wrap: nowrap;
-      gap:10px;
-    }
-}
-
-.simple::part(content){
-  display:none;
-}
 </style>

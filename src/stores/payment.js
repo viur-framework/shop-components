@@ -16,7 +16,8 @@ export const usePaymentStore = defineStore("payment-shipping", () => {
         isUpdating:false,
         hasError:false,
         errorMessage:"",
-        init:true //fetch onMount and store is ready
+        init:true, //fetch onMount and store is ready
+        paymentHandler:{}
     })
 
     async function getPaymentProviders() {

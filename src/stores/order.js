@@ -149,6 +149,32 @@ export const useOrderStore = defineStore("shop-order", () => {
     }
   }
 
+  function add_or_update(){
+    if (
+      !(
+        state.updateParams &&
+        (state.updateParams.email || state.updateParams.customer_key)
+      )
+    ) {
+      state.updateParams.customer_key = cartStore.state.customer.key;
+    }
+
+    if (!state.currentOrder) {
+      // TODO: getExistingOrder().then(state.currentOrder = value).error(add(params)...)
+
+      if (!state.updateParams.cart_key) {
+        state.updateParams.cart_key = cartStore.state.basket.key;
+      }
+
+      add(state.updateParams);
+    } else {
+      if (state.paramsChanged) {
+        update();
+      }
+    }
+  }
+
+
   async function startCheckout() {
     try {
       state.checkout = await state.shopClient.order_checkout_start({
@@ -167,5 +193,6 @@ export const useOrderStore = defineStore("shop-order", () => {
     startCheckout,
     updateParams,
     getOrder,
+    add_or_update
   };
 });

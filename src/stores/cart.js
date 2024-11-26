@@ -120,12 +120,14 @@ export const useCartStore = defineStore("shop-cart", () => {
     return new Promise(async (resolve, reject) => {
       if (!key && orderStore.state.currentOrder?.['cart']?.['dest']?.['key']){
         key = orderStore.state.currentOrder['cart']['dest']['key']
-        state.freeze=true
       }
       try {
         const resp = await state.shopClient.cart_list({ cart_key: key });
         state.basket = resp[0];
-        state.currentbasketKey = state.basket['parentrepo']
+        console.log(orderStore.state.currentOrder)
+        console.log(key)
+        console.log(state.basket)
+        state.currentbasketKey = state.basket?.['parentrepo']?state.basket['parentrepo']:state.basket['key']
         resolve(state.basket);
       } catch (error) {
         state.basket = []; //reset basket on error

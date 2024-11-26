@@ -209,9 +209,13 @@ function onTabChange(e) {
 }
 
 function onTabHide(e) {
-  if (state.tabIdx === 0 && !cartStore.state.freeze) {
-    freezeCart.value.show();
+  if (state.currentTab==='cart'){
+    orderStore.add_or_update()
   }
+
+  /*if (state.tabIdx === 0 && !cartStore.state.freeze) {
+    freezeCart.value.show();
+  }*/
 }
 
 function onFreezeCart() {

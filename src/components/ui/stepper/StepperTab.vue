@@ -3,7 +3,7 @@
     class="viur-shop-order-tab"
     slot="nav"
     :panel="tab"
-    :disabled="tabIdx === 0 ? false : disabled"
+    :disabled="false"
   >
     <div class="viur-shop-order-step">
       <sl-icon
@@ -142,7 +142,7 @@ const stepperState = inject("stepperState");
 }
 
 .viur-shop-order-status-text {
-  font-size: 0.8em;
+  font-size: 1em;
   color: inherit;
   text-align: center;
   white-space: initial;
