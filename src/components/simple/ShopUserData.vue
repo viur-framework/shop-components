@@ -1,7 +1,9 @@
 <template>
-    {{ orderStore.state.currentOrder['billing_address'] }}
-    {{ cartStore.state.basket }}
-    {{ cartStore.state.currentOrder }}
+    Billing:{{ orderStore.state.currentOrder['billing_address'] }} <br>
+    Shipping: {{ cartStore.state.basket['shipping_address'] }}
+    ----<br>
+
+
     <div class="viur-shop-cart-address-headline">
       {{ $t("skeleton.address.address_type.shipping") }}
     </div>
@@ -13,11 +15,10 @@
     <ViForm
         ref="shippingForm"
         :module="`${cartStore.state.shopModuleName}/address`"
-        action="add"
+        :action="cartStore.state.basket['shipping_address']? 'edit' : 'add'"
+        :skelkey="cartStore.state.basket['shipping_address']? cartStore.state.basket['shipping_address']['dest']['key'] : null"
         :useCategories="false"
-        :skel="{'address_type':'shipping'}"
         :layout="DefaultLayout"
-        @change="updateValues"
       >
     </ViForm>
     <div>
@@ -32,20 +33,20 @@
       <ViForm
         ref="billingForm"
         :module="`${cartStore.state.shopModuleName}/address`"
-        action="add"
-        :values="{'address_type':'billing'}"
+        :action="orderStore.state.currentOrder['billing_address']? 'edit' : 'add'"
+        :skelkey="orderStore.state.currentOrder['billing_address']? orderStore.state.currentOrder['billing_address']['dest']['key'] : null"
         :useCategories="false"
         :layout="DefaultLayout"
-        @change="updateValues"
       >
     </ViForm>
     </div>
-    
+    <sl-button @click="saveAddresses">weiter</sl-button>
 </template>
 
 <script setup>
 // Functions
 import { ref, reactive, computed, onBeforeMount, watch } from "vue";
+import { Request } from '@viur/vue-utils'
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import DefaultLayout from "./SimpleDefaultLayout.vue";
 // Stores
@@ -69,6 +70,9 @@ const shippingForm = ref(null)
 const billingForm = ref(null)
 
 
+
+
+
 const state = reactive({
   billingIsShipping:true,
 
@@ -86,15 +90,62 @@ const state = reactive({
     return billingForm.value.state.loading
   }),
 
-
   shippingSending:false,
   billingSending:false,
   shippingSuccess:false,
   billingSuccess:false,
   hasError:false,
-  errorMessage:""
+  errorMessage:"",
 })
-  
+
+function saveAddresses(){
+  state.shippingSending = true
+  state.billingSending = true
+  state.shippingSuccess = false
+  state.billingSuccess = false
+
+  shippingForm.value.sendData().then(async (resp)=>{
+    let data = await resp.json()
+    state.shippingSending = undefined
+    if (data['action']==="addSuccess"){
+      state.shippingSuccess = true
+    }
+  })
+
+  // copy shipping to billing
+  if(state.billingIsShipping){
+    billingForm.value.state.skel = shippingForm.value.state.skel
+  }
+
+  billingForm.value.sendData().then(async (resp)=>{
+    let data = await resp.json()
+    state.billingSending = undefined
+    if (data['action']==="addSuccess"){
+      state.billingSuccess = true
+    }
+
+    await  cartStore.state.shopClient.update_cart(cartStore.state.currentbasketKey, )
+  })
+
+
+
+}
+
+
+
+function getData(){
+
+}
+
+
+function init(){
+  getData()
+}
+
+onBeforeMount(()=>{
+  init()
+})
+
 </script>
 
 <style scoped>
