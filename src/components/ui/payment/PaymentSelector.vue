@@ -38,7 +38,7 @@
             </template>
 
             <template v-else-if="option.paymenttype === 'unzer-ideal'">
-                <div id="paypal-element" class="field"></div>
+                <div id="ideal-element" class="field"></div>
             </template>
           </form>
         </template>

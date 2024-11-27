@@ -36,12 +36,15 @@ const props = defineProps({
   let iconMap = {
     'prepayment':'currency-euro',
     'unzer-card':'credit-card-2-back-fill',
-    'unzer-paypal':'paypal'
+    'unzer-paypal':'paypal',
+    'unzer-ideal':'bank2',
+    'unzer-sofort':'cash-coin'
   }
 
   let simpleProviders = [
     'prepayment',
-      'unzer-paypal'
+    'unzer-paypal',
+    'unzer-sofort'
   ]
 
 const state = reactive({

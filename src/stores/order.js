@@ -25,11 +25,13 @@ export const useOrderStore = defineStore("shop-order", () => {
         resolve()
       }
       try{
-        const  response = await Request.get(state.shopClient.shop_json_url+"/order/view/",{dataObj:{
-          "key": state.currentOrderkey
+        const response = await Request.post(state.shopClient.shop_api_url+"/order_view",{dataObj:{
+          "order_key": state.currentOrderkey
         }})
+        console.log(response)
         const data = await response.json()
-        state.currentOrder = data['values']
+        console.log(data['skel'])
+        state.currentOrder = data['skel']
         resolve()
       } catch(error){
         reject(error)
