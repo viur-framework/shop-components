@@ -1,7 +1,7 @@
 // imports
 import { createPinia } from "pinia";
 import { createI18n } from "vue-i18n";
-import { getTranslations } from "./lib/utils";
+import { getTranslations } from "./utils";
 import { de_translations, en_translations } from "@viur/vue-utils";
 import en from "./translations/en"
 import de from "./translations/de"
@@ -10,6 +10,8 @@ let data = await getTranslations(['de','en'])
 let de_viur = data["de"]
 let en_viur = data["en"]
 
+
+/*
 import { useAddressStore } from "./stores/address";
 import { useCartStore } from "./stores/cart";
 import { useMessageStore } from "./stores/message";
@@ -38,6 +40,9 @@ export { default as ShopSummary } from "./components/ShopSummary.vue";
 
 // deleted after docs are written
 export { default as ExampleUsage } from "./components/ExampleUsage.vue";
+*/
+export { default as ShopOrderStepper } from "./ShopOrderStepper.vue";
+
 
 // Plugin registration
 const pinia = createPinia();

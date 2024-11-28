@@ -73,7 +73,6 @@ const unzerform = ref(null)
   const state = reactive({
     unzer: computed(()=>{
         //if (!orderStore.state.checkout) return null
-        return new unzer('s-pub-2a109pymjkhrxmNIxPrXwxubWNfH9kPe', {locale: 'de-DE'})
         return new unzer(orderStore.state.checkout.payment.public_key, {locale: 'de-DE'})
     }),
     selection:null,
