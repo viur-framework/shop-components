@@ -1,10 +1,10 @@
-import { reactive } from "vue";
-import { useUrlSearchParams } from '@vueuse/core'
-import { defineStore } from "pinia";
-import { ViURShopClient } from "../client";
-import { useMessageStore } from "./message";
-import { useOrderStore } from "./order";
-import { useAddressStore } from "./address";
+import {reactive} from "vue";
+import {useUrlSearchParams} from '@vueuse/core'
+import {defineStore} from "pinia";
+import {ViURShopClient} from "../client";
+import {useMessageStore} from "./message";
+import {useOrderStore} from "./order";
+import {useAddressStore} from "./address";
 
 /*
 TODO:
@@ -20,7 +20,8 @@ export const useCartStore = defineStore("shop-cart", () => {
   const state = reactive({
     shopClient: null,
     shopModuleName: "shop",
-    currentbasketKey:null,
+    currentbasketKey: null,
+    cart: {},
     basket: {},
     childrenByNode: {},
     paymentProviders: {},
@@ -37,27 +38,27 @@ export const useCartStore = defineStore("shop-cart", () => {
   });
 
   function setConfig({
-    shopModuleName = "shop",
-    placeholder = "",
-    onlyUser = true,
-  } = {}) {
+                       shopModuleName = "shop",
+                       placeholder = "",
+                       onlyUser = true,
+                     } = {}) {
     /* function set set initial states */
     state.shopModuleName = shopModuleName; // change default module shop to something else
     state.placeholder = placeholder; // define image placeholder for missing images
     state.onlyUser = onlyUser; // define order with or without userAccount
     state.shopClient =
       addressStore.state.shopClient =
-      orderStore.state.shopClient =
-        new ViURShopClient({
-          host_url: import.meta.env.VITE_API_URL
-            ? import.meta.env.VITE_API_URL
-            : window.location.origin, //use vite config, because all utils requests are using this.
-          shop_module: state.shopModuleName, //change default module shop to something else
-        });
+        orderStore.state.shopClient =
+          new ViURShopClient({
+            host_url: import.meta.env.VITE_API_URL
+              ? import.meta.env.VITE_API_URL
+              : window.location.origin, //use vite config, because all utils requests are using this.
+            shop_module: state.shopModuleName, //change default module shop to something else
+          });
 
     //get Orderkey from url, to continue orderprozess after reload
     const params = useUrlSearchParams('hash')
-    if (Object.keys(params).includes('order')){
+    if (Object.keys(params).includes('order')) {
       orderStore.state.currentOrderkey = params['order']
     }
   }
@@ -76,6 +77,7 @@ export const useCartStore = defineStore("shop-cart", () => {
     try {
       const customer = await getCustomer();
       const loadOrder = await orderStore.getOrder();
+      await getCart();
       const shopRequests = await Promise.all([
         addressStore.init(),
         getBasket()
@@ -116,20 +118,39 @@ export const useCartStore = defineStore("shop-cart", () => {
       }
     });
   }
-  async function getBasket(key=null) {
+
+  async function getCart(key = null) {
+    if (!key) {
+      if (orderStore.state.currentOrder?.['cart']?.['dest']?.['key']) {
+        //Cart is detached from the session
+        key = orderStore.state.currentOrder['cart']['dest']['key'];
+        const resp=await Request.view("shop.cart",key);
+        const data = await  resp.json();
+        state.cart = data["values"];
+
+      } else { //We have no key so we must get it form cart
+        const resp = await state.shopClient.cart_list();
+        state.cart=resp[0];
+      }
+
+    }
+
+  }
+
+  async function getBasket(key = null) {
     return new Promise(async (resolve, reject) => {
-      if (!key  ){
+      if (!key) {
         if (orderStore.state.currentOrder?.['cart']?.['dest']?.['key']) {
           key = orderStore.state.currentOrder['cart']['dest']['key'];
           state.freeze = true;
         } else { //We have no key so we must get it form cart
-           const resp = await state.shopClient.cart_list();
-           key = resp[0]["key"];
+          const resp = await state.shopClient.cart_list();
+          key = resp[0]["key"];
         }
 
       }
       try {
-        const resp = await state.shopClient.cart_list({ cart_key: key });
+        const resp = await state.shopClient.cart_list({cart_key: key});
         state.basket = resp[0];
         state.currentbasketKey = state.basket['parentrepo']//fixme this total unnecessary
         resolve(state.basket);
@@ -140,12 +161,12 @@ export const useCartStore = defineStore("shop-cart", () => {
     });
   }
 
-  async function getOrderCart(){
+  async function getOrderCart() {
 
   }
 
   async function getChildren(parentKey) {
-    return await state.shopClient.cart_list({ cart_key: parentKey });
+    return await state.shopClient.cart_list({cart_key: parentKey});
   }
 
   async function addToCart(articleKey, cartKey) {
@@ -194,18 +215,18 @@ export const useCartStore = defineStore("shop-cart", () => {
   }
 
   async function addDiscount(code) {
-    await state.shopClient.discount_add({ code });
+    await state.shopClient.discount_add({code});
   }
 
   async function update({
-    key,
-    type,
-    name,
-    customerComment,
-    shippingAddress,
-    shipping,
-    discount,
-  } = {}) {
+                          key,
+                          type,
+                          name,
+                          customerComment,
+                          shippingAddress,
+                          shipping,
+                          discount,
+                        } = {}) {
     if (!key) {
       key = state.basket.key;
     }

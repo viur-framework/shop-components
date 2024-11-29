@@ -78,7 +78,7 @@ const orderStore = useOrderStore();
 const shipping = ref(null);
 
 const state = reactive({
-  node: computed(() => cartStore.state.basket),
+  node: computed(() => cartStore.state.cart),
 });
 
 const totalPrice = computed(() => {

@@ -54,7 +54,6 @@ async function getChildren(parentKey = props.cartKey) {
       state.data.push(child);
     }
   }
-
   state.loading = false;
 }
 
@@ -62,7 +61,7 @@ async function getCart() {
   state.data = [];
   await getChildren();
   if (state.data.length) {
-    state.data.push(cartStore.state.basket);
+    //state.data.push(cartStore.state.basket); // we mak this in get children
     emits("valid", true);
   } else {
     emits("valid", false);
