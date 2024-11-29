@@ -59,7 +59,7 @@ export const useCartStore = defineStore("shop-cart", () => {
     const params = useUrlSearchParams('hash')
     if (Object.keys(params).includes('order')){
       orderStore.state.currentOrderkey = params['order']
-    }    
+    }
   }
 
   async function init(update = false) {
@@ -118,14 +118,20 @@ export const useCartStore = defineStore("shop-cart", () => {
   }
   async function getBasket(key=null) {
     return new Promise(async (resolve, reject) => {
-      if (!key && orderStore.state.currentOrder?.['cart']?.['dest']?.['key']){
-        key = orderStore.state.currentOrder['cart']['dest']['key']
-        state.freeze=true
+      if (!key  ){
+        if (orderStore.state.currentOrder?.['cart']?.['dest']?.['key']) {
+          key = orderStore.state.currentOrder['cart']['dest']['key'];
+          state.freeze = true;
+        } else { //We have no key so we must get it form cart
+           const resp = await state.shopClient.cart_list();
+           key = resp[0]["key"];
+        }
+
       }
       try {
         const resp = await state.shopClient.cart_list({ cart_key: key });
         state.basket = resp[0];
-        state.currentbasketKey = state.basket['parentrepo']
+        state.currentbasketKey = state.basket['parentrepo']//fixme this total unnecessary
         resolve(state.basket);
       } catch (error) {
         state.basket = []; //reset basket on error

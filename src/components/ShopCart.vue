@@ -42,8 +42,7 @@ async function getChildren(parentKey = props.cartKey) {
   }
 
   const children = await cartStore.getChildren(parentKey);
-
-  children.forEach(async (child) => {
+  for (const child of children) {
     if (child.skel_type === "node") {
       if (!Object.keys(cartStore.state.childrenByNode.includes(parentKey))) {
         cartStore.state.childrenByNode[parentKey] = [];
@@ -54,7 +53,8 @@ async function getChildren(parentKey = props.cartKey) {
     } else {
       state.data.push(child);
     }
-  });
+  }
+
   state.loading = false;
 }
 
