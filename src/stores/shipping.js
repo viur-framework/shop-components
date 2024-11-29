@@ -1,6 +1,5 @@
 import { reactive, computed, watch } from "vue";
 import { defineStore } from "pinia";
-import { Request } from "@viur/vue-utils";
 import {useCartStore} from "./cart";
 import { useOrderStore } from './order';
 
@@ -19,10 +18,11 @@ export const useShippingStore = defineStore("shop-shipping", () => {
     })
 
     async function getShippingData() {
-        state.shippingSelection = null
+        state.selectedShippingMethod = null
         state.isLoading = true
         state.isUpdating = false
         state.hasError = false
+        updateShipping();
         try{
             state.shippingData = await cartStore.state.shopClient.shipping_list({
                 cart_key: cartStore.state.currentbasketKey,
@@ -41,7 +41,7 @@ export const useShippingStore = defineStore("shop-shipping", () => {
 
     async function updateCart(){
         if (!state.selectedShippingMethod) return false
-        let result = await cartStore.state.shopClient.cart_update({
+        const result = await cartStore.state.shopClient.cart_update({
             cart_key: orderStore.state.currentOrder.cart.dest.key,
             shipping_key: state.selectedShippingMethod['dest']['key']
         })
@@ -49,6 +49,14 @@ export const useShippingStore = defineStore("shop-shipping", () => {
             return false
         }
         return true
+    }
+    function updateShipping()
+    {
+      //Set shipping if shipping_status is cheapest
+      //TODO use Enums form shopclient
+      if (cartStore.state.cart["shipping_status"] === "cheapest") {
+        state.selectedShippingMethod = cartStore.state.cart.shipping;
+      }
     }
 
 
@@ -73,6 +81,7 @@ export const useShippingStore = defineStore("shop-shipping", () => {
         state,
         getShippingData,
         initShipping,
-        updateCart
+        updateCart,
+        updateShipping
     }
 })

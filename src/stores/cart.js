@@ -5,6 +5,7 @@ import {ViURShopClient} from "../client";
 import {useMessageStore} from "./message";
 import {useOrderStore} from "./order";
 import {useAddressStore} from "./address";
+import {useShippingStore} from "./shipping";
 
 /*
 TODO:
@@ -16,6 +17,7 @@ export const useCartStore = defineStore("shop-cart", () => {
   const messageStore = useMessageStore();
   const orderStore = useOrderStore();
   const addressStore = useAddressStore();
+  let shippingStore = null;
 
   const state = reactive({
     shopClient: null,
@@ -211,7 +213,13 @@ export const useCartStore = defineStore("shop-cart", () => {
 
   async function updateCart() {
     state.basket = {};
+    await getCart();
     await getBasket();
+    if (shippingStore === null) {
+      //Can not import at the top because then the watcher in the shippingstore not work
+      shippingStore = useShippingStore();
+    }
+    shippingStore.updateShipping();
   }
 
   async function addDiscount(code) {
