@@ -35,3 +35,15 @@ export async function getTranslations(languages=["de"]){
   return retVal
 }
 
+export function getImage(image) {
+  if (image !== undefined) return Request.downloadUrlFor(image);
+
+  return 'PLACEHOLDER';
+}
+
+export function removeUndefinedValues(obj) {
+  return Object.fromEntries(
+      Object.entries(obj)
+          .filter(([key, value]) => value !== undefined),
+  );
+}

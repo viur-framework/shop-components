@@ -41,7 +41,7 @@ export { default as ShopSummary } from "./components/ShopSummary.vue";
 // deleted after docs are written
 export { default as ExampleUsage } from "./components/ExampleUsage.vue";
 */
-export { default as ShopOrderStepper } from "./ShopOrderStepper.vue";
+export { default as ViurShop } from "./Shop.vue";
 
 
 // Plugin registration
