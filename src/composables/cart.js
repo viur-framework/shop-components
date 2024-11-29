@@ -1,5 +1,6 @@
 import {reactive} from 'vue'
 import {Request} from '@viur/vue-utils'
+import { removeUndefinedValues} from '../utils'
 
 import { useViurShopStore } from '../shop'
 
@@ -13,7 +14,7 @@ export function useCart() {
     function fetchCart(){
         //first fetch root then fetchItems for this root
         state.isLoading = true
-        fetchCartRoot().then(()=>{
+        return fetchCartRoot().then(()=>{
             if(!shopStore.state.cartRoot?.['key']) return 0
             fetchCartItems(shopStore.state.cartRoot['key']).then(()=>{
                 state.isLoading = false
@@ -40,7 +41,31 @@ export function useCart() {
         })
     }
 
-    function updateCart(params){}
+    function updateCart({
+                    cart_type,
+                    name,
+                    customer_comment,
+                    shipping_address_key,
+                    shipping_key,
+                    discount_key,
+                } = {}){
+
+        let data= {
+            cart_type,
+            name,
+            customer_comment,
+            shipping_address_key,
+            shipping_key,
+            discount_key,
+            cart_key:shopStore.state.cartRoot['key']
+        }
+
+        return Request.post(`${shopStore.state.shopApiUrl}/cart_update`, {
+            dataObj: removeUndefinedValues(data)
+        }).then(async (resp)=>{
+            fetchCart()
+        })
+    }
 
     function addItem(key, quantity=1, cart=null, quantity_mode='increase'){
         //add Item to cart
@@ -64,6 +89,7 @@ export function useCart() {
         fetchCartRoot,
         fetchCartItems,
         fetchCart,
+        updateCart,
         addItem
     }
 }

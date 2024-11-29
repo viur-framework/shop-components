@@ -3,6 +3,9 @@
         {{ $t("skeleton.address.address_type.shipping") }}
     </div>
 
+    <address-form :formtype="state.billingIsShipping?'both':'shipping'">
+    </address-form>
+
     <div>
       <sl-switch checked @sl-change="state.billingIsShipping=$event.target.checked">Verwende Lieferadresse als Rechnungsadresse</sl-switch>
     </div>
@@ -11,8 +14,19 @@
       <div class="viur-shop-cart-address-headline">
         {{ $t("skeleton.address.address_type.billing") }}
       </div>
-
+      <address-form formtype="billing"></address-form>
     </div>
+
+
+    <sl-bar>
+      <div slot="right">
+
+        <sl-button @click="nextStep">Weiter</sl-button>
+      </div>
+
+
+    </sl-bar>
+
 </template>
 
 
@@ -21,12 +35,23 @@
 import {reactive} from 'vue'
 import { useStepper } from '../composables/stepper'
 
+import AddressForm from '../components/AddressForm.vue'
+import {useAddress} from "../composables/address";
+
+
 const tab = 'userdata' //marks component for a step
 const stepper = useStepper(tab,()=>{}, ()=>{})
+
+const {state:addressState,saveAddresses} = useAddress()
+
 
 const state = reactive({
     billingIsShipping:true
 })
+
+function nextStep(){
+  saveAddresses(state.billingIsShipping)
+}
 
 
 </script>

@@ -1,9 +1,72 @@
 <template>
-    FORM
-    <LoadingHandler></LoadingHandler>
+    <LoadingHandler :is-loading="addressState[`${state.formtype}IsLoading`]"></LoadingHandler>
+    <ViForm
+        :ref="(el)=>{console.log(el);addressState[`${state.formtype}Form`]=el; return el}"
+        :module="`${shopStore.state.moduleName}/address`"
+        :action="state.action"
+        :skelkey="state.skelkey"
+        :values="{'address_type':address_type, 'customer_type':'private'}"
+        :useCategories="false"
+        :layout="AddressFormLayout"
+      >
+    </ViForm>
 </template>
 
-<script>
+<script setup>
+import {computed, reactive} from 'vue'
 import LoadingHandler from './LoadingHandler.vue';
+import AddressFormLayout from './AddressFormLayout.vue';
+import ViForm from "@viur/vue-utils/forms/ViForm.vue";
+import {useViurShopStore} from "../shop";
+import {useAddress} from "../composables/address";
+
+const shopStore = useViurShopStore();
+const {state:addressState} = useAddress();
+
+const props = defineProps({
+  formtype:"shipping", //formtype: shipping, billing, both
+})
+
+const state = reactive({
+  formtype:computed(()=>{
+    if (['shipping','both'].includes(props.formtype)){
+      return "shipping"
+    }
+    return 'billing'
+  }),
+
+  action: computed(()=>{
+    if (state.formtype ==='shipping' && shopStore.state.cartRoot?.['shipping_address']){
+      return 'edit'
+    } else if (props.formtype === 'billing' && shopStore.state.order?.['billing_address']){
+      return 'edit'
+    } else {
+      return 'add'
+    }
+  }),
+
+  skelkey:computed(()=>{
+    if (state.formtype === 'shipping' && shopStore.state.cartRoot?.['shipping_address']){
+      return shopStore.state.cartRoot['shipping_address']?.['dest']?.['key']
+    } else if (props.formtype === 'billing' && shopStore.state.order?.['billing_address']){
+      return shopStore.state.order?.['billing_address']?.['dest']?.['key']
+    }
+    return null
+
+  }),
+  address_type:computed(()=>{
+    if (props.formtype === 'both'){
+      return ["shipping",'billing']
+    }
+    return [state.formtype]
+  })
+
+
+})
+
 
 </script>
+
+<style scoped>
+
+</style>

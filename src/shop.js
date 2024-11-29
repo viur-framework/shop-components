@@ -79,7 +79,10 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         cartList:[], //articles in cart
         cartRoot:null, //actual cart rootnode entry ( used for shipping etc)
         order:null, // actual order entry ( used for billing etc.)
-        orderKey:null // key of the order, maybe injected from ?order param
+        orderKey:null, // key of the order, maybe injected from ?order param
+
+        //CART READY
+        cartReady:false
 
     })
 

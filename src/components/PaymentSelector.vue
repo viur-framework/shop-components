@@ -2,7 +2,7 @@
   <sl-radio-group :value="state.selection">
     <sl-details-group>
 
-      <payment-option v-for="option in paymentState.paymentData" :key="option.id"
+      <payment-option v-for="option in options" :key="option.id"
                       :paymenttype="option.paymenttype"
                       :name="option.name"
                       :icon="option.icon"
@@ -48,41 +48,40 @@
   </sl-radio-group>
 
 </template>
+
 <script setup>
-import {computed, reactive} from 'vue'
-import PaymentOption from "../components/PaymentOption.vue";
-import {useStepper} from "../composables/stepper";
-import {usePayment} from "../composables/payment";
-import {useOrder} from "../composables/order";
+import {usePaymentStore} from "../../../stores/payment"
+import PaymentOption from "./PaymentOption.vue"
+import {computed, reactive, ref} from 'vue'
 import {Request} from "@viur/vue-utils";
-import {useViurShopStore} from "../shop";
 
-const {state:paymentState, fetchPaymentData} = usePayment()
-const {state:orderStore, addOrUpdateOrder} = useOrder()
-const shopStore = useViurShopStore()
+const paymentStore = usePaymentStore()
 
-const state = reactive({
-    selection:null,
-    paymentHandler:{},
-    unzer: computed(()=>{
-        //if (!orderStore.state.checkout) return null
-        //return new unzer(orderStore.state.checkout.payment.public_key, {locale: 'de-DE'})
-    }),
-})
+const unzerform = ref(null)
 
-function init(){
-  fetchPaymentData().then(()=>{
-    state.selection = shopStore.state.order?.['payment_provider']
+  const props = defineProps({
+    selection: {
+      type: String,
+      default: null
+    },
+    options: {
+      type: Array,
+      default: () => []
+    }
   })
 
-}
-const tab = 'paymentprovider' //marks component for a step
-const stepper = useStepper(tab, init, ()=>{})
-
+  const state = reactive({
+    unzer: computed(()=>{
+        //if (!orderStore.state.checkout) return null
+        return new unzer(orderStore.state.checkout.payment.public_key, {locale: 'de-DE'})
+    }),
+    selection:null,
+    hasError:false
+  })
 
 function initUnzerForm(){
     //Unzer field definition
-    if (state.selection === 'unzer-card' && !state.paymentHandler['unzer-card']) {
+    if (state.selection === 'unzer-card' && !paymentStore.state.paymentHandler['unzer-card']) {
         const card = state.unzer.Card();
         // Rendering input field card number
         card.create('number', {
@@ -100,29 +99,30 @@ function initUnzerForm(){
             onlyIframe: false,
         });
 
-        state.paymentHandler['unzer-card'] = card
-    } else if (state.selection === 'unzer-paypal' && !state.paymentHandler['unzer-paypal']) {
+        paymentStore.state.paymentHandler['unzer-card'] = card
+    } else if (state.selection === 'unzer-paypal' && !paymentStore.state.paymentHandler['unzer-paypal']) {
         // Creating a PayPal instance
         const paypal = state.unzer.Paypal()
         // Rendering input field
         //paypal.create('email', {
         //     containerId: 'paypal-element',
         //});
-        state.paymentHandler['unzer-paypal']= paypal;
-    } else if (state.selection === 'unzer-sofort' && !state.paymentHandler['unzer-sofort']) {
+        paymentStore.state.paymentHandler['unzer-paypal']= paypal;
+    } else if (state.selection === 'unzer-sofort' && !paymentStore.state.paymentHandler['unzer-sofort']) {
         const sofort = state.unzer.Sofort()
-        state.paymentHandler['unzer-sofort'] = sofort;
-    } else if (state.selection=== 'unzer-ideal' && !state.paymentHandler['unzer-ideal']) {
+        paymentStore.state.paymentHandler['unzer-sofort'] = sofort;
+    } else if (state.selection=== 'unzer-ideal' && !paymentStore.state.paymentHandler['unzer-ideal']) {
         const ideal = state.unzer.Ideal()
         ideal.create('ideal', {
             containerId: 'ideal-element',
         });
-        state.paymentHandler['unzer-ideal'] = ideal;
+        paymentStore.state.paymentHandler['unzer-ideal'] = ideal;
     }
 }
 
+
 function submitFormToUnzer(){
-    let paymenttarget = state.paymentSelection[0].split("-")[1]
+    let paymenttarget = paymentStore.state.paymentSelection[0].split("-")[1]
     //send to unzer
     state.handler.createResource().then((result)=>{
         Request.post(`/${orderStore.state.shopClient.shop_module}/pp_unzer_${paymenttarget}/save_type`, {dataObj:{
@@ -141,10 +141,15 @@ function submitFormToUnzer(){
     })
 }
 
-
-
 function optionChanged(type){
   state.selection=type
-  addOrUpdateOrder({payment_provider:type})
+  initUnzerForm()
+  paymentStore.state.paymentSelection = state.selection
 }
+
+
 </script>
+
+<style scoped>
+
+</style>

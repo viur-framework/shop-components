@@ -3,7 +3,7 @@
         <div class="viur-shop-stepper-wrap"
             :class="{ 'full-width': (!summary || summary==='bottom') }"
         >
-            <shop-order-stepper>
+            <shop-order-stepper v-if="shopStore.state.cartReady">
             </shop-order-stepper>
         </div>
 
@@ -14,7 +14,15 @@
 
     <sl-details summary="Debug" open>
         order: {{ shopStore.state.orderKey }}<br>
-        cart: {{ shopStore.state.cartRoot?.['key'] }}
+        cart: {{ shopStore.state.cartRoot?.['key'] }}<br><br>
+
+        shippingaddress: {{shopStore.state.cartRoot?.['shipping_address']}}<br>
+        billingaddress: {{shopStore.state.order?.['billing_address']}}<br><br>
+
+        shipping: {{shopStore.state.cartRoot?.['shipping']}}<br><br>
+        Payment: {{shopStore.state.order?.['payment_provider']}}<br><br>
+
+
     </sl-details>
 </template>
 
@@ -61,7 +69,9 @@ onBeforeMount(()=>{
         shopStore.navigateToTab('cart') 
     }
 
-    fetchCart()
+    fetchCart().then(()=>{
+        shopStore.state.cartReady = true
+    })
 })
 
 
