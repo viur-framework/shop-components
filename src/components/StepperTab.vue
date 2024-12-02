@@ -3,6 +3,7 @@
     class="viur-shop-order-tab"
     slot="nav"
     :panel="tab"
+    :disabled="!shopStore.state.tabState[tab]"
     @click="shopStore.navigateToTab(tab)"
   >
     <div class="viur-shop-order-step">
@@ -17,9 +18,9 @@
       <div class="viur-shop-order-status-text">
         <template v-if="tab && shopStore.state.tabs[tab]">
           {{ shopStore.state.tabIndexMap[tab] + 1 }}.
-          <span class="viur-shop-order-status-span">{{
-            shopStore.state.tabs[tab]?.displayName
-          }}</span>
+          <span class="viur-shop-order-status-span">
+            {{ shopStore.state.tabs[tab]?.displayName }}
+          </span>
         </template>
         <template v-else>
           {{ tab }}

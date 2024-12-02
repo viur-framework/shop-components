@@ -11,37 +11,7 @@
                       @change="optionChanged"
 
       >
-        <template v-if="option.paymenttype.startsWith('unzer-')">
-          <form class="unzerUI form" ref="unzerform">
-            <template v-if="option.paymenttype === 'unzer-card'">
-                <div class="field">
-                    <div id="card-element-id-number" class="unzerInput">
-                        <!-- Card number UI Element is inserted here. -->
-                    </div>
-                </div>
-                <div class="two fields">
-                    <div class="field ten wide">
-                        <div id="card-element-id-expiry" class="unzerInput">
-                            <!-- Card expiry date UI Element is inserted here. -->
-                        </div>
-                    </div>
-                    <div class="field six wide">
-                        <div id="card-element-id-cvc" class="unzerInput">
-                            <!-- Card CVC UI Element is inserted here. -->
-                        </div>
-                    </div>
-                </div>
-            </template>
-
-            <template v-else-if="option.paymenttype === 'unzer-paypal'">
-                <div id="paypal-element" class="field"></div>
-            </template>
-
-            <template v-else-if="option.paymenttype === 'unzer-ideal'">
-                <div id="ideal-element" class="field"></div>
-            </template>
-          </form>
-        </template>
+        
       </payment-option>
 
     </sl-details-group>

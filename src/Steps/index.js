@@ -2,7 +2,7 @@ import ShopCart from './ShopCart.vue'
 import ShopUserDataGuest from './ShopUserDataGuest.vue'
 import ShopShippingMethod from './ShopShippingMethod.vue'
 import ShopPaymentProvider from './ShopPaymentProvider.vue'
-import ShopOrderStatus from './ShopOrderStatus.vue'
+import ShopOrderConfirm from './ShopOrderConfirm.vue'
 import ShopOrderComplete from './ShopOrderComplete.vue'
 
 export {
@@ -10,6 +10,6 @@ export {
     ShopUserDataGuest,
     ShopShippingMethod,
     ShopPaymentProvider,
-    ShopOrderStatus,
+    ShopOrderConfirm,
     ShopOrderComplete
   }

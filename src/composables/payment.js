@@ -45,9 +45,10 @@ export const usePayment = defineStore("usePaymentStore", () => {
           currentOption.name = provider[1]['title']
           currentOption.description = provider[1]['descr']
           currentOption.icon = iconMap[provider[0]]
-          if (simpleProviders.includes(provider[0])){
-            currentOption.widget = "simple"
-          }
+          currentOption.widget = "simple"
+         // if (simpleProviders.includes(provider[0])){
+          //  currentOption.widget = "simple"  // payment provider musst be initialized later
+          //}
 
           options.push(currentOption)
         }

@@ -7,6 +7,22 @@ export function useStepper(tab, initfunction, leavefunction,) {
     const state = reactive({
     })
 
+    function selectCorrectTab(){
+        if (!shopStore.state.orderKey){
+            shopStore.navigateToTab("cart")
+        }
+
+        if(shopStore.state.checkoutStarted){
+            if (shopStore.state.order?.['is_ordered']){
+                shopStore.navigateToTab("complete")
+            }else{
+                shopStore.navigateToTab("confirm")
+            }
+        }
+        
+    }
+
+
     watch(()=>shopStore.state.currentTab,(newVal,oldVal)=>{
         if (oldVal === tab && newVal !== tab){
             // we leaf this tab now

@@ -1,6 +1,6 @@
 
 import { reactive, computed, watch, shallowRef } from "vue";
-import {ShopCart, ShopUserDataGuest, ShopShippingMethod, ShopPaymentProvider, ShopOrderComplete, ShopOrderStatus} from './Steps/index'
+import {ShopCart, ShopUserDataGuest, ShopShippingMethod, ShopPaymentProvider, ShopOrderComplete, ShopOrderConfirm} from './Steps/index'
 import { defineStore } from "pinia";
 import { useUrlSearchParams } from '@vueuse/core'
 
@@ -17,7 +17,14 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         shopApiUrl:computed(()=>{
             return `${state.hostUrl}/${state.moduleName}/api`
         }),
-
+        tabState:{
+            cart:computed(()=>!state.orderKey || !state.checkoutStarted), //active if no orderkey or checkout not startet
+            userdata:computed(()=>!state.checkoutStarted && state.cartList.length>0), //active if checkout not startet and cart is not empty
+            shippingmethod:computed(()=>!state.checkoutStarted && state.cartList.length>0),
+            paymentprovider:computed(()=>!state.checkoutStarted && state.cartList.length>0),
+            confirm:computed(()=>!state.order?.['is_ordered'] && state.canCheckout?.['status']), // active if canCheckout and not already ordererd
+            complete:computed(()=>state.order?.['is_ordered']) // active if ordered
+        },
 
         //default Tabs
         tabs:{
@@ -41,8 +48,8 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                 displayName: "Zahlungsart auswählen",
                 icon: { name: "credit-card" },
             },
-            status: {
-                component: shallowRef(ShopOrderStatus),
+            confirm: {
+                component: shallowRef(ShopOrderConfirm),
                 displayName: "Bestellung prüfen",
                 icon: { name: "clipboard-check" },
             },
@@ -82,7 +89,27 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         orderKey:null, // key of the order, maybe injected from ?order param
 
         //CART READY
-        cartReady:false
+        cartReady:false,
+        orderReady:false,
+        canCheckout:null,
+        canOrder:null,
+        checkoutStarted:computed(()=>{
+            if (!state.orderKey) return false
+
+            if (state.order?.['cart']?.['dest']?.['key'] !== state.cartRoot?.['key']){
+                return true
+            }
+            return false
+        }),
+
+
+        //Address Structure
+        addressStructure:null,
+        paymentMeta:null,
+
+
+        //checkout
+        paymentProviderData:null
 
     })
 
@@ -97,7 +124,6 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
     function navigateToNext(){
         // shorthand for next Tab
         if (state.tabIndexMap[state.currentTab] === state.stepperLength-1) return false
-        console.log("---")
         navigateToTab(state.indexTabMap[state.tabIndexMap[state.currentTab]+1])
     }
 
@@ -107,10 +133,58 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         navigateToTab(state.indexTabMap[state.tabIndexMap[state.currentTab]-1])
     }
 
+    function fetchAddressStructure(){
+        Request.get(`${state.shopUrl}/address/add`).then(async (resp)=>{
+            let data = await resp.json()
+            state.addressStructure = data['structure']
+        })
+    }
+
+    function fetchPaymentMeta(){
+        Request.get(`${state.shopUrl}/order/payment_providers_list`).then(async (resp)=>{
+            let data = await resp.json()
+            state.paymentMeta = data
+        })
+    }
+    
+    function fetchMetaData(){
+        fetchAddressStructure()
+        fetchPaymentMeta()
+    }
+
+    function checkout(){
+        //request Payment
+        return Request.post(`${state.shopUrl}/order/checkout_start`,{dataObj:{
+            order_key:state.orderKey
+        }}).then(async (resp)=>{
+            let data = await resp.json()
+            state.paymentProviderData = data['payment']
+
+            if (!data['payment']){
+                checkoutOrder()
+            }
+        })
+    }
+
+    function checkoutOrder(){
+        //payment is finished
+        return Request.post(`${state.shopUrl}/order/checkout_order`,{dataObj:{
+            order_key:state.orderKey
+        }}).then(async (resp)=>{
+            let data = await resp.json()
+            state.order = data['skel']
+            state.paymentProviderData = data['payment']
+        })
+        
+    }
+
     return {
         state,
         navigateToTab,
         navigateToNext,
-        navigateToPrevious
+        navigateToPrevious,
+        fetchMetaData,
+        checkout,
+        checkoutOrder
     }
 })

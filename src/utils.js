@@ -44,6 +44,6 @@ export function getImage(image) {
 export function removeUndefinedValues(obj) {
   return Object.fromEntries(
       Object.entries(obj)
-          .filter(([key, value]) => value !== undefined),
+          .filter(([key, value]) => value !== undefined && value !== null),
   );
 }

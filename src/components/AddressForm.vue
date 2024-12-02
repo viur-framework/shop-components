@@ -1,11 +1,11 @@
 <template>
     <LoadingHandler :is-loading="addressState[`${state.formtype}IsLoading`]"></LoadingHandler>
     <ViForm
-        :ref="(el)=>{console.log(el);addressState[`${state.formtype}Form`]=el; return el}"
+        :ref="(el)=>{addressState[`${state.formtype}Form`]=el; return el}"
         :module="`${shopStore.state.moduleName}/address`"
         :action="state.action"
         :skelkey="state.skelkey"
-        :values="{'address_type':address_type, 'customer_type':'private'}"
+        :values="{'address_type':state.address_type, 'customer_type':'private'}"
         :useCategories="false"
         :layout="AddressFormLayout"
       >

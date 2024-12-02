@@ -3,7 +3,7 @@
         <div class="viur-shop-stepper-wrap"
             :class="{ 'full-width': (!summary || summary==='bottom') }"
         >
-            <shop-order-stepper v-if="shopStore.state.cartReady">
+            <shop-order-stepper v-if="shopStore.state.cartReady && shopStore.state.orderReady">
             </shop-order-stepper>
         </div>
 
@@ -21,6 +21,18 @@
 
         shipping: {{shopStore.state.cartRoot?.['shipping']}}<br><br>
         Payment: {{shopStore.state.order?.['payment_provider']}}<br><br>
+
+        Order Status<br>
+        ------<br>
+        canCheckout: {{ shopStore.state.canCheckout }}<br>
+        canOrder: {{ shopStore.state.canOrder }}<br>
+        CheckoutStarted: {{ shopStore.state.checkoutStarted }}<br><br>
+
+        ordered: {{ shopStore.state.order?.['is_ordered'] }}<br>
+        readytoship: {{ shopStore.state.order?.['is_rts'] }}<br>
+        paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>
+        
+
 
 
     </sl-details>
@@ -40,8 +52,6 @@ const shopStore = useViurShopStore()
 const {fetchOrder} = useOrder()
 const {fetchCart} = useCart()
 
-
-
 const props = defineProps({
     summary:false, // bottom, sidebar
     tabs:null,
@@ -57,10 +67,15 @@ onBeforeMount(()=>{
 
     shopStore.state.moduleName= props.modulename
 
+    shopStore.fetchMetaData()
     const params = useUrlSearchParams('hash')
     if (Object.keys(params).includes('order')){
         shopStore.state.orderKey = params['order']
-        fetchOrder(shopStore.state.orderKey)
+        fetchOrder(shopStore.state.orderKey).then(()=>{
+          shopStore.state.orderReady = true
+        })
+    }else{
+      shopStore.state.orderReady = true
     } 
     
     if (Object.keys(params).includes('step')){

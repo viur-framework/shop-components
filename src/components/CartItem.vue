@@ -1,5 +1,5 @@
 <template>
-    <sl-card horizontal class="viur-shop-cart-leaf">
+    <sl-card horizontal class="viur-shop-cart-leaf small">
     <img
       class="viur-shop-cart-leaf-image"
       slot="image"
@@ -19,11 +19,13 @@
       {{ item.shop_art_no_or_gtin }}
     </h5>
     <div
+      v-if="itemstyle!=='small'"
       class="viur-shop-cart-leaf-description"
       v-html="item.shop_description"
     ></div>
     <div class="viur-shop-cart-leaf-quantity">
       <sl-input
+        :disabled="!edit"
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
         type="number"
         label="Anzahl"
@@ -48,6 +50,7 @@
 
     <div class="viur-shop-cart-leaf-actions">
       <sl-button
+        v-if="edit"
         size="small"
         outline
         class="viur-shop-cart-leaf-delete-btn"
@@ -76,6 +79,13 @@ import { getImage } from '../utils';
 const props = defineProps({
     item:{
         required:true
+    },
+    itemstyle:{
+      default:"default" //small
+    },
+    edit:{
+      type:Boolean,
+      default:false //true
     }
 })
 
