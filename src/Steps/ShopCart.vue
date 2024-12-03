@@ -25,19 +25,14 @@
 import { useViurShopStore } from '../shop'
 import {onBeforeMount, onMounted, reactive, watch} from 'vue'
 import { useCart } from '../composables/cart';
-import { useOrder } from '../composables/order';
-import { useStepper } from '../composables/stepper'
 import LoadingHandler from '../components/LoadingHandler.vue';
 import CartItem from '../components/CartItem.vue';
 
-const tab = 'cart' //marks component for a step
-
 const shopStore = useViurShopStore()
 const {fetchCart,addItem, state:cartState} = useCart()
-const { addOrUpdateOrder } = useOrder()
 
-
-const stepper = useStepper(tab,()=>{}, ()=>{})
-
+onBeforeMount(()=>{
+    fetchCart()
+})
 
 </script>

@@ -29,18 +29,11 @@
 
 
 <script setup>
-import {reactive} from 'vue'
-import { useStepper } from '../composables/stepper'
-
+import {reactive, onBeforeMount} from 'vue'
 import AddressForm from '../components/AddressForm.vue'
 import {useAddress} from "../composables/address";
 
-
-const tab = 'userdata' //marks component for a step
-const stepper = useStepper(tab,()=>{}, ()=>{})
-
 const {state:addressState,saveAddresses} = useAddress()
-
 
 const state = reactive({
     billingIsShipping:true
@@ -49,7 +42,6 @@ const state = reactive({
 function nextStep(){
   return saveAddresses(state.billingIsShipping)
 }
-
 
 </script>
 

@@ -23,8 +23,5 @@
 <script setup>
 import {computed, reactive} from 'vue'
 import { useViurShopStore } from '../shop';
-import {Request} from '@viur/vue-utils'
-import { useStepper } from '../composables/stepper'
 const shopStore = useViurShopStore()
-const tab = 'complete' //marks component for a step
 </script>

@@ -6,25 +6,29 @@
         <div class="viur-shop-cart-address-headline">
           Versandadresse
         </div>
-        {{ state.shippingAddress?.firstname }}
-        {{ state.shippingAddress?.lastname }}<br />
-        {{ state.shippingAddress?.street_name }}
-        {{ state.shippingAddress?.street_number }}<br />
-        {{ state.shippingAddress?.zip_code }}
-        {{ state.shippingAddress?.city }}<br />
-        {{ getDescrName('country',state.shippingAddress?.country) }}<br />
+        <template v-if="state.shippingAddress">
+          {{ state.shippingAddress?.firstname }}
+          {{ state.shippingAddress?.lastname }}<br />
+          {{ state.shippingAddress?.street_name }}
+          {{ state.shippingAddress?.street_number }}<br />
+          {{ state.shippingAddress?.zip_code }}
+          {{ state.shippingAddress?.city }}<br />
+          {{ getDescrName('country',state.shippingAddress?.country) }}<br />
+        </template>
       </div>
       <div class="viur-shop-cart-address">
         <div class="viur-shop-cart-address-headline">
           Rechnungsadresse
         </div>
-        {{ state.billingAddress.firstname }}
-        {{ state.billingAddress.lastname }}<br />
-        {{ state.billingAddress.street_name }}
-        {{ state.billingAddress.street_number }}<br />
-        {{ state.billingAddress.zip_code }}
-        {{ state.billingAddress.city }}<br />
-        {{ getDescrName('country',state.billingAddress.country) }}<br />
+        <template v-if="state.billingAddress">
+          {{ state.billingAddress.firstname }}
+          {{ state.billingAddress.lastname }}<br />
+          {{ state.billingAddress.street_name }}
+          {{ state.billingAddress.street_number }}<br />
+          {{ state.billingAddress.zip_code }}
+          {{ state.billingAddress.city }}<br />
+          {{ getDescrName('country',state.billingAddress.country) }}<br />
+        </template>
       </div>
     </div>
 
@@ -60,10 +64,10 @@
   </sl-details>
   </div>
 
-
   <div class="wrapper">
     <sl-button size="small" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">Zahlungspflichtig Bestellen</sl-button>
   </div>
+
   <template v-if="shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
     <sl-dialog label="Zahlung" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
         <payment-provider-unzer></payment-provider-unzer>
@@ -79,17 +83,16 @@
 
 </template>
 <script setup>
-import {computed, reactive, watch} from 'vue'
+import {computed, onBeforeMount, reactive, watch} from 'vue'
 import { useViurShopStore } from '../shop';
 import boneUtils from '@viur/vue-utils/bones/utils'
 import {Request} from '@viur/vue-utils'
 import CartItem from '../components/CartItem.vue';
-import { useStepper } from '../composables/stepper'
 import PaymentProviderUnzer from '../components/PaymentProviderUnzer.vue';
 const shopStore = useViurShopStore()
-const tab = 'confirm' //marks component for a step
 
 
+// collected data from order Object > Session cart is not available anymore
 const state = reactive({
     shippingAddress: computed(()=>shopStore.state.order?.['cart']?.['dest']?.['shipping_address']?.['dest']),
     billingAddress: computed(()=>shopStore.state.order?.['billing_address']?.['dest']),
@@ -100,14 +103,15 @@ const state = reactive({
 })
 
 
-
+// simple wrapper for value rendering
 function getDescrName(boneName, val) {
   if (!shopStore.state.addressStructure || !val) return val
   return boneUtils.getDescr(shopStore.state.addressStructure[boneName],val)
 }
 
+// fetch cart from order
 function getOrderCart(){
-  let cartKey = shopStore.state.order['cart']['dest']['key']
+  let cartKey = shopStore.state.order?.['cart']?.['dest']?.['key']
   Request.get(`${shopStore.state.shopApiUrl}/cart_list`,{dataObj:{
       cart_key:cartKey
   }}).then(async( resp) =>{
@@ -116,22 +120,22 @@ function getOrderCart(){
   })
 }
 
+//open popup and freeze cart
 function startCheckout(){
   state.paymentPopup=true
   shopStore.checkout()
 }
 
+//close popup if payment successfull
 watch(()=>shopStore.state.order?.['is_paid'],(newVal,oldVal)=>{
   if(newVal){
     state.paymentPopup=false
   }
 })
 
-function init(){
+onBeforeMount(()=>{
   getOrderCart()
-}
-
-const stepper = useStepper(tab,init, ()=>{})
+})
 
 </script>
 

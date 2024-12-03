@@ -20,8 +20,8 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         tabState:{
             cart:computed(()=>!state.orderKey || !state.checkoutStarted), //active if no orderkey or checkout not startet
             userdata:computed(()=>!state.checkoutStarted && state.cartList.length>0), //active if checkout not startet and cart is not empty
-            shippingmethod:computed(()=>!state.checkoutStarted && state.cartList.length>0),
-            paymentprovider:computed(()=>!state.checkoutStarted && state.cartList.length>0),
+            shippingmethod:computed(()=>!state.checkoutStarted && state.cartRoot?.['shipping_address']), // we need a shipping country
+            paymentprovider:computed(()=>!state.checkoutStarted && state.order), // we need a active order
             confirm:computed(()=>!state.order?.['is_ordered'] && state.canCheckout?.['status']), // active if canCheckout and not already ordererd
             complete:computed(()=>state.order?.['is_ordered']) // active if ordered
         },
@@ -114,6 +114,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
     })
 
     function navigateToTab(name){
+        if(!state.tabState[name]) return 0
         // navigate to Tab 
         state.currentTab = name
 

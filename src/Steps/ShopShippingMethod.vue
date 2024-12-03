@@ -24,27 +24,16 @@ import {reactive} from "vue";
 import CardSelector from "../components/CardSelector.vue";
 import LoadingHandler from "../../old/components/generic/loadinghandler.vue";
 import {useShipping} from "../composables/shipping";
-import {useStepper} from "../composables/stepper";
 import {useCart} from "../composables/cart";
 import {useViurShopStore} from "../shop";
 
 const shopStore = useViurShopStore();
-
 const {updateCart} = useCart();
 const {state: shippingState,fetchShippingData} = useShipping();
-const tab = 'shippingmethod' //marks component for a step
-
-function init(){
-  fetchShippingData()
-  state.selectedShippingMethod = shopStore.state.cartRoot?.['shipping']
-}
-
-const stepper = useStepper(tab, init, ()=>{})
 
 const state = reactive({
   selectedShippingMethod: null
 })
-
 
 function updateShippingMethod(selection){
   if (selection){
@@ -52,10 +41,10 @@ function updateShippingMethod(selection){
   }
 }
 
-
-
-
-
+function onBeforeMount(){
+  fetchShippingData()
+  state.selectedShippingMethod = shopStore.state.cartRoot?.['shipping']
+}
 </script>
 
 
