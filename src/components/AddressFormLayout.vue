@@ -46,14 +46,7 @@
         label="placeholder">
   </slot>
 
-  <slot boneName="address_type"
-        :widget="getBoneWidget(formState.structure['address_type']['type'])"
-        label="placeholder">
-  </slot>
-
   </div>
-
-
 </template>
 <script setup>
 import { inject } from "vue";

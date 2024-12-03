@@ -72,7 +72,6 @@ export const useAddress = defineStore("useAddressStore", () => {
         if (type === 'shipping'){
             const {updateCart} = useCart()
             updateCart({shipping_address_key:key})
-            console.log(shippingIsBilling)
             if(shippingIsBilling){
                 const {addOrUpdateOrder} = useOrder()
                 addOrUpdateOrder({billing_address_key:key})
