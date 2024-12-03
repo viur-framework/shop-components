@@ -62,20 +62,24 @@
 
 
   <div class="wrapper">
-    <sl-button size="small" @click="shopStore.checkout" :disabled="!shopStore.state.canCheckout" variant="success">Zahlungspflichtig Bestellen</sl-button>
+    <sl-button size="small" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">Zahlungspflichtig Bestellen</sl-button>
   </div>
+  <template v-if="shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
+    <sl-dialog label="Zahlung" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
+        <payment-provider-unzer></payment-provider-unzer>
+    </sl-dialog>
+  </template>
 
-  <div class="wrapper">
-    <template v-if="shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
-      <payment-provider-unzer></payment-provider-unzer>
-    </template>
-  </div>
-
-
+    <slot
+      nextName="weiter"
+      :activefunction="()=>true"
+      :nextfunction="()=>true"
+  >
+  </slot>
 
 </template>
 <script setup>
-import {computed, reactive} from 'vue'
+import {computed, reactive, watch} from 'vue'
 import { useViurShopStore } from '../shop';
 import boneUtils from '@viur/vue-utils/bones/utils'
 import {Request} from '@viur/vue-utils'
@@ -91,7 +95,8 @@ const state = reactive({
     billingAddress: computed(()=>shopStore.state.order?.['billing_address']?.['dest']),
     shipping: computed(()=>shopStore.state.order?.['shipping']?.['dest']),
     payment: computed(()=>shopStore.state.order?.['payment_provider']),
-    cartList:[]
+    cartList:[],
+    paymentPopup:false
 })
 
 
@@ -111,6 +116,16 @@ function getOrderCart(){
   })
 }
 
+function startCheckout(){
+  state.paymentPopup=true
+  shopStore.checkout()
+}
+
+watch(()=>shopStore.state.order?.['is_paid'],(newVal,oldVal)=>{
+  if(newVal){
+    state.paymentPopup=false
+  }
+})
 
 function init(){
   getOrderCart()

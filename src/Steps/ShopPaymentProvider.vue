@@ -47,6 +47,13 @@
     </sl-details-group>
   </sl-radio-group>
 
+  <slot
+      nextName="weiter"
+      :activefunction="()=>shopStore.state.order?.['payment_provider']"
+      :nextfunction="()=>true"
+  >
+  </slot>
+
 </template>
 <script setup>
 import {computed, reactive} from 'vue'

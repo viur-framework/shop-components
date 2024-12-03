@@ -12,7 +12,21 @@
 
             <sl-tab-panel :name="name">
                 <template v-if="tab?.['loaded']">
-                    <component :is="tab['component']"></component>
+                    <component :is="tab['component']">
+                      <template v-slot="slotProps">
+                        <sl-bar>
+                          <div slot="right">
+                            <sl-button
+                                variant="primary"
+                                :disabled="active(slotProps)"
+                                @click="nextStep(slotProps)"
+                            >
+                              {{slotProps.nextName}}
+                            </sl-button>
+                          </div>
+                        </sl-bar>
+                      </template>
+                    </component>
                 </template>
             </sl-tab-panel>
         </template>
@@ -42,6 +56,19 @@ onMounted(()=>{
     })
 })
 
+function nextStep(obj){
+  //validate step, like send forms or something like this
+  Promise.resolve(obj.nextfunction()).then((resp)=>{
+    if (resp){
+      shopStore.navigateToNext()
+    }
+  })
+
+}
+
+function active(obj){
+  return !obj.activefunction()
+}
 
 </script>
 

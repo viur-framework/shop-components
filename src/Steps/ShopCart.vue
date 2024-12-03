@@ -11,6 +11,14 @@
 
         </cart-item>
     </loading-handler>
+
+    <slot
+        nextName="weiter"
+        :activefunction="()=>true"
+        :nextfunction="()=>true"
+    >
+    </slot>
+
 </template>
 
 <script setup>
@@ -29,7 +37,7 @@ const {fetchCart,addItem, state:cartState} = useCart()
 const { addOrUpdateOrder } = useOrder()
 
 
-const stepper = useStepper(tab,()=>{}, addOrUpdateOrder)
+const stepper = useStepper(tab,()=>{}, ()=>{})
 
 
 </script>

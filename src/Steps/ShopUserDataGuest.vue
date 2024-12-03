@@ -17,15 +17,12 @@
       <address-form formtype="billing"></address-form>
     </div>
 
-
-    <sl-bar>
-      <div slot="right">
-
-        <sl-button @click="nextStep">Weiter</sl-button>
-      </div>
-
-
-    </sl-bar>
+    <slot
+        nextName="weiter"
+        :activefunction="()=>true"
+        :nextfunction="nextStep"
+    >
+    </slot>
 
 </template>
 
@@ -50,7 +47,7 @@ const state = reactive({
 })
 
 function nextStep(){
-  saveAddresses(state.billingIsShipping)
+  return saveAddresses(state.billingIsShipping)
 }
 
 

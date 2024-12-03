@@ -1,34 +1,41 @@
 <template>
-    <form class="unzerUI form" novalidate>
-        <template v-if="shopStore.state.order?.['payment_provider'] === 'unzer-card'">
-            <div class="field">
-                <div id="card-element-id-number" class="unzerInput">
-                    <!-- Card number UI Element is inserted here. -->
-                </div>
-            </div>
-            <div class="two fields">
-                <div class="field ten wide">
-                    <div id="card-element-id-expiry" class="unzerInput">
-                        <!-- Card expiry date UI Element is inserted here. -->
-                    </div>
-                </div>
-                <div class="field six wide">
-                    <div id="card-element-id-cvc" class="unzerInput">
-                        <!-- Card CVC UI Element is inserted here. -->
-                    </div>
-                </div>
-            </div>
-        </template>
+  <div class="loading-wrapper" v-if="state.loading">
+    <sl-spinner class="loading"></sl-spinner>
+  </div>
 
-        <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paypal'">
-            <div id="paypal-element" class="field"></div>
-        </template>
+  <div class="form-wrapper">
+      <sl-alert :open="state.hasError" variant="danger">{{state.errorMessage}}</sl-alert>
+      <form class="unzerUI form" novalidate>
+          <template v-if="shopStore.state.order?.['payment_provider'] === 'unzer-card'">
+              <div class="field">
+                  <div id="card-element-id-number" class="unzerInput">
+                      <!-- Card number UI Element is inserted here. -->
+                  </div>
+              </div>
+              <div class="two fields">
+                  <div class="field ten wide">
+                      <div id="card-element-id-expiry" class="unzerInput">
+                          <!-- Card expiry date UI Element is inserted here. -->
+                      </div>
+                  </div>
+                  <div class="field six wide">
+                      <div id="card-element-id-cvc" class="unzerInput">
+                          <!-- Card CVC UI Element is inserted here. -->
+                      </div>
+                  </div>
+              </div>
+          </template>
 
-        <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-ideal'">
-            <div id="ideal-element" class="field"></div>
-        </template>
-    </form>
-    <sl-button @click="submitFormToUnzer">Zahlen</sl-button>
+          <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paypal'">
+              <div id="paypal-element" class="field"></div>
+          </template>
+
+          <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-ideal'">
+              <div id="ideal-element" class="field"></div>
+          </template>
+      </form>
+        <button :disabled="state.loading" class="unzerUI primary button fluid" @click="submitFormToUnzer">Bezahlen</button>
+  </div>
 </template>
 
 <script setup>
@@ -42,13 +49,16 @@ const state = reactive({
         if (!shopStore.state.paymentProviderData) return null
         return new unzer(shopStore.state.paymentProviderData["public_key"], {locale: 'de-DE'})
     }),
-    paymentHandler:{}
+    paymentHandler:{},
+    loading:false,
+    hasError:false,
+    errorMessage:"Bei der Zahlung ist ein Fehler aufgetreten."
 })
 
 
 function initUnzerForm(){
     //Unzer field definition
-    if (!state.paymentHandler['unzer-card']) {
+    if (shopStore.state.order?.['payment_provider'] === 'unzer-card') {
         const card = state.unzer.Card();
         // Rendering input field card number
         card.create('number', {
@@ -67,7 +77,7 @@ function initUnzerForm(){
         });
 
         state.paymentHandler['unzer-card'] = card
-    } else if (!state.paymentHandler['unzer-paypal']) {
+    } else if (shopStore.state.order?.['payment_provider'] === 'unzer-paypal') {
         // Creating a PayPal instance
         const paypal = state.unzer.Paypal()
         // Rendering input field
@@ -75,21 +85,31 @@ function initUnzerForm(){
         //     containerId: 'paypal-element',
         //});
         state.paymentHandler['unzer-paypal']= paypal;
-    } else if (!state.paymentHandler['unzer-sofort']) {
+    } else if (shopStore.state.order?.['payment_provider'] === 'unzer-sofort') {
         const sofort = state.unzer.Sofort()
         state.paymentHandler['unzer-sofort'] = sofort;
-    } else if (!state.paymentHandler['unzer-ideal']) {
+    } else if (shopStore.state.order?.['payment_provider'] === 'unzer-ideal') {
         const ideal = state.unzer.Ideal()
         ideal.create('ideal', {
             containerId: 'ideal-element',
         });
         state.paymentHandler['unzer-ideal'] = ideal;
     }
+    state.loading = false
 }
 
-function submitFormToUnzer(){
-    let paymenttarget = shopStore.state.order?.['payment_provider'].split("-")[1]
+function paymentError(error){
+  state.loading = false
+  state.hasError = true
+  //reset session id
+  state.paymentHandler[shopStore.state.order?.['payment_provider']].jsessionId = state.paymentHandler[shopStore.state.order?.['payment_provider']].requestJSessionId()
+}
 
+
+function submitFormToUnzer(){
+    state.loading = true
+    let paymenttarget = shopStore.state.order?.['payment_provider'].split("-")[1]
+    console.log(state.paymentHandler)
     //send to unzer
     state.paymentHandler[shopStore.state.order?.['payment_provider']].createResource().then((result)=>{
         Request.post(`${shopStore.state.shopUrl}/pp_unzer_${paymenttarget}/save_type`, {dataObj:{
@@ -97,27 +117,51 @@ function submitFormToUnzer(){
             type_id: result.id,
         }}).then(async (resp)=>{
             let data = await resp.json()
-            console.log(data)
             shopStore.state.order = data
-            shopStore.checkoutOrder()
+            shopStore.checkoutOrder().catch(async (error)=>{
+              paymentError(error)
+            }).then(()=>{
+              state.loading = false
+              state.hasError = false
 
+            })
 
         }).catch(error => {
-            console.error(error)
+            paymentError(error)
         })
     }).catch((error)=> {
-        // handle errors
-        console.error(error)
+        paymentError(error)
     })
 }
 
 
 onBeforeMount(()=>{
+    state.loading = true
     if (!shopStore.state.paymentProviderData){
         shopStore.checkout().then(()=>{
             initUnzerForm()
         })
+    }else{
+      initUnzerForm()
     }
 })
 
 </script>
+
+<style scoped>
+.loading-wrapper{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-wrapper{
+  display:flex;
+  flex-direction: column;
+  gap:20px;
+}
+
+.loading{
+  font-size:3rem;
+}
+</style>

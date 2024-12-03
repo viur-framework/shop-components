@@ -11,6 +11,13 @@
       </template>
     </card-selector>
   </loading-handler>
+  {{shopStore.state.cartRoot?.['shipping']}}
+  <slot
+        nextName="weiter"
+        :activefunction="()=>shopStore.state.cartRoot?.['shipping']"
+        :nextfunction="()=>true"
+    >
+    </slot>
 </template>
 <script setup>
 import {reactive} from "vue";

@@ -45,22 +45,25 @@ export const useAddress = defineStore("useAddressStore", () => {
 
     function saveForm(type,shippingIsBilling=false){
       state[`${type}IsUpdating`] = true
-      state[`${type}Form`].sendData().then(async (resp)=>{
+      return state[`${type}Form`].sendData().then(async (resp)=>{
         let data = await resp.json()
         if (['addSuccess','editSuccess'].includes(data['action'])){
           state[`${type}Data`] = data['values']
           updateAddresses(type, shippingIsBilling)
         }
         state[`${type}IsUpdating`] = undefined
+        return data
       })
     }
 
     function saveAddresses(shippingIsBilling=false){
         if (shippingIsBilling) {
-            saveForm('shipping',shippingIsBilling)
+            return saveForm('shipping',shippingIsBilling)
         }else{
-            saveForm('shipping')
-            saveForm('billing')
+            return new Promise.all([
+                saveForm('shipping'),
+                saveForm('billing')
+            ])
         }
     }
 
