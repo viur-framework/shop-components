@@ -25,7 +25,7 @@
 
 </template>
 <script setup>
-import {computed, reactive} from 'vue'
+import {computed, reactive, onBeforeMount} from 'vue'
 import PaymentOption from "../components/PaymentOption.vue";
 import {usePayment} from "../composables/payment";
 import {useOrder} from "../composables/order";
@@ -44,9 +44,9 @@ function optionChanged(type){
   addOrUpdateOrder({payment_provider:type})
 }
 
-function onBeforeMount(){
+onBeforeMount(()=>{
   fetchPaymentData().then(()=>{
     state.selection = shopStore.state.order?.['payment_provider']
   })
-}
+})
 </script>

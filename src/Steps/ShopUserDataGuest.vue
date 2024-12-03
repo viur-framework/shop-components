@@ -39,8 +39,17 @@ const state = reactive({
     billingIsShipping:true
 })
 
-function nextStep(){
-  return saveAddresses(state.billingIsShipping)
+async function nextStep(){
+  // form is only valid if the action field ends with Success
+  try{
+    let result = await saveAddresses(state.billingIsShipping)
+    if (result['action'] && result['action'].endsWith('Success')){
+      return true
+    }
+    return false
+  } catch(error){
+    return false
+  }
 }
 
 </script>

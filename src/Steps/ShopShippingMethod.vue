@@ -11,7 +11,6 @@
       </template>
     </card-selector>
   </loading-handler>
-  {{shopStore.state.cartRoot?.['shipping']}}
   <slot
         nextName="weiter"
         :activefunction="()=>shopStore.state.cartRoot?.['shipping']"
@@ -20,7 +19,7 @@
     </slot>
 </template>
 <script setup>
-import {reactive} from "vue";
+import {reactive,onBeforeMount} from "vue";
 import CardSelector from "../components/CardSelector.vue";
 import LoadingHandler from "../../old/components/generic/loadinghandler.vue";
 import {useShipping} from "../composables/shipping";
@@ -41,10 +40,10 @@ function updateShippingMethod(selection){
   }
 }
 
-function onBeforeMount(){
+onBeforeMount(()=>{
   fetchShippingData()
   state.selectedShippingMethod = shopStore.state.cartRoot?.['shipping']
-}
+})
 </script>
 
 

@@ -18,7 +18,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             return `${state.hostUrl}/${state.moduleName}/api`
         }),
         tabState:{
-            cart:computed(()=>!state.orderKey || !state.checkoutStarted), //active if no orderkey or checkout not startet
+            cart:computed(()=>!state.orderKey && !state.checkoutStarted), //active if no orderkey or checkout not startet
             userdata:computed(()=>!state.checkoutStarted && state.cartList.length>0), //active if checkout not startet and cart is not empty
             shippingmethod:computed(()=>!state.checkoutStarted && state.cartRoot?.['shipping_address']), // we need a shipping country
             paymentprovider:computed(()=>!state.checkoutStarted && state.order), // we need a active order
@@ -95,7 +95,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         canOrder:null,
         checkoutStarted:computed(()=>{
             if (!state.orderKey) return false
-
+            if ( state.order?.['is_ordered']) return true
             if (state.order?.['cart']?.['dest']?.['key'] !== state.cartRoot?.['key']){
                 return true
             }
@@ -114,7 +114,6 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
     })
 
     function navigateToTab(name){
-        if(!state.tabState[name]) return 0
         // navigate to Tab 
         state.currentTab = name
 

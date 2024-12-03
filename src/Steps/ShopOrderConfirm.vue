@@ -43,7 +43,7 @@
       <div class="viur-shop-cart-payment-method">
         <span>Versandart:</span>
         <p>
-          {{ state.shipping?.name || 'Versand' }}
+          {{ state.shipping?.name }}
           -
           <sl-format-number
             type="currency"
@@ -95,8 +95,8 @@ const shopStore = useViurShopStore()
 // collected data from order Object > Session cart is not available anymore
 const state = reactive({
     shippingAddress: computed(()=>shopStore.state.order?.['cart']?.['dest']?.['shipping_address']?.['dest']),
+    shipping: computed(()=>shopStore.state.order?.['cart']?.['dest']?.['shipping']?.['dest']),
     billingAddress: computed(()=>shopStore.state.order?.['billing_address']?.['dest']),
-    shipping: computed(()=>shopStore.state.order?.['shipping']?.['dest']),
     payment: computed(()=>shopStore.state.order?.['payment_provider']),
     cartList:[],
     paymentPopup:false
