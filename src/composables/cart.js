@@ -67,7 +67,7 @@ export function useCart() {
         })
     }
 
-    function addItem(key, quantity=1, cart=null, quantity_mode='increase'){
+    function addItem(key, quantity=1, cart=null, quantity_mode='replace'){
         //add Item to cart
         state.isUpdating = true
         return Request.post(`${shopStore.state.shopApiUrl}/article_add`, {dataObj:{
@@ -81,8 +81,16 @@ export function useCart() {
         })
 
     }
-    function removeItem(params){}
-    function updateItem(params){}
+    function removeItem(key, cart=null){
+        state.isUpdating = true
+        return Request.post(`${shopStore.state.shopApiUrl}/article_remove`, {dataObj:{
+            article_key: key,
+            parent_cart_key:cart?cart:shopStore.state.cartRoot['key']
+        }}).then(async (resp)=>{
+            state.isUpdating=false
+            fetchCart()
+        })
+    }
 
     return {
         state,
@@ -90,6 +98,7 @@ export function useCart() {
         fetchCartItems,
         fetchCart,
         updateCart,
-        addItem
+        addItem,
+        removeItem
     }
 }

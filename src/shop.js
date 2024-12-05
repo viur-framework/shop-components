@@ -18,10 +18,10 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             return `${state.hostUrl}/${state.moduleName}/api`
         }),
         tabState:{
-            cart:computed(()=>!state.checkoutStarted), //active if no orderkey or checkout not startet
-            userdata:computed(()=>!state.checkoutStarted && state.cartList.length>0), //active if checkout not startet and cart is not empty
-            shippingmethod:computed(()=>!state.checkoutStarted && state.cartRoot?.['shipping_address']), // we need a shipping country
-            paymentprovider:computed(()=>!state.checkoutStarted && state.order), // we need a active order
+            cart:computed(()=>!state.order?.['is_checkout_in_progress']), //active if no orderkey or checkout not startet
+            userdata:computed(()=>!state.order?.['is_checkout_in_progress'] && state.cartList.length>0), //active if checkout not startet and cart is not empty
+            shippingmethod:computed(()=>!state.order?.['is_checkout_in_progress'] && state.cartRoot?.['shipping_address']), // we need a shipping country
+            paymentprovider:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order), // we need a active order
             confirm:computed(()=>!state.order?.['is_ordered'] && state.canCheckout?.['status']), // active if canCheckout and not already ordererd
             complete:computed(()=>state.order?.['is_ordered']) // active if ordered
         },
@@ -93,15 +93,6 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         orderReady:false,
         canCheckout:null,
         canOrder:null,
-        checkoutStarted:computed(()=>{
-            if (!state.orderKey) return false
-            if ( state.order?.['is_ordered']) return true
-            if (state.order?.['cart']?.['dest']?.['key'] !== state.cartRoot?.['key']){
-                return true
-            }
-            return false
-        }),
-
 
         //Address Structure
         addressStructure:null,
@@ -174,6 +165,11 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             let data = await resp.json()
             state.order = data['skel']
             state.paymentProviderData = data['payment']
+
+            if(state.order?.['is_ordered']){
+                // order is finished
+                navigateToTab('complete')
+            }
         })
         
     }

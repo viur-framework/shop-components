@@ -1,15 +1,15 @@
 <template>
     <div class="bind viur-shop-wrap">
         <div class="viur-shop-stepper-wrap"
-            :class="{ 'full-width': (!summary || summary==='bottom') }"
+            :class="{ 'full-width': (!summary || summary==='bottom' || shopStore.state.currentTab==='complete') }"
         >
             <shop-order-stepper v-if="shopStore.state.cartReady && shopStore.state.orderReady">
             </shop-order-stepper>
         </div>
 
-        <div class="viur-shop-sidebar-wrap" :class="{ bottom: summary==='bottom' }">
-
-      </div>
+        <div class="viur-shop-sidebar-wrap" :class="{ bottom: (summary==='bottom') }">
+            SUMMARY
+        </div>
     </div>
 
     <sl-details summary="Debug" open>
@@ -26,7 +26,7 @@
         ------<br>
         canCheckout: {{ shopStore.state.canCheckout }}<br>
         canOrder: {{ shopStore.state.canOrder }}<br>
-        CheckoutStarted: {{ shopStore.state.checkoutStarted }}<br><br>
+        CheckoutStarted: {{ shopStore.state.order?.['is_checkout_in_progress'] }}<br><br>
 
         ordered: {{ shopStore.state.order?.['is_ordered'] }}<br>
         readytoship: {{ shopStore.state.order?.['is_rts'] }}<br>
@@ -53,10 +53,16 @@ const {fetchOrder} = useOrder()
 const {fetchCart} = useCart()
 
 const props = defineProps({
-    summary:false, // bottom, sidebar
+    summary:{
+      default:'sidebar'
+    }, // bottom, sidebar
     tabs:null,
-    initTab:'cart',
-    modulename:'shop'
+    initTab:{
+      default:'cart'
+    },
+    modulename:{
+      default:'shop'
+    }
 })
 
 
@@ -73,11 +79,20 @@ onBeforeMount(()=>{
         shopStore.state.orderKey = params['order']
         fetchOrder(shopStore.state.orderKey).then(()=>{
           shopStore.state.orderReady = true
+          // navigate to order state
+          if(shopStore.state.order?.['is_ordered']){
+            shopStore.navigateToTab('complete') 
+          } else if (shopStore.state.order?.['is_checkout_in_progress']){
+            shopStore.navigateToTab('confirm') 
+          }
         })
     }else{
       shopStore.state.orderReady = true
     } 
     
+    
+
+
     if (Object.keys(params).includes('step')){
         shopStore.navigateToTab(params['step'])
     }else{

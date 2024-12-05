@@ -1,4 +1,5 @@
 <template>
+  <div class="item-wrapper">
     <sl-card horizontal class="viur-shop-cart-leaf small">
     <img
       class="viur-shop-cart-leaf-image"
@@ -19,7 +20,6 @@
       {{ item.shop_art_no_or_gtin }}
     </h5>
     <div
-      v-if="itemstyle!=='small'"
       class="viur-shop-cart-leaf-description"
       v-html="item.shop_description"
     ></div>
@@ -32,7 +32,7 @@
         placeholder="Number"
         min="0"
         :value="item.quantity"
-        ref="itemCount"
+        @sl-change="changeAmount"
       >
       </sl-input>
     </div>
@@ -49,16 +49,23 @@
     </div>
 
     <div class="viur-shop-cart-leaf-actions">
-      <sl-button
+      <dialogButton
         v-if="edit"
         size="small"
         outline
         class="viur-shop-cart-leaf-delete-btn"
-        variant="primary"
+        variant="danger"
         title="Remove from cart"
       >
         <sl-icon name="trash" slot="prefix"></sl-icon>
-      </sl-button>
+        <template #dialog="{close}">
+          Wollen sie den Artikel wirklich entfernen?
+          <sl-bar>
+            <sl-button slot="left" @click="close">Abbrechen</sl-button>
+            <sl-button slot="right" variant="danger" @click="removeArticle(); close()">Löschen</sl-button>
+          </sl-bar>
+        </template>
+      </dialogButton>
     </div>
 
     <div class="viur-shop-cart-leaf-price">
@@ -72,22 +79,39 @@
       >
       </sl-format-number>
     </div>
+
+    
   </sl-card>
+  <div class="loading" v-if="cartState.isUpdating">
+      <sl-spinner></sl-spinner>
+    </div>
+  </div>
 </template>
 <script setup>
+import { useDebounceFn } from '@vueuse/core'
 import { getImage } from '../utils';
+import { useCart } from '../composables/cart';
+import dialogButton from './dialogButton.vue';
+
+const {addItem, removeItem, state:cartState} = useCart()
+
+const changeAmount = useDebounceFn((event) => {
+  props.item.quantity = event.target.value
+  addItem(props.item['article']['dest']['key'],event.target.value)
+}, 1000)
 const props = defineProps({
     item:{
         required:true
-    },
-    itemstyle:{
-      default:"default" //small
     },
     edit:{
       type:Boolean,
       default:false //true
     }
 })
+
+function removeArticle(){
+  removeItem(props.item['article']['dest']['key'])
+}
 
 </script>
 <style scoped>
@@ -98,8 +122,6 @@ const props = defineProps({
     --shop-leaf-label-font-size: 1em;
     --shop-leaf-price-font-size: 1em;
     --shop-leaf-headline-font-size: 1.3em;
-
-    margin-bottom: var(--ignt-spacing-x-large);
 
     &::part(base) {
       display: flex;
@@ -227,5 +249,28 @@ const props = defineProps({
     font-size: var(--shop-leaf-label-font-size);
     margin-bottom: var(--ignt-spacing-x-small);
   }
+
+  .loading{
+    position: absolute;
+    top: 0;
+    background: #ffffffcc;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+
+
+    & sl-spinner{
+      font-size:3rem;
+    }
+  }
+
+  .item-wrapper{
+    position: relative;
+  }
+
 }
 </style>

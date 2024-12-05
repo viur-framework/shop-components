@@ -74,13 +74,6 @@
     </sl-dialog>
   </template>
 
-    <slot
-      nextName="weiter"
-      :activefunction="()=>true"
-      :nextfunction="()=>true"
-  >
-  </slot>
-
 </template>
 <script setup>
 import {computed, onBeforeMount, reactive, watch} from 'vue'

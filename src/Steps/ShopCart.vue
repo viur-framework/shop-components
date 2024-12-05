@@ -6,10 +6,13 @@
         add
     </sl-button>
     <loading-handler :isLoading="cartState.isLoading" :isUpdating="cartState.isUpdating">
+        <div class="item-wrapper">
+            <cart-item v-for="item in shopStore.state.cartList" :item="item"
+            :edit="!shopStore.state.order?.['is_checkout_in_progress']"
+            >
 
-        <cart-item v-for="item in shopStore.state.cartList" :item="item">
-
-        </cart-item>
+            </cart-item>
+        </div>
     </loading-handler>
 
     <slot
@@ -36,3 +39,11 @@ onBeforeMount(()=>{
 })
 
 </script>
+<style scoped>
+.item-wrapper{
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+</style>
