@@ -7,7 +7,7 @@ export const useAddress = defineStore("useAddressStore", () => {
     const shopStore = useViurShopStore()
 
     const state = reactive({
-
+        billingIsShipping:true,
         shippingForm:ref(null),
          // for shipping and both mode
         shippingIsLoading:computed(()=>{
@@ -60,9 +60,16 @@ export const useAddress = defineStore("useAddressStore", () => {
         if (shippingIsBilling) {
             return saveForm('shipping',shippingIsBilling)
         }else{
+            return new Promise((resolve, reject) => {
+                saveForm('shipping').then(()=>{
+                    saveForm('billing').then(()=>{
+                        resolve({'actions':'editSuccess'})
+                    }).catch((e)=>reject(e))
+                }).catch((e)=>reject(e))
+            })
+
             return new Promise.all([
-                saveForm('shipping'),
-                saveForm('billing')
+
             ])
         }
     }

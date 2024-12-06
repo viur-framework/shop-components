@@ -1,4 +1,5 @@
 <template>
+  {{formtype}}
     <LoadingHandler :is-loading="addressState[`${state.formtype}IsLoading`]"></LoadingHandler>
     <ViForm
         :ref="(el)=>{addressState[`${state.formtype}Form`]=el; return el}"
@@ -13,7 +14,7 @@
 </template>
 
 <script setup>
-import {computed, reactive} from 'vue'
+import {computed, reactive, watch} from 'vue'
 import LoadingHandler from './LoadingHandler.vue';
 import AddressFormLayout from './AddressFormLayout.vue';
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
@@ -24,7 +25,10 @@ const shopStore = useViurShopStore();
 const {state:addressState} = useAddress();
 
 const props = defineProps({
-  formtype:"shipping", //formtype: shipping, billing, both
+  formtype:{
+    type:String,
+    default:"shipping" // formtype: shipping, billing, both
+  }
 })
 
 const state = reactive({
@@ -59,11 +63,17 @@ const state = reactive({
       return ["shipping",'billing']
     }
     return [state.formtype]
-  })
-
-
+  }),
 })
 
+watch(()=>addressState.billingIsShipping, (newVal,oldVal)=>{
+  if(oldVal && !newVal){
+    shopStore.state.order['billing_address'] = null
+    addressState[`billingForm`].state.skel = {'address_type':state.address_type, 'customer_type':'private'}
+
+  }
+
+})
 
 </script>
 

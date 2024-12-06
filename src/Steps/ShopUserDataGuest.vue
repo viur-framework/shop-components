@@ -3,18 +3,17 @@
         {{ $t("skeleton.address.address_type.shipping") }}
     </div>
 
-    <address-form :formtype="state.billingIsShipping?'both':'shipping'">
+    <address-form :formtype="addressState.billingIsShipping?'both':'shipping'">
     </address-form>
-
     <div>
-      <sl-switch checked @sl-change="state.billingIsShipping=$event.target.checked">Verwende Lieferadresse als Rechnungsadresse</sl-switch>
+      <sl-switch :checked="addressState.billingIsShipping" @sl-change="switchAddresses">Verwende Lieferadresse als Rechnungsadresse</sl-switch>
     </div>
 
-    <div v-show="!state.billingIsShipping">
+    <div v-show="!addressState.billingIsShipping">
       <div class="viur-shop-cart-address-headline">
         {{ $t("skeleton.address.address_type.billing") }}
       </div>
-      <address-form formtype="billing"></address-form>
+      <address-form formtype="billing" ></address-form>
     </div>
 
     <slot
@@ -29,20 +28,33 @@
 
 
 <script setup>
-import {reactive, onBeforeMount} from 'vue'
+import {reactive, onBeforeMount, watch} from 'vue'
 import AddressForm from '../components/AddressForm.vue'
 import {useAddress} from "../composables/address";
-
+import {useViurShopStore} from "../shop";
+const shopStore = useViurShopStore();
 const {state:addressState,saveAddresses} = useAddress()
 
 const state = reactive({
-    billingIsShipping:true
 })
+
+function switchAddresses(event){
+  addressState.billingIsShipping=event.target.checked
+}
+
+onBeforeMount(()=>{
+  if (shopStore.state.cartRoot?.['shipping_address']?.['dest']?.['key']=== shopStore.state.order?.['billing_address']?.['dest']?.['key']){
+    addressState.billingIsShipping = true
+  }else{
+    addressState.billingIsShipping = false
+  }
+})
+
 
 async function nextStep(){
   // form is only valid if the action field ends with Success
   try{
-    let result = await saveAddresses(state.billingIsShipping)
+    let result = await saveAddresses(addressState.billingIsShipping)
     if (result['action'] && result['action'].endsWith('Success')){
       return true
     }
