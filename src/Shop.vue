@@ -8,7 +8,7 @@
         </div>
 
         <div class="viur-shop-sidebar-wrap" :class="{ bottom: (summary==='bottom') }">
-            SUMMARY
+          <shop-summary></shop-summary>
         </div>
     </div>
 
@@ -42,6 +42,7 @@
 <script setup>
 import { onBeforeMount } from 'vue';
 import ShopOrderStepper from './ShopOrderStepper.vue'
+import ShopSummary from "./ShopSummary.vue"
 import {useViurShopStore} from './shop'
 import { useUrlSearchParams } from '@vueuse/core'
 import { useOrder } from './composables/order';
@@ -91,16 +92,17 @@ onBeforeMount(()=>{
     } 
     
     
-
-
     if (Object.keys(params).includes('step')){
         shopStore.navigateToTab(params['step'])
     }else{
-        shopStore.navigateToTab('cart') 
+        shopStore.navigateToTab('cart')
     }
+
+
 
     fetchCart().then(()=>{
         shopStore.state.cartReady = true
+
     })
 })
 
