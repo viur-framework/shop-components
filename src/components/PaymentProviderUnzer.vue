@@ -3,6 +3,10 @@
     <sl-spinner class="loading"></sl-spinner>
   </div>
 
+  <div class="loading-wrapper" v-if="PaymentCheckIsActive">
+    <sl-spinner class="loading"></sl-spinner>
+    warte auf Zahlung...
+  </div>
   <div class="form-wrapper">
       <sl-alert :open="state.hasError" variant="danger">{{state.errorMessage}}</sl-alert>
       <form class="unzerUI form" novalidate>
@@ -35,14 +39,30 @@
           </template>
       </form>
         <button :disabled="state.loading" class="unzerUI primary button fluid" @click="submitFormToUnzer">Bezahlen</button>
+        <sl-button :disabled="state.loading" variant="danger" @click="cancelPayment">Abbrechen</sl-button>
   </div>
 </template>
 
 <script setup>
 import {computed, onBeforeMount, onMounted, reactive} from 'vue'
 import { useViurShopStore } from '../shop';
+import { useOrder } from '../composables/order';
 import {Request} from '@viur/vue-utils'
+import { useIntervalFn } from '@vueuse/core'
 const shopStore = useViurShopStore()
+const {fetchOrder} = useOrder()
+
+const emits = defineEmits(['cancel'])
+
+const { pause:PaymentCheckPause, resume:PaymentCheckResume, isActive:PaymentCheckIsActive } = useIntervalFn(() => {
+  fetchOrder(shopStore.state.orderKey)
+
+  if (shopStore.state.order?.['is_paid']){
+    PaymentCheckPause()
+  }
+
+}, 2000,{immediate:false})
+
 
 const state = reactive({
     unzer:computed(()=>{
@@ -52,7 +72,8 @@ const state = reactive({
     paymentHandler:{},
     loading:false,
     hasError:false,
-    errorMessage:"Bei der Zahlung ist ein Fehler aufgetreten."
+    errorMessage:"Bei der Zahlung ist ein Fehler aufgetreten.",
+    waitPayment:false
 })
 
 
@@ -102,11 +123,12 @@ function paymentError(error){
   state.loading = false
   state.hasError = true
   //reset session id
-  state.paymentHandler[shopStore.state.order?.['payment_provider']].jsessionId = state.paymentHandler[shopStore.state.order?.['payment_provider']].requestJSessionId()
+  //state.paymentHandler[shopStore.state.order?.['payment_provider']].jsessionId = state.paymentHandler[shopStore.state.order?.['payment_provider']].requestJSessionId()
 }
 
 
 function submitFormToUnzer(){
+    PaymentCheckPause()
     state.loading = true
     let paymenttarget = shopStore.state.order?.['payment_provider'].split("-")[1]
     console.log(state.paymentHandler)
@@ -118,12 +140,17 @@ function submitFormToUnzer(){
         }}).then(async (resp)=>{
             let data = await resp.json()
             shopStore.state.order = data
-            shopStore.checkoutOrder().catch(async (error)=>{
-              paymentError(error)
-            }).then(()=>{
+
+            shopStore.checkoutOrder().then((resp)=>{
               state.loading = false
               state.hasError = false
-
+              if(shopStore.state.paymentProviderData?.redirectUrl){
+                state.waitPayment = true
+                window.open(shopStore.state.paymentProviderData.redirectUrl,"_blank","popup")
+                PaymentCheckResume()
+              }
+            }).catch(async (error)=>{
+              paymentError(error)
             })
 
         }).catch(error => {
@@ -135,11 +162,18 @@ function submitFormToUnzer(){
 }
 
 
+function cancelPayment(){
+    PaymentCheckPause()
+    emits('cancel')
+}
+
 onBeforeMount(()=>{
     state.loading = true
     if (!shopStore.state.paymentProviderData){
         shopStore.checkout().then(()=>{
             initUnzerForm()
+        }).catch((error)=>{
+            console.log(error)
         })
     }else{
       initUnzerForm()

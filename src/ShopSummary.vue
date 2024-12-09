@@ -76,7 +76,7 @@
   </div>
 
   <slot name="action-buttons">
-    <div class="viur-shop-cart-sidebar-btn-wrap">
+    <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!shopStore.state.order?.['is_paid']">
       <sl-button variant="primary" size="medium">Bestellen</sl-button>
     </div>
   </slot>

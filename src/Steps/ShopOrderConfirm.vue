@@ -35,7 +35,7 @@
     <div class="viur-shop-cart-payment">
       <div class="viur-shop-cart-payment-method">
         <span>Zahlungsmethode: </span>
-        <span> {{ shopStore.state['paymentMeta'][state.payment]['title']}}</span>
+        <span> {{ shopStore.state['paymentMeta']?.[state.payment]?.['title']}}</span>
       </div>
     </div>
 
@@ -69,11 +69,10 @@
   </div>
 
   <template v-if="shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
-    <sl-dialog label="Zahlung" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
-        <payment-provider-unzer></payment-provider-unzer>
+    <sl-dialog v-if="state.paymentPopup" label="Zahlung" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
+        <payment-provider-unzer @cancel="paymentCanceled"></payment-provider-unzer>
     </sl-dialog>
   </template>
-
 </template>
 <script setup>
 import {computed, onBeforeMount, reactive, watch} from 'vue'
@@ -111,6 +110,10 @@ function getOrderCart(){
       let data = await resp.json()
       state.cartList=data
   })
+}
+
+function paymentCanceled(){
+  state.paymentPopup=false
 }
 
 //open popup and freeze cart

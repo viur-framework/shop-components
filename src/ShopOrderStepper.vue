@@ -1,5 +1,4 @@
 <template>
-  {{ shopStore.state.currentTab }}
     <sl-tab-group
         class="viur-shop-order-tabgroup"
         noScrollControls

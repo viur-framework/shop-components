@@ -17,12 +17,14 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         shopApiUrl:computed(()=>{
             return `${state.hostUrl}/${state.moduleName}/api`
         }),
+
+        //state.tabs['cart']?.['valid'] && 
         tabState:{
-            cart:computed(()=>!state.order?.['is_checkout_in_progress']), //active if no orderkey or checkout not startet
-            userdata:computed(()=>!state.order?.['is_checkout_in_progress'] && state.cartList.length>0), //active if checkout not startet and cart is not empty
-            shippingmethod:computed(()=>!state.order?.['is_checkout_in_progress'] && state.cartRoot?.['shipping_address']), // we need a shipping country
+            cart:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered']), //active if no orderkey or checkout not startet
+            userdata:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartList.length>0), //active if checkout not startet and cart is not empty
+            shippingmethod:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartRoot?.['shipping_address']), // we need a shipping country
             paymentprovider:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order), // we need a active order
-            confirm:computed(()=>!state.order?.['is_ordered'] && state.canCheckout?.['status']), // active if canCheckout and not already ordererd
+            confirm:computed(()=>!state.order?.['is_paid'] && state.canCheckout?.['status']), // active if canCheckout and not already ordererd
             complete:computed(()=>state.order?.['is_ordered']) // active if ordered
         },
 
@@ -145,33 +147,54 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
 
     function checkout(){
         //request Payment
-        return Request.post(`${state.shopUrl}/order/checkout_start`,{dataObj:{
-            order_key:state.orderKey
-        }}).then(async (resp)=>{
-            let data = await resp.json()
-            state.paymentProviderData = data['payment']
+        return new Promise((resolve,reject)=>{
+            Request.post(`${state.shopUrl}/order/checkout_start`,{dataObj:{
+                order_key:state.orderKey
+            }}).then(async (resp)=>{
+                let data = await resp.json()
+                state.paymentProviderData = data['payment']
 
-            if (!data['payment']){
-                checkoutOrder()
-            }
+                if (!data['payment']){
+                    try{
+                        await checkoutOrder() // direct Checkout
+                        resolve()
+                    } catch(error){
+                        reject(error)
+                    }
+                }else{
+                    resolve()
+                }
+            }).catch(error=>{
+                reject(error)
+            })
         })
     }
 
     function checkoutOrder(){
         //payment is finished
-        return Request.post(`${state.shopUrl}/order/checkout_order`,{dataObj:{
-            order_key:state.orderKey
-        }}).then(async (resp)=>{
-            let data = await resp.json()
-            state.order = data['skel']
-            state.paymentProviderData = data['payment']
-
-            if(state.order?.['is_ordered']){
-                // order is finished
-                navigateToTab('complete')
-            }
-        })
+        return new Promise((resolve,reject)=>{
+            Request.post(`${state.shopUrl}/order/checkout_order`,{dataObj:{
+                order_key:state.orderKey
+            }}).then(async (resp)=>{
+                let data = await resp.json()
+                if (!resp.ok){
+                    reject(data)
+                } else {
+                    state.order = data['skel']
+                    state.paymentProviderData = data['payment']
         
+                    if(state.order?.['is_ordered']){
+                        // order is finished
+                        navigateToTab('complete')
+                    }
+                    resolve(data)
+                }
+                
+                
+            }).catch(error=>{
+                reject(error)
+            })
+        })
     }
 
     return {
