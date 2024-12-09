@@ -10,7 +10,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
     const state = reactive({
         //shop module name
         moduleName:'shop',
-        hostUrl: window.location.origin,
+        hostUrl: computed(()=>(import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL : window.location.origin)),
         shopUrl:computed(()=>{
             return `${state.hostUrl}/json/${state.moduleName}`
         }),
