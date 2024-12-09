@@ -32,7 +32,7 @@
         readytoship: {{ shopStore.state.order?.['is_rts'] }}<br>
         paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>
         
-
+        OrderObject: {{shopStore.state.order}}
 
 
     </sl-details>
@@ -73,7 +73,7 @@ onBeforeMount(()=>{
     }
 
     shopStore.state.moduleName= props.modulename
-
+    fetchCart()
     shopStore.fetchMetaData()
     const params = useUrlSearchParams('hash')
     if (Object.keys(params).includes('order')){
@@ -100,10 +100,7 @@ onBeforeMount(()=>{
 
 
 
-    fetchCart().then(()=>{
-        shopStore.state.cartReady = true
-
-    })
+    
 })
 
 

@@ -1,5 +1,4 @@
 <template>
-  {{shopStore.state.order}}
   <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
   <br />
   <div class="viur-shop-cart-sidebar-info-line">
@@ -9,7 +8,7 @@
       lang="de"
       type="currency"
       currency="EUR"
-      :value="shopStore.state.order.total"
+      :value="shopStore.state.order?.total"
     >
     </sl-format-number>
     <br />
@@ -22,18 +21,18 @@
       lang="de"
       type="currency"
       currency="EUR"
-      :value="shopStore.state.order.cart.dest.shipping.dest.shipping_cost"
+      :value="shopStore.state.order?.cart?.dest?.shipping?.dest?.shipping_cost"
     >
     </sl-format-number>
     <br />
   </div>
   <div class="viur-shop-cart-shipping-item">
       <span>Lieferzeit </span>
-      <template v-if="shopStore.state.order.cart.dest.shipping.dest.delivery_time_range === 1">
-        {{shopStore.state.order.cart.dest.shipping.dest.delivery_time_range}} Tag
+      <template v-if="shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range === 1">
+        {{shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range}} Tag
       </template>
       <template v-else>
-        {{shopStore.state.order.cart.dest.shipping.dest.delivery_time_range}} Tage
+        {{shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range}} Tage
       </template>
   </div>
 
@@ -76,7 +75,7 @@ console.log(shopStore.state.order)
 
 const state = reactive({
   total:computed(()=>{
-    return shopStore.state.order.total + shopStore.state.order.cart.dest.shipping.dest.shipping_cost
+    return shopStore.state.order?.total + (shopStore.state.order?.cart?.dest?.shipping?.dest?.shipping_cost?shopStore.state.order?.cart?.dest?.shipping?.dest?.shipping_cost:0)
   })
 })
 

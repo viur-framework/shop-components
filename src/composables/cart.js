@@ -18,6 +18,7 @@ export function useCart() {
             if(!shopStore.state.cartRoot?.['key']) return 0
             fetchCartItems(shopStore.state.cartRoot['key']).then(()=>{
                 state.isLoading = false
+                shopStore.state.cartReady = true
             })
         })
     }

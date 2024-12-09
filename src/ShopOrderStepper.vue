@@ -1,4 +1,5 @@
 <template>
+  {{ shopStore.state.currentTab }}
     <sl-tab-group
         class="viur-shop-order-tabgroup"
         noScrollControls
@@ -48,16 +49,11 @@ watch(()=>shopStore.state.currentTab, (newVal, oldVal)=>{
     shopStore.state.tabs[shopStore.state.currentTab]['loaded'] = true
 })
 
-watch(()=>Object.values(shopStore.state.tabState),(newVal,oldVal)=>{
-  stepper.value.show(shopStore.state.currentTab)
-  shopStore.state.tabs[shopStore.state.currentTab]['loaded'] = true
-})
-
 onMounted(()=>{
     // wait shoelace component is ready
     stepper.value.updateComplete.then(() => {
-        stepper.value.show(shopStore.state.currentTab)
         shopStore.state.tabs[shopStore.state.currentTab]['loaded'] = true
+        stepper.value.show(shopStore.state.currentTab)
     })
 })
 
