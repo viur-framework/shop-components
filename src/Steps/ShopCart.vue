@@ -7,6 +7,10 @@
     </sl-button>
     <loading-handler :isLoading="cartState.isLoading" :isUpdating="cartState.isUpdating">
         <div class="item-wrapper">
+          <cart-item-small v-for="item in shopStore.state.cartList" :item="item"
+            :edit="!shopStore.state.order?.['is_checkout_in_progress']"
+            >
+            </cart-item-small>
             <cart-item v-for="item in shopStore.state.cartList" :item="item"
             :edit="!shopStore.state.order?.['is_checkout_in_progress']"
             >
@@ -30,6 +34,7 @@ import {onBeforeMount, onMounted, reactive, watch} from 'vue'
 import { useCart } from '../composables/cart';
 import LoadingHandler from '../components/LoadingHandler.vue';
 import CartItem from '../components/CartItem.vue';
+import CartItemSmall from '../components/CartItemSmall.vue';
 
 const shopStore = useViurShopStore()
 const {fetchCart,addItem, state:cartState} = useCart()

@@ -1,6 +1,6 @@
 <template>
   <div class="item-wrapper">
-    <sl-card horizontal class="viur-shop-cart-leaf">
+    <sl-card horizontal class="viur-shop-cart-leaf-small">
     <img
       class="viur-shop-cart-leaf-image"
       slot="image"
@@ -16,15 +16,9 @@
       class="viur-shop-cart-leaf-headline headline"
       v-html="item.shop_name"
     ></h4>
-    <h5 class="viur-shop-cart-leaf-artno">
-      {{ item.shop_art_no_or_gtin }}
-    </h5>
-    <div
-      class="viur-shop-cart-leaf-description"
-      v-html="item.shop_description"
-    ></div>
 
-    <sl-input
+
+      <sl-input
         :disabled="!edit"
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
         type="number"
@@ -41,7 +35,14 @@
       <sl-button slot="suffix">
         <sl-icon name="plus-lg"></sl-icon>
       </sl-button>
-    </sl-input>
+      </sl-input>
+
+
+
+    <div class="viur-shop-cart-leaf-article-number">
+      <div class="viur-shop-cart-leaf-label">Artikelnummer</div>
+      {{ item.shop_art_no_or_gtin }}
+    </div>
 
     <div class="viur-shop-cart-leaf-unitprice">
       <div class="viur-shop-cart-leaf-label">Stückpreis</div>
@@ -54,6 +55,19 @@
       >
       </sl-format-number>
     </div>
+
+
+    <div class="viur-shop-cart-leaf-price">
+        <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
+        <sl-format-number
+          class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price"
+          lang="de"
+          type="currency"
+          currency="EUR"
+          :value="item.shop_price_retail * item.quantity"
+        >
+        </sl-format-number>
+      </div>
 
     <!--<div class="viur-shop-cart-leaf-actions">
       <dialogButton
@@ -74,20 +88,6 @@
         </template>
       </dialogButton>
     </div>-->
-
-    <div class="viur-shop-cart-leaf-price">
-      <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
-      <sl-format-number
-        class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price"
-        lang="de"
-        type="currency"
-        currency="EUR"
-        :value="item.shop_price_retail * item.quantity"
-      >
-      </sl-format-number>
-    </div>
-
-
   </sl-card>
   <div class="loading" v-if="cartState.isUpdating">
       <sl-spinner></sl-spinner>
@@ -123,7 +123,7 @@ function removeArticle(){
 </script>
 <style scoped>
 @layer foundation.shop {
-  .viur-shop-cart-leaf {
+  .viur-shop-cart-leaf-small {
     --shop-leaf-label-color: var(--ignt-color-primary);
     --shop-leaf-label-font-weight: 600;
     --shop-leaf-label-font-size: 1em;
@@ -143,6 +143,7 @@ function removeArticle(){
 
     &::part(image) {
       aspect-ratio: 1;
+      flex-basis: 120px;
     }
 
     &::part(body) {
@@ -187,55 +188,16 @@ function removeArticle(){
     }
   }
 
-  .viur-shop-cart-leaf-artno {
-    grid-column: 1 / span 5;
-    margin: 0;
-
-    @media (max-width: 600px) {
-      grid-column: 1 / span 2;
-    }
-  }
-
-  .viur-shop-cart-leaf-actions {
-    display: flex;
-    justify-content: start;
-    gap: var(--sl-spacing-x-small);
-
-    @media (min-width: 600px) {
-      grid-column: 5 / span 1;
-      order: -1;
-      justify-content: end;
-      align-items: end;
-    }
-  }
-
-  .viur-shop-cart-leaf-description {
-    grid-column: 1 / span 5;
-    margin-bottom: var(--ignt-spacing-small);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    height: fit-content;
-    overflow: hidden;
-
-    &:deep(*) {
-      margin: 0;
-    }
-
-    @media (max-width: 600px) {
-      grid-column: span 2;
-    }
-
-    @media (max-width: 500px) {
-      display: none;
-    }
-  }
-
   .viur-shop-cart-leaf-price {
     grid-column: 5 / span 1;
-    align-self: center;
+    align-self: flex-end;
     text-align: right;
     font-size: var(--shop-leaf-price-font-size);
+  }
+
+  .viur-shop-cart-leaf-article-number {
+    align-self: center;
+    grid-column: span 2;
   }
 
   .viur-shop-cart-leaf-quantity {
@@ -244,17 +206,14 @@ function removeArticle(){
 
   .viur-shop-cart-leaf-unitprice {
     align-self: center;
-
-    @media (max-width: 600px) {
-      text-align: right;
-    }
+    grid-column: 4 / span 1;
   }
 
   .viur-shop-cart-leaf-label,
   .viur-shop-cart-leaf-value--quantity::part(form-control-label) {
     color: var(--shop-leaf-label-color);
     font-weight: var(--shop-leaf-label-font-weight);
-    font-size: calc(var(--shop-leaf-label-font-size) * .75);
+    font-size: calc(var(--shop-leaf-label-font-size) *.75);
     margin-bottom: var(--ignt-spacing-2x-small);
   }
 
@@ -279,7 +238,6 @@ function removeArticle(){
   .item-wrapper{
     position: relative;
   }
-
 
   .viur-shop-cart-leaf-value--quantity{
     align-self: center;

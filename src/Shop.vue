@@ -31,7 +31,7 @@
         ordered: {{ shopStore.state.order?.['is_ordered'] }}<br>
         readytoship: {{ shopStore.state.order?.['is_rts'] }}<br>
         paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>
-        
+
         OrderObject: {{shopStore.state.order}}
 
 
@@ -82,16 +82,16 @@ onBeforeMount(()=>{
           shopStore.state.orderReady = true
           // navigate to order state
           if(shopStore.state.order?.['is_ordered']){
-            shopStore.navigateToTab('complete') 
+            shopStore.navigateToTab('complete')
           } else if (shopStore.state.order?.['is_checkout_in_progress']){
-            shopStore.navigateToTab('confirm') 
+            shopStore.navigateToTab('confirm')
           }
         })
     }else{
       shopStore.state.orderReady = true
-    } 
-    
-    
+    }
+
+
     if (Object.keys(params).includes('step')){
         shopStore.navigateToTab(params['step'])
     }else{
@@ -100,7 +100,7 @@ onBeforeMount(()=>{
 
 
 
-    
+
 })
 
 
@@ -134,6 +134,8 @@ onBeforeMount(()=>{
 
 @layer foundation.shop {
   .viur-shop-sidebar-wrap {
+    --padding: var(--sl-spacing-large);
+
     display: flex;
     flex-direction: column;
     background-color: var(--shop-sidebar-background);
@@ -145,7 +147,9 @@ onBeforeMount(()=>{
     height: min-content;
     @media (min-width: 1024px) {
       position: sticky;
-      top: 2rem;
+      max-height: calc(100vh - 2 * var(--padding));
+      top: var(--padding);
+      bottom: var(--padding);
     }
   }
 
