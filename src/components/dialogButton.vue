@@ -4,11 +4,13 @@
 
         </slot>
     </sl-button>
+    <teleport to="#dialogs" v-if="state.opened">
     <sl-dialog :open="state.opened"  @sl-after-hide="state.opened=false" noHeader>
-        <slot name="dialog" :close="close">
+            <slot name="dialog" :close="close">
 
-        </slot>
-    </sl-dialog>
+            </slot>
+        </sl-dialog>
+    </teleport>
 </template>
 
 <script setup>
@@ -26,3 +28,22 @@ function close(){
 }
 
 </script>
+
+<style scoped>
+
+.decent{
+    margin: 0;
+    transition: all ease .3s;
+
+    &::part(base){
+        border: none;
+    }
+
+    &::part(label){
+        padding: 0;
+        height: var(--sl-input-height-medium);
+        width: calc(var(--sl-input-height-medium) / 5 * 4);
+    }
+}
+
+</style>

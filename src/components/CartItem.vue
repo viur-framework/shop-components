@@ -23,7 +23,6 @@
       class="viur-shop-cart-leaf-description"
       v-html="item.shop_description"
     ></div>
-
     <sl-input
         :disabled="!edit"
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
@@ -32,13 +31,22 @@
         min="0"
         noSpinButtons
         :value="item.quantity"
-        @sl-change="changeAmount"
+        @sl-change="changeAmount($event.target.value)"
       >
-
-      <sl-button slot="prefix">
+      <dialog-Button slot="prefix" class="decent" v-if="item.quantity===1" variant="danger" outline>
         <sl-icon name="trash"></sl-icon>
+        <template #dialog="{close}">
+          Wollen sie den Artikel wirklich entfernen?
+          <sl-bar>
+            <sl-button slot="left" @click="close">Abbrechen</sl-button>
+            <sl-button slot="right" variant="danger" @click="removeArticle(); close()">Löschen</sl-button>
+          </sl-bar>
+        </template>
+      </dialog-Button>
+      <sl-button slot="prefix" v-else @click="changeAmount(item.quantity-=1)">
+        <sl-icon name="dash-lg"></sl-icon>
       </sl-button>
-      <sl-button slot="suffix">
+      <sl-button slot="suffix" @click="changeAmount(item.quantity+=1)">
         <sl-icon name="plus-lg"></sl-icon>
       </sl-button>
     </sl-input>
@@ -102,10 +110,15 @@ import dialogButton from './dialogButton.vue';
 
 const {addItem, removeItem, state:cartState} = useCart()
 
-const changeAmount = useDebounceFn((event) => {
-  props.item.quantity = event.target.value
-  addItem(props.item['article']['dest']['key'],event.target.value)
+const changeAmount = useDebounceFn((amount) => {
+  props.item.quantity = amount
+  addItem(props.item['article']['dest']['key'],amount)
 }, 1000)
+
+
+
+
+
 const props = defineProps({
     item:{
         required:true

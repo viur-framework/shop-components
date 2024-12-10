@@ -36,6 +36,8 @@
 
 
     </sl-details>
+
+    <div id="dialogs"></div>
 </template>
 
 

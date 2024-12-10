@@ -15,7 +15,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             return `${state.hostUrl}/json/${state.moduleName}`
         }),
         shopApiUrl:computed(()=>{
-            return `${state.hostUrl}/${state.moduleName}/api`
+            return `${state.hostUrl}/json/${state.moduleName}/api`
         }),
         //default Tabs
         tabs:{
