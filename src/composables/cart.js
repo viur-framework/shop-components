@@ -11,6 +11,20 @@ export function useCart() {
         isUpdating:false
     })
 
+    //agtha3ZpdXIzdGVzdHIgCxITZ3JlZW5zaG9wX2NhcnRfbm9kZRiAgIDE29eVCgw
+    function createCart(){
+        Request.post(shopStore.state.shopApiUrl+'/cart_add',{dataObj:{
+            parent_cart_key:shopStore.state.cartRoot['key'],
+            cart_type:"wishlist"
+        }}).then(async( resp)=>{
+            let data = await resp.json()
+            console.log(data)
+        })
+
+
+    }
+
+
     function fetchCart(){
         //first fetch root then fetchItems for this root
         state.isLoading = true
@@ -28,7 +42,7 @@ export function useCart() {
         
         return Request.get(`${shopStore.state.shopUrl}/cart/listRootNodes`).then(async (resp)=>{
             let data = await resp.json()
-            shopStore.state.cartRoot = data[0]
+            shopStore.state.cartRoot = data.filter(i=>i['cart_type']==='basket')?.[0] ? data.filter(i=>i['cart_type']==='basket')[0]:[]
         })
     }
 
@@ -100,6 +114,7 @@ export function useCart() {
         fetchCart,
         updateCart,
         addItem,
-        removeItem
+        removeItem,
+        createCart
     }
 }
