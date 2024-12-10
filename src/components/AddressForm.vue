@@ -68,7 +68,10 @@ const state = reactive({
 
 watch(()=>addressState.billingIsShipping, (newVal,oldVal)=>{
   if(oldVal && !newVal){
-    shopStore.state.order['billing_address'] = null
+    if(shopStore.state.order?.['billing_address']){
+      shopStore.state.order['billing_address'] = null
+    }
+
     addressState[`billingForm`].state.skel = {'address_type':state.address_type, 'customer_type':'private'}
 
   }

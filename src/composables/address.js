@@ -67,10 +67,6 @@ export const useAddress = defineStore("useAddressStore", () => {
                     }).catch((e)=>reject(e))
                 }).catch((e)=>reject(e))
             })
-
-            return new Promise.all([
-
-            ])
         }
     }
 

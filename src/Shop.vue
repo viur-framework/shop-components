@@ -7,7 +7,7 @@
             </shop-order-stepper>
         </div>
 
-        <div class="viur-shop-sidebar-wrap" :class="{ bottom: (summary==='bottom') }">
+        <div class="viur-shop-sidebar-wrap" v-if="false" :class="{ bottom: (summary==='bottom') }">
           <shop-summary></shop-summary>
         </div>
     </div>
@@ -55,7 +55,7 @@ const {fetchCart} = useCart()
 
 const props = defineProps({
     summary:{
-      default:'sidebar'
+      default:false
     }, // bottom, sidebar
     initTab:{
       default:'cart'
