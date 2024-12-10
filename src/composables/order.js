@@ -62,12 +62,13 @@ export function useOrder() {
         }else{
             data["cart_key"] = shopStore.state.cartRoot['key']
         }
-        Request.post(url,{dataObj:removeUndefinedValues(data)}).then(async(resp)=>{
+        return Request.post(url,{dataObj:removeUndefinedValues(data)}).then(async(resp)=>{
             let data = await resp.json()
             updateOrderState(data['key'], data)
             state.isUpdating=false
-        }).then(()=>{
+        }).then(async ( resp)=>{
             fetchOrder(shopStore.state.orderKey)
+            return resp
         })
     }
 

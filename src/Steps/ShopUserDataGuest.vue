@@ -22,7 +22,6 @@
         :nextfunction="nextStep"
     >
     </slot>
-
 </template>
 
 
@@ -43,7 +42,7 @@ function switchAddresses(event){
 }
 
 onBeforeMount(()=>{
-  if (shopStore.state.cartRoot?.['shipping_address']?.['dest']?.['key']=== shopStore.state.order?.['billing_address']?.['dest']?.['key']){
+  if (shopStore.state.cartRoot?.['shipping_address']?.['dest']?.['address_type']?.includes('billing') || !shopStore.state.cartRoot?.['shipping_address']?.['dest']){
     addressState.billingIsShipping = true
   }else{
     addressState.billingIsShipping = false

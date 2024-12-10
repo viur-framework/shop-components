@@ -49,7 +49,7 @@ export const useAddress = defineStore("useAddressStore", () => {
         let data = await resp.json()
         if (['addSuccess','editSuccess'].includes(data['action'])){
           state[`${type}Data`] = data['values']
-          updateAddresses(type, shippingIsBilling)
+          await updateAddresses(type, shippingIsBilling)
         }
         state[`${type}IsUpdating`] = undefined
         return data
@@ -70,18 +70,19 @@ export const useAddress = defineStore("useAddressStore", () => {
         }
     }
 
-    function updateAddresses(type, shippingIsBilling=false) {
+    async function updateAddresses(type, shippingIsBilling=false) {
         let key = state[`${type}Data`]['key']
+
         if (type === 'shipping'){
             const {updateCart} = useCart()
             updateCart({shipping_address_key:key})
             if(shippingIsBilling){
                 const {addOrUpdateOrder} = useOrder()
-                addOrUpdateOrder({billing_address_key:key})
+                await addOrUpdateOrder({billing_address_key:key})
             }
         }else if (type === 'billing'){
             const {addOrUpdateOrder} = useOrder()
-            addOrUpdateOrder({billing_address_key:key})
+            await addOrUpdateOrder({billing_address_key:key})
         }
     }
 
