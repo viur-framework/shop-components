@@ -11,7 +11,7 @@
             :edit="!shopStore.state.order?.['is_checkout_in_progress']"
             >
             </cart-item-small>
-            <cart-item v-for="item in shopStore.state.cartList" :item="item"
+            <cart-item v-for="item in shopStore.state.cartList.filter(i=>i['skel_type']==='leaf')" :item="item"
             :edit="!shopStore.state.order?.['is_checkout_in_progress']"
             >
 
