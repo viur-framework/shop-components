@@ -17,48 +17,43 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         shopApiUrl:computed(()=>{
             return `${state.hostUrl}/${state.moduleName}/api`
         }),
-
-        //state.tabs['cart']?.['valid'] && 
-        tabState:{
-            cart:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered']), //active if no orderkey or checkout not startet
-            userdata:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartList.length>0), //active if checkout not startet and cart is not empty
-            shippingmethod:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartRoot?.['shipping_address']), // we need a shipping country
-            paymentprovider:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order), // we need a active order
-            confirm:computed(()=>!state.order?.['is_paid'] && state.canCheckout?.['status']), // active if canCheckout and not already ordererd
-            complete:computed(()=>state.order?.['is_ordered']) // active if ordered
-        },
-
         //default Tabs
         tabs:{
             cart: {
                 component: shallowRef(ShopCart),
                 displayName: "Warenkorb",
                 icon: { name: "cart3" },
+                active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'])  //active if no orderkey or checkout not startet
             },
             userdata: {
                 component: shallowRef(ShopUserDataGuest),
                 displayName: "Daten Eingeben",
                 icon: { name: "card-list" },
+                active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartList.length>0) //active if checkout not startet and cart is not empty
             },
             shippingmethod: {
                 component: shallowRef(ShopShippingMethod),
                 displayName: "Versandart",
                 icon: { name: "truck" },
+                active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartRoot?.['shipping_address']) // we need a shipping country
             },
             paymentprovider: {
                 component: shallowRef(ShopPaymentProvider),
                 displayName: "Zahlungsart auswählen",
                 icon: { name: "credit-card" },
+                active:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order) // we need a active order
             },
             confirm: {
                 component: shallowRef(ShopOrderConfirm),
                 displayName: "Bestellung prüfen",
                 icon: { name: "clipboard-check" },
+                active:computed(()=>!state.order?.['is_paid'] && state.canCheckout?.['status']) // active if canCheckout and not already paid
             },
             complete: {
                 component: shallowRef(ShopOrderComplete),
                 displayName: "Bestellung Abgeschlossen",
                 icon: { name: "bag-check" },
+                active:computed(()=>state.order?.['is_ordered'])// active if ordered
             },
         },
         // active Tab
@@ -105,6 +100,36 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         paymentProviderData:null
 
     })
+
+    function addTab({name, component, displayname, iconname, iconlibrary,active})
+    {
+        if(Object.keys(state.tabs).includes(name)){
+            state.tabs[name] = {
+                component: component?shallowRef(component):state.tabs[name].component,
+                displayName: displayname?displayname:state.tabs[name].displayName,
+                icon: {
+                    name: iconname?iconname:state.tabs[name].iconname,
+                    library:iconlibrary?iconlibrary:state.tabs[name].iconlibrary
+                },
+                active:active?active:state.tabs[name].active
+            }
+        }else{
+            state.tabs[name] = {
+                component: shallowRef(component),
+                displayName: displayname,
+                icon: { name: iconname, library:iconlibrary},
+                active:active
+            }
+        }
+
+
+    }
+
+    function removeTab(name){
+        delete state.tabs[name]
+    }
+
+
 
     function navigateToTab(name){
         // navigate to Tab 
@@ -204,6 +229,10 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         navigateToPrevious,
         fetchMetaData,
         checkout,
-        checkoutOrder
+        checkoutOrder,
+
+        addTab,
+        removeTab
+
     }
 })

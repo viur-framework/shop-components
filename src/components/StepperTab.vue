@@ -3,7 +3,7 @@
     class="viur-shop-order-tab"
     slot="nav"
     :panel="tab"
-    :disabled="!shopStore.state.tabState[tab]"
+    :disabled="!shopStore.state.tabs[tab]['active']"
     @click="shopStore.navigateToTab(tab)"
   >
     <div class="viur-shop-order-step">

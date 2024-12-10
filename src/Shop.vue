@@ -57,7 +57,6 @@ const props = defineProps({
     summary:{
       default:'sidebar'
     }, // bottom, sidebar
-    tabs:null,
     initTab:{
       default:'cart'
     },
