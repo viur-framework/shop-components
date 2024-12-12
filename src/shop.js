@@ -69,7 +69,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             },
         },
         // active Tab
-        currentTab: null,
+        currentTab: "cart",  // set cart as default to avoid console errors
         // tabname to index mapping
         tabIndexMap: computed(()=>{
             let map = {}
@@ -144,7 +144,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
 
 
     function navigateToTab(name){
-        // navigate to Tab 
+        // navigate to Tab
         state.currentTab = name
 
         const params = useUrlSearchParams('hash')
@@ -176,7 +176,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             state.paymentMeta = data
         })
     }
-    
+
     function fetchMetaData(){
         fetchAddressStructure()
         fetchPaymentMeta()
@@ -219,15 +219,15 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                 } else {
                     state.order = data['skel']
                     state.paymentProviderData = data['payment']
-        
+
                     if(state.order?.['is_ordered']){
                         // order is finished
                         navigateToTab('complete')
                     }
                     resolve(data)
                 }
-                
-                
+
+
             }).catch(error=>{
                 reject(error)
             })
