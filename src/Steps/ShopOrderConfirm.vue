@@ -1,10 +1,10 @@
 <template>
     <div class="list">
-    <h2 class="viur-shop-cart-headline headline">Bestellung prüfen</h2>
+    <h2 class="viur-shop-cart-headline headline">{{ $t('shop.check_order')}}</h2>
     <div class="viur-shop-cart-address-wrap">
       <div class="viur-shop-cart-address">
         <div class="viur-shop-cart-address-headline">
-          Versandadresse
+          {{ $t('viur.shop.skeleton.cartnode.shipping_address') }}
         </div>
         <template v-if="state.shippingAddress">
           {{ state.shippingAddress?.firstname }}
@@ -18,7 +18,7 @@
       </div>
       <div class="viur-shop-cart-address">
         <div class="viur-shop-cart-address-headline">
-          Rechnungsadresse
+          {{ $t('viur.shop.skeleton.order.billing_address') }}
         </div>
         <template v-if="state.billingAddress">
           {{ state.billingAddress.firstname }}
@@ -34,14 +34,16 @@
 
     <div class="viur-shop-cart-payment">
       <div class="viur-shop-cart-payment-method">
-        <span>Zahlungsmethode: </span>
-        <span> {{ shopStore.state['paymentMeta']?.[state.payment]?.['title']}}</span>
+        <span>{{ $t('viur.shop.skeleton.order.payment') }} </span>
+        <p>
+          {{ shopStore.state['paymentMeta']?.[state.payment]?.['title']}}
+        </p>
       </div>
     </div>
 
     <div class="viur-shop-cart-payment">
       <div class="viur-shop-cart-payment-method">
-        <span>Versandart:</span>
+        <span>{{ $t('viur.shop.module.shipping') }}</span>
         <p>
           {{ state.shipping?.name }}
           -
@@ -58,14 +60,14 @@
       </div>
     </div>
 
-    <sl-details summary="Warenkorb">
-    <cart-item v-for="item in state.cartList" :item="item" itemstyle="small">
-    </cart-item>
+    <sl-details :summary="$t('viur.shop.skeleton.order.cart')">
+    <cart-item-small v-for="item in state.cartList" :item="item">
+    </cart-item-small>
   </sl-details>
   </div>
 
   <div class="wrapper">
-    <sl-button size="small" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">Zahlungspflichtig Bestellen</sl-button>
+    <sl-button size="small" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">{{ $t('shop.order_pay') }}</sl-button>
   </div>
 
   <template v-if="shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
@@ -79,7 +81,7 @@ import {computed, onBeforeMount, reactive, watch} from 'vue'
 import { useViurShopStore } from '../shop';
 import boneUtils from '@viur/vue-utils/bones/utils'
 import {Request} from '@viur/vue-utils'
-import CartItem from '../components/CartItem.vue';
+import CartItemSmall from '../components/CartItemSmall.vue';
 import PaymentProviderUnzer from '../components/PaymentProviderUnzer.vue';
 const shopStore = useViurShopStore()
 

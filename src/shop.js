@@ -23,37 +23,49 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                 component: shallowRef(ShopCart),
                 displayName: "Warenkorb",
                 icon: { name: "cart3" },
-                active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'])  //active if no orderkey or checkout not startet
+                active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered']),  //active if no orderkey or checkout not startet
+                validating:false,
+                valid:false
             },
             userdata: {
                 component: shallowRef(ShopUserDataGuest),
                 displayName: "Daten Eingeben",
                 icon: { name: "card-list" },
-                active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartList.length>0) //active if checkout not startet and cart is not empty
+                active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartList.length>0), //active if checkout not startet and cart is not empty
+                validating:false,
+                valid:false
             },
             shippingmethod: {
                 component: shallowRef(ShopShippingMethod),
                 displayName: "Versandart",
                 icon: { name: "truck" },
-                active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartRoot?.['shipping_address']) // we need a shipping country
+                active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartRoot?.['shipping_address']), // we need a shipping country
+                validating:false,
+                valid:false
             },
             paymentprovider: {
                 component: shallowRef(ShopPaymentProvider),
                 displayName: "Zahlungsart auswählen",
                 icon: { name: "credit-card" },
-                active:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order) // we need a active order
+                active:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order), // we need a active order
+                validating:false,
+                valid:false
             },
             confirm: {
                 component: shallowRef(ShopOrderConfirm),
                 displayName: "Bestellung prüfen",
                 icon: { name: "clipboard-check" },
-                active:computed(()=>!state.order?.['is_paid'] && state.canCheckout?.['status']) // active if canCheckout and not already paid
+                active:computed(()=>!state.order?.['is_paid'] && state.canCheckout?.['status']), // active if canCheckout and not already paid
+                validating:false,
+                valid:false
             },
             complete: {
                 component: shallowRef(ShopOrderComplete),
                 displayName: "Bestellung Abgeschlossen",
                 icon: { name: "bag-check" },
-                active:computed(()=>state.order?.['is_ordered'])// active if ordered
+                active:computed(()=>state.order?.['is_ordered']), // active if ordered
+                validating:false,
+                valid:false
             },
         },
         // active Tab

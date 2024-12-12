@@ -20,6 +20,7 @@
                                 variant="primary"
                                 :disabled="active(slotProps)"
                                 @click="nextStep(slotProps)"
+                                :loading="tab['validating']"
                             >
                               {{slotProps.nextName}}
                             </sl-button>
@@ -57,13 +58,23 @@ onMounted(()=>{
 })
 
 function nextStep(obj){
+  shopStore.state.tabs[shopStore.state.currentTab]['valid']=false
+  shopStore.state.tabs[shopStore.state.currentTab]['validating']=true
   //validate step, like send forms or something like this
   Promise.resolve(obj.nextfunction()).then((resp)=>{
     if (resp){
+      shopStore.state.tabs[shopStore.state.currentTab]['valid']=true
+      shopStore.state.tabs[shopStore.state.currentTab]['validating']=false
       shopStore.navigateToNext()
+    }else{
+      shopStore.state.tabs[shopStore.state.currentTab]['valid']=false
+      shopStore.state.tabs[shopStore.state.currentTab]['validating']=false
     }
+  }).catch(error=>{
+    shopStore.state.tabs[shopStore.state.currentTab]['valid']=false
+    shopStore.state.tabs[shopStore.state.currentTab]['validating']=false
   })
-
+  console.log("----")
 }
 
 function active(obj){

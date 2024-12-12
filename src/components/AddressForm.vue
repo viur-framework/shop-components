@@ -1,5 +1,4 @@
 <template>
-  {{formtype}}
     <LoadingHandler :is-loading="addressState[`${state.formtype}IsLoading`]"></LoadingHandler>
     <ViForm
         :ref="(el)=>{addressState[`${state.formtype}Form`]=el; return el}"

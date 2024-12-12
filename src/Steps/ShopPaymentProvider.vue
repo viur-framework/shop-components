@@ -40,6 +40,7 @@ const state = reactive({
 })
 
 function optionChanged(type){
+  shopStore.state.order['payment_provider'] = null
   state.selection=type
   addOrUpdateOrder({payment_provider:type})
 }

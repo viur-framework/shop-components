@@ -35,6 +35,7 @@ const state = reactive({
 })
 
 function updateShippingMethod(selection){
+  shopStore.state.cartRoot['shipping'] = null
   if (selection){
     updateCart({shipping_key:selection['dest']['key']})
   }

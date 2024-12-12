@@ -1,21 +1,18 @@
 <template>
 <div class="bind">
     <h1 class="viur-shop-success-headline headline">
-      Vielen Dank für Ihre Bestellung
+      {{ $t('shop.order_thanks') }}
     </h1>
-    <p class="paragraph"><strong>Ihre Bestellnummer:</strong> {{ shopStore.state.order?.["order_uid"] }}</p>
-    <p class="paragraph">
-      Wir haben Ihre Bestellung erhalten und werden diese schenllstmöglich
-      bearbeiten.<br />
-      Sie erhalten in wenigen Minuten eine Bestätigung per E-Mail.
+    <p class="paragraph"><strong>{{ $t('shop.order_number') }}:</strong> {{ shopStore.state.order?.["order_uid"] }}</p>
+    <p class="paragraph" v-html=" $t('shop.order_message')">
     </p>
 
     <p class="paragraph" v-if="shopStore.state.order?.['is_paid']">
-      Ihre Zahlung ist bei uns eingegangen.
+      {{ $t('shop.order_paid') }}
     </p>
 
     <p class="paragraph" v-if="shopStore.state.order?.['is_rts']">
-      Ihre Bestellung ist fertig für den Versand.
+      {{ $t('shop.order_ready_to_ship') }}
     </p>
   </div>
 </template>
