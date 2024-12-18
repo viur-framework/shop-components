@@ -14,14 +14,14 @@
     />
     <h4
       class="viur-shop-cart-leaf-headline headline"
-      v-html="item.shop_name"
+      v-html="getValue(item.shop_name)"
     ></h4>
     <h5 class="viur-shop-cart-leaf-artno">
-      {{ item.shop_art_no_or_gtin }}
+      {{ getValue(item.shop_art_no_or_gtin) }}
     </h5>
     <div
       class="viur-shop-cart-leaf-description"
-      v-html="item.shop_description"
+      v-html="getValue(item.shop_description)"
     ></div>
     <sl-input
         :disabled="!edit"
@@ -108,7 +108,7 @@ import { getImage } from '../utils';
 import { useCart } from '../composables/cart';
 import dialogButton from './dialogButton.vue';
 
-const {addItem, removeItem, state:cartState} = useCart()
+const {addItem, removeItem, state:cartState, getValue} = useCart()
 
 const changeAmount = useDebounceFn((amount) => {
   props.item.quantity = amount

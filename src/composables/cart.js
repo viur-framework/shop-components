@@ -11,6 +11,17 @@ export function useCart() {
         isUpdating:false
     })
 
+    function getValue(value){
+        if (value !== null && 
+            typeof value === 'object' && 
+            !Array.isArray(value) && 
+            Object.keys(value).includes(shopStore.state.language)
+        ){
+            return value[shopStore.state.language]
+        }
+        return value
+    }
+
     //agtha3ZpdXIzdGVzdHIgCxITZ3JlZW5zaG9wX2NhcnRfbm9kZRiAgIDE29eVCgw
     function createCart(){
         Request.post(shopStore.state.shopApiUrl+'/cart_add',{dataObj:{
@@ -115,6 +126,7 @@ export function useCart() {
         updateCart,
         addItem,
         removeItem,
-        createCart
+        createCart,
+        getValue
     }
 }

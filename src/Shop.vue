@@ -13,6 +13,7 @@
     </div>
 
     <sl-details summary="Debug" open>
+        language: {{shopStore.state.language}} <br>
         order: {{ shopStore.state.orderKey }}<br>
         cart: {{ shopStore.state.cartRoot?.['key'] }}<br><br>
 
@@ -30,7 +31,7 @@
 
         ordered: {{ shopStore.state.order?.['is_ordered'] }}<br>
         readytoship: {{ shopStore.state.order?.['is_rts'] }}<br>
-        paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>
+        paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>  
 
         OrderObject: {{shopStore.state.order}}
 
@@ -64,11 +65,15 @@ const props = defineProps({
     },
     modulename:{
       default:'shop'
+    },
+    language:{
+      default:"de"
     }
 })
 
 
 onBeforeMount(()=>{
+    shopStore.state.language=props.language
     if(props.tabs){
         shopStore.state.tabs = props.tabs
     }
