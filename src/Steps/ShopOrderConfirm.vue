@@ -70,7 +70,7 @@
     <sl-button size="small" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">{{ $t('shop.order_pay') }}</sl-button>
   </div>
 
-  <template v-if="shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
+  <template v-if="shopStore.state.order?.['payment_provider'] !== null && shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
     <sl-dialog v-if="state.paymentPopup" label="Zahlung" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
         <payment-provider-unzer @cancel="paymentCanceled"></payment-provider-unzer>
     </sl-dialog>

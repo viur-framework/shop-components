@@ -26,7 +26,7 @@
     "@tanstack/vue-table": "^8.20.5",
     "@viur/ignite": "^5.1.2",
     "@viur/shoelace": "^1.0.8-v2.19.0",
-    "@viur/vue-utils": "file:../vue-utils/packages/viur-vue-utils",
+    "@viur/vue-utils": "^1.7.22",
     "@vueuse/core": "^11.1.0",
     "pinia": "^2.2.4",
     "primevue": "^4.1.1",
