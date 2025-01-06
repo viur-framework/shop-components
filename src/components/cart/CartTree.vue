@@ -16,10 +16,23 @@
   </sl-input>
   <CartTreeWrapper :tree="state.tree" @update:modelValue="handleChange">
   </CartTreeWrapper>
+
+  <sl-button
+    @click="
+      cartStore.addNode(
+        cartStore.state.basketRootNode.key,
+        (cartType = 'basket'),
+      )
+    "
+    >addbutton</sl-button
+  >
 </template>
 <script setup>
 import { reactive, watch, computed } from "vue";
 import CartTreeWrapper from "./CartTreeWrapper.vue";
+import { useCartStore } from "../../stores/cart";
+
+const cartStore = useCartStore();
 
 const props = defineProps({
   modelValue: { type: Array, required: true },

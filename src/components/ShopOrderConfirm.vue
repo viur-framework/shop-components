@@ -17,12 +17,12 @@
             </sl-button>
           </div>
           {{ cartStore.state.activeShippingAddress.firstname }}
-          {{ cartStore.state.activeShippingAddress.lastname }}<br />
+          {{ cartStore.state.activeShippingAddress.lastname }}<br/>
           {{ cartStore.state.activeShippingAddress.street_name }}
-          {{ cartStore.state.activeShippingAddress.street_number }}<br />
+          {{ cartStore.state.activeShippingAddress.street_number }}<br/>
           {{ cartStore.state.activeShippingAddress.zip_code }}
-          {{ cartStore.state.activeShippingAddress.city }}
-          {{ cartStore.state.activeShippingAddress.country }}<br />
+          {{ cartStore.state.activeShippingAddress.city }}<br>
+          {{ getCountryName(cartStore.state.activeShippingAddress.country) }}<br/>
         </div>
         <div class="viur-shop-cart-address">
           <div class="viur-shop-cart-address-headline">
@@ -32,12 +32,12 @@
             </sl-button>
           </div>
           {{ cartStore.state.activeBillingAddress.firstname }}
-          {{ cartStore.state.activeBillingAddress.lastname }}<br />
+          {{ cartStore.state.activeBillingAddress.lastname }}<br/>
           {{ cartStore.state.activeBillingAddress.street_name }}
-          {{ cartStore.state.activeBillingAddress.street_number }}<br />
+          {{ cartStore.state.activeBillingAddress.street_number }}<br/>
           {{ cartStore.state.activeBillingAddress.zip_code }}
-          {{ cartStore.state.activeBillingAddress.city }}
-          {{ cartStore.state.activeBillingAddress.country }}<br />
+          {{ cartStore.state.activeBillingAddress.city }}<br>
+          {{ getCountryName(cartStore.state.activeBillingAddress.country) }}<br/>
         </div>
       </div>
 
@@ -90,16 +90,15 @@
 </template>
 
 <script setup>
-import { reactive, onBeforeMount, computed } from "vue";
+import {computed, onBeforeMount, reactive} from "vue";
 import Loader from "@viur/vue-utils/generic/Loader.vue";
-import { useCartStore } from "../stores/cart.js";
-import { Request } from "@viur/vue-utils";
+import {useCartStore} from "../stores/cart.js";
 import CartView from "./cart/CartView.vue";
 
 const emit = defineEmits(["editAddress"]);
 
 const props = defineProps({
-  tabName: { type: String, required: true },
+  tabName: {type: String, required: true},
 });
 
 const cartStore = useCartStore();
@@ -132,8 +131,22 @@ function addOrder() {
   cartStore.orderAdd();
 }
 
+function getCountryName(val) {
+  if(!cartStore.state.structure.address || !val)
+  {
+    return val
+  }
+  for (const country of cartStore.state.structure.address["country"].values) {
+    if (val === country[0]) {
+      return country[1];
+    }
+  }
+  return val;
+}
+
 onBeforeMount(async () => {
   await cartStore.init();
+  console.log("country",)
 });
 </script>
 

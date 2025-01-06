@@ -1,4 +1,15 @@
 <template>
+  <template v-for="msg in messageStore.state.errors">
+    <shop-alert
+      v-if="!messageStore.state.blacklist.includes(msg.id)"
+      :msg="msg.msg"
+      :variant="msg.variant"
+      :iconName="msg.iconName"
+      :key="msg.id"
+      @sl-hide="messageStore.state.blacklist.push(msg.id)"
+    >
+    </shop-alert>
+  </template>
   <div class="bind viur-shop-wrap">
     <div
       class="viur-shop-stepper-wrap"
@@ -41,6 +52,7 @@
         >
           <StepperTrigger
             :index="state.tabIdx"
+            :currentTab="state.currentTabObj"
             @prevTab="prevTab"
             @nextTab="nextTab"
           >
@@ -72,10 +84,13 @@ import { reactive, computed, ref, onBeforeMount } from "vue";
 import StepperTab from "./ui/stepper/StepperTab.vue";
 import StepperItem from "./ui/stepper/StepperItem.vue";
 import StepperTrigger from "./ui/stepper/StepperTrigger.vue";
-import ShopSummary from "./ui/ShopSummary.vue";
+import ShopSummary from "./ShopSummary.vue";
+import ShopAlert from "./ui/generic/alerts/ShopAlert.vue";
 import { useCartStore } from "../stores/cart";
+import { useMessageStore } from "../stores/message";
 
 const cartStore = useCartStore();
+const messageStore = useMessageStore();
 
 const props = defineProps({
   tabs: {
@@ -109,6 +124,7 @@ const emit = defineEmits(["tabChange"]);
 
 const state = reactive({
   tabNames: computed(() => sortTabs(props.tabs)),
+  currentTabObj: computed(() => props.tabs[state.tabNames[state.tabIdx]]),
   tabIdx: 0,
   currentTab: "",
 });
@@ -116,8 +132,8 @@ const state = reactive({
 const tabGroup = ref(null);
 
 function sortTabs(tabs) {
-  let sortedArray = [];
-  let outputArray = [];
+  const sortedArray = [];
+  const outputArray = [];
 
   for (const tab in tabs) {
     if (tabs[tab].position) {
@@ -134,7 +150,6 @@ function sortTabs(tabs) {
   sortedArray.forEach((tab) => {
     outputArray.push(tab[0]);
   });
-
   return outputArray;
 }
 

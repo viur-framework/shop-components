@@ -42,7 +42,6 @@ import { onMounted, reactive, computed } from "vue";
 import { useCartStore } from "../../../stores/cart";
 import { useRoute } from "vue-router";
 import { Request, ListRequest } from "@viur/vue-utils";
-// import { ViURShopClient } from "@viur/viur-shop-client";
 
 // component imports
 import ItemCard from "../item/ItemCard.vue";

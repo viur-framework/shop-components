@@ -1,5 +1,5 @@
 <template>
-  <sl-spinner v-if="!currentCartKey"></sl-spinner>
+  <sl-spinner v-if="!state.cartLoaded"></sl-spinner>
   <h2 v-else-if="state.cartIsEmpty">Keine Artikel im Warenkorb vorhanden</h2>
   <!--todo translations-->
   <template v-else>
@@ -213,12 +213,12 @@
 </template>
 
 <script setup>
-import { reactive, computed, onBeforeMount, ref } from "vue";
+import { reactive, computed, onBeforeMount, ref, watch } from "vue";
 import { useCartStore } from "../../stores/cart.js";
 import CartNode from "./CartNode.vue";
 import CartLeaf from "./CartLeaf.vue";
 import Shipping from "../order/process/Shipping.vue";
-import ShopSummary from "../ui/ShopSummary.vue";
+import ShopSummary from "../ShopSummary.vue";
 
 const props = defineProps({
   mode: { type: String, default: "basket" },
@@ -229,18 +229,14 @@ const props = defineProps({
   customComponent: { default: undefined },
 });
 
-console.log("inor",props.inOrderView)
 const cartStore = useCartStore();
 
 const confirm = ref(null);
 const shipping = ref(null);
 
 const state = reactive({
-  itemsIsInit: computed(() => {
-    return true;
-  }),
   cartIsEmpty: computed(() => {
-    return currentCartKey && state.leaves.length===0;
+    return currentCartKey && Object.keys(state.leaves).length === 0;
   }),
   totalPrice: computed(() => {
     if (shipping.value) {
@@ -251,35 +247,17 @@ const state = reactive({
     }
     return 0;
   }),
-  images: {},
   currentItem: {},
   currentNode: {},
   nodes: [],
   leaves: {},
+  cartLoaded: false,
 });
 
 const currentCartKey = computed(() => {
   console.log("compute current cartkey");
-  return props.mode === "basket"
-    ? cartStore.state.basketRootNode.key
-    : props.cartKey;
+  return props.cartKey;
 });
-
-// function getImage(item) {
-//   Request.get(`/json/dk_variante/view/${item}`).then(async (resp) => {
-//     let data = await resp.json();
-
-//     data = data.values;
-
-//     let imageUrl = data.dk_artikel.dest.image
-//       ? Request.downloadUrlFor(data.dk_artikel.dest.image)
-//       : "https://images.unsplash.com/photo-1559209172-0ff8f6d49ff7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80";
-
-//     state.images[item] = imageUrl;
-//   });
-
-//   return state.images[item];
-// }
 
 async function onConfirm() {
   confirm.value.hide();
@@ -330,38 +308,44 @@ async function updateCart() {
   state.nodes = [];
   state.leaves = {};
 
-  await cartStore.init();
+  await cartStore.init(true);
   await getChildren();
 }
 
 async function getChildren(parentKey = currentCartKey.value) {
-  const children = await cartStore.getChildren(parentKey);
+  state.cartLoaded = false;
 
-  children.forEach(async (child) => {
+  const children = await cartStore.getChildren(parentKey);
+  for (const child of children) {
     if (child.skel_type === "node") {
       state.nodes.push(child);
       await getChildren(child.key);
     } else {
+      if (child.is_root_node) {
+        continue;
+      }
       if (!Object.keys(state.leaves).includes(parentKey)) {
         state.leaves[parentKey] = [];
       }
       state.leaves[parentKey].push(child);
     }
-  });
+  }
+  state.cartLoaded = true;
 }
 
-onBeforeMount(async () => {
-  await cartStore.init();
-  await getChildren();
+watch(
+  () => cartStore.state.isReady,
+  async (newVal, oldVal) => {
+    if (newVal) {
+      await getChildren();
+      state.nodes.push(cartStore.state.basketRootNode);
+    }
+  },
+);
 
-  if (props.mode === "basket") {
-    state.nodes.push(cartStore.state.basketRootNode);
-  }
-
-  console.log("state.nodes test", state.nodes);
-
-  console.log("state.leaves", state.leaves);
-});
+// onBeforeMount(async () => {
+//   await cartStore.init(false, false);
+// });
 </script>
 
 <style scoped>

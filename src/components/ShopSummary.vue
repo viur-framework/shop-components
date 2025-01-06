@@ -63,10 +63,10 @@
 </template>
 
 <script setup>
-import Discount from "../cart/Discount.vue";
-import Shipping from "../order/process/Shipping.vue";
+import Discount from "./cart/Discount.vue";
+import Shipping from "./order/process/Shipping.vue";
 import { computed, onBeforeMount, reactive, ref } from "vue";
-import { useCartStore } from "../../stores/cart";
+import { useCartStore } from "../stores/cart";
 
 const cartStore = useCartStore();
 
