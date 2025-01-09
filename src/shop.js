@@ -18,6 +18,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         shopApiUrl:computed(()=>{
             return `${state.hostUrl}/json/${state.moduleName}/api`
         }),
+        debug:false,
         //default Tabs
         tabs:{
             cart: {
@@ -48,7 +49,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                 component: shallowRef(ShopPaymentProvider),
                 displayName: "Zahlungsart auswählen",
                 icon: { name: "credit-card" },
-                active:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order), // we need a active order
+                active:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order && state.cartRoot?.['shipping']), // we need a active order
                 validating:false,
                 valid:false
             },

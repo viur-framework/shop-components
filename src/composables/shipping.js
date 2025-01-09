@@ -6,9 +6,12 @@ import { useViurShopStore } from '../shop'
 
 export function useShipping() {
     const shopStore = useViurShopStore()
+    const defaultErrorMessage = "Eine Fehler ist aufgetreten."
     const state = reactive({
         isLoading:false,
         isUpdating:false,
+        hasError:false,
+        errorMessage: defaultErrorMessage,
         shippingData:[]
     })
 
@@ -19,6 +22,10 @@ export function useShipping() {
         }}).then(async (resp)=>{
             let data = await resp.json()
             state.shippingData = data
+            if (state.shippingData.length===0){
+                state.hasError = true
+                state.errorMessage = "Keine passenden Versandarten gefunden."
+            }
             state.isLoading = false
         })
     }

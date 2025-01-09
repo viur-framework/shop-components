@@ -21,9 +21,9 @@ const ViurShopComponents = {
     let data = await getTranslations(locale)
     for(const loc of locale){
       if (loc === 'de'){
-        messages[loc] = {...data[loc], ...de_translations, ...de}
+        messages[loc] = { ...de_translations, ...de, ...data[loc]}
       }else if (loc === 'en'){
-        messages[loc] = {...data[loc], ...en_translations, ...en}
+        messages[loc] = {...en_translations, ...en, ...data[loc]}
       }else{
         messages[loc] = {...data[loc]}
       }
