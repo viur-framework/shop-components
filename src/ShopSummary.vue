@@ -1,114 +1,92 @@
 <template>
-  <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
-
-  <div class="viur-shop-cart-sidebar-summary">
-
+  <LoadingHandler :isLoading="!state.items.length">
+    <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
+    <div class="viur-shop-cart-sidebar-summary">
       <div class="viur-shop-cart-sidebar-summary-item" v-for="item in state.items">
-        <div class="viur-shop-cart-sidebar-summary-item-amount" v-if="item.skel_type ==='leaf'">{{ item.quantity }}x</div>
-
-        <div class="viur-shop-cart-sidebar-summary-item-name">{{item.skel_type === 'node' ? item.name : item.shop_name}}</div>
-
+        <div class="viur-shop-cart-sidebar-summary-item-amount" v-if="item.skel_type === 'leaf'">{{ item.quantity }}x
+        </div>
+        <div class="viur-shop-cart-sidebar-summary-item-name">{{ item.skel_type === 'node' ? item.name : item.shop_name }}
+        </div>
         <div class="viur-shop-cart-sidebar-summary-item-price">
-          <sl-format-number
-          lang="de"
-          type="currency"
-          currency="EUR"
-          :value="item.total ? item.total : item.price.current"
-          >
+          <sl-format-number lang="de" type="currency" currency="EUR"
+            :value="item.total ? item.total : item.price.current">
           </sl-format-number>
         </div>
       </div>
-
-  </div>
-
-  <div class="viur-shop-cart-sidebar-info-line">
-    <span>Zwischensumme</span>
-
-    <sl-format-number
-      lang="de"
-      type="currency"
-      currency="EUR"
-      :value="state.cartTotal"
-    >
-    </sl-format-number>
-  </div>
-
-  <div class="viur-shop-cart-sidebar-info-line">
-    <span>Versandkosten</span>
-
-    <sl-format-number
-      lang="de"
-      type="currency"
-      currency="EUR"
-      :value="state.shippingTotal"
-    >
-    </sl-format-number>
-  </div>
-  <div class="viur-shop-cart-shipping-item" v-if="shopStore.state.order?.cart?.dest?.shipping">
-    <span>Lieferzeit </span>
-
-    <span>
-      {{
-        shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range ?
-        shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range :
-        0
-      }} {{ shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range === 1 ? "Tag" : "Tage" }}
-    </span>
-  </div>
-
-  <div class="viur-shop-cart-sidebar-info-line">
-    <span>Rabatt</span>
-
-    <sl-format-number
-      lang="de"
-      type="currency"
-      currency="EUR"
-      :value="0"
-    >
-    </sl-format-number>
-  </div>
-  <div class="viur-shop-cart-sidebar-info-line">
-
-  </div>
-  <div class="viur-shop-cart-sidebar-info-line total">
-    <span>Gesamt:</span>
-    <sl-format-number
-      lang="de"
-      type="currency"
-      currency="EUR"
-      :value="state.total"
-    >
-    </sl-format-number>
-  </div>
-
-  <slot name="action-buttons">
-    <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!shopStore.state.order?.['is_paid']">
-      <sl-button variant="primary" size="medium">Bestellen</sl-button>
     </div>
-  </slot>
+    <div class="viur-shop-cart-sidebar-info-line">
+      <span>Zwischensumme</span>
+      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.cartTotal">
+      </sl-format-number>
+    </div>
+    <div class="viur-shop-cart-sidebar-info-line">
+      <span>Versandkosten</span>
+      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.shippingTotal">
+      </sl-format-number>
+    </div>
+    <div class="viur-shop-cart-shipping-item" v-if="shopStore.state.order?.cart?.dest?.shipping">
+      <span>Lieferzeit </span>
+      <span>
+        {{
+          shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range ?
+            shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range :
+            0
+        }} {{ shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range === 1 ? "Tag" : "Tage" }}
+      </span>
+    </div>
+    <div class="viur-shop-cart-sidebar-info-line">
+      <span>Rabatt</span>
+      <sl-format-number lang="de" type="currency" currency="EUR" :value="0">
+      </sl-format-number>
+    </div>
+    <div class="viur-shop-cart-sidebar-info-line">
+    </div>
+    <div class="viur-shop-cart-sidebar-info-line total">
+      <span>Gesamt:</span>
+      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.total">
+      </sl-format-number>
+    </div>
+    <slot name="action-buttons">
+      <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!shopStore.state.order?.['is_paid']">
+        <sl-button variant="primary" size="medium">Bestellen</sl-button>
+      </div>
+    </slot>
+  </LoadingHandler>
 </template>
 
 <script setup>
-import {reactive, computed, onBeforeMount} from 'vue'
-import {useViurShopStore} from "./shop";
+import { reactive, computed, onBeforeMount } from 'vue'
+import { useViurShopStore } from "./shop";
 import { useCart } from "./composables/cart";
+import LoadingHandler from "./components/LoadingHandler.vue"
 
 const shopStore = useViurShopStore();
 const { fetchCart, addItem, state: cartState } = useCart();
 
 const state = reactive({
-  items: computed(()=>{ return shopStore.state.cartList}),
-  cartTotal: computed(()=>{return shopStore.state.cartRoot ? shopStore.state.cartRoot.total : 0 }),
-  shippingTotal: computed(()=>{
-    return shopStore.state.order?.cart?.dest?.shipping?.dest?.shipping_cost
+  items: computed(() => { return shopStore.state.cartList }),
+  cartTotal: computed(() => { return shopStore.state.cartRoot ? shopStore.state.cartRoot.total : 0 }),
+  shippingTotal: computed(() => {
+    let total = 0
+
+    // let hasOrder = Object.keys(shopStore.state.order).length ? true : false
+    // let hasShipping = Object.keys(shopStore.state.order.cart.dest.shipping).length ? true : false
+
+    if( shopStore.state?.order?.cart?.dest?.shipping?.dest?.shipping_cost > 0 ) {
+      total += shopStore.state.order.cart.dest.shipping.dest.shipping_cost
+    }
+
+    return total
   }),
-  total:computed(()=>{
-    return shopStore.state.cartRoot?.total
+  discount: computed(() => { return 0 }),
+  total: computed(() => {
+    let sum = state.cartTotal * (1 - state.discount) + state.shippingTotal
+    return sum
   })
 })
 
-onBeforeMount(()=>{
-  if(!shopStore.state.cartList.length) {
+onBeforeMount(() => {
+  if (!shopStore.state.cartList.length) {
     fetchCart()
   }
 })
@@ -148,7 +126,7 @@ onBeforeMount(()=>{
   margin: 0 0 var(--sl-spacing-large) 0;
 }
 
-.viur-shop-cart-sidebar-summary{
+.viur-shop-cart-sidebar-summary {
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -174,7 +152,7 @@ onBeforeMount(()=>{
   }
 }
 
-.viur-shop-cart-sidebar-summary-item{
+.viur-shop-cart-sidebar-summary-item {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -182,7 +160,7 @@ onBeforeMount(()=>{
   margin-bottom: var(--sl-spacing-small);
 }
 
-.viur-shop-cart-sidebar-summary-item-name{
+.viur-shop-cart-sidebar-summary-item-name {
   margin-right: auto;
 }
 </style>
