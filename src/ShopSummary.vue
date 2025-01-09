@@ -2,19 +2,23 @@
   <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
 
   <div class="viur-shop-cart-sidebar-summary">
-    <template v-for="i in 10">
-      <div class="viur-shop-cart-sidebar-summary-item">
-        <div class="viur-shop-cart-sidebar-summary-item-amount">1x</div>
-        <div class="viur-shop-cart-sidebar-summary-item-name">Item Name auch noch etwas länger zum testen</div>
-        <div class="viur-shop-cart-sidebar-summary-item-price">1.333,00€</div>
+
+      <div class="viur-shop-cart-sidebar-summary-item" v-for="item in state.items">
+        <div class="viur-shop-cart-sidebar-summary-item-amount" v-if="item.skel_type ==='leaf'">{{ item.quantity }}x</div>
+
+        <div class="viur-shop-cart-sidebar-summary-item-name">{{item.skel_type === 'node' ? item.name : item.shop_name}}</div>
+
+        <div class="viur-shop-cart-sidebar-summary-item-price">
+          <sl-format-number
+          lang="de"
+          type="currency"
+          currency="EUR"
+          :value="item.total ? item.total : item.price.current"
+          >
+          </sl-format-number>
+        </div>
       </div>
 
-      <div class="viur-shop-cart-sidebar-summary-item">
-        <div class="viur-shop-cart-sidebar-summary-item-amount">1x</div>
-        <div class="viur-shop-cart-sidebar-summary-item-name">Item Name</div>
-        <div class="viur-shop-cart-sidebar-summary-item-price">1.333,00€</div>
-      </div>
-  </template>
   </div>
 
   <div class="viur-shop-cart-sidebar-info-line">
@@ -24,7 +28,7 @@
       lang="de"
       type="currency"
       currency="EUR"
-      :value="shopStore.state.order?.total"
+      :value="state.cartTotal"
     >
     </sl-format-number>
   </div>
@@ -36,18 +40,20 @@
       lang="de"
       type="currency"
       currency="EUR"
-      :value="shopStore.state.order?.cart?.dest?.shipping?.dest?.shipping_cost"
+      :value="state.shippingTotal"
     >
     </sl-format-number>
   </div>
-  <div class="viur-shop-cart-shipping-item">
-      <span>Lieferzeit </span>
-      <template v-if="shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range === 1">
-        {{shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range}} Tag
-      </template>
-      <template v-else>
-        {{shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range}} Tage
-      </template>
+  <div class="viur-shop-cart-shipping-item" v-if="shopStore.state.order?.cart?.dest?.shipping">
+    <span>Lieferzeit </span>
+
+    <span>
+      {{
+        shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range ?
+        shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range :
+        0
+      }} {{ shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range === 1 ? "Tag" : "Tage" }}
+    </span>
   </div>
 
   <div class="viur-shop-cart-sidebar-info-line">
@@ -81,19 +87,31 @@
     </div>
   </slot>
 </template>
+
 <script setup>
-import {reactive, computed} from 'vue'
+import {reactive, computed, onBeforeMount} from 'vue'
 import {useViurShopStore} from "./shop";
+import { useCart } from "./composables/cart";
+
 const shopStore = useViurShopStore();
-console.log(shopStore.state.order)
+const { fetchCart, addItem, state: cartState } = useCart();
 
 const state = reactive({
+  items: computed(()=>{ return shopStore.state.cartList}),
+  cartTotal: computed(()=>{return shopStore.state.cartRoot ? shopStore.state.cartRoot.total : 0 }),
+  shippingTotal: computed(()=>{
+    return shopStore.state.order?.cart?.dest?.shipping?.dest?.shipping_cost
+  }),
   total:computed(()=>{
-    return shopStore.state.order?.total + (shopStore.state.order?.cart?.dest?.shipping?.dest?.shipping_cost?shopStore.state.order?.cart?.dest?.shipping?.dest?.shipping_cost:0)
+    return shopStore.state.cartRoot?.total
   })
 })
 
-
+onBeforeMount(()=>{
+  if(!shopStore.state.cartList.length) {
+    fetchCart()
+  }
+})
 </script>
 
 <style scoped>
