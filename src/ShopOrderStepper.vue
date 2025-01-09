@@ -38,6 +38,7 @@
 import {reactive, shallowRef, watch, ref, onBeforeMount, onMounted} from 'vue'
 import {useViurShopStore} from './shop'
 import StepperTab from './components/StepperTab.vue'
+import { useTimeoutFn  } from '@vueuse/core'
 
 const shopStore = useViurShopStore()
 const stepper = ref()
@@ -65,7 +66,10 @@ function nextStep(obj){
     if (resp){
       shopStore.state.tabs[shopStore.state.currentTab]['valid']=true
       shopStore.state.tabs[shopStore.state.currentTab]['validating']=false
-      shopStore.navigateToNext()
+      useTimeoutFn(() => {
+        shopStore.navigateToNext()
+      }, 300)
+     
     }else{
       shopStore.state.tabs[shopStore.state.currentTab]['valid']=false
       shopStore.state.tabs[shopStore.state.currentTab]['validating']=false

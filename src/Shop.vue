@@ -1,5 +1,5 @@
 <template>
-    <div class="bind viur-shop-wrap">
+    <div class="bind viur-shop-wrap" v-bind="$attrs">
         <div class="viur-shop-stepper-wrap"
             :class="{ 'full-width': (!summary || summary==='bottom' || shopStore.state.currentTab==='complete') }"
         >
@@ -7,37 +7,36 @@
             </shop-order-stepper>
         </div>
 
-        <div class="viur-shop-sidebar-wrap" v-if="false" :class="{ bottom: (summary==='bottom') }">
+        <div class="viur-shop-sidebar-wrap" :class="{ bottom: (summary==='bottom') }">
           <shop-summary></shop-summary>
         </div>
     </div>
+    <template v-if="shopStore.state.debug">
+      <sl-details summary="Debug" open>
+          order: {{ shopStore.state.orderKey }}<br>
+          cart: {{ shopStore.state.cartRoot?.['key'] }}<br><br>
 
-    <sl-details summary="Debug" open>
-        language: {{shopStore.state.language}} <br>
-        order: {{ shopStore.state.orderKey }}<br>
-        cart: {{ shopStore.state.cartRoot?.['key'] }}<br><br>
+          shippingaddress: {{shopStore.state.cartRoot?.['shipping_address']}}<br>
+          billingaddress: {{shopStore.state.order?.['billing_address']}}<br><br>
 
-        shippingaddress: {{shopStore.state.cartRoot?.['shipping_address']}}<br>
-        billingaddress: {{shopStore.state.order?.['billing_address']}}<br><br>
+          shipping: {{shopStore.state.cartRoot?.['shipping']}}<br><br>
+          Payment: {{shopStore.state.order?.['payment_provider']}}<br><br>
 
-        shipping: {{shopStore.state.cartRoot?.['shipping']}}<br><br>
-        Payment: {{shopStore.state.order?.['payment_provider']}}<br><br>
+          Order Status<br>
+          ------<br>
+          canCheckout: {{ shopStore.state.canCheckout }}<br>
+          canOrder: {{ shopStore.state.canOrder }}<br>
+          CheckoutStarted: {{ shopStore.state.order?.['is_checkout_in_progress'] }}<br><br>
 
-        Order Status<br>
-        ------<br>
-        canCheckout: {{ shopStore.state.canCheckout }}<br>
-        canOrder: {{ shopStore.state.canOrder }}<br>
-        CheckoutStarted: {{ shopStore.state.order?.['is_checkout_in_progress'] }}<br><br>
+          ordered: {{ shopStore.state.order?.['is_ordered'] }}<br>
+          readytoship: {{ shopStore.state.order?.['is_rts'] }}<br>
+          paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>
 
-        ordered: {{ shopStore.state.order?.['is_ordered'] }}<br>
-        readytoship: {{ shopStore.state.order?.['is_rts'] }}<br>
-        paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>  
-
-        OrderObject: {{shopStore.state.order}}
+          OrderObject: {{shopStore.state.order}}
 
 
-    </sl-details>
-
+      </sl-details>
+    </template>
     <div id="dialogs"></div>
 </template>
 
@@ -66,14 +65,12 @@ const props = defineProps({
     modulename:{
       default:'shop'
     },
-    language:{
-      default:"de"
-    }
+    debug:false
 })
 
 
 onBeforeMount(()=>{
-    shopStore.state.language=props.language
+    shopStore.state.debug = props.debug
     if(props.tabs){
         shopStore.state.tabs = props.tabs
     }
@@ -139,6 +136,9 @@ onBeforeMount(()=>{
 }
 
 @layer foundation.shop {
+  :root{
+    --viur-shop-sidebar-height-offset:0;
+  }
   .viur-shop-sidebar-wrap {
     --padding: var(--sl-spacing-large);
 
@@ -153,7 +153,7 @@ onBeforeMount(()=>{
     height: min-content;
     @media (min-width: 1024px) {
       position: sticky;
-      max-height: calc(100vh - 2 * var(--padding));
+      max-height: calc(100vh - var(--viur-shop-sidebar-height-offset) - 2 * var(--padding));
       top: var(--padding);
       bottom: var(--padding);
     }

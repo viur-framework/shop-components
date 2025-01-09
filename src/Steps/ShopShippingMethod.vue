@@ -1,5 +1,5 @@
 <template>
-  <loading-handler :isLoading="shippingState.isLoading">
+  <loading-handler :isLoading="shippingState.isLoading" :hasError="shippingState.hasError" :errorMessage="shippingState.errorMessage">
 
     <card-selector :options="shippingState.shippingData"
                     v-model:selection="state.selectedShippingMethod"
