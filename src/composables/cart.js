@@ -12,9 +12,9 @@ export function useCart() {
     })
 
     function getValue(value){
-        if (value !== null && 
-            typeof value === 'object' && 
-            !Array.isArray(value) && 
+        if (value !== null &&
+            typeof value === 'object' &&
+            !Array.isArray(value) &&
             Object.keys(value).includes(shopStore.state.language)
         ){
             return value[shopStore.state.language]
@@ -36,21 +36,31 @@ export function useCart() {
     }
 
 
-    function fetchCart(){
-        //first fetch root then fetchItems for this root
-        state.isLoading = true
-        return fetchCartRoot().then(()=>{
-            if(!shopStore.state.cartRoot?.['key']) return 0
-            fetchCartItems(shopStore.state.cartRoot['key']).then(()=>{
-                state.isLoading = false
-                shopStore.state.cartReady = true
-            })
-        })
+    function fetchCart() {
+      //first fetch root then fetchItems for this root
+      state.isLoading = true;
+
+      if (shopStore.state.order != null && shopStore.order?.cart?.key.length) {
+        shopStore.state.cartRoot = {};
+        shopStore.state.cartRoot = shopStore.state.order.cart;
+
+        return fetchCartItems(shopStore.state.order.cart.key).then(() => {
+          state.isLoading = false;
+          shopStore.state.cartReady = true;
+        });
+      }
+      return fetchCartRoot().then(() => {
+        if (!shopStore.state.cartRoot?.["key"]) return 0;
+        fetchCartItems(shopStore.state.cartRoot["key"]).then(() => {
+          state.isLoading = false;
+          shopStore.state.cartReady = true;
+        });
+      });
     }
 
     function fetchCartRoot(){
         // fetch list of Rootnodes and saves the first one
-        
+
         return Request.get(`${shopStore.state.shopUrl}/cart/listRootNodes`).then(async (resp)=>{
             let data = await resp.json()
             shopStore.state.cartRoot = data.filter(i=>i['cart_type']==='basket')?.[0] ? data.filter(i=>i['cart_type']==='basket')[0]:[]

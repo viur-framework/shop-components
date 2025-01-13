@@ -39,6 +39,7 @@
       <sl-format-number lang="de" type="currency" currency="EUR" :value="0">
       </sl-format-number>
     </div>
+    <discount-input></discount-input>
     <div class="viur-shop-cart-sidebar-info-line">
     </div>
     <div class="viur-shop-cart-sidebar-info-line total">
@@ -59,6 +60,7 @@ import { reactive, computed, onBeforeMount } from 'vue'
 import { useViurShopStore } from "./shop";
 import { useCart } from "./composables/cart";
 import LoadingHandler from "./components/LoadingHandler.vue"
+import DiscountInput from './components/DiscountInput.vue';
 
 const shopStore = useViurShopStore();
 const { fetchCart, addItem, state: cartState } = useCart();
