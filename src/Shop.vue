@@ -1,18 +1,36 @@
 <template>
-    <div class="bind viur-shop-wrap" v-bind="$attrs">
+    <div class="bind viur-shop-wrap" v-bind="$attrs" v-if="shopStore.state.cartReady && shopStore.state.orderReady">
         <div class="viur-shop-stepper-wrap"
             :class="{ 'full-width': (!summary || summary==='bottom' || shopStore.state.currentTab==='complete') }"
         >
-            <shop-order-stepper v-if="shopStore.state.cartReady && shopStore.state.orderReady">
+            <shop-order-stepper >
+              <template #template_cart>
+                <slot name="template_cart"></slot>
+              </template>
+              <template #template_userdata>
+                <slot name="template_userdata"></slot>
+              </template>
+              <template #template_shippingmethod>
+                <slot name="template_shippingmethod"></slot>
+              </template>
+              <template #template_paymentprovider>
+                <slot name="template_paymentprovider"></slot>
+              </template>
+              <template #template_confirm>
+                <slot name="template_confirm"></slot>
+              </template>
+              <template #template_complete>
+                <slot name="template_complete"></slot>
+              </template>
             </shop-order-stepper>
         </div>
 
-        <div class="viur-shop-sidebar-wrap" :class="{ bottom: (summary==='bottom') }">
-          <shop-summary></shop-summary>
+        <div class="viur-shop-sidebar-wrap" :class="{ bottom: (summary==='bottom') }" v-if="shopStore.state.currentTab!=='complete'">
+          <shop-summary ></shop-summary>
         </div>
     </div>
     <template v-if="shopStore.state.debug">
-      <sl-details summary="Debug" open>
+      <sl-details summary="Debug">
           order: {{ shopStore.state.orderKey }}<br>
           cart: {{ shopStore.state.cartRoot?.['key'] }}<br><br>
 

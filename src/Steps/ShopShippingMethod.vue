@@ -7,10 +7,14 @@
     >
       <template v-slot="{option, index}">
           <img slot="image">
-          {{ option['dest']['name'] }} - Lieferzeit: {{ option['dest']['delivery_time_range'] }} Tage
+          {{ option['dest']['name'] }} - {{$t('deliverytime')}}: {{ option['dest']['delivery_time_range'] }} {{  $t('day') }}
       </template>
     </card-selector>
   </loading-handler>
+
+  <slot name="template_shippingmethod">
+  </slot>
+
   <slot
         nextName="weiter"
         :activefunction="()=>shopStore.state.cartRoot?.['shipping']"

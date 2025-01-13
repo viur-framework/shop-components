@@ -12,7 +12,13 @@
 
             <sl-tab-panel :name="name">
                 <template v-if="tab?.['loaded']">
+                  
+                  
                     <component :is="tab['component']">
+                      <template #['template_'+name]>
+                        <slot :name="'template_'+name"></slot> 
+                      </template>
+                      
                       <template v-slot="slotProps">
                         <sl-bar>
                           <div slot="right">

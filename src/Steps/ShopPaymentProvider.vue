@@ -16,6 +16,9 @@
     </sl-details-group>
   </sl-radio-group>
 
+  <slot name="template_paymentprovider">
+  </slot>
+
   <slot
       nextName="weiter"
       :activefunction="()=>shopStore.state.order?.['payment_provider']"

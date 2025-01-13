@@ -36,10 +36,10 @@
       <dialog-Button slot="prefix" class="decent" v-if="item.quantity===1" variant="danger" outline>
         <sl-icon name="trash"></sl-icon>
         <template #dialog="{close}">
-          Wollen sie den Artikel wirklich entfernen?
+          {{ $t('messages.remove_article_from_cart') }}
           <sl-bar>
-            <sl-button slot="left" @click="close">Abbrechen</sl-button>
-            <sl-button slot="right" variant="danger" @click="removeArticle(); close()">Löschen</sl-button>
+            <sl-button slot="left" @click="close">{{$t('actions.cancel')}}</sl-button>
+            <sl-button slot="right" variant="danger" @click="removeArticle(); close()">{{ $t('actions.delete') }}</sl-button>
           </sl-bar>
         </template>
       </dialog-Button>
@@ -52,7 +52,7 @@
     </sl-input>
 
     <div class="viur-shop-cart-leaf-unitprice">
-      <div class="viur-shop-cart-leaf-label">Stückpreis</div>
+      <div class="viur-shop-cart-leaf-label">{{$t('shop.unit_price')}}</div>
       <sl-format-number
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice"
         lang="de"
@@ -63,28 +63,8 @@
       </sl-format-number>
     </div>
 
-    <!--<div class="viur-shop-cart-leaf-actions">
-      <dialogButton
-        v-if="edit"
-        size="small"
-        outline
-        class="viur-shop-cart-leaf-delete-btn"
-        variant="danger"
-        title="Remove from cart"
-      >
-        <sl-icon name="trash" slot="prefix"></sl-icon>
-        <template #dialog="{close}">
-          Wollen sie den Artikel wirklich entfernen?
-          <sl-bar>
-            <sl-button slot="left" @click="close">Abbrechen</sl-button>
-            <sl-button slot="right" variant="danger" @click="removeArticle(); close()">Löschen</sl-button>
-          </sl-bar>
-        </template>
-      </dialogButton>
-    </div>-->
-
     <div class="viur-shop-cart-leaf-price">
-      <div class="viur-shop-cart-leaf-label">Gesamtpreis</div>
+      <div class="viur-shop-cart-leaf-label">{{ $t('shop.total_price') }}</div>
       <sl-format-number
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price"
         lang="de"

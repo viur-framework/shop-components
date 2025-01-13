@@ -1,5 +1,5 @@
 <template>
-<div class="bind">
+  <div>
     <h1 class="viur-shop-success-headline headline">
       {{ $t('shop.order_thanks') }}
     </h1>
@@ -14,11 +14,19 @@
     <p class="paragraph" v-if="shopStore.state.order?.['is_rts']">
       {{ $t('shop.order_ready_to_ship') }}
     </p>
+
+    <slot name="template_complete">
+    </slot>
+    
+    <sl-details :summary="$t('shop.order_summary')">
+      <shop-summary ></shop-summary>
+    </sl-details>
   </div>
 </template>
 
 <script setup>
 import {computed, reactive} from 'vue'
 import { useViurShopStore } from '../shop';
+import ShopSummary from '../ShopSummary.vue';
 const shopStore = useViurShopStore()
 </script>
