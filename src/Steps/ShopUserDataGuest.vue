@@ -16,6 +16,9 @@
       <address-form formtype="billing" ></address-form>
     </div>
 
+    <slot name="template_userdata">
+    </slot>
+    
     <slot
         nextName="weiter"
         :activefunction="()=>true"

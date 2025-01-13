@@ -75,6 +75,9 @@
         <payment-provider-unzer @cancel="paymentCanceled"></payment-provider-unzer>
     </sl-dialog>
   </template>
+
+  <slot name="template_confirm">
+  </slot>
 </template>
 <script setup>
 import {computed, onBeforeMount, reactive, watch} from 'vue'

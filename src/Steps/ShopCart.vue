@@ -19,6 +19,9 @@
             </template>
         </shop-alert>
     </loading-handler>
+    
+    <slot name="template_cart">
+    </slot>
 
     <slot
         nextName="weiter"

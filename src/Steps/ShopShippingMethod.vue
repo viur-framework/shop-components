@@ -11,6 +11,10 @@
       </template>
     </card-selector>
   </loading-handler>
+
+  <slot name="template_shippingmethod">
+  </slot>
+
   <slot
         nextName="weiter"
         :activefunction="()=>shopStore.state.cartRoot?.['shipping']"
