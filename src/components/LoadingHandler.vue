@@ -6,7 +6,7 @@
                     <sl-spinner class="spinner-loading" slot="icon"></sl-spinner>
                 </template>
                 <template #alertMsg>
-                    Daten werden abgefragt...
+                    {{ $t('messages.loading') }}
                 </template>
             </shop-alert>
         </slot>
@@ -18,7 +18,7 @@
                     <sl-spinner class="spinner-loading" slot="icon"></sl-spinner>
                 </template>
                 <template #alertMsg>
-                    Daten werden aktualisiert...
+                    {{ $t('messages.updating') }}
                 </template>
             </shop-alert>
         </slot>

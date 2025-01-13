@@ -1,6 +1,8 @@
 export default {
     actions:{
-        add: "Hinzufügen"
+        add: "Hinzufügen",
+        cancel: "Abbrechen",
+        delete: "Löschen"
     },
     shop:{
         "check_order":"Bestellung prüfen",
@@ -14,6 +16,16 @@ export default {
         "order_summary":"Bestellzusammenfassung",
         "deliverytime":"Lieferzeit",
         "day": "Tag" | "Tage",
-        "use_shipping_as_billing_address": "Verwende Lieferadresse als Rechnungsadresse"
+        "unit_price":"Stückpreis",
+        "total_price":"Gesamtpreis",
+        "articlenumber":"Artikelnummer",
+        "pay":"Bezahlen",
+        "use_shipping_as_billing_address": "Verwende Lieferadresse als Rechnungsadresse",
+    },
+    messages:{
+        loading:"Daten werden abgefragt...",
+        updating:"Daten werden aktualisiert...",
+        wait_for_payment:"warte auf Zahlung...",
+        remove_article_from_cart:"Wollen sie den Artikel wirklich entfernen?"
     }
 }

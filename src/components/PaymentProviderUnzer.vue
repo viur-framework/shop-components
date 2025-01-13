@@ -5,7 +5,7 @@
 
   <div class="loading-wrapper" v-if="PaymentCheckIsActive">
     <sl-spinner class="loading"></sl-spinner>
-    warte auf Zahlung...
+    {{ $t('messages.wait_for_payment') }}
   </div>
   <div class="form-wrapper">
       <sl-alert :open="state.hasError" variant="danger">{{state.errorMessage}}</sl-alert>
@@ -38,8 +38,8 @@
               <div id="ideal-element" class="field"></div>
           </template>
       </form>
-        <button :disabled="state.loading" class="unzerUI primary button fluid" @click="submitFormToUnzer">Bezahlen</button>
-        <sl-button :disabled="state.loading" variant="danger" @click="cancelPayment">Abbrechen</sl-button>
+        <button :disabled="state.loading" class="unzerUI primary button fluid" @click="submitFormToUnzer">{{ $t('shop.pay') }}</button>
+        <sl-button :disabled="state.loading" variant="danger" @click="cancelPayment">{{ $t('shop.cancel') }}</sl-button>
   </div>
 </template>
 
