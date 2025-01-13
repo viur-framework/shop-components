@@ -1,12 +1,13 @@
 import {reactive} from 'vue'
 import {Request} from '@viur/vue-utils'
 import { removeUndefinedValues} from '../utils'
-
+import { useI18n } from 'vue-i18n'
 import { useViurShopStore } from '../shop'
 
 export function useShipping() {
+    const i18n = useI18n()
     const shopStore = useViurShopStore()
-    const defaultErrorMessage = "Eine Fehler ist aufgetreten."
+    const defaultErrorMessage = i18n.t('shop.error_message')
     const state = reactive({
         isLoading:false,
         isUpdating:false,
@@ -24,7 +25,7 @@ export function useShipping() {
             state.shippingData = data
             if (state.shippingData.length===0){
                 state.hasError = true
-                state.errorMessage = "Keine passenden Versandarten gefunden."
+                state.errorMessage = i18n.t("shop.no_valid_shipping_found")
             }
             state.isLoading = false
         })

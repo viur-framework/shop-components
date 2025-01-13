@@ -12,7 +12,7 @@
   >
   </sl-input>
   {{ state.code }}
-  <button @click="state.alert.show = !state.alert.show"></button>
+  <button @click="state.alert.show = !state.alert.show">{{ $t('shop.add_discount') }}</button>
   {{ state.alert.show }}
 </template>
 

@@ -20,7 +20,9 @@ export default {
         "total_price":"Gesamtpreis",
         "articlenumber":"Artikelnummer",
         "pay":"Bezahlen",
+        "add_discount":"Rabattcode hinzufügen",
         "use_shipping_as_billing_address": "Verwende Lieferadresse als Rechnungsadresse",
+        "no_valid_shipping_found":"Keine passenden Versandarten gefunden."
     },
     messages:{
         loading:"Daten werden abgefragt...",

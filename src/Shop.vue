@@ -1,9 +1,9 @@
 <template>
-    <div class="bind viur-shop-wrap" v-bind="$attrs">
+    <div class="bind viur-shop-wrap" v-bind="$attrs" v-if="shopStore.state.cartReady && shopStore.state.orderReady">
         <div class="viur-shop-stepper-wrap"
             :class="{ 'full-width': (!summary || summary==='bottom' || shopStore.state.currentTab==='complete') }"
         >
-            <shop-order-stepper v-if="shopStore.state.cartReady && shopStore.state.orderReady">
+            <shop-order-stepper >
               <template #template_cart>
                 <slot name="template_cart"></slot>
               </template>
