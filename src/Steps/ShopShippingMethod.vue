@@ -7,7 +7,7 @@
     >
       <template v-slot="{option, index}">
           <img slot="image">
-          {{ option['dest']['name'] }} - Lieferzeit: {{ option['dest']['delivery_time_range'] }} Tage
+          {{ option['dest']['name'] }} - {{$t('deliverytime')}}: {{ option['dest']['delivery_time_range'] }} {{  $t('day') }}
       </template>
     </card-selector>
   </loading-handler>

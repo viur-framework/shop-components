@@ -39,7 +39,7 @@
       <sl-format-number lang="de" type="currency" currency="EUR" :value="0">
       </sl-format-number>
     </div>
-    <discount-input></discount-input>
+    <discount-input v-if="shopStore.state.currentTab!=='complete'"></discount-input>
     <div class="viur-shop-cart-sidebar-info-line">
     </div>
     <div class="viur-shop-cart-sidebar-info-line total">

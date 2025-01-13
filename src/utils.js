@@ -28,6 +28,13 @@ export async function getTranslations(languages=["de"]){
         languages:languages
       }})
     const data = await translations.json()
+    for (let country in data) {
+      data[country] = Object.fromEntries(
+        Object.entries(data[country]).map(
+            ([key, value], idx) => [key, value.replaceAll('{{', '{').replaceAll('}}', '}').replace(/([@$|])/g, '{\'$1\'}')],
+        ),
+      )
+    }
     retVal = data
   }catch(error){
     console.log("No Translation from server", error)

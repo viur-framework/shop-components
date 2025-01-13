@@ -6,7 +6,7 @@
     <address-form :formtype="addressState.billingIsShipping?'both':'shipping'">
     </address-form>
     <div>
-      <sl-switch :checked="addressState.billingIsShipping" @sl-change="switchAddresses">Verwende Lieferadresse als Rechnungsadresse</sl-switch>
+      <sl-switch :checked="addressState.billingIsShipping" @sl-change="switchAddresses">{{  $t('shop.use_shipping_as_billing_address') }}</sl-switch>
     </div>
 
     <div v-show="!addressState.billingIsShipping">
