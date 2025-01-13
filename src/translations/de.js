@@ -22,7 +22,8 @@ export default {
         "pay":"Bezahlen",
         "add_discount":"Rabattcode hinzufügen",
         "use_shipping_as_billing_address": "Verwende Lieferadresse als Rechnungsadresse",
-        "no_valid_shipping_found":"Keine passenden Versandarten gefunden."
+        "no_valid_shipping_found":"Keine passenden Versandarten gefunden.",
+        "error_message":"Eine Fehler ist aufgetreten."
     },
     messages:{
         loading:"Daten werden abgefragt...",
