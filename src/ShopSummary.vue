@@ -3,15 +3,16 @@
     <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
     <div class="viur-shop-cart-sidebar-summary">
       <div class="viur-shop-cart-sidebar-summary-item" v-for="item in state.items">
-        <div class="viur-shop-cart-sidebar-summary-item-amount" v-if="item.skel_type === 'leaf'">{{ item.quantity }}x
-        </div>
-        <div class="viur-shop-cart-sidebar-summary-item-name">{{ item.skel_type === 'node' ? item.name : item.shop_name }}
-        </div>
-        <div class="viur-shop-cart-sidebar-summary-item-price">
-          <sl-format-number lang="de" type="currency" currency="EUR"
-            :value="item.total ? item.total : item.price.current">
-          </sl-format-number>
-        </div>
+        <template v-if="(!shopStore.state.showNodes && item.skel_type === 'leaf') || shopStore.state.showNodes">
+          <div class="viur-shop-cart-sidebar-summary-item-amount" v-if="item.skel_type === 'leaf'">{{ item.quantity }}x
+          </div>
+          <div class="viur-shop-cart-sidebar-summary-item-name" v-html="item.skel_type === 'node' ? item.name : item.shop_name"></div>
+          <div class="viur-shop-cart-sidebar-summary-item-price">
+            <sl-format-number lang="de" type="currency" currency="EUR"
+              :value="item.total ? item.total : item.price?.current">
+            </sl-format-number>
+          </div>
+        </template>
       </div>
     </div>
     <div class="viur-shop-cart-sidebar-info-line">

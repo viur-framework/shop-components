@@ -57,7 +57,7 @@
         lang="de"
         type="currency"
         currency="EUR"
-        :value="item.shop_price_retail"
+        :value="item.price.current"
       >
       </sl-format-number>
     </div>
@@ -70,7 +70,7 @@
           lang="de"
           type="currency"
           currency="EUR"
-          :value="item.shop_price_retail * item.quantity"
+          :value="item.price.current * item.quantity"
         >
         </sl-format-number>
       </div>

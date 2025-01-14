@@ -61,8 +61,10 @@
     </div>
 
     <sl-details :summary="$t('viur.shop.skeleton.order.cart')">
-    <cart-item-small v-for="item in state.cartList" :item="item">
-    </cart-item-small>
+      <template  v-for="item in state.cartList">
+      <cart-item-small v-if="item.skel_type==='leaf'" :item="item" @sl-show="getOrderCart">
+      </cart-item-small>
+    </template>
   </sl-details>
   </div>
 
