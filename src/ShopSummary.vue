@@ -35,9 +35,9 @@
         }} {{ shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range === 1 ? "Tag" : "Tage" }}
       </span>
     </div>
-    <div class="viur-shop-cart-sidebar-info-line">
+    <div class="viur-shop-cart-sidebar-info-line" v-if="shopStore.state.cartRoot.discount">
       <span>Rabatt</span>
-      <sl-format-number lang="de" type="currency" currency="EUR" :value="0">
+      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.discount">
       </sl-format-number>
     </div>
     <discount-input v-if="shopStore.state.currentTab!=='complete'"></discount-input>
@@ -68,7 +68,10 @@ const { fetchCart, addItem, state: cartState } = useCart();
 
 const state = reactive({
   items: computed(() => { return shopStore.state.cartList }),
-  cartTotal: computed(() => { return shopStore.state.cartRoot ? shopStore.state.cartRoot.total : 0 }),
+  cartTotal: computed(() => { 
+    
+    return shopStore.state.cartRoot ? shopStore.state.cartRoot.total : 0 
+  }),
   shippingTotal: computed(() => {
     let total = 0
 
@@ -81,10 +84,14 @@ const state = reactive({
 
     return total
   }),
-  discount: computed(() => { return 0 }),
+  discount:computed(()=> (state.cartTotal - shopStore.state.cartRoot.total_discount_price)*-1),
   total: computed(() => {
-    let sum = state.cartTotal * (1 - state.discount) + state.shippingTotal
-    return sum
+    let total = state.cartTotal
+    if (shopStore.state.cartRoot.total_discount_price !== shopStore.state.cartRoot.total){
+      total = shopStore.state.cartRoot.total_discount_price
+    }
+
+    return total + state.shippingTotal
   })
 })
 

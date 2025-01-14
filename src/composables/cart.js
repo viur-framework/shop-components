@@ -128,6 +128,46 @@ export function useCart() {
         })
     }
 
+    function addDiscount(code) {
+        return new Promise((resolve, reject) => {
+          Request.securePost(`${shopStore.state.shopApiUrl}/discount_add`, {
+            dataObj: {
+              code: code,
+            }, 
+          }) 
+        .then(async (resp) => {
+            let data = await resp.json();
+            fetchCart()
+            console.log("discount debug", data);
+            resolve()
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+    }
+
+    function removeDiscount() {
+        return new Promise((resolve, reject) => {
+          Request.securePost(`${shopStore.state.shopApiUrl}/discount_remove`, {
+            dataObj: {
+                discount_key: shopStore.state.cartRoot.discount.dest.key,
+            }, 
+          }) 
+        .then(async (resp) => {
+            let data = await resp.json();
+            fetchCart()
+            console.log("discount debug", data);
+            resolve()
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    });
+    }
+  
+  
+
     return {
         state,
         fetchCartRoot,
@@ -137,6 +177,8 @@ export function useCart() {
         addItem,
         removeItem,
         createCart,
-        getValue
+        getValue,
+        addDiscount,
+        removeDiscount
     }
 }

@@ -1,45 +1,91 @@
 <template>
-  <shop-alert
-    v-if="state.alert.show"
-    :variant="state.alert.variant"
-    :msg="state.alert.msg"
-    @onHide="state.alert = {}"
-  ></shop-alert>
-  <sl-input
-    placeholder="Rabattcode eingeben"
-    v-model="state.code"
-    @keypress.enter="addDiscount()"
-  >
-  </sl-input>
-  {{ state.code }}
-  <button @click="state.alert.show = !state.alert.show">{{ $t('shop.add_discount') }}</button>
-  {{ state.alert.show }}
+  {{ state.alert.msg }}
+    <shop-alert
+      v-if="state.alert.show"
+      :variant="state.alert.variant"
+      @onHide="state.alert = {}"
+      duration="infinity"
+    >
+  <template #alertMsg>
+    {{ state.alert.msg }}
+  </template>
+  </shop-alert>
+
+  <template v-if="shopStore.state.cartRoot.discount">
+    <div class="discount-view">
+    <span>Code: {{ shopStore.state.cartRoot.discount.dest.name }}</span>
+    <sl-button size="small"  outline variant="danger" @click="removeDiscountAction" :loading="state.loading">
+      <sl-icon name="x-lg" slot="prefix"></sl-icon>
+
+    </sl-button>
+    </div>
+  </template>
+  <template v-else>
+    <sl-input
+      placeholder="Rabattcode eingeben"
+      v-model="state.code"
+      @keypress.enter="addDiscountAction()"
+    >
+    </sl-input>
+    <button @click="addDiscountAction()" :loading="state.loading">{{ $t('shop.add_discount') }}</button>
+  </template>
 </template>
 
 <script setup>
 import { reactive } from "vue";
 import { useViurShopStore } from "../shop";
+import { useCart } from '../composables/cart';
 const shopStore = useViurShopStore();
+const {addDiscount, removeDiscount} = useCart()
 
 import ShopAlert from "./ShopAlert.vue";
 
 const state = reactive({
   code: "",
   alert: {},
+  loading:false
 });
 
-function addDiscount() {
-  shopStore
-    .addDiscount(state.code)
+function addDiscountAction() {
+  state.loading=true
+  addDiscount(state.code)
     .then(async (resp) => {
-      let data = await resp.json();
-      console.log("Rabatt debug", data);
+      state.loading=false
     })
     .catch((error) => {
+      state.loading=false
       console.log("error bei rabatt", error);
       state.alert.msg = "not found";
       state.alert.show = true;
       state.alert.variant = "danger";
     });
 }
+
+function removeDiscountAction(){
+  state.loading=true
+  removeDiscount()
+    .then(async (resp) => {
+      state.loading=false
+      state.alert.msg = "Discount removed";
+      state.alert.show = true;
+      state.alert.variant = "success";
+    })
+    .catch((error) => {
+      state.loading=false
+      console.log("error bei rabatt", error);
+      state.alert.msg = "not found";
+      state.alert.show = true;
+      state.alert.variant = "danger";
+    });
+}
+
 </script>
+<style scoped>
+.discount-view{
+  font-size:0.8em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+</style>

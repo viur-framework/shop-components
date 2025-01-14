@@ -237,35 +237,6 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         })
     }
 
-    function addDiscount(code) {
-      return new Promise((resolve, reject) => {
-        Request.securePost(`${state.shopApiUrl}/discount_add`, {
-          dataObj: {
-            code: code,
-          },
-        })
-          .then(async (resp) => {
-            let data = await resp.json();
-            console.log("discount debug", data);
-            // if (!resp.ok) {
-            //   reject(data);
-            // } else {
-            //   state.order = data["skel"];
-            //   state.paymentProviderData = data["payment"];
-
-            //   if (state.order?.["is_ordered"]) {
-            //     // order is finished
-            //     navigateToTab("complete");
-            //   }
-            //   resolve(data);
-            // }
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
-    }
-
     return {
         state,
         navigateToTab,
@@ -274,7 +245,6 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         fetchMetaData,
         checkout,
         checkoutOrder,
-        addDiscount,
         addTab,
         removeTab
 
