@@ -78,12 +78,14 @@ export function useCart() {
     }
 
     function updateCart({
+                    cart_key,
                     cart_type,
                     name,
                     customer_comment,
                     shipping_address_key,
                     shipping_key,
                     discount_key,
+                    project_data
                 } = {}){
 
         let data= {
@@ -93,8 +95,13 @@ export function useCart() {
             shipping_address_key:shipping_address_key?shipping_address_key:shopStore.state.cartRoot?.['shipping_address']?.['dest']?.['key'],
             shipping_key:shipping_key?shipping_key:shopStore.state.cartRoot?.['shipping']?.['dest']?.['key'],
             discount_key:discount_key?discount_key:shopStore.state.cartRoot?.['discount']?.['dest']?.['key'],
-            cart_key:shopStore.state.cartRoot['key']
+            cart_key:cart_key ? cart_key : shopStore.state.cartRoot['key'],
         }
+
+        if (project_data) {
+          data.project_data = JSON.stringify(project_data)
+        }
+        console.log("hier man", data);
 
         return Request.post(`${shopStore.state.shopApiUrl}/cart_update`, {
             dataObj: removeUndefinedValues(data)
@@ -133,8 +140,8 @@ export function useCart() {
           Request.securePost(`${shopStore.state.shopApiUrl}/discount_add`, {
             dataObj: {
               code: code,
-            }, 
-          }) 
+            },
+          })
         .then(async (resp) => {
             let data = await resp.json();
             fetchCart()
@@ -152,8 +159,8 @@ export function useCart() {
           Request.securePost(`${shopStore.state.shopApiUrl}/discount_remove`, {
             dataObj: {
                 discount_key: shopStore.state.cartRoot.discount.dest.key,
-            }, 
-          }) 
+            },
+          })
         .then(async (resp) => {
             let data = await resp.json();
             fetchCart()
@@ -165,8 +172,8 @@ export function useCart() {
         });
     });
     }
-  
-  
+
+
 
     return {
         state,
