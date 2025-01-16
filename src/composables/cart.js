@@ -101,7 +101,6 @@ export function useCart() {
         if (project_data) {
           data.project_data = JSON.stringify(project_data)
         }
-        console.log("hier man", data);
 
         return Request.post(`${shopStore.state.shopApiUrl}/cart_update`, {
             dataObj: removeUndefinedValues(data)
