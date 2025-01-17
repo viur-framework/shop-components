@@ -22,7 +22,6 @@ export function useCart() {
         return value
     }
 
-    //agtha3ZpdXIzdGVzdHIgCxITZ3JlZW5zaG9wX2NhcnRfbm9kZRiAgIDE29eVCgw
     function createCart(){
         Request.post(shopStore.state.shopApiUrl+'/cart_add',{dataObj:{
             parent_cart_key:shopStore.state.cartRoot['key'],
