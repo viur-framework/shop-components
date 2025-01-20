@@ -39,7 +39,7 @@
           </template>
       </form>
         <button :disabled="state.loading" class="unzerUI primary button fluid" @click="submitFormToUnzer">{{ $t('shop.pay') }}</button>
-        <sl-button :disabled="state.loading" variant="danger" @click="cancelPayment">{{ $t('shop.cancel') }}</sl-button>
+        <sl-button :disabled="state.loading" variant="danger" @click="cancelPayment">{{ $t('actions.cancel') }}</sl-button>
   </div>
 </template>
 
