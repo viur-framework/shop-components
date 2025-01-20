@@ -15,7 +15,7 @@ export default {
         "cart_empty":"Der Warenkorb ist leer.",
         "order_summary":"Bestellzusammenfassung",
         "deliverytime":"Lieferzeit",
-        "day": "Tag" | "Tage",
+        "day": "Tag | Tage",
         "unit_price":"Stückpreis",
         "total_price":"Gesamtpreis",
         "articlenumber":"Artikelnummer",
@@ -23,7 +23,8 @@ export default {
         "add_discount":"Rabattcode hinzufügen",
         "use_shipping_as_billing_address": "Verwende Lieferadresse als Rechnungsadresse",
         "no_valid_shipping_found":"Keine passenden Versandarten gefunden.",
-        "error_message":"Eine Fehler ist aufgetreten."
+        "error_message":"Eine Fehler ist aufgetreten.",
+        "free_shipping":"Kostenlos"
     },
     messages:{
         loading:"Daten werden abgefragt...",
