@@ -43,13 +43,19 @@
     <discount-input v-if="shopStore.state.currentTab!=='complete'"></discount-input>
     <div class="viur-shop-cart-sidebar-info-line">
     </div>
+    
     <div class="viur-shop-cart-sidebar-info-line total">
       <span>Gesamt:</span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.total">
       </sl-format-number>
     </div>
-    <slot name="action-buttons">
-      <div class="viur-shop-cart-sidebar-btn-wrap" v-if="!shopStore.state.order?.['is_paid']">
+    <div class="viur-shop-cart-sidebar-info-line ">
+      <span>inkl. MwSt:</span>
+      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.vat">
+      </sl-format-number>
+    </div>
+    <slot name="action-buttons" >
+      <div class="viur-shop-cart-sidebar-btn-wrap" v-if="false && !shopStore.state.order?.['is_paid']">
         <sl-button variant="primary" size="medium">Bestellen</sl-button>
       </div>
     </slot>
@@ -69,8 +75,14 @@ const { fetchCart, addItem, state: cartState } = useCart();
 const state = reactive({
   items: computed(() => { return shopStore.state.cartList }),
   cartTotal: computed(() => { 
-    
-    return shopStore.state.cartRoot ? shopStore.state.cartRoot.total : 0 
+    let sum = state.items.reduce((acc,item)=>{
+      if (item.skel_type==="leaf"){
+        acc+=item.price.current *item.quantity
+      }
+
+      return acc;
+    },0)
+    return sum
   }),
   shippingTotal: computed(() => {
     let total = 0
@@ -86,12 +98,20 @@ const state = reactive({
   }),
   discount:computed(()=> (state.cartTotal - shopStore.state.cartRoot.total_discount_price)*-1),
   total: computed(() => {
-    let total = state.cartTotal
-    if (shopStore.state.cartRoot.total_discount_price !== shopStore.state.cartRoot.total){
-      total = shopStore.state.cartRoot.total_discount_price
-    }
+    return shopStore.state.cartRoot.total
+  }),
+  vat:computed(()=>{
+    return shopStore.state.cartRoot.vat?.[0].value // why is this a list
+  }),
+  sum:computed(()=>{
+    let sum = state.items.reduce((acc,item)=>{
+      if (item.skel_type==="leaf"){
+        acc+=item.price.current *item.quantity
+      }
 
-    return total + state.shippingTotal
+      return acc;
+    },0)
+    return sum
   })
 })
 
