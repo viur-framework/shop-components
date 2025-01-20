@@ -29,7 +29,7 @@
 <script setup>
 import {reactive,onBeforeMount} from "vue";
 import CardSelector from "../components/CardSelector.vue";
-import LoadingHandler from "../../old/components/generic/loadinghandler.vue";
+import LoadingHandler from "../components/LoadingHandler.vue";
 import {useShipping} from "../composables/shipping";
 import {useCart} from "../composables/cart";
 import { useOrder } from "../composables/order";
