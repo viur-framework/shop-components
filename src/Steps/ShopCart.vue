@@ -1,10 +1,4 @@
 <template>
-    <sl-button @click="fetchCart">
-        reload
-    </sl-button>
-    <sl-button @click="addItem('agtha3ZpdXIzdGVzdHIZCxIMZ3JlZW5hcnRpY2xlGICAgMSf-50JDA')">
-        add
-    </sl-button>
     <loading-handler :isLoading="cartState.isLoading" :isUpdating="cartState.isUpdating">
         <div class="item-wrapper" v-if="state.items.length>0">
             <cart-item v-for="item in state.items" :item="item"
