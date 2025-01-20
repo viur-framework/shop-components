@@ -8,6 +8,9 @@
         :values="{'address_type':state.address_type, 'customer_type':'private'}"
         :useCategories="false"
         :layout="AddressFormLayout"
+        @change="formChange"
+        :default-language="state.language"
+        error-style="decent"
       >
     </ViForm>
 </template>
@@ -63,7 +66,15 @@ const state = reactive({
     }
     return [state.formtype]
   }),
+  language: "de"
 })
+
+function formChange(data){
+  if (data.name === "country"){
+    state.language = data.value
+  }
+}
+
 
 watch(()=>addressState.billingIsShipping, (newVal,oldVal)=>{
   if(oldVal && !newVal){
