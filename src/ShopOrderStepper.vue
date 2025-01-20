@@ -22,7 +22,9 @@
                       <template v-slot="slotProps">
                         <sl-bar>
                           <div slot="right">
+                            <span v-if="slotProps.hint" class="hint">{{ slotProps.hint }}</span>
                             <sl-button
+                               :class="{'action-button-hint':slotProps.hint}"
                                 variant="primary"
                                 :disabled="active(slotProps)"
                                 @click="nextStep(slotProps)"
@@ -95,5 +97,18 @@ function active(obj){
 
 <style scoped>
 
-
+.hint{
+  border:1px solid var(--sl-color-neutral-200);
+  border-top-left-radius: var(--sl-input-border-radius-medium);
+  border-bottom-left-radius: var(--sl-input-border-radius-medium);
+  background-color: var(--sl-color-neutral-100);
+  color:var(--sl-color-neutral-800);
+  padding: 0 var(--sl-spacing-small);
+  height: var(--ignt-basic-line-height);
+  
+}
+.action-button-hint::part(base){
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
 </style>

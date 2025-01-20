@@ -30,6 +30,7 @@ export default {
         loading:"Daten werden abgefragt...",
         updating:"Daten werden aktualisiert...",
         wait_for_payment:"warte auf Zahlung...",
-        remove_article_from_cart:"Wollen sie den Artikel wirklich entfernen?"
+        remove_article_from_cart:"Wollen sie den Artikel wirklich entfernen?",
+        order_check_later:"Sie können Ihre Bestellung am Ende noch einmal überprüfen."
     }
 }
