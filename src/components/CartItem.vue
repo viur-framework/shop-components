@@ -63,6 +63,13 @@
       </sl-format-number>
     </div>
 
+
+    <div class="availability"
+      :class="`availability--${item.shop_availability}`"
+    >
+        {{$t(item.shop_availability)}}
+    </div>
+
     <div class="viur-shop-cart-leaf-price">
       <div class="viur-shop-cart-leaf-label">{{ $t('shop.total_price') }}</div>
       <sl-format-number
@@ -116,6 +123,47 @@ function removeArticle(){
 </script>
 <style scoped>
 @layer foundation.shop {
+
+  .availability {
+  display: flex;
+  flex-basis: 70%;
+  font-size: .9em;
+  align-items: center;
+  justify-content: flex-end;
+  white-space: nowrap;
+  &:before {
+    content: '';
+    display: block;
+    background-color: #666;
+    width: .7em;
+    height: .7em;
+    border-radius: 50%;
+    margin-right: 5px;
+    margin-bottom: 2px;
+  }
+}
+.availability--onrequest,
+.availability--instock {
+  color: var(--ignt-color-success);
+  &:before {
+    background-color: var(--ignt-color-success);
+  }
+}
+.availability--discontinued,
+.availability--outofstock {
+  color: var(--ignt-color-danger);
+  &:before {
+    background-color: var(--ignt-color-danger);
+  }
+}
+.availability--limited,
+.availability--preorder {
+  color: var(--ignt-color-warning);
+  &:before {
+    background-color: var(--ignt-color-warning);
+  }
+}
+
   .viur-shop-cart-leaf {
     --shop-leaf-label-color: var(--ignt-color-primary);
     --shop-leaf-label-font-weight: 600;
