@@ -7,7 +7,11 @@
     >
       <template v-slot="{option, index}">
           <img slot="image">
-          {{ option['dest']['name'] }} - {{$t('shop.deliverytime')}}: {{ option['dest']['delivery_time_range'] }} {{  $t('shop.day') }}
+
+          <sl-format-number lang="de" type="currency" currency="EUR" :value=" option['dest']['shipping_cost']" v-if="option['dest']['shipping_cost']">
+          </sl-format-number>
+          <span v-else>{{ $t('shop.free_shipping') }}</span>
+          {{ option['dest']['name'] }} - {{$t('shop.deliverytime')}}: {{ option['dest']['delivery_time_range'] }} {{  $t('shop.day',option['dest']['delivery_time_max'] - option['dest']['delivery_time_min']) }}
       </template>
     </card-selector>
   </loading-handler>
@@ -18,7 +22,7 @@
   <slot
         nextName="weiter"
         :activefunction="()=>shopStore.state.cartRoot?.['shipping']"
-        :nextfunction="()=>true"
+        :nextfunction="()=>nextStep"
     >
     </slot>
 </template>
@@ -28,10 +32,12 @@ import CardSelector from "../components/CardSelector.vue";
 import LoadingHandler from "../../old/components/generic/loadinghandler.vue";
 import {useShipping} from "../composables/shipping";
 import {useCart} from "../composables/cart";
+import { useOrder } from "../composables/order";
 import {useViurShopStore} from "../shop";
 
 const shopStore = useViurShopStore();
 const {updateCart} = useCart();
+const {fetchOrder} = useOrder();
 const {state: shippingState,fetchShippingData} = useShipping();
 
 const state = reactive({
@@ -43,6 +49,10 @@ function updateShippingMethod(selection){
   if (selection){
     updateCart({shipping_key:selection['dest']['key']})
   }
+}
+
+async function nextStep(){
+  await fetchOrder(shopStore.state.orderKey)
 }
 
 onBeforeMount(()=>{
