@@ -1,5 +1,5 @@
 <template>
-  <LoadingHandler :isLoading="!state.items.length">
+  <LoadingHandler :isLoading="state.loading">
     <h2 class="viur-shop-cart-sidebar-headline headline">Zusammenfassung</h2>
     <div class="viur-shop-cart-sidebar-summary">
       <div class="viur-shop-cart-sidebar-summary-item" v-for="item in state.items">
@@ -112,12 +112,16 @@ const state = reactive({
       return acc;
     },0)
     return sum
-  })
+  }),
+  loading:false
 })
 
 onBeforeMount(() => {
+  state.loading=true
   if (!shopStore.state.cartList.length) {
-    fetchCart()
+    fetchCart().then(()=>state.loading=false).catch(()=>state.loading=false)
+  }else{
+    state.loading=false
   }
 })
 </script>
