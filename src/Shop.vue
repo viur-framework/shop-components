@@ -60,7 +60,7 @@
 
 
 <script setup>
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, watch } from 'vue';
 import ShopOrderStepper from './ShopOrderStepper.vue'
 import ShopSummary from "./ShopSummary.vue"
 import {useViurShopStore} from './shop'
@@ -72,6 +72,9 @@ import { useCart } from './composables/cart';
 const shopStore = useViurShopStore()
 const {fetchOrder} = useOrder()
 const {fetchCart} = useCart()
+
+const emit = defineEmits('change')
+
 
 const props = defineProps({
     summary:{
@@ -120,12 +123,12 @@ onBeforeMount(()=>{
     }else{
         shopStore.navigateToTab('cart')
     }
-
-
-
-
 })
 
+
+watch(()=>shopStore.state.currentTab, (newVal,oldVal)=>{
+  emit('change', newVal)
+})
 
 
 </script>
