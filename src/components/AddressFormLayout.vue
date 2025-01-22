@@ -46,6 +46,16 @@
         label="placeholder">
   </slot>
 
+  <slot boneName="email"
+        :widget="getBoneWidget(formState.structure['email']['type'])"
+        label="placeholder">
+  </slot>
+
+  <slot boneName="phone"
+        :widget="getBoneWidget(formState.structure['phone']['type'])"
+        label="placeholder">
+  </slot>
+
   </div>
 </template>
 <script setup>

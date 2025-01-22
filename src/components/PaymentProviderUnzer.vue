@@ -199,3 +199,10 @@ onBeforeMount(()=>{
   font-size:3rem;
 }
 </style>
+
+<style>
+/* global style to overwrite UnzerCSS */
+.unzerUI.primary.button, .unzerUI.primary.buttons .button {
+  background-color: var(--ignt-color-primary) !important;
+}
+</style>
