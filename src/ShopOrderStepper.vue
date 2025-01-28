@@ -110,8 +110,10 @@ function active(obj){
   background-color: var(--sl-color-neutral-100);
   color:var(--sl-color-neutral-800);
   padding: 0 var(--sl-spacing-small);
-  height: var(--ignt-basic-line-height);
-
+  height: auto;
+  min-height: var(--sl-input-height-large);
+  font-size: var(--sl-button-font-size-large);
+  line-height: calc(var(--sl-input-height-large) - var(--sl-input-border-width)* 2);
 }
 .action-button-hint::part(base){
   border-top-left-radius: 0;

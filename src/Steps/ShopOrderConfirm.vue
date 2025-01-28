@@ -3,7 +3,7 @@
     <h2 class="viur-shop-cart-headline headline">{{ $t('shop.check_order')}}</h2>
     <div class="viur-shop-cart-address-wrap">
       <div class="viur-shop-cart-address">
-        <div class="viur-shop-cart-address-headline">
+        <div class="viur-shop-user-data-headline">
           {{ $t('viur.shop.skeleton.cartnode.shipping_address') }}
         </div>
         <template v-if="state.shippingAddress">
@@ -17,7 +17,7 @@
         </template>
       </div>
       <div class="viur-shop-cart-address">
-        <div class="viur-shop-cart-address-headline">
+        <div class="viur-shop-user-data-headline">
           {{ $t('viur.shop.skeleton.order.billing_address') }}
         </div>
         <template v-if="state.billingAddress">
@@ -271,7 +271,7 @@ sl-menu-item {
   margin-bottom: var(--sl-spacing-x-large);
 }
 
-.viur-shop-cart-address-headline {
+.viur-shop-user-data-headline {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;

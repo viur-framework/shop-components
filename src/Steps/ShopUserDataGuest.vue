@@ -1,24 +1,24 @@
 <template>
-    <div class="viur-shop-cart-address-headline">
+    <div class="viur-shop-user-data-headline">
         {{ $t("skeleton.address.address_type.shipping") }}
     </div>
-
     <address-form :formtype="addressState.billingIsShipping?'both':'shipping'">
     </address-form>
-    <div>
-      <sl-switch :checked="addressState.billingIsShipping" @sl-change="switchAddresses">{{  $t('shop.use_shipping_as_billing_address') }}</sl-switch>
-    </div>
+
+    <sl-switch class="viur-shop-user-data-switch" :checked="addressState.billingIsShipping" @sl-change="switchAddresses">
+      {{  $t('shop.use_shipping_as_billing_address') }}
+    </sl-switch>
 
     <div v-show="!addressState.billingIsShipping">
-      <div class="viur-shop-cart-address-headline">
+      <div class="viur-shop-user-data-headline">
         {{ $t("skeleton.address.address_type.billing") }}
       </div>
-      <address-form formtype="billing" ></address-form>
+      <address-form formtype="billing" >
+      </address-form>
     </div>
-
     <slot name="template_userdata">
     </slot>
-    
+
     <slot
         nextName="weiter"
         :activefunction="()=>true"
@@ -70,7 +70,7 @@ async function nextStep(){
 </script>
 
 <style scoped>
-.viur-shop-cart-address-headline {
+.viur-shop-user-data-headline {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;

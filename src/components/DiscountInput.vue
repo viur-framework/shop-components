@@ -20,15 +20,15 @@
     </sl-button>
     </div>
   </template>
-  <template v-else>
+  <sl-button-group v-else>
     <sl-input
       placeholder="Rabattcode eingeben"
       v-model="state.code"
       @keypress.enter="addDiscountAction()"
     >
     </sl-input>
-    <button @click="addDiscountAction()" :loading="state.loading">{{ $t('shop.add_discount') }}</button>
-  </template>
+    <sl-button @click="addDiscountAction()" :loading="state.loading">{{ $t('shop.add_discount') }}</sl-button>
+  </sl-button-group>
 </template>
 
 <script setup>
