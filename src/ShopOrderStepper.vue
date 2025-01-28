@@ -12,25 +12,27 @@
 
             <sl-tab-panel :name="name">
                 <template v-if="tab?.['loaded']">
-                  
-                  
+
+
                     <component :is="tab['component']">
                       <template #['template_'+name]>
-                        <slot :name="'template_'+name"></slot> 
+                        <slot :name="'template_'+name"></slot>
                       </template>
-                      
+
                       <template v-slot="slotProps">
-                        <sl-bar>
+                        <sl-bar class="viur-shop-stepper-bar">
                           <div slot="right">
                             <span v-if="slotProps.hint" class="hint">{{ slotProps.hint }}</span>
                             <sl-button
-                               :class="{'action-button-hint':slotProps.hint}"
-                                variant="primary"
-                                :disabled="active(slotProps)"
-                                @click="nextStep(slotProps)"
-                                :loading="tab['validating']"
+                              :class="{'action-button-hint':slotProps.hint}"
+                              variant="success"
+                              size="large"
+                              :disabled="active(slotProps)"
+                              @click="nextStep(slotProps)"
+                              :loading="tab['validating']"
                             >
                               {{slotProps.nextName}}
+                              <sl-icon slot="suffix" name="chevron-right"></sl-icon>
                             </sl-button>
                           </div>
                         </sl-bar>
@@ -77,7 +79,7 @@ function nextStep(obj){
       useTimeoutFn(() => {
         shopStore.navigateToNext()
       }, 300)
-     
+
     }else{
       shopStore.state.tabs[shopStore.state.currentTab]['valid']=false
       shopStore.state.tabs[shopStore.state.currentTab]['validating']=false
@@ -97,6 +99,10 @@ function active(obj){
 
 <style scoped>
 
+.viur-shop-stepper-bar {
+  margin-top: var(--shop-leaf-gap, var(--ignt-spacing-small))
+}
+
 .hint{
   border:1px solid var(--sl-color-neutral-200);
   border-top-left-radius: var(--sl-input-border-radius-medium);
@@ -105,7 +111,7 @@ function active(obj){
   color:var(--sl-color-neutral-800);
   padding: 0 var(--sl-spacing-small);
   height: var(--ignt-basic-line-height);
-  
+
 }
 .action-button-hint::part(base){
   border-top-left-radius: 0;

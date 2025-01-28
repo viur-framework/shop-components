@@ -1,5 +1,5 @@
 <template>
-  <div class="item-wrapper">
+  <div class="viur-shop-item-wrapper">
     <sl-card horizontal class="viur-shop-cart-leaf-small">
     <img
       class="viur-shop-cart-leaf-image"
@@ -222,7 +222,7 @@ function removeArticle(){
     }
   }
 
-  .item-wrapper{
+  .viur-shop-item-wrapper{
     position: relative;
   }
 
