@@ -1,6 +1,6 @@
 <template>
     <loading-handler :isLoading="cartState.isLoading" :isUpdating="cartState.isUpdating">
-        <div class="item-wrapper" v-if="state.items.length>0">
+        <div class="viur-shop-item-wrapper" v-if="state.items.length>0">
             <cart-item v-for="item in state.items" :item="item"
             :edit="!shopStore.state.order?.['is_checkout_in_progress']"
             >
@@ -13,12 +13,12 @@
             </template>
         </shop-alert>
     </loading-handler>
-    
+
     <slot name="template_cart">
     </slot>
 
     <slot
-        nextName="weiter"
+        :nextName="$t('shop.proceed-checkout')"
         :activefunction="()=>state.items.length>0"
         :nextfunction="()=>true"
     >
@@ -48,10 +48,11 @@ onBeforeMount(()=>{
 
 </script>
 <style scoped>
-.item-wrapper{
-    display:flex;
-    flex-direction: column;
-    gap: 20px;
+
+.viur-shop-item-wrapper {
+  display:flex;
+  flex-direction: column;
+  gap: var(--shop-leaf-gap, var(--ignt-spacing-small));
 }
 
 </style>

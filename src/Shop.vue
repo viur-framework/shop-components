@@ -171,24 +171,29 @@ watch(()=>shopStore.state.currentTab, (newVal,oldVal)=>{
     padding: var(--sl-spacing-medium);
     overflow: hidden;
     border-radius: var(--sl-border-radius-medium);
-    grid-column: auto / span var(--shop-sidebar-columns);
     /* height has to be set or sidebar grows until infinity... */
     height: min-content;
+    grid-column: auto / span 12;
+    order: -1;
+    & > * + * {
+      margin-top: var(--sl-spacing-small);
+    }
     @media (min-width: 1024px) {
       position: sticky;
       max-height: calc(100vh - var(--viur-shop-sidebar-height-offset) - 2 * var(--padding));
       top: var(--padding);
       bottom: var(--padding);
+      grid-column: auto / span var(--shop-sidebar-columns);
+      order: unset;
     }
   }
 
   .viur-shop-stepper-wrap {
     display: flex;
     flex-direction: column;
-    grid-column: auto / span var(--shop-main-columns);
-
-    @media (max-width: 1024px) {
-      grid-column: auto / span 12;
+    grid-column: auto / span 12;
+    @media (min-width: 1024px) {
+      grid-column: auto / span var(--shop-main-columns);
     }
 
     @media (max-width: 600px) {

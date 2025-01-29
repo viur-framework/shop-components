@@ -12,7 +12,7 @@
   </shop-alert>
 
   <template v-if="shopStore.state.cartRoot.discount">
-    <div class="discount-view">
+    <div class="viur-shop-discount-view">
     <span>Code: {{ shopStore.state.cartRoot.discount.dest.name }}</span>
     <sl-button size="small"  outline variant="danger" @click="removeDiscountAction" :loading="state.loading">
       <sl-icon name="x-lg" slot="prefix"></sl-icon>
@@ -20,15 +20,16 @@
     </sl-button>
     </div>
   </template>
-  <template v-else>
+  <sl-button-group v-else>
     <sl-input
-      placeholder="Rabattcode eingeben"
+      class="viur-shop-discount-input"
+      :placeholder="$t('shop.add_discount_placeholder')"
       v-model="state.code"
       @keypress.enter="addDiscountAction()"
     >
     </sl-input>
-    <button @click="addDiscountAction()" :loading="state.loading">{{ $t('shop.add_discount') }}</button>
-  </template>
+    <sl-button @click="addDiscountAction()" :loading="state.loading">{{ $t('shop.add_discount') }}</sl-button>
+  </sl-button-group>
 </template>
 
 <script setup>
@@ -81,11 +82,15 @@ function removeDiscountAction(){
 
 </script>
 <style scoped>
-.discount-view{
+.viur-shop-discount-view{
   font-size:0.8em;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.viur-shop-discount-input {
+  flex-basis: 100%;
 }
 
 </style>
