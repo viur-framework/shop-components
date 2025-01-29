@@ -175,6 +175,9 @@ watch(()=>shopStore.state.currentTab, (newVal,oldVal)=>{
     height: min-content;
     grid-column: auto / span 12;
     order: -1;
+    & > * + * {
+      margin-top: var(--sl-spacing-small);
+    }
     @media (min-width: 1024px) {
       position: sticky;
       max-height: calc(100vh - var(--viur-shop-sidebar-height-offset) - 2 * var(--padding));

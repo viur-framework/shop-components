@@ -46,7 +46,7 @@
     </sl-input>
 
     <div class="viur-shop-cart-leaf-article-number">
-      <div class="viur-shop-cart-leaf-label">{{ $t('shop.articlenumber') }}</div>
+      <div class="viur-shop-cart-leaf-label">{{ $t('shop.article_number') }}</div>
       {{ getValue(item.shop_art_no_or_gtin) }}
     </div>
 

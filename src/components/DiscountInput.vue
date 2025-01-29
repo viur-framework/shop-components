@@ -23,7 +23,7 @@
   <sl-button-group v-else>
     <sl-input
       class="viur-shop-discount-input"
-      placeholder="Rabattcode eingeben"
+      :placeholder="$t('shop.add_discount_placeholder')"
       v-model="state.code"
       @keypress.enter="addDiscountAction()"
     >
