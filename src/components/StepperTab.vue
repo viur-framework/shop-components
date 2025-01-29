@@ -19,7 +19,7 @@
         <template v-if="tab && shopStore.state.tabs[tab]">
           {{ shopStore.state.tabIndexMap[tab] + 1 }}.
           <span class="viur-shop-order-status-span">
-            {{ shopStore.state.tabs[tab]?.displayName }}
+            {{ $t(shopStore.state.tabs[tab]?.displayName) }}
           </span>
         </template>
         <template v-else>

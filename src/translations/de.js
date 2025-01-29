@@ -45,6 +45,14 @@ export default {
         "discount_minimum_not_reached": "Der Mindestbestellwert von {{minimum_order_value}} € wurde nicht erreicht.",
         "discount_no_sale_article": "Der Rabattcode ist nicht auf bereits rabattierte Artikel anwendbar.",
         "discount_scope_not_satisfied": "Der Rabattcode ist für diesen Warenkorb / diese Artikel nicht anwendbar.",
+        "order_step_cart":"Warenkorb",
+        "order_step_data":"Daten",
+        "order_step_shipping":"Versandart",
+        "order_step_payment":"Zahlungsart",
+        "order_step_verify":"Bestellung prüfen",
+        "order_step_complete":"Bestellung Abgeschlossen"
+
+
     },
     messages:{
         loading:"Daten werden abgefragt...",
