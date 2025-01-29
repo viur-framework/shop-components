@@ -36,7 +36,7 @@ export default {
         "summary_discount":"Sie sparen bei Ihrem Einkauf im Aktionszeitraum",
         "summary_checkout":"Zur Kasse gehen",
         "summary_total":"Gesamtbetrag",
-        "summary_vat":"inkl. MwSt.",
+        "summary_vat":"inkl. {percentage} MwSt.",
       	"discount_not_found": "Dieser Rabattcode existiert nicht.",
         "discount_not_active": "Dieser Rabattcode ist nicht aktiv.",
         "discount_not_available": "Dieser Rabattcode ist für dieses Land nicht verfügbar.",

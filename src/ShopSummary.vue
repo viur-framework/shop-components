@@ -51,7 +51,7 @@
       </sl-format-number>
     </div>
     <div class="viur-shop-cart-sidebar-info " v-for="vatObj in state.vat">
-      <span v-html="$t('shop.summary_vat')"></span>
+      <span v-html="$t('shop.summary_vat', {'percentage':calc_percent(vatObj.percentage) })"></span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="vatObj.value">
       </sl-format-number>
     </div>
@@ -125,6 +125,16 @@ onBeforeMount(() => {
     state.loading=false
   }
 })
+
+function calc_percent(val){
+  return new Intl.NumberFormat("de-DE", {
+    style: "percent",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(val);
+}
+
+
 </script>
 
 <style scoped>
