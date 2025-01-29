@@ -29,22 +29,22 @@ const {state:addressState} = useAddress();
 const props = defineProps({
   formtype:{
     type:String,
-    default:"shipping" // formtype: shipping, billing, both
+    default:"billing" // formtype: shipping, billing, both
   }
 })
 
 const state = reactive({
   formtype:computed(()=>{
-    if (['shipping','both'].includes(props.formtype)){
-      return "shipping"
+    if (['billing','both'].includes(props.formtype)){
+      return "billing"
     }
-    return 'billing'
+    return 'shipping'
   }),
 
   action: computed(()=>{
     if (state.formtype ==='shipping' && shopStore.state.cartRoot?.['shipping_address']){
       return 'edit'
-    } else if (props.formtype === 'billing' && shopStore.state.order?.['billing_address']){
+    } else if (state.formtype === 'billing' && shopStore.state.order?.['billing_address']){
       return 'edit'
     } else {
       return 'add'
@@ -54,7 +54,7 @@ const state = reactive({
   skelkey:computed(()=>{
     if (state.formtype === 'shipping' && shopStore.state.cartRoot?.['shipping_address']){
       return shopStore.state.cartRoot['shipping_address']?.['dest']?.['key']
-    } else if (props.formtype === 'billing' && shopStore.state.order?.['billing_address']){
+    } else if (state.formtype === 'billing' && shopStore.state.order?.['billing_address']){
       return shopStore.state.order?.['billing_address']?.['dest']?.['key']
     }
     return null
@@ -78,14 +78,13 @@ function formChange(data){
 
 watch(()=>addressState.billingIsShipping, (newVal,oldVal)=>{
   if(oldVal && !newVal){
-    if(shopStore.state.order?.['billing_address']){
-      shopStore.state.order['billing_address'] = null
+    if(shopStore.state.cartRoot?.['shipping_address']){
+      shopStore.state.cartRoot['shipping_address'] = null
     }
-
-    addressState[`billingForm`].state.skel = {'address_type':state.address_type, 'customer_type':'private'}
-
+    addressState[`shippingForm`].state.skel = {'address_type':state.address_type, 'customer_type':'private'}
   }
 
+  addressState[`${state.formtype}Form`].state.skel['address_type'] = state.address_type
 })
 
 </script>

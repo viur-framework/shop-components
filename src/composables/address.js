@@ -43,46 +43,46 @@ export const useAddress = defineStore("useAddressStore", () => {
 
     })
 
-    function saveForm(type,shippingIsBilling=false){
+    function saveForm(type,billingIsShipping=false){
       state[`${type}IsUpdating`] = true
       return state[`${type}Form`].sendData().then(async (resp)=>{
         let data = await resp.json()
+        
         if (['addSuccess','editSuccess'].includes(data['action'])){
           state[`${type}Data`] = data['values']
-          await updateAddresses(type, shippingIsBilling)
+          await updateAddresses(type, billingIsShipping)
         }
         state[`${type}IsUpdating`] = undefined
         return data
       })
     }
 
-    function saveAddresses(shippingIsBilling=false){
-        if (shippingIsBilling) {
-            return saveForm('shipping',shippingIsBilling)
+    function saveAddresses(billingIsShipping=false){
+        if (billingIsShipping) {
+            return saveForm('billing',billingIsShipping)
         }else{
             return new Promise((resolve, reject) => {
                 saveForm('shipping').then(()=>{
                     saveForm('billing').then(()=>{
-                        resolve({'actions':'editSuccess'})
+                        resolve({'action':'editSuccess'})
                     }).catch((e)=>reject(e))
                 }).catch((e)=>reject(e))
             })
         }
     }
 
-    async function updateAddresses(type, shippingIsBilling=false) {
+    async function updateAddresses(type, billingIsShipping=false) {
         let key = state[`${type}Data`]['key']
-
         if (type === 'shipping'){
             const {updateCart} = useCart()
             updateCart({shipping_address_key:key})
-            if(shippingIsBilling){
-                const {addOrUpdateOrder} = useOrder()
-                await addOrUpdateOrder({billing_address_key:key})
-            }
         }else if (type === 'billing'){
             const {addOrUpdateOrder} = useOrder()
             await addOrUpdateOrder({billing_address_key:key})
+            if(billingIsShipping){
+                const {updateCart} = useCart()
+                updateCart({shipping_address_key:key})
+            }
         }
     }
 
