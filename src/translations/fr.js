@@ -36,7 +36,7 @@ export default {
         "summary_discount":"Vous économisez sur votre achat",
         "summary_checkout":"Acheter cet article",
         "summary_total":"Montant total",
-        "summary_vat":"TVA incluse ({vat_percentage}%)",
+        "summary_vat":"TVA incluse ({vat_percentage})",
         "discount_not_found": "Ce code promo n’existe pas.",
         "discount_not_active": "Ce code promo n’est pas actif.",
         "discount_not_available": "Ce code promo n’est pas valable pour ce pays.",
