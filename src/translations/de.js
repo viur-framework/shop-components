@@ -24,7 +24,7 @@ export default {
         "pay":"Bezahlen",
         "add_discount":"Hinzufügen",
         "add_discount_placeholder":"Dein Rabattcode",
-        "use_shipping_as_billing_address": "Rechnungsadresse zur Lieferungadresse",
+        "use_shipping_as_billing_address": "Lieferung zur Rechnungsadresse",
         "no_valid_shipping_found":"Keine passenden Versandarten gefunden.",
         "error_message":"Eine Fehler ist aufgetreten.",
         "free_shipping":"Versandkostenfrei",
