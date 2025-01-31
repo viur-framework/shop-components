@@ -15,20 +15,26 @@ const ViurShopComponents = {
     let defaultLocale = options?.defaultLocale?options.defaultLocale:'de'
     let locale = options?.locale?options.locale:['de']
     let fallback = options?.fallback?options.fallback:'en'
+
+    let additionals = options?.additionals?options.additionals:{}
+
     app.use(createPinia());
 
     let messages = {}
     // fetch translations from server
-    let data = await getTranslations(locale)
+    let data = await getTranslations(locale,options?.pattern)
     for(const loc of locale){
+      let locAdditionals = additionals?.[loc]?additionals[loc]:{}
+
+
       if (loc === 'de'){
-        messages[loc] = { ...de_translations, ...de, ...data[loc]}
+        messages[loc] = { ...de_translations, ...de, ...locAdditionals, ...data[loc]}
       }else if (loc === 'fr'){
-        messages[loc] = { ...fr, ...data[loc]}
+        messages[loc] = { ...fr, ...locAdditionals, ...data[loc]}
       }else if (loc === 'en'){
-        messages[loc] = {...en_translations, ...en, ...data[loc]}
+        messages[loc] = {...en_translations, ...en, ...locAdditionals, ...data[loc]}
       }else{
-        messages[loc] = {...data[loc]}
+        messages[loc] = {...locAdditionals, ...data[loc]}
       }
     }
 
