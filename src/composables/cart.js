@@ -84,7 +84,7 @@ export function useCart() {
                     shipping_address_key,
                     shipping_key,
                     discount_key,
-                    project_data
+                    commission
                 } = {}){
 
         let data= {
@@ -97,8 +97,8 @@ export function useCart() {
             cart_key:cart_key ? cart_key : shopStore.state.cartRoot['key'],
         }
 
-        if (project_data) {
-          data.project_data = JSON.stringify(project_data)
+        if (commission) {
+          data.commission = commission
         }
 
         return Request.post(`${shopStore.state.shopApiUrl}/cart_update`, {
