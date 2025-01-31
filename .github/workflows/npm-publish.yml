@@ -14,9 +14,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 22
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - name: Publish npm package
@@ -35,7 +35,7 @@ jobs:
         run: |
           echo "${{ contains(github.ref_name, 'dev') }}"
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         # if: "!startsWith(github.ref_name, 'v-test-')"
         with:
           generate_release_notes: true

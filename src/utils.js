@@ -20,13 +20,16 @@ export function struct2dict(structure) {
   return result;
 }
 
-export async function getTranslations(languages=["de"]){
+export async function getTranslations(languages=["de"],pattern=null){
   // fetch translations from server
   let retVal = languages.reduce((acc,item)=>{acc[item]={}; return acc;},{})
   try {
-    let translations = await Request.get("/json/_translation/get_public",{dataObj:{
-        languages:languages
-      }})
+    let dataObj = {languages:languages}
+    if(pattern){
+      dataObj['pattern'] = pattern
+    }
+
+    let translations = await Request.get("/json/_translation/get_public",{dataObj:dataObj})
     const data = await translations.json()
     for (let country in data) {
       data[country] = Object.fromEntries(

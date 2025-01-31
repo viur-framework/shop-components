@@ -1,5 +1,5 @@
 <template>
-  <div class="item-wrapper">
+  <div class="viur-shop-item-wrapper">
     <sl-card horizontal class="viur-shop-cart-leaf">
     <img
       class="viur-shop-cart-leaf-image"
@@ -12,44 +12,48 @@
         )
       "
     />
+    <h5 v-if="item.shop_art_no_or_gtin" class="viur-shop-cart-leaf-artno" slot="header">
+      {{ getValue(item.shop_art_no_or_gtin) }}
+    </h5>
     <h4
       class="viur-shop-cart-leaf-headline headline"
       v-html="getValue(item.shop_name)"
     ></h4>
-    <h5 class="viur-shop-cart-leaf-artno">
-      {{ getValue(item.shop_art_no_or_gtin) }}
-    </h5>
     <div
       class="viur-shop-cart-leaf-description"
       v-html="getValue(item.shop_description)"
     ></div>
-    <sl-input
-        :disabled="!edit"
-        class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
-        type="number"
-        placeholder="Number"
-        min="0"
-        noSpinButtons
-        :value="item.quantity"
-        @sl-change="changeAmount($event.target.value)"
-      >
-      <dialog-Button slot="prefix" class="decent" v-if="item.quantity===1" variant="danger" outline>
-        <sl-icon name="trash"></sl-icon>
-        <template #dialog="{close}">
-          {{ $t('messages.remove_article_from_cart') }}
-          <sl-bar>
-            <sl-button slot="left" @click="close">{{$t('actions.cancel')}}</sl-button>
-            <sl-button slot="right" variant="danger" @click="removeArticle(); close()">{{ $t('actions.delete') }}</sl-button>
-          </sl-bar>
-        </template>
-      </dialog-Button>
-      <sl-button slot="prefix" v-else @click="changeAmount(item.quantity-=1)">
-        <sl-icon name="dash-lg"></sl-icon>
-      </sl-button>
-      <sl-button slot="suffix" @click="changeAmount(item.quantity+=1)">
-        <sl-icon name="plus-lg"></sl-icon>
-      </sl-button>
-    </sl-input>
+
+    <div class="viur-shop-cart-leaf-quantity">
+      <div class="viur-shop-cart-leaf-label">{{$t('shop.quantity')}}</div>
+      <sl-input
+          :disabled="!edit"
+          class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
+          type="number"
+          placeholder="Number"
+          min="0"
+          noSpinButtons
+          :value="item.quantity"
+          @sl-change="changeAmount($event.target.value)"
+        >
+        <dialog-Button slot="prefix" class="decent" v-if="item.quantity===1" variant="danger" outline>
+          <sl-icon name="trash"></sl-icon>
+          <template #dialog="{close}">
+            {{ $t('messages.remove_article_from_cart') }}
+            <sl-bar>
+              <sl-button slot="left" @click="close">{{$t('actions.cancel')}}</sl-button>
+              <sl-button slot="right" variant="danger" @click="removeArticle(); close()">{{ $t('actions.delete') }}</sl-button>
+            </sl-bar>
+          </template>
+        </dialog-Button>
+        <sl-button slot="prefix" v-else @click="changeAmount(item.quantity-=1)">
+          <sl-icon name="dash-lg"></sl-icon>
+        </sl-button>
+        <sl-button slot="suffix" @click="changeAmount(item.quantity+=1)">
+          <sl-icon name="plus-lg"></sl-icon>
+        </sl-button>
+      </sl-input>
+    </div>
 
     <div class="viur-shop-cart-leaf-unitprice">
       <div class="viur-shop-cart-leaf-label">{{$t('shop.unit_price')}}</div>
@@ -63,11 +67,13 @@
       </sl-format-number>
     </div>
 
-
-    <div class="availability"
-      :class="`availability--${item.shop_availability}`"
-    >
+    <div class="viur-shop-cart-leaf-availability">
+      <div class="viur-shop-cart-leaf-label">{{ $t('shop.availability') }}</div>
+      <div class="availability"
+           :class="`availability--${item.shop_availability}`"
+      >
         {{$t(item.shop_availability)}}
+      </div>
     </div>
 
     <div class="viur-shop-cart-leaf-price">
@@ -125,44 +131,44 @@ function removeArticle(){
 @layer foundation.shop {
 
   .availability {
-  display: flex;
-  flex-basis: 70%;
-  font-size: .9em;
-  align-items: center;
-  justify-content: flex-end;
-  white-space: nowrap;
-  &:before {
-    content: '';
-    display: block;
-    background-color: #666;
-    width: .7em;
-    height: .7em;
-    border-radius: 50%;
-    margin-right: 5px;
-    margin-bottom: 2px;
+    display: flex;
+    flex-basis: 70%;
+    font-size: .9em;
+    align-items: center;
+    justify-content: flex-start;
+    white-space: nowrap;
+    &:before {
+      content: '';
+      display: block;
+      background-color: #666;
+      width: .7em;
+      height: .7em;
+      border-radius: 50%;
+      margin-right: 5px;
+      margin-bottom: 2px;
+    }
   }
-}
-.availability--onrequest,
-.availability--instock {
-  color: var(--ignt-color-success);
-  &:before {
-    background-color: var(--ignt-color-success);
+  .availability--onrequest,
+  .availability--instock {
+    color: var(--ignt-color-success);
+    &:before {
+      background-color: var(--ignt-color-success);
+    }
   }
-}
-.availability--discontinued,
-.availability--outofstock {
-  color: var(--ignt-color-danger);
-  &:before {
-    background-color: var(--ignt-color-danger);
+  .availability--discontinued,
+  .availability--outofstock {
+    color: var(--ignt-color-danger);
+    &:before {
+      background-color: var(--ignt-color-danger);
+    }
   }
-}
-.availability--limited,
-.availability--preorder {
-  color: var(--ignt-color-warning);
-  &:before {
-    background-color: var(--ignt-color-warning);
+  .availability--limited,
+  .availability--preorder {
+    color: var(--ignt-color-warning);
+    &:before {
+      background-color: var(--ignt-color-warning);
+    }
   }
-}
 
   .viur-shop-cart-leaf {
     --shop-leaf-label-color: var(--ignt-color-primary);
@@ -174,6 +180,7 @@ function removeArticle(){
     &::part(base) {
       display: flex;
       position: relative;
+      padding-bottom: var(--shop-leaf-gap, var(--ignt-spacing-small));
     }
 
     &::part(header) {
@@ -189,8 +196,9 @@ function removeArticle(){
     &::part(body) {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: var(--sl-spacing-medium);
-      padding: var(--sl-spacing-large);
+      grid-template-rows: fit-content(20%) 1fr fit-content(20%);
+      gap: var(--shop-leaf-gap, var(--ignt-spacing-small));
+      padding: 0 var(--sl-spacing-large);
       height: 100%;
     }
 
@@ -201,8 +209,8 @@ function removeArticle(){
     @media (max-width: 600px) {
       &::part(body) {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: var(--sl-spacing-medium);
-        padding: var(--sl-spacing-large);
+        gap: var(--shop-leaf-gap, var(--ignt-spacing-small));
+        padding: 0 var(--sl-spacing-large);
         height: 100%;
       }
 
@@ -219,7 +227,6 @@ function removeArticle(){
 
   .viur-shop-cart-leaf-headline {
     grid-column: 1 / span 4;
-    order: -2;
     margin: 0;
     font-size: var(--shop-leaf-headline-font-size);
 
@@ -229,6 +236,7 @@ function removeArticle(){
   }
 
   .viur-shop-cart-leaf-artno {
+    font-size: .8em;
     grid-column: 1 / span 5;
     margin: 0;
 
@@ -284,11 +292,18 @@ function removeArticle(){
   }
 
   .viur-shop-cart-leaf-unitprice {
+    grid-column: 3 / span 1;
     align-self: center;
 
     @media (max-width: 600px) {
       text-align: right;
     }
+  }
+
+  .viur-shop-cart-leaf-availability {
+    grid-column: 4 / span 1;
+    align-self: center;
+    text-align: right;
   }
 
   .viur-shop-cart-leaf-label,
@@ -317,7 +332,7 @@ function removeArticle(){
     }
   }
 
-  .item-wrapper{
+  .viur-shop-item-wrapper{
     position: relative;
   }
 

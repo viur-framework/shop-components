@@ -13,7 +13,7 @@ export function useOrder() {
     function updateOrderState(key,data){
         shopStore.state.order = data
         shopStore.state.orderKey = key
-        
+
         const params = useUrlSearchParams('hash')
         params['order'] = shopStore.state.orderKey
 
@@ -38,7 +38,6 @@ export function useOrder() {
     function addOrUpdateOrder({
         payment_provider,
         billing_address_key,
-        email,
         customer_key,
         state_ordered,
         state_paid,
@@ -49,7 +48,6 @@ export function useOrder() {
         let data = {
             payment_provider:payment_provider?payment_provider:shopStore.state.order?.['payment_provider'],
             billing_address_key:billing_address_key?billing_address_key:shopStore.state.order?.['billing_address_key']?.['dest']?.['key'],
-            email:email?email:shopStore.state.order?.['email'],
             customer_key:customer_key?customer_key:shopStore.state.order?.['customer_key']?.['dest']?.['key'],
             state_ordered:state_ordered?state_ordered:shopStore.state.order?.['state_ordered'],
             state_paid:state_paid?state_paid:shopStore.state.order?.['state_paid'],
@@ -58,7 +56,7 @@ export function useOrder() {
         if (shopStore.state.orderKey){
             url = shopStore.state.shopApiUrl+"/order_update"
             data["order_key"] = shopStore.state.orderKey
-            
+
         }else{
             data["cart_key"] = shopStore.state.cartRoot['key']
         }

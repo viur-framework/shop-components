@@ -24,7 +24,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         tabs:{
             cart: {
                 component: shallowRef(ShopCart),
-                displayName: "Warenkorb",
+                displayName: "shop.order_step_cart", //Warenkorb
                 icon: { name: "cart3" },
                 active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered']),  //active if no orderkey or checkout not startet
                 validating:false,
@@ -32,7 +32,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             },
             userdata: {
                 component: shallowRef(ShopUserDataGuest),
-                displayName: "Daten Eingeben",
+                displayName: "shop.order_step_data", //Daten Eingeben
                 icon: { name: "card-list" },
                 active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartList.length>0), //active if checkout not startet and cart is not empty
                 validating:false,
@@ -40,7 +40,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             },
             shippingmethod: {
                 component: shallowRef(ShopShippingMethod),
-                displayName: "Versandart",
+                displayName: "shop.order_step_shipping", // Versandart
                 icon: { name: "truck" },
                 active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartRoot?.['shipping_address']), // we need a shipping country
                 validating:false,
@@ -48,7 +48,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             },
             paymentprovider: {
                 component: shallowRef(ShopPaymentProvider),
-                displayName: "Zahlungsart auswählen",
+                displayName: "shop.order_step_payment", //Zahlungsart auswählen
                 icon: { name: "credit-card" },
                 active:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order && state.cartRoot?.['shipping']), // we need a active order
                 validating:false,
@@ -56,7 +56,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             },
             confirm: {
                 component: shallowRef(ShopOrderConfirm),
-                displayName: "Bestellung prüfen",
+                displayName: "shop.order_step_verify", //Bestellung prüfen
                 icon: { name: "clipboard-check" },
                 active:computed(()=>!state.order?.['is_paid'] && state.canCheckout?.['status']), // active if canCheckout and not already paid
                 validating:false,
@@ -64,7 +64,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             },
             complete: {
                 component: shallowRef(ShopOrderComplete),
-                displayName: "Bestellung Abgeschlossen",
+                displayName: "shop.order_step_complete", //Bestellung Abgeschlossen
                 icon: { name: "bag-check" },
                 active:computed(()=>state.order?.['is_ordered']), // active if ordered
                 validating:false,

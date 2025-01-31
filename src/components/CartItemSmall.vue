@@ -1,5 +1,5 @@
 <template>
-  <div class="item-wrapper">
+  <div class="viur-shop-item-wrapper">
     <sl-card horizontal class="viur-shop-cart-leaf-small">
     <img
       class="viur-shop-cart-leaf-image"
@@ -46,7 +46,7 @@
     </sl-input>
 
     <div class="viur-shop-cart-leaf-article-number">
-      <div class="viur-shop-cart-leaf-label">{{ $t('shop.articlenumber') }}</div>
+      <div class="viur-shop-cart-leaf-label">{{ $t('shop.article_number') }}</div>
       {{ getValue(item.shop_art_no_or_gtin) }}
     </div>
 
@@ -222,7 +222,7 @@ function removeArticle(){
     }
   }
 
-  .item-wrapper{
+  .viur-shop-item-wrapper{
     position: relative;
   }
 
