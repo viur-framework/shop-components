@@ -100,8 +100,29 @@ function active(obj){
 
 <style scoped>
 
+sl-tab-group {
+  flex-grow: 1;
+  &::part(base) {
+    height: 100%;
+  }
+  &::part(body) {
+    height: 100%;
+  }
+}
+
+sl-tap-panel {
+  height: 100%;
+  &::part(base) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .viur-shop-stepper-bar {
-  margin-top: var(--shop-leaf-gap, var(--ignt-spacing-small))
+  margin-top: var(--shop-leaf-gap, var(--ignt-spacing-small));
+  justify-self: flex-end;
+  margin-top: auto;
 }
 
 .hint{
