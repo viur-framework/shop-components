@@ -30,7 +30,9 @@
         </div>
     </div>
     <template v-if="shopStore.state.debug">
+      <br>
       <sl-details summary="Debug">
+          <sl-icon slot="prefix" name="bug"></sl-icon>
           order: {{ shopStore.state.orderKey }}<br>
           cart: {{ shopStore.state.cartRoot?.['key'] }}<br><br>
 
@@ -51,8 +53,7 @@
           paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>
 
           OrderObject: {{shopStore.state.order}}
-
-
+        
       </sl-details>
     </template>
     <div id="dialogs"></div>
