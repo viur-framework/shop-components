@@ -21,6 +21,7 @@
 
                       <template v-slot="slotProps">
                         <sl-bar class="viur-shop-stepper-bar">
+                          <div v-if="slotProps.left" slot="left" :id="slotProps.left"></div>
                           <div slot="right">
                             <span v-if="slotProps.hint" class="hint">{{ slotProps.hint }}</span>
                             <sl-button
