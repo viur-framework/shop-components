@@ -15,10 +15,16 @@
     <h5 v-if="item.shop_art_no_or_gtin" class="viur-shop-cart-leaf-artno" slot="header">
       {{ getValue(item.shop_art_no_or_gtin) }}
     </h5>
-    <h4
-      class="viur-shop-cart-leaf-headline headline"
-      v-html="getValue(item.shop_name)"
-    ></h4>
+    <a class="viur-shop-cart-leaf-headline-link" :href="item.article.dest.view_url" v-if="item.article?.dest?.view_url">
+      <h4
+        class="viur-shop-cart-leaf-headline headline"
+        v-html="getValue(item.shop_name)"
+      ></h4>
+    </a>
+    <h4 v-else
+        class="viur-shop-cart-leaf-headline headline"
+        v-html="getValue(item.shop_name)"
+      ></h4>
     <div
       class="viur-shop-cart-leaf-description"
       v-html="getValue(item.shop_description)"
@@ -129,7 +135,11 @@ function removeArticle(){
 </script>
 <style scoped>
 @layer foundation.shop {
-
+  .viur-shop-cart-leaf-headline-link{
+    grid-column: 1 / span 4;
+    margin: 0;
+    font-size: var(--shop-leaf-headline-font-size);
+  }
   .availability {
     display: flex;
     flex-basis: 70%;

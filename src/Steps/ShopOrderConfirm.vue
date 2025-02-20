@@ -68,6 +68,9 @@
   </sl-details>
   </div>
 
+  <component :is="params['additionalComponent']" v-if="params['additionalComponent']" ref="additionalComponent">
+  </component>
+
   <div class="wrapper">
     <sl-button size="small" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">{{ $t('shop.order_pay') }}</sl-button>
   </div>
@@ -82,7 +85,7 @@
   </slot>
 </template>
 <script setup>
-import {computed, onBeforeMount, reactive, watch} from 'vue'
+import {computed, onBeforeMount, reactive, watch, useTemplateRef} from 'vue'
 import { useViurShopStore } from '../shop';
 import boneUtils from '@viur/vue-utils/bones/utils'
 import {Request} from '@viur/vue-utils'
@@ -90,6 +93,14 @@ import CartItemSmall from '../components/CartItemSmall.vue';
 import PaymentProviderUnzer from '../components/PaymentProviderUnzer.vue';
 const shopStore = useViurShopStore()
 
+const additionalComponent = useTemplateRef('additionalComponent')
+
+const props = defineProps({
+  params:{
+    type:Object,
+    default:{}
+  }
+})
 
 // collected data from order Object > Session cart is not available anymore
 const state = reactive({
@@ -124,7 +135,13 @@ function paymentCanceled(){
 }
 
 //open popup and freeze cart
-function startCheckout(){
+async function startCheckout(){
+  if (props.params?.additionalComponent){
+      let valid = await additionalComponent.value.valid()
+      if (!valid){
+        return false
+      }
+  }
   state.paymentPopup=true
   shopStore.checkout()
 }

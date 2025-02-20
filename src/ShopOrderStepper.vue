@@ -14,7 +14,7 @@
                 <template v-if="tab?.['loaded']">
 
 
-                    <component :is="tab['component']">
+                    <component :is="tab['component']" :params="tab['params']">
                       <template #['template_'+name]>
                         <slot :name="'template_'+name"></slot>
                       </template>

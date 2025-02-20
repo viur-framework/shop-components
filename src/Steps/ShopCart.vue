@@ -20,7 +20,7 @@
     <slot
         :nextName="$t('shop.proceed-checkout')"
         :activefunction="()=>state.items.length>0"
-        :nextfunction="()=>true"
+        :nextfunction="nextStep"
     >
     </slot>
 
@@ -34,9 +34,18 @@ import LoadingHandler from '../components/LoadingHandler.vue';
 import CartItem from '../components/CartItem.vue';
 import CartItemSmall from '../components/CartItemSmall.vue';
 import ShopAlert from '../components/ShopAlert.vue';
+import { useOrder } from '../composables/order';
 
 const shopStore = useViurShopStore()
 const {fetchCart,addItem, state:cartState} = useCart()
+const {addOrUpdateOrder}  = useOrder()
+
+const props = defineProps({
+  params:{
+    type:Object,
+    default:{}
+  }
+})
 
 const state = reactive({
     items: computed(()=>shopStore.state.cartList.filter(i=>i['skel_type']==='leaf'))
@@ -45,6 +54,17 @@ const state = reactive({
 onBeforeMount(()=>{
     fetchCart()
 })
+
+async function nextStep(){
+    try{
+        let resp = await addOrUpdateOrder()
+        console.log(resp)
+        return true
+
+    } catch(error){
+        return false
+    }
+}
 
 </script>
 <style scoped>

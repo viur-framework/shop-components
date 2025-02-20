@@ -38,6 +38,13 @@ const {state:paymentState, fetchPaymentData} = usePayment()
 const {addOrUpdateOrder} = useOrder()
 const shopStore = useViurShopStore()
 
+const props = defineProps({
+  params:{
+    type:Object,
+    default:{}
+  }
+})
+
 const state = reactive({
     selection:null,
 })

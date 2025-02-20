@@ -29,4 +29,12 @@ import {computed, reactive} from 'vue'
 import { useViurShopStore } from '../shop';
 import ShopSummary from '../ShopSummary.vue';
 const shopStore = useViurShopStore()
+
+const props = defineProps({
+  params:{
+    type:Object,
+    default:{}
+  }
+})
+
 </script>

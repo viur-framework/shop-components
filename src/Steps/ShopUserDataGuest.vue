@@ -16,6 +16,10 @@
       <address-form formtype="shipping" >
       </address-form>
     </div>
+
+    <component :is="params['additionalComponent']" v-if="params['additionalComponent']" ref="additionalComponent">
+    </component>
+
     <slot name="template_userdata">
     </slot>
 
@@ -31,12 +35,19 @@
 
 
 <script setup>
-import {reactive, onBeforeMount, watch} from 'vue'
+import {reactive, onBeforeMount, watch, useTemplateRef} from 'vue'
 import AddressForm from '../components/AddressForm.vue'
 import {useAddress} from "../composables/address";
 import {useViurShopStore} from "../shop";
 const shopStore = useViurShopStore();
 const {state:addressState,saveAddresses} = useAddress()
+const additionalComponent = useTemplateRef('additionalComponent')
+const props = defineProps({
+  params:{
+    type:Object,
+    default:{}
+  }
+})
 
 const state = reactive({
 })
@@ -61,12 +72,20 @@ onBeforeMount(()=>{
 async function nextStep(){
   // form is only valid if the action field ends with Success
   try{
+    if (props.params?.additionalComponent){
+        let valid = await additionalComponent.value.valid()
+        if (!valid){
+          return false
+        }
+    }
+
     let result = await saveAddresses(addressState.billingIsShipping)
     if (result['action'] && result['action'].endsWith('Success')){
       return true
     }
     return false
   } catch(error){
+    console.log(error)
     return false
   }
 }

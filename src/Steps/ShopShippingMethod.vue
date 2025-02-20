@@ -40,6 +40,13 @@ const {updateCart} = useCart();
 const {fetchOrder} = useOrder();
 const {state: shippingState,fetchShippingData} = useShipping();
 
+const props = defineProps({
+  params:{
+    type:Object,
+    default:{}
+  }
+})
+
 const state = reactive({
   selectedShippingMethod: null
 })
