@@ -16,7 +16,8 @@
         </template>
       </div>
     </div>
-    <div class="viur-shop-cart-sidebar-info">
+    <template v-if="showFeatures">
+      <div class="viur-shop-cart-sidebar-info">
       <span v-html="$t('shop.summary_subtotal')"></span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.cartTotal">
       </sl-format-number>
@@ -42,6 +43,8 @@
       </sl-format-number>
     </div>
     <discount-input v-if="shopStore.state.currentTab!=='complete'"></discount-input>
+    </template>
+
     <div class="viur-shop-cart-sidebar-info">
     </div>
 
@@ -72,6 +75,10 @@ import DiscountInput from './components/DiscountInput.vue';
 
 const shopStore = useViurShopStore();
 const { fetchCart, addItem, state: cartState } = useCart();
+
+const props = defineProps({
+  showFeatures: {type: Boolean, default: true},
+})
 
 const state = reactive({
   items: computed(() => { return shopStore.state.cartList }),
