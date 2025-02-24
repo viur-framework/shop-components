@@ -27,6 +27,11 @@
           label="placeholder">
     </slot>
 
+    <slot boneName="address_addition"
+          :widget="getBoneWidget(formState.structure['address_addition']['type'])"
+          label="placeholder">
+    </slot>
+
     <slot
         boneName="zip_code"
         :widget="getBoneWidget(formState.structure['zip_code']['type'])"
@@ -92,6 +97,10 @@ const formUpdate = inject("formUpdate");
 
 :deep(.wrapper-bone-street_number){
   grid-column: 4 / span 1;
+}
+
+:deep(.wrapper-bone-address_addition){
+  grid-column: 1 / span 4;
 }
 
 :deep(.wrapper-bone-zip_code){
