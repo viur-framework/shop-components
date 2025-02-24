@@ -1,4 +1,12 @@
 <template>
+    <slot name="top_actions" v-if="shopStore.state.topActions"
+        nextName="weiter"
+        :activefunction="()=>true"
+        :nextfunction="nextStep"
+        :hint="$t('messages.order_check_later')"
+    >
+    </slot>
+
     <div class="viur-shop-user-data-headline">
         {{ $t("skeleton.address.address_type.billing") }}
     </div>

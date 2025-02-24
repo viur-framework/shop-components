@@ -1,4 +1,11 @@
 <template>
+  <slot name="top_actions"  v-if="shopStore.state.topActions"
+      nextName="weiter"
+      :activefunction="()=>shopStore.state.order?.['payment_provider']"
+      :nextfunction="()=>true"
+  >
+  </slot>
+
   <sl-radio-group :value="state.selection">
     <sl-details-group>
 

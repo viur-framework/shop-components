@@ -13,8 +13,27 @@
             <sl-tab-panel :name="name">
                 <template v-if="tab?.['loaded']">
 
-
                     <component :is="tab['component']" :params="tab['params']">
+                      <template #top_actions="slotProps">
+                        <sl-bar class="viur-shop-stepper-bar">
+                          <div v-if="slotProps.left" slot="left" :id="slotProps.left"></div>
+                          <div slot="right">
+                            <span v-if="slotProps.hint" class="hint">{{ slotProps.hint }}</span>
+                            <sl-button
+                              :class="{'action-button-hint':slotProps.hint}"
+                              variant="success"
+                              size="large"
+                              :disabled="active(slotProps)"
+                              @click="nextStep(slotProps)"
+                              :loading="tab['validating']"
+                            >
+                              {{slotProps.nextName}}
+                              <sl-icon slot="suffix" name="chevron-right"></sl-icon>
+                            </sl-button>
+                          </div>
+                        </sl-bar>
+                      </template>
+
                       <template #['template_'+name]>
                         <slot :name="'template_'+name"></slot>
                       </template>

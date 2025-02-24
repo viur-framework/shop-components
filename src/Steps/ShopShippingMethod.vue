@@ -1,4 +1,11 @@
 <template>
+  <slot name="top_actions"  v-if="shopStore.state.topActions"
+        nextName="weiter"
+        :activefunction="()=>shopStore.state.cartRoot?.['shipping']"
+        :nextfunction="()=>nextStep"
+    >
+    </slot>
+
   <loading-handler :isLoading="shippingState.isLoading" :hasError="shippingState.hasError" :errorMessage="shippingState.errorMessage">
 
     <card-selector :options="shippingState.shippingData"

@@ -20,6 +20,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             return `${state.hostUrl}/json/${state.moduleName}/api`
         }),
         debug:false,
+        topActions:false,
         //default Tabs
         tabs:{
             cart: {
@@ -243,6 +244,9 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         })
     }
 
+
+
+    
     return {
         state,
         navigateToTab,
@@ -253,6 +257,5 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         checkoutOrder,
         addTab,
         removeTab
-
     }
 })

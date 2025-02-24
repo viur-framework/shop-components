@@ -88,13 +88,15 @@ const props = defineProps({
       default:'shop'
     },
     debug:false,
-    showCartNodes:false
+    showCartNodes:false,
+    topActions:false
 })
 
 
 onBeforeMount(()=>{
     shopStore.state.showNodes = props.showCartNodes
     shopStore.state.debug = props.debug
+    shopStore.state.topActions = props.topActions
     if(props.tabs){
         shopStore.state.tabs = props.tabs
     }
