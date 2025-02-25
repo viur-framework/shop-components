@@ -37,10 +37,10 @@
           </sl-bar>
         </template>
       </dialog-Button>
-      <sl-button slot="prefix" v-else @click="changeAmount(item.quantity-=1)">
+      <sl-button slot="prefix" v-else :disabled="!edit" @click="changeAmount(item.quantity-=1)">
         <sl-icon name="dash-lg"></sl-icon>
       </sl-button>
-      <sl-button slot="suffix" @click="changeAmount(item.quantity+=1)">
+      <sl-button slot="suffix" :disabled="!edit" @click="changeAmount(item.quantity+=1)">
         <sl-icon name="plus-lg"></sl-icon>
       </sl-button>
     </sl-input>
