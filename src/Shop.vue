@@ -1,5 +1,5 @@
 <template>
-    <div class="bind viur-shop-wrap" v-bind="$attrs" v-if="shopStore.state.cartReady && shopStore.state.orderReady">
+    <div class="bind viur-shop-wrap" v-bind="$attrs" v-if="shopStore.state.cartReady && shopStore.state.orderReady && state.translationsLoaded">
         <div class="viur-shop-stepper-wrap"
             :class="{ 'full-width': (!summary || summary==='bottom' || shopStore.state.currentTab==='complete') }"
         >
@@ -61,13 +61,14 @@
 
 
 <script setup>
-import { onBeforeMount, watch } from 'vue';
+import { onBeforeMount, watch, reactive } from 'vue';
 import ShopOrderStepper from './ShopOrderStepper.vue'
 import ShopSummary from "./ShopSummary.vue"
 import {useViurShopStore} from './shop'
 import { useUrlSearchParams } from '@vueuse/core'
 import { useOrder } from './composables/order';
 import { useCart } from './composables/cart';
+import {getTranslations} from './utils'
 
 
 const shopStore = useViurShopStore()
@@ -87,13 +88,30 @@ const props = defineProps({
     modulename:{
       default:'shop'
     },
-    debug:false,
-    showCartNodes:false,
-    topActions:false
+    debug:{
+      default:false
+    },
+    showCartNodes:{
+      default:false
+    },
+    topActions:{
+      default:false
+    },
+    language:{
+      default:"de"
+    }
+})
+
+const state = reactive({
+  translationsLoaded:false
 })
 
 
 onBeforeMount(()=>{
+    getTranslations([props.language], "viur.shop.*").then((resp)=>{
+      state.translationsLoaded = true
+    }) 
+    shopStore.state.language = props.language
     shopStore.state.showNodes = props.showCartNodes
     shopStore.state.debug = props.debug
     shopStore.state.topActions = props.topActions

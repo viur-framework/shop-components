@@ -1,4 +1,9 @@
 import {Request} from '@viur/vue-utils'
+import {useTranslations} from "@viur/vue-utils/utils/translations"
+import { de_translations, en_translations } from "@viur/vue-utils";
+import en from "./translations/en"
+import de from "./translations/de"
+import fr from "./translations/fr"
 
 export function uuid() {
   return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
@@ -20,29 +25,25 @@ export function struct2dict(structure) {
   return result;
 }
 
-export async function getTranslations(languages=["de"],pattern=null){
-  // fetch translations from server
-  let retVal = languages.reduce((acc,item)=>{acc[item]={}; return acc;},{})
-  try {
-    let dataObj = {languages:languages}
-    if(pattern){
-      dataObj['pattern'] = pattern
-    }
-
-    let translations = await Request.get("/json/_translation/get_public",{dataObj:dataObj})
-    const data = await translations.json()
-    for (let country in data) {
-      data[country] = Object.fromEntries(
-        Object.entries(data[country]).map(
-            ([key, value], idx) => [key, value.replaceAll('{{', '{').replaceAll('}}', '}').replace(/([@$|])/g, '{\'$1\'}')],
-        ),
-      )
-    }
-    retVal = data
-  }catch(error){
-    console.log("No Translation from server", error)
+export function getTranslations(languages="de", pattern=null){
+  if (!Array.isArray(languages)){
+    languages = [languages]
   }
-  return retVal
+
+  const {fetchTranslations, updateLocaleMessages} = useTranslations()
+  let default_messages={
+    "de":{ ...de_translations, ...de },
+    "en":{ ...en_translations, ...en },
+    "fr":{ ...fr },
+
+  }
+
+  for(const loc of languages){
+    if (default_messages?.[loc]){
+      updateLocaleMessages(loc, default_messages[loc])
+    }
+  }
+  return fetchTranslations(languages,pattern)
 }
 
 export function getImage(image) {

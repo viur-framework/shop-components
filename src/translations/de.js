@@ -60,5 +60,7 @@ export default {
         wait_for_payment:"Warte auf Zahlung...",
         remove_article_from_cart:"Wollen sie den Artikel wirklich entfernen?",
         order_check_later:"Sie können Ihre Bestellung am Ende noch einmal überprüfen.",
-    }
+    },
+    "skeleton.address.address_type.billing":"Rechnungsadresse",
+    "skeleton.address.address_type.shipping":"Lieferadresse",
 }
