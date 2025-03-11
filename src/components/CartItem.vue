@@ -15,7 +15,10 @@
     <h5 v-if="item.shop_art_no_or_gtin" class="viur-shop-cart-leaf-artno" slot="header">
       {{ getValue(item.shop_art_no_or_gtin) }}
     </h5>
-    <a class="viur-shop-cart-leaf-headline-link" :href="item.article.dest.view_url" v-if="item.article?.dest?.view_url">
+    <a class="viur-shop-cart-leaf-headline-link"
+       v-if="item.article?.dest?.shop_view_url ?? item.article?.dest?.view_url"
+       :href="item.article?.dest?.shop_view_url ?? item.article?.dest?.view_url"
+    >
       <h4
         class="viur-shop-cart-leaf-headline headline"
         v-html="getValue(item.shop_name)"
