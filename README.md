@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://github.com/viur-framework/viur-artwork/raw/main/icons/icon-shop-components.svg" height="196" alt="A hexagonal logo of Scriptor" title="Shop Components logo"/>
+    <img src="https://github.com/viur-framework/viur-artwork/raw/main/icons/icon-shop-components.svg" height="196" alt="A hexagonal logo of Shop Components" title="Shop Components logo"/>
     <h1>ViUR Shop Components</h1>
     <a href="https://www.npmjs.com/package/@viur/shop-components">
         <img alt="Badge showing current NPM version" title="PyPI" src="https://img.shields.io/npm/v/@viur/shop-components">
