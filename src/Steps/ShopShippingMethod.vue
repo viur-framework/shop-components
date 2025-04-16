@@ -17,8 +17,8 @@
 
           <sl-format-number lang="de" type="currency" currency="EUR" :value=" option['dest']['shipping_cost']" v-if="option['dest']['shipping_cost']">
           </sl-format-number>
-          <span v-else>{{ $t('shop.free_shipping') }}</span>
-          {{ option['dest']['name'] }} - {{$t('shop.deliverytime')}}: {{ option['dest']['delivery_time_range'] }} {{  $t('shop.day',option['dest']['delivery_time_max'] - option['dest']['delivery_time_min']) }}
+          <span v-else>{{ $t('viur.shop.free_shipping') }}</span>
+          {{ option['dest']['name'] }} - {{$t('viur.shop.deliverytime')}}: {{ option['dest']['delivery_time_range'] }} {{  $t('viur.shop.day',option['dest']['delivery_time_max'] - option['dest']['delivery_time_min']) }}
       </template>
     </card-selector>
   </loading-handler>
