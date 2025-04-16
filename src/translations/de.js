@@ -27,7 +27,7 @@ export default {
       'add_discount_placeholder': 'Dein Rabattcode',
       'use_shipping_as_billing_address': 'Lieferung zur Rechnungsadresse',
       'no_valid_shipping_found': 'Keine passenden Versandarten gefunden.',
-      'error_message': 'Eine Fehler ist aufgetreten.',
+      'error_message': 'Ein Fehler ist aufgetreten.',
       'free_shipping': 'Versandkostenfrei',
       'proceed-checkout': 'Zur Kasse gehen',
       'summary_headline': 'Zusammenfassung',
