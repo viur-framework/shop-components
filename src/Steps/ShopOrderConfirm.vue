@@ -1,6 +1,6 @@
 <template>
     <div class="list">
-    <h2 class="viur-shop-cart-headline headline">{{ $t('shop.check_order')}}</h2>
+    <h2 class="viur-shop-cart-headline headline">{{ $t('viur.shop.check_order')}}</h2>
     <div class="viur-shop-cart-address-wrap">
       <div class="viur-shop-cart-address">
         <div class="viur-shop-user-data-headline">
@@ -72,7 +72,7 @@
   </component>
 
   <div class="wrapper">
-    <sl-button size="small" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">{{ $t('shop.order_pay') }}</sl-button>
+    <sl-button size="small" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">{{ $t('viur.shop.order_pay') }}</sl-button>
   </div>
 
   <template v-if="shopStore.state.order?.['payment_provider'] !== null && shopStore.state.order?.['payment_provider'].startsWith('unzer-')">

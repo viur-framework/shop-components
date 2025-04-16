@@ -1,6 +1,6 @@
 <template>
   <LoadingHandler :isLoading="state.loading">
-    <h2 class="viur-shop-cart-sidebar-headline headline" v-html="$t('shop.summary_headline')"></h2>
+    <h2 class="viur-shop-cart-sidebar-headline headline" v-html="$t('viur.shop.summary_headline')"></h2>
     <div class="viur-shop-cart-sidebar-summary">
       <div class="viur-shop-cart-sidebar-summary-item" v-for="item in state.items">
         <template v-if="(!shopStore.state.showNodes && item.skel_type === 'leaf') || shopStore.state.showNodes">
@@ -18,17 +18,17 @@
     </div>
     <template v-if="showFeatures">
       <div class="viur-shop-cart-sidebar-info">
-      <span v-html="$t('shop.summary_subtotal')"></span>
+      <span v-html="$t('viur.shop.summary_subtotal')"></span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.cartTotal">
       </sl-format-number>
     </div>
     <div class="viur-shop-cart-sidebar-info">
-      <span v-html="$t('shop.summary_shipping_total')"></span>
+      <span v-html="$t('viur.shop.summary_shipping_total')"></span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.shippingTotal">
       </sl-format-number>
     </div>
     <div class="viur-shop-cart-shipping-item" v-if="shopStore.state.order?.cart?.dest?.shipping">
-      <span v-html="$t('shop.summary_delivery_time')"></span>
+      <span v-html="$t('viur.shop.summary_delivery_time')"></span>
       <span>
         {{
           shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range ?
@@ -38,7 +38,7 @@
       </span>
     </div>
     <div class="viur-shop-cart-sidebar-info" v-if="shopStore.state.cartRoot.discount">
-      <span v-html="$t('shop.summary_discount')"></span>
+      <span v-html="$t('viur.shop.summary_discount')"></span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.discount">
       </sl-format-number>
     </div>
@@ -49,12 +49,12 @@
     </div>
 
     <div class="viur-shop-cart-sidebar-info viur-shop-cart-sidebar-info--total">
-      <span v-html="$t('shop.summary_total')"></span>
+      <span v-html="$t('viur.shop.summary_total')"></span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.total">
       </sl-format-number>
     </div>
     <div class="viur-shop-cart-sidebar-info " v-for="vatObj in state.vat">
-      <span v-html="$t('shop.summary_vat', {'percentage':calc_percent(vatObj.percentage) })"></span>
+      <span v-html="$t('viur.shop.summary_vat', {'percentage':calc_percent(vatObj.percentage) })"></span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="vatObj.value">
       </sl-format-number>
     </div>

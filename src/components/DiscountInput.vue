@@ -23,12 +23,12 @@
   <sl-button-group v-else>
     <sl-input
       class="viur-shop-discount-input"
-      :placeholder="$t('shop.add_discount_placeholder')"
+      :placeholder="$t('viur.shop.add_discount_placeholder')"
       v-model="state.code"
       @keypress.enter="addDiscountAction()"
     >
     </sl-input>
-    <sl-button @click="addDiscountAction()" :loading="state.loading">{{ $t('shop.add_discount') }}</sl-button>
+    <sl-button @click="addDiscountAction()" :loading="state.loading">{{ $t('viur.shop.add_discount') }}</sl-button>
   </sl-button-group>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <slot name="top_actions"  v-if="shopStore.state.topActions"
-        :nextName="$t('shop.proceed-checkout')"
+        :nextName="$t('viur.shop.proceed-checkout')"
         :activefunction="()=>state.items.length>0"
         :nextfunction="nextStep"
     >
@@ -16,7 +16,7 @@
         </div>
         <shop-alert v-else variant="info" duration="Infinity">
             <template #alertMsg>
-                {{ $t('shop.cart_empty') }}
+                {{ $t('viur.shop.cart_empty') }}
             </template>
         </shop-alert>
     </loading-handler>
@@ -25,7 +25,7 @@
     </slot>
 
     <slot
-        :nextName="$t('shop.proceed-checkout')"
+        :nextName="$t('viur.shop.proceed-checkout')"
         :activefunction="()=>state.items.length>0"
         :nextfunction="nextStep"
     >

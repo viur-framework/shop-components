@@ -1,24 +1,24 @@
 <template>
   <div>
     <h1 class="viur-shop-success-headline headline">
-      {{ $t('shop.order_thanks') }}
+      {{ $t('viur.shop.order_thanks') }}
     </h1>
-    <p class="paragraph"><strong>{{ $t('shop.order_number') }}:</strong> {{ shopStore.state.order?.["order_uid"] }}</p>
-    <p class="paragraph" v-html=" $t('shop.order_message')">
+    <p class="paragraph"><strong>{{ $t('viur.shop.order_number') }}:</strong> {{ shopStore.state.order?.["order_uid"] }}</p>
+    <p class="paragraph" v-html=" $t('viur.shop.order_message')">
     </p>
 
     <p class="paragraph" v-if="shopStore.state.order?.['is_paid']">
-      {{ $t('shop.order_paid') }}
+      {{ $t('viur.shop.order_paid') }}
     </p>
 
     <p class="paragraph" v-if="shopStore.state.order?.['is_rts']">
-      {{ $t('shop.order_ready_to_ship') }}
+      {{ $t('viur.shop.order_ready_to_ship') }}
     </p>
 
     <slot name="template_complete">
     </slot>
-    
-    <sl-details :summary="$t('shop.order_summary')">
+
+    <sl-details :summary="$t('viur.shop.order_summary')">
       <shop-summary ></shop-summary>
     </sl-details>
   </div>

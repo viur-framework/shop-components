@@ -7,7 +7,7 @@ import { useViurShopStore } from '../shop'
 export function useShipping() {
     const i18n = useI18n()
     const shopStore = useViurShopStore()
-    const defaultErrorMessage = i18n.t('shop.error_message')
+    const defaultErrorMessage = i18n.t('viur.shop.error_message')
     const state = reactive({
         isLoading:false,
         isUpdating:false,
