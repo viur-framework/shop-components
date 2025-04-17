@@ -1,6 +1,6 @@
 {
   "name": "@viur/shop-components",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Frontend Vue components for the shop module of ViUR",
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "@viur/shoelace": "^1.0.10-v2.20.0",
     "@viur/vue-utils": "^2.2.6",
     "@vueuse/core": "^13.1.0",
-    "pinia": "^3.0.1",
+    "pinia": "^2.3.1",
     "vue": "^3.5.13",
     "vue-i18n": "^11.1.3",
     "vue-router": "^4.5.0"
