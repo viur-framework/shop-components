@@ -34,7 +34,7 @@
     ></div>
 
     <div class="viur-shop-cart-leaf-quantity">
-      <div class="viur-shop-cart-leaf-label">{{$t('shop.quantity')}}</div>
+      <div class="viur-shop-cart-leaf-label">{{$t('viur.shop.quantity')}}</div>
       <sl-input
           :disabled="!edit"
           class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
@@ -65,7 +65,7 @@
     </div>
 
     <div class="viur-shop-cart-leaf-unitprice">
-      <div class="viur-shop-cart-leaf-label">{{$t('shop.unit_price')}}</div>
+      <div class="viur-shop-cart-leaf-label">{{$t('viur.shop.unit_price')}}</div>
       <sl-format-number
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice"
         lang="de"
@@ -77,7 +77,7 @@
     </div>
 
     <div class="viur-shop-cart-leaf-availability">
-      <div class="viur-shop-cart-leaf-label">{{ $t('shop.availability') }}</div>
+      <div class="viur-shop-cart-leaf-label">{{ $t('viur.shop.availability') }}</div>
       <div class="availability"
            :class="`availability--${item.shop_availability}`"
       >
@@ -86,7 +86,7 @@
     </div>
 
     <div class="viur-shop-cart-leaf-price">
-      <div class="viur-shop-cart-leaf-label">{{ $t('shop.total_price') }}</div>
+      <div class="viur-shop-cart-leaf-label">{{ $t('viur.shop.total_price') }}</div>
       <sl-format-number
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price"
         lang="de"

@@ -14,9 +14,9 @@
     </address-form>
 
     <sl-switch class="viur-shop-user-data-switch" :checked="addressState.billingIsShipping" @sl-change="switchAddresses">
-      {{  $t('shop.use_shipping_as_billing_address') }}
+      {{  $t('viur.shop.use_shipping_as_billing_address') }}
     </sl-switch>
-    
+
     <div v-show="!addressState.billingIsShipping">
       <div class="viur-shop-user-data-headline">
         {{ $t("skeleton.address.address_type.shipping") }}
