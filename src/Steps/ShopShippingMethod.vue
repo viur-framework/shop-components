@@ -29,7 +29,7 @@
   <slot
         nextName="weiter"
         :activefunction="()=>shopStore.state.cartRoot?.['shipping']"
-        :nextfunction="()=>nextStep"
+        :nextfunction="nextStep"
     >
     </slot>
 </template>
