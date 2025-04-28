@@ -57,7 +57,7 @@ import { useI18n } from "vue-i18n"
 
     function changeEvent(event) {
       if(emailBone.value.value!==emailBone2.value.value){
-        emailBone.value.setCustomValidity(i18n.t("messages.password_equal_error"))
+        emailBone.value.setCustomValidity(i18n.t("messages.email_equal_error"))
         emailBone.value.reportValidity()
         if (!event.target.classList.contains('widget-bone-email-repeat')){
           emit("change", props.name, event.target.value, props.lang, props.index,false)

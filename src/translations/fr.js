@@ -54,7 +54,7 @@ export default {
     wait_for_payment: 'Warte auf Zahlung...',
     remove_article_from_cart: 'Désirez-vous vraiment supprimer cet article du panier?',
     order_check_later: 'Vous pourrez revérifier vos données avant de valider votre commande.',
-    password_equal_error: "Les adresses e-mail ne correspondent pas.",
+    email_equal_error: "Les adresses e-mail ne correspondent pas.",
     phone_equal_error: "Les numéros de téléphone ne correspondent pas."
   },
 };
