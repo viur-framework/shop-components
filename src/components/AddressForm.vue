@@ -7,7 +7,7 @@
         :skelkey="state.skelkey"
         :values="{'address_type':state.address_type, 'customer_type':'private'}"
         :useCategories="false"
-        :layout="AddressFormLayout"
+        :layout="shopStore.state.UserDataLayout"
         @change="formChange"
         :default-language="state.language"
         error-style="decent"
@@ -18,7 +18,6 @@
 <script setup>
 import {computed, reactive, watch} from 'vue'
 import LoadingHandler from './LoadingHandler.vue';
-import AddressFormLayout from './AddressFormLayout.vue';
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import {useViurShopStore} from "../shop";
 import {useAddress} from "../composables/address";

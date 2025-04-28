@@ -3,6 +3,7 @@ import { reactive, computed, watch, shallowRef } from "vue";
 import {ShopCart, ShopUserDataGuest, ShopShippingMethod, ShopPaymentProvider, ShopOrderComplete, ShopOrderConfirm} from './Steps/index'
 import { defineStore } from "pinia";
 import { useUrlSearchParams } from '@vueuse/core'
+import AddressFormLayout from './components/AddressFormLayout.vue';
 
 import { Request } from "@viur/vue-utils";
 
@@ -119,8 +120,8 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
 
 
         //checkout
-        paymentProviderData:null
-
+        paymentProviderData:null,
+        UserDataLayout: shallowRef(AddressFormLayout)
     })
 
     function addTab({name, component, displayname, iconname, iconlibrary,active})
