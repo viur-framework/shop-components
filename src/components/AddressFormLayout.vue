@@ -52,12 +52,12 @@
   </slot>
 
   <slot boneName="email"
-        :widget="getBoneWidget(formState.structure['email']['type'])"
+        :widget="EmailCheckBone"
         label="placeholder">
   </slot>
 
   <slot boneName="phone"
-        :widget="getBoneWidget(formState.structure['phone']['type'])"
+        :widget="PhoneCheckBone"
         label="placeholder">
   </slot>
 
@@ -66,6 +66,8 @@
 <script setup>
 import { inject } from "vue";
 import { getBoneWidget } from "@viur/vue-utils/bones/edit";
+import EmailCheckBone from "../custombones/EmailCheckBone.vue";
+import PhoneCheckBone from "../custombones/PhoneCheckBone.vue";
 
 const formState = inject("formState");
 const formUpdate = inject("formUpdate");
@@ -112,6 +114,13 @@ const formUpdate = inject("formUpdate");
 }
 
 :deep(.wrapper-bone-country){
+  grid-column: 1 / span 4;
+}
+:deep(.wrapper-bone-email){
+  grid-column: 1 / span 4;
+}
+
+:deep(.wrapper-bone-phone){
   grid-column: 1 / span 4;
 }
 
