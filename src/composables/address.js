@@ -47,13 +47,16 @@ export const useAddress = defineStore("useAddressStore", () => {
       state[`${type}IsUpdating`] = true
       return state[`${type}Form`].sendData().then(async (resp)=>{
         let data = await resp.json()
-        
+
         if (['addSuccess','editSuccess'].includes(data['action'])){
           state[`${type}Data`] = data['values']
           await updateAddresses(type, billingIsShipping)
         }
         state[`${type}IsUpdating`] = undefined
         return data
+      }).catch(error=>{
+        state[`${type}Form`].state.loading = false
+        return {'action':"error"}
       })
     }
 

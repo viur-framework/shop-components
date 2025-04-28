@@ -88,12 +88,11 @@ async function nextStep(){
     }
 
     let result = await saveAddresses(addressState.billingIsShipping)
-    if (result['action'] && result['action'].endsWith('Success')){
+    if (result?.['action'] && result['action'].endsWith('Success')){
       return true
     }
     return false
   } catch(error){
-    console.log(error)
     return false
   }
 }
