@@ -56,11 +56,9 @@ import { useI18n } from "vue-i18n"
     const emailBone2 = ref(null)
 
     function changeEvent(event) {
-      console.dir(event.target)
       if(emailBone.value.value!==emailBone2.value.value){
         emailBone.value.setCustomValidity(i18n.t("messages.password_equal_error"))
         emailBone.value.reportValidity()
-        console.log(event.target.classList)
         if (!event.target.classList.contains('widget-bone-email-repeat')){
           emit("change", props.name, event.target.value, props.lang, props.index,false)
         }
@@ -68,9 +66,6 @@ import { useI18n } from "vue-i18n"
         emailBone.value.setCustomValidity('')
         emit("change", props.name, event.target.value, props.lang, props.index,true)
       }
-
-
-
     }
 
     watchEffect(() => {

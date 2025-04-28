@@ -91,7 +91,6 @@ import { useI18n } from "vue-i18n"
       if(stringBone.value.value!==stringBone2.value.value){
         stringBone.value.setCustomValidity(i18n.t("messages.phone_equal_error"))
         stringBone.value.reportValidity()
-        console.log(event.target.classList)
         if (!event.target.classList.contains('widget-bone-string-repeat')){
           emit("change", props.name, event.target.value, props.lang, props.index,false)
         }
