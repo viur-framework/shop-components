@@ -13,7 +13,7 @@
                     @change="updateShippingMethod"
     >
       <template v-slot="{option, index}">
-          <img slot="image">
+          <!--<img slot="image">-->
 
           <sl-format-number lang="de" type="currency" currency="EUR" :value=" option['dest']['shipping_cost']" v-if="option['dest']['shipping_cost']">
           </sl-format-number>

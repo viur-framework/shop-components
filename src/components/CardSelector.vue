@@ -50,19 +50,24 @@ onMounted(()=>{
 </script>
 
 <style scoped>
-sl-card{
-    width: 100%;
-    &[selected]::part(base){
-        border:1px solid var(--sl-color-primary-500);
-        box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-input-focus-ring-color);
-    }
+sl-radio-group {
+  margin-top: var(--ignt-spacing-small);
+}
 
-   &::part(body){
-     display:flex;
-     flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-   }
+sl-card {
+  width: calc(100% - 6px);
+  margin-left: 3px;
+  &[selected]::part(base){
+    border:1px solid var(--sl-color-primary-500);
+    box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-input-focus-ring-color);
+  }
+
+  &::part(body){
+    display:flex;
+    flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+  }
 }
 
 </style>

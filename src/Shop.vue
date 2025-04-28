@@ -3,7 +3,7 @@
         <div class="viur-shop-stepper-wrap"
             :class="{ 'full-width': (!summary || summary==='bottom' || shopStore.state.currentTab==='complete') }"
         >
-            <shop-order-stepper >
+            <shop-order-stepper>
               <template #template_cart>
                 <slot name="template_cart"></slot>
               </template>
@@ -53,7 +53,7 @@
           paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>
 
           OrderObject: {{shopStore.state.order}}
-        
+
       </sl-details>
     </template>
     <div id="dialogs"></div>
