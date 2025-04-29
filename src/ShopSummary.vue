@@ -27,7 +27,7 @@
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.shippingTotal">
       </sl-format-number>
     </div>
-    <div class="viur-shop-cart-shipping-item" v-if="shopStore.state.order?.cart?.dest?.shipping">
+    <div class="viur-shop-cart-sidebar-info viur-shop-cart-shipping-item" v-if="shopStore.state.order?.cart?.dest?.shipping">
       <span v-html="$t('viur.shop.summary_delivery_time')"></span>
       <span>
         {{
@@ -150,7 +150,7 @@ function calc_percent(val){
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  span {
+  span:first-of-type {
     margin-right: auto;
   }
 }

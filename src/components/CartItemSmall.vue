@@ -183,17 +183,18 @@ function removeArticle(){
   }
 
   .viur-shop-cart-leaf-article-number {
-    align-self: center;
+    align-self: flex-end;
     grid-column: span 2;
   }
 
   .viur-shop-cart-leaf-quantity {
-    align-self: center;
+    align-self: flex-end;
   }
 
   .viur-shop-cart-leaf-unitprice {
-    align-self: center;
+    align-self: flex-end;
     grid-column: 4 / span 1;
+    text-align: right;
   }
 
   .viur-shop-cart-leaf-label,

@@ -71,9 +71,9 @@
   <component :is="params['additionalComponent']" v-if="params['additionalComponent']" ref="additionalComponent">
   </component>
 
-  <div class="wrapper">
-    <sl-button size="small" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">{{ $t('viur.shop.order_pay') }}</sl-button>
-  </div>
+  <sl-bar class="wrapper">
+    <sl-button slot="right" size="large" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">{{ $t('viur.shop.order_pay') }}</sl-button>
+  </sl-bar>
 
   <template v-if="shopStore.state.order?.['payment_provider'] !== null && shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
     <sl-dialog v-if="state.paymentPopup" label="Zahlung" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
