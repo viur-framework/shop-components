@@ -1,6 +1,6 @@
 <template>
     <slot name="top_actions" v-if="shopStore.state.topActions"
-        nextName="weiter"
+        :nextName="$t('viur.shop.next')"
         :activefunction="()=>true"
         :nextfunction="nextStep"
         :hint="$t('messages.order_check_later')"
@@ -32,7 +32,7 @@
     </slot>
 
     <slot
-        nextName="weiter"
+        :nextName="$t('viur.shop.next')"
         :activefunction="()=>true"
         :nextfunction="nextStep"
         :hint="$t('messages.order_check_later')"

@@ -76,7 +76,7 @@
   </sl-bar>
 
   <template v-if="shopStore.state.order?.['payment_provider'] !== null && shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
-    <sl-dialog v-if="state.paymentPopup" label="Zahlung" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
+    <sl-dialog v-if="state.paymentPopup" :label="$t('viur.shop.order_pay')" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
         <payment-provider-unzer @cancel="paymentCanceled"></payment-provider-unzer>
     </sl-dialog>
   </template>

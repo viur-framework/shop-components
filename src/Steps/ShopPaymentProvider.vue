@@ -1,6 +1,6 @@
 <template>
   <slot name="top_actions"  v-if="shopStore.state.topActions"
-      nextName="weiter"
+      :nextName="$t('viur.shop.next')"
       :activefunction="()=>shopStore.state.order?.['payment_provider']"
       :nextfunction="()=>true"
   >
@@ -27,7 +27,7 @@
   </slot>
 
   <slot
-      nextName="weiter"
+      :nextName="$t('viur.shop.next')"
       :activefunction="()=>shopStore.state.order?.['payment_provider']"
       :nextfunction="()=>true"
   >
