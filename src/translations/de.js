@@ -61,6 +61,6 @@ export default {
     remove_article_from_cart: 'Wollen sie den Artikel wirklich entfernen?',
     order_check_later: 'Sie können Ihre Bestellung am Ende noch einmal überprüfen.',
     email_equal_error: 'E-Mail-Adressen stimmen nicht überein.',
-    phone_equal_error: "Telefonnummern stimmen nicht überein."
+    phone_equal_error: 'Telefonnummern stimmen nicht überein.',
   },
 };

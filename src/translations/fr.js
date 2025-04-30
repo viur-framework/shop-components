@@ -46,6 +46,12 @@ export default {
       'discount_minimum_not_reached': 'Le montant minimum de commande de {{minimum_order_value}} € n’a pas été atteint.',
       'discount_no_sale_article': 'Bon d’achat non cumulable avec d’autres promotions en cours.',
       'discount_scope_not_satisfied': 'Le code promo n’est pas applicable pour ce panier / cet ou ces article(s).',
+      'order_step_cart': 'Panier',
+      'order_step_data': 'Données',
+      'order_step_shipping': 'Mode de livraison',
+      'order_step_payment': 'Mode de paiement',
+      'order_step_verify': 'Vérifier la commande',
+      'order_step_complete': 'Commande terminée',
     },
   },
   messages: {
@@ -54,7 +60,7 @@ export default {
     wait_for_payment: 'Warte auf Zahlung...',
     remove_article_from_cart: 'Désirez-vous vraiment supprimer cet article du panier?',
     order_check_later: 'Vous pourrez revérifier vos données avant de valider votre commande.',
-    email_equal_error: "Les adresses e-mail ne correspondent pas.",
-    phone_equal_error: "Les numéros de téléphone ne correspondent pas."
+    email_equal_error: 'Les adresses e-mail ne correspondent pas.',
+    phone_equal_error: 'Les numéros de téléphone ne correspondent pas.',
   },
 };
