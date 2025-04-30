@@ -65,7 +65,6 @@ onBeforeMount(()=>{
 async function nextStep(){
     try{
         let resp = await addOrUpdateOrder()
-        console.log(resp)
         return true
 
     } catch(error){

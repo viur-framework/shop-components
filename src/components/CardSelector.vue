@@ -37,7 +37,7 @@ function changeSelection(i){
         state.currentSelection = i
         selection.value = props.options[i]
     }
-    emits("change", selection.value)
+    emits("change", props.options[i])
 }
 
 onMounted(()=>{
