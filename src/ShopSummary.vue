@@ -94,11 +94,9 @@ const state = reactive({
   }),
   shippingTotal: computed(() => {
     let total = 0
-
-    // let hasOrder = Object.keys(shopStore.state.order).length ? true : false
-    // let hasShipping = Object.keys(shopStore.state.order.cart.dest.shipping).length ? true : false
-
-    if( shopStore.state?.order?.cart?.dest?.shipping?.dest?.shipping_cost > 0 ) {
+    if (shopStore.state.cartRoot.shipping?.dest?.shipping_cost>=0 ){
+      total += shopStore.state.cartRoot.shipping?.dest?.shipping_cost
+    }else if( shopStore.state?.order?.cart?.dest?.shipping?.dest?.shipping_cost) {
       total += shopStore.state.order.cart.dest.shipping.dest.shipping_cost
     }
 
