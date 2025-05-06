@@ -11,7 +11,7 @@
                       @change="optionChanged"
 
       >
-        
+
       </payment-option>
 
     </sl-details-group>
@@ -51,5 +51,7 @@ function optionChanged(type){
 </script>
 
 <style scoped>
-
+  sl-radio-group {
+    margin-bottom: var(--ignt-spacing-small);
+  }
 </style>

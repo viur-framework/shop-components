@@ -15,7 +15,7 @@ export default {
       'order_ready_to_ship': 'Ihre Bestellung ist fertig für den Versand.',
       'cart_empty': 'Es befinden sich noch keine Artikel im Warenkorb.',
       'order_summary': 'Bestellzusammenfassung',
-      'deliverytime': 'Lieferzeit',
+      'deliverytime': 'Voraussichtliche Lieferzeit',
       'day': 'Tag | Tage',
       'availability': 'Verfügbarkeit',
       'quantity': 'Anzahl',

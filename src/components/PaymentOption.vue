@@ -55,21 +55,25 @@
 </script>
 
 <style scoped>
-.payment-selection{
+sl-details {
+  margin-top: var(--ignt-spacing-small);
+}
+
+.payment-selection {
   display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+  width: 100%;
+
+  .start {
+    display: flex;
     align-items: center;
     flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: center;
-    justify-content: space-between;
-    width: 100%;
-
-    .start{
-      display: flex;
-      align-items: center;
-      flex-wrap: nowrap;
-      gap:10px;
-    }
+    gap:10px;
+  }
 }
 
 .simple::part(content){

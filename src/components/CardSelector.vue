@@ -51,12 +51,14 @@ onMounted(()=>{
 
 <style scoped>
 sl-radio-group {
-  margin-top: var(--ignt-spacing-small);
+  margin-bottom: var(--ignt-spacing-medium);
+  margin-top: var(--ignt-spacing-medium);
 }
 
 sl-card {
   width: calc(100% - 6px);
   margin-left: 3px;
+  margin-top: var(--ignt-spacing-small);
   &[selected]::part(base){
     border:1px solid var(--sl-color-primary-500);
     box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-input-focus-ring-color);

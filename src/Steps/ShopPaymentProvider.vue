@@ -68,3 +68,10 @@ onBeforeMount(()=>{
   })
 })
 </script>
+
+<style scoped>
+  sl-radio-group {
+    margin-bottom: var(--ignt-spacing-medium);
+    margin-top: var(--ignt-spacing-medium);
+  }
+</style>
