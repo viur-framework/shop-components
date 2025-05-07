@@ -25,6 +25,7 @@ export default {
       'payment': 'Paiement',
       'pay': 'Payer',
       'next': 'continuer',
+      'edit': 'éditer',
       'add_discount': 'Valider',
       'add_discount_placeholder': 'Votre code promo',
       'use_shipping_as_billing_address': 'Livraison à l\'adresse de facturation',
