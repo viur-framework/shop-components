@@ -110,7 +110,7 @@ const state = reactive({
 onBeforeMount(()=>{
     getTranslations([props.language], "viur.shop.*").then((resp)=>{
       state.translationsLoaded = true
-    }) 
+    })
     shopStore.state.language = props.language
     shopStore.state.showNodes = props.showCartNodes
     shopStore.state.debug = props.debug
@@ -213,6 +213,11 @@ watch(()=>shopStore.state.currentTab, (newVal,oldVal)=>{
     display: flex;
     flex-direction: column;
     grid-column: auto / span 12;
+
+    &.full-width {
+      grid-column: auto / span 12;
+    }
+
     @media (min-width: 1024px) {
       grid-column: auto / span var(--shop-main-columns);
     }
@@ -247,9 +252,7 @@ watch(()=>shopStore.state.currentTab, (newVal,oldVal)=>{
     grid-row-start: 2;
   }
 
-  .full-width {
-    grid-column: auto / span 12;
-  }
+
 
   .last-row {
     grid-row-start: 3;
