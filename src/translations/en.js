@@ -25,6 +25,7 @@ export default {
       'payment': 'Payment',
       'pay': 'Pay',
       'next': 'next',
+      'edit': 'edit',
       'add_discount': 'Add',
       'add_discount_placeholder': 'Your discount code',
       'use_shipping_as_billing_address': 'Use shipping address as billing address',

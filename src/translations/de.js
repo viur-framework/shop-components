@@ -25,6 +25,7 @@ export default {
       'payment': 'Zahlung',
       'pay': 'Bezahlen',
       'next': 'weiter',
+      'edit': 'bearbeiten',
       'add_discount': 'Hinzufügen',
       'add_discount_placeholder': 'Dein Rabattcode',
       'use_shipping_as_billing_address': 'Lieferung zur Rechnungsadresse',
