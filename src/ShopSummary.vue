@@ -27,16 +27,6 @@
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.shippingTotal">
       </sl-format-number>
     </div>
-    <div class="viur-shop-cart-sidebar-info viur-shop-cart-shipping-item" v-if="shopStore.state.order?.cart?.dest?.shipping">
-      <span v-html="$t('viur.shop.summary_delivery_time')"></span>
-      <span>
-        {{
-          shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range ?
-            shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range :
-            0
-        }} {{ shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range === 1 ? "Tag" : "Tage" }}
-      </span>
-    </div>
     <div class="viur-shop-cart-sidebar-info" v-if="shopStore.state.cartRoot.discount">
       <span v-html="$t('viur.shop.summary_discount')"></span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.discount">
@@ -58,6 +48,17 @@
       <sl-format-number lang="de" type="currency" currency="EUR" :value="vatObj.value">
       </sl-format-number>
     </div>
+    <div class="viur-shop-cart-sidebar-info viur-shop-cart-shipping-item" v-if="shopStore.state.order?.cart?.dest?.shipping">
+      <span v-html="$t('viur.shop.summary_delivery_time')"></span>
+      <span>
+        {{
+          shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range ?
+            shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range :
+            0
+        }} {{ shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range === 1 ? "Tag" : "Tage" }}
+      </span>
+    </div>
+
     <slot name="action-buttons" >
       <div class="viur-shop-cart-sidebar-btn-wrap" v-if="false && !shopStore.state.order?.['is_paid']">
         <sl-button variant="success" size="large">{{ $t("shop.summary_checkout") }}</sl-button>
