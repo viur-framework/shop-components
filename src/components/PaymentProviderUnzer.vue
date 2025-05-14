@@ -122,16 +122,14 @@ function initUnzerForm(){
 function paymentError(error){
   state.loading = false
   state.hasError = true
-  //reset session id
-  //state.paymentHandler[shopStore.state.order?.['payment_provider']].jsessionId = state.paymentHandler[shopStore.state.order?.['payment_provider']].requestJSessionId()
 }
 
 
 function submitFormToUnzer(){
     PaymentCheckPause()
     state.loading = true
+    state.hasError = false
     let paymenttarget = shopStore.state.order?.['payment_provider'].split("-")[1]
-    console.log(state.paymentHandler)
     //send to unzer
     state.paymentHandler[shopStore.state.order?.['payment_provider']].createResource().then((result)=>{
         Request.post(`${shopStore.state.shopUrl}/pp_unzer_${paymenttarget}/save_type`, {dataObj:{
