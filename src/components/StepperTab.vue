@@ -4,7 +4,7 @@
     slot="nav"
     :panel="tab"
     :disabled="!shopStore.state.tabs[tab]['active']"
-    @click="shopStore.navigateToTab(tab)"
+    @click="navigate"
   >
     <div class="viur-shop-order-step">
       <sl-icon
@@ -49,6 +49,12 @@ const props = defineProps({
     default:"-"
   }
 });
+
+function navigate(){
+  if (!shopStore.state.tabs[props.tab]['active']) return false
+  shopStore.navigateToTab(props.tab)
+}
+
 </script>
 
 <style scoped>
