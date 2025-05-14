@@ -16,6 +16,7 @@ export const usePayment = defineStore("usePaymentStore", () => {
   }
 
   const simpleProviders = [
+    "invoice",
     'prepayment',
     'unzer-paypal',
     'unzer-sofort'
@@ -46,7 +47,7 @@ export const usePayment = defineStore("usePaymentStore", () => {
           currentOption.description = provider[1]['descr']
           currentOption.icon = iconMap[provider[0]]
           currentOption.widget = "simple"
-         // if (simpleProviders.includes(provider[0])){
+          //if (simpleProviders.includes(provider[0])){
           //  currentOption.widget = "simple"  // payment provider musst be initialized later
           //}
 
