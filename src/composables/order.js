@@ -20,14 +20,16 @@ export function useOrder() {
     }
     function fetchOrder(key){
         state.isLoading = true
+
         return Request.post(shopStore.state.shopApiUrl+"/order_view",{dataObj:{
             "order_key": key
         }}).then(async (resp)=>{
-            let data = await resp.json()
+            let data = await resp.clone().json()
             updateOrderState(data['skel']['key'], data['skel'])
             shopStore.state.canCheckout = data["can_checkout"]
             shopStore.state.canOrder = data["can_order"]
             state.isLoading = false
+            return resp
         }).catch((error)=>{
             shopStore.state.order = null
             shopStore.state.orderKey = null
@@ -64,9 +66,10 @@ export function useOrder() {
           data["cart_key"] = shopStore.state.cartRoot['key']
       }
       return Request.post(url,{dataObj:removeUndefinedValues(data)}).then(async(resp)=>{
-          let data = await resp.json()
+          let data = await resp.clone().json()
           updateOrderState(data['key'], data)
           state.isUpdating=false
+          return resp
       }).then(async ( resp)=>{
           fetchOrder(shopStore.state.orderKey)
           return resp

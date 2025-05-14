@@ -78,13 +78,13 @@ export const useAddress = defineStore("useAddressStore", () => {
         let key = state[`${type}Data`]['key']
         if (type === 'shipping'){
             const {updateCart} = useCart()
-            updateCart({shipping_address_key:key})
+            await updateCart({shipping_address_key:key})
         }else if (type === 'billing'){
             const {addOrUpdateOrder} = useOrder()
             await addOrUpdateOrder({billing_address_key:key})
             if(billingIsShipping){
                 const {updateCart} = useCart()
-                updateCart({shipping_address_key:key})
+                await updateCart({shipping_address_key:key})
             }
         }
     }

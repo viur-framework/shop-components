@@ -66,7 +66,7 @@ function updateShippingMethod(selection){
 }
 
 async function nextStep(){
-  await fetchOrder(shopStore.state.orderKey)
+  return await fetchOrder(shopStore.state.orderKey)
 }
 
 onBeforeMount(()=>{

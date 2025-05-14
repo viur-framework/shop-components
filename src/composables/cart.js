@@ -61,8 +61,9 @@ export function useCart() {
         // fetch list of Rootnodes and saves the first one
 
         return Request.get(`${shopStore.state.shopUrl}/cart/listRootNodes`).then(async (resp)=>{
-            let data = await resp.json()
+            let data = await resp.clone().json()
             shopStore.state.cartRoot = data.filter(i=>i['cart_type']==='basket')?.[0] ? data.filter(i=>i['cart_type']==='basket')[0]:[]
+            return resp
         })
     }
 
@@ -71,8 +72,9 @@ export function useCart() {
         return Request.get(`${shopStore.state.shopApiUrl}/cart_list`,{dataObj:{
             cart_key:key
         }}).then(async( resp) =>{
-            let data = await resp.json()
+            let data = await resp.clone().json()
             shopStore.state.cartList=data
+            return resp
         })
     }
 
@@ -105,6 +107,7 @@ export function useCart() {
             dataObj: removeUndefinedValues(data)
         }).then(async (resp)=>{
             fetchCart()
+            return resp
         })
     }
 

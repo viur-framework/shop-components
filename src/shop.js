@@ -199,7 +199,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             Request.post(`${state.shopUrl}/order/checkout_start`,{dataObj:{
                 order_key:state.orderKey
             }}).then(async (resp)=>{
-                let data = await resp.json()
+                let data = await resp.clone().json()
                 state.paymentProviderData = data['payment']
 
                 if (!data['payment']){
@@ -212,6 +212,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                 }else{
                     resolve()
                 }
+                return resp
             }).catch(error=>{
                 reject(error)
             })
@@ -224,21 +225,23 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
             Request.post(`${state.shopUrl}/order/checkout_order`,{dataObj:{
                 order_key:state.orderKey
             }}).then(async (resp)=>{
-                let data = await resp.json()
+                let data = await resp.clone().json()
                 if (!resp.ok){
                     reject(data)
                 } else {
-                    state.order = data['skel']
-                    state.paymentProviderData = data['payment']
+                  state.order = data['skel']
+                  state.paymentProviderData = data['payment']
 
-                    if(state.order?.['is_ordered']){
-                        // order is finished
+                  if(state.order?.['is_ordered']){
+                      // order is finished
+                      useTimeoutFn(() => {
                         navigateToTab('complete')
-                    }
-                    resolve(data)
+                      }, 300)
+
+                  }
+                  resolve(data)
                 }
-
-
+                return resp
             }).catch(error=>{
                 reject(error)
             })
