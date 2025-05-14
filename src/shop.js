@@ -38,7 +38,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                 params:{},
                 displayName: "viur.shop.order_step_data", //Daten Eingeben
                 icon: { name: "card-list" },
-                active:computed(()=>!state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartList.length>0), //active if checkout not startet and cart is not empty
+                active:computed(()=>state.order && !state.order?.['is_checkout_in_progress'] && !state.order?.['is_ordered'] && state.cartList.length>0), //active if checkout not startet and cart is not empty
                 validating:false,
                 valid:false
             },
@@ -56,7 +56,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                 params:{},
                 displayName: "viur.shop.order_step_payment", //Zahlungsart auswählen
                 icon: { name: "credit-card" },
-                active:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order && state.cartRoot?.['shipping']), // we need a active order
+                active:computed(()=>!state.order?.['is_checkout_in_progress'] && state.order && state.cartRoot?.['shipping'] && state.cartRoot?.['shipping_address']), // we need a active order
                 validating:false,
                 valid:false
             },
