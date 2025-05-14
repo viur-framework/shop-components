@@ -55,7 +55,7 @@
           shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range ?
             shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range :
             0
-        }} {{ shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range === 1 ? "Tag" : "Tage" }}
+        }} {{ $t('viur.shop.day',state.shippingTime) }}
       </span>
     </div>
 
@@ -65,6 +65,7 @@
       </div>
     </slot>
   </LoadingHandler>
+
 </template>
 
 <script setup>
@@ -102,6 +103,14 @@ const state = reactive({
     }
 
     return total
+  }),
+  shippingTime:computed(()=>{
+    try{
+       let times = shopStore.state.order?.cart?.dest?.shipping?.dest?.delivery_time_range.split(" - ").map(x=>parseInt(x))
+       return times[1] - times[0]
+    }catch(e){
+      return "-"
+    }
   }),
   discount:computed(()=> (state.cartTotal - shopStore.state.cartRoot.total_discount_price)*-1),
   total: computed(() => {
