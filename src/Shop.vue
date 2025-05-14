@@ -3,7 +3,7 @@
         <div class="viur-shop-stepper-wrap"
             :class="{ 'full-width': (!summary || summary==='bottom' || shopStore.state.currentTab==='complete') }"
         >
-            <shop-order-stepper>
+            <shop-order-stepper >
               <template #template_cart>
                 <slot name="template_cart"></slot>
               </template>
@@ -213,11 +213,6 @@ watch(()=>shopStore.state.currentTab, (newVal,oldVal)=>{
     display: flex;
     flex-direction: column;
     grid-column: auto / span 12;
-
-    &.full-width {
-      grid-column: auto / span 12;
-    }
-
     @media (min-width: 1024px) {
       grid-column: auto / span var(--shop-main-columns);
     }
@@ -252,7 +247,9 @@ watch(()=>shopStore.state.currentTab, (newVal,oldVal)=>{
     grid-row-start: 2;
   }
 
-
+  .full-width {
+    grid-column: auto / span 12;
+  }
 
   .last-row {
     grid-row-start: 3;

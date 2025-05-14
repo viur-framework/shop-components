@@ -2,7 +2,7 @@
 import { reactive, computed, watch, shallowRef } from "vue";
 import {ShopCart, ShopUserDataGuest, ShopShippingMethod, ShopPaymentProvider, ShopOrderComplete, ShopOrderConfirm} from './Steps/index'
 import { defineStore } from "pinia";
-import { useUrlSearchParams } from '@vueuse/core'
+import { useUrlSearchParams,useTimeoutFn } from '@vueuse/core'
 import AddressFormLayout from './components/AddressFormLayout.vue';
 
 import { Request } from "@viur/vue-utils";
@@ -245,7 +245,30 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         })
     }
 
+    function tabValidation(nextfunction, navigatefunction){
+      state.tabs[state.currentTab]['valid']=false
+      state.tabs[state.currentTab]['validating']=true
 
+      //validate step, like send forms or something like this
+      Promise.resolve(nextfunction()).then((resp)=>{
+
+        if (resp){
+          state.tabs[state.currentTab]['valid']=true
+          state.tabs[state.currentTab]['validating']=false
+          useTimeoutFn(() => {
+            navigatefunction()
+          }, 300)
+
+        }else{
+          state.tabs[state.currentTab]['valid']=false
+          state.tabs[state.currentTab]['validating']=false
+        }
+      }).catch(error=>{
+        console.log(error)
+        state.tabs[state.currentTab]['valid']=false
+        state.tabs[state.currentTab]['validating']=false
+      })
+    }
 
 
     return {
@@ -253,6 +276,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         navigateToTab,
         navigateToNext,
         navigateToPrevious,
+        tabValidation,
         fetchMetaData,
         checkout,
         checkoutOrder,

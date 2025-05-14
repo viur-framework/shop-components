@@ -5,7 +5,7 @@
         ref="stepper"
     >
         <template v-for="(tab,name) in shopStore.state.tabs">
-            <StepperTab
+            <StepperTab v-show="shopStore.state.currentTab!=='complete'"
                 :tab="name"
             >
             </StepperTab>
@@ -89,26 +89,7 @@ onMounted(()=>{
 })
 
 function nextStep(obj){
-  shopStore.state.tabs[shopStore.state.currentTab]['valid']=false
-  shopStore.state.tabs[shopStore.state.currentTab]['validating']=true
-  //validate step, like send forms or something like this
-  Promise.resolve(obj.nextfunction()).then((resp)=>{
-    if (resp){
-      shopStore.state.tabs[shopStore.state.currentTab]['valid']=true
-      shopStore.state.tabs[shopStore.state.currentTab]['validating']=false
-      useTimeoutFn(() => {
-        shopStore.navigateToNext()
-      }, 300)
-
-    }else{
-      shopStore.state.tabs[shopStore.state.currentTab]['valid']=false
-      shopStore.state.tabs[shopStore.state.currentTab]['validating']=false
-    }
-  }).catch(error=>{
-    shopStore.state.tabs[shopStore.state.currentTab]['valid']=false
-    shopStore.state.tabs[shopStore.state.currentTab]['validating']=false
-  })
-  console.log("----")
+  shopStore.tabValidation(obj.nextfunction, shopStore.navigateToNext)
 }
 
 function active(obj){
