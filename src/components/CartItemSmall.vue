@@ -27,7 +27,7 @@
         :value="item.quantity"
         @sl-change="changeAmount($event.target.value)"
       >
-      <dialog-Button slot="prefix" class="decent" v-if="item.quantity===1" variant="danger" outline>
+      <dialog-Button slot="prefix" class="decent" v-if="item.quantity===1" variant="danger" outline :disabled="!edit">
         <sl-icon name="trash"></sl-icon>
         <template #dialog="{close}">
           {{ $t('messages.remove_article_from_cart') }}
