@@ -14,11 +14,15 @@
     >
       <template v-slot="{option, index}">
           <!--<img slot="image">-->
-
-          <sl-format-number lang="de" type="currency" currency="EUR" :value=" option['dest']['shipping_cost']" v-if="option['dest']['shipping_cost']">
-          </sl-format-number>
-          <span v-else>{{ $t('viur.shop.free_shipping') }}</span>
-          {{ option['dest']['name'] }} - {{$t('viur.shop.deliverytime')}}: {{ option['dest']['delivery_time_range'] }} {{  $t('viur.shop.day',option['dest']['delivery_time_max'] - option['dest']['delivery_time_min']) }}
+          <sl-bar class="shipping-bar">
+            <div slot="left">
+              <sl-format-number lang="de" type="currency" currency="EUR" :value=" option['dest']['shipping_cost']" v-if="option['dest']['shipping_cost']">
+              </sl-format-number>
+              <span v-else>{{ $t('viur.shop.free_shipping') }}</span>
+            </div>
+            <span slot="right">{{$t('viur.shop.deliverytime')}}: {{ option['dest']['delivery_time_range'] }} {{  $t('viur.shop.day',option['dest']['delivery_time_max'] - option['dest']['delivery_time_min']) }}</span>
+          </sl-bar>
+        <!--{{ option['dest']['name'] }}-->
       </template>
     </card-selector>
   </loading-handler>
@@ -77,5 +81,6 @@ onBeforeMount(()=>{
 
 
 <style scoped>
+  .shipping-bar {width: 100%; margin-right: var(--ignt-spacing-large)}
 
 </style>

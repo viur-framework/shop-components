@@ -122,7 +122,6 @@ sl-tap-panel {
 .viur-shop-stepper-bar {
   margin-top: var(--shop-leaf-gap, var(--ignt-spacing-small));
   justify-self: flex-end;
-  margin-top: auto;
 }
 
 .hint{
@@ -135,7 +134,7 @@ sl-tap-panel {
   height: auto;
   min-height: var(--sl-input-height-large);
   font-size: var(--sl-button-font-size-large);
-  line-height: calc(var(--sl-input-height-large) - var(--sl-input-border-width)* 2);
+  line-height: calc(var(--sl-input-height-large) - var(--sl-input-border-width) * 2);
 }
 .action-button-hint::part(base){
   border-top-left-radius: 0;
