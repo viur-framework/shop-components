@@ -52,7 +52,11 @@ export const useAddress = defineStore('useAddressStore', () => {
       let data = await resp.json();
 
       if (['addSuccess', 'editSuccess'].includes(data['action'])) {
-        state[`${type}Data`] = data['values'];
+        if (billingIsShipping) {
+          state.billingData = state.shippingData = data['values'];
+        } else {
+          state[`${type}Data`] = data['values'];
+        }
         await updateAddresses(type, billingIsShipping);
       }
       state[`${type}IsUpdating`] = undefined;
@@ -86,14 +90,22 @@ export const useAddress = defineStore('useAddressStore', () => {
   async function updateAddresses(type, billingIsShipping = false) {
     let key = state[`${type}Data`]['key'];
     if (type === 'shipping') {
-      const {updateCart} = useCart();
-      await updateCart({shipping_address_key: key});
-    } else if (type === 'billing') {
-      const {addOrUpdateOrder} = useOrder();
-      await addOrUpdateOrder({billing_address_key: key});
-      if (billingIsShipping) {
-        const {updateCart} = useCart();
+      const {updateCart, fetchCart, shippingAddressKey} = useCart();
+      if (key === shippingAddressKey.value) {
+        // The address skel is the same, we just need to reload the relation
+        fetchCart();
+      } else {
         await updateCart({shipping_address_key: key});
+      }
+    } else if (type === 'billing') {
+      const {addOrUpdateOrder, fetchOrder, billingAddressKey} = useOrder();
+      if (key === billingAddressKey.value) { // The address skel is the same, we just need to reload the relation
+        fetchOrder(shopStore.state.orderKey);
+      } else {
+        await addOrUpdateOrder({billing_address_key: key});
+      }
+      if (billingIsShipping) {
+        await updateAddresses('shipping', false);
       }
     }
   }
