@@ -3,7 +3,6 @@
         :nextName="$t('viur.shop.next')"
         :activefunction="()=>true"
         :nextfunction="nextStep"
-        :hint="$t('messages.order_check_later')"
     >
     </slot>
 
