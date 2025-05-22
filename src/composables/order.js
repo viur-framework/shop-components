@@ -1,8 +1,8 @@
-import {reactive} from 'vue'
-import {Request} from '@viur/vue-utils'
-import { useViurShopStore } from '../shop'
-import { removeUndefinedValues} from '../utils'
-import { useUrlSearchParams } from '@vueuse/core'
+import {Request} from '@viur/vue-utils';
+import {useUrlSearchParams} from '@vueuse/core';
+import {computed, reactive} from 'vue';
+import {useViurShopStore} from '../shop';
+import {removeUndefinedValues} from '../utils';
 
 export function useOrder() {
     const state = reactive({
@@ -51,7 +51,7 @@ export function useOrder() {
       let url = shopStore.state.shopApiUrl+"/order_add"
       let data = {
           payment_provider:payment_provider?payment_provider:shopStore.state.order?.['payment_provider'],
-          billing_address_key:billing_address_key?billing_address_key:shopStore.state.order?.['billing_address_key']?.['dest']?.['key'],
+          billing_address_key:billing_address_key?billing_address_key:billingAddressKey.value,
           customer_key:customer_key?customer_key:shopStore.state.order?.['customer_key']?.['dest']?.['key'],
           state_ordered:state_ordered?state_ordered:shopStore.state.order?.['state_ordered'],
           state_paid:state_paid?state_paid:shopStore.state.order?.['state_paid'],
@@ -76,10 +76,12 @@ export function useOrder() {
       })
   }
 
+  const billingAddressKey = computed(() => shopStore.state.order?.['billing_address']?.['dest']?.['key']);
 
-    return {
-        state,
-        fetchOrder,
-        addOrUpdateOrder
-    }
+  return {
+    state,
+    fetchOrder,
+    addOrUpdateOrder,
+    billingAddressKey,
+  };
 }
