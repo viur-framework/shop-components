@@ -20,7 +20,8 @@
               </sl-format-number>
               <span v-else>{{ $t('viur.shop.free_shipping') }}</span>
             </div>
-            <!--{{ option['dest']['name'] }}
+            <span slot="right">{{ option['dest']['description'] }}</span>
+            <!--
             <span slot="right">{{$t('viur.shop.deliverytime')}}: {{ option['dest']['delivery_time_range'] }} {{  $t('viur.shop.day',option['dest']['delivery_time_max'] - option['dest']['delivery_time_min']) }}</span>-->
           </sl-bar>
       </template>
