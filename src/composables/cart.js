@@ -94,12 +94,12 @@ export function useCart() {
             name:name?name:shopStore.state.cartRoot['name'],
             customer_comment:customer_comment?customer_comment:shopStore.state.cartRoot['customer_comment'],
             shipping_address_key:shipping_address_key?shipping_address_key:shippingAddressKey.value,
-            shipping_key:shipping_key?shipping_key:shopStore.state.cartRoot?.['shipping']?.['dest']?.['key'],
+            shipping_key: shipping_key, // only after explicit user selection
             discount_key:discount_key?discount_key:shopStore.state.cartRoot?.['discount']?.['dest']?.['key'],
             cart_key:cart_key ? cart_key : shopStore.state.cartRoot['key'],
         }
 
-        if (commission) {
+        if (commission) { // TODO: that's not standard, must be more generic!
           data.commission = commission
         }
 
