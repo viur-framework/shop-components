@@ -78,7 +78,7 @@ onBeforeMount(() => {
   // console.debug(shopStore.state.cartRoot?.['shipping_status']);
   // By default a cart has always the cheapest shipping set, therefore we can skip this step.
   // But with the link on verify the user is still able to choose a different shipping.
-  if (shopStore.state.cartRoot?.['shipping_status'] === 'cheapest') {
+  if (['cheapest', 'most_expensive'].includes(shopStore.state.cartRoot?.['shipping_status'])) {
     console.debug(`Skip cheapest shipping @ %o`, shopStore.state.cartRoot);
     nextStep().then(() => shopStore.navigateToNext());
     return;
