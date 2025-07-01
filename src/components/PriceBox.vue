@@ -6,16 +6,16 @@
         type="currency"
         currency="EUR"
         :value="item.price.current * amount"
-        :class="{pricetag_current:!retail}"
+        :class="{'viur-shop-cart-leaf-value--current':!retail}"
       >
       </sl-format-number>
-    <div style="position: relative;" v-if="retail">
+    <div style="position: relative;" v-if="retail && (item.price.recommended > item.price.current)">
       <sl-format-number
-          class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice pricetag_old"
+          class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice viur-shop-cart-leaf-value--recommended"
           lang="de"
           type="currency"
           currency="EUR"
-          :value="item.price.retail * amount"
+          :value="item.price.recommended * amount"
         >
         </sl-format-number>
       </div>
@@ -42,24 +42,20 @@ const props = defineProps({
 </script>
 
 <style scoped>
-:is(.pricetag_old):before {
-    content: " ";
-    border-bottom: 2px solid var(--sl-color-primary-500);
-    width: 100%;
-    display: block;
-    position: absolute;
-    top:calc(0.7rem);
-}
 
-.pricetag_old{
+.viur-shop-cart-leaf-value--recommended {
     font-size: 0.8rem;
-
+    &:before {
+      content: " ";
+      border-bottom: 2px solid var(--sl-color-primary-500);
+      width: 100%;
+      display: block;
+      position: absolute;
+      top:calc(0.7rem);
+  }
 }
-.pricetag_current{
+
+.viur-shop-cart-leaf-value--current {
     margin-left:auto;
 }
-
-
 </style>
-<script setup lang="ts">
-</script>
