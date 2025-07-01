@@ -52,27 +52,13 @@
 
     <div class="viur-shop-cart-leaf-unitprice">
       <div class="viur-shop-cart-leaf-label">{{$t('viur.shop.unit_price')}}</div>
-      <sl-format-number
-        class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--unitprice"
-        lang="de"
-        type="currency"
-        currency="EUR"
-        :value="item.price.current"
-      >
-      </sl-format-number>
+      <price-box :item="item"></price-box>
     </div>
 
 
     <div class="viur-shop-cart-leaf-price">
         <div class="viur-shop-cart-leaf-label">{{ $t('viur.shop.total_price') }}</div>
-        <sl-format-number
-          class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--price"
-          lang="de"
-          type="currency"
-          currency="EUR"
-          :value="item.price.current * item.quantity"
-        >
-        </sl-format-number>
+        <price-box :item="item" :amount="item.quantity" :retail="false"></price-box>
       </div>
   </sl-card>
   <div class="loading" v-if="cartState.isUpdating">
@@ -85,6 +71,7 @@ import { useDebounceFn } from '@vueuse/core'
 import { getImage } from '../utils';
 import { useCart } from '../composables/cart';
 import dialogButton from './dialogButton.vue';
+import PriceBox from "./PriceBox.vue";
 
 const {addItem, removeItem, state:cartState, getValue} = useCart()
 
