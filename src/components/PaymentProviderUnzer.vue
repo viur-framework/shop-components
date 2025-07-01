@@ -115,6 +115,11 @@ function initUnzerForm(){
             containerId: 'ideal-element',
         });
         state.paymentHandler['unzer-ideal'] = ideal;
+    } else if (shopStore.state.order?.['payment_provider'] === 'unzer-bancontact') {
+        const bancontact = state.unzer.Bancontact();
+        state.paymentHandler['unzer-bancontact'] = bancontact;
+    } else {
+        console.warn(`Unknown payment provider: ${shopStore.state.order?.['payment_provider']}`);
     }
     state.loading = false
 }
