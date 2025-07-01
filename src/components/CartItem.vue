@@ -271,10 +271,6 @@ function removeArticle(){
       margin: 0;
     }
 
-    @media (max-width: 600px) {
-      grid-column: span 2;
-    }
-
     @media (max-width: 500px) {
       display: none;
     }
@@ -289,6 +285,9 @@ function removeArticle(){
 
   .viur-shop-cart-leaf-quantity {
     align-self: center;
+    @media (max-width: 600px) {
+      grid-column: span 2;
+    }
   }
 
   .viur-shop-cart-leaf-unitprice {
