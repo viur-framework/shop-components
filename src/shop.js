@@ -160,6 +160,10 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
 
         const params = useUrlSearchParams('hash')
         params['step'] = state.currentTab
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
     }
 
     function navigateToNext(){
