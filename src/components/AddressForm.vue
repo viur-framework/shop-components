@@ -21,9 +21,12 @@ import LoadingHandler from './LoadingHandler.vue';
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import {useViurShopStore} from "../shop";
 import {useAddress} from "../composables/address";
+import { usePayment } from '../composables/payment';
+
 
 const shopStore = useViurShopStore();
 const {state:addressState} = useAddress();
+const {state:paymentState, fetchPaymentData} = usePayment()
 
 const props = defineProps({
   formtype:{
@@ -71,6 +74,9 @@ const state = reactive({
 function formChange(data){
   if (data.name === "country"){
     state.language = data.value
+    if (state.formtype === 'billing'){
+      fetchPaymentData()
+    }
   }
 }
 

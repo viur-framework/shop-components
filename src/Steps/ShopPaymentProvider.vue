@@ -63,7 +63,6 @@ function optionChanged(type){
 }
 
 onBeforeMount(()=>{
-  // FIXME: Fetch this after ever country (address) change!
   fetchPaymentData().then(()=>{
     state.selection = shopStore.state.order?.['payment_provider']
   })
