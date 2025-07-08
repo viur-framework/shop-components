@@ -36,7 +36,7 @@ export default {
       'summary_headline': 'Résumé',
       'summary_subtotal': 'Sous-total',
       'summary_shipping_total': 'Emballage et envoi',
-      'summary_delivery_time': 'Délai de livraison',
+      'summary_delivery_time': 'Délai de livraison estimé',
       'summary_discount': 'Vous économisez sur votre achat',
       'summary_checkout': 'Acheter cet article',
       'summary_total': 'Montant total',
