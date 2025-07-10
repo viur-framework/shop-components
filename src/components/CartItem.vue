@@ -285,7 +285,8 @@ function removeArticle(){
 
   .viur-shop-cart-leaf-quantity {
     align-self: center;
-    @media (max-width: 600px) {
+    grid-column: span 5;
+    @media (min-width: 600px) {
       grid-column: span 2;
     }
   }
