@@ -74,7 +74,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                 params:{},
                 displayName: "viur.shop.order_step_complete", //Bestellung Abgeschlossen
                 icon: { name: "bag-check" },
-                active:computed(()=>state.order?.['is_ordered']), // active if ordered
+                active:computed(()=>state.order?.['is_ordered'] && state.order?.['is_rts']), // active if ordered
                 validating:false,
                 valid:false
             },
@@ -236,7 +236,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                   state.order = data['skel']
                   state.paymentProviderData = data['payment']
 
-                  if(state.order?.['is_ordered']){
+                  if(state.order?.['is_ordered'] && state.order?.['is_rts']){
                       // order is finished
                       useTimeoutFn(() => {
                         navigateToTab('complete')
