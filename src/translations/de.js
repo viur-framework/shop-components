@@ -55,6 +55,7 @@ export default {
       'order_step_payment': 'Zahlungsart',
       'order_step_verify': 'Bestellung prüfen',
       'order_step_complete': 'Bestellung Abgeschlossen',
+      'paypal_client_popup_info':"Bitte prüfen Sie, ob Ihr Browser das PayPal-Popup zulässt."
     },
   },
   messages: {

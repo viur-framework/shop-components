@@ -55,6 +55,7 @@ export default {
       'order_step_payment': 'Mode de paiement',
       'order_step_verify': 'Vérifier la commande',
       'order_step_complete': 'Valider la commande',
+      'paypal_client_popup_info':"Assurez-vous que votre navigateur autorise la fenêtre contextuelle PayPal."
     },
   },
   messages: {

@@ -55,6 +55,7 @@ export default {
       'order_step_payment': 'Payment method',
       'order_step_verify': 'Review order',
       'order_step_complete': 'Order complete',
+      'paypal_client_popup_info':"Please make sure your browser allows the PayPal popup."
     },
   },
   messages: {

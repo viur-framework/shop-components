@@ -31,6 +31,7 @@
           </template>
 
           <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paypal'">
+              <sl-alert open variant="danger">{{$t('viur.shop.paypal_client_popup_info')}}</sl-alert>
               <div id="paypal-element" class="field"></div>
           </template>
 
