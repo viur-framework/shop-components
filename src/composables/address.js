@@ -1,13 +1,13 @@
-import {defineStore} from 'pinia';
-import {computed, reactive, ref} from 'vue';
-import {useCart} from '../composables/cart';
-import {useOrder} from '../composables/order';
-import {useViurShopStore} from '../shop';
-import {useShipping} from './shipping.js';
+import { defineStore } from "pinia"
+import { computed, reactive, ref } from "vue"
+import { useCart } from "../composables/cart"
+import { useOrder } from "../composables/order"
+import { useViurShopStore } from "../shop"
+import { useShipping } from "./shipping.js"
 
-export const useAddress = defineStore('useAddressStore', () => {
-  const shopStore = useViurShopStore();
-  const {fetchShippingData} = useShipping();
+export const useAddress = defineStore("useAddressStore", () => {
+  const shopStore = useViurShopStore()
+  const { fetchShippingData } = useShipping()
 
   const state = reactive({
     billingIsShipping: true,
@@ -15,97 +15,104 @@ export const useAddress = defineStore('useAddressStore', () => {
     // for shipping and both mode
     shippingIsLoading: computed(() => {
       if (!state.shippingForm) {
-        return true;
+        return true
       }
-      return state.shippingForm.state.loading;
+      return state.shippingForm.state.loading
     }),
     shippingIsUpdating: false, // for shipping and both mode
     shippingData: {},
     shippingValid: computed(() => {
-      if (shopStore.state.cartRoot?.['shipping_address']) {
-        return true;
+      if (shopStore.state.cartRoot?.["shipping_address"]) {
+        return true
       }
-      return false;
+      return false
     }),
 
     billingForm: ref(null),
     billingIsLoading: computed(() => {
       if (!state.billingForm) {
-        return true;
+        return true
       }
-      return state.billingForm.state.loading;
+      return state.billingForm.state.loading
     }),
     billingIsUpdating: false,
     billingData: {},
     billingValid: computed(() => {
-      if (shopStore.state.order?.['billing_address']) {
-        return true;
+      if (shopStore.state.order?.["billing_address"]) {
+        return true
       }
-      return false;
-    }),
-
-  });
+      return false
+    })
+  })
 
   function saveForm(type, billingIsShipping = false) {
-    state[`${type}IsUpdating`] = true;
-    return state[`${type}Form`].sendData().then(async (resp) => {
-      let data = await resp.json();
+    state[`${type}IsUpdating`] = true
+    return state[`${type}Form`]
+      .sendData()
+      .then(async (resp) => {
+        let data = await resp.json()
 
-      if (['addSuccess', 'editSuccess'].includes(data['action'])) {
-        if (billingIsShipping) {
-          state.billingData = state.shippingData = data['values'];
-        } else {
-          state[`${type}Data`] = data['values'];
+        if (["addSuccess", "editSuccess"].includes(data["action"])) {
+          if (billingIsShipping) {
+            state.billingData = state.shippingData = data["values"]
+          } else {
+            state[`${type}Data`] = data["values"]
+          }
+          await updateAddresses(type, billingIsShipping)
         }
-        await updateAddresses(type, billingIsShipping);
-      }
-      state[`${type}IsUpdating`] = undefined;
-      return data;
-    }).catch(error => {
-      state[`${type}Form`].state.loading = false;
-      return {'action': 'error'};
-    });
+        state[`${type}IsUpdating`] = undefined
+        return data
+      })
+      .catch((error) => {
+        state[`${type}Form`].state.loading = false
+        return { action: "error" }
+      })
   }
 
   function saveAddresses(billingIsShipping = false) {
     return new Promise((resolve, reject) => {
       if (billingIsShipping) {
-        saveForm('billing', billingIsShipping)
-          .then(async res => {
-            await fetchShippingData(); // different address --> other shipping
-            resolve(res);
+        saveForm("billing", billingIsShipping)
+          .then(async (res) => {
+            await fetchShippingData() // different address --> other shipping
+            resolve(res)
           })
-          .catch(reject);
+          .catch(reject)
       } else {
-        saveForm('shipping').then(() => {
-          saveForm('billing').then(async () => {
-            await fetchShippingData(); // different address --> other shipping
-            resolve({'action': 'editSuccess'});
-          }).catch((e) => reject(e));
-        }).catch((e) => reject(e));
+        saveForm("shipping")
+          .then(() => {
+            saveForm("billing")
+              .then(async () => {
+                await fetchShippingData() // different address --> other shipping
+                resolve({ action: "editSuccess" })
+              })
+              .catch((e) => reject(e))
+          })
+          .catch((e) => reject(e))
       }
-    });
+    })
   }
 
   async function updateAddresses(type, billingIsShipping = false) {
-    let key = state[`${type}Data`]['key'];
-    if (type === 'shipping') {
-      const {updateCart, fetchCart, shippingAddressKey} = useCart();
+    let key = state[`${type}Data`]["key"]
+    if (type === "shipping") {
+      const { updateCart, fetchCart, shippingAddressKey } = useCart()
       if (key === shippingAddressKey.value) {
         // The address skel is the same, we just need to reload the relation
-        fetchCart();
+        fetchCart()
       } else {
-        await updateCart({shipping_address_key: key});
+        await updateCart({ shipping_address_key: key })
       }
-    } else if (type === 'billing') {
-      const {addOrUpdateOrder, fetchOrder, billingAddressKey} = useOrder();
-      if (key === billingAddressKey.value) { // The address skel is the same, we just need to reload the relation
-        fetchOrder(shopStore.state.orderKey);
+    } else if (type === "billing") {
+      const { addOrUpdateOrder, fetchOrder, billingAddressKey } = useOrder()
+      if (key === billingAddressKey.value) {
+        // The address skel is the same, we just need to reload the relation
+        fetchOrder(shopStore.state.orderKey)
       } else {
-        await addOrUpdateOrder({billing_address_key: key});
+        await addOrUpdateOrder({ billing_address_key: key })
       }
       if (billingIsShipping) {
-        await updateAddresses('shipping', false);
+        await updateAddresses("shipping", false)
       }
     }
   }
@@ -114,6 +121,6 @@ export const useAddress = defineStore('useAddressStore', () => {
     state,
     saveForm,
     updateAddresses,
-    saveAddresses,
-  };
-});
+    saveAddresses
+  }
+})

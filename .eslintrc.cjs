@@ -18,6 +18,6 @@ module.exports = {
     "vue/html-self-closing": 0,
     "no-unused-vars": 1,
     "vue/order-in-components": 0,
-    "vue/no-deprecated-slot-attribute":0,
+    "vue/no-deprecated-slot-attribute": 0
   }
 }
