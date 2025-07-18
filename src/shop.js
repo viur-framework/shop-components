@@ -166,11 +166,19 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         });
     }
 
-    function navigateToNext(){
-        // shorthand for next Tab
-        if (state.tabIndexMap[state.currentTab] === state.stepperLength-1) return false
-        navigateToTab(state.indexTabMap[state.tabIndexMap[state.currentTab]+1])
+  function navigateToNext() {
+    // shorthand for next Tab
+    const currentTabIndex0 = state.tabIndexMap[state.currentTab];
+    if (currentTabIndex0 === state.stepperLength - 1) {
+      return false;
     }
+    const nextTabName = state.indexTabMap[currentTabIndex0 + 1];
+    if (!state.tabs[nextTabName].active) {
+      console.warn(`navigateToNext called at ${state.currentTab}, but next tab (${nextTabName}) not active yet`);
+      return false;
+    }
+    navigateToTab(nextTabName);
+  }
 
     function navigateToPrevious(){
         // shorthand for previous Tab
