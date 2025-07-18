@@ -10,6 +10,7 @@ export default {
       'order_pay': 'Zahlungspflichtig bestellen',
       'order_number': 'Ihre Vorgangsnummer',
       'order_thanks': 'Vielen Dank für Ihre Bestellung',
+      'order_abort': 'Die Bestellung wurde abgebrochen.',
       'order_message': 'Wir haben Ihre Bestellung erhalten und werden diese schnellstmöglich bearbeiten.<br /> Sie erhalten in wenigen Minuten eine Bestätigung per E-Mail.',
       'order_paid': 'Ihre Zahlung ist bei uns eingegangen.',
       'order_ready_to_ship': 'Ihre Bestellung ist fertig für den Versand.',
@@ -55,7 +56,8 @@ export default {
       'order_step_payment': 'Zahlungsart',
       'order_step_verify': 'Bestellung prüfen',
       'order_step_complete': 'Bestellung Abgeschlossen',
-      'paypal_client_popup_info':"Bitte prüfen Sie, ob Ihr Browser das PayPal-Popup zulässt."
+      'paypal_client_popup_info': 'Bitte prüfen Sie, ob Ihr Browser das PayPal-Popup zulässt.',
+      'payment_link': 'Ihr Browser öffnet kein Popup? Dann klicken Sie bitte <a href="{url}" target="_blank">hier</a>.',
     },
   },
   messages: {

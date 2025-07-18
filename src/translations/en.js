@@ -10,6 +10,7 @@ export default {
       'order_pay': 'Place binding order',
       'order_number': 'Your order number',
       'order_thanks': 'Thank you for your order',
+      'order_abort': 'The order was canceled.',
       'order_message': 'We have received your order and will process it as soon as possible.<br /> You will receive a confirmation email in a few minutes.',
       'order_paid': 'Your payment has been received.',
       'order_ready_to_ship': 'Your order is ready for shipping.',
@@ -55,7 +56,8 @@ export default {
       'order_step_payment': 'Payment method',
       'order_step_verify': 'Review order',
       'order_step_complete': 'Order complete',
-      'paypal_client_popup_info':"Please make sure your browser allows the PayPal popup."
+      'paypal_client_popup_info': 'Please make sure your browser allows the PayPal popup.',
+      'payment_link': 'Your browser does not open a popup? Then please click <a href="{{url}}" target="_blank">here</a>.',
     },
   },
   messages: {

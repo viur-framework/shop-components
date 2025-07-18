@@ -38,7 +38,12 @@
           <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-ideal'">
               <div id="ideal-element" class="field"></div>
           </template>
+        <p
+          v-if="!!shopStore.state?.paymentProviderData?.redirectUrl"
+          v-html="$t('viur.shop.payment_link', {url: shopStore.state.paymentProviderData.redirectUrl})"
+        />
       </form>
+
         <button :disabled="state.loading" class="unzerUI primary button fluid" @click="submitFormToUnzer">{{ $t('viur.shop.pay') }}</button>
         <sl-button :disabled="state.loading" variant="danger" @click="cancelPayment">{{ $t('actions.cancel') }}</sl-button>
   </div>

@@ -10,6 +10,7 @@ export default {
       'order_pay': 'Valider',
       'order_number': 'N° de commande',
       'order_thanks': 'Merci pour votre commande et l’intérêt porté à notre société.',
+      'order_abort': 'La commande a été annulée.',
       'order_message': 'Nous avons bien reçu votre commande et nous allons la traiter dans les plus brefs délais.<br /> Vous recevrez une confirmation par e-mail dans quelques minutes',
       'order_paid': 'Nous avons bien reçu votre paiement',
       'order_ready_to_ship': 'Votre commande est prête à être expédiée',
@@ -55,7 +56,8 @@ export default {
       'order_step_payment': 'Mode de paiement',
       'order_step_verify': 'Vérifier la commande',
       'order_step_complete': 'Valider la commande',
-      'paypal_client_popup_info':"Assurez-vous que votre navigateur autorise la fenêtre contextuelle PayPal."
+      'paypal_client_popup_info':"Assurez-vous que votre navigateur autorise la fenêtre contextuelle PayPal.",
+      'payment_link': 'Votre navigateur n\'ouvre pas de popup ? Alors cliquez <a href="{{url}}" target="_blank">ici</a>.',
     },
   },
   messages: {
