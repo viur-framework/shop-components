@@ -74,7 +74,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                 params:{},
                 displayName: "viur.shop.order_step_complete", //Bestellung Abgeschlossen
                 icon: { name: "bag-check" },
-                active:computed(()=>state.order?.['is_ordered'] && state.order?.['is_rts']), // active if ordered
+                active:computed(()=>state.order?.['is_ordered'] && (state.order?.['is_rts'] || state.order?.['is_paid'])), // active if ordered
                 validating:false,
                 valid:false
             },
@@ -156,6 +156,10 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
 
     function navigateToTab(name){
         // navigate to Tab
+        if (!state.tabs[name].active) {
+          console.warn(`navigateToTab called at ${state.currentTab}, but tab (${name}) not active yet`);
+          return false;
+        }
         state.currentTab = name
 
         const params = useUrlSearchParams('hash')
@@ -170,6 +174,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
     // shorthand for next Tab
     const currentTabIndex0 = state.tabIndexMap[state.currentTab];
     if (currentTabIndex0 === state.stepperLength - 1) {
+      console.warn(`Tab end reached`);
       return false;
     }
     const nextTabName = state.indexTabMap[currentTabIndex0 + 1];
@@ -244,7 +249,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                   state.order = data['skel']
                   state.paymentProviderData = data['payment']
 
-                  if(state.order?.['is_ordered'] && state.order?.['is_rts']){
+                  if(state.order?.['is_ordered'] && (state.order?.['is_rts'] || state.order?.['is_paid'])){
                       // order is finished
                       useTimeoutFn(() => {
                         navigateToTab('complete')

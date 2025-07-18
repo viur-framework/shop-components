@@ -61,11 +61,15 @@ const {fetchOrder} = useOrder()
 const emits = defineEmits(['cancel'])
 
 const { pause:PaymentCheckPause, resume:PaymentCheckResume, isActive:PaymentCheckIsActive } = useIntervalFn(() => {
-  fetchOrder(shopStore.state.orderKey)
+  console.debug('checking ...')
 
-  if (shopStore.state.order?.['is_paid']){
-    PaymentCheckPause()
-  }
+  fetchOrder(shopStore.state.orderKey).then(()=>{
+    if (shopStore.state.order?.['is_paid']){
+      console.debug('Order is paid')
+      shopStore.navigateToTab('complete');
+      PaymentCheckPause();
+    }
+  })
 
 }, 2000,{immediate:false})
 
@@ -131,6 +135,7 @@ function initUnzerForm(){
 }
 
 function paymentError(error){
+  console.error(error)
   state.loading = false
   state.hasError = true
 }
