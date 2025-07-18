@@ -1,23 +1,20 @@
 <template>
   <div class="viur-shop-item-wrapper">
-    <sl-card horizontal class="viur-shop-cart-leaf-small">
-    <img
-      class="viur-shop-cart-leaf-image"
-      slot="image"
-      :src="
-        getImage(
-            item?.shop_image
-            ? item.shop_image
-            : undefined,
-        )
-      "
-    />
-    <h4
-      class="viur-shop-cart-leaf-headline headline"
-      v-html="getValue(item.shop_name)"
-    ></h4>
+    <sl-card
+      horizontal
+      class="viur-shop-cart-leaf-small"
+    >
+      <img
+        class="viur-shop-cart-leaf-image"
+        slot="image"
+        :src="getImage(item?.shop_image ? item.shop_image : undefined)"
+      />
+      <h4
+        class="viur-shop-cart-leaf-headline headline"
+        v-html="getValue(item.shop_name)"
+      ></h4>
 
-    <sl-input
+      <sl-input
         :disabled="!edit"
         class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
         type="number"
@@ -27,73 +24,106 @@
         :value="item.quantity"
         @sl-change="changeAmount($event.target.value)"
       >
-      <dialog-Button slot="prefix" class="decent" v-if="item.quantity===1" variant="danger" outline :disabled="!edit">
-        <sl-icon name="trash"></sl-icon>
-        <template #dialog="{close}">
-          {{ $t('messages.remove_article_from_cart') }}
-          <sl-bar>
-            <sl-button slot="left" @click="close">{{$t('actions.cancel')}}</sl-button>
-            <sl-button slot="right" variant="danger" @click="removeArticle(); close()">{{ $t('actions.delete') }}</sl-button>
-          </sl-bar>
-        </template>
-      </dialog-Button>
-      <sl-button slot="prefix" v-else :disabled="!edit" @click="changeAmount(item.quantity-=1)">
-        <sl-icon name="dash-lg"></sl-icon>
-      </sl-button>
-      <sl-button slot="suffix" :disabled="!edit" @click="changeAmount(item.quantity+=1)">
-        <sl-icon name="plus-lg"></sl-icon>
-      </sl-button>
-    </sl-input>
+        <dialog-Button
+          slot="prefix"
+          class="decent"
+          v-if="item.quantity === 1"
+          variant="danger"
+          outline
+          :disabled="!edit"
+        >
+          <sl-icon name="trash"></sl-icon>
+          <template #dialog="{ close }">
+            {{ $t("messages.remove_article_from_cart") }}
+            <sl-bar>
+              <sl-button
+                slot="left"
+                @click="close"
+                >{{ $t("actions.cancel") }}</sl-button
+              >
+              <sl-button
+                slot="right"
+                variant="danger"
+                @click="
+                  removeArticle()
+                  close()
+                "
+                >{{ $t("actions.delete") }}</sl-button
+              >
+            </sl-bar>
+          </template>
+        </dialog-Button>
+        <sl-button
+          slot="prefix"
+          v-else
+          :disabled="!edit"
+          @click="changeAmount((item.quantity -= 1))"
+        >
+          <sl-icon name="dash-lg"></sl-icon>
+        </sl-button>
+        <sl-button
+          slot="suffix"
+          :disabled="!edit"
+          @click="changeAmount((item.quantity += 1))"
+        >
+          <sl-icon name="plus-lg"></sl-icon>
+        </sl-button>
+      </sl-input>
 
-    <div class="viur-shop-cart-leaf-article-number">
-      <div class="viur-shop-cart-leaf-label">{{ $t('viur.shop.article_number') }}</div>
-      {{ getValue(item.shop_art_no_or_gtin) }}
-    </div>
-
-    <div class="viur-shop-cart-leaf-unitprice">
-      <div class="viur-shop-cart-leaf-label">{{$t('viur.shop.unit_price')}}</div>
-      <price-box :item="item"></price-box>
-    </div>
-
-
-    <div class="viur-shop-cart-leaf-price">
-        <div class="viur-shop-cart-leaf-label">{{ $t('viur.shop.total_price') }}</div>
-        <price-box :item="item" :amount="item.quantity" :retail="false"></price-box>
+      <div class="viur-shop-cart-leaf-article-number">
+        <div class="viur-shop-cart-leaf-label">{{ $t("viur.shop.article_number") }}</div>
+        {{ getValue(item.shop_art_no_or_gtin) }}
       </div>
-  </sl-card>
-  <div class="loading" v-if="cartState.isUpdating">
+
+      <div class="viur-shop-cart-leaf-unitprice">
+        <div class="viur-shop-cart-leaf-label">{{ $t("viur.shop.unit_price") }}</div>
+        <price-box :item="item"></price-box>
+      </div>
+
+      <div class="viur-shop-cart-leaf-price">
+        <div class="viur-shop-cart-leaf-label">{{ $t("viur.shop.total_price") }}</div>
+        <price-box
+          :item="item"
+          :amount="item.quantity"
+          :retail="false"
+        ></price-box>
+      </div>
+    </sl-card>
+    <div
+      class="loading"
+      v-if="cartState.isUpdating"
+    >
       <sl-spinner></sl-spinner>
     </div>
   </div>
 </template>
 <script setup>
-import { useDebounceFn } from '@vueuse/core'
-import { getImage } from '../utils';
-import { useCart } from '../composables/cart';
-import dialogButton from './dialogButton.vue';
-import PriceBox from "./PriceBox.vue";
+import { useDebounceFn } from "@vueuse/core"
+import { getImage } from "../utils"
+import { useCart } from "../composables/cart"
+import dialogButton from "./dialogButton.vue"
+import PriceBox from "./PriceBox.vue"
 
-const {addItem, removeItem, state:cartState, getValue} = useCart()
+const { addItem, removeItem, state: cartState, getValue } = useCart()
 
 const changeAmount = useDebounceFn((amount) => {
   props.item.quantity = amount
-  addItem(props.item['article']['dest']['key'],amount)
+  addItem(props.item["article"]["dest"]["key"], amount)
 }, 1000)
 
 const props = defineProps({
-    item:{
-        required:true
-    },
-    edit:{
-      type:Boolean,
-      default:false //true
-    }
+  item: {
+    required: true
+  },
+  edit: {
+    type: Boolean,
+    default: false //true
+  }
 })
 
-function removeArticle(){
-  removeItem(props.item['article']['dest']['key'])
+function removeArticle() {
+  removeItem(props.item["article"]["dest"]["key"])
 }
-
 </script>
 <style scoped>
 @layer foundation.shop {
@@ -188,11 +218,11 @@ function removeArticle(){
   .viur-shop-cart-leaf-value--quantity::part(form-control-label) {
     color: var(--shop-leaf-label-color);
     font-weight: var(--shop-leaf-label-font-weight);
-    font-size: calc(var(--shop-leaf-label-font-size) *.75);
+    font-size: calc(var(--shop-leaf-label-font-size) * 0.75);
     margin-bottom: var(--ignt-spacing-2x-small);
   }
 
-  .loading{
+  .loading {
     position: absolute;
     top: 0;
     background: #ffffffcc;
@@ -204,42 +234,39 @@ function removeArticle(){
     justify-content: center;
     align-items: center;
 
-
-    & sl-spinner{
-      font-size:3rem;
+    & sl-spinner {
+      font-size: 3rem;
     }
   }
 
-  .viur-shop-item-wrapper{
+  .viur-shop-item-wrapper {
     position: relative;
   }
 
-  .viur-shop-cart-leaf-value--quantity{
+  .viur-shop-cart-leaf-value--quantity {
     align-self: center;
     grid-column: span 1;
 
-    &::part(input){
+    &::part(input) {
       text-align: center;
       padding: 0;
     }
 
-    sl-button{
+    sl-button {
       margin: 0;
-      transition: all ease .3s;
+      transition: all ease 0.3s;
 
-      &::part(base){
+      &::part(base) {
         background-color: transparent;
         border: none;
       }
 
-      &::part(label){
+      &::part(label) {
         padding: 0;
         height: var(--sl-input-height-medium);
         width: calc(var(--sl-input-height-medium) / 5 * 4);
       }
     }
-
   }
-
 }
 </style>

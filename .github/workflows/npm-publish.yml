@@ -5,7 +5,7 @@ name: Node.js Package
 
 on:
   push:
-     tags:
+    tags:
       - v*
 
 jobs:
@@ -23,7 +23,6 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_API_TOKEN}}
-
 
   gh-release:
     runs-on: ubuntu-latest
