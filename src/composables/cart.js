@@ -38,18 +38,18 @@ export function useCart() {
       //first fetch root then fetchItems for this root
       state.isLoading = true;
 
-      if (shopStore.state.order != null && shopStore.order?.cart?.key.length) {
-        shopStore.state.cartRoot = {};
-        shopStore.state.cartRoot = shopStore.state.order.cart;
+      if (shopStore.state.order != null && shopStore.state.order?.cart?.dest.key) {
+        // shopStore.state.cartRoot = {};
+        shopStore.state.cartRoot = shopStore.state.order.cart.dest;
 
-        return fetchCartItems(shopStore.state.order.cart.key).then(() => {
+        return fetchCartItems(shopStore.state.cartRoot["key"]).then(() => {  // TODO: duplicate code
           state.isLoading = false;
           shopStore.state.cartReady = true;
         });
       }
       return fetchCartRoot().then(() => {
         if (!shopStore.state.cartRoot?.["key"]) return 0;
-        fetchCartItems(shopStore.state.cartRoot["key"]).then(() => {
+        fetchCartItems(shopStore.state.cartRoot["key"]).then(() => {  // TODO: duplicate code
           state.isLoading = false;
           shopStore.state.cartReady = true;
         });

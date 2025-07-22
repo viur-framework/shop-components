@@ -120,12 +120,12 @@ onBeforeMount(()=>{
     }
 
     shopStore.state.moduleName= props.modulename
-    fetchCart()
     shopStore.fetchMetaData()
     const params = useUrlSearchParams('hash')
     if (Object.keys(params).includes('order')){
         shopStore.state.orderKey = params['order']
         fetchOrder(shopStore.state.orderKey).then(()=>{
+          fetchCart();  // load after cartKey has been loaded from order
           shopStore.state.orderReady = true
           // navigate to order state
           if(shopStore.state.order?.['is_ordered']){
@@ -135,6 +135,7 @@ onBeforeMount(()=>{
           }
         })
     }else{
+      fetchCart()
       shopStore.state.orderReady = true
     }
 
