@@ -57,7 +57,7 @@ export default {
       'order_step_verify': 'Review order',
       'order_step_complete': 'Order complete',
       'paypal_client_popup_info': 'Please make sure your browser allows the PayPal popup.',
-      'payment_link': 'Your browser does not open a popup? Then please click <a href="{{url}}" target="_blank">here</a>.',
+      'payment_link': 'Your browser does not open a popup? Then please click <a href="{url}" target="_blank">here</a>.',
     },
   },
   messages: {

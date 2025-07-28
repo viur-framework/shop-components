@@ -57,7 +57,7 @@ export default {
       'order_step_verify': 'Vérifier la commande',
       'order_step_complete': 'Valider la commande',
       'paypal_client_popup_info':"Assurez-vous que votre navigateur autorise la fenêtre contextuelle PayPal.",
-      'payment_link': 'Votre navigateur n\'ouvre pas de popup ? Alors cliquez <a href="{{url}}" target="_blank">ici</a>.',
+      'payment_link': 'Votre navigateur n\'ouvre pas de popup ? Alors cliquez <a href="{url}" target="_blank">ici</a>.',
     },
   },
   messages: {
