@@ -99,7 +99,10 @@ const props = defineProps({
     },
     language:{
       default:"de"
-    }
+    },
+    locale: {
+      default: 'de-DE',
+    },
 })
 
 const state = reactive({
@@ -112,6 +115,7 @@ onBeforeMount(()=>{
       state.translationsLoaded = true
     })
     shopStore.state.language = props.language
+    shopStore.state.locale = props.locale
     shopStore.state.showNodes = props.showCartNodes
     shopStore.state.debug = props.debug
     shopStore.state.topActions = props.topActions

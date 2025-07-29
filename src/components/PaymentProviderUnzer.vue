@@ -77,7 +77,7 @@ const { pause:PaymentCheckPause, resume:PaymentCheckResume, isActive:PaymentChec
 const state = reactive({
     unzer:computed(()=>{
         if (!shopStore.state.paymentProviderData) return null
-        return new unzer(shopStore.state.paymentProviderData["public_key"], {locale: 'de-DE'})
+        return new unzer(shopStore.state.paymentProviderData["public_key"], {locale: shopStore.state.locale})
     }),
     paymentHandler:{},
     loading:false,
