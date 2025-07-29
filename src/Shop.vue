@@ -61,6 +61,7 @@
 
 
 <script setup>
+import {useTranslations} from '@viur/vue-utils/utils/translations.js';
 import { onBeforeMount, watch, reactive } from 'vue';
 import ShopOrderStepper from './ShopOrderStepper.vue'
 import ShopSummary from "./ShopSummary.vue"
@@ -68,8 +69,10 @@ import {useViurShopStore} from './shop'
 import { useUrlSearchParams } from '@vueuse/core'
 import { useOrder } from './composables/order';
 import { useCart } from './composables/cart';
-import {getTranslations} from './utils'
+import {getTranslations, } from './utils'
+import {useI18n} from 'vue-i18n'
 
+const {fetchTranslations, updateLocaleMessages} = useTranslations()
 
 const shopStore = useViurShopStore()
 const {fetchOrder} = useOrder()
@@ -109,9 +112,73 @@ const state = reactive({
   translationsLoaded:false
 })
 
+    let i18n = useI18n()
 
 onBeforeMount(()=>{
     getTranslations([props.language], "viur.shop.*").then((resp)=>{
+      console.debug('loaded', resp)
+      let nested = {}
+
+
+      console.log(i18n.messages.value)
+      console.log(i18n.getLocaleMessage('de'))
+      console.log(i18n.getLocaleMessage())
+
+      console.debug('loaded', useTranslations)
+      Object.entries(resp).forEach(([lang, translations]) => {
+// /*
+        nested[lang] = {}
+        Object.entries(translations).forEach(([key, value])=>{
+          console.debug('translations', key, value)
+          // let path= [lang, ...key.split('.').reverse()];
+          let path= key.split('.').reverse();
+          let segment
+          let current = nested[lang]
+          while (path.length) {
+            segment = path.pop()
+            // console.debug([path, current, segment])
+            console.debug('path:%s, segment:%s', path, segment);
+            if(path.length === 0){
+          console.debug('last path:%s, segment:%s', path, segment)
+
+              if(typeof current === 'string' || current instanceof String){
+                console.error('Invalid translation')
+              } else {
+              current[segment] = value
+
+              }
+            }else {
+              if(segment in current) {
+                console.debug('current IN', current)
+              }else {
+                console.debug('current NOT IN', current)
+                current[segment] = {}
+              }
+              current = current[segment]
+            }
+          }
+          // console.debug('last path:%s, segment:%s', path, segment)
+          // current[path.pop()] = value
+
+        })
+      // updateLocaleMessages(lang, nested[lang])
+      // i18n.mergeLocaleMessage(lang, nested[lang])
+      // */
+      // console.log(i18n.getLocaleMessage())
+      // console.debug(i18n.mergeLocaleMessage(lang, resp[lang]))
+      i18n.mergeLocaleMessage(lang, nested[lang])
+      console.debug(i18n.getLocaleMessage(lang))
+
+      })
+
+      console.debug(nested)
+
+      // updateLocaleMessages()
+
+
+      // resp.then(resp=>{
+      //   console.log(resp)
+      // })
       state.translationsLoaded = true
     })
     shopStore.state.language = props.language

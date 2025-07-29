@@ -39,7 +39,9 @@
     </div>
 
     <div class="viur-shop-cart-sidebar-info viur-shop-cart-sidebar-info--total">
-      <span v-html="$t('viur.shop.summary_total')"></span>
+      +<span v-html="$t('viur.shop.summary_total')"></span>+
+      <span v-html="$t('viur.shop.summary.shipping_cost')"></span>
+      <span v-html="$t('viur.shop.summary_delivery_time')"></span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.total">
       </sl-format-number>
     </div>
