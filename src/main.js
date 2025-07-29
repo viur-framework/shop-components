@@ -12,10 +12,10 @@ export { default as ViurShop } from "./Shop.vue";
 
 const ViurShopComponents = {
   async install(app,options) {
+    
 
 
-
-
+    
     let defaultLocale = options?.defaultLocale?options.defaultLocale:'de'
     let locale = options?.locale?options.locale:['de']
     let fallback = options?.fallback?options.fallback:'en'
@@ -23,7 +23,6 @@ const ViurShopComponents = {
     let additionals = options?.additionals?options.additionals:{}
 
     app.use(createPinia());
-    console.error("HELLO ", data)
 
     let messages = {}
     const i18n = createI18n({
@@ -34,7 +33,6 @@ const ViurShopComponents = {
     const {fetchTranslations, updateLocaleMessages} = useTranslations(i18n.global)
     // fetch translations from server
     let data = await fetchTranslations(locale,options?.pattern)
-    console.error("fetchTranslations translations loaded ", data)
     for(const loc of locale){
       let locAdditionals = additionals?.[loc]?additionals[loc]:{}
 
