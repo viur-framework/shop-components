@@ -82,7 +82,7 @@ const state = reactive({
     paymentHandler:{},
     loading:false,
     hasError:false,
-    errorMessage:"Bei der Zahlung ist ein Fehler aufgetreten.",
+    errorMessage: null,
     waitPayment:false
 })
 
@@ -138,6 +138,7 @@ function paymentError(error){
   console.error(error)
   state.loading = false
   state.hasError = true
+  state.errorMessage = error.customerMessage || error.message || error || 'Error';
 }
 
 
