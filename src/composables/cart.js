@@ -1,3 +1,4 @@
+import {HTTPError} from '@viur/vue-utils/utils/request.js';
 import {computed, reactive} from 'vue';
 import {Request} from '@viur/vue-utils'
 import { removeUndefinedValues} from '../utils'
@@ -25,13 +26,11 @@ export function useCart() {
     function createCart(){
         Request.post(shopStore.state.shopApiUrl+'/cart_add',{dataObj:{
             parent_cart_key:shopStore.state.cartRoot['key'],
-            cart_type:"wishlist"
+            cart_type:"wishlist"  // FIXME: Why fixed?
         }}).then(async( resp)=>{
             let data = await resp.json()
             console.log(data)
         })
-
-
     }
 
 
@@ -57,17 +56,27 @@ export function useCart() {
       });
     }
 
-    function fetchCartRoot(){
-        // fetch list of Rootnodes and saves the first one
+  /**
+   * Fetch the basket
+   * @returns {Promise<Response>}
+   */
+  function fetchCartRoot() {
+    // FIXME: This function fetches not any cart root node, but only the basket. That's a bad naming.
+    return Request.get(`${shopStore.state.shopUrl}/cart/basket_view`)
+      .then(async (resp) => {
+        shopStore.state.cartRoot = await resp.clone().json();
+        return resp;
+      })
+      .catch(e => {
+        if (e instanceof HTTPError && e.statusCode === 412) {
+          return {}; // cart has not been created yet
+        } else {
+          throw e
+        }
+      });
+  }
 
-        return Request.get(`${shopStore.state.shopUrl}/cart/listRootNodes`).then(async (resp)=>{
-            let data = await resp.clone().json()
-            shopStore.state.cartRoot = data.filter(i=>i['cart_type']==='basket')?.[0] ? data.filter(i=>i['cart_type']==='basket')[0]:[]
-            return resp
-        })
-    }
-
-    function fetchCartItems(key, parentKey=null){
+    function fetchCartItems(key){
         //fetch cart items
         return Request.get(`${shopStore.state.shopApiUrl}/cart_list`,{dataObj:{
             cart_key:key
