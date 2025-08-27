@@ -11,6 +11,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
     const state = reactive({
         //shop module name
         showNodes:false,
+        locale: 'de-DE',
         language:"de",
         moduleName:'shop',
         hostUrl: computed(()=>(import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL : window.location.origin)),
