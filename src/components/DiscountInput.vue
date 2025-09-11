@@ -36,9 +36,10 @@
 import { reactive } from "vue";
 import { useViurShopStore } from "../shop";
 import { useCart } from '../composables/cart';
+import {useI18n} from 'vue-i18n';
 const shopStore = useViurShopStore();
 const {addDiscount, removeDiscount} = useCart()
-
+  const i18n = useI18n();
 import ShopAlert from "./ShopAlert.vue";
 
 const state = reactive({
@@ -56,7 +57,7 @@ function addDiscountAction() {
     .catch((error) => {
       state.loading=false
       console.log("error bei rabatt", error);
-      state.alert.msg = "not found";
+      state.alert.msg = i18n.t('viur.shop.discount_not_found');
       state.alert.show = true;
       state.alert.variant = "danger";
     });
@@ -74,7 +75,7 @@ function removeDiscountAction(){
     .catch((error) => {
       state.loading=false
       console.log("error bei rabatt", error);
-      state.alert.msg = "not found";
+      state.alert.msg = $t('viur.shop.discount_not_found');
       state.alert.show = true;
       state.alert.variant = "danger";
     });
