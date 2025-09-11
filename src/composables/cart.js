@@ -69,11 +69,24 @@ export function useCart() {
 
     function fetchCartItems(key, parentKey=null){
         //fetch cart items
+        if (key === shopStore.state.cartRoot["key"]){ // initial
+          shopStore.state.cartList = []
+        }
         return Request.get(`${shopStore.state.shopApiUrl}/cart_list`,{dataObj:{
             cart_key:key
         }}).then(async( resp) =>{
             let data = await resp.clone().json()
-            shopStore.state.cartList=data
+
+            let currentLeafs = []
+            for (const item of data){
+              if (item["skel_type"]==="leaf"){
+                currentLeafs.push(item)
+              }else{
+                await fetchCartItems(item['key'])
+              }
+            }
+
+            shopStore.state.cartList=shopStore.state.cartList.concat(currentLeafs)
             return resp
         })
     }
