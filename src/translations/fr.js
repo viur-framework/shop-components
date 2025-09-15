@@ -40,7 +40,7 @@ export default {
       'summary_delivery_time': 'Délai de livraison estimé',
       'summary_discount': 'Vous économisez sur votre achat',
       'summary_checkout': 'Acheter cet article',
-      'summary_total': 'Montant total',
+      'summary_total': 'Montant TTC',
       'summary_vat': 'TVA incluse ({percentage})',
       'discount_not_found': 'Ce code promo n’existe pas.',
       'discount_not_active': 'Ce code promo n’est pas actif.',

@@ -37,7 +37,7 @@ export default {
       'summary_headline': 'Zusammenfassung',
       'summary_subtotal': 'Zwischensumme',
       'summary_shipping_total': 'Versand- und Bearbeitungspauschale',
-      'summary_delivery_time': 'Lieferzeit',
+      'summary_delivery_time': 'Voraussichtliche Lieferzeit',
       'summary_discount': 'Sie sparen bei Ihrem Einkauf im Aktionszeitraum',
       'summary_checkout': 'Zur Kasse gehen',
       'summary_total': 'Gesamtbetrag',
