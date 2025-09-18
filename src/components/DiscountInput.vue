@@ -1,10 +1,9 @@
 <template>
-  {{ state.alert.msg }}
     <shop-alert
       v-if="state.alert.show"
       :variant="state.alert.variant"
       @onHide="state.alert = {}"
-      duration="infinity"
+      duration="5000"
     >
   <template #alertMsg>
     {{ state.alert.msg }}
