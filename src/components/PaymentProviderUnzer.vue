@@ -202,6 +202,70 @@ function initUnzerForm() {
                 paymentDataRequestObject,
             );
         });
+    } else if (shopStore.state.order?.['payment_provider'] === 'unzer-applepay') {
+        const applepayScriptPromise = new Promise((resolve, reject) => {
+            const applepayScript = document.createElement('script');
+            applepayScript.src = 'https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js';
+            applepayScript.crossOrigin = 'anonymous';
+            applepayScript.onload = () => {
+                resolve(applepayScript);
+            };
+            applepayScript.onerror = reject;
+            document.head.appendChild(applepayScript);
+        });
+
+        function hasCapability() {
+            return window.ApplePaySession && window.ApplePaySession.canMakePayments() && window.ApplePaySession.supportsVersion(6);
+        }
+
+        const applepay = state.unzer.ApplePay();
+        state.paymentHandler['unzer-applepay'] = applepay;
+
+        const applePayPaymentRequest = {
+            countryCode: shopStore.state.order.billing_address.dest['country'].toUpperCase(),
+            currencyCode: 'EUR',
+            supportedNetworks: shopStore.state.paymentProviderData.brands,
+            merchantCapabilities: ['supports3DS'],
+            total: {
+                label: shopStore.state.paymentProviderData.merchant_name,
+                amount: shopStore.state.order.total,
+            },
+        };
+
+        applepayScriptPromise.then(() => {
+            if (!hasCapability()) {
+                // TODO: check before ?
+                alert('Apple Pay not available (not an Apple Device, ...)');
+                return;
+            }
+
+            const session = applepay.initApplePaySession(applePayPaymentRequest);
+
+            session.onpaymentauthorized = function (event) {
+                console.debug(event);
+                PaymentCheckPause();
+                state.loading = true;
+                state.hasError = false;
+
+                // The event will contain the data you need to pass to our server-side integration to actually charge the customers card
+                const paymentData = event.payment.token.paymentData;
+                // event.payment also contains contact information if needed.
+
+                // Create the payment method instance at Unzer with your public key
+                unzerApplePayInstance.createResource(paymentData)
+                    .then(result => {
+                        console.debug(result);
+                        saveType(result.id);
+                    })
+                    .catch(function (error) {
+                        paymentError(error);
+                    });
+            };
+
+            // start the merchant validation process
+            session.begin();
+        });
+
     } else {
         console.warn(`Unknown payment provider: ${shopStore.state.order?.['payment_provider']}`);
     }
@@ -224,7 +288,7 @@ function paymentError(error) {
 /**
  * Create the payment Type (ressource) on behalf of the Unzer-UI components.
  *
- * This function is used by all unzer pyment types, except Google Pay.
+ * This function is used by all unzer payment types, except Google Pay and Apple Pay.
  */
 function submitFormToUnzer() {
     PaymentCheckPause();
