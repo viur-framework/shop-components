@@ -10,16 +10,18 @@
   </template>
   </shop-alert>
 
-  <template v-if="shopStore.state.cartRoot.discount">
+  <template v-if="shopStore.state.discounts">
+    <template v-for="discount in shopStore.state.discounts">
     <div class="viur-shop-discount-view">
-    <span>Code: {{ shopStore.state.cartRoot.discount.dest.name }}</span>
-    <sl-button size="small"  outline variant="danger" @click="removeDiscountAction" :loading="state.loading">
+    <span>Code: {{ discount.dest.name }}</span>
+    <sl-button size="small"  outline variant="danger" @click="removeDiscountAction(discount.dest.key)" :loading="state.loading">
       <sl-icon name="x-lg" slot="prefix"></sl-icon>
 
     </sl-button>
     </div>
+    </template>
   </template>
-  <sl-button-group v-else>
+  <sl-button-group>
     <sl-input
       class="viur-shop-discount-input"
       :placeholder="$t('viur.shop.add_discount_placeholder')"
@@ -62,12 +64,12 @@ function addDiscountAction() {
     });
 }
 
-function removeDiscountAction(){
+function removeDiscountAction(key){
   state.loading=true
-  removeDiscount()
+  removeDiscount(key)
     .then(async (resp) => {
       state.loading=false
-      state.alert.msg = "Discount removed";
+      state.alert.msg = $t('viur.shop.discount_removed');
       state.alert.show = true;
       state.alert.variant = "success";
     })
