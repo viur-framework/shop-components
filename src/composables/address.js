@@ -4,6 +4,7 @@ import {useCart} from '../composables/cart';
 import {useOrder} from '../composables/order';
 import {useViurShopStore} from '../shop';
 import {useShipping} from './shipping.js';
+import {Request} from '@viur/vue-utils';
 
 export const useAddress = defineStore('useAddressStore', () => {
   const shopStore = useViurShopStore();
@@ -110,10 +111,34 @@ export const useAddress = defineStore('useAddressStore', () => {
     }
   }
 
+  function saveBirthdate(addressKey, birthdate) {
+    return new Promise((resolve, reject) => {
+      Request.securePost(
+        `/json/${shopStore.state.moduleName}/address/edit/${addressKey}`, {
+          dataObj: {
+            '@order': shopStore.state.orderKey,
+            birthdate,
+          },
+        },
+      )
+        .then(async (res) => {
+          const data = await res.json();
+          if (data['action'] === 'editSuccess') {
+            resolve(data);
+          } else {
+            reject(`Update failed`);
+          }
+        })
+        .catch(reject);
+    });
+  }
+
+
   return {
     state,
     saveForm,
     updateAddresses,
     saveAddresses,
+    saveBirthdate,
   };
 });
