@@ -42,7 +42,8 @@
       <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-googlepay'">
         <div id="googlepay-element" class="field"></div>
       </template>
-<template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paylater_invoice'">
+
+      <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paylater_invoice'">
         <p v-html="$t('viur.shop.missing_birthdate', shopStore.state.order.billing_address.dest)"/>
         <sl-input
           slot="left"
@@ -56,7 +57,9 @@
           :disabled="state.loading"
         ></sl-input>
         <div id="paylater-invoice-element" class="field"></div>
-      </template>      <p
+      </template>
+
+      <p
         v-if="!!shopStore.state?.paymentProviderData?.redirectUrl"
         v-html="$t('viur.shop.payment_link', {url: shopStore.state.paymentProviderData.redirectUrl})"
       />
@@ -116,7 +119,6 @@ const state = reactive({
   waitPayment: false,
   birthdate: null,
   birthdateIsInvalid: false,
-  additionalSaveData: {},
 });
 
 /**
@@ -242,7 +244,6 @@ function birthdateChange(event) {
     // state.birthdate = null;
     state.birthdateIsInvalid = true;
   } else {
-    state.additionalSaveData.birthdate = event.target.value;
     state.birthdate = event.target.value;
     state.birthdateIsInvalid = false;
     state.loading = true;
@@ -287,11 +288,13 @@ function submitFormToUnzer() {
   PaymentCheckPause();
   state.loading = true;
   state.hasError = false;
-  state.paymentHandler[shopStore.state.order?.['payment_provider']].createResource().then((result) => {
-    saveType(result.id);
-  }).catch((error) => {
-    paymentError(error);
-  });
+  state.paymentHandler[shopStore.state.order?.['payment_provider']].createResource()
+    .then((result) => {
+      saveType(result.id);
+    })
+    .catch((error) => {
+      paymentError(error);
+    });
 }
 
 /**
@@ -307,7 +310,6 @@ function saveType(typeId) {
     dataObj: {
       order_key: shopStore.state.orderKey,
       type_id: typeId,
-      ...state.additionalSaveData,
     },
   }).then(async (resp) => {
     shopStore.state.order = await resp.json();
@@ -339,7 +341,8 @@ onBeforeMount(() => {
   if (!shopStore.state.paymentProviderData) {
     shopStore.checkout().then(() => {
       initUnzerForm();
-    fetchOrder(shopStore.state.orderKey); // refresh order after checkout_start freeze}).catch((error) => {
+      fetchOrder(shopStore.state.orderKey); // refresh order after checkout_start freeze
+    }).catch((error) => {
       console.log(error);
     });
   } else {
