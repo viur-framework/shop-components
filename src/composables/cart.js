@@ -48,6 +48,7 @@ export function useCart() {
           shopStore.state.cartReady = true;
         });
       }
+      shopStore.state.discounts = {}
       return fetchCartRoot().then(() => {
         if (!shopStore.state.cartRoot?.["key"]) return 0;
         fetchCartItems(shopStore.state.cartRoot["key"]).then(() => {  // TODO: duplicate code
@@ -59,10 +60,12 @@ export function useCart() {
 
     function fetchCartRoot(){
         // fetch list of Rootnodes and saves the first one
-
         return Request.get(`${shopStore.state.shopUrl}/cart/listRootNodes`).then(async (resp)=>{
             let data = await resp.clone().json()
             shopStore.state.cartRoot = data.filter(i=>i['cart_type']==='basket')?.[0] ? data.filter(i=>i['cart_type']==='basket')[0]:[]
+            if (shopStore.state.cartRoot.discount){
+              shopStore.state.discounts = {[shopStore.state.cartRoot.discount.dest.key]:shopStore.state.cartRoot.discount}
+            }
             return resp
         })
     }
@@ -82,6 +85,9 @@ export function useCart() {
               if (item["skel_type"]==="leaf"){
                 currentLeafs.push(item)
               }else{
+                if(item.discount){
+                  shopStore.state.discounts[item.discount.dest.key] = item.discount
+                }
                 await fetchCartItems(item['key'])
               }
             }
@@ -168,11 +174,11 @@ export function useCart() {
     });
     }
 
-    function removeDiscount() {
+    function removeDiscount(key) {
         return new Promise((resolve, reject) => {
           Request.securePost(`${shopStore.state.shopApiUrl}/discount_remove`, {
             dataObj: {
-                discount_key: shopStore.state.cartRoot.discount.dest.key,
+                discount_key: key,
             },
           })
         .then(async (resp) => {

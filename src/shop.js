@@ -122,7 +122,8 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
 
         //checkout
         paymentProviderData:null,
-        UserDataLayout: shallowRef(AddressFormLayout)
+        UserDataLayout: shallowRef(AddressFormLayout),
+        discounts:{}
     })
 
     function addTab({name, component, displayname, iconname, iconlibrary,active})

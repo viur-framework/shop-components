@@ -52,7 +52,8 @@
           readytoship: {{ shopStore.state.order?.['is_rts'] }}<br>
           paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>
 
-          OrderObject: {{shopStore.state.order}}
+          OrderObject: {{shopStore.state.order}}<br><br>
+          activeDiscounts: {{ shopStore.state.discounts }}
 
       </sl-details>
     </template>

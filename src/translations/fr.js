@@ -43,6 +43,7 @@ export default {
       'summary_total': 'Montant TTC',
       'summary_vat': 'TVA incluse ({percentage})',
       'discount_not_found': 'Ce code promo n’existe pas.',
+      'discount_removed': 'Code promo supprimé.',
       'discount_not_active': 'Ce code promo n’est pas actif.',
       'discount_not_available': 'Ce code promo n’est pas valable pour ce pays.',
       'discount_already_used': 'Ce code promo a déjà été utilisé.',
