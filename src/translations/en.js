@@ -58,6 +58,8 @@ export default {
       'order_step_complete': 'Order complete',
       'paypal_client_popup_info': 'Please make sure your browser allows the PayPal popup.',
       'payment_link': 'Your browser does not open a popup? Then please click <a href="{url}" target="_blank">here</a>.',
+      'birthdate': 'date of birth',
+      'missing_birthdate': 'For the selected payment method, we require the date of birth of <i>{firstname}&nbsp;{lastname}</i> in addition to the billing address.',
     },
   },
   messages: {
