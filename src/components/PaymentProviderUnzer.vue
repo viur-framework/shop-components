@@ -42,8 +42,7 @@
       <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-googlepay'">
         <div id="googlepay-element" class="field"></div>
       </template>
-
-      <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paylater_invoice'">
+<template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paylater_invoice'">
         <p v-html="$t('viur.shop.missing_birthdate', shopStore.state.order.billing_address.dest)"/>
         <sl-input
           slot="left"
@@ -57,9 +56,7 @@
           :disabled="state.loading"
         ></sl-input>
         <div id="paylater-invoice-element" class="field"></div>
-      </template>
-
-      <p
+      </template>      <p
         v-if="!!shopStore.state?.paymentProviderData?.redirectUrl"
         v-html="$t('viur.shop.payment_link', {url: shopStore.state.paymentProviderData.redirectUrl})"
       />
@@ -342,8 +339,7 @@ onBeforeMount(() => {
   if (!shopStore.state.paymentProviderData) {
     shopStore.checkout().then(() => {
       initUnzerForm();
-      fetchOrder(shopStore.state.orderKey); // refresh order after checkout_start freeze
-    }).catch((error) => {
+    fetchOrder(shopStore.state.orderKey); // refresh order after checkout_start freeze}).catch((error) => {
       console.log(error);
     });
   } else {
