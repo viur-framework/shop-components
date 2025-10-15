@@ -44,30 +44,18 @@
       </template>
 
       <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paylater_invoice'">
-        <p> <!-- TODO: translate -->
-          Wir benötigen zur Rechnungsadresse
-          <i>{{
-              shopStore.state.order.billing_address.dest['firstname']
-            }}&nbsp;{{ shopStore.state.order.billing_address.dest['lastname'] }}</i>
-          noch das Geburtsdatum.
-        </p>
-        <sl-bar>
-          <sl-input
-            slot="left"
-            type="date"
-            min="1900-01-01"
-            :max="new Date().toISOString().slice(0, 10)"
-            :placeholder="$t('viur.shop.form.birthdate')"
-            :label="$t('viur.shop.form.birthdate')"
-            :value="state.birthdate"
-            @sl-change="birthdateChange"
-            :disabled="state.loading"
-          ></sl-input>
-          <sl-button slot="right" variant="success" size="small" @click="saveBirthdate">
-            {{ $t('save') }}
-          </sl-button>
-        </sl-bar>
-        <!--                :value="value"-->
+        <p v-html="$t('viur.shop.missing_birthdate', shopStore.state.order.billing_address.dest)"/>
+        <sl-input
+          slot="left"
+          type="date"
+          min="1900-01-01"
+          :max="new Date().toISOString().slice(0, 10)"
+          :placeholder="$t('viur.shop.birthdate')"
+          :label="$t('viur.shop.birthdate')"
+          :value="state.birthdate"
+          @sl-change="birthdateChange"
+          :disabled="state.loading"
+        ></sl-input>
         <div id="paylater-invoice-element" class="field"></div>
       </template>
 
@@ -261,7 +249,6 @@ function birthdateChange(event) {
     state.birthdate = event.target.value;
     state.birthdateIsInvalid = false;
     state.loading = true;
-    // fetchOrder(shopStore.state.orderKey).then(order => {
     saveBirthdate(shopStore.state.order.billing_address.dest['key'], event.target.value)
       .then(result => {
         console.debug(result);
@@ -270,7 +257,6 @@ function birthdateChange(event) {
       .finally(() => {
         state.loading = false;
       });
-    // });
   }
 }
 
