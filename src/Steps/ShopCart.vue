@@ -5,7 +5,6 @@
         :nextfunction="nextStep"
     >
     </slot>
-
     <loading-handler :isLoading="cartState.isLoading" :isUpdating="cartState.isUpdating">
         <div class="viur-shop-item-wrapper" v-if="state.items.length>0">
             <cart-item v-for="item in state.items" :item="item"
@@ -55,7 +54,7 @@ const props = defineProps({
 })
 
 const state = reactive({
-    items: computed(()=>shopStore.state.cartList.filter(i=>i['skel_type']==='leaf'))
+    items: computed(()=>shopStore.state.cartList)
 })
 
 onBeforeMount(()=>{

@@ -1,26 +1,27 @@
 <template>
-  {{ state.alert.msg }}
     <shop-alert
       v-if="state.alert.show"
       :variant="state.alert.variant"
       @onHide="state.alert = {}"
-      duration="infinity"
+      duration="5000"
     >
   <template #alertMsg>
     {{ state.alert.msg }}
   </template>
   </shop-alert>
 
-  <template v-if="shopStore.state.cartRoot.discount">
+  <template v-if="shopStore.state.discounts">
+    <template v-for="discount in shopStore.state.discounts">
     <div class="viur-shop-discount-view">
-    <span>Code: {{ shopStore.state.cartRoot.discount.dest.name }}</span>
-    <sl-button size="small"  outline variant="danger" @click="removeDiscountAction" :loading="state.loading">
+    <span>Code: {{ discount.dest.name }}</span>
+    <sl-button size="small"  outline variant="danger" @click="removeDiscountAction(discount.dest.key)" :loading="state.loading">
       <sl-icon name="x-lg" slot="prefix"></sl-icon>
 
     </sl-button>
     </div>
+    </template>
   </template>
-  <sl-button-group v-else>
+  <sl-button-group>
     <sl-input
       class="viur-shop-discount-input"
       :placeholder="$t('viur.shop.add_discount_placeholder')"
@@ -36,9 +37,10 @@
 import { reactive } from "vue";
 import { useViurShopStore } from "../shop";
 import { useCart } from '../composables/cart';
+import {useI18n} from 'vue-i18n';
 const shopStore = useViurShopStore();
 const {addDiscount, removeDiscount} = useCart()
-
+  const i18n = useI18n();
 import ShopAlert from "./ShopAlert.vue";
 
 const state = reactive({
@@ -56,25 +58,25 @@ function addDiscountAction() {
     .catch((error) => {
       state.loading=false
       console.log("error bei rabatt", error);
-      state.alert.msg = "not found";
+      state.alert.msg = i18n.t('viur.shop.discount_not_found');
       state.alert.show = true;
       state.alert.variant = "danger";
     });
 }
 
-function removeDiscountAction(){
+function removeDiscountAction(key){
   state.loading=true
-  removeDiscount()
+  removeDiscount(key)
     .then(async (resp) => {
       state.loading=false
-      state.alert.msg = "Discount removed";
+      state.alert.msg = $t('viur.shop.discount_removed');
       state.alert.show = true;
       state.alert.variant = "success";
     })
     .catch((error) => {
       state.loading=false
       console.log("error bei rabatt", error);
-      state.alert.msg = "not found";
+      state.alert.msg = $t('viur.shop.discount_not_found');
       state.alert.show = true;
       state.alert.variant = "danger";
     });

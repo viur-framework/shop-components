@@ -110,7 +110,7 @@ sl-tab-group {
   }
 }
 
-sl-tap-panel {
+sl-tab-panel {
   height: 100%;
   &::part(base) {
     height: 100%;
