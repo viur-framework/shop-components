@@ -67,13 +67,13 @@
       />
     </form>
 
-    <button
-      v-if="shopStore.state.order?.['payment_provider'] !== 'unzer-googlepay'"
-      :disabled="state.loading || state.birthdateIsInvalid"
-      class="unzerUI primary button fluid"
-      @click="submitFormToUnzer"
-    >{{ $t('viur.shop.pay') }}
-    </button>
+<!--    <button-->
+<!--      v-if="shopStore.state.order?.['payment_provider'] !== 'unzer-googlepay'"-->
+<!--      :disabled="state.loading || state.birthdateIsInvalid"-->
+<!--      class="unzerUI primary button fluid"-->
+<!--      @click="submitFormToUnzer"-->
+<!--    >{{ $t('viur.shop.pay') }}-->
+<!--    </button>-->
     <sl-button :disabled="state.loading" variant="danger" @click="cancelPayment">
       {{ $t('actions.cancel') }}
     </sl-button>
@@ -125,6 +125,7 @@ const state = reactive({
   waitPayment: false,
   birthdate: null,
   birthdateIsInvalid: false,
+  order_id: null,
 });
 
 /**
@@ -136,7 +137,9 @@ function initPaypalForm() {
 
   const paypalScriptPromise = new Promise((resolve, reject) => {
     const paypalScript = document.createElement('script');
-    paypalScript.setAttribute('src', 'https://www.paypal.com/sdk/js?client-id=test&buyer-country=DE&currency=EUR&components=buttons&enable-funding=venmo,paylater,card');
+        // let client_id = shopStore.state.paymentProviderData.payment.public_key;
+        let client_id = shopStore.state.paymentProviderData.public_key;
+    paypalScript.setAttribute('src', `https://www.paypal.com/sdk/js?client-id=${client_id}&buyer-country=DE&currency=EUR&components=buttons&enable-funding=venmo,paylater,card`);
     paypalScript.onload = () => {
       resolve(paypalScript);
     };
@@ -146,6 +149,9 @@ function initPaypalForm() {
 
 
   paypalScriptPromise.then(() => {
+
+
+        console.debug(shopStore.state.paymentProviderData)
 
     const paypalButtons = window.paypal.Buttons({
       style: {
@@ -160,6 +166,10 @@ function initPaypalForm() {
 
       async createOrder() {
         try {
+           let resp = await shopStore.checkoutOrder()//.then((resp) => {
+      console.debug(resp)
+
+        /*
           const response = await fetch('/api/orders', {
             method: 'POST',
             headers: {
@@ -181,7 +191,19 @@ function initPaypalForm() {
 
           if (orderData.id) {
             return orderData.id;
+          }*/
+          // const orderData = await resp.json();
+          const orderData = await resp.payment;
+          // const orderData = await response.json();
+
+        // let orderData = shopStore.state.paymentProviderData;
+        console.debug(orderData)
+
+          if (orderData.id) {
+            state.order_id=orderData.id
+            return orderData.id;
           }
+
           const errorDetail = orderData?.details?.[0];
           const errorMessage = errorDetail
             ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
@@ -195,8 +217,96 @@ function initPaypalForm() {
       },
 
       async onApprove(data, actions) {
+
+        // function saveType(typeId) {
+  const paymenttarget = shopStore.state.order?.['payment_provider'].replace(/-/g, '_');
+  Request.post(`${shopStore.state.shopUrl}/pp_${paymenttarget}/capture_order`, {
+    dataObj: {
+      order_key: shopStore.state.orderKey,
+      order_id: state.order_id,
+    },
+  }).then(async (resp) => {
+    shopStore.state.order = await resp.json();
+    shopStore.checkoutOrder().then( async(resp) => {
+      console.debug(resp)
+
+       // const orderData = await response.json();
+       const orderData = await resp.json();
+          // Three cases to handle:
+          //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+          //   (2) Other non-recoverable errors -> Show a failure message
+          //   (3) Successful transaction -> Show confirmation or thank you message
+
+          const errorDetail = orderData?.details?.[0];
+
+          if (errorDetail?.issue === 'INSTRUMENT_DECLINED') {
+            // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+            // recoverable state, per
+            // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
+            return actions.restart();
+          } else if (errorDetail) {
+            // (2) Other non-recoverable errors -> Show a failure message
+            throw new Error(
+              `${errorDetail.description} (${orderData.debug_id})`,
+            );
+          } else if (!orderData.purchase_units) {
+            throw new Error(JSON.stringify(orderData));
+          } else {
+            // (3) Successful transaction -> Show confirmation or thank you message
+            // Or go to another URL:  actions.redirect('thank_you.html');
+            const transaction =
+              orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
+              orderData?.purchase_units?.[0]?.payments
+                ?.authorizations?.[0];
+            resultMessage(
+              `Transaction ${transaction.status}: ${transaction.id}<br>
+          <br>See console for all available details`,
+            );
+            console.log(
+              'Capture result',
+              orderData,
+              JSON.stringify(orderData, null, 2),
+            );
+          }
+        // } catch (error) {
+        //   console.error(error);
+        //   resultMessage(
+        //     `Sorry, your transaction could not be processed...<br><br>${error}`,
+        //   );
+        // }
+
+
+
+
+
+
+      state.loading = false;
+      state.hasError = false;
+      if (shopStore.state.paymentProviderData?.redirectUrl) {
+        state.waitPayment = true;
+        window.open(shopStore.state.paymentProviderData.redirectUrl, '_blank', 'popup');
+        PaymentCheckResume();
+      }
+
+    }).catch(async (error) => {
+      paymentError(error);
+    });
+
+  }).catch(error => {
+    paymentError(error);
+  });
+// }
+
+        /*
+
         try {
-          const response = await fetch(
+
+
+
+           // shopStore.checkoutOrder().then((resp) => {
+
+
+   const response = await fetch(
             `/api/orders/${data.orderID}/capture`,
             {
               method: 'POST',
@@ -249,6 +359,7 @@ function initPaypalForm() {
             `Sorry, your transaction could not be processed...<br><br>${error}`,
           );
         }
+         */
       },
 
       onError: (err) => {
@@ -370,8 +481,9 @@ function cancelPayment() {
 }
 
 onBeforeMount(() => {
+  console.debug('mounting', shopStore.state.paymentProviderData)
   state.loading = true;
-    initPaypalForm();
+    // initPaypalForm();
   if (!shopStore.state.paymentProviderData) {
     shopStore.checkout().then(() => {
       initPaypalForm();
