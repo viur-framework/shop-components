@@ -252,7 +252,7 @@ function initUnzerForm() {
                 // event.payment also contains contact information if needed.
 
                 // Create the payment method instance at Unzer with your public key
-                unzerApplePayInstance.createResource(paymentData)
+                applepay.createResource(paymentData)
                     .then(result => {
                         console.debug(result);
                         saveType(result.id);
