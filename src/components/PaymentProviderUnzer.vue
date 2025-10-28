@@ -375,4 +375,16 @@ onBeforeMount(() => {
 .unzerUI.primary.button, .unzerUI.primary.buttons .button {
   background-color: var(--ignt-color-primary) !important;
 }
+
+.unzerSandboxNotify:not(:first-of-type) {
+    display: none;
+}
+
+.unzerUI.form {
+  margin-top: 1em;
+
+  .opt-in a.unzerUI {
+    line-height: inherit;
+  }
+}
 </style>
