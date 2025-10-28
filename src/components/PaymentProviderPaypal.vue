@@ -67,13 +67,13 @@
       />
     </form>
 
-<!--    <button-->
-<!--      v-if="shopStore.state.order?.['payment_provider'] !== 'unzer-googlepay'"-->
-<!--      :disabled="state.loading || state.birthdateIsInvalid"-->
-<!--      class="unzerUI primary button fluid"-->
-<!--      @click="submitFormToUnzer"-->
-<!--    >{{ $t('viur.shop.pay') }}-->
-<!--    </button>-->
+    <!--    <button-->
+    <!--      v-if="shopStore.state.order?.['payment_provider'] !== 'unzer-googlepay'"-->
+    <!--      :disabled="state.loading || state.birthdateIsInvalid"-->
+    <!--      class="unzerUI primary button fluid"-->
+    <!--      @click="submitFormToUnzer"-->
+    <!--    >{{ $t('viur.shop.pay') }}-->
+    <!--    </button>-->
     <sl-button :disabled="state.loading" variant="danger" @click="cancelPayment">
       {{ $t('actions.cancel') }}
     </sl-button>
@@ -137,8 +137,8 @@ function initPaypalForm() {
 
   const paypalScriptPromise = new Promise((resolve, reject) => {
     const paypalScript = document.createElement('script');
-        // let client_id = shopStore.state.paymentProviderData.payment.public_key;
-        let client_id = shopStore.state.paymentProviderData.public_key;
+    // let client_id = shopStore.state.paymentProviderData.payment.public_key;
+    let client_id = shopStore.state.paymentProviderData.public_key;
     paypalScript.setAttribute('src', `https://www.paypal.com/sdk/js?client-id=${client_id}&buyer-country=DE&currency=EUR&components=buttons&enable-funding=venmo,paylater,card`);
     paypalScript.onload = () => {
       resolve(paypalScript);
@@ -149,9 +149,8 @@ function initPaypalForm() {
 
 
   paypalScriptPromise.then(() => {
-
-
-        console.debug(shopStore.state.paymentProviderData)
+    console.debug('paypalScriptPromise resolved - READY');
+    console.debug(shopStore.state.paymentProviderData);
 
     const paypalButtons = window.paypal.Buttons({
       style: {
@@ -165,42 +164,43 @@ function initPaypalForm() {
       },
 
       async createOrder() {
+        console.debug('createOrder');
         try {
-           let resp = await shopStore.checkoutOrder()//.then((resp) => {
-      console.debug(resp)
+          let resp = await shopStore.checkoutOrder();//.then((resp) => {
+          console.debug(resp);
 
-        /*
-          const response = await fetch('/api/orders', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            // use the "body" param to optionally pass additional order information
-            // like product ids and quantities
-            body: JSON.stringify({
-              cart: [
-                {
-                  id: 'YOUR_PRODUCT_ID',
-                  quantity: 'YOUR_PRODUCT_QUANTITY',
-                },
-              ],
-            }),
-          });
+          /*
+            const response = await fetch('/api/orders', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              // use the "body" param to optionally pass additional order information
+              // like product ids and quantities
+              body: JSON.stringify({
+                cart: [
+                  {
+                    id: 'YOUR_PRODUCT_ID',
+                    quantity: 'YOUR_PRODUCT_QUANTITY',
+                  },
+                ],
+              }),
+            });
 
-          const orderData = await response.json();
+            const orderData = await response.json();
 
-          if (orderData.id) {
-            return orderData.id;
-          }*/
+            if (orderData.id) {
+              return orderData.id;
+            }*/
           // const orderData = await resp.json();
           const orderData = await resp.payment;
           // const orderData = await response.json();
 
-        // let orderData = shopStore.state.paymentProviderData;
-        console.debug(orderData)
+          // let orderData = shopStore.state.paymentProviderData;
+          console.debug(orderData);
 
           if (orderData.id) {
-            state.order_id=orderData.id
+            state.order_id = orderData.id;
             return orderData.id;
           }
 
@@ -217,21 +217,26 @@ function initPaypalForm() {
       },
 
       async onApprove(data, actions) {
+        console.debug('onApprove', data, actions);
 
         // function saveType(typeId) {
-  const paymenttarget = shopStore.state.order?.['payment_provider'].replace(/-/g, '_');
-  Request.post(`${shopStore.state.shopUrl}/pp_${paymenttarget}/capture_order`, {
-    dataObj: {
-      order_key: shopStore.state.orderKey,
-      order_id: state.order_id,
-    },
-  }).then(async (resp) => {
-    shopStore.state.order = await resp.json();
-    shopStore.checkoutOrder().then( async(resp) => {
-      console.debug(resp)
+        const paymenttarget = shopStore.state.order?.['payment_provider'].replace(/-/g, '_');
+        Request.post(`${shopStore.state.shopUrl}/pp_${paymenttarget}/capture_order`, {
+          dataObj: {
+            order_key: shopStore.state.orderKey,
+            order_id: state.order_id,
+          },
+        }).then(async (resp) => {
+          console.debug('capture_order', resp);
+          // shopStore.state. = await resp.json();
+          // shopStore.checkoutOrder().then( async(resp) => {
+          //   console.debug(resp)
 
-       // const orderData = await response.json();
-       const orderData = await resp.json();
+          const orderData = await resp.json();
+          // const orderData = (await resp.json()).payment;
+          // const orderData = resp.payment;
+          console.debug(orderData);
+
           // Three cases to handle:
           //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
           //   (2) Other non-recoverable errors -> Show a failure message
@@ -258,43 +263,39 @@ function initPaypalForm() {
               orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
               orderData?.purchase_units?.[0]?.payments
                 ?.authorizations?.[0];
-            resultMessage(
-              `Transaction ${transaction.status}: ${transaction.id}<br>
-          <br>See console for all available details`,
-            );
             console.log(
               'Capture result',
               orderData,
               JSON.stringify(orderData, null, 2),
             );
+            resultMessage(
+              `Transaction ${transaction.status}: ${transaction.id}<br>
+          <br>See console for all available details`,
+            );
           }
-        // } catch (error) {
-        //   console.error(error);
-        //   resultMessage(
-        //     `Sorry, your transaction could not be processed...<br><br>${error}`,
-        //   );
-        // }
+          // } catch (error) {
+          //   console.error(error);
+          //   resultMessage(
+          //     `Sorry, your transaction could not be processed...<br><br>${error}`,
+          //   );
+          // }
 
 
+          state.loading = false;
+          state.hasError = false;
+          if (shopStore.state.paymentProviderData?.redirectUrl) {
+            state.waitPayment = true;
+            window.open(shopStore.state.paymentProviderData.redirectUrl, '_blank', 'popup');
+            PaymentCheckResume();
+          }
 
+          // }).catch(async (error) => {
+          //   paymentError(error);
+          // });
 
-
-
-      state.loading = false;
-      state.hasError = false;
-      if (shopStore.state.paymentProviderData?.redirectUrl) {
-        state.waitPayment = true;
-        window.open(shopStore.state.paymentProviderData.redirectUrl, '_blank', 'popup');
-        PaymentCheckResume();
-      }
-
-    }).catch(async (error) => {
-      paymentError(error);
-    });
-
-  }).catch(error => {
-    paymentError(error);
-  });
+        }).catch(error => {
+          paymentError(error);
+        });
 // }
 
         /*
@@ -374,8 +375,10 @@ function initPaypalForm() {
 
     // Example function to show a result to the user. Your site's UI library can be used instead.
     function resultMessage(message) {
-      const container = document.querySelector('#result-message');
-      container.innerHTML = message;
+      alert(message);
+      // const container = document.querySelector('#result-message');
+      // container.innerHTML = message;
+      PaymentCheckPause()
     }
 
   });
@@ -481,9 +484,9 @@ function cancelPayment() {
 }
 
 onBeforeMount(() => {
-  console.debug('mounting', shopStore.state.paymentProviderData)
+  console.debug('mounting', shopStore.state.paymentProviderData);
   state.loading = true;
-    // initPaypalForm();
+  // initPaypalForm();
   if (!shopStore.state.paymentProviderData) {
     shopStore.checkout().then(() => {
       initPaypalForm();
