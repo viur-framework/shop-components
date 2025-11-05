@@ -272,6 +272,15 @@ function initPaypalForm() {
               `Transaction ${transaction.status}: ${transaction.id}<br>
           <br>See console for all available details`,
             );
+
+             state.loading = false;
+          state.hasError = false;
+          // if (shopStore.state.paymentProviderData?.redirectUrl) {
+            state.waitPayment = true;
+            // window.open(shopStore.state.paymentProviderData.redirectUrl, '_blank', 'popup');
+            PaymentCheckResume();
+          // }
+
           }
           // } catch (error) {
           //   console.error(error);
