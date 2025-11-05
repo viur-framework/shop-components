@@ -151,7 +151,7 @@ async function startCheckout(){
       }
   }
   state.paymentPopup=true
-  shopStore.checkout()
+  shopStore.checkoutStart();
 }
 
 //close popup if payment successfull

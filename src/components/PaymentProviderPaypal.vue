@@ -11,84 +11,20 @@
   </div>
   <div class="form-wrapper">
     <sl-alert :open="state.hasError" variant="danger">{{ state.errorMessage }}</sl-alert>
-    <form class="unzerUI form" novalidate>
-      <template v-if="shopStore.state.order?.['payment_provider'] === 'unzer-card'">
-        <div class="field">
-          <div id="card-element-id-number" class="unzerInput">
-            <!-- Card number UI Element is inserted here. -->
-          </div>
-        </div>
-        <div class="two fields">
-          <div class="field ten wide">
-            <div id="card-element-id-expiry" class="unzerInput">
-              <!-- Card expiry date UI Element is inserted here. -->
-            </div>
-          </div>
-          <div class="field six wide">
-            <div id="card-element-id-cvc" class="unzerInput">
-              <!-- Card CVC UI Element is inserted here. -->
-            </div>
-          </div>
-        </div>
-      </template>
 
-      <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paypal'">
-        <sl-alert open variant="danger">{{ $t('viur.shop.paypal_client_popup_info') }}</sl-alert>
-        <div id="paypal-element" class="field"></div>
-      </template>
+    <div id="paypal-button-container"></div>
 
-      <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-ideal'">
-        <div id="ideal-element" class="field"></div>
-      </template>
-
-      <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-googlepay'">
-        <div id="googlepay-element" class="field"></div>
-      </template>
-
-      <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paylater_invoice'">
-        <p v-html="$t('viur.shop.missing_birthdate', shopStore.state.order.billing_address.dest)"/>
-        <sl-input
-          slot="left"
-          type="date"
-          min="1900-01-01"
-          :max="new Date().toISOString().slice(0, 10)"
-          :placeholder="$t('viur.shop.birthdate')"
-          :label="$t('viur.shop.birthdate')"
-          :value="state.birthdate"
-          @sl-change="birthdateChange"
-          :disabled="state.loading"
-        ></sl-input>
-        <div id="paylater-invoice-element" class="field"></div>
-      </template>
-
-      <p
-        v-if="!!shopStore.state?.paymentProviderData?.redirectUrl"
-        v-html="$t('viur.shop.payment_link', {url: shopStore.state.paymentProviderData.redirectUrl})"
-      />
-    </form>
-
-    <!--    <button-->
-    <!--      v-if="shopStore.state.order?.['payment_provider'] !== 'unzer-googlepay'"-->
-    <!--      :disabled="state.loading || state.birthdateIsInvalid"-->
-    <!--      class="unzerUI primary button fluid"-->
-    <!--      @click="submitFormToUnzer"-->
-    <!--    >{{ $t('viur.shop.pay') }}-->
-    <!--    </button>-->
     <sl-button :disabled="state.loading" variant="danger" @click="cancelPayment">
       {{ $t('actions.cancel') }}
     </sl-button>
   </div>
-
-  <div class="paypal-button-container"></div>
-  <div id="paypal-button-container"></div>
-
 </template>
 
 <script setup>
 import {Request} from '@viur/vue-utils';
 import {HTTPError} from '@viur/vue-utils/utils/request.js';
 import {useIntervalFn} from '@vueuse/core';
-import {computed, onBeforeMount, reactive} from 'vue';
+import {onBeforeMount, reactive} from 'vue';
 import {useAddress} from '../composables/address.js';
 import {useOrder} from '../composables/order';
 import {useViurShopStore} from '../shop';
@@ -114,17 +50,11 @@ const {pause: PaymentCheckPause, resume: PaymentCheckResume, isActive: PaymentCh
 
 
 const state = reactive({
-  unzer: computed(() => {
-    if (!shopStore.state.paymentProviderData) return null;
-    return new unzer(shopStore.state.paymentProviderData['public_key'], {locale: shopStore.state.locale});
-  }),
   paymentHandler: {},
   loading: false,
   hasError: false,
   errorMessage: null,
   waitPayment: false,
-  birthdate: null,
-  birthdateIsInvalid: false,
   order_id: null,
 });
 
@@ -132,13 +62,14 @@ const state = reactive({
  * Initialize the payment type creation with Unzer-UI components
  */
 function initPaypalForm() {
-  // if (shopStore.state.order?.['payment_provider'] === 'unzer-card') {
-
+  if (shopStore.state.order?.['payment_provider'] !== 'paypal_checkout') {
+    console.error(`PayPal Checkout does not work with ${shopStore.state.order?.['payment_provider']}.`);
+    return null;
+  }
 
   const paypalScriptPromise = new Promise((resolve, reject) => {
     const paypalScript = document.createElement('script');
-    // let client_id = shopStore.state.paymentProviderData.payment.public_key;
-    let client_id = shopStore.state.paymentProviderData.public_key;
+    const client_id = shopStore.state.paymentProviderData.public_key;
     paypalScript.setAttribute('src', `https://www.paypal.com/sdk/js?client-id=${client_id}&buyer-country=DE&currency=EUR&components=buttons&enable-funding=venmo,paylater,card`);
     paypalScript.onload = () => {
       resolve(paypalScript);
@@ -169,29 +100,6 @@ function initPaypalForm() {
           let resp = await shopStore.checkoutOrder();//.then((resp) => {
           console.debug(resp);
 
-          /*
-            const response = await fetch('/api/orders', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              // use the "body" param to optionally pass additional order information
-              // like product ids and quantities
-              body: JSON.stringify({
-                cart: [
-                  {
-                    id: 'YOUR_PRODUCT_ID',
-                    quantity: 'YOUR_PRODUCT_QUANTITY',
-                  },
-                ],
-              }),
-            });
-
-            const orderData = await response.json();
-
-            if (orderData.id) {
-              return orderData.id;
-            }*/
           // const orderData = await resp.json();
           const orderData = await resp.payment;
           // const orderData = await response.json();
@@ -273,14 +181,10 @@ function initPaypalForm() {
           <br>See console for all available details`,
             );
 
-             state.loading = false;
-          state.hasError = false;
-          // if (shopStore.state.paymentProviderData?.redirectUrl) {
+            state.loading = false;
+            state.hasError = false;
             state.waitPayment = true;
-            // window.open(shopStore.state.paymentProviderData.redirectUrl, '_blank', 'popup');
             PaymentCheckResume();
-          // }
-
           }
           // } catch (error) {
           //   console.error(error);
@@ -288,31 +192,11 @@ function initPaypalForm() {
           //     `Sorry, your transaction could not be processed...<br><br>${error}`,
           //   );
           // }
-
-
-          state.loading = false;
-          state.hasError = false;
-          if (shopStore.state.paymentProviderData?.redirectUrl) {
-            state.waitPayment = true;
-            window.open(shopStore.state.paymentProviderData.redirectUrl, '_blank', 'popup');
-            PaymentCheckResume();
-          }
-
-          // }).catch(async (error) => {
-          //   paymentError(error);
-          // });
-
         }).catch(error => {
           paymentError(error);
         });
-// }
-
         /*
-
         try {
-
-
-
            // shopStore.checkoutOrder().then((resp) => {
 
 
@@ -374,6 +258,7 @@ function initPaypalForm() {
 
       onError: (err) => {
         console.error(err);
+        paymentError(err);
         // redirect to your specific error page
         // window.location.assign('/your-error-page-here');
       },
@@ -387,31 +272,11 @@ function initPaypalForm() {
       alert(message);
       // const container = document.querySelector('#result-message');
       // container.innerHTML = message;
-      PaymentCheckPause()
+      PaymentCheckPause();
     }
 
   });
   state.loading = false;
-}
-
-function birthdateChange(event) {
-  console.debug('birthdateChange', arguments);
-  if (!event.target.value || !event.target.checkValidity()) {
-    // state.birthdate = null;
-    state.birthdateIsInvalid = true;
-  } else {
-    state.birthdate = event.target.value;
-    state.birthdateIsInvalid = false;
-    state.loading = true;
-    saveBirthdate(shopStore.state.order.billing_address.dest['key'], event.target.value)
-      .then(result => {
-        console.debug(result);
-      })
-      .catch(paymentError)
-      .finally(() => {
-        state.loading = false;
-      });
-  }
 }
 
 
@@ -497,7 +362,7 @@ onBeforeMount(() => {
   state.loading = true;
   // initPaypalForm();
   if (!shopStore.state.paymentProviderData) {
-    shopStore.checkout().then(() => {
+    shopStore.checkoutStart().then(() => {
       initPaypalForm();
       fetchOrder(shopStore.state.orderKey); // refresh order after checkout_start freeze
     }).catch((error) => {
@@ -525,12 +390,5 @@ onBeforeMount(() => {
 
 .loading {
   font-size: 3rem;
-}
-</style>
-
-<style>
-/* global style to overwrite UnzerCSS */
-.unzerUI.primary.button, .unzerUI.primary.buttons .button {
-  background-color: var(--ignt-color-primary) !important;
 }
 </style>

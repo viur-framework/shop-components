@@ -339,7 +339,7 @@ function cancelPayment() {
 onBeforeMount(() => {
   state.loading = true;
   if (!shopStore.state.paymentProviderData) {
-    shopStore.checkout().then(() => {
+    shopStore.checkoutStart().then(() => {
       initUnzerForm();
       fetchOrder(shopStore.state.orderKey); // refresh order after checkout_start freeze
     }).catch((error) => {
