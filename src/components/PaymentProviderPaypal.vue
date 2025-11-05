@@ -66,11 +66,21 @@ function initPaypalForm() {
     console.error(`PayPal Checkout does not work with ${shopStore.state.order?.['payment_provider']}.`);
     return null;
   }
+  const client_id = shopStore.state.paymentProviderData.public_key;
+
+  const scriptConfig = {
+    // https://developer.paypal.com/sdk/js/configuration/#configure-and-customize-your-integration
+    'client-id': shopStore.state.paymentProviderData.public_key,
+    'buyer-country': shopStore.state.order.billing_address.dest['country'].toUpperCase() ?? 'DE',
+    'currency': 'EUR',
+    'components': 'buttons,applepay',
+    'enable-funding': 'venmo,paylater,card,sofort,sepa,giropay',
+    'debug': shopStore.state.debug,
+  };
 
   const paypalScriptPromise = new Promise((resolve, reject) => {
     const paypalScript = document.createElement('script');
-    const client_id = shopStore.state.paymentProviderData.public_key;
-    paypalScript.setAttribute('src', `https://www.paypal.com/sdk/js?client-id=${client_id}&buyer-country=DE&currency=EUR&components=buttons&enable-funding=venmo,paylater,card`);
+    paypalScript.setAttribute('src', `https://www.paypal.com/sdk/js?${new URLSearchParams(scriptConfig).toString()}`);
     paypalScript.onload = () => {
       resolve(paypalScript);
     };
@@ -126,8 +136,9 @@ function initPaypalForm() {
 
       async onApprove(data, actions) {
         console.debug('onApprove', data, actions);
+        state.loading = true;
 
-        // function saveType(typeId) {
+        // buyer approved the payment, send it to the backend to capture it and mark as paid
         const paymenttarget = shopStore.state.order?.['payment_provider'].replace(/-/g, '_');
         Request.post(`${shopStore.state.shopUrl}/pp_${paymenttarget}/capture_order`, {
           dataObj: {
@@ -136,20 +147,14 @@ function initPaypalForm() {
           },
         }).then(async (resp) => {
           console.debug('capture_order', resp);
-          // shopStore.state. = await resp.json();
-          // shopStore.checkoutOrder().then( async(resp) => {
-          //   console.debug(resp)
-
-          const orderData = await resp.json();
-          // const orderData = (await resp.json()).payment;
-          // const orderData = resp.payment;
+          const data = await resp.json();
+          const orderData = data.payment;
           console.debug(orderData);
 
           // Three cases to handle:
           //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
           //   (2) Other non-recoverable errors -> Show a failure message
           //   (3) Successful transaction -> Show confirmation or thank you message
-
           const errorDetail = orderData?.details?.[0];
 
           if (errorDetail?.issue === 'INSTRUMENT_DECLINED') {
@@ -159,123 +164,38 @@ function initPaypalForm() {
             return actions.restart();
           } else if (errorDetail) {
             // (2) Other non-recoverable errors -> Show a failure message
-            throw new Error(
-              `${errorDetail.description} (${orderData.debug_id})`,
-            );
+            paymentError(`${errorDetail.description} (${orderData.debug_id})`);
           } else if (!orderData.purchase_units) {
-            throw new Error(JSON.stringify(orderData));
+            console.error(`No purchase_units`);
+            paymentError(`Missing purchase_units`);
           } else {
             // (3) Successful transaction -> Show confirmation or thank you message
             // Or go to another URL:  actions.redirect('thank_you.html');
             const transaction =
               orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
-              orderData?.purchase_units?.[0]?.payments
-                ?.authorizations?.[0];
-            console.log(
-              'Capture result',
-              orderData,
-              JSON.stringify(orderData, null, 2),
-            );
-            resultMessage(
-              `Transaction ${transaction.status}: ${transaction.id}<br>
-          <br>See console for all available details`,
-            );
+              orderData?.purchase_units?.[0]?.payment?.authorizations?.[0];
+            console.debug('Capture result', orderData, JSON.stringify(orderData, null, 2));
 
             state.loading = false;
             state.hasError = false;
             state.waitPayment = true;
             PaymentCheckResume();
           }
-          // } catch (error) {
-          //   console.error(error);
-          //   resultMessage(
-          //     `Sorry, your transaction could not be processed...<br><br>${error}`,
-          //   );
-          // }
         }).catch(error => {
           paymentError(error);
         });
-        /*
-        try {
-           // shopStore.checkoutOrder().then((resp) => {
-
-
-   const response = await fetch(
-            `/api/orders/${data.orderID}/capture`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          );
-
-          const orderData = await response.json();
-          // Three cases to handle:
-          //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-          //   (2) Other non-recoverable errors -> Show a failure message
-          //   (3) Successful transaction -> Show confirmation or thank you message
-
-          const errorDetail = orderData?.details?.[0];
-
-          if (errorDetail?.issue === 'INSTRUMENT_DECLINED') {
-            // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-            // recoverable state, per
-            // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
-            return actions.restart();
-          } else if (errorDetail) {
-            // (2) Other non-recoverable errors -> Show a failure message
-            throw new Error(
-              `${errorDetail.description} (${orderData.debug_id})`,
-            );
-          } else if (!orderData.purchase_units) {
-            throw new Error(JSON.stringify(orderData));
-          } else {
-            // (3) Successful transaction -> Show confirmation or thank you message
-            // Or go to another URL:  actions.redirect('thank_you.html');
-            const transaction =
-              orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
-              orderData?.purchase_units?.[0]?.payments
-                ?.authorizations?.[0];
-            resultMessage(
-              `Transaction ${transaction.status}: ${transaction.id}<br>
-          <br>See console for all available details`,
-            );
-            console.log(
-              'Capture result',
-              orderData,
-              JSON.stringify(orderData, null, 2),
-            );
-          }
-        } catch (error) {
-          console.error(error);
-          resultMessage(
-            `Sorry, your transaction could not be processed...<br><br>${error}`,
-          );
-        }
-         */
       },
 
       onError: (err) => {
         console.error(err);
         paymentError(err);
-        // redirect to your specific error page
-        // window.location.assign('/your-error-page-here');
       },
+
+      appSwitchWhenAvailable: true,
     });
-
     paypalButtons.render('#paypal-button-container');
-
-
-    // Example function to show a result to the user. Your site's UI library can be used instead.
-    function resultMessage(message) {
-      alert(message);
-      // const container = document.querySelector('#result-message');
-      // container.innerHTML = message;
-      PaymentCheckPause();
-    }
-
   });
+
   state.loading = false;
 }
 
@@ -300,58 +220,6 @@ function paymentError(error) {
   }
 }
 
-/**
- * Create the payment Type (ressource) on behalf of the Unzer-UI components.
- *
- * This function is used by all unzer pyment types, except Google Pay.
- */
-function submitFormToUnzer() {
-  PaymentCheckPause();
-  state.loading = true;
-  state.hasError = false;
-  state.paymentHandler[shopStore.state.order?.['payment_provider']].createResource()
-    .then((result) => {
-      saveType(result.id);
-    })
-    .catch((error) => {
-      paymentError(error);
-    });
-}
-
-/**
- * Save type-id on the order
- *
- * After the Unzer-UI components have collected the customer data and created the payment Type this function
- * has to be called to send the type-id to the viur-shop backend and store it.
- * @param typeId The type-id of the created Type, e.g. ``s-crd-abc123def456``
- */
-function saveType(typeId) {
-  const paymenttarget = shopStore.state.order?.['payment_provider'].split('-').slice(1).join('-');
-  Request.post(`${shopStore.state.shopUrl}/pp_unzer_${paymenttarget}/save_type`, {
-    dataObj: {
-      order_key: shopStore.state.orderKey,
-      type_id: typeId,
-    },
-  }).then(async (resp) => {
-    shopStore.state.order = await resp.json();
-    shopStore.checkoutOrder().then((resp) => {
-      state.loading = false;
-      state.hasError = false;
-      if (shopStore.state.paymentProviderData?.redirectUrl) {
-        state.waitPayment = true;
-        window.open(shopStore.state.paymentProviderData.redirectUrl, '_blank', 'popup');
-        PaymentCheckResume();
-      }
-    }).catch(async (error) => {
-      paymentError(error);
-    });
-
-  }).catch(error => {
-    paymentError(error);
-  });
-}
-
-
 function cancelPayment() {
   PaymentCheckPause();
   emits('cancel');
@@ -360,7 +228,6 @@ function cancelPayment() {
 onBeforeMount(() => {
   console.debug('mounting', shopStore.state.paymentProviderData);
   state.loading = true;
-  // initPaypalForm();
   if (!shopStore.state.paymentProviderData) {
     shopStore.checkoutStart().then(() => {
       initPaypalForm();
