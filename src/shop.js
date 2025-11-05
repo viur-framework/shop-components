@@ -212,7 +212,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         fetchPaymentMeta()
     }
 
-    function checkout(){
+    function checkoutStart(){
         //request Payment
         return new Promise((resolve,reject)=>{
             Request.post(`${state.shopUrl}/order/checkout_start`,{dataObj:{
@@ -300,9 +300,14 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         navigateToPrevious,
         tabValidation,
         fetchMetaData,
-        checkout,
+        checkoutStart,
         checkoutOrder,
         addTab,
-        removeTab
+        removeTab,
+
+        /**
+         * @deprecated since version 0.14.0 - Use checkoutStart instead
+         */
+        checkout: checkoutStart, // TODO: Remove alias
     }
 })

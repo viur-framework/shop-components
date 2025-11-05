@@ -81,11 +81,18 @@
     </sl-dialog>
   </template>
 
+  <template v-if="shopStore.state.order?.['payment_provider'] !== null && shopStore.state.order?.['payment_provider'].startsWith('paypal')">
+    <sl-dialog v-if="state.paymentPopup" :label="$t('viur.shop.order_pay')" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
+        <payment-provider-paypal @cancel="paymentCanceled"></payment-provider-paypal>
+    </sl-dialog>
+  </template>
+
   <slot name="template_confirm">
   </slot>
 </template>
 <script setup>
 import {computed, onBeforeMount, reactive, watch, useTemplateRef} from 'vue'
+import PaymentProviderPaypal from '../components/PaymentProviderPaypal.vue';
 import { useViurShopStore } from '../shop';
 import boneUtils from '@viur/vue-utils/bones/utils'
 import {Request} from '@viur/vue-utils'
@@ -144,7 +151,7 @@ async function startCheckout(){
       }
   }
   state.paymentPopup=true
-  shopStore.checkout()
+  shopStore.checkoutStart();
 }
 
 //close popup if payment successfull
