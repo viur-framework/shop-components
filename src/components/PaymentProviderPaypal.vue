@@ -103,29 +103,38 @@ function initPaypalForm() {
       async createOrder() {
         console.debug('createOrder');
         state.loading = true;
-        shopStore.checkoutOrder()
-          .then(resp => {
-            console.debug('checkoutOrder', resp);
-            const orderData = resp.payment;
 
-            if (orderData.id) {
-              // SUCCESS; return the order_id to the PayPal instance
-              state.order_id = orderData.id;
-              return orderData.id;
-            } else {
-              // ERROR; show error message
-              const errorDetail = orderData?.details?.[0];
-              const errorMessage = errorDetail
-                ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
-                : JSON.stringify(orderData);
-              console.error(errorDetail);
-              paymentError(`Could not initiate PayPal Checkout...<br><br>${errorMessage}`);
-            }
-          })
-          .catch(paymentError)
-          .finally(() => {
-            state.loading = false;
-          });
+        if (shopStore.state.order?.['is_ordered'] && shopStore.state.order?.['is_checkout_in_progress'] && !shopStore.state.order?.['is_paid']) {
+          // already ordered; needs a re-checkout method to create a new order. But we can try it again with the last order_id
+          state.order_id = (shopStore.state.order?.payment?.payments ?? []).at(-1)?.payment_id;
+          return state.order_id;
+        }
+
+        try {
+          const resp = await shopStore.checkoutOrder(); // must be inline awaited to return order_id on success
+          // TODO: re-checkout with new attempt or different method
+          console.debug('checkoutOrder', resp);
+          const orderData = resp.payment;
+
+          if (orderData.id) {
+            // SUCCESS; return the order_id to the PayPal instance
+            state.order_id = orderData.id;
+            return orderData.id;
+          } else {
+            // ERROR; show error message
+            const errorDetail = orderData?.details?.[0];
+            const errorMessage = errorDetail
+              ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+              : JSON.stringify(orderData);
+            console.error(errorDetail);
+            paymentError(`Could not initiate PayPal Checkout...<br><br>${errorMessage}`);
+          }
+        } catch (error) {
+          paymentError(error);
+          return null;
+        } finally {
+          state.loading = false;
+        }
       },
 
       /**
