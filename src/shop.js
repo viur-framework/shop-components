@@ -303,6 +303,11 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         checkoutStart,
         checkoutOrder,
         addTab,
-        removeTab
+        removeTab,
+
+        /**
+         * @deprecated since version 0.14.0 - Use checkoutStart instead
+         */
+        checkout: checkoutStart, // TODO: Remove alias
     }
 })
