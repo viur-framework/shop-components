@@ -1,6 +1,4 @@
 <template>
-  PAYPAL HERE
-
   <div class="loading-wrapper" v-if="state.loading">
     <sl-spinner class="loading"></sl-spinner>
   </div>
@@ -25,16 +23,15 @@ import {Request} from '@viur/vue-utils';
 import {HTTPError} from '@viur/vue-utils/utils/request.js';
 import {useIntervalFn} from '@vueuse/core';
 import {onBeforeMount, reactive} from 'vue';
-import {useAddress} from '../composables/address.js';
 import {useOrder} from '../composables/order';
 import {useViurShopStore} from '../shop';
 
 const shopStore = useViurShopStore();
 const {fetchOrder} = useOrder();
-const {saveBirthdate} = useAddress();
 
 const emits = defineEmits(['cancel']);
 
+// TODO: Duplicate code
 const {pause: PaymentCheckPause, resume: PaymentCheckResume, isActive: PaymentCheckIsActive} = useIntervalFn(() => {
   console.debug('checking ...');
 
@@ -56,6 +53,7 @@ const state = reactive({
   errorMessage: null,
   waitPayment: false,
   order_id: null,
+  debugPaypal: false,
 });
 
 /**
@@ -66,7 +64,6 @@ function initPaypalForm() {
     console.error(`PayPal Checkout does not work with ${shopStore.state.order?.['payment_provider']}.`);
     return null;
   }
-  const client_id = shopStore.state.paymentProviderData.public_key;
 
   const scriptConfig = {
     // https://developer.paypal.com/sdk/js/configuration/#configure-and-customize-your-integration
@@ -75,7 +72,7 @@ function initPaypalForm() {
     'currency': 'EUR',
     'components': 'buttons,applepay',
     'enable-funding': 'venmo,paylater,card,sofort,sepa,giropay',
-    'debug': shopStore.state.debug,
+    'debug': state.debugPaypal,
   };
 
   const paypalScriptPromise = new Promise((resolve, reject) => {
@@ -87,7 +84,6 @@ function initPaypalForm() {
     paypalScript.onerror = reject;
     document.head.appendChild(paypalScript);
   });
-
 
   paypalScriptPromise.then(() => {
     console.debug('paypalScriptPromise resolved - READY');
@@ -106,92 +102,82 @@ function initPaypalForm() {
 
       async createOrder() {
         console.debug('createOrder');
-        try {
-          let resp = await shopStore.checkoutOrder();//.then((resp) => {
-          console.debug(resp);
+        state.loading = true;
+        shopStore.checkoutOrder()
+          .then(resp => {
+            console.debug('checkoutOrder', resp);
+            const orderData = resp.payment;
 
-          // const orderData = await resp.json();
-          const orderData = await resp.payment;
-          // const orderData = await response.json();
-
-          // let orderData = shopStore.state.paymentProviderData;
-          console.debug(orderData);
-
-          if (orderData.id) {
-            state.order_id = orderData.id;
-            return orderData.id;
-          }
-
-          const errorDetail = orderData?.details?.[0];
-          const errorMessage = errorDetail
-            ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
-            : JSON.stringify(orderData);
-
-          throw new Error(errorMessage);
-        } catch (error) {
-          console.error(error);
-          // resultMessage(`Could not initiate PayPal Checkout...<br><br>${error}`);
-        }
+            if (orderData.id) {
+              // SUCCESS; return the order_id to the PayPal instance
+              state.order_id = orderData.id;
+              return orderData.id;
+            } else {
+              // ERROR; show error message
+              const errorDetail = orderData?.details?.[0];
+              const errorMessage = errorDetail
+                ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+                : JSON.stringify(orderData);
+              console.error(errorDetail);
+              paymentError(`Could not initiate PayPal Checkout...<br><br>${errorMessage}`);
+            }
+          })
+          .catch(paymentError)
+          .finally(() => {
+            state.loading = false;
+          });
       },
 
+      /**
+       * Buyer approved the payment, send it to the backend to capture it and mark as paid.
+       */
       async onApprove(data, actions) {
         console.debug('onApprove', data, actions);
         state.loading = true;
 
-        // buyer approved the payment, send it to the backend to capture it and mark as paid
         const paymenttarget = shopStore.state.order?.['payment_provider'].replace(/-/g, '_');
         Request.post(`${shopStore.state.shopUrl}/pp_${paymenttarget}/capture_order`, {
           dataObj: {
             order_key: shopStore.state.orderKey,
             order_id: state.order_id,
           },
-        }).then(async (resp) => {
-          console.debug('capture_order', resp);
-          const data = await resp.json();
-          const orderData = data.payment;
-          console.debug(orderData);
+        })
+          .then(async (resp) => {
+            console.debug('capture_order', resp);
+            const data = await resp.json();
+            const orderData = data.payment;
 
-          // Three cases to handle:
-          //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-          //   (2) Other non-recoverable errors -> Show a failure message
-          //   (3) Successful transaction -> Show confirmation or thank you message
-          const errorDetail = orderData?.details?.[0];
+            // Three cases to handle:
+            //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+            //   (2) Other non-recoverable errors -> Show a failure message
+            //   (3) Successful transaction -> Show confirmation or thank you message
+            const errorDetail = orderData?.details?.[0];
 
-          if (errorDetail?.issue === 'INSTRUMENT_DECLINED') {
-            // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-            // recoverable state, per
-            // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
-            return actions.restart();
-          } else if (errorDetail) {
-            // (2) Other non-recoverable errors -> Show a failure message
-            paymentError(`${errorDetail.description} (${orderData.debug_id})`);
-          } else if (!orderData.purchase_units) {
-            console.error(`No purchase_units`);
-            paymentError(`Missing purchase_units`);
-          } else {
-            // (3) Successful transaction -> Show confirmation or thank you message
-            // Or go to another URL:  actions.redirect('thank_you.html');
-            const transaction =
-              orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
-              orderData?.purchase_units?.[0]?.payment?.authorizations?.[0];
-            console.debug('Capture result', orderData, JSON.stringify(orderData, null, 2));
-
-            state.loading = false;
-            state.hasError = false;
-            state.waitPayment = true;
-            PaymentCheckResume();
-          }
-        }).catch(error => {
-          paymentError(error);
-        });
+            if (errorDetail?.issue === 'INSTRUMENT_DECLINED') {
+              // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+              // recoverable state, per
+              // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
+              return actions.restart();
+            } else if (errorDetail) {
+              // (2) Other non-recoverable errors -> Show a failure message
+              paymentError(`${errorDetail.description} (${orderData?.debug_id})`);
+            } else if (!orderData.purchase_units) {
+              paymentError(`Missing purchase_units`);
+            } else {
+              // (3) Successful transaction -> Show confirmation or thank you message
+              // Or go to another URL:  actions.redirect('thank_you.html');
+              state.loading = false;
+              state.hasError = false;
+              state.waitPayment = true;
+              PaymentCheckResume();
+            }
+          })
+          .catch(paymentError);
       },
 
-      onError: (err) => {
-        console.error(err);
-        paymentError(err);
-      },
+      onError: paymentError,
 
-      appSwitchWhenAvailable: true,
+      // appSwitchWhenAvailable: true,
     });
     paypalButtons.render('#paypal-button-container');
   });

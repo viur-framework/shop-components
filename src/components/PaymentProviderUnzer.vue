@@ -93,6 +93,7 @@ const {saveBirthdate} = useAddress();
 
 const emits = defineEmits(['cancel']);
 
+// TODO: Duplicate code
 const {pause: PaymentCheckPause, resume: PaymentCheckResume, isActive: PaymentCheckIsActive} = useIntervalFn(() => {
   console.debug('checking ...');
 

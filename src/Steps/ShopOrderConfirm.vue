@@ -81,7 +81,6 @@
     </sl-dialog>
   </template>
 
-  paypal?
   <template v-if="shopStore.state.order?.['payment_provider'] !== null && shopStore.state.order?.['payment_provider'].startsWith('paypal')">
     <sl-dialog v-if="state.paymentPopup" :label="$t('viur.shop.order_pay')" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
         <payment-provider-paypal @cancel="paymentCanceled"></payment-provider-paypal>
