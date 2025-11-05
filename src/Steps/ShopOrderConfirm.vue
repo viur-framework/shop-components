@@ -76,7 +76,7 @@
   </sl-bar>
 
   <template v-if="shopStore.state.order?.['payment_provider'] !== null && shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
-    <sl-dialog v-if="state.paymentPopup" :label="$t('viur.shop.order_pay')" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
+    <sl-dialog v-if="state.paymentPopup" :label="$t('viur.shop.order_pay')" :open="state.paymentPopup" @sl-after-hide="paymentCanceled">
         <payment-provider-unzer @cancel="paymentCanceled"></payment-provider-unzer>
     </sl-dialog>
   </template>
@@ -140,6 +140,7 @@ function getOrderCart(){
 
 function paymentCanceled(){
   state.paymentPopup=false
+  shopStore.state.paymentProviderData = null;
 }
 
 //open popup and freeze cart
