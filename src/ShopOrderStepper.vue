@@ -112,6 +112,7 @@ sl-tab-group {
 
 sl-tab-panel {
   height: 100%;
+  overflow: hidden;
   &::part(base) {
     height: 100%;
     display: flex;
@@ -122,6 +123,15 @@ sl-tab-panel {
 .viur-shop-stepper-bar {
   margin-top: var(--shop-leaf-gap, var(--ignt-spacing-small));
   justify-self: flex-end;
+  margin-bottom: var(--ignt-spacing-2x-small);
+  @media (max-width: 600px) {
+    & sl-button {
+      width: 100%;
+    }
+    & sl-button::part(base) {
+      min-width: 100%;
+    }
+  }
 }
 
 .hint{
