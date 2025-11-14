@@ -40,7 +40,7 @@
 
     <div class="viur-shop-cart-sidebar-info viur-shop-cart-sidebar-info--total">
       <span v-html="$t('viur.shop.summary_total')"></span>
-      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.total_discount_price">
+      <sl-format-number lang="de" type="currency" currency="EUR" :value="state.total">
       </sl-format-number>
     </div>
     <div class="viur-shop-cart-sidebar-info " v-for="vatObj in state.vat">
@@ -85,6 +85,7 @@ const props = defineProps({
 const state = reactive({
   items: computed(() => { return shopStore.state.cartList }),
   cartTotal: computed(() => {
+    // TODO: Why isn't total_raw used? :: return shopStore.state.cartRoot.total_raw
     let sum = state.items.reduce((acc,item)=>{
       if (item.skel_type==="leaf"){
         acc+=item.price.current *item.quantity
@@ -114,7 +115,7 @@ const state = reactive({
   }),
   discount:computed(()=> (state.cartTotal - shopStore.state.cartRoot.total_discount_price)*-1),
   total: computed(() => {
-    return shopStore.state.cartRoot.total
+    return shopStore.state.cartRoot.total_discount_price
   }),
   vat:computed(()=>{
     return shopStore.state.cartRoot.vat
