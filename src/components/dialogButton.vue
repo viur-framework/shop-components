@@ -31,12 +31,13 @@ function close(){
 
 <style scoped>
 
-.decent{
+.decent {
     margin: 0;
     transition: all ease .3s;
 
     &::part(base){
-        border: none;
+      border: none;
+      border-radius: 0;
     }
 
     &::part(label){
