@@ -74,7 +74,7 @@
       <div class="availability"
            :class="`availability--${item.shop_availability}`"
       >
-        {{$t(item.shop_availability)}}
+        <span class="availability-description">{{$t(item.shop_availability)}}</span>
       </div>
     </div>
 
@@ -142,11 +142,18 @@ function removeArticle(){
       display: block;
       background-color: #666;
       width: .7em;
+      min-width: .7em;
       height: .7em;
       border-radius: 50%;
       margin-right: 5px;
       margin-bottom: 2px;
     }
+  }
+  .availability-description {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .availability--onrequest,
   .availability--instock {
