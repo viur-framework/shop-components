@@ -88,11 +88,15 @@ export function useCart() {
                 if(item.discount){
                   shopStore.state.discounts[item.discount.dest.key] = item.discount
                 }
-                await fetchCartItems(item['key'])
+                await fetchCartItems(item['key'], parentKey=true)
               }
             }
+            if (parentKey){
+              shopStore.state.cartList=shopStore.state.cartList.concat(currentLeafs)
+            }else{
+              shopStore.state.cartList=currentLeafs
+            }
 
-            shopStore.state.cartList=shopStore.state.cartList.concat(currentLeafs)
             return resp
         })
     }
