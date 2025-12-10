@@ -26,7 +26,9 @@
         </div>
 
         <div class="viur-shop-sidebar-wrap" :class="{ bottom: (summary==='bottom') }" v-if="shopStore.state.currentTab!=='complete'">
-          <shop-summary ></shop-summary>
+          <slot name="summary">
+            <shop-summary ></shop-summary>
+          </slot>
         </div>
     </div>
     <template v-if="shopStore.state.debug">
