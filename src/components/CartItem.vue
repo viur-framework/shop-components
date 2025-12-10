@@ -74,7 +74,7 @@
       <div class="availability"
            :class="`availability--${item.shop_availability}`"
       >
-        <span class="availability-description">{{$t(item.shop_availability)}}</span>
+        <span class="availability-description">{{$t(item.shop_availability.toString())}}</span>
       </div>
     </div>
 
@@ -135,7 +135,7 @@ function removeArticle(){
     flex-basis: 70%;
     font-size: .9em;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     white-space: nowrap;
     &:before {
       content: '';
@@ -156,14 +156,17 @@ function removeArticle(){
     text-overflow: ellipsis;
   }
   .availability--onrequest,
-  .availability--instock {
+  .availability--instock,
+  .availability--true
+   {
     color: var(--ignt-color-success);
     &:before {
       background-color: var(--ignt-color-success);
     }
   }
   .availability--discontinued,
-  .availability--outofstock {
+  .availability--outofstock,
+  .availability--false {
     color: var(--ignt-color-danger);
     &:before {
       background-color: var(--ignt-color-danger);
@@ -310,7 +313,7 @@ function removeArticle(){
   .viur-shop-cart-leaf-availability {
     grid-column: 4 / span 1;
     align-self: center;
-    text-align: right;
+    text-align: center;
   }
 
   .viur-shop-cart-leaf-label,
