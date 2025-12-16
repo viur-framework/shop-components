@@ -40,7 +40,6 @@ jobs:
             echo "tag=latest" >> $GITHUB_OUTPUT
           fi
       - name: Publish to npm (Trusted Publishing)
-        working-directory: src
         run: npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
 
 
