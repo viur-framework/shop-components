@@ -23,6 +23,22 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+
+      - name: Determine npm tag
+        id: npm_tag
+        run: |
+          TAG_NAME="${GITHUB_REF_NAME}"
+          echo "Detected tag: $TAG_NAME"
+
+          if [[ "$TAG_NAME" =~ -alpha[0-9]*$ ]]; then
+            echo "tag=alpha" >> $GITHUB_OUTPUT
+          elif [[ "$TAG_NAME" =~ -beta[0-9]*$ ]]; then
+            echo "tag=beta" >> $GITHUB_OUTPUT
+          elif [[ "$TAG_NAME" =~ -rc[0-9]*$ ]]; then
+            echo "tag=rc" >> $GITHUB_OUTPUT
+          else
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          fi
       - name: Publish to npm (Trusted Publishing)
         working-directory: src
         run: npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
