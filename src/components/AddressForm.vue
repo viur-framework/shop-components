@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import {computed, reactive, watch} from 'vue'
+import {computed, onMounted, reactive, watch} from 'vue'
 import LoadingHandler from './LoadingHandler.vue';
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import {useViurShopStore} from "../shop";
@@ -79,6 +79,15 @@ function formChange(data){
     }
   }
 }
+
+onMounted(()=>{
+  // Set form language based on locale (use locale if not de-DE, otherwise use store language)
+  if (shopStore.state.locale!=="de-DE"){
+    state.language = shopStore.state.locale.split("-")[1].toLowerCase() // use country
+  }else{
+    state.language = shopStore.state.language
+  }
+})
 
 
 watch(()=>addressState.billingIsShipping, (newVal,oldVal)=>{
