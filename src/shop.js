@@ -4,6 +4,7 @@ import {ShopCart, ShopUserDataGuest, ShopShippingMethod, ShopPaymentProvider, Sh
 import { defineStore } from "pinia";
 import { useUrlSearchParams,useTimeoutFn } from '@vueuse/core'
 import AddressFormLayout from './components/AddressFormLayout.vue';
+import ShopOrderStepperAction from "./ShopOrderStepperAction.vue";
 
 import { Request } from "@viur/vue-utils";
 
@@ -123,7 +124,8 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         //checkout
         paymentProviderData:null,
         UserDataLayout: shallowRef(AddressFormLayout),
-        discounts:{}
+        discounts:{},
+        stepperActionComponent:shallowRef(ShopOrderStepperAction)
     })
 
     function addTab({name, component, displayname, iconname, iconlibrary,active})
