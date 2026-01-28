@@ -113,7 +113,7 @@ const state = reactive({
       return "-"
     }
   }),
-  discount:computed(()=> (state.cartTotal - shopStore.state.cartRoot.total_discount_price)*-1),
+  discount:computed(() => (shopStore.state.cartRoot.total - shopStore.state.cartRoot.total_discount_price)*-1),
   total: computed(() => {
     return shopStore.state.cartRoot.total_discount_price
   }),
