@@ -3,6 +3,7 @@
         ref="stepper"
         class="viur-shop-order-tabgroup"
         no-scroll-controls
+        :data-steppervisible="shopStore.state.stepperVisible"
     >
         <template v-for="(tab,name) in shopStore.state.tabs">
             <StepperTab
@@ -104,6 +105,10 @@ sl-tab-panel {
       min-width: 100%;
     }
   }
+}
+
+.viur-shop-order-tabgroup[data-steppervisible='false']::part(nav){
+  visibility: hidden;
 }
 
 </style>
