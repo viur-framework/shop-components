@@ -6,7 +6,7 @@
     >
         <template v-for="(tab,name) in shopStore.state.tabs">
             <StepperTab
-v-show="shopStore.state.currentTab!=='complete'"
+                v-show="shopStore.state.stepperVisible"
                 :tab="name"
             >
             </StepperTab>

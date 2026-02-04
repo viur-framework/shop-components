@@ -125,7 +125,13 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         paymentProviderData:null,
         UserDataLayout: shallowRef(AddressFormLayout),
         discounts:{},
-        stepperActionComponent:shallowRef(ShopOrderStepperAction)
+        stepperActionComponent:shallowRef(ShopOrderStepperAction),
+
+        //stepper rules:
+        stepperVisible: computed(()=>{
+          return state.currentTab!=='complete'
+        })
+
     })
 
     function addTab({name, component, displayname, iconname, iconlibrary,active})
