@@ -96,8 +96,9 @@ export const useAddress = defineStore('useAddressStore', () => {
         // The address skel is the same, we just need to reload the relation
         fetchCart();
       } else {
-        let data = await updateCart({shipping_address_key: key});
-        shopStore.state.cartRoot = data.filter(i=>i['cart_type']==='basket')?.[0] ? data.filter(i=>i['cart_type']==='basket')[0]:[]
+        let resp = await updateCart({shipping_address_key: key});
+        const data = await resp.json()
+        shopStore.state.cartRoot['shipping_address'] = data['shipping_address']
         if (shopStore.state.cartRoot.discount){
           shopStore.state.discounts = {[shopStore.state.cartRoot.discount.dest.key]:shopStore.state.cartRoot.discount}
         }
