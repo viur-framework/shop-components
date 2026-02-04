@@ -96,7 +96,11 @@ export const useAddress = defineStore('useAddressStore', () => {
         // The address skel is the same, we just need to reload the relation
         fetchCart();
       } else {
-        await updateCart({shipping_address_key: key});
+        let data = await updateCart({shipping_address_key: key});
+        shopStore.state.cartRoot = data.filter(i=>i['cart_type']==='basket')?.[0] ? data.filter(i=>i['cart_type']==='basket')[0]:[]
+        if (shopStore.state.cartRoot.discount){
+          shopStore.state.discounts = {[shopStore.state.cartRoot.discount.dest.key]:shopStore.state.cartRoot.discount}
+        }
       }
     } else if (type === 'billing') {
       const {addOrUpdateOrder, fetchOrder, billingAddressKey} = useOrder();
