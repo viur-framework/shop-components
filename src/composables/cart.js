@@ -1,4 +1,4 @@
-import {computed, reactive} from 'vue';
+import {computed, reactive, watch} from 'vue';
 import {Request} from '@viur/vue-utils'
 import { removeUndefinedValues} from '../utils'
 
@@ -7,8 +7,8 @@ import { useViurShopStore } from '../shop'
 export function useCart() {
     const shopStore = useViurShopStore()
     const state = reactive({
-        isLoading:false,
-        isUpdating:false
+        isLoading:computed(()=>shopStore.state.cartIsLoading), // not used anymore
+        isUpdating:computed(()=>shopStore.state.cartIsUpdating)// not used anymore
     })
 
     function getValue(value){
@@ -37,14 +37,13 @@ export function useCart() {
 
     function fetchCart() {
       //first fetch root then fetchItems for this root
-      state.isLoading = true;
-
+      shopStore.state.cartIsLoading = true;
       if (shopStore.state.order != null && shopStore.state.order?.cart?.dest.key) {
         // shopStore.state.cartRoot = {};
         shopStore.state.cartRoot = shopStore.state.order.cart.dest;
 
         return fetchCartItems(shopStore.state.cartRoot["key"]).then(() => {  // TODO: duplicate code
-          state.isLoading = false;
+          shopStore.state.cartIsLoading = false;
           shopStore.state.cartReady = true;
         });
       }
@@ -52,7 +51,7 @@ export function useCart() {
       return fetchCartRoot().then(() => {
         if (!shopStore.state.cartRoot?.["key"]) return 0;
         fetchCartItems(shopStore.state.cartRoot["key"]).then(() => {  // TODO: duplicate code
-          state.isLoading = false;
+          shopStore.state.cartIsLoading = false;
           shopStore.state.cartReady = true;
         });
       });
@@ -136,25 +135,25 @@ export function useCart() {
 
     function addItem(key, quantity=1, cart=null, quantity_mode='replace'){
         //add Item to cart
-        state.isUpdating = true
+        shopStore.state.cartIsUpdating = true
         return Request.post(`${shopStore.state.shopApiUrl}/article_add`, {dataObj:{
             article_key: key,
             parent_cart_key:cart?cart:shopStore.state.cartRoot['key'],
             quantity:quantity,
             quantity_mode:quantity_mode
         }}).then(async (resp)=>{
-            state.isUpdating=false
+            shopStore.state.cartIsUpdating=false
             fetchCart()
         })
 
     }
     function removeItem(key, cart=null){
-        state.isUpdating = true
+        shopStore.state.cartIsUpdating = true
         return Request.post(`${shopStore.state.shopApiUrl}/article_remove`, {dataObj:{
             article_key: key,
             parent_cart_key:cart?cart:shopStore.state.cartRoot['key']
         }}).then(async (resp)=>{
-            state.isUpdating=false
+            shopStore.state.cartIsUpdating=false
             fetchCart()
         })
     }

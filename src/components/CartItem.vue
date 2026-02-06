@@ -85,7 +85,7 @@
 
 
   </sl-card>
-  <div class="loading" v-if="cartState.isUpdating">
+  <div class="loading" v-if="shopStore.state.cartIsUpdating">
       <sl-spinner></sl-spinner>
     </div>
   </div>
@@ -96,7 +96,8 @@ import { getImage } from '../utils';
 import { useCart } from '../composables/cart';
 import dialogButton from './dialogButton.vue';
 import PriceBox from "./PriceBox.vue";
-
+import { useViurShopStore } from "../shop";
+const shopStore = useViurShopStore()
 const {addItem, removeItem, state:cartState, getValue} = useCart()
 
 const changeAmount = useDebounceFn((amount) => {

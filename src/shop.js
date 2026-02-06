@@ -103,7 +103,8 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         stepperLength:computed(()=>{
             return Object.keys(state.tabs).length
         }),
-
+        cartIsUpdating:false,
+        cartIsLoading:false,
         // SHOP DATA
         cartList:[], //articles in cart
         cartRoot:null, //actual cart rootnode entry ( used for shipping etc)
