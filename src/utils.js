@@ -46,9 +46,20 @@ export function getTranslations(languages="de", pattern=null){
   return fetchTranslations(languages,pattern)
 }
 
-export function getImage(image) {
-  if (image !== undefined) return Request.downloadUrlFor(image);
+export function getImage(image, serving_url_params = '=rw') {
+  let dest = image;
+  if (image && 'dest' in image) {
+    dest = image['dest'];
+  }
+  if (dest && dest?.['serving_url']) {
+    return `${dest['serving_url']}${serving_url_params}`;
+  }
 
+  if (image !== undefined) {
+    return Request.downloadUrlFor(image);
+  }
+
+  // FIXME: this is stupid: return null or raise an exception, but do not return a non-empty string!
   return 'PLACEHOLDER';
 }
 

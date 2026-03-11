@@ -9,6 +9,7 @@
             item?.shop_image
             ? item.shop_image
             : undefined,
+            shopStore.state.serving_url_params.CartItemSmall,
         )
       "
     />

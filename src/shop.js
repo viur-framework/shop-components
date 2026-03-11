@@ -131,8 +131,13 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         //stepper rules:
         stepperVisible: computed(()=>{
           return state.currentTab!=='complete'
-        })
+        }),
 
+        // serving_url_params for utils.getImage
+        serving_url_params: {
+          CartItem: '=s600-rw',
+          CartItemSmall: '=s200-rw',
+        },
     })
 
     function addTab({name, component, displayname, iconname, iconlibrary,active})
@@ -300,7 +305,6 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         state.tabs[state.currentTab]['validating']=false
       })
     }
-
 
     return {
         state,
