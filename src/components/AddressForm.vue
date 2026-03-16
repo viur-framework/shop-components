@@ -13,11 +13,22 @@
         error-style="decent"
       >
     </ViForm>
+    <ShopAlert
+      v-if="state.showCountryChangeHint"
+      class="country-change-hint"
+      variant="warning"
+      icon-name="exclamation-triangle"
+      :closeable="true"
+      duration="Infinity"
+      :msg="$t('viur.shop.country_change_vat_hint')"
+      @on-hide="state.showCountryChangeHint = false"
+    />
 </template>
 
 <script setup>
 import {computed, onMounted, reactive, watch} from 'vue'
 import LoadingHandler from './LoadingHandler.vue';
+import ShopAlert from './ShopAlert.vue';
 import ViForm from "@viur/vue-utils/forms/ViForm.vue";
 import {useViurShopStore} from "../shop";
 import {useAddress} from "../composables/address";
@@ -68,11 +79,14 @@ const state = reactive({
     }
     return [state.formtype]
   }),
-  language: "de"
+  language: "de",
+  initialCountry: null,
+  showCountryChangeHint: false
 })
 
 function formChange(data){
   if (data.name === "country"){
+    state.showCountryChangeHint = data.value !== state.initialCountry
     state.language = data.value
     if (state.formtype === 'billing'){
       fetchPaymentData()
@@ -87,6 +101,7 @@ onMounted(()=>{
   }else{
     state.language = shopStore.state.language
   }
+  state.initialCountry = state.language
 })
 
 
@@ -104,5 +119,7 @@ watch(()=>addressState.billingIsShipping, (newVal,oldVal)=>{
 </script>
 
 <style scoped>
-
+.country-change-hint {
+  margin: 1em 0;
+}
 </style>

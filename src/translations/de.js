@@ -61,6 +61,7 @@ export default {
       'payment_link': 'Ihr Browser öffnet kein Popup? Dann klicken Sie bitte <a href="{url}" target="_blank">hier</a>.',
       'birthdate': 'Geburtsdatum',
       'missing_birthdate': 'Bei der ausgewählten Bezahlmethode benötigen wir zur Rechnungsadresse noch das Geburtsdatum von <i>{firstname}&nbsp;{lastname}</i>.',
+      'country_change_vat_hint': 'Bitte beachten Sie, dass bei Lieferung in ein anderes Land die Mehrwertsteuer abweichen kann.',
     },
   },
   messages: {

@@ -61,6 +61,7 @@ export default {
       'payment_link': 'Votre navigateur n\'ouvre pas de popup ? Alors cliquez <a href="{url}" target="_blank">ici</a>.',
       'birthdate': 'date de naissance',
       'missing_birthdate': 'Pour le mode de paiement sélectionné, nous avons besoin, en plus de l\'adresse de facturation, de la date de naissance de <i>{firstname}&nbsp;{lastname}</i>.',
+      'country_change_vat_hint': 'Veuillez noter que la TVA peut varier en cas de livraison dans un autre pays.',
     },
   },
   messages: {

@@ -60,6 +60,7 @@ export default {
       'payment_link': 'Your browser does not open a popup? Then please click <a href="{url}" target="_blank">here</a>.',
       'birthdate': 'date of birth',
       'missing_birthdate': 'For the selected payment method, we require the date of birth of <i>{firstname}&nbsp;{lastname}</i> in addition to the billing address.',
+      'country_change_vat_hint': 'Please note that VAT may differ when shipping to a different country.',
     },
   },
   messages: {
