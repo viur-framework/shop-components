@@ -69,14 +69,14 @@ function removeDiscountAction(key){
   removeDiscount(key)
     .then(async (resp) => {
       state.loading=false
-      state.alert.msg = $t('viur.shop.discount_removed');
+      state.alert.msg = i18n.t('viur.shop.discount_removed');
       state.alert.show = true;
       state.alert.variant = "success";
     })
     .catch((error) => {
       state.loading=false
       console.log("error bei rabatt", error);
-      state.alert.msg = $t('viur.shop.discount_not_found');
+      state.alert.msg = i18n.t('viur.shop.discount_not_found');
       state.alert.show = true;
       state.alert.variant = "danger";
     });

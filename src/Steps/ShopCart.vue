@@ -5,7 +5,7 @@
         :nextfunction="nextStep"
     >
     </slot>
-    <loading-handler :isLoading="cartState.isLoading" :isUpdating="cartState.isUpdating">
+    <loading-handler :isLoading="shopStore.state.cartIsLoading" :isUpdating="shopStore.state.cartIsLoading">
         <div class="viur-shop-item-wrapper" v-if="state.items.length>0">
             <cart-item v-for="item in state.items" :item="item"
             :edit="!shopStore.state.order?.['is_checkout_in_progress']"
