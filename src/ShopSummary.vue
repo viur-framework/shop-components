@@ -28,7 +28,7 @@
       </sl-format-number>
     </div>
     <div class="viur-shop-cart-sidebar-info" v-if="shopStore.state.cartRoot.discount">
-      <span v-html="$t('viur.shop.summary_discount')"></span>
+      <span>{{ shopStore.state.cartRoot.discount.dest.name }}</span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.discount">
       </sl-format-number>
     </div>
@@ -76,7 +76,7 @@ import LoadingHandler from "./components/LoadingHandler.vue"
 import DiscountInput from './components/DiscountInput.vue';
 
 const shopStore = useViurShopStore();
-const { fetchCart, addItem, state: cartState } = useCart();
+const { fetchCart, fetchCartRoot, addItem, state: cartState } = useCart();
 
 const props = defineProps({
   showFeatures: {type: Boolean, default: true},
@@ -138,7 +138,7 @@ onBeforeMount(() => {
   if (!shopStore.state.cartList.length) {
     fetchCart().then(()=>state.loading=false).catch(()=>state.loading=false)
   }else{
-    state.loading=false
+    fetchCartRoot().then(()=>state.loading=false).catch(()=>state.loading=false)
   }
 })
 
