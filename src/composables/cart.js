@@ -35,26 +35,31 @@ export function useCart() {
     }
 
 
+    let _fetchCartPromise = null;
     function fetchCart() {
-      //first fetch root then fetchItems for this root
-      shopStore.state.cartIsLoading = true;
-      if (shopStore.state.order != null && shopStore.state.order?.cart?.dest.key) {
-        // shopStore.state.cartRoot = {};
-        shopStore.state.cartRoot = shopStore.state.order.cart.dest;
+      // Deduplicate parallel calls - return existing promise if one is in flight
+      if (_fetchCartPromise) return _fetchCartPromise;
 
-        return fetchCartItems(shopStore.state.cartRoot["key"]).then(() => {  // TODO: duplicate code
-          shopStore.state.cartIsLoading = false;
-          shopStore.state.cartReady = true;
+      shopStore.state.cartIsLoading = true;
+      let promise;
+      if (shopStore.state.order != null && shopStore.state.order?.cart?.dest.key) {
+        shopStore.state.cartRoot = shopStore.state.order.cart.dest;
+        promise = fetchCartItems(shopStore.state.cartRoot["key"]);
+      } else {
+        promise = fetchCartRoot().then(() => {
+          if (!shopStore.state.cartRoot?.["key"]) return 0;
+          return fetchCartItems(shopStore.state.cartRoot["key"]);
         });
       }
-      shopStore.state.discounts = {}
-      return fetchCartRoot().then(() => {
-        if (!shopStore.state.cartRoot?.["key"]) return 0;
-        fetchCartItems(shopStore.state.cartRoot["key"]).then(() => {  // TODO: duplicate code
-          shopStore.state.cartIsLoading = false;
-          shopStore.state.cartReady = true;
-        });
+
+      _fetchCartPromise = promise.then(() => {
+        shopStore.state.cartIsLoading = false;
+        shopStore.state.cartReady = true;
+      }).finally(() => {
+        _fetchCartPromise = null;
       });
+
+      return _fetchCartPromise;
     }
 
     function fetchCartRoot(){
@@ -69,32 +74,30 @@ export function useCart() {
         })
     }
 
-    function fetchCartItems(key, parentKey=null){
-        //fetch cart items
-        if (key === shopStore.state.cartRoot["key"]){ // initial
-          shopStore.state.cartList = []
-        }
-        return Request.get(`${shopStore.state.shopApiUrl}/cart_list`,{dataObj:{
+    async function _collectCartItems(key, leafs, discounts){
+        let resp = await Request.get(`${shopStore.state.shopApiUrl}/cart_list`,{dataObj:{
             cart_key:key
-        }}).then(async( resp) =>{
-            let data = await resp.clone().json()
+        }})
+        let data = await resp.clone().json()
+        for (const item of data){
+          if (item["skel_type"]==="leaf"){
+            leafs.push(item)
+          }else{
+            if(item.discount){
+              discounts[item.discount.dest.key] = item.discount
+            }
+            await _collectCartItems(item['key'], leafs, discounts)
+          }
+        }
+        return resp
+    }
 
-            let currentLeafs = []
-            for (const item of data){
-              if (item["skel_type"]==="leaf"){
-                currentLeafs.push(item)
-              }else{
-                if(item.discount){
-                  shopStore.state.discounts[item.discount.dest.key] = item.discount
-                }
-                await fetchCartItems(item['key'], parentKey=true)
-              }
-            }
-            if (parentKey){
-              shopStore.state.cartList=shopStore.state.cartList.concat(currentLeafs)
-            }else{
-              shopStore.state.cartList=currentLeafs
-            }
+    function fetchCartItems(key){
+        let leafs = []
+        let discounts = {}
+        return _collectCartItems(key, leafs, discounts).then((resp) => {
+            shopStore.state.cartList = leafs
+            Object.assign(shopStore.state.discounts, discounts)
 
             return resp
         })
@@ -128,7 +131,7 @@ export function useCart() {
         return Request.post(`${shopStore.state.shopApiUrl}/cart_update`, {
             dataObj: removeUndefinedValues(data)
         }).then(async (resp)=>{
-            fetchCart()
+            await fetchCart()
             return resp
         })
     }
@@ -143,7 +146,7 @@ export function useCart() {
             quantity_mode:quantity_mode
         }}).then(async (resp)=>{
             shopStore.state.cartIsUpdating=false
-            fetchCart()
+            await fetchCart()
         })
 
     }
@@ -154,46 +157,26 @@ export function useCart() {
             parent_cart_key:cart?cart:shopStore.state.cartRoot['key']
         }}).then(async (resp)=>{
             shopStore.state.cartIsUpdating=false
-            fetchCart()
+            await fetchCart()
         })
     }
 
-    function addDiscount(code) {
-        return new Promise((resolve, reject) => {
-          Request.securePost(`${shopStore.state.shopApiUrl}/discount_add`, {
-            dataObj: {
-              code: code,
-            },
-          })
-        .then(async (resp) => {
-            let data = await resp.json();
-            fetchCart()
-            console.log("discount debug", data);
-            resolve()
+    async function addDiscount(code) {
+        let resp = await Request.securePost(`${shopStore.state.shopApiUrl}/discount_add`, {
+            dataObj: { code: code },
         })
-        .catch((error) => {
-            reject(error);
-        });
-    });
+        let data = await resp.json();
+        await fetchCart()
+        return data
     }
 
-    function removeDiscount(key) {
-        return new Promise((resolve, reject) => {
-          Request.securePost(`${shopStore.state.shopApiUrl}/discount_remove`, {
-            dataObj: {
-                discount_key: key,
-            },
-          })
-        .then(async (resp) => {
-            let data = await resp.json();
-            fetchCart()
-            console.log("discount debug", data);
-            resolve()
+    async function removeDiscount(key) {
+        let resp = await Request.securePost(`${shopStore.state.shopApiUrl}/discount_remove`, {
+            dataObj: { discount_key: key },
         })
-        .catch((error) => {
-            reject(error);
-        });
-    });
+        let data = await resp.json();
+        await fetchCart()
+        return data
     }
 
     const shippingAddressKey = computed(() => shopStore.state.cartRoot?.['shipping_address']?.['dest']?.['key']);

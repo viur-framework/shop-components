@@ -3,16 +3,34 @@
     <h2 class="viur-shop-cart-sidebar-headline headline" v-html="$t('viur.shop.summary_headline')"></h2>
     <div class="viur-shop-cart-sidebar-summary">
       <div class="viur-shop-cart-sidebar-summary-item" v-for="item in state.items">
-        <template v-if="(!shopStore.state.showNodes && item.skel_type === 'leaf') || shopStore.state.showNodes">
-          <div class="viur-shop-cart-sidebar-summary-item-amount" v-if="item.skel_type === 'leaf'">
-            {{ item.quantity }}&nbsp;&times;
+        <template v-if="(!shopStore.state.showN1odes && item.skel_type === 'leaf') || shopStore.state.showNodes">
+          <div class="viur-shop-cart-sidebar-summary-item-row">
+            <div class="viur-shop-cart-sidebar-summary-item-amount" v-if="item.skel_type === 'leaf'">
+              {{ item.quantity }}&nbsp;&times;
+            </div>
+            <div class="viur-shop-cart-sidebar-summary-item-name" v-html="item.skel_type === 'node' ? item.name : item.shop_name"></div>
+            <div class="viur-shop-cart-sidebar-summary-item-price" v-if="getArticleDiscounts(item).length && item.price?.recommended > item.price?.current">
+              <sl-badge v-for="discount in getArticleDiscounts(item)" variant="danger" pill>
+                <template v-if="discount.discount_type === 'percentage'">-{{ discount.percentage }}%</template>
+                <template v-else>
+                  -<sl-format-number lang="de" type="currency" currency="EUR" :value="discount.absolute"></sl-format-number>
+                </template>
+              </sl-badge>
+              <sl-format-number lang="de" type="currency" currency="EUR"
+                :value="(item.total ? item.total : item.price?.current) * (item.quantity || 1)">
+              </sl-format-number>
+            </div>
+            <div class="viur-shop-cart-sidebar-summary-item-price" v-else>
+              <sl-format-number lang="de" type="currency" currency="EUR"
+                :value="(item.total ? item.total : item.price?.current) * (item.quantity || 1)">
+              </sl-format-number>
+            </div>
           </div>
-          <div class="viur-shop-cart-sidebar-summary-item-name" v-html="item.skel_type === 'node' ? item.name : item.shop_name"></div>
-          <div class="viur-shop-cart-sidebar-summary-item-price">
-            <sl-format-number lang="de" type="currency" currency="EUR"
-              :value="item.total ? item.total : item.price?.current">
+          <span class="viur-shop-cart-sidebar-summary-item-price--uvp" v-if="getArticleDiscounts(item).length && item.price?.recommended > item.price?.current">
+            UVP: <sl-format-number lang="de" type="currency" currency="EUR"
+              :value="item.price.recommended * (item.quantity || 1)">
             </sl-format-number>
-          </div>
+          </span>
         </template>
       </div>
     </div>
@@ -27,7 +45,7 @@
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.shippingTotal">
       </sl-format-number>
     </div>
-    <div class="viur-shop-cart-sidebar-info" v-if="shopStore.state.cartRoot.discount">
+    <div class="viur-shop-cart-sidebar-info" v-if="shopStore.state.cartRoot.discount && isBasketDiscount(shopStore.state.cartRoot.discount.dest.key)">
       <span>{{ shopStore.state.cartRoot.discount.dest.name }}</span>
       <sl-format-number lang="de" type="currency" currency="EUR" :value="state.discount">
       </sl-format-number>
@@ -133,6 +151,34 @@ const state = reactive({
   loading:false
 })
 
+function isBasketDiscount(discountKey) {
+  const item = state.items.find(i => i.price?.cart_discounts?.length)
+  if (!item) return false
+  const discount = item.price.cart_discounts.find(d => d.key === discountKey)
+  if (!discount) return false
+  return !(discount.condition || []).some(c => c.dest?.application_domain === 'article')
+}
+
+function getArticleDiscounts(item) {
+  if (!item.price?.cart_discounts) return []
+  return item.price.cart_discounts.filter(discount =>
+    (discount.condition || []).some(c => c.dest?.application_domain === 'article')
+  )
+}
+
+function calcDiscountValue(discount, item) {
+  const quantity = item.quantity || 1
+  const recommended = item.price?.recommended || 0
+  const current = item.price?.current || 0
+  if (recommended > current) {
+    return (recommended - current) * quantity
+  }
+  if (discount.discount_type === 'percentage') {
+    return recommended * quantity * discount.percentage / 100
+  }
+  return (discount.absolute || 0) * quantity
+}
+
 onBeforeMount(() => {
   state.loading=true
   if (!shopStore.state.cartList.length) {
@@ -211,12 +257,37 @@ function calc_percent(val){
 
 .viur-shop-cart-sidebar-summary-item {
   display: flex;
+  flex-direction: column;
+}
+
+.viur-shop-cart-sidebar-summary-item-row {
+  display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   gap: var(--sl-spacing-medium);
+  align-items: baseline;
 }
 
 .viur-shop-cart-sidebar-summary-item-name {
   margin-right: auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viur-shop-cart-sidebar-summary-item-price {
+  flex-shrink: 0;
+  display: flex;
+  gap: var(--sl-spacing-x-small);
+  align-items: baseline;
+}
+
+.viur-shop-cart-sidebar-summary-item-price--uvp {
+  color: var(--sl-color-neutral-400);
+  font-size: var(--sl-font-size-small);
+  white-space: nowrap;
+  text-align: right;
+  display: block;
 }
 </style>
