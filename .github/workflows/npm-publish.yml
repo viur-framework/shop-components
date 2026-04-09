@@ -23,8 +23,6 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org/
 
-      - name: Ensure npm supports trusted publishing
-        run: npm install -g npm@latest
       - run: npm ci
 
       - name: Determine npm tag
@@ -42,8 +40,9 @@ jobs:
           else
             echo "tag=latest" >> $GITHUB_OUTPUT
           fi
+
       - name: Publish to npm (Trusted Publishing)
-        run: npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
+        run: npm publish --provenance --access public --tag ${{ steps.npm_tag.outputs.tag }}
 
 
   gh-release:
