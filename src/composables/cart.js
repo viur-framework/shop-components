@@ -41,16 +41,10 @@ export function useCart() {
       if (_fetchCartPromise) return _fetchCartPromise;
 
       shopStore.state.cartIsLoading = true;
-      let promise;
-      if (shopStore.state.order != null && shopStore.state.order?.cart?.dest.key) {
-        shopStore.state.cartRoot = shopStore.state.order.cart.dest;
-        promise = fetchCartItems(shopStore.state.cartRoot["key"]);
-      } else {
-        promise = fetchCartRoot().then(() => {
-          if (!shopStore.state.cartRoot?.["key"]) return 0;
-          return fetchCartItems(shopStore.state.cartRoot["key"]);
-        });
-      }
+      let promise = fetchCartRoot().then(() => {
+        if (!shopStore.state.cartRoot?.["key"]) return 0;
+        return fetchCartItems(shopStore.state.cartRoot["key"]);
+      });
 
       _fetchCartPromise = promise.then(() => {
         shopStore.state.cartIsLoading = false;
@@ -69,6 +63,8 @@ export function useCart() {
             shopStore.state.cartRoot = data.filter(i=>i['cart_type']==='basket')?.[0] ? data.filter(i=>i['cart_type']==='basket')[0]:[]
             if (shopStore.state.cartRoot.discount){
               shopStore.state.discounts = {[shopStore.state.cartRoot.discount.dest.key]:shopStore.state.cartRoot.discount}
+            } else {
+              shopStore.state.discounts = {}
             }
             return resp
         })
@@ -97,7 +93,11 @@ export function useCart() {
         let discounts = {}
         return _collectCartItems(key, leafs, discounts).then((resp) => {
             shopStore.state.cartList = leafs
-            Object.assign(shopStore.state.discounts, discounts)
+            // Include root-level discount alongside node-level discounts
+            if (shopStore.state.cartRoot?.discount) {
+                discounts[shopStore.state.cartRoot.discount.dest.key] = shopStore.state.cartRoot.discount
+            }
+            shopStore.state.discounts = discounts
 
             return resp
         })
