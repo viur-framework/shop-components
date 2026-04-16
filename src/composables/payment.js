@@ -54,6 +54,20 @@ export const usePayment = defineStore("usePaymentStore", () => {
           options.push(currentOption)
         }
 
+        // Sort: SORT_FIRST providers on top, SORT_LAST at the bottom, rest unchanged
+        const SORT_FIRST = ["unzer-paylater_invoice"]
+        const SORT_LAST  = ["unzer-paypal", "amazonpay"]
+
+        options.sort((a, b) => {
+          const weight = (key) => {
+            const firstIdx = SORT_FIRST.indexOf(key)
+            if (firstIdx !== -1) return -SORT_FIRST.length + firstIdx
+            const lastIdx = SORT_LAST.indexOf(key)
+            if (lastIdx !== -1) return 1 + lastIdx
+            return 0
+          }
+          return weight(a.paymenttype) - weight(b.paymenttype)
+        })
 
         return options
     }
