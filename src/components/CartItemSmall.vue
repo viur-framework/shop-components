@@ -18,17 +18,8 @@
       v-html="getValue(item.shop_name)"
     ></h4>
 
-    <sl-input
-        :disabled="!edit"
-        class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
-        type="number"
-        placeholder="Number"
-        min="0"
-        noSpinButtons
-        :value="item.quantity"
-        @sl-change="changeAmount($event.target.value)"
-      >
-      <dialog-Button slot="prefix" class="decent" v-if="item.quantity===1" variant="danger" outline :disabled="!edit">
+    <div class="viur-shop-cart-leaf-quantity-row">
+      <dialog-Button class="viur-shop-cart-leaf-delete" variant="danger" outline :disabled="!edit">
         <sl-icon name="trash"></sl-icon>
         <template #dialog="{close}">
           {{ $t('messages.remove_article_from_cart') }}
@@ -38,13 +29,24 @@
           </sl-bar>
         </template>
       </dialog-Button>
-      <sl-button slot="prefix" v-else :disabled="!edit" @click="changeAmount(item.quantity-=1)">
-        <sl-icon name="dash-lg"></sl-icon>
-      </sl-button>
-      <sl-button slot="suffix" :disabled="!edit" @click="changeAmount(item.quantity+=1)">
-        <sl-icon name="plus-lg"></sl-icon>
-      </sl-button>
-    </sl-input>
+      <sl-input
+          :disabled="!edit"
+          class="viur-shop-cart-leaf-value viur-shop-cart-leaf-value--quantity"
+          type="number"
+          placeholder="Number"
+          min="1"
+          noSpinButtons
+          :value="item.quantity"
+          @sl-change="changeAmount($event.target.value)"
+        >
+        <sl-button slot="prefix" :disabled="!edit" @click="decrement">
+          <sl-icon name="dash-lg"></sl-icon>
+        </sl-button>
+        <sl-button slot="suffix" :disabled="!edit" @click="changeAmount(item.quantity+=1)">
+          <sl-icon name="plus-lg"></sl-icon>
+        </sl-button>
+      </sl-input>
+    </div>
 
     <div class="viur-shop-cart-leaf-article-number">
       <div class="viur-shop-cart-leaf-label">{{ $t('viur.shop.article_number') }}</div>
@@ -94,6 +96,12 @@ const props = defineProps({
 
 function removeArticle(){
   removeItem(props.item['article']['dest']['key'])
+}
+
+function decrement(){
+  if (props.item.quantity > 1) {
+    changeAmount(props.item.quantity -= 1)
+  }
 }
 
 </script>
@@ -180,6 +188,23 @@ function removeArticle(){
     align-self: flex-end;
   }
 
+  .viur-shop-cart-leaf-quantity-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sl-spacing-x-small);
+    width: 100%;
+    min-width: 0;
+
+    & .viur-shop-cart-leaf-value--quantity {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  .viur-shop-cart-leaf-delete {
+    flex-shrink: 0;
+  }
+
   .viur-shop-cart-leaf-unitprice {
     align-self: flex-end;
     grid-column: 4 / span 1;
@@ -243,5 +268,16 @@ function removeArticle(){
 
   }
 
+}
+
+.viur-shop-cart-leaf-delete::part(base) {
+  border-radius: 0;
+  height: var(--sl-input-height-medium);
+}
+
+.viur-shop-cart-leaf-delete::part(label) {
+  padding: 0 var(--sl-spacing-small);
+  display: flex;
+  align-items: center;
 }
 </style>
