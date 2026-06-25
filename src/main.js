@@ -24,8 +24,14 @@ const ViurShopComponents = {
 
     app.use(createPinia());
 
+    // Wenn eine i18n-Instanz übergeben wird, diese teilen (keine zweite, konkurrierende
+    // Instanz erzeugen). Sonst eine eigene erstellen (Composition-Mode + globalInjection,
+    // damit $t in Templates und useI18n() denselben Composer nutzen).
+    const sharedI18n = !!options?.i18n
     let messages = {}
-    const i18n = createI18n({
+    const i18n = options?.i18n || createI18n({
+      legacy: false,
+      globalInjection: true,
       locale: defaultLocale,
       fallbackLocale: fallback,
       messages: messages,
@@ -47,9 +53,12 @@ const ViurShopComponents = {
       }
       updateLocaleMessages(loc, messages[loc])
     }
-    app.use(
-      i18n
-    );
+    // Geteilte Instanz wird vom Host (main.js) via app.use() installiert — hier nicht doppelt.
+    if (!sharedI18n) {
+      app.use(
+        i18n
+      );
+    }
   },
 };
 
