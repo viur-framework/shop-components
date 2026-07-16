@@ -165,6 +165,9 @@ function initUnzerForm() {
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-bancontact') {
     const bancontact = state.unzer.Bancontact();
     state.paymentHandler['unzer-bancontact'] = bancontact;
+  } else if (shopStore.state.order?.['payment_provider'] === 'unzer-klarna') {
+    const klarna = state.unzer.Klarna();
+    state.paymentHandler['unzer-klarna'] = klarna;
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-googlepay') {
     const googlepayScriptPromise = new Promise((resolve, reject) => {
       const googlepayScript = document.createElement('script');
