@@ -131,12 +131,23 @@ const state = reactive({
       return "-"
     }
   }),
-  discount:computed(() => (shopStore.state.cartRoot.total - shopStore.state.cartRoot.total_discount_price)*-1),
+  discount:computed(() => {
+    // Fall back to the order's frozen cart snapshot when cartRoot lacks totals
+    // (e.g. on the complete step where the session basket is gone).
+    const cr = shopStore.state.cartRoot?.total != null
+      ? shopStore.state.cartRoot
+      : (shopStore.state.order?.cart?.dest ?? shopStore.state.cartRoot)
+    return ((cr?.total ?? 0) - (cr?.total_discount_price ?? 0)) * -1
+  }),
   total: computed(() => {
-    return shopStore.state.cartRoot.total_discount_price
+    return shopStore.state.cartRoot?.total_discount_price
+      ?? shopStore.state.order?.cart?.dest?.total_discount_price
+      ?? 0
   }),
   vat:computed(()=>{
-    return shopStore.state.cartRoot.vat
+    return shopStore.state.cartRoot?.vat
+      ?? shopStore.state.order?.cart?.dest?.vat
+      ?? []
   }),
   sum:computed(()=>{
     let sum = state.items.reduce((acc,item)=>{
@@ -181,6 +192,16 @@ function calcDiscountValue(discount, item) {
 
 onBeforeMount(() => {
   state.loading=true
+  // Whenever an order is in play, Shop.vue already loads the cart — from the
+  // frozen order snapshot once ordered (fetchCartFromOrder). Self-loading the
+  // session cart here would race with that and, on the complete step (where the
+  // session basket is gone), clobber cartRoot with an empty basket and zero out
+  // the summary totals. orderKey is set synchronously by Shop.vue before this
+  // child mounts, so it is a race-proof guard.
+  if (shopStore.state.orderKey || shopStore.state.currentTab === 'complete' || shopStore.state.order?.['is_ordered']) {
+    state.loading=false
+    return
+  }
   if (!shopStore.state.cartList.length) {
     fetchCart().then(()=>state.loading=false).catch(()=>state.loading=false)
   }else{
