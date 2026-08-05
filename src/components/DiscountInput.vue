@@ -21,7 +21,7 @@
     </div>
     </template>
   </template>
-  <sl-button-group>
+  <div class="viur-shop-input-wrapper">
     <sl-input
       class="viur-shop-discount-input"
       :placeholder="$t('viur.shop.add_discount_placeholder')"
@@ -30,7 +30,7 @@
     >
     </sl-input>
     <sl-button @click="addDiscountAction()" :loading="state.loading">{{ $t('viur.shop.add_discount') }}</sl-button>
-  </sl-button-group>
+  </div>
 </template>
 
 <script setup>
@@ -92,7 +92,17 @@ function removeDiscountAction(key){
 }
 
 .viur-shop-discount-input {
-  flex-basis: 100%;
+  flex: 1 1 100%;
+  min-width: 0;
 }
 
+.viur-shop-input-wrapper {
+  display: flex;
+  gap: var(--sl-spacing-small);
+  max-width: 100%;
+}
+
+.viur-shop-input-wrapper sl-button {
+  flex-shrink: 0;
+}
 </style>
