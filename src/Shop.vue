@@ -79,7 +79,7 @@ const {fetchTranslations, updateLocaleMessages} = useTranslations();
 const i18n = useI18n();
 const shopStore = useViurShopStore();
 const {fetchOrder} = useOrder();
-const {fetchCart} = useCart();
+const {fetchCart, fetchCartFromOrder} = useCart();
 
 const emit = defineEmits('change');
 
@@ -161,7 +161,13 @@ onBeforeMount(() => {
   if (Object.keys(params).includes('order')) {
     shopStore.state.orderKey = params['order'];
     fetchOrder(shopStore.state.orderKey).then(() => {
-      fetchCart();  // load after cartKey has been loaded from order
+      // An ordered cart's session basket is gone; hydrate the store from the
+      // frozen cart snapshot referenced by the order instead.
+      if (shopStore.state.order?.['is_ordered']) {
+        fetchCartFromOrder();
+      } else {
+        fetchCart();  // load after cartKey has been loaded from order
+      }
       shopStore.state.orderReady = true;
       // navigate to order state
       if (shopStore.state.order?.['is_ordered']) {

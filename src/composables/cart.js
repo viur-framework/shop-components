@@ -103,6 +103,23 @@ export function useCart() {
         })
     }
 
+    async function fetchCartFromOrder(){
+        // On the complete step the session basket no longer exists, so
+        // fetchCartRoot would yield an empty cart. The ordered totals and
+        // items live in the frozen cart snapshot referenced by the order.
+        const orderCart = shopStore.state.order?.['cart']?.['dest']
+        if (!orderCart?.['key']){
+            return
+        }
+        shopStore.state.cartRoot = orderCart
+        let leafs = []
+        let discounts = {}
+        await _collectCartItems(orderCart['key'], leafs, discounts)
+        shopStore.state.cartList = leafs
+        shopStore.state.discounts = discounts
+        shopStore.state.cartReady = true
+    }
+
     function updateCart({
                     cart_key,
                     cart_type,
@@ -186,6 +203,7 @@ export function useCart() {
         fetchCartRoot,
         fetchCartItems,
         fetchCart,
+        fetchCartFromOrder,
         updateCart,
         addItem,
         removeItem,
