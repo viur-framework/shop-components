@@ -107,6 +107,11 @@ const {pause: PaymentCheckPause, resume: PaymentCheckResume, isActive: PaymentCh
       console.debug('Order is paid');
       shopStore.navigateToTab('complete');
       PaymentCheckPause();
+    } else if (shopStore.state.isPaymentPending) {
+      // Bank transfers only settle days later: the checkout is done, the order isn't paid yet.
+      console.debug('Payment is pending settlement');
+      shopStore.navigateToTab('complete');
+      PaymentCheckPause();
     }
   });
 

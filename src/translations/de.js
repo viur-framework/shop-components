@@ -13,6 +13,7 @@ export default {
       'order_abort': 'Die Bestellung wurde abgebrochen.',
       'order_message': 'Wir haben Ihre Bestellung erhalten und werden diese schnellstmöglich bearbeiten.<br /> Sie erhalten in wenigen Minuten eine Bestätigung per E-Mail.',
       'order_paid': 'Ihre Zahlung ist bei uns eingegangen.',
+      'order_payment_pending': 'Ihre Zahlung wurde angestoßen. Der Betrag wird in den nächsten Werktagen von Ihrem Konto abgebucht.',
       'order_ready_to_ship': 'Ihre Bestellung ist fertig für den Versand.',
       'cart_empty': 'Es befinden sich noch keine Artikel im Warenkorb.',
       'order_summary': 'Bestellzusammenfassung',

@@ -76,7 +76,7 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
                 params:{},
                 displayName: "viur.shop.order_step_complete", //Bestellung Abgeschlossen
                 icon: { name: "bag-check" },
-                active:computed(()=>state.order?.['is_ordered'] && (state.order?.['is_rts'] || state.order?.['is_paid'])), // active if ordered
+                active:computed(()=>state.order?.['is_ordered'] && (state.order?.['is_rts'] || state.order?.['is_paid'] || state.isPaymentPending)), // active if ordered
                 validating:false,
                 valid:false
             },
@@ -121,6 +121,14 @@ export const useViurShopStore = defineStore("viurshopStore", () => {
         addressStructure:null,
         paymentMeta:null,
 
+
+        // The payment provider flags the current payment once it has been placed
+        // successfully but cannot settle right away, e.g. a direct bank transfer that
+        // takes a few days. The order stays unpaid until the money actually arrives.
+        isPaymentPending: computed(()=>{
+          const payments = state.order?.['payment']?.['payments'] ?? []
+          return payments.at(-1)?.['pending'] === true
+        }),
 
         //checkout
         paymentProviderData:null,

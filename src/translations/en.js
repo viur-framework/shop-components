@@ -13,6 +13,7 @@ export default {
       'order_abort': 'The order was canceled.',
       'order_message': 'We have received your order and will process it as soon as possible.<br /> You will receive a confirmation email in a few minutes.',
       'order_paid': 'Your payment has been received.',
+      'order_payment_pending': 'Your payment has been initiated. The amount will be debited from your account within the next few business days.',
       'order_ready_to_ship': 'Your order is ready for shipping.',
       'cart_empty': 'Your cart is currently empty.',
       'order_summary': 'Order summary',
