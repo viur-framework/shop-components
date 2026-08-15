@@ -43,6 +43,7 @@ export default {
       'summary_total': 'Total amount',
       'summary_vat': 'incl. {percentage} VAT',
       'discount_not_found': 'This discount code does not exist.',
+      'discount_removed': 'Discount code removed.',
       'discount_not_active': 'This discount code is not active.',
       'discount_not_available': 'This discount code is not available for this country.',
       'discount_already_used': 'This discount code has already been used.',
