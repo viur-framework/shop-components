@@ -59,6 +59,11 @@
         <div id="paylater-invoice-element" class="field"></div>
       </template>
 
+<!--      <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-openbanking_pis'">-->
+<!--        openbanking_pis-->
+<!--        <div id="openbanking_pis-element" class="field"></div>-->
+<!--      </template>-->
+
       <p
         v-if="!!shopStore.state?.paymentProviderData?.redirectUrl"
         v-html="$t('viur.shop.payment_link', {url: shopStore.state.paymentProviderData.redirectUrl})"
@@ -236,6 +241,19 @@ function initUnzerForm() {
       customerType: 'B2C', // or B2B
     });
     state.paymentHandler['unzer-paylater_invoice'] = paylaterInvoice;
+  } else if (shopStore.state.order?.['payment_provider'] === 'unzer-openbanking_pis') {
+    // state.birthdateIsInvalid = true; // no value --> invalid
+    const directBankTransfer = state.unzer.OpenBanking()
+    directBankTransfer.create('openbanking-pis', {
+      containerId: 'openbanking_pis-element',
+    });
+    //
+    // const paylaterInvoice = state.unzer.PaylaterInvoice();
+    // paylaterInvoice.create({
+    //   containerId: 'paylater-invoice-element',
+    //   customerType: 'B2C', // or B2B
+    // });
+    state.paymentHandler['unzer-openbanking_pis'] = directBankTransfer;
   } else {
     console.warn(`Unknown payment provider: ${shopStore.state.order?.['payment_provider']}`);
   }
