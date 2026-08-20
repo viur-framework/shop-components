@@ -43,7 +43,7 @@
         <div id="googlepay-element" class="field"></div>
       </template>
 
-      <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paylater_invoice'">
+      <template v-else-if="['unzer-paylater_invoice', 'unzer-paylater_installment'].includes(shopStore.state.order?.['payment_provider'])">
         <p v-html="$t('viur.shop.missing_birthdate', shopStore.state.order.billing_address.dest)"/>
         <sl-input
           slot="left"
@@ -56,7 +56,7 @@
           @sl-change="birthdateChange"
           :disabled="state.loading"
         ></sl-input>
-        <div id="paylater-invoice-element" class="field"></div>
+        <div id="paylater-element" class="field"></div>
       </template>
 
 <!--      <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-openbanking_pis'">-->
@@ -242,10 +242,22 @@ function initUnzerForm() {
     state.birthdateIsInvalid = true; // no value --> invalid
     const paylaterInvoice = state.unzer.PaylaterInvoice();
     paylaterInvoice.create({
-      containerId: 'paylater-invoice-element',
+      containerId: 'paylater-element',
       customerType: 'B2C', // or B2B
     });
     state.paymentHandler['unzer-paylater_invoice'] = paylaterInvoice;
+  } else if (shopStore.state.order?.['payment_provider'] === 'unzer-paylater_installment') {
+    state.birthdateIsInvalid = true; // no value --> invalid
+    const paylaterInstallment = state.unzer.PaylaterInstallment();
+    // The component fetches the plans itself and binds the customer's choice
+    // (plan and IBAN) to the payment type it creates on submit.
+    paylaterInstallment.create({
+      containerId: 'paylater-element',
+      amount: shopStore.state.order?.['total'],
+      currency: 'EUR',
+      country: shopStore.state.order?.['billing_address']?.['dest']?.['country']?.toUpperCase(),
+    });
+    state.paymentHandler['unzer-paylater_installment'] = paylaterInstallment;
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-openbanking_pis') {
     // state.birthdateIsInvalid = true; // no value --> invalid
     const directBankTransfer = state.unzer.OpenBanking()
