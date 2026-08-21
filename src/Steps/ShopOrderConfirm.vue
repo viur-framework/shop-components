@@ -161,6 +161,15 @@ watch(()=>shopStore.state.order?.['is_paid'],(newVal,oldVal)=>{
   }
 })
 
+// The checkout can be done without the order being paid: an installment or a bank
+// transfer is settled later. The step component stays mounted after the switch, so a
+// popup left open keeps Shoelace's scroll lock on the document.
+watch(() => shopStore.state.currentTab, (tab) => {
+  if (tab === 'complete') {
+    state.paymentPopup = false;
+  }
+});
+
 onBeforeMount(()=>{
   getOrderCart()
 })

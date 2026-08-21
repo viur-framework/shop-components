@@ -11,6 +11,10 @@
       {{ $t('viur.shop.order_paid') }}
     </p>
 
+    <p class="paragraph" v-else-if="shopStore.state.isPaymentPending">
+      {{ $t('viur.shop.order_payment_pending') }}
+    </p>
+
     <p class="paragraph" v-if="shopStore.state.order?.['is_rts']">
       {{ $t('viur.shop.order_ready_to_ship') }}
     </p>

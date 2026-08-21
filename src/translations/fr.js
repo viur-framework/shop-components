@@ -13,6 +13,7 @@ export default {
       'order_abort': 'La commande a été annulée.',
       'order_message': 'Nous avons bien reçu votre commande et nous allons la traiter dans les plus brefs délais.<br /> Vous recevrez une confirmation par e-mail dans quelques minutes',
       'order_paid': 'Nous avons bien reçu votre paiement',
+      'order_payment_pending': 'Votre paiement a été initié. Le montant sera débité de votre compte dans les prochains jours ouvrés.',
       'order_ready_to_ship': 'Votre commande est prête à être expédiée',
       'cart_empty': 'Votre panier est vide.',
       'order_summary': 'Envoyer la commande',
