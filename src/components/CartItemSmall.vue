@@ -25,7 +25,7 @@
           {{ $t('messages.remove_article_from_cart') }}
           <sl-bar>
             <sl-button slot="left" @click="close">{{$t('actions.cancel')}}</sl-button>
-            <sl-button slot="right" variant="danger" @click="removeArticle(); close()">{{ $t('actions.delete') }}</sl-button>
+            <sl-button slot="right" variant="danger" @click="removeArticle(close)">{{ $t('actions.delete') }}</sl-button>
           </sl-bar>
         </template>
       </dialog-Button>
@@ -94,8 +94,9 @@ const props = defineProps({
     }
 })
 
-function removeArticle(){
+function removeArticle(close){
   removeItem(props.item['article']['dest']['key'])
+  close()
 }
 
 function decrement(){
