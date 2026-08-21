@@ -25,8 +25,8 @@
                         </sl-bar>
                       </template>
 
-                      <template #['template_'+name]>
-                        <slot :name="'template_'+name"></slot>
+                      <template #[`template_${name}`]>
+                        <slot :name="`template_${name}`"></slot>
                       </template>
 
                       <template #default="slotProps">
