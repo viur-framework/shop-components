@@ -12,6 +12,20 @@
     <a href="https://github.com/viur-framework/viur-shop">shop</a>.
 </div>
 
+### Development
+
+```sh
+npm run lint          # eslint
+npm run format        # prettier --write
+npm run format:check  # prettier --check, same as CI
+```
+
+Both run on staged files before every commit via `lint-staged`, and again
+in CI on every pull request. `eslint-suppressions.json` records the lint
+violations that already existed when linting was introduced, so the gate
+stays green while still failing on anything new. Fixed one of them? Run
+`npx eslint . --prune-suppressions` to drop it from the baseline.
+
 ### Structure
 
 - **Main components** have to be exported in `./src/main.js`. Main Components should be in folder `./src/components`.
