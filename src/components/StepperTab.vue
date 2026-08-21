@@ -38,23 +38,22 @@
 </template>
 
 <script setup>
-import { watch, onBeforeMount, inject } from "vue";
-import {useViurShopStore} from '../shop'
+import { watch, onBeforeMount, inject } from 'vue'
+import { useViurShopStore } from '../shop'
 const shopStore = useViurShopStore()
 
 const props = defineProps({
   tab: {
     type: String,
     required: true,
-    default:"-"
-  }
-});
+    default: '-',
+  },
+})
 
-function navigate(){
+function navigate() {
   if (!shopStore.state.tabs[props.tab]['active']) return false
   shopStore.navigateToTab(props.tab)
 }
-
 </script>
 
 <style scoped>
@@ -68,7 +67,7 @@ function navigate(){
     height: 100%;
   }
 
-  &[aria-selected="true"] {
+  &[aria-selected='true'] {
     --shop-tab-color: var(--shop-tab-color--active);
   }
 
@@ -80,11 +79,11 @@ function navigate(){
   }
 
   @media (max-width: 600px) {
-    &[aria-selected="true"] {
+    &[aria-selected='true'] {
       width: 100%;
     }
 
-    &:not([aria-selected="true"]) {
+    &:not([aria-selected='true']) {
       .viur-shop-order-status-span {
         display: none;
       }
