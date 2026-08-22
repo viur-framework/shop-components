@@ -51,7 +51,7 @@
     "vite": "^6.2.6"
   },
   "lint-staged": {
-    "*.{js,vue}": [
+    "*.{js,mjs,cjs,vue}": [
       "eslint --fix",
       "prettier --write"
     ],
