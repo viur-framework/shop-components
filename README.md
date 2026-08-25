@@ -20,8 +20,12 @@ npm run format        # prettier --write
 npm run format:check  # prettier --check, same as CI
 ```
 
-Both run on staged files before every commit via `lint-staged`, and again
-in CI on every pull request. `eslint-suppressions.json` records the lint
+On commit, `lint-staged` formats the staged files with Prettier and _checks_
+them with ESLint. It deliberately does not pass `--fix`: Prettier only ever
+changes layout, but an ESLint autofix can rewrite logic — `vue/no-ref-as-operand`
+turns `if (someRef)` into `if (someRef.value)` — and that should not land in a
+commit unread. Run `npm run lint -- --fix` yourself when you want it, and read
+the diff. CI runs the same checks on every pull request. `eslint-suppressions.json` records the lint
 violations that already existed when linting was introduced, so the gate
 stays green while still failing on anything new. Fixed one of them? Run
 `npx eslint . --prune-suppressions` to drop it from the baseline.
