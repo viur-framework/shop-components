@@ -35,9 +35,7 @@ npm run format           # reformat everything (safe, see below)
 ```
 
 `npm run format` is safe to run and commit unread. Prettier reparses the file
-and prints it again, so it can only change layout — never meaning. Verified on
-this repo: reformatting all 42 source files changed nothing in the built bundle
-except the `data-v-…` scoped-style hashes.
+and prints it again, so it can only change layout — never meaning.
 
 `npm run lint` is a different axis and will **not** be fixed by `format`.
 Formatting rules are switched off in ESLint on purpose (`eslint-config-prettier`),
@@ -85,7 +83,7 @@ runs `npm run format:check` and `npm run lint` on every pull request.
 
 #### `eslint-suppressions.json`
 
-When linting was introduced this codebase already had 28 error-level
+When linting was introduced this codebase already had a set of error-level
 violations. Weakening the rules to get a green build would have hidden them
 forever, so they are recorded in this file instead — ESLint's bulk suppressions.
 
@@ -117,8 +115,7 @@ errors come back:
 echo '{}' > /tmp/none.json && npx eslint . --suppressions-location /tmp/none.json
 ```
 
-`177 problems (0 errors, 177 warnings)` becomes `205 problems (28 errors, 177
-warnings)` — those 28 are the baseline.
+The error count that reappears is exactly what the baseline holds.
 
 ### Structure
 
