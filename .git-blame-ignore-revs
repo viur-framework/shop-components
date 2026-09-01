@@ -1,0 +1,10 @@
+# Revisions to skip in `git blame`, so a whole-repo reformat does not claim
+# authorship of every line it touched. GitHub honours this file automatically.
+#
+# Locally, once per clone:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# chore: add eslint, prettier and lint enforcement (#63)
+# Ran `prettier --write .` across 39 source files. Verified behaviour neutral:
+# the built bundle differed only in `data-v-` scoped-style hashes.
+e30cc034e342fd9a8279d6b1a613ff9d193a2141
