@@ -1,88 +1,97 @@
 <template>
-    <div class="bind viur-shop-wrap" v-bind="$attrs" v-if="shopStore.state.cartReady && shopStore.state.orderReady && state.translationsLoaded">
-        <div class="viur-shop-stepper-wrap"
-            :class="{ 'full-width': (!summary || summary==='bottom' || shopStore.state.currentTab==='complete') }"
-        >
-            <shop-order-stepper >
-              <template #template_cart>
-                <slot name="template_cart"></slot>
-              </template>
-              <template #template_userdata>
-                <slot name="template_userdata"></slot>
-              </template>
-              <template #template_shippingmethod>
-                <slot name="template_shippingmethod"></slot>
-              </template>
-              <template #template_paymentprovider>
-                <slot name="template_paymentprovider"></slot>
-              </template>
-              <template #template_confirm>
-                <slot name="template_confirm"></slot>
-              </template>
-              <template #template_complete>
-                <slot name="template_complete"></slot>
-              </template>
-            </shop-order-stepper>
-        </div>
-
-        <div class="viur-shop-sidebar-wrap" :class="{ bottom: (summary==='bottom') }" v-if="shopStore.state.currentTab!=='complete'">
-          <slot name="summary">
-            <shop-summary ></shop-summary>
-          </slot>
-        </div>
+  <div
+    class="bind viur-shop-wrap"
+    v-bind="$attrs"
+    v-if="shopStore.state.cartReady && shopStore.state.orderReady && state.translationsLoaded"
+  >
+    <div
+      class="viur-shop-stepper-wrap"
+      :class="{ 'full-width': !summary || summary === 'bottom' || shopStore.state.currentTab === 'complete' }"
+    >
+      <shop-order-stepper>
+        <template #template_cart>
+          <slot name="template_cart"></slot>
+        </template>
+        <template #template_userdata>
+          <slot name="template_userdata"></slot>
+        </template>
+        <template #template_shippingmethod>
+          <slot name="template_shippingmethod"></slot>
+        </template>
+        <template #template_paymentprovider>
+          <slot name="template_paymentprovider"></slot>
+        </template>
+        <template #template_confirm>
+          <slot name="template_confirm"></slot>
+        </template>
+        <template #template_complete>
+          <slot name="template_complete"></slot>
+        </template>
+      </shop-order-stepper>
     </div>
-    <template v-if="shopStore.state.debug">
-      <br>
-      <sl-details summary="Debug">
-          <sl-icon slot="prefix" name="bug"></sl-icon>
-          order: {{ shopStore.state.orderKey }}<br>
-          cart: {{ shopStore.state.cartRoot?.['key'] }}<br><br>
 
-          shippingaddress: {{shopStore.state.cartRoot?.['shipping_address']}}<br>
-          billingaddress: {{shopStore.state.order?.['billing_address']}}<br><br>
+    <div
+      class="viur-shop-sidebar-wrap"
+      :class="{ bottom: summary === 'bottom' }"
+      v-if="shopStore.state.currentTab !== 'complete'"
+    >
+      <slot name="summary">
+        <shop-summary></shop-summary>
+      </slot>
+    </div>
+  </div>
+  <template v-if="shopStore.state.debug">
+    <br />
+    <sl-details summary="Debug">
+      <sl-icon
+        slot="prefix"
+        name="bug"
+      ></sl-icon>
+      order: {{ shopStore.state.orderKey }}<br />
+      cart: {{ shopStore.state.cartRoot?.['key'] }}<br /><br />
 
-          shipping: {{shopStore.state.cartRoot?.['shipping']}}<br><br>
-          Payment: {{shopStore.state.order?.['payment_provider']}}<br><br>
+      shippingaddress: {{ shopStore.state.cartRoot?.['shipping_address'] }}<br />
+      billingaddress: {{ shopStore.state.order?.['billing_address'] }}<br /><br />
 
-          Order Status<br>
-          ------<br>
-          canCheckout: {{ shopStore.state.canCheckout }}<br>
-          canOrder: {{ shopStore.state.canOrder }}<br>
-          CheckoutStarted: {{ shopStore.state.order?.['is_checkout_in_progress'] }}<br><br>
+      shipping: {{ shopStore.state.cartRoot?.['shipping'] }}<br /><br />
+      Payment: {{ shopStore.state.order?.['payment_provider'] }}<br /><br />
 
-          ordered: {{ shopStore.state.order?.['is_ordered'] }}<br>
-          readytoship: {{ shopStore.state.order?.['is_rts'] }}<br>
-          paid: {{ shopStore.state.order?.['is_paid'] }}<br><br>
+      Order Status<br />
+      ------<br />
+      canCheckout: {{ shopStore.state.canCheckout }}<br />
+      canOrder: {{ shopStore.state.canOrder }}<br />
+      CheckoutStarted: {{ shopStore.state.order?.['is_checkout_in_progress'] }}<br /><br />
 
-          OrderObject: {{shopStore.state.order}}<br><br>
-          activeDiscounts: {{ shopStore.state.discounts }}
+      ordered: {{ shopStore.state.order?.['is_ordered'] }}<br />
+      readytoship: {{ shopStore.state.order?.['is_rts'] }}<br />
+      paid: {{ shopStore.state.order?.['is_paid'] }}<br /><br />
 
-      </sl-details>
-    </template>
-    <div id="dialogs"></div>
+      OrderObject: {{ shopStore.state.order }}<br /><br />
+      activeDiscounts: {{ shopStore.state.discounts }}
+    </sl-details>
+  </template>
+  <div id="dialogs"></div>
 </template>
 
-
 <script setup>
-import {useTranslations} from '@viur/vue-utils/utils/translations.js';
-import {useUrlSearchParams} from '@vueuse/core';
-import {onBeforeMount, reactive, watch} from 'vue';
-import {useI18n} from 'vue-i18n';
-import {useCart} from './composables/cart';
-import {useOrder} from './composables/order';
-import {useViurShopStore} from './shop';
-import ShopOrderStepper from './ShopOrderStepper.vue';
-import ShopSummary from './ShopSummary.vue';
-import {getTranslations} from './utils';
+import { useTranslations } from '@viur/vue-utils/utils/translations.js'
+import { useUrlSearchParams } from '@vueuse/core'
+import { onBeforeMount, reactive, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useCart } from './composables/cart'
+import { useOrder } from './composables/order'
+import { useViurShopStore } from './shop'
+import ShopOrderStepper from './ShopOrderStepper.vue'
+import ShopSummary from './ShopSummary.vue'
+import { getTranslations } from './utils'
 
-const {fetchTranslations, updateLocaleMessages} = useTranslations();
-const i18n = useI18n();
-const shopStore = useViurShopStore();
-const {fetchOrder} = useOrder();
-const {fetchCart, fetchCartFromOrder} = useCart();
+const { fetchTranslations, updateLocaleMessages } = useTranslations()
+const i18n = useI18n()
+const shopStore = useViurShopStore()
+const { fetchOrder } = useOrder()
+const { fetchCart, fetchCartFromOrder } = useCart()
 
-const emit = defineEmits('change');
-
+const emit = defineEmits('change')
 
 const props = defineProps({
   summary: {
@@ -109,96 +118,93 @@ const props = defineProps({
   locale: {
     default: 'de-DE',
   },
-});
+})
 
 const state = reactive({
   translationsLoaded: false,
-});
-
+})
 
 onBeforeMount(() => {
   getTranslations([props.language], 'viur.shop.*').then((resp) => {
     // convert 'dot.seperated.translation.keys' to a {nested: {translation: 'object'} to overwrite the default object.
-    const nested = {};
+    const nested = {}
     Object.entries(resp).forEach(([lang, translations]) => {
-      nested[lang] = {};
+      nested[lang] = {}
       Object.entries(translations).forEach(([key, value]) => {
-        const path = key.split('.');
-        let segment;
-        let current = nested[lang];
-        while (segment = path.shift()) {
+        const path = key.split('.')
+        let segment
+        let current = nested[lang]
+        while ((segment = path.shift())) {
           if (path.length === 0) {
             if (typeof current === 'string' || current instanceof String) {
-              console.warn(`The prefix of ${key} (before .${segment}) is another translation key and can't be nested`);
+              console.warn(`The prefix of ${key} (before .${segment}) is another translation key and can't be nested`)
             } else {
-              current[segment] = value;
+              current[segment] = value
             }
           } else {
             if (!(segment in current)) {
-              current[segment] = {};
+              current[segment] = {}
             }
-            current = current[segment];
+            current = current[segment]
           }
         }
-      });
-      i18n.mergeLocaleMessage(lang, nested[lang]);
-    });
+      })
+      i18n.mergeLocaleMessage(lang, nested[lang])
+    })
     // console.debug(nested);
-    state.translationsLoaded = true;
-  });
-  shopStore.state.language = props.language;
-  shopStore.state.locale = props.locale;
-  shopStore.state.showNodes = props.showCartNodes;
-  shopStore.state.debug = props.debug;
-  shopStore.state.topActions = props.topActions;
+    state.translationsLoaded = true
+  })
+  shopStore.state.language = props.language
+  shopStore.state.locale = props.locale
+  shopStore.state.showNodes = props.showCartNodes
+  shopStore.state.debug = props.debug
+  shopStore.state.topActions = props.topActions
   if (props.tabs) {
-    shopStore.state.tabs = props.tabs;
+    shopStore.state.tabs = props.tabs
   }
 
-  shopStore.state.moduleName = props.modulename;
-  shopStore.fetchMetaData();
-  const params = useUrlSearchParams('hash');
+  shopStore.state.moduleName = props.modulename
+  shopStore.fetchMetaData()
+  const params = useUrlSearchParams('hash')
   if (Object.keys(params).includes('order')) {
-    shopStore.state.orderKey = params['order'];
+    shopStore.state.orderKey = params['order']
     fetchOrder(shopStore.state.orderKey).then(() => {
       // An ordered cart's session basket is gone; hydrate the store from the
       // frozen cart snapshot referenced by the order instead.
       if (shopStore.state.order?.['is_ordered']) {
-        fetchCartFromOrder();
+        fetchCartFromOrder()
       } else {
-        fetchCart();  // load after cartKey has been loaded from order
+        fetchCart() // load after cartKey has been loaded from order
       }
-      shopStore.state.orderReady = true;
+      shopStore.state.orderReady = true
       // navigate to order state
       if (shopStore.state.order?.['is_ordered']) {
-        shopStore.navigateToTab('complete');
+        shopStore.navigateToTab('complete')
       } else if (shopStore.state.order?.['is_checkout_in_progress']) {
-        shopStore.navigateToTab('confirm');
+        shopStore.navigateToTab('confirm')
       }
-    });
+    })
   } else {
-    fetchCart();
-    shopStore.state.orderReady = true;
+    fetchCart()
+    shopStore.state.orderReady = true
   }
-
 
   if (Object.keys(params).includes('step')) {
-    shopStore.navigateToTab(params['step']);
+    shopStore.navigateToTab(params['step'])
   } else {
-    shopStore.navigateToTab('cart');
+    shopStore.navigateToTab('cart')
   }
-});
+})
 
-
-watch(() => shopStore.state.currentTab, (newVal, oldVal) => {
-  emit('change', newVal);
-});
-
-
+watch(
+  () => shopStore.state.currentTab,
+  (newVal, oldVal) => {
+    emit('change', newVal)
+  },
+)
 </script>
 
 <style scoped>
-
 * {
   box-sizing: border-box;
 }
@@ -301,6 +307,4 @@ watch(() => shopStore.state.currentTab, (newVal, oldVal) => {
     grid-row-start: 3;
   }
 }
-
-
 </style>

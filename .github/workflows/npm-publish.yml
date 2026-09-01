@@ -5,7 +5,7 @@ name: Node.js Package
 
 on:
   push:
-     tags:
+    tags:
       - v*
 
 permissions:
@@ -43,7 +43,6 @@ jobs:
 
       - name: Publish to npm (Trusted Publishing)
         run: npm publish --access public --tag ${{ steps.npm_tag.outputs.tag }}
-
 
   gh-release:
     runs-on: ubuntu-latest

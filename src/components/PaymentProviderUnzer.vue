@@ -1,29 +1,51 @@
 <template>
-  <div class="loading-wrapper" v-if="state.loading">
+  <div
+    class="loading-wrapper"
+    v-if="state.loading"
+  >
     <sl-spinner class="loading"></sl-spinner>
   </div>
 
-  <div class="loading-wrapper" v-if="PaymentCheckIsActive">
+  <div
+    class="loading-wrapper"
+    v-if="PaymentCheckIsActive"
+  >
     <sl-spinner class="loading"></sl-spinner>
     {{ $t('messages.wait_for_payment') }}
   </div>
   <div class="form-wrapper">
-    <sl-alert :open="state.hasError" variant="danger">{{ state.errorMessage }}</sl-alert>
-    <form class="unzerUI form" novalidate>
+    <sl-alert
+      :open="state.hasError"
+      variant="danger"
+      >{{ state.errorMessage }}</sl-alert
+    >
+    <form
+      class="unzerUI form"
+      novalidate
+    >
       <template v-if="shopStore.state.order?.['payment_provider'] === 'unzer-card'">
         <div class="field">
-          <div id="card-element-id-number" class="unzerInput">
+          <div
+            id="card-element-id-number"
+            class="unzerInput"
+          >
             <!-- Card number UI Element is inserted here. -->
           </div>
         </div>
         <div class="two fields">
           <div class="field ten wide">
-            <div id="card-element-id-expiry" class="unzerInput">
+            <div
+              id="card-element-id-expiry"
+              class="unzerInput"
+            >
               <!-- Card expiry date UI Element is inserted here. -->
             </div>
           </div>
           <div class="field six wide">
-            <div id="card-element-id-cvc" class="unzerInput">
+            <div
+              id="card-element-id-cvc"
+              class="unzerInput"
+            >
               <!-- Card CVC UI Element is inserted here. -->
             </div>
           </div>
@@ -31,20 +53,37 @@
       </template>
 
       <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-paypal'">
-        <sl-alert open variant="danger">{{ $t('viur.shop.paypal_client_popup_info') }}</sl-alert>
-        <div id="paypal-element" class="field"></div>
+        <sl-alert
+          open
+          variant="danger"
+          >{{ $t('viur.shop.paypal_client_popup_info') }}</sl-alert
+        >
+        <div
+          id="paypal-element"
+          class="field"
+        ></div>
       </template>
 
       <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-ideal'">
-        <div id="ideal-element" class="field"></div>
+        <div
+          id="ideal-element"
+          class="field"
+        ></div>
       </template>
 
       <template v-else-if="shopStore.state.order?.['payment_provider'] === 'unzer-googlepay'">
-        <div id="googlepay-element" class="field"></div>
+        <div
+          id="googlepay-element"
+          class="field"
+        ></div>
       </template>
 
-      <template v-else-if="['unzer-paylater_invoice', 'unzer-paylater_installment'].includes(shopStore.state.order?.['payment_provider'])">
-        <p v-html="$t('viur.shop.missing_birthdate', shopStore.state.order.billing_address.dest)"/>
+      <template
+        v-else-if="
+          ['unzer-paylater_invoice', 'unzer-paylater_installment'].includes(shopStore.state.order?.['payment_provider'])
+        "
+      >
+        <p v-html="$t('viur.shop.missing_birthdate', shopStore.state.order.billing_address.dest)" />
         <sl-input
           slot="left"
           type="date"
@@ -56,12 +95,15 @@
           @sl-change="birthdateChange"
           :disabled="state.loading"
         ></sl-input>
-        <div id="paylater-element" class="field"></div>
+        <div
+          id="paylater-element"
+          class="field"
+        ></div>
       </template>
 
       <p
         v-if="!!shopStore.state?.paymentProviderData?.redirectUrl"
-        v-html="$t('viur.shop.payment_link', {url: shopStore.state.paymentProviderData.redirectUrl})"
+        v-html="$t('viur.shop.payment_link', { url: shopStore.state.paymentProviderData.redirectUrl })"
       />
     </form>
 
@@ -70,53 +112,64 @@
       :disabled="state.loading || state.birthdateIsInvalid"
       class="unzerUI primary button fluid"
       @click="submitFormToUnzer"
-    >{{ $t('viur.shop.pay') }}
+    >
+      {{ $t('viur.shop.pay') }}
     </button>
-    <sl-button :disabled="state.loading" variant="danger" @click="cancelPayment">
+    <sl-button
+      :disabled="state.loading"
+      variant="danger"
+      @click="cancelPayment"
+    >
       {{ $t('actions.cancel') }}
     </sl-button>
   </div>
 </template>
 
 <script setup>
-import {Request} from '@viur/vue-utils';
-import {HTTPError} from '@viur/vue-utils/utils/request.js';
-import {useIntervalFn} from '@vueuse/core';
-import {computed, onBeforeMount, reactive} from 'vue';
-import {useAddress} from '../composables/address.js';
-import {useOrder} from '../composables/order';
-import {useViurShopStore} from '../shop';
+import { Request } from '@viur/vue-utils'
+import { HTTPError } from '@viur/vue-utils/utils/request.js'
+import { useIntervalFn } from '@vueuse/core'
+import { computed, onBeforeMount, reactive } from 'vue'
+import { useAddress } from '../composables/address.js'
+import { useOrder } from '../composables/order'
+import { useViurShopStore } from '../shop'
 
-const shopStore = useViurShopStore();
-const {fetchOrder} = useOrder();
-const {saveBirthdate} = useAddress();
+const shopStore = useViurShopStore()
+const { fetchOrder } = useOrder()
+const { saveBirthdate } = useAddress()
 
-const emits = defineEmits(['cancel']);
+const emits = defineEmits(['cancel'])
 
 // TODO: Duplicate code
-const {pause: PaymentCheckPause, resume: PaymentCheckResume, isActive: PaymentCheckIsActive} = useIntervalFn(() => {
-  console.debug('checking ...');
+const {
+  pause: PaymentCheckPause,
+  resume: PaymentCheckResume,
+  isActive: PaymentCheckIsActive,
+} = useIntervalFn(
+  () => {
+    console.debug('checking ...')
 
-  fetchOrder(shopStore.state.orderKey).then(() => {
-    if (shopStore.state.order?.['is_paid']) {
-      console.debug('Order is paid');
-      shopStore.navigateToTab('complete');
-      PaymentCheckPause();
-    } else if (shopStore.state.isPaymentPending) {
-      // Bank transfers only settle days later: the checkout is done, the order isn't paid yet.
-      console.debug('Payment is pending settlement');
-      shopStore.navigateToTab('complete');
-      PaymentCheckPause();
-    }
-  });
-
-}, 2000, {immediate: false});
-
+    fetchOrder(shopStore.state.orderKey).then(() => {
+      if (shopStore.state.order?.['is_paid']) {
+        console.debug('Order is paid')
+        shopStore.navigateToTab('complete')
+        PaymentCheckPause()
+      } else if (shopStore.state.isPaymentPending) {
+        // Bank transfers only settle days later: the checkout is done, the order isn't paid yet.
+        console.debug('Payment is pending settlement')
+        shopStore.navigateToTab('complete')
+        PaymentCheckPause()
+      }
+    })
+  },
+  2000,
+  { immediate: false },
+)
 
 const state = reactive({
   unzer: computed(() => {
-    if (!shopStore.state.paymentProviderData) return null;
-    return new unzer(shopStore.state.paymentProviderData['public_key'], {locale: shopStore.state.locale});
+    if (!shopStore.state.paymentProviderData) return null
+    return new unzer(shopStore.state.paymentProviderData['public_key'], { locale: shopStore.state.locale })
   }),
   paymentHandler: {},
   loading: false,
@@ -125,7 +178,7 @@ const state = reactive({
   waitPayment: false,
   birthdate: null,
   birthdateIsInvalid: false,
-});
+})
 
 /**
  * Initialize the payment type creation with Unzer-UI components
@@ -133,54 +186,54 @@ const state = reactive({
 function initUnzerForm() {
   //Unzer field definition
   if (shopStore.state.order?.['payment_provider'] === 'unzer-card') {
-    const card = state.unzer.Card();
+    const card = state.unzer.Card()
     // Rendering input field card number
     card.create('number', {
       containerId: 'card-element-id-number',
       onlyIframe: false,
-    });
+    })
     // Rendering input field card expiry
     card.create('expiry', {
       containerId: 'card-element-id-expiry',
       onlyIframe: false,
-    });
+    })
     // Rendering input field card cvc
     card.create('cvc', {
       containerId: 'card-element-id-cvc',
       onlyIframe: false,
-    });
-    state.paymentHandler['unzer-card'] = card;
+    })
+    state.paymentHandler['unzer-card'] = card
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-paypal') {
     // Creating a PayPal instance
-    const paypal = state.unzer.Paypal();
-    state.paymentHandler['unzer-paypal'] = paypal;
+    const paypal = state.unzer.Paypal()
+    state.paymentHandler['unzer-paypal'] = paypal
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-sofort') {
-    const sofort = state.unzer.Sofort();
-    state.paymentHandler['unzer-sofort'] = sofort;
+    const sofort = state.unzer.Sofort()
+    state.paymentHandler['unzer-sofort'] = sofort
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-ideal') {
-    const ideal = state.unzer.Ideal();
+    const ideal = state.unzer.Ideal()
     ideal.create('ideal', {
       containerId: 'ideal-element',
-    });
-    state.paymentHandler['unzer-ideal'] = ideal;
+    })
+    state.paymentHandler['unzer-ideal'] = ideal
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-bancontact') {
-    const bancontact = state.unzer.Bancontact();
-    state.paymentHandler['unzer-bancontact'] = bancontact;
+    const bancontact = state.unzer.Bancontact()
+    state.paymentHandler['unzer-bancontact'] = bancontact
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-klarna') {
-    const klarna = state.unzer.Klarna();
-    state.paymentHandler['unzer-klarna'] = klarna;
+    const klarna = state.unzer.Klarna()
+    state.paymentHandler['unzer-klarna'] = klarna
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-googlepay') {
     const googlepayScriptPromise = new Promise((resolve, reject) => {
-      const googlepayScript = document.createElement('script');
-      googlepayScript.setAttribute('src', 'https://pay.google.com/gp/p/js/pay.js');
+      const googlepayScript = document.createElement('script')
+      googlepayScript.setAttribute('src', 'https://pay.google.com/gp/p/js/pay.js')
       googlepayScript.onload = () => {
-        resolve(googlepayScript);
-      };
-      googlepayScript.onerror = reject;
-      document.head.appendChild(googlepayScript);
-    });
-    const googlepay = state.unzer.Googlepay();
-    state.paymentHandler['unzer-googlepay'] = googlepay;
+        resolve(googlepayScript)
+      }
+      googlepayScript.onerror = reject
+      document.head.appendChild(googlepayScript)
+    })
+    const googlepay = state.unzer.Googlepay()
+    state.paymentHandler['unzer-googlepay'] = googlepay
     const paymentDataRequestObject = googlepay.initPaymentDataRequestObject({
       gatewayMerchantId: shopStore.state.paymentProviderData.channel,
       merchantInfo: {
@@ -191,7 +244,7 @@ function initUnzerForm() {
         countryCode: shopStore.state.order.billing_address.dest['country'].toUpperCase(),
         currencyCode: 'EUR',
         totalPrice: shopStore.state.order.total.toString(),
-        totalPriceStatus: 'ESTIMATED',  // backend should have the last words
+        totalPriceStatus: 'ESTIMATED', // backend should have the last words
         // totalPriceStatus: 'FINAL',
         // checkoutOption: 'COMPLETE_IMMEDIATE_PURCHASE',
       },
@@ -201,45 +254,44 @@ function initUnzerForm() {
       allowPrepaidCards: shopStore.state.paymentProviderData.allow_prepaid_cards,
 
       onPaymentAuthorizedCallback: (paymentData) => {
-        PaymentCheckPause();
-        state.loading = true;
-        state.hasError = false;
+        PaymentCheckPause()
+        state.loading = true
+        state.hasError = false
 
-        return googlepay.createResource(paymentData)
-          .then(result => {
-            console.debug(result);
-            saveType(result.id);
-            return {status: 'success'};  // Tell Google Pay we could handle it
+        return googlepay
+          .createResource(paymentData)
+          .then((result) => {
+            console.debug(result)
+            saveType(result.id)
+            return { status: 'success' } // Tell Google Pay we could handle it
           })
           .catch(function (error) {
-            paymentError(error);
-            return {  // Tell Google Pay we could NOT handle it
+            paymentError(error)
+            return {
+              // Tell Google Pay we could NOT handle it
               status: 'error',
               message: error.customerMessage || error.message || error || 'Unexpected error',
-            };
-          });
+            }
+          })
       },
-    });
-    console.debug('unzer-googlepay', googlepay, paymentDataRequestObject);
+    })
+    console.debug('unzer-googlepay', googlepay, paymentDataRequestObject)
     // TODO: How can we catch >Uncaught (in promise) AbortError: User closed the Payment Request UI.< ?
     googlepayScriptPromise.then(() => {
       // gpay script has been loaded, we can start the payment
-      googlepay.create(
-        {containerId: 'googlepay-element'},
-        paymentDataRequestObject,
-      );
-    });
+      googlepay.create({ containerId: 'googlepay-element' }, paymentDataRequestObject)
+    })
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-paylater_invoice') {
-    state.birthdateIsInvalid = true; // no value --> invalid
-    const paylaterInvoice = state.unzer.PaylaterInvoice();
+    state.birthdateIsInvalid = true // no value --> invalid
+    const paylaterInvoice = state.unzer.PaylaterInvoice()
     paylaterInvoice.create({
       containerId: 'paylater-element',
       customerType: 'B2C', // or B2B
-    });
-    state.paymentHandler['unzer-paylater_invoice'] = paylaterInvoice;
+    })
+    state.paymentHandler['unzer-paylater_invoice'] = paylaterInvoice
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-paylater_installment') {
-    state.birthdateIsInvalid = true; // no value --> invalid
-    const paylaterInstallment = state.unzer.PaylaterInstallment();
+    state.birthdateIsInvalid = true // no value --> invalid
+    const paylaterInstallment = state.unzer.PaylaterInstallment()
     // The component fetches the plans itself and binds the customer's choice
     // (plan and IBAN) to the payment type it creates on submit.
     paylaterInstallment.create({
@@ -247,40 +299,39 @@ function initUnzerForm() {
       amount: shopStore.state.order?.['total'],
       currency: 'EUR',
       country: shopStore.state.order?.['billing_address']?.['dest']?.['country']?.toUpperCase(),
-    });
-    state.paymentHandler['unzer-paylater_installment'] = paylaterInstallment;
+    })
+    state.paymentHandler['unzer-paylater_installment'] = paylaterInstallment
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-openbanking_pis') {
-    const directBankTransfer = state.unzer.OpenBanking();
+    const directBankTransfer = state.unzer.OpenBanking()
     directBankTransfer.create('openbanking-pis', {
       containerId: 'openbanking_pis-element',
-    });
-    state.paymentHandler['unzer-openbanking_pis'] = directBankTransfer;
+    })
+    state.paymentHandler['unzer-openbanking_pis'] = directBankTransfer
   } else {
-    console.warn(`Unknown payment provider: ${shopStore.state.order?.['payment_provider']}`);
+    console.warn(`Unknown payment provider: ${shopStore.state.order?.['payment_provider']}`)
   }
-  state.loading = false;
+  state.loading = false
 }
 
 function birthdateChange(event) {
-  console.debug('birthdateChange', arguments);
+  console.debug('birthdateChange', arguments)
   if (!event.target.value || !event.target.checkValidity()) {
     // state.birthdate = null;
-    state.birthdateIsInvalid = true;
+    state.birthdateIsInvalid = true
   } else {
-    state.birthdate = event.target.value;
-    state.birthdateIsInvalid = false;
-    state.loading = true;
+    state.birthdate = event.target.value
+    state.birthdateIsInvalid = false
+    state.loading = true
     saveBirthdate(shopStore.state.order.billing_address.dest['key'], event.target.value)
-      .then(result => {
-        console.debug(result);
+      .then((result) => {
+        console.debug(result)
       })
       .catch(paymentError)
       .finally(() => {
-        state.loading = false;
-      });
+        state.loading = false
+      })
   }
 }
-
 
 /**
  * Handle an error
@@ -289,16 +340,16 @@ function birthdateChange(event) {
  *              with a translated (and detailed) description for the customer
  */
 function paymentError(error) {
-  console.error(error);
-  state.loading = false;
-  state.hasError = true;
+  console.error(error)
+  state.loading = false
+  state.hasError = true
   if (error && error.constructor.name === HTTPError.name && error.response.headers.get('x-viur-shop-error')) {
-    error.response.json().then(res => {
-      console.error(res.errors);
-      state.errorMessage = res.errors.map(err => err.customer_message || err.message).join(', ');
-    });
+    error.response.json().then((res) => {
+      console.error(res.errors)
+      state.errorMessage = res.errors.map((err) => err.customer_message || err.message).join(', ')
+    })
   } else {
-    state.errorMessage = error.customerMessage || error.message || error || 'Error';
+    state.errorMessage = error.customerMessage || error.message || error || 'Error'
   }
 }
 
@@ -308,16 +359,17 @@ function paymentError(error) {
  * This function is used by all unzer pyment types, except Google Pay.
  */
 function submitFormToUnzer() {
-  PaymentCheckPause();
-  state.loading = true;
-  state.hasError = false;
-  state.paymentHandler[shopStore.state.order?.['payment_provider']].createResource()
+  PaymentCheckPause()
+  state.loading = true
+  state.hasError = false
+  state.paymentHandler[shopStore.state.order?.['payment_provider']]
+    .createResource()
     .then((result) => {
-      saveType(result.id);
+      saveType(result.id)
     })
     .catch((error) => {
-      paymentError(error);
-    });
+      paymentError(error)
+    })
 }
 
 /**
@@ -328,51 +380,56 @@ function submitFormToUnzer() {
  * @param typeId The type-id of the created Type, e.g. ``s-crd-abc123def456``
  */
 function saveType(typeId) {
-  const paymenttarget = shopStore.state.order?.['payment_provider'].split('-').slice(1).join('-');
+  const paymenttarget = shopStore.state.order?.['payment_provider'].split('-').slice(1).join('-')
   Request.post(`${shopStore.state.shopUrl}/pp_unzer_${paymenttarget}/save_type`, {
     dataObj: {
       order_key: shopStore.state.orderKey,
       type_id: typeId,
     },
-  }).then(async (resp) => {
-    shopStore.state.order = await resp.json();
-    shopStore.checkoutOrder().then((resp) => {
-      state.loading = false;
-      state.hasError = false;
-      if (shopStore.state.paymentProviderData?.redirectUrl) {
-        state.waitPayment = true;
-        window.open(shopStore.state.paymentProviderData.redirectUrl, '_blank', 'popup');
-        PaymentCheckResume();
-      }
-    }).catch(async (error) => {
-      paymentError(error);
-    });
-
-  }).catch(error => {
-    paymentError(error);
-  });
+  })
+    .then(async (resp) => {
+      shopStore.state.order = await resp.json()
+      shopStore
+        .checkoutOrder()
+        .then((resp) => {
+          state.loading = false
+          state.hasError = false
+          if (shopStore.state.paymentProviderData?.redirectUrl) {
+            state.waitPayment = true
+            window.open(shopStore.state.paymentProviderData.redirectUrl, '_blank', 'popup')
+            PaymentCheckResume()
+          }
+        })
+        .catch(async (error) => {
+          paymentError(error)
+        })
+    })
+    .catch((error) => {
+      paymentError(error)
+    })
 }
 
-
 function cancelPayment() {
-  PaymentCheckPause();
-  emits('cancel');
+  PaymentCheckPause()
+  emits('cancel')
 }
 
 onBeforeMount(() => {
-  state.loading = true;
+  state.loading = true
   if (!shopStore.state.paymentProviderData) {
-    shopStore.checkoutStart().then(() => {
-      initUnzerForm();
-      fetchOrder(shopStore.state.orderKey); // refresh order after checkout_start freeze
-    }).catch((error) => {
-      console.log(error);
-    });
+    shopStore
+      .checkoutStart()
+      .then(() => {
+        initUnzerForm()
+        fetchOrder(shopStore.state.orderKey) // refresh order after checkout_start freeze
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   } else {
-    initUnzerForm();
+    initUnzerForm()
   }
-});
-
+})
 </script>
 
 <style scoped>
@@ -395,7 +452,8 @@ onBeforeMount(() => {
 
 <style>
 /* global style to overwrite UnzerCSS */
-.unzerUI.primary.button, .unzerUI.primary.buttons .button {
+.unzerUI.primary.button,
+.unzerUI.primary.buttons .button {
   background-color: var(--ignt-color-primary) !important;
 }
 

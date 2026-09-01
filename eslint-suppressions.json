@@ -1,0 +1,93 @@
+{
+  "src/ShopOrderStepper.vue": {
+    "vue/valid-v-for": {
+      "count": 2
+    }
+  },
+  "src/ShopSummary.vue": {
+    "vue/require-v-for-key": {
+      "count": 2
+    },
+    "vue/valid-v-for": {
+      "count": 1
+    }
+  },
+  "src/Steps/ShopCart.vue": {
+    "vue/require-valid-default-prop": {
+      "count": 1
+    },
+    "vue/valid-v-for": {
+      "count": 1
+    }
+  },
+  "src/Steps/ShopOrderComplete.vue": {
+    "vue/require-valid-default-prop": {
+      "count": 1
+    }
+  },
+  "src/Steps/ShopOrderConfirm.vue": {
+    "vue/require-valid-default-prop": {
+      "count": 1
+    },
+    "vue/valid-v-for": {
+      "count": 1
+    }
+  },
+  "src/Steps/ShopPaymentProvider.vue": {
+    "vue/require-valid-default-prop": {
+      "count": 1
+    }
+  },
+  "src/Steps/ShopShippingMethod.vue": {
+    "vue/no-unused-vars": {
+      "count": 1
+    },
+    "vue/require-valid-default-prop": {
+      "count": 1
+    }
+  },
+  "src/Steps/ShopUserDataGuest.vue": {
+    "vue/require-valid-default-prop": {
+      "count": 1
+    }
+  },
+  "src/components/CardSelector.vue": {
+    "vue/no-ref-as-operand": {
+      "count": 1
+    },
+    "vue/require-valid-default-prop": {
+      "count": 1
+    },
+    "vue/valid-v-for": {
+      "count": 1
+    }
+  },
+  "src/components/CartItem.vue": {
+    "vue/no-mutating-props": {
+      "count": 3
+    }
+  },
+  "src/components/CartItemSmall.vue": {
+    "vue/no-mutating-props": {
+      "count": 3
+    }
+  },
+  "src/components/DiscountInput.vue": {
+    "vue/require-v-for-key": {
+      "count": 1
+    }
+  },
+  "src/custombones/EmailCheckBone.vue": {
+    "vue/no-ref-as-operand": {
+      "count": 1
+    }
+  },
+  "src/custombones/PhoneCheckBone.vue": {
+    "valid-typeof": {
+      "count": 2
+    },
+    "vue/no-ref-as-operand": {
+      "count": 1
+    }
+  }
+}

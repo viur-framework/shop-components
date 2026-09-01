@@ -1,6 +1,6 @@
 <template>
-    <div class="list">
-    <h2 class="viur-shop-cart-headline headline">{{ $t('viur.shop.check_order')}}</h2>
+  <div class="list">
+    <h2 class="viur-shop-cart-headline headline">{{ $t('viur.shop.check_order') }}</h2>
     <div class="viur-shop-cart-address-wrap">
       <div class="viur-shop-cart-address">
         <div class="viur-shop-user-data-headline">
@@ -13,7 +13,7 @@
           {{ state.shippingAddress?.street_number }}<br />
           {{ state.shippingAddress?.zip_code }}
           {{ state.shippingAddress?.city }}<br />
-          {{ getDescrName('country',state.shippingAddress?.country) }}<br />
+          {{ getDescrName('country', state.shippingAddress?.country) }}<br />
         </template>
       </div>
       <div class="viur-shop-cart-address">
@@ -27,7 +27,7 @@
           {{ state.billingAddress.street_number }}<br />
           {{ state.billingAddress.zip_code }}
           {{ state.billingAddress.city }}<br />
-          {{ getDescrName('country',state.billingAddress.country) }}<br />
+          {{ getDescrName('country', state.billingAddress.country) }}<br />
         </template>
       </div>
     </div>
@@ -36,7 +36,7 @@
       <div class="viur-shop-cart-payment-method">
         <span>{{ $t('viur.shop.skeleton.order.payment') }} </span>
         <p>
-          {{ shopStore.state['paymentMeta']?.[state.payment]?.['title']}}
+          {{ shopStore.state['paymentMeta']?.[state.payment]?.['title'] }}
         </p>
       </div>
     </div>
@@ -50,9 +50,7 @@
           <sl-format-number
             type="currency"
             currency="EUR"
-            :value="
-              state.shipping?.shipping_cost
-            "
+            :value="state.shipping?.shipping_cost"
             lang="de"
           >
           </sl-format-number>
@@ -61,124 +59,164 @@
     </div>
 
     <sl-details :summary="$t('viur.shop.skeleton.order.cart')">
-      <template  v-for="item in state.cartList">
-      <cart-item-small v-if="item.skel_type==='leaf'" :item="item" @sl-show="getOrderCart">
-      </cart-item-small>
-    </template>
-  </sl-details>
+      <template v-for="item in state.cartList">
+        <cart-item-small
+          v-if="item.skel_type === 'leaf'"
+          :item="item"
+          @sl-show="getOrderCart"
+        >
+        </cart-item-small>
+      </template>
+    </sl-details>
   </div>
 
-  <component :is="params['additionalComponent']" v-if="params['additionalComponent']" ref="additionalComponent">
+  <component
+    :is="params['additionalComponent']"
+    v-if="params['additionalComponent']"
+    ref="additionalComponent"
+  >
   </component>
 
   <sl-bar class="wrapper">
-    <sl-button slot="right" size="large" @click="startCheckout" :disabled="!shopStore.state.canCheckout" variant="success">{{ $t('viur.shop.order_pay') }}</sl-button>
+    <sl-button
+      slot="right"
+      size="large"
+      @click="startCheckout"
+      :disabled="!shopStore.state.canCheckout"
+      variant="success"
+      >{{ $t('viur.shop.order_pay') }}</sl-button
+    >
   </sl-bar>
 
-  <template v-if="shopStore.state.order?.['payment_provider'] !== null && shopStore.state.order?.['payment_provider'].startsWith('unzer-')">
-    <sl-dialog v-if="state.paymentPopup" :label="$t('viur.shop.order_pay')" :open="state.paymentPopup" @sl-after-hide="paymentCanceled">
-        <payment-provider-unzer @cancel="paymentCanceled"></payment-provider-unzer>
+  <template
+    v-if="
+      shopStore.state.order?.['payment_provider'] !== null &&
+      shopStore.state.order?.['payment_provider'].startsWith('unzer-')
+    "
+  >
+    <sl-dialog
+      v-if="state.paymentPopup"
+      :label="$t('viur.shop.order_pay')"
+      :open="state.paymentPopup"
+      @sl-after-hide="paymentCanceled"
+    >
+      <payment-provider-unzer @cancel="paymentCanceled"></payment-provider-unzer>
     </sl-dialog>
   </template>
 
-  <template v-if="shopStore.state.order?.['payment_provider'] !== null && shopStore.state.order?.['payment_provider'].startsWith('paypal')">
-    <sl-dialog v-if="state.paymentPopup" :label="$t('viur.shop.order_pay')" :open="state.paymentPopup" @sl-after-hide="state.paymentPopup=false">
-        <payment-provider-paypal @cancel="paymentCanceled"></payment-provider-paypal>
+  <template
+    v-if="
+      shopStore.state.order?.['payment_provider'] !== null &&
+      shopStore.state.order?.['payment_provider'].startsWith('paypal')
+    "
+  >
+    <sl-dialog
+      v-if="state.paymentPopup"
+      :label="$t('viur.shop.order_pay')"
+      :open="state.paymentPopup"
+      @sl-after-hide="state.paymentPopup = false"
+    >
+      <payment-provider-paypal @cancel="paymentCanceled"></payment-provider-paypal>
     </sl-dialog>
   </template>
 
-  <slot name="template_confirm">
-  </slot>
+  <slot name="template_confirm"> </slot>
 </template>
 <script setup>
-import {computed, onBeforeMount, reactive, watch, useTemplateRef} from 'vue'
-import PaymentProviderPaypal from '../components/PaymentProviderPaypal.vue';
-import { useViurShopStore } from '../shop';
+import { computed, onBeforeMount, reactive, watch, useTemplateRef } from 'vue'
+import PaymentProviderPaypal from '../components/PaymentProviderPaypal.vue'
+import { useViurShopStore } from '../shop'
 import boneUtils from '@viur/vue-utils/bones/utils'
-import {Request} from '@viur/vue-utils'
-import CartItemSmall from '../components/CartItemSmall.vue';
-import PaymentProviderUnzer from '../components/PaymentProviderUnzer.vue';
+import { Request } from '@viur/vue-utils'
+import CartItemSmall from '../components/CartItemSmall.vue'
+import PaymentProviderUnzer from '../components/PaymentProviderUnzer.vue'
 const shopStore = useViurShopStore()
 
 const additionalComponent = useTemplateRef('additionalComponent')
 
 const props = defineProps({
-  params:{
-    type:Object,
-    default:{}
-  }
+  params: {
+    type: Object,
+    default: {},
+  },
 })
 
 // collected data from order Object > Session cart is not available anymore
 const state = reactive({
-    shippingAddress: computed(()=>shopStore.state.order?.['cart']?.['dest']?.['shipping_address']?.['dest']),
-    shipping: computed(()=>shopStore.state.order?.['cart']?.['dest']?.['shipping']?.['dest']),
-    billingAddress: computed(()=>shopStore.state.order?.['billing_address']?.['dest']),
-    payment: computed(()=>shopStore.state.order?.['payment_provider']),
-    cartList:[],
-    paymentPopup:false
+  shippingAddress: computed(() => shopStore.state.order?.['cart']?.['dest']?.['shipping_address']?.['dest']),
+  shipping: computed(() => shopStore.state.order?.['cart']?.['dest']?.['shipping']?.['dest']),
+  billingAddress: computed(() => shopStore.state.order?.['billing_address']?.['dest']),
+  payment: computed(() => shopStore.state.order?.['payment_provider']),
+  cartList: [],
+  paymentPopup: false,
 })
-
 
 // simple wrapper for value rendering
 function getDescrName(boneName, val) {
   if (!shopStore.state.addressStructure || !val) return val
-  return boneUtils.getDescr(shopStore.state.addressStructure[boneName],val)
+  return boneUtils.getDescr(shopStore.state.addressStructure[boneName], val)
 }
 
 // fetch cart from order
-function getOrderCart(){
+function getOrderCart() {
   let cartKey = shopStore.state.order?.['cart']?.['dest']?.['key']
-  Request.get(`${shopStore.state.shopApiUrl}/cart_list`,{dataObj:{
-      cart_key:cartKey
-  }}).then(async( resp) =>{
-      let data = await resp.json()
-      state.cartList=data
+  Request.get(`${shopStore.state.shopApiUrl}/cart_list`, {
+    dataObj: {
+      cart_key: cartKey,
+    },
+  }).then(async (resp) => {
+    let data = await resp.json()
+    state.cartList = data
   })
 }
 
-function paymentCanceled(){
-  state.paymentPopup=false
-  shopStore.state.paymentProviderData = null;
+function paymentCanceled() {
+  state.paymentPopup = false
+  shopStore.state.paymentProviderData = null
 }
 
 //open popup and freeze cart
-async function startCheckout(){
-  if (props.params?.additionalComponent){
-      let valid = await additionalComponent.value.valid()
-      if (!valid){
-        return false
-      }
+async function startCheckout() {
+  if (props.params?.additionalComponent) {
+    let valid = await additionalComponent.value.valid()
+    if (!valid) {
+      return false
+    }
   }
-  state.paymentPopup=true
-  shopStore.checkoutStart();
+  state.paymentPopup = true
+  shopStore.checkoutStart()
 }
 
 //close popup if payment successfull
-watch(()=>shopStore.state.order?.['is_paid'],(newVal,oldVal)=>{
-  if(newVal){
-    state.paymentPopup=false
-  }
-})
+watch(
+  () => shopStore.state.order?.['is_paid'],
+  (newVal, oldVal) => {
+    if (newVal) {
+      state.paymentPopup = false
+    }
+  },
+)
 
 // The checkout can be done without the order being paid: an installment or a bank
 // transfer is settled later. The step component stays mounted after the switch, so a
 // popup left open keeps Shoelace's scroll lock on the document.
-watch(() => shopStore.state.currentTab, (tab) => {
-  if (tab === 'complete') {
-    state.paymentPopup = false;
-  }
-});
+watch(
+  () => shopStore.state.currentTab,
+  (tab) => {
+    if (tab === 'complete') {
+      state.paymentPopup = false
+    }
+  },
+)
 
-onBeforeMount(()=>{
+onBeforeMount(() => {
   getOrderCart()
 })
-
 </script>
 
 <style scoped>
-.wrapper{
-  padding:20px;
+.wrapper {
+  padding: 20px;
 }
 
 .viur-shop-cart-sidebar-btn-wrap {
