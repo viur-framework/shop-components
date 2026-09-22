@@ -70,7 +70,6 @@
       activeDiscounts: {{ shopStore.state.discounts }}
     </sl-details>
   </template>
-  <div id="dialogs"></div>
 </template>
 
 <script setup>

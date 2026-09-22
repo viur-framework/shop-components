@@ -6,7 +6,7 @@
     <slot> </slot>
   </sl-button>
   <teleport
-    to="#dialogs"
+    to="body"
     v-if="state.opened"
   >
     <sl-dialog
