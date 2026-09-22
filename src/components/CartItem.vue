@@ -135,7 +135,7 @@ const { addItem, removeItem, state: cartState, getValue } = useCart()
 
 const changeAmount = useDebounceFn((amount) => {
   props.item.quantity = amount
-  addItem(props.item['article']['dest']['key'], amount)
+  addItem(props.item['article']['dest']['key'], amount, props.item.parententry)
 }, 1000)
 
 const props = defineProps({
@@ -149,7 +149,7 @@ const props = defineProps({
 })
 
 function removeArticle(close) {
-  removeItem(props.item['article']['dest']['key'])
+  removeItem(props.item['article']['dest']['key'], props.item.parententry)
   close()
 }
 
