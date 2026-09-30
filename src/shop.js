@@ -144,6 +144,11 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
     canCheckout: null,
     canOrder: null,
 
+    // Why the last navigation attempt was refused, as plain messages. The step a
+    // customer cannot leave is otherwise silent: the tab guards are booleans, and
+    // the reasons behind them only exist in `canCheckout` / `canOrder`.
+    navigationErrors: [],
+
     //Address Structure
     addressStructure: null,
     paymentMeta: null,
@@ -205,6 +210,9 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
       console.warn(`navigateToTab called at ${state.currentTab}, but tab (${name}) not active yet`)
       return false
     }
+    // Every successful move goes through here, so this is the one place a stale
+    // reason from a previously refused attempt can be dropped.
+    state.navigationErrors = []
     state.currentTab = name
 
     const params = useUrlSearchParams('hash')
@@ -213,6 +221,13 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
       top: 0,
       behavior: 'smooth',
     })
+  }
+
+  function blockingErrors(tabName) {
+    // Only these two tabs have a server-side reason to be inactive; the others are
+    // guarded by plain order state, which carries no message to show.
+    const blocker = { confirm: state.canCheckout, complete: state.canOrder }[tabName]
+    return (blocker?.errors ?? []).map((entry) => entry['ClientError']?.['message']).filter(Boolean)
   }
 
   function navigateToNext() {
@@ -224,6 +239,7 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
     }
     const nextTabName = state.indexTabMap[currentTabIndex0 + 1]
     if (!state.tabs[nextTabName].active) {
+      state.navigationErrors = blockingErrors(nextTabName)
       console.warn(`navigateToNext called at ${state.currentTab}, but next tab (${nextTabName}) not active yet`)
       return false
     }
