@@ -265,6 +265,13 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
       })
         .then(async (resp) => {
           let data = await resp.clone().json()
+          if (!resp.ok) {
+            // `can_checkout` answers 400 with {"errors": [...]} -- a rejected address,
+            // for instance. Without this the body looks like a response without a
+            // payment provider, and the caller would go on to order an unchecked cart.
+            reject(data)
+            return resp
+          }
           state.paymentProviderData = data['payment']
 
           if (!data['payment']) {
