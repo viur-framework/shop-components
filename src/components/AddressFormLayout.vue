@@ -4,6 +4,31 @@
     v-if="Object.keys(formState.structure).length > 0"
   >
     <slot
+      v-if="formState.structure['customer_type']"
+      boneName="customer_type"
+      :widget="getBoneWidget(formState.structure['customer_type']['type'])"
+      label="placeholder"
+    >
+    </slot>
+
+    <!-- Shown for a business only (visibleIf of the bones); absent in older viur-shop versions -->
+    <slot
+      v-if="formState.structure['company_name']"
+      boneName="company_name"
+      :widget="getBoneWidget(formState.structure['company_name']['type'])"
+      label="placeholder"
+    >
+    </slot>
+
+    <slot
+      v-if="formState.structure['commercial_register_number']"
+      boneName="commercial_register_number"
+      :widget="getBoneWidget(formState.structure['commercial_register_number']['type'])"
+      label="placeholder"
+    >
+    </slot>
+
+    <slot
       boneName="salutation"
       :widget="getBoneWidget(formState.structure['salutation']['type'])"
       label="placeholder"
@@ -101,6 +126,18 @@ const formUpdate = inject('formUpdate')
 
 :deep(.bone-wrapper) {
   margin: 0;
+}
+
+:deep(.wrapper-bone-customer_type) {
+  grid-column: 1 / span 4;
+}
+
+:deep(.wrapper-bone-company_name) {
+  grid-column: 1 / span 2;
+}
+
+:deep(.wrapper-bone-commercial_register_number) {
+  grid-column: 3 / span 2;
 }
 
 :deep(.wrapper-bone-firstname) {

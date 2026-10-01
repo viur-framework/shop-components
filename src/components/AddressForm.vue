@@ -10,7 +10,7 @@
     :module="`${shopStore.state.moduleName}/address`"
     :action="state.action"
     :skelkey="state.skelkey"
-    :values="{ address_type: state.address_type, customer_type: 'private' }"
+    :values="state.values"
     :useCategories="false"
     :layout="shopStore.state.UserDataLayout"
     @change="formChange"
@@ -81,6 +81,15 @@ const state = reactive({
       return ['shipping', 'billing']
     }
     return [state.formtype]
+  }),
+  // Values override what the server sends, on edit as well, so the default
+  // customer type is only set for a new address -- otherwise every edit would
+  // turn a business address back into a private one.
+  values: computed(() => {
+    if (state.action === 'add') {
+      return { address_type: state.address_type, customer_type: 'private' }
+    }
+    return { address_type: state.address_type }
   }),
   language: 'de',
   initialCountry: null,
