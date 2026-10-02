@@ -34,6 +34,25 @@
             </template>
 
             <template #default="slotProps">
+              <sl-alert
+                v-if="shopStore.state.navigationErrors.length"
+                class="viur-shop-navigation-errors"
+                variant="danger"
+                open
+              >
+                <sl-icon
+                  slot="icon"
+                  name="exclamation-octagon"
+                ></sl-icon>
+                <ul>
+                  <li
+                    v-for="message in shopStore.state.navigationErrors"
+                    :key="message"
+                  >
+                    {{ message }}
+                  </li>
+                </ul>
+              </sl-alert>
               <sl-bar class="viur-shop-stepper-bar">
                 <div
                   v-if="slotProps.left"
@@ -101,6 +120,20 @@ sl-tab-panel {
     height: 100%;
     display: flex;
     flex-direction: column;
+  }
+}
+
+.viur-shop-navigation-errors {
+  /* Above the action bar and across the full width: the bar is a left/right
+     layout, and a reason the customer has to read does not belong beside the
+     button that triggered it. */
+  margin-top: var(--shop-leaf-gap, var(--ignt-spacing-small));
+  &::part(message) {
+    padding-block: var(--sl-spacing-small);
+  }
+  & ul {
+    margin: 0;
+    padding-left: var(--sl-spacing-large);
   }
 }
 
