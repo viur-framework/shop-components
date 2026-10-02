@@ -183,10 +183,14 @@ const state = reactive({
   customerType: computed(() =>
     shopStore.state.order?.['billing_address']?.['dest']?.['customer_type'] === 'business' ? 'B2B' : 'B2C',
   ),
-  // Unzer needs no date of birth for a business on invoice -- viur-shop reports it
-  // as a registered or unregistered company, never as a sole proprietor.
+  // As viur-shop asks for it on invoice: always for a private customer, never for a
+  // registered company (identified by its register entry), and for an unregistered
+  // one (identified by the person behind it).
   needsBirthdate: computed(
-    () => shopStore.state.order?.['payment_provider'] !== 'unzer-paylater_invoice' || state.customerType !== 'B2B',
+    () =>
+      shopStore.state.order?.['payment_provider'] !== 'unzer-paylater_invoice' ||
+      state.customerType !== 'B2B' ||
+      !shopStore.state.order?.['billing_address']?.['dest']?.['commercial_register_number'],
   ),
 })
 
