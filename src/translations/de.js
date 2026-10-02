@@ -65,6 +65,7 @@ export default {
       birthdate: 'Geburtsdatum',
       missing_birthdate:
         'Bei der ausgewählten Bezahlmethode benötigen wir zur Rechnungsadresse noch das Geburtsdatum von <i>{firstname}&nbsp;{lastname}</i>.',
+      no_commercial_register_number: 'Ich habe keine Handelsregisternummer oder kenne sie nicht.',
       country_change_vat_hint:
         'Bitte beachten Sie, dass bei Lieferung in ein anderes Land die Mehrwertsteuer abweichen kann.',
     },
