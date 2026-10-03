@@ -7,6 +7,9 @@
           {{ $t('viur.shop.skeleton.cartnode.shipping_address') }}
         </div>
         <template v-if="state.shippingAddress">
+          <template v-if="state.shippingAddress?.customer_type === 'business' && state.shippingAddress?.company_name">
+            {{ state.shippingAddress.company_name }}<br />
+          </template>
           {{ state.shippingAddress?.firstname }}
           {{ state.shippingAddress?.lastname }}<br />
           {{ state.shippingAddress?.street_name }}
@@ -21,6 +24,9 @@
           {{ $t('viur.shop.skeleton.order.billing_address') }}
         </div>
         <template v-if="state.billingAddress">
+          <template v-if="state.billingAddress.customer_type === 'business' && state.billingAddress.company_name">
+            {{ state.billingAddress.company_name }}<br />
+          </template>
           {{ state.billingAddress.firstname }}
           {{ state.billingAddress.lastname }}<br />
           {{ state.billingAddress.street_name }}
