@@ -40,6 +40,14 @@
     </sl-checkbox>
 
     <slot
+      v-if="formState.structure['vat_id']"
+      boneName="vat_id"
+      :widget="getBoneWidget(formState.structure['vat_id']['type'])"
+      label="placeholder"
+    >
+    </slot>
+
+    <slot
       boneName="salutation"
       :widget="getBoneWidget(formState.structure['salutation']['type'])"
       label="placeholder"
@@ -182,6 +190,10 @@ watchEffect(() => {
 
 .no-commercial-register-number {
   grid-column: 1 / span 4;
+}
+
+:deep(.wrapper-bone-vat_id) {
+  grid-column: 1 / span 2;
 }
 
 :deep(.wrapper-bone-firstname) {
