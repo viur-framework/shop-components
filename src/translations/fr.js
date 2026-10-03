@@ -65,6 +65,8 @@ export default {
       birthdate: 'date de naissance',
       missing_birthdate:
         "Pour le mode de paiement sélectionné, nous avons besoin, en plus de l'adresse de facturation, de la date de naissance de <i>{firstname}&nbsp;{lastname}</i>.",
+      no_commercial_register_number:
+        "Je n'ai pas de numéro d'immatriculation au registre du commerce ou je ne le connais pas.",
       country_change_vat_hint: 'Veuillez noter que la TVA peut varier en cas de livraison dans un autre pays.',
     },
   },

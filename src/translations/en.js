@@ -65,6 +65,7 @@ export default {
       birthdate: 'date of birth',
       missing_birthdate:
         'For the selected payment method, we require the date of birth of <i>{firstname}&nbsp;{lastname}</i> in addition to the billing address.',
+      no_commercial_register_number: 'I have no commercial register number or do not know it.',
       country_change_vat_hint: 'Please note that VAT may differ when shipping to a different country.',
     },
   },

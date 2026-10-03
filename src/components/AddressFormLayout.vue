@@ -4,6 +4,50 @@
     v-if="Object.keys(formState.structure).length > 0"
   >
     <slot
+      v-if="formState.structure['customer_type']"
+      boneName="customer_type"
+      :widget="getBoneWidget(formState.structure['customer_type']['type'])"
+      label="placeholder"
+    >
+    </slot>
+
+    <!-- Shown for a business only (visibleIf of the bones); absent in older viur-shop versions -->
+    <slot
+      v-if="formState.structure['company_name']"
+      boneName="company_name"
+      :widget="getBoneWidget(formState.structure['company_name']['type'])"
+      label="placeholder"
+    >
+    </slot>
+
+    <slot
+      v-if="formState.structure['commercial_register_number']"
+      boneName="commercial_register_number"
+      :widget="getBoneWidget(formState.structure['commercial_register_number']['type'])"
+      :visible="state.isBusiness && !state.noRegisterNumber"
+      label="placeholder"
+    >
+    </slot>
+
+    <!-- Either a register number or this box: without a number the company is reported as unregistered -->
+    <sl-checkbox
+      v-if="formState.structure['commercial_register_number'] && state.isBusiness"
+      class="no-commercial-register-number"
+      :checked="state.noRegisterNumber"
+      @sl-change="setNoRegisterNumber($event.target.checked)"
+    >
+      {{ $t('viur.shop.no_commercial_register_number') }}
+    </sl-checkbox>
+
+    <slot
+      v-if="formState.structure['vat_id']"
+      boneName="vat_id"
+      :widget="getBoneWidget(formState.structure['vat_id']['type'])"
+      label="placeholder"
+    >
+    </slot>
+
+    <slot
       boneName="salutation"
       :widget="getBoneWidget(formState.structure['salutation']['type'])"
       label="placeholder"
@@ -83,13 +127,42 @@
   </div>
 </template>
 <script setup>
-import { inject } from 'vue'
+import { computed, inject, reactive, watchEffect } from 'vue'
 import { getBoneWidget } from '@viur/vue-utils/bones/edit'
 import EmailCheckBone from '../custombones/EmailCheckBone.vue'
 import PhoneCheckBone from '../custombones/PhoneCheckBone.vue'
 
 const formState = inject('formState')
 const formUpdate = inject('formUpdate')
+
+const state = reactive({
+  isBusiness: computed(() => formState.skel?.['customer_type'] === 'business'),
+  // null until the customer ticks or unticks the box. Until then a stored business
+  // address without a number counts as ticked, a new one as unticked -- so a new
+  // business has to give a number or say it has none.
+  noRegisterNumberChoice: null,
+  noRegisterNumber: computed(
+    () =>
+      state.noRegisterNumberChoice ??
+      Boolean(formState.skel?.['key'] && !formState.skel?.['commercial_register_number']),
+  ),
+})
+
+function setNoRegisterNumber(checked) {
+  state.noRegisterNumberChoice = checked
+  if (checked) {
+    formUpdate({ name: 'commercial_register_number', value: '', lang: null, index: null, valid: true })
+  }
+}
+
+// The number is required unless the box is ticked. The form checks it like any other
+// required input (reportValidity), so a hidden field must never stay required.
+watchEffect(() => {
+  const bone = formState.structure?.['commercial_register_number']
+  if (bone) {
+    bone['required'] = state.isBusiness && !state.noRegisterNumber
+  }
+})
 </script>
 <style scoped>
 .vi-shop-cart-form-wrap {
@@ -101,6 +174,26 @@ const formUpdate = inject('formUpdate')
 
 :deep(.bone-wrapper) {
   margin: 0;
+}
+
+:deep(.wrapper-bone-customer_type) {
+  grid-column: 1 / span 4;
+}
+
+:deep(.wrapper-bone-company_name) {
+  grid-column: 1 / span 2;
+}
+
+:deep(.wrapper-bone-commercial_register_number) {
+  grid-column: 3 / span 2;
+}
+
+.no-commercial-register-number {
+  grid-column: 1 / span 4;
+}
+
+:deep(.wrapper-bone-vat_id) {
+  grid-column: 1 / span 2;
 }
 
 :deep(.wrapper-bone-firstname) {
