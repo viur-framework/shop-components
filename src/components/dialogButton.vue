@@ -10,6 +10,7 @@
     v-if="state.opened"
   >
     <sl-dialog
+      class="dialog-button-confirm"
       :open="state.opened"
       @sl-after-hide="state.opened = false"
       noHeader
@@ -39,6 +40,14 @@ function close() {
 </script>
 
 <style scoped>
+.dialog-button-confirm {
+  &::part(base) {
+    /* Render above a dialog this button was opened from, such as
+       CartAdd.vue's `--ignt-z-index-tooltip + 50` override. */
+    z-index: calc(var(--ignt-z-index-tooltip, 500) + 100);
+  }
+}
+
 .decent {
   margin: 0;
   transition: all ease 0.3s;
