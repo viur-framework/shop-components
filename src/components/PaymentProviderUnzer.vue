@@ -83,18 +83,20 @@
           ['unzer-paylater_invoice', 'unzer-paylater_installment'].includes(shopStore.state.order?.['payment_provider'])
         "
       >
-        <p v-html="$t('viur.shop.missing_birthdate', shopStore.state.order.billing_address.dest)" />
-        <sl-input
-          slot="left"
-          type="date"
-          min="1900-01-01"
-          :max="new Date().toISOString().slice(0, 10)"
-          :placeholder="$t('viur.shop.birthdate')"
-          :label="$t('viur.shop.birthdate')"
-          :value="state.birthdate"
-          @sl-change="birthdateChange"
-          :disabled="state.loading"
-        ></sl-input>
+        <template v-if="state.needsBirthdate">
+          <p v-html="$t('viur.shop.missing_birthdate', shopStore.state.order.billing_address.dest)" />
+          <sl-input
+            slot="left"
+            type="date"
+            min="1900-01-01"
+            :max="new Date().toISOString().slice(0, 10)"
+            :placeholder="$t('viur.shop.birthdate')"
+            :label="$t('viur.shop.birthdate')"
+            :value="state.birthdate"
+            @sl-change="birthdateChange"
+            :disabled="state.loading"
+          ></sl-input>
+        </template>
         <div
           id="paylater-element"
           class="field"
@@ -178,6 +180,18 @@ const state = reactive({
   waitPayment: false,
   birthdate: null,
   birthdateIsInvalid: false,
+  customerType: computed(() =>
+    shopStore.state.order?.['billing_address']?.['dest']?.['customer_type'] === 'business' ? 'B2B' : 'B2C',
+  ),
+  // As viur-shop asks for it on invoice: always for a private customer, never for a
+  // registered company (identified by its register entry), and for an unregistered
+  // one (identified by the person behind it).
+  needsBirthdate: computed(
+    () =>
+      shopStore.state.order?.['payment_provider'] !== 'unzer-paylater_invoice' ||
+      state.customerType !== 'B2B' ||
+      !shopStore.state.order?.['billing_address']?.['dest']?.['commercial_register_number'],
+  ),
 })
 
 /**
@@ -282,11 +296,11 @@ function initUnzerForm() {
       googlepay.create({ containerId: 'googlepay-element' }, paymentDataRequestObject)
     })
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-paylater_invoice') {
-    state.birthdateIsInvalid = true // no value --> invalid
+    state.birthdateIsInvalid = state.needsBirthdate // no value --> invalid
     const paylaterInvoice = state.unzer.PaylaterInvoice()
     paylaterInvoice.create({
       containerId: 'paylater-element',
-      customerType: 'B2C', // or B2B
+      customerType: state.customerType,
     })
     state.paymentHandler['unzer-paylater_invoice'] = paylaterInvoice
   } else if (shopStore.state.order?.['payment_provider'] === 'unzer-paylater_installment') {
