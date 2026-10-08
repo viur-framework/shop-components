@@ -223,11 +223,25 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
     })
   }
 
+  /**
+   * Read the plain messages out of a viur-shop error payload.
+   *
+   * `can_checkout` / `can_order` answer with
+   * `{"errors": [{"ClientError": {"message": ...}}]}`, and `checkoutStart` rejects with
+   * that very body. The step guards and the payment providers both need those messages,
+   * so the shape is parsed in one place.
+   *
+   * @param {object} payload a response body that may carry an `errors` list
+   * @returns {string[]} the messages, skipping entries that carry none
+   */
+  function clientErrorMessages(payload) {
+    return (payload?.errors ?? []).map((entry) => entry['ClientError']?.['message']).filter(Boolean)
+  }
+
   function blockingErrors(tabName) {
     // Only these two tabs have a server-side reason to be inactive; the others are
     // guarded by plain order state, which carries no message to show.
-    const blocker = { confirm: state.canCheckout, complete: state.canOrder }[tabName]
-    return (blocker?.errors ?? []).map((entry) => entry['ClientError']?.['message']).filter(Boolean)
+    return clientErrorMessages({ confirm: state.canCheckout, complete: state.canOrder }[tabName])
   }
 
   function navigateToNext() {
@@ -374,6 +388,7 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
     fetchMetaData,
     checkoutStart,
     checkoutOrder,
+    clientErrorMessages,
     addTab,
     removeTab,
 
