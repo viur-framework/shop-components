@@ -233,9 +233,16 @@ function paymentError(error) {
       console.error(res.errors)
       state.errorMessage = res.errors.map((err) => err.customer_message || err.message).join(', ')
     })
-  } else {
-    state.errorMessage = error.customerMessage || error.message || error || 'Error'
+    return
   }
+  // `checkoutStart` rejects with the already parsed body rather than an HTTPError, so a
+  // refused checkout arrives as a plain object and would render as `[object Object]`.
+  const clientErrors = shopStore.clientErrorMessages(error)
+  if (clientErrors.length) {
+    state.errorMessage = clientErrors.join(', ')
+    return
+  }
+  state.errorMessage = error.customerMessage || error.message || error || 'Error'
 }
 
 function cancelPayment() {
@@ -253,9 +260,7 @@ onBeforeMount(() => {
         initPaypalForm()
         fetchOrder(shopStore.state.orderKey) // refresh order after checkout_start freeze
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch(paymentError)
   } else {
     initPaypalForm()
   }
