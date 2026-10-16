@@ -197,8 +197,7 @@ async function startCheckout() {
     // Without this the rejection goes unhandled and the popup stays open with nothing
     // in it -- the customer waits for a payment form that is never going to arrive.
     console.error(error)
-    const clientErrors = shopStore.clientErrorMessages(error)
-    shopStore.state.navigationErrors = clientErrors.length ? clientErrors : [error?.message ?? String(error)]
+    shopStore.state.navigationErrors = await shopStore.errorMessages(error)
     state.paymentPopup = false
   }
 }
