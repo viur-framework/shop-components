@@ -53,6 +53,21 @@
                   </li>
                 </ul>
               </sl-alert>
+              <sl-alert
+                v-for="message in cartMessages"
+                :key="message.id"
+                class="viur-shop-cart-message"
+                variant="warning"
+                closable
+                open
+                @sl-after-hide="removeMessage(message.id)"
+              >
+                <sl-icon
+                  slot="icon"
+                  name="exclamation-triangle"
+                ></sl-icon>
+                {{ $t(message.key, message.params ?? {}) }}
+              </sl-alert>
               <sl-bar class="viur-shop-stepper-bar">
                 <div
                   v-if="slotProps.left"
@@ -76,12 +91,20 @@
 </template>
 
 <script setup>
-import { reactive, shallowRef, watch, ref, onBeforeMount, onMounted } from 'vue'
+import { computed, reactive, shallowRef, watch, ref, onBeforeMount, onMounted } from 'vue'
 import { useViurShopStore } from './shop'
 import StepperTab from './components/StepperTab.vue'
+import { useCart } from './composables/cart'
 import { useTimeoutFn } from '@vueuse/core'
 
 const shopStore = useViurShopStore()
+const { removeMessage } = useCart()
+
+// Notes the shop left on the cart, e.g. about a dropped discount. They stay until the
+// customer closes them; a placed order's cart is history and shows none.
+const cartMessages = computed(() =>
+  shopStore.state.cartRoot?.['is_frozen'] ? [] : (shopStore.state.cartRoot?.['messages'] ?? []),
+)
 const stepper = ref()
 
 // Activate Tab if currentTab changes
