@@ -205,12 +205,31 @@ export function useCart() {
     return data
   }
 
+  /**
+   * Remove a note the shop left on the cart, once the customer closed it.
+   *
+   * A failure is only logged: the note simply shows up again with the next load.
+   *
+   * @param {string} messageId `id` of the entry in the cart's `messages`
+   */
+  function removeMessage(messageId) {
+    return Request.post(`${shopStore.state.shopApiUrl}/message_remove`, {
+      dataObj: {
+        cart_key: shopStore.state.cartRoot['key'],
+        message_id: messageId,
+      },
+    })
+      .then(() => fetchCartRoot())
+      .catch((error) => console.error(error))
+  }
+
   const shippingAddressKey = computed(() => shopStore.state.cartRoot?.['shipping_address']?.['dest']?.['key'])
 
   return {
     state,
     fetchCartRoot,
     fetchCartItems,
+    removeMessage,
     fetchCart,
     fetchCartFromOrder,
     updateCart,
