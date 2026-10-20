@@ -14,6 +14,23 @@
 
       <sl-tab-panel :name="name">
         <template v-if="tab?.['loaded']">
+          <!-- Above the step, not next to the navigation errors at its bottom: the shop
+               raises these on its own, the customer has to see them without scrolling. -->
+          <sl-alert
+            v-for="message in cartMessages"
+            :key="message.key"
+            class="viur-shop-cart-message"
+            variant="warning"
+            closable
+            open
+            @sl-after-hide="removeMessage(message.key)"
+          >
+            <sl-icon
+              slot="icon"
+              name="exclamation-triangle"
+            ></sl-icon>
+            {{ $t(message.translation_key, message.translation_variables ?? {}) }}
+          </sl-alert>
           <component
             :is="tab['component']"
             :params="tab['params']"
@@ -76,12 +93,20 @@
 </template>
 
 <script setup>
-import { reactive, shallowRef, watch, ref, onBeforeMount, onMounted } from 'vue'
+import { computed, reactive, shallowRef, watch, ref, onBeforeMount, onMounted } from 'vue'
 import { useViurShopStore } from './shop'
 import StepperTab from './components/StepperTab.vue'
+import { useCart } from './composables/cart'
 import { useTimeoutFn } from '@vueuse/core'
 
 const shopStore = useViurShopStore()
+const { removeMessage } = useCart()
+
+// Notes the shop left on the cart, e.g. about a dropped discount. They stay until the
+// customer closes them; a placed order's cart is history and shows none.
+const cartMessages = computed(() =>
+  shopStore.state.cartRoot?.['is_frozen'] ? [] : (shopStore.state.cartRoot?.['messages'] ?? []),
+)
 const stepper = ref()
 
 // Activate Tab if currentTab changes
