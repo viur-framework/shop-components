@@ -14,6 +14,23 @@
 
       <sl-tab-panel :name="name">
         <template v-if="tab?.['loaded']">
+          <!-- Above the step, not next to the navigation errors at its bottom: the shop
+               raises these on its own, the customer has to see them without scrolling. -->
+          <sl-alert
+            v-for="message in cartMessages"
+            :key="message.key"
+            class="viur-shop-cart-message"
+            variant="warning"
+            closable
+            open
+            @sl-after-hide="removeMessage(message.key)"
+          >
+            <sl-icon
+              slot="icon"
+              name="exclamation-triangle"
+            ></sl-icon>
+            {{ $t(message.translation_key, message.translation_variables ?? {}) }}
+          </sl-alert>
           <component
             :is="tab['component']"
             :params="tab['params']"
@@ -52,21 +69,6 @@
                     {{ message }}
                   </li>
                 </ul>
-              </sl-alert>
-              <sl-alert
-                v-for="message in cartMessages"
-                :key="message.key"
-                class="viur-shop-cart-message"
-                variant="warning"
-                closable
-                open
-                @sl-after-hide="removeMessage(message.key)"
-              >
-                <sl-icon
-                  slot="icon"
-                  name="exclamation-triangle"
-                ></sl-icon>
-                {{ $t(message.translation_key, message.translation_variables ?? {}) }}
               </sl-alert>
               <sl-bar class="viur-shop-stepper-bar">
                 <div
