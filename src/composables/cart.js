@@ -210,13 +210,13 @@ export function useCart() {
    *
    * A failure is only logged: the note simply shows up again with the next load.
    *
-   * @param {string} messageId `id` of the entry in the cart's `messages`
+   * @param {string} messageKey `key` of the entry in the cart's `messages`
    */
-  function removeMessage(messageId) {
+  function removeMessage(messageKey) {
     return Request.post(`${shopStore.state.shopApiUrl}/message_remove`, {
       dataObj: {
         cart_key: shopStore.state.cartRoot['key'],
-        message_id: messageId,
+        message_key: messageKey,
       },
     })
       .then(() => fetchCartRoot())

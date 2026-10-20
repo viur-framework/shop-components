@@ -55,18 +55,18 @@
               </sl-alert>
               <sl-alert
                 v-for="message in cartMessages"
-                :key="message.id"
+                :key="message.key"
                 class="viur-shop-cart-message"
                 variant="warning"
                 closable
                 open
-                @sl-after-hide="removeMessage(message.id)"
+                @sl-after-hide="removeMessage(message.key)"
               >
                 <sl-icon
                   slot="icon"
                   name="exclamation-triangle"
                 ></sl-icon>
-                {{ $t(message.key, message.params ?? {}) }}
+                {{ $t(message.translation_key, message.translation_variables ?? {}) }}
               </sl-alert>
               <sl-bar class="viur-shop-stepper-bar">
                 <div
