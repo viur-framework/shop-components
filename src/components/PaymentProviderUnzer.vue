@@ -129,7 +129,6 @@
 
 <script setup>
 import { Request } from '@viur/vue-utils'
-import { HTTPError } from '@viur/vue-utils/utils/request.js'
 import { useIntervalFn } from '@vueuse/core'
 import { computed, onBeforeMount, reactive } from 'vue'
 import { useAddress } from '../composables/address.js'
@@ -353,18 +352,11 @@ function birthdateChange(event) {
  * @param error The error. In best cases an object from unzer
  *              with a translated (and detailed) description for the customer
  */
-function paymentError(error) {
+async function paymentError(error) {
   console.error(error)
   state.loading = false
   state.hasError = true
-  if (error && error.constructor.name === HTTPError.name && error.response.headers.get('x-viur-shop-error')) {
-    error.response.json().then((res) => {
-      console.error(res.errors)
-      state.errorMessage = res.errors.map((err) => err.customer_message || err.message).join(', ')
-    })
-  } else {
-    state.errorMessage = error.customerMessage || error.message || error || 'Error'
-  }
+  state.errorMessage = (await shopStore.errorMessages(error)).join(', ')
 }
 
 /**
@@ -437,9 +429,7 @@ onBeforeMount(() => {
         initUnzerForm()
         fetchOrder(shopStore.state.orderKey) // refresh order after checkout_start freeze
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch(paymentError)
   } else {
     initUnzerForm()
   }

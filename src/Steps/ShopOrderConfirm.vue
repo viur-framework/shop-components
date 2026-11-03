@@ -189,8 +189,17 @@ async function startCheckout() {
       return false
     }
   }
+  shopStore.state.navigationErrors = []
   state.paymentPopup = true
-  shopStore.checkoutStart()
+  try {
+    await shopStore.checkoutStart()
+  } catch (error) {
+    // Without this the rejection goes unhandled and the popup stays open with nothing
+    // in it -- the customer waits for a payment form that is never going to arrive.
+    console.error(error)
+    shopStore.state.navigationErrors = await shopStore.errorMessages(error)
+    state.paymentPopup = false
+  }
 }
 
 //close popup if payment successfull

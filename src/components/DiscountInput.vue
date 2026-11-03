@@ -67,10 +67,10 @@ function addDiscountAction() {
     .then(async (resp) => {
       state.loading = false
     })
-    .catch((error) => {
+    .catch(async (error) => {
       state.loading = false
       console.log('error bei rabatt', error)
-      state.alert.msg = i18n.t('viur.shop.discount_not_found')
+      state.alert.msg = (await shopStore.errorMessages(error, i18n.t('viur.shop.discount_not_found'))).join(', ')
       state.alert.show = true
       state.alert.variant = 'danger'
     })
@@ -85,10 +85,10 @@ function removeDiscountAction(key) {
       state.alert.show = true
       state.alert.variant = 'success'
     })
-    .catch((error) => {
+    .catch(async (error) => {
       state.loading = false
       console.log('error bei rabatt', error)
-      state.alert.msg = i18n.t('viur.shop.discount_not_found')
+      state.alert.msg = (await shopStore.errorMessages(error, i18n.t('viur.shop.discount_not_found'))).join(', ')
       state.alert.show = true
       state.alert.variant = 'danger'
     })

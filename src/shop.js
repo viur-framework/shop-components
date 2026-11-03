@@ -223,11 +223,51 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
     })
   }
 
+  /**
+   * Read the customer-facing messages out of a viur-shop error payload.
+   *
+   * The shop refuses a request in one of two shapes: `can_checkout` / `can_order` answer
+   * with `{"errors": [{"ClientError": {"message": ...}}]}`, the shop's `error_handler`
+   * with `{"errors": [{"customer_message": ..., "message": ...}]}`.
+   *
+   * @param {object} payload a response body that may carry an `errors` list
+   * @returns {string[]} the messages, skipping entries that carry none
+   */
+  function clientErrorMessages(payload) {
+    return (payload?.errors ?? [])
+      .map((entry) => entry?.ClientError?.message ?? entry?.customer_message ?? entry?.message)
+      .filter(Boolean)
+  }
+
+  /**
+   * Turn whatever a failed shop request rejected with into messages for the customer.
+   *
+   * `Request` rejects every non-2xx answer with an `HTTPError` that keeps the response,
+   * so the server's reason has to be read from there; a payload that was parsed already
+   * is accepted as well. Without a reason from the server, `fallback` is shown -- the
+   * error's own message is technical (`400 Bad Request:`) and only the last resort.
+   *
+   * @param {unknown} error what the request, or a step built on it, rejected with
+   * @param {string} [fallback] message to show when the server gives no reason
+   * @returns {Promise<string[]>} the messages to show, never empty
+   */
+  async function errorMessages(error, fallback) {
+    let payload = error
+    if (error?.response?.clone) {
+      payload = await error.response
+        .clone()
+        .json()
+        .catch(() => null)
+    }
+    const messages = clientErrorMessages(payload)
+    if (messages.length) return messages
+    return [fallback || error?.customerMessage || error?.message || String(error)]
+  }
+
   function blockingErrors(tabName) {
     // Only these two tabs have a server-side reason to be inactive; the others are
     // guarded by plain order state, which carries no message to show.
-    const blocker = { confirm: state.canCheckout, complete: state.canOrder }[tabName]
-    return (blocker?.errors ?? []).map((entry) => entry['ClientError']?.['message']).filter(Boolean)
+    return clientErrorMessages({ confirm: state.canCheckout, complete: state.canOrder }[tabName])
   }
 
   function navigateToNext() {
@@ -374,6 +414,8 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
     fetchMetaData,
     checkoutStart,
     checkoutOrder,
+    clientErrorMessages,
+    errorMessages,
     addTab,
     removeTab,
 
