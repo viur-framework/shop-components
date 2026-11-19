@@ -102,7 +102,11 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
         active: computed(
           () =>
             state.order?.['is_ordered'] &&
-            (state.order?.['is_rts'] || state.order?.['is_paid'] || state.isPaymentPending),
+            (state.order?.['is_rts'] ||
+              state.order?.['is_paid'] ||
+              state.isPaymentPending ||
+              // placed after the customer's verification, charged on fulfillment
+              state.paymentVerificationState === 'succeeded'),
         ), // active if ordered
         validating: false,
         valid: false,
@@ -159,6 +163,15 @@ export const useViurShopStore = defineStore('viurshopStore', () => {
     isPaymentPending: computed(() => {
       const payments = state.order?.['payment']?.['payments'] ?? []
       return payments.at(-1)?.['pending'] === true
+    }),
+
+    // Some payment methods send the customer to the provider for an extra
+    // verification step (e.g. the risk check of Unzer's pay-later methods) before
+    // the order counts as placed. The provider records the outcome on the current
+    // payment: 'pending' while the customer is away, then 'succeeded' or 'failed'.
+    paymentVerificationState: computed(() => {
+      const payments = state.order?.['payment']?.['payments'] ?? []
+      return payments.at(-1)?.['verification_state'] ?? null
     }),
 
     //checkout

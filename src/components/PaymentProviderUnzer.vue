@@ -134,8 +134,10 @@ import { computed, onBeforeMount, reactive } from 'vue'
 import { useAddress } from '../composables/address.js'
 import { useOrder } from '../composables/order'
 import { useViurShopStore } from '../shop'
+import { useI18n } from 'vue-i18n'
 
 const shopStore = useViurShopStore()
+const { t } = useI18n()
 const { fetchOrder } = useOrder()
 const { saveBirthdate } = useAddress()
 
@@ -160,6 +162,23 @@ const {
         console.debug('Payment is pending settlement')
         shopStore.navigateToTab('complete')
         PaymentCheckPause()
+      } else if (
+        shopStore.state.paymentVerificationState === 'succeeded' &&
+        shopStore.state.order?.['is_ordered'] &&
+        shopStore.state.tabs.complete.active
+      ) {
+        // Pay-later methods are only authorized here and charged on fulfillment:
+        // once the customer passed the verification, the order is placed but unpaid.
+        // The tab check keeps polling while the backend still writes the order's
+        // follow-up state; a refused switch would otherwise leave the customer stuck.
+        console.debug('Payment verification succeeded, order is placed')
+        shopStore.navigateToTab('complete')
+        PaymentCheckPause()
+      } else if (shopStore.state.paymentVerificationState === 'failed') {
+        console.debug('Payment verification failed')
+        PaymentCheckPause()
+        state.waitPayment = false
+        paymentError({ customerMessage: t('viur.shop.payment_verification_failed') })
       }
     })
   },
