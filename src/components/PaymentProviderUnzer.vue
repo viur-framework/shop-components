@@ -101,6 +101,19 @@
           id="paylater-element"
           class="field"
         ></div>
+        <p
+          v-if="shopStore.state.paymentProviderData?.secci_url"
+          class="field"
+        >
+          <!-- Consumer credit information (CCD2): offered before the order is placed -->
+          <a
+            :href="shopStore.state.paymentProviderData.secci_url"
+            target="_blank"
+            rel="noopener"
+            download
+            >{{ $t('viur.shop.secci_download') }}</a
+          >
+        </p>
       </template>
 
       <p

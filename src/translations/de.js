@@ -64,6 +64,7 @@ export default {
       payment_link: 'Ihr Browser öffnet kein Popup? Dann klicken Sie bitte <a href="{url}" target="_blank">hier</a>.',
       payment_verification_failed:
         'Die Zahlungsprüfung wurde nicht abgeschlossen. Bitte wählen Sie eine andere Zahlungsart oder versuchen Sie es erneut.',
+      secci_download: 'Europäische Standardinformationen für Verbraucherkredite (SECCI) herunterladen',
       birthdate: 'Geburtsdatum',
       missing_birthdate:
         'Bei der ausgewählten Bezahlmethode benötigen wir zur Rechnungsadresse noch das Geburtsdatum von <i>{firstname}&nbsp;{lastname}</i>.',
