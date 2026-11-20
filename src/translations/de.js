@@ -62,6 +62,8 @@ export default {
       order_step_complete: 'Bestellung Abgeschlossen',
       paypal_client_popup_info: 'Bitte prüfen Sie, ob Ihr Browser das PayPal-Popup zulässt.',
       payment_link: 'Ihr Browser öffnet kein Popup? Dann klicken Sie bitte <a href="{url}" target="_blank">hier</a>.',
+      payment_verification_failed:
+        'Die Zahlungsprüfung wurde nicht abgeschlossen. Bitte wählen Sie eine andere Zahlungsart oder versuchen Sie es erneut.',
       birthdate: 'Geburtsdatum',
       missing_birthdate:
         'Bei der ausgewählten Bezahlmethode benötigen wir zur Rechnungsadresse noch das Geburtsdatum von <i>{firstname}&nbsp;{lastname}</i>.',
