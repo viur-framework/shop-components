@@ -64,6 +64,8 @@ export default {
       payment_link: 'Votre navigateur n\'ouvre pas de popup ? Alors cliquez <a href="{url}" target="_blank">ici</a>.',
       payment_verification_failed:
         'La vérification du paiement n’a pas été finalisée. Veuillez choisir un autre mode de paiement ou réessayer.',
+      secci_download:
+        'Télécharger les informations européennes normalisées en matière de crédit aux consommateurs (SECCI)',
       birthdate: 'date de naissance',
       missing_birthdate:
         "Pour le mode de paiement sélectionné, nous avons besoin, en plus de l'adresse de facturation, de la date de naissance de <i>{firstname}&nbsp;{lastname}</i>.",
